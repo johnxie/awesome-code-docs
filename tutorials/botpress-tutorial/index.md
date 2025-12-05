@@ -1,10 +1,8 @@
 ---
-title: "Botpress Tutorial: Open Source Conversational AI Platform"
-description: "Complete beginner's guide to Botpress, the open source conversational AI platform for building chatbots and virtual assistants with advanced NLP capabilities."
-category: "ai-ml-platforms"
-tags: ["chatbot", "conversational-ai", "nlp", "nodejs", "typescript", "ai", "automation", "virtual-assistant"]
-difficulty: "intermediate"
-author: "AI Codebase Knowledge Builder"
+layout: default
+title: "Botpress Tutorial"
+nav_order: 24
+has_children: true
 ---
 
 # Botpress Tutorial: Open Source Conversational AI Platform
@@ -84,11 +82,39 @@ graph TB
 - **Education**: Learning assistants and course guidance
 - **Internal Tools**: IT support and workflow automation
 
-## 📋 Prerequisites
+## ⚠️ Botpress v12 Status Update
+
+> **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
+
+**Migration Path:**
+- **For New Users**: Use **Botpress Cloud** - the fully managed platform with continuous updates
+- **For Existing v12 Users**: Full support continues, but consider migrating to Botpress Cloud for latest features
+- **Self-Hosting**: Limited to existing v12 installations; new self-hosted deployments are not recommended
+
+## What's New in Botpress Cloud (2025)
+
+> **AI Agent Focus**: $25M Series B funding to expand infrastructure for building and deploying AI agents globally.
+
+**🆕 Latest Features:**
+- 🎨 **Enhanced Webchat**: Refreshed UI with improved animations and typing indicators
+- 💬 **Message Feedback**: Users can leave feedback directly within chat
+- 🤖 **Expanded AI Models**: Support for Claude 4 Sonnet, DeepSeek R1/V3, Llama 4
+- 📱 **WhatsApp Improvements**: Better text formatting and choice message dropdowns
+- ⏰ **Custom Inactivity Timeout**: Configurable session management
+- 🛒 **BigCommerce Integration**: Product recommendations without hallucinations
+
+**🚀 Cloud Advantages:**
+- ☁️ **Fully Managed**: No installation or maintenance required
+- 🔒 **Enterprise Security**: Built-in security and compliance
+- 📊 **Scalability**: Handle any traffic volume automatically
+- 🔄 **Continuous Updates**: Always on latest features and models
+- 🌐 **Global Infrastructure**: Worldwide deployment options
+
+## Prerequisites
 
 - Basic knowledge of JavaScript/TypeScript
 - Understanding of REST APIs
-- Familiarity with Node.js and npm
+- Familiarity with Node.js and npm (for v12 self-hosting)
 - Basic concepts of natural language processing
 - Understanding of chatbot design principles
 

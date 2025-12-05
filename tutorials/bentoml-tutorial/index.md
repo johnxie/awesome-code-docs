@@ -77,6 +77,34 @@ By the end of this tutorial, you'll be able to:
 - Familiarity with Docker and containerization
 - Knowledge of REST APIs and web services
 
+## What's New in BentoML v1.3 (2024)
+
+> **Production ML Evolution**: Advanced task management, intelligent autoscaling, and enhanced security mark BentoML's v1.3 release.
+
+**🚀 Long-Running Task Support:**
+- 🎯 **@bentoml.task Decorator**: Asynchronous task endpoints for resource-intensive operations
+- 📦 **Batch Processing**: Perfect for text-to-image generation, data processing pipelines
+- ⏰ **Asynchronous Execution**: Dispatch tasks and retrieve results later
+- 🔄 **Resource Optimization**: Better handling of variable workload patterns
+
+**⚖️ Intelligent Autoscaling:**
+- 📊 **Concurrency-Based Scaling**: Scales based on active requests, not just CPU/memory
+- ⚡ **Reduced Cold Starts**: More precise load balancing and resource allocation
+- 🎯 **Request-Aware**: Better reflection of actual application load
+- 🚀 **Improved Performance**: Faster scaling decisions and response times
+
+**🔐 Enterprise Security:**
+- 🛡️ **Secret Management**: Secure credential storage and access
+- 📋 **Preconfigured Templates**: Ready-to-use templates for OpenAI, AWS, Hugging Face, GitHub
+- 🔒 **Reduced Risk**: No more hardcoded secrets in configuration
+- 🏢 **Compliance Ready**: Enterprise-grade security practices
+
+**🏗️ Accelerated Development:**
+- ⚡ **Build Cache Optimization**: Preheated large packages (`torch`) for faster builds
+- 📦 **UV Installer**: Modern Python package installer for dependency management
+- 📊 **Streamed Build Logs**: Real-time feedback during container image building
+- 🔧 **Enhanced Debugging**: Better visibility into build processes and issues
+
 ## Learning Path
 
 ### 🟢 Beginner Track

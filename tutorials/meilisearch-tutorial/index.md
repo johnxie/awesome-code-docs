@@ -1,13 +1,15 @@
 ---
-title: "Meilisearch Tutorial: Lightning Fast Search Engine"
-description: "Complete beginner's guide to Meilisearch, the lightning-fast search engine that delivers instant search results with typo-tolerance and faceted search capabilities."
-category: "search-engines"
-tags: ["search", "rust", "database", "api", "full-text-search", "typo-tolerance"]
-difficulty: "intermediate"
-author: "AI Codebase Knowledge Builder"
+layout: default
+title: "MeiliSearch Tutorial"
+nav_order: 23
+has_children: true
 ---
 
-# Meilisearch Tutorial: Lightning Fast Search Engine
+# MeiliSearch Tutorial: Lightning Fast Search Engine
+
+> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+
+MeiliSearch<sup>[View Repo](https://github.com/meilisearch/meilisearch)</sup> is a powerful, fast, open-source search engine written in Rust. It provides instant search results with typo-tolerance, faceted search, and supports 80+ languages, making it perfect for modern applications requiring sophisticated search capabilities.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/meilisearch/meilisearch/main/assets/logo.svg" alt="Meilisearch Logo" width="200"/>
@@ -82,7 +84,48 @@ graph TB
 - **Database Search**: SQL database augmentation
 - **Mobile Apps**: Offline-capable search
 
-## 📋 Prerequisites
+## What's New in MeiliSearch v1.11/v1.12 (2024-2025)
+
+> **AI-Powered Search Revolution**: Binary quantization, massive performance gains, and enhanced federated search capabilities redefine lightning-fast search.
+
+**🤖 AI-Powered Search & Binary Quantization (v1.11):**
+- 🎯 **Binary Quantization**: Converts vector embeddings to boolean values for 10x+ faster indexing with minimal relevance loss
+- 📊 **Embedding Optimization**: Revolutionary approach to handling large embedding datasets
+- 🔍 **Enhanced Federated Search**: Multi-source search improvements based on community feedback
+- 🚀 **Performance Breakthrough**: Massive indexing speed improvements for AI-powered applications
+
+**⚡ Revolutionary Performance (v1.12):**
+- 🚀 **2x Faster Document Insertion**: Raw document indexing dramatically accelerated
+- 🔄 **4x Faster Incremental Updates**: Massive improvements for large database updates and real-time sync
+- ⚙️ **Advanced Index Settings**: New `facetSearch` and `prefixSearch` controls for fine-tuned performance
+- 🎛️ **Flexible Configuration**: Disable unused features for maximum speed optimization
+- 📈 **Scalability Enhancements**: Better handling of high-throughput indexing workloads
+
+**🔧 Enterprise Features (2025):**
+- 🏢 **Enhanced Monitoring**: Advanced metrics and observability for production deployments
+- 🔐 **Security Improvements**: Enhanced access controls and audit logging
+- 📊 **Analytics Dashboard**: Built-in search analytics and performance insights
+- 🔄 **High Availability**: Improved clustering and failover capabilities
+- 📈 **Large-Scale Support**: Better performance for massive document collections
+
+## Learning Path
+
+### 🟢 Beginner Track
+Perfect for developers new to search engines:
+1. Chapters 1-2: Setup and document management
+2. Focus on getting MeiliSearch up and running
+
+### 🟡 Intermediate Track
+For developers building search applications:
+1. Chapters 3-5: Search fundamentals, filtering, and facets
+2. Learn advanced search features and optimization
+
+### 🔴 Advanced Track
+For production search system development:
+1. Chapters 6-8: Multi-language, API integration, and production deployment
+2. Master enterprise-grade search implementations
+
+## Prerequisites
 
 - Basic knowledge of REST APIs
 - Understanding of JSON

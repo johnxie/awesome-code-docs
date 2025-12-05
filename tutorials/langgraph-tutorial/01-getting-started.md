@@ -25,15 +25,20 @@ LangGraph revolutionizes AI application development by:
 ### Basic Installation
 
 ```bash
-# Install LangGraph and LangChain
+# Install LangGraph and LangChain (requires Python 3.9+)
 pip install langgraph langchain langchain-openai
 
 # Or install with additional dependencies
 pip install langgraph[all]
 
-# For development
-pip install langgraph[dev]
+# For development (includes LangGraph CLI - replaces deprecated LangGraph Studio Desktop)
+pip install langgraph[dev] langgraph-cli
+
+# Install LangGraph CLI separately for graph debugging and visualization
+pip install langgraph-cli
 ```
+
+> **Note (2025)**: LangGraph Studio Desktop is deprecated as of v0.0.37 (March 2025). Use `langgraph-cli` for local development, debugging, and visualization.
 
 ### Environment Setup
 

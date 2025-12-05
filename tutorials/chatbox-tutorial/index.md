@@ -9,7 +9,7 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
-Chatbox<sup>[View Repo](https://github.com/chatboxai/chatbox)</sup> is a modern, cross-platform AI chat interface that supports multiple AI providers and offers a polished user experience. It demonstrates best practices for building conversational AI applications with clean interfaces, multi-provider support, and excellent user experience design.
+Chatbox<sup>[View Repo](https://github.com/Bin-Huang/chatbox)</sup> is a modern, cross-platform AI chat interface that supports multiple AI providers and offers a polished user experience. It demonstrates best practices for building conversational AI applications with clean interfaces, multi-provider support, and excellent user experience design.
 
 Chatbox combines the best of modern web technologies with native desktop capabilities, showing how to build AI applications that users actually enjoy using.
 
@@ -63,6 +63,40 @@ By the end of this tutorial, you'll be able to:
 - **Develop plugin architectures** for extensibility
 - **Deploy cross-platform applications** with native performance
 - **Handle real-time messaging** with proper state management
+
+## What's New in Chatbox (2024-2025)
+
+> **Cross-Platform AI Chat Revolution**: Mobile excellence, latest AI models, and enterprise-grade features define Chatbox's evolution as the premier AI chat interface.
+
+**📱 August 2025 (v1.15.4):**
+- 🌐 **Enhanced Mobile Compatibility**: Cross-domain API request support for seamless mobile networks
+- 🧠 **GPT-5 Series Integration**: Full support for latest OpenAI models including GPT-5 and variants
+- 🖥️ **Mobile Artifact Resolution**: Fixed full-screen preview issues and mobile rendering problems
+- 📝 **Input Experience Enhancement**: Improved draft clearance and message sending UX
+- 📱 **iOS Native Sidebar**: Full sidebar functionality with native iOS interactions
+- 🎨 **UI/UX Polish**: Enhanced mobile responsiveness and touch interactions
+
+**🤖 January 2025 (v0.10.4):**
+- 🏗️ **Anthropic Claude Integration**: Complete Claude API support with all model variants
+- 🎯 **LM Studio Local Models**: Native integration with local LM Studio server
+- 📋 **Dynamic Model Discovery**: Auto-updating model lists with latest provider offerings
+- 🔧 **Expanded Provider Ecosystem**: Support for additional AI services and custom endpoints
+- ⚡ **Performance Optimizations**: Faster response times and reduced latency
+- 🛡️ **Enhanced Security**: Improved API key handling and connection security
+
+**🎨 User Experience Enhancements:**
+- 🎯 **Conversation Management**: Better chat organization and search capabilities
+- 🎨 **Theme Customization**: Expanded theming options with dark/light mode improvements
+- 📱 **Cross-Platform Consistency**: Unified experience across desktop, mobile, and web
+- 🔄 **Real-time Updates**: Live conversation synchronization across devices
+- 📊 **Usage Analytics**: Built-in conversation and usage statistics
+
+**🔧 Developer Features:**
+- 🛠️ **Plugin API**: Enhanced extensibility with new plugin hooks
+- 📦 **Custom Integrations**: Simplified integration with third-party services
+- 🔧 **Configuration Management**: Advanced settings and customization options
+- 📊 **Debug Tools**: Enhanced debugging and development tools
+- 🚀 **Performance Monitoring**: Built-in performance metrics and diagnostics
 
 ## Prerequisites
 

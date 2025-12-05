@@ -67,10 +67,24 @@ By the end of this tutorial, you'll be able to:
 
 ## Prerequisites
 
+- Python 3.9+ (Python 3.8 no longer supported as of v0.3)
 - Basic Python programming knowledge
 - Understanding of APIs and web services
 - Familiarity with command-line tools
 - (Optional) Experience with machine learning concepts
+
+## What's New in LangChain v0.3 (2024-2025)
+
+> **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
+
+> **Simplified Tool Definition**: New streamlined APIs for defining and using tools with LLMs.
+
+Key changes in v0.3:
+- 🔄 **Pydantic 2 Migration** - Full upgrade from Pydantic 1 (EOL June 2024)
+- 📦 **Integration Packages** - Integrations moved to `langchain-{name}` packages
+- 🛠️ **Chat Model Utilities** - New tools for message trimming, filtering, and merging
+- 📊 **Rate Limiter** - Built-in rate limiting for API calls
+- 🎯 **Custom Events** - Dispatch and handle custom events in chains
 
 ## Learning Path
 

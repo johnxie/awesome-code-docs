@@ -74,10 +74,21 @@ By the end of this tutorial, you'll be able to:
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.10+ (required for latest CrewAI versions)
 - Basic understanding of AI/LLM concepts
 - Familiarity with async programming (helpful but not required)
 - Knowledge of API integration patterns
+
+## What's New in 2025
+
+> **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
+
+Key recent features:
+- 🧠 **Agent Evaluation**: Built-in performance assessment and regression testing
+- 🔌 **Qdrant RAG Provider**: New vector store support alongside ChromaDB
+- 📊 **LangFuse/Neatlogs Integration**: Enhanced observability and logging
+- 🔄 **Improved Flow Processing**: Better async handling and HITL (Human-in-the-Loop) support
+- 🛡️ **LLM Guardrails**: Crew context tracking for safety events
 
 ## Learning Path
 

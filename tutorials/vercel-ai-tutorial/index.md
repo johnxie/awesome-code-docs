@@ -62,12 +62,13 @@ Welcome to your journey through AI-powered TypeScript applications! This tutoria
 By the end of this tutorial, you'll be able to:
 
 - **Build AI Applications** - Create sophisticated AI-powered apps with TypeScript
-- **Handle Streaming** - Implement real-time AI responses for better user experience
-- **Integrate Tools** - Connect external APIs and functions to AI models
+- **Generate Images** - Use AI to create images from text prompts with multiple providers
+- **Handle Advanced Streaming** - Implement real-time AI responses with stream transformation
+- **Integrate Tools** - Connect external APIs and functions to AI models with enhanced tool calling
 - **Ensure Type Safety** - Use TypeScript for type-safe AI interactions
-- **Create React Components** - Build interactive AI-powered UI components
+- **Create React Components** - Build interactive AI-powered UI components with improved persistence
 - **Deploy at Scale** - Production-ready AI applications on Vercel
-- **Handle Multiple Providers** - Work with OpenAI, Anthropic, and other AI providers
+- **Handle Multiple Providers** - Work with OpenAI, Anthropic, Replicate, and other AI providers
 - **Implement Error Handling** - Robust error handling and fallback strategies
 
 ## Prerequisites
@@ -76,6 +77,19 @@ By the end of this tutorial, you'll be able to:
 - TypeScript basics
 - React/Next.js fundamentals (for later chapters)
 - Understanding of async/await patterns
+
+## What's New in Vercel AI v4.1 (January 2025)
+
+> **AI SDK v4.1 Release**: Major enhancements for multimodal AI applications with image generation, improved streaming, and enhanced tool calling.
+
+Key features in v4.1:
+- 🎨 **Image Generation**: `generateImage` function supporting Replicate, OpenAI DALL-E, Google Vertex, and Fireworks
+- 📊 **Stream Transformation**: Enhanced data streaming with smoothing and transformation capabilities
+- 💾 **Simplified Persistence**: Improved `useChat` hook for easier state management
+- ⚡ **Non-Blocking Streaming**: Better performance with non-blocking data streams
+- 🔧 **Enhanced Tool Calling**: Improved API and integrations for function calling
+- 📋 **Structured Outputs**: Better handling of structured data generation
+- 🔌 **Provider Expansion**: Support for additional AI model providers
 
 ## Learning Path
 

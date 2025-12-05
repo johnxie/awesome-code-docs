@@ -67,12 +67,44 @@ By the end of this tutorial, you'll be able to:
 - **Scale Search Systems** - Deploy and manage production search infrastructure
 - **Ensure Quality** - Implement credibility scoring and result verification
 
-## Prerequisites
+## What's New in Perplexica v1.9-v1.11 (2024-2025)
 
-- Python 3.8+
-- Node.js 16+
-- Basic understanding of web development
-- Familiarity with AI/ML concepts (helpful but not required)
+> **AI Search Revolution**: File uploads, latest models, enhanced UI, and streamlined setup mark Perplexica's evolution into a comprehensive AI search platform.
+
+**📄 Content Revolution (v1.9-v1.10):**
+- 📎 **File Upload Support**: Direct PDF, TXT, DOCX uploads with AI-powered analysis
+- 🌐 **URL & PDF Searching**: Deep search within web pages and documents
+- 🖼️ **Automatic Media Search**: AI-driven image and video discovery
+- 📝 **Blog-Style Answers**: New prompt system for comprehensive responses
+- 🔗 **API Endpoint Integration**: Programmatic access to search capabilities
+
+**🤖 Model Ecosystem Expansion:**
+- 🆕 **Latest AI Models**: GPT-5, GPT-5 Mini, O3, Claude Opus 4.1, Gemini 2.5
+- 🔄 **Dynamic Model Fetching**: Automatic model discovery vs hardcoded lists
+- 📦 **New Providers**: AIML API, Lemonade, LM Studio, enhanced Transformers
+- ⚡ **Improved Groq Integration**: Better performance with @langchain/groq
+- 🎯 **Gemini Chat Support**: Expanded Google AI model integration
+
+**🎨 User Experience Overhaul (v1.11):**
+- 🧙‍♂️ **Setup Wizard**: Guided initial configuration with model selection
+- ⚙️ **Live Configuration**: Real-time settings updates without restart
+- 🎨 **Enhanced UI/UX**: New sidebar, improved theme system, responsive design
+- 📱 **Mobile Optimization**: Better accessibility and touch interactions
+- 🔄 **Auto Scroll Chat**: Smart scroll-back detection in conversations
+
+**🏗️ Developer Experience:**
+- 🐳 **Single Command Install**: Docker deployment without full repo clone
+- 📦 **Standalone Builds**: Significantly reduced build sizes
+- 🔧 **Settings Dialog**: Comprehensive configuration interface
+- 🏷️ **Citation Components**: Enhanced source attribution rendering
+- 🌤️ **Weather Widget**: Geolocation support with unit preferences
+
+**🔧 System Improvements:**
+- 🛡️ **API Route Validation**: Prevention of malformed requests
+- 📊 **Configuration Migration**: Hash-based config management
+- 🚀 **Instrumentation-Based Migrations**: Faster updates without ts-node
+- 🐛 **Bug Fixes**: Resolved infinite loading, WebSocket errors, JSON parsing
+- 📱 **iOS Compatibility**: Fixed input zoom and mobile interaction issues
 
 ## Learning Path
 

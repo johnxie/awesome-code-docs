@@ -70,12 +70,46 @@ By the end of this tutorial, you'll be able to:
 - **Monitor and tune performance** for production workloads
 - **Build real-time analytical applications** with streaming data
 
-## Prerequisites
+## What's New in ClickHouse v24/v25 (2024-2025)
 
-- Basic SQL knowledge
-- Understanding of database concepts
-- Familiarity with Linux command line
-- Basic understanding of analytical workloads (helpful but not required)
+> **Analytical Powerhouse Evolution**: JSON support, vector search, enhanced time-series, and advanced storage mark ClickHouse's latest breakthroughs.
+
+**📋 Semi-Structured Data Revolution:**
+- 🗂️ **JSON Data Type**: Beta support for flexible schema management (GA expected 2025)
+- 🔄 **Dynamic Data Types**: Efficient handling of JSON and semi-structured data
+- 📊 **Schema Flexibility**: Mix structured and unstructured data seamlessly
+
+**⏰ Enhanced Time-Series Analytics:**
+- 🕒 **Time/Time64 Data Types**: Precise time-only value storage and comparison
+- 📈 **Delta & Rate Functions**: Built-in functions for time-series analysis
+- 📊 **Advanced Metrics**: Simplified time-series computations and aggregations
+
+**🗺️ Geospatial Excellence:**
+- 🌍 **Standardized geoToH3()**: Updated to (latitude, longitude, resolution) order
+- ⚙️ **Legacy Compatibility**: `geotoh3_argument_order = 'lon_lat'` for existing code
+- 🎯 **Enhanced Geospatial**: Better compatibility with analytics workflows
+
+**💾 Advanced Storage & Backup:**
+- 🔄 **Copy-on-Write Policies**: Combine read-only and read-write disks in storage policies
+- 💰 **Cost Optimization**: Prioritize writable disks for inserts, read across all volumes
+- 🚀 **Instant Recovery**: `DatabaseBackup` engine for immediate table/database attachment
+- ⏱️ **Minimal Downtime**: Fast restoration for large datasets
+
+**🎛️ Enhanced User Experience:**
+- 🌐 **Interactive Web UI**: Browse databases and tables without manual queries
+- 🔍 **Parquet Bloom Filters**: Default support for improved large dataset performance
+- 🔗 **Better Navigation**: Visual database exploration and management
+
+**🔍 Vector & Hybrid Search:**
+- 🎯 **Vector Similarity Search**: Experimental beta for pre/post-filtering strategies
+- 🔄 **Hybrid Workloads**: Support for recommendation systems and advanced search
+- 🚀 **Performance Optimized**: Efficient vector operations for analytical queries
+
+**⚡ Query Performance:**
+- 📊 **Filter Pushdown**: Optimized JOIN ON clauses reduce data scans
+- 🧠 **Memory Efficiency**: Reduced usage in window functions
+- 🔄 **Parallel Partitioning**: Faster replication with parallel fetching
+- 🕒 **Query Insights**: `initialQueryStartTime` for consistent distributed timing
 
 ## Learning Path
 

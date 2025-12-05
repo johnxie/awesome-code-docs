@@ -68,6 +68,34 @@ By the end of this tutorial, you'll be able to:
 - **Build custom extensions** to extend functionality
 - **Deploy Continue at scale** for enterprise environments
 
+## What's New in Continue v0.9 & 2025
+
+> **AI Coding Evolution**: Agent mode acceleration, Plan mode safety, and intelligent editing features mark Continue's latest breakthroughs.
+
+**🚀 v0.9 Release (May 2025):**
+- ⚡ **Faster Agent Mode**: AST-based targeted edits instead of full file rewrites
+- 🎯 **Mercury-Coder-Small**: Diffusion-based model for instant autocomplete suggestions
+- 📝 **Automatic Rules**: AI-generated rules saved to `~/.continue/rules`
+- 🔄 **Fast Apply Support**: Enhanced code application with Relace Instant Apply and Morph v0
+
+**🛡️ Plan Mode (July 2025):**
+- 🔒 **Read-Only Safety**: Intelligent conversation and code analysis without making changes
+- 🧠 **Smart Assistance**: Full AI reasoning capabilities with restricted tool access
+- 🎯 **Risk-Free Exploration**: Discuss and analyze code changes before implementation
+- 📊 **Planning Phase**: Perfect for architectural discussions and code review
+
+**✏️ Next Edit (September 2025):**
+- 🎯 **Pattern Anticipation**: Learns your editing habits and suggests multi-line changes
+- 🔮 **Intent Prediction**: Understands development patterns and provides proactive suggestions
+- ⚡ **Workflow Acceleration**: Reduces manual editing through intelligent automation
+- 🎨 **Context Awareness**: Considers surrounding code when making suggestions
+
+**🔄 Parallel Tool Calling (September 2025):**
+- ⚡ **Simultaneous Execution**: Tools run in parallel for faster workflows
+- 🚀 **Performance Boost**: Significantly reduced wait times for multi-tool operations
+- 🎯 **Efficient Processing**: Optimized resource utilization and responsiveness
+- 📈 **Scalability**: Better handling of complex, multi-step development tasks
+
 ## Prerequisites
 
 - Basic programming knowledge in any language
