@@ -68,10 +68,16 @@ By the end of this tutorial, you'll be able to:
 
 ## Prerequisites
 
-- Python 3.8+
+- Python 3.9+ (Python 3.8 no longer supported as of LangChain v0.3)
 - Basic understanding of async/await patterns
 - Familiarity with LangChain concepts (helpful but not required)
 - Knowledge of graph theory basics (helpful but not required)
+
+## What's New in 2025
+
+> **LangGraph Studio Transition**: As of March 2025 (v0.0.37), LangGraph Studio Desktop is deprecated. Use [LangGraph CLI](https://github.com/langchain-ai/langgraph-cli) for local development and debugging.
+
+> **Pydantic 2 Required**: LangGraph now requires Pydantic 2 (Pydantic 1 reached end-of-life in June 2024). Update your code to use native Pydantic 2 syntax.
 
 ## Learning Path
 

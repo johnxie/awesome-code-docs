@@ -77,6 +77,28 @@ By the end of this tutorial, you'll be able to:
 - Basic understanding of machine learning concepts
 - Familiarity with command-line interfaces
 
+## What's New in LLaMA-Factory v0.9 (December 2025)
+
+> **Major Release**: Enhanced vision-language capabilities, memory-efficient training, and 270% faster inference mark v0.9 as a breakthrough in LLM fine-tuning.
+
+**🎨 Vision-Language Revolution:**
+- 🖼️ **Qwen2-VL Fine-tuning**: Full support for multi-image and video dataset training
+- 🎬 **Video Dataset Support**: Fine-tune VL models on temporal visual data
+- 🏆 **Advanced VL Techniques**: RLHF, DPO, ORPO, SimPO for vision-language alignment
+
+**🚀 Performance Breakthroughs:**
+- ⚡ **270% Faster Inference**: vLLM 0.6.0 integration (`--infer_backend vllm`)
+- 🧠 **Memory-Efficient Training**: GaLore enables 7B model full-parameter learning in <24GB VRAM
+- 🔄 **FSDP+QLoRA**: Fine-tune 70B models on just 2x24GB GPUs
+- 🎯 **Liger-Kernel**: Time and memory-efficient training (`enable_liger_kernel`)
+- 📈 **Adam-Mini Optimizer**: Memory-efficient optimization (`use_adam_mini`)
+
+**🔄 Advanced Training Features:**
+- 📤 **Asynchronous Offloading**: Unsloth's activation offloading for better memory management
+- 🎭 **Expanded Model Support**: OLMo (1B/7B), StarCoder2 (3B/7B/15B), Yi-9B, OLMo-7B-Instruct
+- 📚 **New Datasets**: Cosmopedia (English), Orca DPO for preference learning
+- 🛠️ **Unsloth Integration**: Advanced memory management techniques
+
 ## Learning Path
 
 ### 🟢 Beginner Track

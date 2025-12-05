@@ -67,6 +67,22 @@ By the end of this tutorial, you'll be able to:
 - **Deploy Locally** - Run applications on your local machine
 - **Share Projects** - Distribute your AI-built applications
 
+## What's New in Dyad (2024-2025)
+
+> **AI App Builder Evolution**: Concurrent chats, latest AI models, and web search integration mark Dyad's rapid advancement.
+
+**🚀 Version 0.24.0 (November 2025):**
+- 💬 **Concurrent Chat Support**: Multiple simultaneous conversations
+- ⭐ **Favorite Apps Feature**: Quick access to frequently used applications
+- 🎯 **Improved Onboarding**: Enhanced user experience for new users
+- 🎨 **UI Enhancements**: Better interface design and productivity features
+
+**🤖 Version 0.23.0 (October 2025):**
+- 🧠 **Latest AI Models**: Support for Claude Sonnet 4.5 and GPT-5 Codex
+- 🌐 **Experimental Web Search**: Pro member feature for real-time information access
+- 🔗 **Smart Context**: Cross-app references and intelligent context sharing
+- 📈 **Enhanced Capabilities**: Improved AI model integration and performance
+
 ## Prerequisites
 
 - Node.js 16+

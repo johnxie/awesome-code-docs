@@ -80,6 +80,33 @@ By the end of this tutorial, you'll be able to:
 - Basic understanding of monorepos
 - Familiarity with package.json and build tools
 
+## What's New in Turborepo v2 (2024-2025)
+
+> **Turborepo 2.x Evolution**: Major enhancements for enterprise monorepo management with Bun support, microfrontends, and advanced caching features.
+
+**Latest Features (v2.6, October 2025):**
+- 🏗️ **Microfrontends**: Develop multiple applications on single localhost port
+- 📦 **Bun Support**: Full Bun package manager integration with lockfile analysis
+- 🔍 **Terminal UI Search**: Quick task focus with `/` command in terminal UI
+
+**v2.5 Features (April 2025):**
+- 🔄 **Sidecar Tasks**: Persistent concurrent tasks with `with` command
+- ▶️ **Enhanced `--continue`**: Flexible dependency-based task continuation
+- 💬 **JSONC Support**: Comments in `turbo.json` configuration
+- 🗂️ **Bun Pruning**: `turbo prune` support for Bun repositories
+- 🔗 **$TURBO_ROOT$ Variable**: Workspace root references in config
+- 📖 **OpenAPI Viewer**: Human-readable Remote Cache API documentation
+
+**v2.4 Features (January 2025):**
+- 🏛️ **Experimental Boundaries**: Module boundary enforcement (RFC)
+- 🖥️ **Terminal UI Enhancements**: Improved user interface
+- 👁️ **Watch Mode Caching**: Experimental caching for file watching
+
+**v2.2 Features (October 2024):**
+- 🔍 **Repository Queries**: `turbo query` command for GraphQL queries
+- 🛡️ **Cache Safety Diagnostics**: Environment variable and cache config validation
+- 🎯 **Zero-Config Affected Packages**: Automatic change detection for GitHub workflows
+
 ## Learning Path
 
 ### 🟢 Beginner Track

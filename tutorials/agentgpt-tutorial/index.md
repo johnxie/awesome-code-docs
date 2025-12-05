@@ -65,11 +65,33 @@ By the end of this tutorial, you'll be able to:
 - **Monitor and optimize agent performance** in production environments
 - **Implement learning and adaptation** mechanisms for continuous improvement
 
+## What's New in AgentGPT (2024-2025)
+
+> **Autonomous Agent Evolution**: Web search, internationalization, and no-code deployment mark AgentGPT's latest advancements.
+
+**🚀 Beta 3.0 Release:**
+- 🌐 **Web Search Integration**: Preview of web search capabilities for real-time information access
+- 🌍 **Full Internationalization**: Support for nearly 20 languages with comprehensive localization
+- ⏸️ **Pause & Resume Agents**: Ability to interrupt and continue agent execution seamlessly
+- 📝 **Enhanced Output Formatting**: Improved presentation and readability of agent results
+- 🎨 **UI/UX Overhaul**: Modern interface with better user experience and accessibility
+- 📚 **Comprehensive Documentation**: Clear roadmap and extensive guides for developers
+
+**🌐 Web-Based Interface:**
+- 🖥️ **Browser-Based Agent Creation**: Real-time agent building and deployment from any web browser
+- 🚀 **No-Code Deployment**: Perfect for entrepreneurs and small teams without coding expertise
+- ⚡ **Instant Deployment**: Quick setup and launch without complex infrastructure requirements
+
+**🔗 Plug-and-Play Workflows:**
+- 🔌 **Third-Party API Integration**: Seamless connection to external services and APIs
+- ⚙️ **Quick Automation**: Rapid deployment of automated workflows without extensive coding
+- 🎯 **Pre-Built Templates**: Ready-to-use agent configurations for common use cases
+
 ## Prerequisites
 
-- Intermediate Python programming knowledge
+- Intermediate Python programming knowledge (for advanced customization)
 - Understanding of AI/ML concepts and APIs
-- Familiarity with async programming patterns
+- Familiarity with async programming patterns (for custom agents)
 - Basic knowledge of agent systems (helpful but not required)
 
 ## Learning Path

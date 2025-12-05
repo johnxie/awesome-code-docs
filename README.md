@@ -7,8 +7,9 @@
 *Transform your understanding from "what to do" to "how it works" with production-grade code examples*
 
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-62-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
-[![Hours of Content](https://img.shields.io/badge/content-500%2B%20hours-blue.svg)](#-complete-tutorial-collection)
+[![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-13-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
+[![Total Listed](https://img.shields.io/badge/total%20listed-79-blue.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
+[![Target Hours](https://img.shields.io/badge/target-1000%2B%20hours-orange.svg)](#-complete-tutorial-collection)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 </div>
@@ -28,15 +29,15 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 ## 🚀 Complete Tutorial Collection
 
 <details>
-<summary><strong>📊 Quick Overview</strong> - 62 comprehensive tutorials covering 500+ hours of expert-level content</summary>
+<summary><strong>📊 Current Status</strong> - 13 complete tutorials (66 in progress) targeting 1000+ hours of expert-level content</summary>
 
-| **Category** | **Tutorials** | **Total Hours** | **Difficulty** |
-|:-------------|:-------------:|:---------------:|:--------------:|
-| 🤖 **AI & ML Platforms** | 35 tutorials | 320-380 hours | Beginner → Expert |
-| 🔧 **Developer Tools** | 15 tutorials | 120-150 hours | Beginner → Expert |
-| 🗄️ **Database Systems** | 8 tutorials | 80-100 hours | Intermediate → Expert |
-| 📊 **Analytics & Monitoring** | 4 tutorials | 40-50 hours | Intermediate → Expert |
-| **Total Collection** | **62 tutorials** | **560-680 hours** | **All levels** |
+| **Category** | **Complete** | **In Progress** | **Total Listed** | **Target Hours** |
+|:-------------|:------------:|:---------------:|:---------------:|:---------------:|
+| 🤖 **AI & ML Platforms** | 11 tutorials | 44 tutorials | 55 tutorials | 520-600 hours |
+| 🔧 **Developer Tools** | 3 tutorials | 17 tutorials | 20 tutorials | 180-220 hours |
+| 🗄️ **Database Systems** | 1 tutorial | 7 tutorials | 8 tutorials | 80-100 hours |
+| 📊 **Analytics & Monitoring** | 0 tutorials | 6 tutorials | 6 tutorials | 60-80 hours |
+| **Total Collection** | **13 tutorials** | **66 tutorials** | **79 tutorials** | **840-1000 hours** |
 
 </details>
 
@@ -70,6 +71,15 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | **[Dyad Tutorial](tutorials/dyad-tutorial/)** | 8-10 hrs | 🟡 Intermediate | TypeScript, AI App Builder | Local AI application development |
 | **[Perplexica Tutorial](tutorials/perplexica-tutorial/)** | 10-12 hrs | 🟡 Intermediate | TypeScript, AI Search Engine | AI-powered search applications |
 | **[Taskade Tutorial](tutorials/taskade-tutorial/)** | 12-15 hrs | 🟡 Intermediate | AI Agents, Automation, Productivity | AI-powered productivity platform |
+| **[OpenAI Swarm](tutorials/swarm-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Multi-Agent, Handoffs | Lightweight multi-agent orchestration |
+| **[AG2 Tutorial](tutorials/ag2-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, Multi-Agent Systems | AutoGen successor, collaborative agents |
+| **[Pydantic AI](tutorials/pydantic-ai-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Pydantic, Type Safety | Type-safe AI agent development |
+| **[Smolagents](tutorials/smolagents-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Hugging Face, Agents | Lightweight Hugging Face agents |
+| **[DSPy Tutorial](tutorials/dspy-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, LLM Programming | Declarative LLM programming |
+| **[LiteLLM Tutorial](tutorials/litellm-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, API Gateway, Multi-Provider | Unified LLM API interface |
+| **[Open WebUI](tutorials/open-webui-tutorial/)** | 8-10 hrs | 🟢 Beginner | Docker, Ollama, Web UI | Self-hosted ChatGPT alternative |
+| **[Browser Use](tutorials/browser-use-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Web Automation, AI | AI-powered browser automation |
+| **[CopilotKit](tutorials/copilotkit-tutorial/)** | 10-12 hrs | 🟡 Intermediate | React, TypeScript, AI Copilots | In-app AI assistants for React |
 
 ### 🔧 Developer Tools & Code Analysis
 
@@ -82,6 +92,10 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | **[Codex Analysis](tutorials/codex-analysis-platform/)** | 12-15 hrs | 🔴 Expert | TypeScript, AST, LSP | Static analysis, code intelligence |
 | **[Whisper.cpp Tutorial](tutorials/whisper-cpp-tutorial/)** | 10-12 hrs | 🟡 Intermediate | C++, Audio Processing, ML | Speech recognition, audio processing, edge ML |
 | **[Turborepo Tutorial](tutorials/turborepo-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Rust, JavaScript, TypeScript | High-performance monorepo build system |
+| **[OpenHands Tutorial](tutorials/openhands-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, AI Agents, Code Generation | AI software engineering agent |
+| **[Aider Tutorial](tutorials/aider-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Git, AI Pair Programming | AI pair programming in terminal |
+| **[Langfuse Tutorial](tutorials/langfuse-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Observability, Analytics | LLM observability and tracing |
+| **[Kubernetes Operators](tutorials/kubernetes-operator-patterns/)** | 12-15 hrs | 🔴 Expert | Go, Kubernetes, Controllers | Production-grade K8s operators |
 
 ### 🗄️ Database & Storage Systems
 
@@ -136,19 +150,23 @@ For experienced developers seeking mastery:
 
 ---
 
-## 🌟 Massive 2025 Expansion Complete!
+## 📈 December 2025 Expansion - AI Agents Initiative
 
-We've completed an unprecedented expansion adding **25+ new comprehensive tutorials** with production-grade content! This brings our total to **62 tutorials** covering **500+ hours** of expert-level technical education.
+We've **planned 27 new AI agent and LLM tutorials** bringing our total listed to **79 tutorials** targeting **1000+ hours** of expert-level content!
 
-| Category | New Tutorials Added | Impact |
-|:---------|:-------------------|:-------|
-| 🤖 **AI & ML Platforms** | LangGraph, Vercel AI, Turborepo, Dyad, Perplexica, Claude Task Master, ComfyUI, LLaMA-Factory, Haystack, SuperAGI, Continue, Quivr, Botpress, Taskade | Advanced AI development workflows |
-| 🗄️ **Database Systems** | ClickHouse, Supabase, PostHog | Production data platforms |
-| 🔧 **Developer Tools** | Enhanced coverage of modern development tools | Complete developer toolkit |
+| Category | Tutorials Planned | Current Status | Impact |
+|:---------|:-----------------|:---------------|:-------|
+| 🤖 **AI Agents** | OpenAI Swarm, AG2, Pydantic AI, Smolagents, CopilotKit, Browser Use, OpenHands, Aider, Phidata, Letta | **3 complete**, 7 in progress | Complete AI agent development toolkit |
+| 🧠 **LLM Infrastructure** | DSPy, LiteLLM, Langfuse, Open WebUI, vLLM, llama.cpp, LocalAI, Outlines, Instructor | **1 complete**, 8 in progress | Production LLM operations |
+| 🔧 **Developer Tools** | Claude Code, Semantic Kernel, AnythingLLM, n8n AI | **0 complete**, 4 in progress | AI-powered development |
+| ☸️ **Cloud Native** | Kubernetes Operator Patterns | **0 complete**, 1 in progress | Enterprise infrastructure automation |
 
-**🎉 Recently Completed:** All major AI frameworks, modern database platforms, and essential developer tools now fully documented with production-ready examples and architectures.
+**🎯 Current Focus:**
+- **High Priority**: Complete AG2, DSPy, OpenHands, Swarm, CopilotKit core chapters
+- **Infrastructure**: vLLM, LocalAI, LiteLLM for production LLM deployments
+- **Coding Assistants**: Aider, Claude Code, Browser Use for AI-powered development
 
-**📈 Next Phase:** Advanced systems internals and enterprise patterns coming Q1 2025
+**📈 Next Phase:** Complete remaining tutorials and add advanced RAG frameworks, multi-modal AI, and enterprise agent patterns
 
 **[📋 Browse all tutorials →](tutorials/)**
 

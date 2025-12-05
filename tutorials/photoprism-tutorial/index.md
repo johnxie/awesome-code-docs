@@ -1,10 +1,8 @@
 ---
-title: "PhotoPrism Tutorial: AI-Powered Photos App"
-description: "Complete beginner's guide to PhotoPrism, the AI-powered photos app for the decentralized web with automatic tagging, object recognition, and facial recognition."
-category: "ai-ml-platforms"
-tags: ["photography", "ai", "machine-learning", "tensorflow", "computer-vision", "self-hosted", "privacy", "decentralized", "facial-recognition", "object-detection"]
-difficulty: "intermediate"
-author: "AI Codebase Knowledge Builder"
+layout: default
+title: "PhotoPrism Tutorial"
+nav_order: 25
+has_children: true
 ---
 
 # PhotoPrism Tutorial: AI-Powered Photos App
@@ -80,7 +78,39 @@ graph TB
 - **Archival Collections**: Museum and archive photo management
 - **Security & Surveillance**: Privacy-focused surveillance photo management
 
-## 📋 Prerequisites
+## What's New in PhotoPrism (2024-2025)
+
+> **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
+
+**🎨 AI & Integration Breakthroughs (December 2025):**
+- 📝 **Batch Metadata Editing**: Edit metadata across multiple photos simultaneously
+- 👤 **Enhanced Facial Recognition**: More accurate automatic person identification
+- 🤖 **Ollama & OpenAI Integration**: Automatic caption and label generation using LLMs
+- 🧠 **Custom TensorFlow Models**: Advanced user model support with refined configuration
+- 🎯 **Usability Improvements**: Cover image changes for person entries, updated dependencies, expanded translations
+
+**🌐 Advanced Features (July 2025):**
+- 🦙 **Ollama Model Support**: Expanded AI-powered photo analysis options
+- 🗺️ **Adjust Location Dialog**: Set/correct photo coordinates via interactive map
+- 🗂️ **Toolbar Album Deletion**: Direct album deletion from toolbar
+- 🌍 **Customizable Location Language**: Set preferred language for location details
+- 🎬 **Video Enhancements**: Improved transcoding, scanner detection, command-line tools
+
+**🎛️ User Experience (March 2025):**
+- 📱 **UI Enhancements**: Search toolbars and tabs remain visible while scrolling
+- 🏠 **Customizable Start Page**: Set preferred landing page in settings
+- 🕒 **Time Zone Settings**: Configure personal time zone preferences
+- 💾 **Disk Usage Display**: Monitor and limit storage usage in sidebar
+- 📄 **PDF Support**: Full support for Adobe PDF documents
+- 📂 **Album Management**: Enhanced file naming, zip downloads, and sort orders
+
+**🔄 Interface Revolution (February 2025):**
+- 🎨 **Refreshed UI**: Complete interface overhaul with usability improvements
+- 🎥 **Hybrid Viewer**: Unified photo and video viewing experience
+- ✏️ **Redesigned Edit Dialog**: More responsive and intuitive editing interface
+- 🌍 **3D Earth View**: Immersive 3D globe view for location exploration
+
+## Prerequisites
 
 - Basic understanding of Docker and containerization
 - Familiarity with web interfaces and basic networking

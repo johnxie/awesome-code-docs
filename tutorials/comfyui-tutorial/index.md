@@ -73,11 +73,39 @@ By the end of this tutorial, you'll be able to:
 
 ## Prerequisites
 
-- Python 3.8+ (for local installation)
+- Python 3.8+ (for local installation) or ComfyUI Desktop
 - Basic understanding of AI image generation concepts
 - Familiarity with Stable Diffusion (helpful but not required)
 - GPU with at least 4GB VRAM (recommended for local models)
 - Basic understanding of computer graphics concepts
+
+## What's New in ComfyUI (2024-2025)
+
+> **Major Platform Evolution**: Desktop app, AI copilot, cloud service, and enhanced security mark ComfyUI's transformation into a professional-grade platform.
+
+**🚀 ComfyUI Desktop (March 2025):**
+- 🖥️ **Official Desktop App**: Lightweight 200MB client for Windows/Mac
+- 🔒 **Code-Signed & Secure**: Removes "unidentified developer" warnings
+- 📁 **Smart Model Access**: Directly uses existing model paths without re-downloads
+- 🎯 **No Command Line**: Streamlined installation without complex setup
+
+**🤖 ComfyUI Copilot (March 2025) - Alibaba:**
+- 🎓 **AI Learning Assistant**: Step-by-step tutorials for new users
+- ⚡ **Workflow Generation**: Creates workflows from natural language descriptions
+- 💡 **Real-Time Optimization**: Intelligent suggestions for workflow improvement
+- 📈 **Accelerated Proficiency**: Helps users master ComfyUI faster
+
+**🔐 Security Overhaul (January 2025):**
+- 🛡️ **Vulnerability Prevention**: Restrictions on `eval/exec` and risky code patterns
+- 🔍 **AI Threat Detection**: Automated scanning for security threats
+- 📢 **Community Alerts**: Discord notifications for verified security issues
+- ✅ **Safe Ecosystem**: Enhanced protection for custom nodes
+
+**🎨 Model Support (2024-2025):**
+- 🆕 **Stable Diffusion 3.5**: Latest SD model with improved quality and prompt adherence
+- ☁️ **ComfyUI Cloud Beta**: Run complex pipelines in the cloud (November 2025)
+- 🤝 **Collaboration Features**: Workflow synchronization across devices
+- 🔧 **Custom Node Integration**: Seamless cloud support for extensions
 
 ## Learning Path
 

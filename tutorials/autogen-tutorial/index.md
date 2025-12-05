@@ -73,6 +73,31 @@ By the end of this tutorial, you'll be able to:
 - Familiarity with async programming (helpful but not required)
 - Knowledge of API integration patterns
 
+## ⚠️ AutoGen v0.4: Complete Architectural Redesign
+
+> **Major Release (2024)**: AutoGen v0.4 is a complete rewrite with new architecture, APIs, and patterns. This tutorial covers the latest v0.4 features.
+
+**Breaking Changes in v0.4:**
+- 🔄 **Not backward compatible** with AutoGen v0.2
+- 🏗️ **Two-layer architecture**: Core API + AgentChat API
+- 📨 **Asynchronous messaging**: Event-driven communication patterns
+- 🔧 **Modular design**: Pluggable components for agents, tools, memory, models
+- 🌐 **Cross-language support**: Python and .NET interoperability
+
+**Key v0.4 Features:**
+- ⚡ **Asynchronous Messaging**: Event-driven and request/response patterns
+- 📊 **Observability**: Built-in metrics, tracing, debugging with OpenTelemetry
+- 🌐 **Distributed Systems**: Agent networks across organizational boundaries
+- 🔌 **Extensions Ecosystem**: Built-in + community extensions for advanced functionality
+- 🏗️ **AutoGen Studio**: Low-code interface for building multi-agent systems
+- 🤖 **Magentic-One**: Generalist multi-agent application for web/file tasks
+- ✅ **Full Type Support**: Build-time type checking for robustness
+
+**Migration Notes:**
+- AutoGen v0.2 code requires significant changes to work with v0.4
+- Microsoft provides [migration guide](https://microsoft.github.io/autogen/docs/developer-guide/migration-guide) for upgrading
+- Consider v0.4 as a new framework rather than an update
+
 ## Learning Path
 
 ### 🟢 Beginner Track
