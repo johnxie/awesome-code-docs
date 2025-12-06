@@ -1,274 +1,122 @@
 ---
 layout: default
 title: "Phidata Tutorial"
-nav_order: 88
+nav_order: 16
 has_children: true
 ---
 
-# Phidata Tutorial: AI Assistants Framework
+# Phidata Tutorial: Building Autonomous AI Agents
 
-> Build production-ready AI assistants with memory, knowledge, and tools.
+> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
-<div align="center">
-
-**🤖 From Prototype to Production AI Assistants**
-
-[![GitHub](https://img.shields.io/github/stars/phidatahq/phidata?style=social)](https://github.com/phidatahq/phidata)
-
-</div>
-
----
-
-## 🎯 What is Phidata?
-
-**Phidata**<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framework for building AI assistants with memory, knowledge bases, and tools. It provides a clean abstraction for creating assistants that can search the web, analyze data, generate content, and much more.
-
-### Key Features
-
-| Feature | Description |
-|:--------|:------------|
-| **Memory** | Persistent conversation and user memory |
-| **Knowledge** | RAG with PDF, CSV, website, and more |
-| **Tools** | Web search, APIs, file operations |
-| **Teams** | Multi-assistant collaboration |
-| **Playground** | Built-in testing UI |
-| **Deployment** | Docker, AWS, and cloud-ready |
-
-```mermaid
-flowchart TD
-    A[User Request] --> B[Phidata Assistant]
-    
-    B --> C[Memory]
-    B --> D[Knowledge Base]
-    B --> E[Tools]
-    
-    C --> F[Chat History]
-    C --> G[User Preferences]
-    
-    D --> H[Vector DB]
-    D --> I[Documents]
-    
-    E --> J[Web Search]
-    E --> K[APIs]
-    E --> L[File Ops]
-    
-    B --> M[LLM Processing]
-    M --> N[Response]
-    
-    classDef user fill:#e1f5fe,stroke:#01579b
-    classDef assistant fill:#f3e5f5,stroke:#4a148c
-    classDef capability fill:#fff3e0,stroke:#ef6c00
-    classDef output fill:#e8f5e8,stroke:#1b5e20
-    
-    class A user
-    class B,M assistant
-    class C,D,E,F,G,H,I,J,K,L capability
-    class N output
-```
+Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framework for building autonomous AI agents with memory, reasoning, and tool integration capabilities. Create intelligent agents that can perform complex tasks, maintain conversation context, and use various tools to accomplish goals.
 
 ## Tutorial Chapters
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first assistant
-2. **[Chapter 2: Tools & Functions](02-tools.md)** - Web search, APIs, and custom tools
-3. **[Chapter 3: Knowledge Bases](03-knowledge.md)** - RAG with documents and websites
-4. **[Chapter 4: Memory Systems](04-memory.md)** - Conversation and user memory
-5. **[Chapter 5: Teams & Workflows](05-teams.md)** - Multi-assistant collaboration
-6. **[Chapter 6: Structured Output](06-structured.md)** - Pydantic models and validation
-7. **[Chapter 7: Playground & UI](07-playground.md)** - Built-in testing interface
-8. **[Chapter 8: Production Deployment](08-production.md)** - Docker, AWS, and scaling
+1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and your first AI agent
+2. **[Chapter 2: Agent Architecture](02-agent-architecture.md)** - Understanding Phidata's agent components
+3. **[Chapter 3: Tools & Functions](03-tools-functions.md)** - Creating and integrating custom tools
+4. **[Chapter 4: Memory Systems](04-memory-systems.md)** - Implementing agent memory and context
+5. **[Chapter 5: Multi-Agent Systems](05-multi-agent-systems.md)** - Coordinating teams of AI agents
+6. **[Chapter 6: Advanced Reasoning](06-advanced-reasoning.md)** - Complex reasoning patterns and workflows
+7. **[Chapter 7: Integrations](07-integrations.md)** - External APIs, databases, and services
+8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling and deploying agent systems
 
 ## What You'll Learn
 
-- **Build AI Assistants** with clean, maintainable code
-- **Add Knowledge Bases** for domain expertise
-- **Integrate Tools** for real-world capabilities
-- **Manage Memory** across sessions
-- **Create Teams** of specialized assistants
-- **Deploy to Production** with confidence
-- **Monitor and Debug** assistant behavior
+- **Agent Creation**: Build autonomous AI agents with specialized capabilities
+- **Tool Integration**: Connect agents to external tools, APIs, and services
+- **Memory Management**: Implement persistent memory and context retention
+- **Multi-Agent Coordination**: Create collaborative agent teams
+- **Advanced Reasoning**: Complex decision-making and problem-solving patterns
+- **Production Deployment**: Scale agent systems for enterprise use
+
+## Learning Objectives
+
+By the end of this tutorial, you'll be able to:
+- Design and implement autonomous AI agents for various use cases
+- Create custom tools and integrate external services
+- Build agents with persistent memory and context awareness
+- Coordinate multiple agents for complex task completion
+- Implement advanced reasoning patterns and decision-making
+- Deploy and scale agent systems in production environments
+
+## Key Features Covered
+
+**🤖 Agent Capabilities:**
+- ⚡ **Autonomous Execution**: Agents that independently complete complex tasks
+- 🛠️ **Tool Integration**: Access to 100+ built-in tools and custom functions
+- 🧠 **Memory Systems**: Persistent context and learning across conversations
+- 👥 **Multi-Agent Teams**: Collaborative agent coordination and task delegation
+- 🎯 **Reasoning Engine**: Advanced decision-making and problem-solving
+- 📊 **Observability**: Comprehensive monitoring and debugging tools
+
+**🏗️ Framework Features:**
+- 🔧 **Modular Design**: Reusable components and extensible architecture
+- 📈 **Scalable**: From single agents to enterprise-scale deployments
+- 🔒 **Secure**: Built-in security and access control mechanisms
+- 📊 **Analytics**: Detailed metrics and performance tracking
+- 🚀 **Production Ready**: Enterprise-grade reliability and monitoring
+
+## Architecture Overview
+
+```mermaid
+graph TD
+    A[User Request] --> B[Phidata Agent]
+    B --> C[Reasoning Engine]
+    C --> D[Tool Selection]
+    D --> E[Tool Execution]
+
+    E --> F[Memory Update]
+    F --> G[Response Generation]
+    G --> H[Final Output]
+
+    B --> I[Memory System]
+    I --> J[Context Retrieval]
+    J --> C
+
+    B --> K[Team Coordination]
+    K --> L[Agent Communication]
+    L --> M[Task Delegation]
+
+    E --> N[External APIs]
+    N --> O[Web Services]
+    O --> P[Databases]
+    P --> E
+
+    B --> Q[Monitoring]
+    Q --> R[Performance Metrics]
+    R --> S[Debugging Tools]
+```
+
+Phidata agents consist of modular components that work together to provide autonomous, tool-augmented AI capabilities with persistent memory and collaborative features.
 
 ## Prerequisites
 
-- Python 3.9+
-- API key for your LLM provider
-- (Optional) Docker for deployment
-- (Optional) PostgreSQL for memory
+- Python 3.8+
+- Basic understanding of AI/LLMs and agent concepts
+- Familiarity with API integration and tool usage
+- Experience with async programming (helpful but not required)
+
+## Getting Started
+
+Ready to build your first autonomous AI agent? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!
 
 ## Quick Start
 
 ```bash
-# Install phidata
+# Install Phidata
 pip install phidata
 
-# Or with extras
-pip install "phidata[aws]"  # AWS deployment
-pip install "phidata[docker]"  # Docker support
-```
+# Create your first agent
+from phidata.agent import Agent
 
-## Your First Assistant
-
-```python
-from phi.assistant import Assistant
-from phi.llm.openai import OpenAIChat
-
-# Create a simple assistant
-assistant = Assistant(
-    llm=OpenAIChat(model="gpt-4o"),
-    description="You are a helpful AI assistant.",
+agent = Agent(
+    name="Assistant",
+    instructions="You are a helpful AI assistant."
 )
 
-# Chat with the assistant
-response = assistant.run("What is the capital of France?")
+# Run the agent
+response = agent.run("Hello, how can you help me?")
 print(response)
-# "The capital of France is Paris."
 ```
-
-## Assistant with Tools
-
-```python
-from phi.assistant import Assistant
-from phi.tools.duckduckgo import DuckDuckGo
-from phi.tools.yfinance import YFinanceTools
-
-# Create assistant with web search and finance tools
-assistant = Assistant(
-    llm=OpenAIChat(model="gpt-4o"),
-    tools=[
-        DuckDuckGo(),
-        YFinanceTools(stock_price=True, analyst_recommendations=True)
-    ],
-    description="You are a financial research assistant.",
-    instructions=[
-        "Always search for the latest information",
-        "Provide sources for your claims"
-    ]
-)
-
-response = assistant.run("What's the latest news about NVIDIA stock?")
-```
-
-## Knowledge Base (RAG)
-
-```python
-from phi.assistant import Assistant
-from phi.knowledge.pdf import PDFKnowledgeBase
-from phi.vectordb.pgvector import PgVector2
-
-# Create knowledge base from PDFs
-knowledge = PDFKnowledgeBase(
-    path="docs/",
-    vector_db=PgVector2(
-        db_url="postgresql://...",
-        table_name="documents"
-    )
-)
-
-# Load documents (run once)
-knowledge.load()
-
-# Create assistant with knowledge
-assistant = Assistant(
-    knowledge=knowledge,
-    search_knowledge=True,  # Enable RAG
-    description="You answer questions about our documentation."
-)
-
-response = assistant.run("How do I configure the API?")
-```
-
-## Memory
-
-```python
-from phi.assistant import Assistant
-from phi.memory.db.postgres import PgMemory
-
-# Create assistant with persistent memory
-assistant = Assistant(
-    llm=OpenAIChat(model="gpt-4o"),
-    memory=PgMemory(
-        db_url="postgresql://...",
-        table_name="assistant_memory"
-    ),
-    add_history_to_messages=True,  # Include chat history
-    num_history_messages=10,  # Last 10 messages
-)
-
-# Conversations are remembered across sessions
-assistant.run("My name is Alice")
-# Later...
-assistant.run("What's my name?")  # "Your name is Alice"
-```
-
-## Teams of Assistants
-
-```python
-from phi.assistant import Assistant
-from phi.assistant.team import Team
-
-# Create specialized assistants
-researcher = Assistant(
-    name="Researcher",
-    tools=[DuckDuckGo()],
-    description="You search for information online."
-)
-
-writer = Assistant(
-    name="Writer",
-    description="You write clear, engaging content."
-)
-
-# Create a team
-team = Team(
-    assistants=[researcher, writer],
-    description="Research and write articles."
-)
-
-# Team coordinates automatically
-response = team.run("Write a blog post about AI agents")
-```
-
-## Built-in Playground
-
-```python
-from phi.assistant import Assistant
-from phi.playground import Playground, serve_playground_app
-
-assistant = Assistant(...)
-
-# Create playground app
-app = Playground(assistants=[assistant]).get_app()
-
-# Serve the UI
-serve_playground_app(app)
-# Open http://localhost:7777
-```
-
-## Deployment
-
-```bash
-# Deploy with Docker
-phi ws up --env prd
-
-# Deploy to AWS
-phi ws up --env aws
-```
-
-## Learning Path
-
-### 🟢 Beginner Track
-1. Chapters 1-3: Setup, tools, and knowledge
-2. Build a capable AI assistant
-
-### 🟡 Intermediate Track
-1. Chapters 4-6: Memory, teams, and structured output
-2. Create sophisticated multi-assistant systems
-
-### 🔴 Advanced Track
-1. Chapters 7-8: Playground and production
-2. Deploy enterprise-grade AI assistants
-
----
-
-**Ready to build AI assistants? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
-
-*Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*

@@ -7,7 +7,7 @@
 *Transform your understanding from "what to do" to "how it works" with production-grade code examples*
 
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-22-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
+[![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-23-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
 [![Total Listed](https://img.shields.io/badge/total%20listed-79-blue.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
 [![Target Hours](https://img.shields.io/badge/target-1000%2B%20hours-orange.svg)](#-complete-tutorial-collection)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
@@ -33,11 +33,11 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 
 | **Category** | **Complete** | **In Progress** | **Total Listed** | **Target Hours** |
 |:-------------|:------------:|:---------------:|:---------------:|:---------------:|
-| 🤖 **AI & ML Platforms** | 19 tutorials | 36 tutorials | 55 tutorials | 520-600 hours |
+| 🤖 **AI & ML Platforms** | 20 tutorials | 35 tutorials | 55 tutorials | 520-600 hours |
 | 🔧 **Developer Tools** | 3 tutorials | 17 tutorials | 20 tutorials | 180-220 hours |
 | 🗄️ **Database Systems** | 1 tutorial | 7 tutorials | 8 tutorials | 80-100 hours |
 | 📊 **Analytics & Monitoring** | 0 tutorials | 6 tutorials | 6 tutorials | 60-80 hours |
-| **Total Collection** | **22 tutorials** | **57 tutorials** | **79 tutorials** | **840-1000 hours** |
+| **Total Collection** | **23 tutorials** | **56 tutorials** | **79 tutorials** | **840-1000 hours** |
 
 </details>
 
@@ -84,6 +84,7 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | **[Llama.cpp](tutorials/llama-cpp-tutorial/)** | 12-15 hrs | 🟡 Intermediate | C++, GGUF, Local Inference | High-performance local LLM inference |
 | **[LocalAI](tutorials/localai-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Docker, Multi-Modal, Local AI | Self-hosted multi-modal AI server |
 | **[n8n AI](tutorials/n8n-ai-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Node.js, Workflow Automation, AI | Visual AI workflow orchestration |
+| **[Phidata](tutorials/phidata-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, Autonomous Agents, Tools | Building autonomous AI agents with memory |
 | **[Browser Use](tutorials/browser-use-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Web Automation, AI | AI-powered browser automation |
 | **[CopilotKit](tutorials/copilotkit-tutorial/)** | 10-12 hrs | 🟡 Intermediate | React, TypeScript, AI Copilots | In-app AI assistants for React |
 
