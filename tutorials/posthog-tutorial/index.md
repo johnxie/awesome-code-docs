@@ -7,8 +7,6 @@ has_children: true
 
 # PostHog Tutorial: Open Source Product Analytics Platform
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-
 PostHog<sup>[View Repo](https://github.com/PostHog/posthog)</sup> is a comprehensive open-source product analytics platform that provides everything you need to understand user behavior, track conversions, and make data-driven product decisions. It combines web analytics, session recordings, feature flags, and A/B testing in a single, privacy-focused platform.
 
 PostHog empowers product teams to build better products by providing deep insights into user behavior without compromising on privacy or data ownership.

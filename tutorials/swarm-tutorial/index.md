@@ -7,8 +7,6 @@ has_children: true
 
 # OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
 
-> Learn to build collaborative AI agents with OpenAI's educational framework for multi-agent systems.
-
 <div align="center">
 
 **🐝 Build Agent Teams That Work Together Seamlessly**

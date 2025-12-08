@@ -7,8 +7,6 @@ has_children: true
 
 # Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-
 Firecrawl<sup>[View Repo](https://github.com/firecrawl/firecrawl)</sup> is a powerful web scraping and data extraction platform specifically designed for Large Language Models. It provides clean, structured data extraction from websites, making it easy to build RAG systems, content analysis tools, and AI-powered applications that need access to web content.
 
 Firecrawl handles the complexity of web scraping - dealing with JavaScript rendering, anti-bot measures, and data cleaning - so you can focus on building amazing AI applications.
