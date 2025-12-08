@@ -7,8 +7,6 @@ has_children: true
 
 # CrewAI Tutorial: Building Collaborative AI Agent Teams
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-
 CrewAI<sup>[View Repo](https://github.com/crewAIInc/crewAI)</sup> is a framework for orchestrating role-based AI agent teams that collaborate to accomplish complex tasks. It provides a structured approach to creating AI crews with specialized agents, tools, and processes, enabling sophisticated multi-agent workflows and collaborative problem-solving.
 
 CrewAI focuses on creating purposeful AI teams where each agent has a specific role, expertise, and set of tools, working together toward shared objectives with clear communication and coordination.

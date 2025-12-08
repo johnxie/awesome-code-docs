@@ -2,7 +2,17 @@
 
 > Documentation that reveals how modern web frameworks work under the hood
 
-## What We're Looking For
+## 📊 Current Status
+
+| Status | Meaning |
+|:-------|:--------|
+| ✅ **Complete** | Full tutorial with all chapters and working examples |
+| 🚧 **In Progress** | Index created, chapters being developed |
+| 📝 **Planned** | Index created, content development pending |
+
+**Active Development**: Building comprehensive guides to framework internals and architecture patterns.
+
+## Featured Documentation
 
 Documentation that teaches:
 - **React/Vue Internals** - How virtual DOM, hooks, and reactivity systems work

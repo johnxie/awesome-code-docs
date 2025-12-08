@@ -7,7 +7,7 @@
 *Transform your understanding from "what to do" to "how it works" with production-grade code examples*
 
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-25-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
+[![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-50+-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
 [![Total Listed](https://img.shields.io/badge/total%20listed-79-blue.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
 [![Target Hours](https://img.shields.io/badge/target-1000%2B%20hours-orange.svg)](#-complete-tutorial-collection)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
@@ -37,7 +37,7 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | 🔧 **Developer Tools** | 2 tutorials | 12 tutorials | 14 tutorials | 180-220 hours |
 | 🗄️ **Database Systems** | 1 tutorial | 5 tutorials | 6 tutorials | 80-100 hours |
 | 📊 **Analytics & Monitoring** | 0 tutorials | 4 tutorials | 4 tutorials | 60-80 hours |
-| **Total Collection** | **25 tutorials** | **54 tutorials** | **79 tutorials** | **840-1000 hours** |
+| **Total Collection** | **50+ tutorials** | **29 tutorials** | **79 tutorials** | **840-1000 hours** |
 
 </details>
 

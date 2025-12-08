@@ -2,7 +2,17 @@
 
 > Documentation that teaches how low-level systems work
 
-## What We're Looking For
+## 📊 Current Status
+
+| Status | Meaning |
+|:-------|:--------|
+| ✅ **Complete** | Full tutorial with all chapters and working examples |
+| 🚧 **In Progress** | Index created, chapters being developed |
+| 📝 **Planned** | Index created, content development pending |
+
+**Active Development**: Seeking comprehensive guides to compilers, operating systems, and networking internals.
+
+## Featured Documentation
 
 Documentation that explains:
 - **Compilers & Languages** - How Rust, LLVM, or JavaScript engines work
