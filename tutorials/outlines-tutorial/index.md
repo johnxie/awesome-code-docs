@@ -1,267 +1,96 @@
 ---
 layout: default
 title: "Outlines Tutorial"
-nav_order: 90
+nav_order: 15
 has_children: true
 ---
 
-# Outlines Tutorial: Structured LLM Generation
+# Outlines Tutorial: Structured Text Generation with LLMs
 
-> Control LLM outputs with guaranteed structure using grammar-based generation.
+> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
-<div align="center">
-
-**📐 Reliable, Structured Text Generation**
-
-[![GitHub](https://img.shields.io/github/stars/outlines-dev/outlines?style=social)](https://github.com/outlines-dev/outlines)
-
-</div>
-
----
-
-## 🎯 What is Outlines?
-
-**Outlines**<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a library for structured text generation with LLMs. Unlike post-hoc parsing, Outlines guarantees that outputs match your specified format by constraining generation at the token level.
-
-### Key Features
-
-| Feature | Description |
-|:--------|:------------|
-| **JSON Generation** | Guaranteed valid JSON matching schemas |
-| **Regex Constraints** | Generate text matching patterns |
-| **Grammar Support** | Define custom EBNF grammars |
-| **Type Constraints** | Integer, float, boolean outputs |
-| **Pydantic Models** | Direct schema-to-generation |
-| **Choice/Enum** | Constrained categorical outputs |
-
-```mermaid
-flowchart LR
-    A[Schema/Grammar] --> B[Outlines]
-    B --> C[Constraint Mask]
-    C --> D[LLM]
-    D --> E[Constrained Tokens]
-    E --> F{Valid?}
-    F -->|Always Yes| G[Structured Output]
-    
-    classDef input fill:#e1f5fe,stroke:#01579b
-    classDef process fill:#f3e5f5,stroke:#4a148c
-    classDef output fill:#e8f5e8,stroke:#1b5e20
-    
-    class A input
-    class B,C,D,E,F process
-    class G output
-```
+Outlines<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a Python library that allows you to control Large Language Model outputs with structural constraints. Use JSON Schema, regular expressions, context-free grammars, and more to guide model generation.
 
 ## Tutorial Chapters
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and basic usage
-2. **[Chapter 2: JSON Generation](02-json.md)** - Schema-constrained JSON
-3. **[Chapter 3: Regex Patterns](03-regex.md)** - Pattern-based generation
-4. **[Chapter 4: Pydantic Models](04-pydantic.md)** - Type-safe structured outputs
-5. **[Chapter 5: Choices & Enums](05-choices.md)** - Categorical constraints
-6. **[Chapter 6: Custom Grammars](06-grammars.md)** - EBNF grammar definitions
-7. **[Chapter 7: Performance](07-performance.md)** - Optimization and caching
-8. **[Chapter 8: Integration](08-integration.md)** - Using with other frameworks
+1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and basic constrained generation
+2. **[Chapter 2: Text Patterns](02-text-patterns.md)** - Regular expressions and string constraints
+3. **[Chapter 3: JSON Schema](03-json-schema.md)** - Structured data generation with schemas
+4. **[Chapter 4: Type Safety](04-type-safety.md)** - Pydantic models and type validation
+5. **[Chapter 5: Grammar-Based](05-grammar-based.md)** - Context-free grammars and formal languages
+6. **[Chapter 6: Advanced Features](06-advanced-features.md)** - Sampling strategies and performance optimization
+7. **[Chapter 7: Integration](07-integration.md)** - LangChain, CrewAI, and other frameworks
+8. **[Chapter 8: Production](08-production.md)** - Deployment, monitoring, and scaling
 
 ## What You'll Learn
 
-- **Generate Valid JSON** guaranteed by construction
-- **Use Regex Constraints** for formatted outputs
-- **Define Pydantic Models** for type-safe generation
-- **Create Custom Grammars** for complex formats
-- **Optimize Performance** with caching
-- **Integrate with Frameworks** like LangChain
+- **Constrained Generation**: Force LLMs to follow specific patterns and structures
+- **JSON Schema Validation**: Generate perfectly structured JSON data
+- **Type Safety**: Use Pydantic models for runtime type checking
+- **Grammar Control**: Implement context-free grammars for complex structures
+- **Performance Optimization**: Efficient sampling and caching strategies
+- **Framework Integration**: Connect with popular AI development frameworks
+
+## Learning Objectives
+
+By the end of this tutorial, you'll be able to:
+- Generate structured text outputs with guaranteed compliance
+- Implement JSON Schema validation for API responses
+- Use Pydantic models for type-safe LLM interactions
+- Apply context-free grammars for domain-specific languages
+- Optimize performance with advanced sampling techniques
+- Deploy constrained generation systems in production
+
+## Key Features Covered
+
+**🔧 Core Capabilities:**
+- ⚡ **Fast Constrained Sampling**: Efficiently generate structured outputs
+- 📋 **JSON Schema Support**: Validate complex data structures
+- 🔒 **Type Safety**: Runtime validation with Pydantic integration
+- 📝 **Grammar Control**: Context-free grammars and regex patterns
+- 🎯 **Multiple Backends**: Support for Transformers, llama.cpp, vLLM
+- 🚀 **Performance Focused**: Optimized for speed and memory usage
+
+**🔄 Integration Ready:**
+- 🔗 **LangChain Compatible**: Drop-in replacement for LLM calls
+- 🤖 **CrewAI Integration**: Structured outputs for multi-agent systems
+- 📊 **FastAPI Ready**: Type-safe API responses
+- 🏗️ **Framework Agnostic**: Works with any Python application
+
+## Architecture Overview
+
+```mermaid
+graph TD
+    A[User Request] --> B[Outlines Processor]
+    B --> C{Constraint Type}
+
+    C --> D[Regex Pattern]
+    C --> E[JSON Schema]
+    C --> F[Pydantic Model]
+    C --> G[CFG Grammar]
+
+    D --> H[Token Sampling]
+    E --> H
+    F --> H
+    G --> H
+
+    H --> I[Constrained Generation]
+    I --> J[Validation]
+    J --> K[Structured Output]
+
+    K --> L[Type Checking]
+    L --> M[Final Result]
+```
+
+Outlines sits between your application and the LLM, intercepting the generation process to ensure outputs conform to your specified constraints while maintaining high performance.
 
 ## Prerequisites
 
-- Python 3.9+
-- Understanding of JSON and regex
-- Familiarity with Pydantic
+- Python 3.8+
+- Basic understanding of LLMs and text generation
+- Familiarity with JSON Schema or Pydantic (helpful but not required)
+- Experience with regular expressions (beneficial)
 
-## Quick Start
+## Getting Started
 
-```bash
-# Install Outlines
-pip install outlines
-
-# With specific backends
-pip install outlines[transformers]
-pip install outlines[vllm]
-```
-
-## Guaranteed JSON Generation
-
-```python
-import outlines
-
-# Load a model
-model = outlines.models.transformers("mistralai/Mistral-7B-v0.1")
-
-# Define schema
-schema = {
-    "type": "object",
-    "properties": {
-        "name": {"type": "string"},
-        "age": {"type": "integer"},
-        "city": {"type": "string"}
-    },
-    "required": ["name", "age", "city"]
-}
-
-# Create generator
-generator = outlines.generate.json(model, schema)
-
-# Generate - ALWAYS valid JSON
-result = generator("Create a person profile:")
-print(result)
-# {"name": "Alice", "age": 28, "city": "New York"}
-```
-
-## Pydantic Models
-
-```python
-from pydantic import BaseModel
-from typing import List
-import outlines
-
-class Recipe(BaseModel):
-    name: str
-    ingredients: List[str]
-    prep_time_minutes: int
-    instructions: List[str]
-
-model = outlines.models.transformers("mistralai/Mistral-7B-v0.1")
-generator = outlines.generate.json(model, Recipe)
-
-recipe = generator("Generate a pasta recipe:")
-print(recipe.name)
-print(recipe.ingredients)
-# Fully typed Pydantic object!
-```
-
-## Regex Constraints
-
-```python
-import outlines
-
-model = outlines.models.transformers("mistralai/Mistral-7B-v0.1")
-
-# Phone number pattern
-phone_pattern = r"\d{3}-\d{3}-\d{4}"
-generator = outlines.generate.regex(model, phone_pattern)
-phone = generator("Generate a US phone number:")
-# "555-123-4567" - guaranteed format
-
-# Email pattern
-email_pattern = r"[a-z]+@[a-z]+\.[a-z]{2,3}"
-generator = outlines.generate.regex(model, email_pattern)
-email = generator("Generate an email:")
-# "john@example.com"
-
-# Date pattern
-date_pattern = r"\d{4}-\d{2}-\d{2}"
-generator = outlines.generate.regex(model, date_pattern)
-date = generator("Today's date:")
-# "2025-12-05"
-```
-
-## Choice Constraints
-
-```python
-import outlines
-
-model = outlines.models.transformers("mistralai/Mistral-7B-v0.1")
-
-# Constrained to specific options
-generator = outlines.generate.choice(
-    model,
-    choices=["positive", "negative", "neutral"]
-)
-
-sentiment = generator("Classify: 'I love this product!'")
-# "positive" - guaranteed to be one of the choices
-```
-
-## Type Constraints
-
-```python
-import outlines
-
-model = outlines.models.transformers("mistralai/Mistral-7B-v0.1")
-
-# Integer only
-int_generator = outlines.generate.format(model, int)
-age = int_generator("How old is the average person?")
-# 35 (integer, not "35" or "thirty-five")
-
-# Float
-float_generator = outlines.generate.format(model, float)
-price = float_generator("Price of a coffee:")
-# 4.50
-
-# Boolean
-bool_generator = outlines.generate.format(model, bool)
-answer = bool_generator("Is Python a programming language?")
-# True
-```
-
-## Custom Grammars (EBNF)
-
-```python
-import outlines
-
-model = outlines.models.transformers("mistralai/Mistral-7B-v0.1")
-
-# Define arithmetic expression grammar
-arithmetic_grammar = """
-    ?start: expression
-    ?expression: term (("+" | "-") term)*
-    ?term: factor (("*" | "/") factor)*
-    ?factor: NUMBER | "(" expression ")"
-    NUMBER: /[0-9]+/
-"""
-
-generator = outlines.generate.cfg(model, arithmetic_grammar)
-expr = generator("Generate a math expression:")
-# "(3 + 5) * 2"
-```
-
-## With vLLM (High Performance)
-
-```python
-import outlines
-
-# Use vLLM backend for speed
-model = outlines.models.vllm("mistralai/Mistral-7B-v0.1")
-
-generator = outlines.generate.json(model, Recipe)
-# Much faster with vLLM's optimizations
-```
-
-## Why Outlines?
-
-| Approach | Reliability | Performance |
-|:---------|:------------|:------------|
-| Prompt engineering | ~80% valid | Fast |
-| Post-hoc validation | Retry on failure | Slower |
-| **Outlines** | **100% valid** | **Optimized** |
-
-## Learning Path
-
-### 🟢 Beginner Track
-1. Chapters 1-3: Setup, JSON, and regex
-2. Generate basic structured outputs
-
-### 🟡 Intermediate Track
-1. Chapters 4-6: Pydantic, choices, and grammars
-2. Build complex structured generation
-
-### 🔴 Advanced Track
-1. Chapters 7-8: Performance and integration
-2. Production-ready structured LLM apps
-
----
-
-**Ready for guaranteed structured outputs? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
-
-*Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+Ready to add structure to your LLM outputs? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!
