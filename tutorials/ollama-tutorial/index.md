@@ -7,8 +7,6 @@ has_children: true
 
 # Ollama Tutorial: Running Large Language Models Locally
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-
 Ollama<sup>[View Repo](https://github.com/ollama/ollama)</sup> is a powerful platform for running Large Language Models locally on your machine. It provides an easy way to download, run, and manage open-source LLMs with a simple command-line interface and REST API, enabling privacy-preserving AI applications without relying on external API calls.
 
 Ollama supports a wide range of models from different architectures and provides tools for model customization, fine-tuning, and integration with various applications.

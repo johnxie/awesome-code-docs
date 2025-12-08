@@ -10,7 +10,7 @@
 | 🚧 **In Progress** | Index created, chapters being developed |
 | 📝 **Planned** | Index created, content development pending |
 
-**Active Development**: Focusing on completing high-priority AI agent tutorials (AG2, DSPy, OpenHands) and LLM infrastructure (vLLM, LocalAI).
+**Active Development**: Focusing on completing remaining AI agent tutorials and expanding coverage of emerging AI platforms and frameworks.
 
 ## Featured Documentation
 

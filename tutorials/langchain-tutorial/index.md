@@ -7,8 +7,6 @@ has_children: true
 
 # LangChain Tutorial: Building AI Applications with Large Language Models
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-
 LangChain<sup>[View Repo](https://github.com/langchain-ai/langchain)</sup> is a powerful framework for building applications powered by large language models. Whether you're creating chatbots, question-answering systems, or complex AI workflows, LangChain provides the building blocks to chain together different components seamlessly.
 
 Imagine you're building a smart assistant that can not only answer questions but also remember previous conversations, search through documents, and even take actions on your behalf. LangChain makes this possible by providing a standardized way to connect language models with other sources of data and functionality.

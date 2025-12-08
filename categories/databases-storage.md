@@ -2,6 +2,16 @@
 
 > Documentation that explains how data systems store, query, and scale information
 
+## 📊 Current Status
+
+| Status | Meaning |
+|:-------|:--------|
+| ✅ **Complete** | Full tutorial with all chapters and working examples |
+| 🚧 **In Progress** | Index created, chapters being developed |
+| 📝 **Planned** | Index created, content development pending |
+
+**Active Development**: Expanding coverage of database internals and storage systems.
+
 ## Featured Documentation
 
 ### [NocoDB Database Platform Deep Dive](../tutorials/nocodb-database-platform/)
