@@ -6,6 +6,10 @@
 
 *Transform your understanding from "what to do" to "how it works" with production-grade code examples*
 
+*AI Agents • Machine Learning • Databases • Developer Tools • Web Frameworks • Systems Programming*
+
+<!-- SEO Keywords: deep-dive tutorials, production code examples, AI agents, machine learning, databases, developer tools, web frameworks, systems programming, code documentation, technical learning -->
+
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
 [![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-50+-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
 [![Total Listed](https://img.shields.io/badge/total%20listed-79-blue.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
@@ -15,6 +19,14 @@
 </div>
 
 ---
+
+## 📋 Table of Contents
+
+- [🎯 What Makes This Collection Special?](#-what-makes-this-collection-special)
+- [🚀 Complete Tutorial Collection](#-complete-tutorial-collection)
+- [🎯 Getting Started](#-getting-started)
+- [🛠️ Built With](#️-built-with)
+- [🤝 Contributing & Community](#-contributing--community)
 
 ## 🎯 What Makes This Collection Special?
 
@@ -29,7 +41,7 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 ## 🚀 Complete Tutorial Collection
 
 <details>
-<summary><strong>📊 Current Status</strong> - 25 complete tutorials (54 in progress) targeting 1000+ hours of expert-level content</summary>
+<summary><strong>📊 Current Status</strong> - 50+ complete tutorials (29 in progress) targeting 1000+ hours of expert-level content</summary>
 
 | **Category** | **Complete** | **In Progress** | **Total Listed** | **Target Hours** |
 |:-------------|:------------:|:---------------:|:---------------:|:---------------:|
@@ -48,8 +60,8 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | **[Dify Platform](tutorials/dify-platform-deep-dive/)** | 4-6 hrs | 🟢 Beginner | Python, Flask, Docker | LLM workflows, RAG systems, agent frameworks |
 | **[Flowise Orchestration](tutorials/flowise-llm-orchestration/)** | 10-12 hrs | 🟡 Intermediate | Node.js, React, LLMs | Visual workflow design, prompt engineering |
 | **[LobeChat Platform](tutorials/lobechat-ai-platform/)** | 8-10 hrs | 🟡 Intermediate | Next.js, TypeScript | Modern AI chat, streaming responses |
-| **[LangChain Tutorial](tutorials/langchain-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, OpenAI, Vector DBs | RAG systems, agents, prompt engineering |
-| **[Chatbox Tutorial](tutorials/chatbox-tutorial/)** | 10-12 hrs | 🟡 Intermediate | JavaScript, React, AI APIs | Modern chat interfaces, multi-provider AI |
+| **[LangChain Tutorial](tutorials/langchain-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, OpenAI, Vector DBs | RAG systems, agents, prompt engineering *(see also: [LlamaIndex](tutorials/llamaindex-tutorial/), [Haystack](tutorials/haystack-tutorial/))* |
+| **[Chatbox Tutorial](tutorials/chatbox-tutorial/)** | 10-12 hrs | 🟡 Intermediate | JavaScript, React, AI APIs | Modern chat interfaces, multi-provider AI *(see also: [LobeChat](tutorials/lobechat-ai-platform/))* |
 | **[AgentGPT Tutorial](tutorials/agentgpt-tutorial/)** | 12-15 hrs | 🔴 Expert | Python, AI Agents, Tool Integration | Autonomous AI agents, task planning |
 | **[Mem0 Tutorial](tutorials/mem0-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, AI Memory, Vector DBs | Intelligent memory systems, context retention |
 | **[Firecrawl Tutorial](tutorials/firecrawl-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Web Scraping, LLMs | LLM-ready web data extraction |
@@ -78,8 +90,8 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | **[Semantic Kernel](tutorials/semantic-kernel-tutorial/)** | 10-12 hrs | 🟡 Intermediate | C#/Python, AI Orchestration | Plugins, planners, memory, and production deployment |
 | **[DSPy Tutorial](tutorials/dspy-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, LLM Programming | Declarative LLM programming |
 | **[LiteLLM Tutorial](tutorials/litellm-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, API Gateway, Multi-Provider | Unified LLM API interface |
-| **[Open WebUI](tutorials/open-webui-tutorial/)** | 8-10 hrs | 🟢 Beginner | Docker, Ollama, Web UI | Self-hosted ChatGPT alternative |
-| **[Instructor](tutorials/instructor-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Pydantic, Structured Output | Type-safe LLM structured extraction |
+| **[Open WebUI](tutorials/open-webui-tutorial/)** | 8-10 hrs | 🟢 Beginner | Docker, Ollama, Web UI | Self-hosted ChatGPT alternative *(see also: [Ollama Tutorial](tutorials/ollama-tutorial/))* |
+| **[Instructor](tutorials/instructor-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Pydantic, Structured Output | Type-safe LLM structured extraction *(see also: [Pydantic AI](tutorials/pydantic-ai-tutorial/))* |
 | **[Langfuse](tutorials/langfuse-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Observability, Monitoring | LLM application monitoring & analytics |
 | **[Letta](tutorials/letta-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, AI Memory, Stateful Agents | Stateful AI agent development |
 | **[Llama.cpp](tutorials/llama-cpp-tutorial/)** | 12-15 hrs | 🟡 Intermediate | C++, GGUF, Local Inference | High-performance local LLM inference |
@@ -129,22 +141,22 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 Start with our beginner-friendly tutorials and work your way up:
 
 1. **[Dify Platform](tutorials/dify-platform-deep-dive/)** (4-6 hrs) - Learn LLM application patterns
-2. **[Ollama Tutorial](tutorials/ollama-tutorial/)** (8-10 hrs) - Local LLM deployment
+2. **[Ollama Tutorial](tutorials/ollama-tutorial/)** (8-10 hrs) - Local LLM deployment *(prerequisite for [Open WebUI](tutorials/open-webui-tutorial/))*
 3. **[NocoDB Platform](tutorials/nocodb-database-platform/)** (6-8 hrs) - Database abstraction concepts
 4. **[Obsidian Plugin](tutorials/obsidian-outliner-plugin/)** (6-8 hrs) - Plugin architecture basics
 
 ### 🎨 Frontend Developer Path
 Master modern frontend architectures:
 
-1. **[LobeChat Platform](tutorials/lobechat-ai-platform/)** - Next.js + AI integration
+1. **[LobeChat Platform](tutorials/lobechat-ai-platform/)** - Next.js + AI integration *(see also: [Vercel AI](tutorials/vercel-ai-tutorial/))*
 2. **[Flowise Orchestration](tutorials/flowise-llm-orchestration/)** - React + Node.js workflows
-3. **[Teable Platform](tutorials/teable-database-platform/)** - Advanced React patterns
+3. **[Teable Platform](tutorials/teable-database-platform/)** - Advanced React patterns *(see also: [CopilotKit](tutorials/copilotkit-tutorial/))*
 
 ### 🗄️ Backend Developer Path
 Deep-dive into data and system design:
 
-1. **[Supabase Tutorial](tutorials/supabase-tutorial/)** - Full-stack development with real-time databases
-2. **[Athens Research](tutorials/athens-research-knowledge-graph/)** - Graph databases
+1. **[Supabase Tutorial](tutorials/supabase-tutorial/)** - Full-stack development with real-time databases *(see also: [PostHog](tutorials/posthog-tutorial/))*
+2. **[Athens Research](tutorials/athens-research-knowledge-graph/)** - Graph databases *(see also: [Logseq](tutorials/logseq-knowledge-management/))*
 3. **[Teable Platform](tutorials/teable-database-platform/)** - Multi-dimensional data
 4. **[Codex Analysis](tutorials/codex-analysis-platform/)** - Language processing
 
@@ -155,6 +167,31 @@ For experienced developers seeking mastery:
 2. **[Logseq Knowledge](tutorials/logseq-knowledge-management/)** (18-22 hrs) - Local-first architecture
 3. **[Codex Analysis](tutorials/codex-analysis-platform/)** (12-15 hrs) - Compiler theory application
 4. **[Teable Platform](tutorials/teable-database-platform/)** (12-15 hrs) - Production scaling patterns
+
+## 📈 Learning Progressions
+
+### 🔄 AI Agent Development Path
+Master the full AI agent development lifecycle:
+
+**Foundation** → **[Ollama](tutorials/ollama-tutorial/)** *(Local LLM setup)*
+**Core Frameworks** → **[LangChain](tutorials/langchain-tutorial/)** → **[AutoGen](tutorials/autogen-tutorial/)** → **[CrewAI](tutorials/crewai-tutorial/)**
+**Specialization** → **[LangGraph](tutorials/langgraph-tutorial/)** *(State machines)* → **[Phidata](tutorials/phidata-tutorial/)** *(Memory systems)*
+**Production** → **[Langfuse](tutorials/langfuse-tutorial/)** *(Observability)* → **[AG2](tutorials/ag2-tutorial/)** *(Enterprise deployment)*
+
+### 🗄️ Database & Data Engineering Path
+From basics to advanced data systems:
+
+**Foundation** → **[NocoDB](tutorials/nocodb-database-platform/)** *(Database abstraction)*
+**Graph Databases** → **[Athens Research](tutorials/athens-research-knowledge-graph/)** → **[Logseq](tutorials/logseq-knowledge-management/)**
+**Real-time Systems** → **[Supabase](tutorials/supabase-tutorial/)** → **[Teable](tutorials/teable-database-platform/)**
+**Analytics** → **[PostHog](tutorials/posthog-tutorial/)** *(Product analytics)*
+
+### 🔧 Developer Tools & Productivity Path
+Enhance your development workflow:
+
+**AI Coding** → **[Continue](tutorials/continue-tutorial/)** → **[CopilotKit](tutorials/copilotkit-tutorial/)** → **[OpenHands](tutorials/openhands-tutorial/)**
+**Monorepos** → **[Turborepo](tutorials/turborepo-tutorial/)** *(Build optimization)*
+**Documentation** → **[Taskade](tutorials/taskade-tutorial/)** *(Project management)*
 
 ---
 
@@ -175,6 +212,15 @@ We've **planned 27 new AI agent and LLM tutorials** bringing our total listed to
 - **Enhancements**: Add deeper testing, safety, and evaluation patterns across tutorials
 
 **📈 Next Phase:** Complete remaining tutorials and add advanced RAG frameworks, multi-modal AI, and enterprise agent patterns
+
+## 🗂️ Quick Access by Category
+
+| Category | Featured Tutorials | Total Available |
+|:---------|:-------------------|:---------------:|
+| **🤖 [AI & ML Platforms](categories/ai-ml-platforms.md)** | [Dify](tutorials/dify-platform-deep-dive/), [LangChain](tutorials/langchain-tutorial/), [Ollama](tutorials/ollama-tutorial/) | 55+ |
+| **⚙️ [Systems Programming](categories/systems-programming.md)** | [Kubernetes Operators](tutorials/kubernetes-operator-patterns/), [Whisper.cpp](tutorials/whisper-cpp-tutorial/) | 3+ |
+| **🗄️ [Databases & Storage](categories/databases-storage.md)** | [NocoDB](tutorials/nocodb-database-platform/), [Athens](tutorials/athens-research-knowledge-graph/), [Teable](tutorials/teable-database-platform/) | 6+ |
+| **🌐 [Web Frameworks](categories/web-frameworks.md)** | [LobeChat](tutorials/lobechat-ai-platform/), [Teable](tutorials/teable-database-platform/) | 2+ |
 
 **[📋 Browse all tutorials →](tutorials/)**
 
