@@ -95,6 +95,7 @@ flowchart TD
 6. **[Chapter 6: Group Chat](06-group-chat.md)** - Multi-agent collaboration and speaker selection
 7. **[Chapter 7: Advanced Patterns](07-advanced-patterns.md)** - Nested chats, caching, and optimization
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling, monitoring, and best practices
+9. **[Chapter 9: Enterprise Operations](09-enterprise-operations.md)** - Governance, evals, safety, and cost/perf tuning
 
 ## What You'll Learn
 
