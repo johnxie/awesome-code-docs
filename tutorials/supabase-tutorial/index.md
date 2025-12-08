@@ -7,8 +7,6 @@ has_children: true
 
 # Supabase Tutorial: Building Modern Backend Applications
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-
 Supabase<sup>[View Repo](https://github.com/supabase/supabase)</sup> is an open-source Firebase alternative that provides a complete backend-as-a-service platform with PostgreSQL database, real-time subscriptions, authentication, storage, and edge functions. It combines the power of enterprise-grade databases with the simplicity of modern development workflows.
 
 Supabase transforms how developers build applications by providing a complete backend infrastructure that scales automatically while maintaining full control and customization capabilities.
