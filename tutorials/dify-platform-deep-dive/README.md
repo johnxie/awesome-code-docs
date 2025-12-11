@@ -32,16 +32,15 @@ By the end of this tutorial, you'll be able to:
 1. **[Setup & Environment](docs/setup.md)** - Development environment setup
 2. **[Simple Workflow Example](docs/examples/simple-workflow.py)** - Basic Dify workflow implementation
 
-### Tutorial Content (Coming Soon)
-This tutorial is currently being developed. The following sections will be added:
+### Tutorial Content
 
-- **System Overview** - Dify's place in the LLM ecosystem
-- **Core Architecture** - Components and data flow
-- **Workflow Engine** - Node system and orchestration
-- **RAG Implementation** - Document processing and retrieval  
-- **Agent Framework** - Tool calling and reasoning loops
-- **Custom Nodes** - Extending workflow capabilities
-- **Production Deployment** - Docker, scaling, and monitoring
+1. **[System Overview](docs/01-system-overview.md)** - Dify's place in the LLM ecosystem
+2. **[Core Architecture](docs/02-core-architecture.md)** - Components and data flow
+3. **[Workflow Engine](docs/03-workflow-engine.md)** - Node system and orchestration
+4. **[RAG Implementation](docs/04-rag-implementation.md)** - Document processing and retrieval
+5. **[Agent Framework](docs/05-agent-framework.md)** - Tool calling and reasoning loops
+6. **[Custom Nodes](docs/06-custom-nodes.md)** - Extending workflow capabilities
+7. **[Production Deployment](docs/07-production-deployment.md)** - Docker, scaling, and monitoring
 
 ## 🔧 Setup Instructions
 
