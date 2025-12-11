@@ -4,7 +4,7 @@
 
 **Transform complex systems into accessible learning experiences**
 
-*9 comprehensive tutorials • 100+ hours of expert content • Production-grade examples*
+*79 tutorials • 57 ready-to-use • 14 in progress • 8 placeholders*
 
 </div>
 
