@@ -4,7 +4,7 @@
 
 **Transform complex systems into accessible learning experiences**
 
-*79 tutorials • 58 ready-to-use • 13 in progress • 8 placeholders*
+*79 tutorials • 60 ready-to-use • 11 in progress • 8 placeholders*
 
 </div>
 
