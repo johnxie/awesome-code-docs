@@ -39,6 +39,12 @@ Complete guide to Dify's LLM application platform with 100+ code examples.
 | **[Smolagents](../tutorials/smolagents-tutorial/)** | 📝 Planned | Hugging Face's lightweight agents | Code execution, tool calling |
 | **[CopilotKit](../tutorials/copilotkit-tutorial/)** | 📝 Planned | In-app AI copilots for React | Generative UI, LangGraph integration |
 
+### MCP Server Implementation
+
+| Tutorial | Status | Description | Key Concepts |
+|:---------|:-------|:------------|:-------------|
+| **[n8n-MCP Tutorial](../tutorials/n8n-mcp-tutorial/)** | ✅ Complete | Production-grade MCP servers bridging AI assistants with workflow automation | MCP protocol, multi-tenant architecture, session management, SQLite FTS5 |
+
 ### LLM Development & Infrastructure
 
 | Tutorial | Status | Description | Key Concepts |
