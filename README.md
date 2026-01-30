@@ -12,7 +12,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
 [![Complete Tutorials](https://img.shields.io/badge/complete%20tutorials-50+-brightgreen.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
-[![Total Listed](https://img.shields.io/badge/total%20listed-79-blue.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
+[![Total Listed](https://img.shields.io/badge/total%20listed-80-blue.svg)](https://github.com/johnxie/awesome-code-docs/tree/main/tutorials)
 [![Target Hours](https://img.shields.io/badge/target-1000%2B%20hours-orange.svg)](#-complete-tutorial-collection)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -114,6 +114,7 @@ Unlike typical documentation that shows you *what* to do, our tutorials reveal *
 | **[Turborepo Tutorial](tutorials/turborepo-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Rust, JavaScript, TypeScript | High-performance monorepo build system |
 | **[OpenHands Tutorial](tutorials/openhands-tutorial/)** | 12-15 hrs | 🟡 Intermediate | Python, AI Agents, Code Generation | AI software engineering agent |
 | **[Aider Tutorial](tutorials/aider-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Git, AI Pair Programming | AI pair programming in terminal |
+| **[Nanocoder Tutorial](tutorials/nanocoder-tutorial/)** | 10-12 hrs | 🟡 Intermediate | TypeScript, AI Agents, Tool Calling | AI coding agent internals and architecture |
 | **[Langfuse Tutorial](tutorials/langfuse-tutorial/)** | 10-12 hrs | 🟡 Intermediate | Python, Observability, Analytics | LLM observability and tracing |
 | **[Kubernetes Operators](tutorials/kubernetes-operator-patterns/)** | 12-15 hrs | 🔴 Expert | Go, Kubernetes, Controllers | Production-grade K8s operators |
 
@@ -189,7 +190,7 @@ From basics to advanced data systems:
 ### 🔧 Developer Tools & Productivity Path
 Enhance your development workflow:
 
-**AI Coding** → **[Continue](tutorials/continue-tutorial/)** → **[CopilotKit](tutorials/copilotkit-tutorial/)** → **[OpenHands](tutorials/openhands-tutorial/)**
+**AI Coding** → **[Continue](tutorials/continue-tutorial/)** → **[Nanocoder](tutorials/nanocoder-tutorial/)** → **[CopilotKit](tutorials/copilotkit-tutorial/)** → **[OpenHands](tutorials/openhands-tutorial/)**
 **Monorepos** → **[Turborepo](tutorials/turborepo-tutorial/)** *(Build optimization)*
 **Documentation** → **[Taskade](tutorials/taskade-tutorial/)** *(Project management)*
 
@@ -197,7 +198,7 @@ Enhance your development workflow:
 
 ## 📈 December 2025 Expansion - AI Agents Initiative
 
-We've **planned 27 new AI agent and LLM tutorials** bringing our total listed to **79 tutorials** targeting **1000+ hours** of expert-level content!
+We've **planned 27 new AI agent and LLM tutorials** bringing our total listed to **80 tutorials** targeting **1000+ hours** of expert-level content!
 
 | Category | Tutorials Planned | Current Status | Impact |
 |:---------|:-----------------|:---------------|:-------|
