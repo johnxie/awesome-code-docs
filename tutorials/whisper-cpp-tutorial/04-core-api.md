@@ -764,4 +764,4 @@ int main(int argc, char * argv[]) {
 
 ---
 
-**Ready for performance optimization?** Continue to [Chapter 5: Performance Optimization](05-performance-optimization.md)
+**Ready for real-time streaming?** Continue to [Chapter 5: Real-Time Streaming](05-real-time-streaming.md)

@@ -43,10 +43,10 @@ Welcome to your journey through Whisper.cpp! This tutorial takes you from basic 
 2. **[Chapter 2: Audio Processing Fundamentals](02-audio-processing.md)** - Understanding audio formats, sampling, and preprocessing
 3. **[Chapter 3: Model Architecture & GGML](03-model-architecture.md)** - How Whisper works and the GGML tensor library
 4. **[Chapter 4: Core API & Usage Patterns](04-core-api.md)** - Main API functions and common usage patterns
-5. **[Chapter 5: Performance Optimization](05-performance-optimization.md)** - Memory usage, quantization, and speed improvements
-6. **[Chapter 6: Custom Applications](06-custom-applications.md)** - Building real-world applications and integrations
-7. **[Chapter 7: Advanced Features](07-advanced-features.md)** - Multi-language support, streaming, and custom models
-8. **[Chapter 8: Deployment & Production](08-deployment-production.md)** - Cross-platform deployment and production considerations
+5. **[Chapter 5: Real-Time Streaming](05-real-time-streaming.md)** - Stream processing, VAD, real-time transcription, and microphone input
+6. **[Chapter 6: Language & Translation](06-language-translation.md)** - Multi-language support, translation mode, language detection, and diarization
+7. **[Chapter 7: Platform Integration](07-platform-integration.md)** - iOS/Android/WebAssembly bindings, Python/Node.js wrappers
+8. **[Chapter 8: Production Deployment](08-deployment-production.md)** - Server mode, batch processing, GPU acceleration, and scaling patterns
 
 ## What You'll Learn
 
