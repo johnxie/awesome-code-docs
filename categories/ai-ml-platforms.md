@@ -61,6 +61,7 @@ Complete guide to Dify's LLM application platform with 100+ code examples.
 
 | Tutorial | Status | Description | Key Concepts |
 |:---------|:-------|:------------|:-------------|
+| **[Nanocoder](../tutorials/nanocoder-tutorial/)** | ✅ Complete | Local-first AI coding agent deep dive | Agent loop, tool calling, multi-provider, building your own |
 | **[OpenHands](../tutorials/openhands-tutorial/)** | 📝 Planned | AI software engineering agent | Code generation, web browsing, execution |
 | **[Aider](../tutorials/aider-tutorial/)** | 📝 Planned | AI pair programming in terminal | Git integration, multi-file editing |
 | **[Browser Use](../tutorials/browser-use-tutorial/)** | 📝 Planned | AI web automation | Vision + DOM, form filling, scraping |
