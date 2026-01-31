@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 5: Channel Integrations"
+parent: "Botpress Tutorial"
+nav_order: 5
+---
+
 # Chapter 5: Channel Integrations
 
 This chapter covers connecting your Botpress bots to various messaging platforms and channels, enabling omnichannel communication.

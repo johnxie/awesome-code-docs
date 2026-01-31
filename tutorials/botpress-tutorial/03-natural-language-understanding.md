@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 3: Natural Language Understanding"
+parent: "Botpress Tutorial"
+nav_order: 3
+---
+
 # Chapter 3: Natural Language Understanding
 
 This chapter explores Botpress's Natural Language Understanding (NLU) capabilities, teaching you how to train intents, extract entities, and build intelligent conversational experiences.

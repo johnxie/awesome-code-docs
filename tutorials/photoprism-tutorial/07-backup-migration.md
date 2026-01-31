@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 7: Backup & Migration"
+parent: "PhotoPrism Tutorial"
+nav_order: 7
+---
+
 # Chapter 7: Backup & Migration
 
 This chapter covers backup strategies, data migration, and disaster recovery for PhotoPrism installations.

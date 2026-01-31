@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 8: Production Deployment"
+parent: "Botpress Tutorial"
+nav_order: 8
+---
+
 # Chapter 8: Production Deployment
 
 This final chapter covers deploying Botpress bots to production environments, including scaling, security, monitoring, and maintenance strategies.

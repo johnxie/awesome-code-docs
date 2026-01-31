@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 2: Visual Flow Builder"
+parent: "Botpress Tutorial"
+nav_order: 2
+---
+
 # Chapter 2: Visual Flow Builder
 
 This chapter dives into Botpress's visual flow builder, teaching you how to design complex conversation flows with branching logic, user choices, and conditional routing.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 6: API Integration"
+parent: "PhotoPrism Tutorial"
+nav_order: 6
+---
+
 # Chapter 6: API Integration
 
 This chapter covers using PhotoPrism's REST API for automation, integration with other services, and custom applications.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 5: Filtering & Facets"
+parent: "MeiliSearch Tutorial"
+nav_order: 5
+---
+
 # Chapter 5: Filtering & Facets
 
 This chapter covers advanced filtering capabilities and faceted search in Meilisearch, enabling powerful query refinement and analytics.

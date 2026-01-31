@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 7: Analytics & Monitoring"
+parent: "Botpress Tutorial"
+nav_order: 7
+---
+
 # Chapter 7: Analytics & Monitoring
 
 This chapter covers analytics, monitoring, and performance tracking for Botpress bots to ensure optimal operation and continuous improvement.

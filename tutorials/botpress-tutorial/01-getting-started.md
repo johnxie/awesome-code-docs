@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 1: Getting Started with Botpress"
+parent: "Botpress Tutorial"
+nav_order: 1
+---
+
 # Chapter 1: Getting Started with Botpress
 
 Welcome to Botpress! In this chapter, we'll install Botpress, set up our development environment, and create our first chatbot.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 1: Getting Started with Meilisearch"
+parent: "MeiliSearch Tutorial"
+nav_order: 1
+---
+
 # Chapter 1: Getting Started with Meilisearch
 
 Welcome to your Meilisearch journey! In this chapter, we'll get Meilisearch up and running and perform your first searches.

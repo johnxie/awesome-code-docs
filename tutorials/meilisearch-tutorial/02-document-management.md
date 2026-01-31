@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 2: Document Management"
+parent: "MeiliSearch Tutorial"
+nav_order: 2
+---
+
 # Chapter 2: Document Management
 
 In this chapter, we'll explore how to effectively manage documents in Meilisearch - adding, updating, deleting, and batch operations.
