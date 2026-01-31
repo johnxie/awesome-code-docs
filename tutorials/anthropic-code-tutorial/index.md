@@ -9,6 +9,11 @@ has_children: true
 
 > Master the Anthropic API and SDKs to build powerful AI applications with Claude.
 
+[![Stars](https://img.shields.io/github/stars/anthropics/anthropic-sdk-python?style=social)](https://github.com/anthropics/anthropic-sdk-python)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/anthropics/anthropic-sdk-python)
+
+
 <div align="center">
 
 **Build Production AI Applications with Claude**

@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/langchain-ai/langgraph?style=social)](https://github.com/langchain-ai/langgraph)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/langchain-ai/langgraph)
+
+
 LangGraph<sup>[View Repo](https://github.com/langchain-ai/langgraph)</sup> is a library for building stateful, multi-actor applications with large language models (LLMs). It extends LangChain to provide fine-grained control over both the flow and state of your applications, making it ideal for building complex AI workflows and agent systems.
 
 LangGraph enables developers to create sophisticated applications with multiple interacting components, persistent state management, and complex control flows that go beyond simple sequential chains.

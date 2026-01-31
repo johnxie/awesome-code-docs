@@ -7,6 +7,11 @@ has_children: true
 
 # Quivr Tutorial: Open-Source RAG Framework for Document Ingestion
 
+[![Stars](https://img.shields.io/github/stars/QuivrHQ/quivr?style=social)](https://github.com/QuivrHQ/quivr)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/QuivrHQ/quivr)
+
+
 Quivr<sup>[View Repo](https://github.com/QuivrHQ/quivr)</sup> is an open-source RAG (Retrieval-Augmented Generation) framework designed for seamless document ingestion and intelligent question answering. It provides a user-friendly interface for uploading documents, processing them with advanced AI models, and generating accurate responses based on the document content.
 
 Quivr combines the power of vector databases, large language models, and modern web technologies to create a comprehensive platform for document-based AI interactions.

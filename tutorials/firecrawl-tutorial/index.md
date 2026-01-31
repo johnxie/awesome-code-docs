@@ -7,6 +7,11 @@ has_children: true
 
 # Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems
 
+[![Stars](https://img.shields.io/github/stars/mendableai/firecrawl?style=social)](https://github.com/mendableai/firecrawl)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/mendableai/firecrawl)
+
+
 Firecrawl<sup>[View Repo](https://github.com/firecrawl/firecrawl)</sup> is a powerful web scraping and data extraction platform specifically designed for Large Language Models. It provides clean, structured data extraction from websites, making it easy to build RAG systems, content analysis tools, and AI-powered applications that need access to web content.
 
 Firecrawl handles the complexity of web scraping - dealing with JavaScript rendering, anti-bot measures, and data cleaning - so you can focus on building amazing AI applications.

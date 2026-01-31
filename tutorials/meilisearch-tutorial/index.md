@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/meilisearch/meilisearch?style=social)](https://github.com/meilisearch/meilisearch)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/Rust-blue)](https://github.com/meilisearch/meilisearch)
+
+
 MeiliSearch<sup>[View Repo](https://github.com/meilisearch/meilisearch)</sup> is a powerful, fast, open-source search engine written in Rust. It provides instant search results with typo-tolerance, faceted search, and supports 80+ languages, making it perfect for modern applications requiring sophisticated search capabilities.
 
 <p align="center">

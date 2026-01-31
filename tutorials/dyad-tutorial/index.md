@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/dyad-sh/dyad?style=social)](https://github.com/dyad-sh/dyad)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/dyad-sh/dyad)
+
+
 Dyad<sup>[View Repo](https://github.com/dyad-sh/dyad)</sup> is a free, local, open-source AI app builder that enables developers to create applications using natural language prompts. It provides an intuitive interface for building AI-powered applications without extensive coding knowledge.
 
 Dyad allows users to describe their app requirements in plain English and generates the corresponding code, making app development accessible to non-technical users while maintaining the power and flexibility needed by developers.

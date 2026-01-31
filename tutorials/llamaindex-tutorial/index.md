@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/run-llama/llama_index?style=social)](https://github.com/run-llama/llama_index)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/run-llama/llama_index)
+
+
 LlamaIndex<sup>[View Repo](https://github.com/run-llama/llama_index)</sup> (formerly GPT Index) is a comprehensive data framework for connecting Large Language Models (LLMs) with external data sources. It provides powerful tools for ingestion, indexing, querying, and deployment of RAG (Retrieval-Augmented Generation) systems with enterprise-grade performance and reliability.
 
 LlamaIndex enables you to build sophisticated AI applications that can reason over private data, maintain context across conversations, and provide accurate, up-to-date responses based on your specific knowledge base.

@@ -9,6 +9,11 @@ has_children: true
 
 > Master Anthropic's agentic coding tool that lives in your terminal.
 
+[![Stars](https://img.shields.io/github/stars/anthropics/claude-code?style=social)](https://github.com/anthropics/claude-code)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/anthropics/claude-code)
+
+
 <div align="center">
 
 **🖥️ Claude That Codes With You**

@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/continuedev/continue?style=social)](https://github.com/continuedev/continue)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/continuedev/continue)
+
+
 Continue<sup>[View Repo](https://github.com/continuedev/continue)</sup> is an open-source autopilot for software development that provides AI-powered coding assistance. It offers a customizable, self-hosted alternative to commercial AI coding tools, with support for multiple AI models, extensive customization options, and seamless integration with popular development environments.
 
 Continue transforms how developers work by providing intelligent code completion, refactoring suggestions, documentation generation, and debugging assistance through a flexible, extensible architecture.

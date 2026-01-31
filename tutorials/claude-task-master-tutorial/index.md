@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/eyaltoledano/claude-task-master?style=social)](https://github.com/eyaltoledano/claude-task-master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![JavaScript](https://img.shields.io/badge/JavaScript-blue)](https://github.com/eyaltoledano/claude-task-master)
+
+
 Claude Task Master<sup>[View Repo](https://github.com/eyaltoledano/claude-task-master)</sup> is an AI-powered task-management system designed specifically for developers. It integrates seamlessly with popular editors like Cursor, Windsurf, and Roo Code, providing intelligent project planning, task breakdown, and progress tracking powered by advanced AI models.
 
 Task Master transforms how developers approach complex projects by using AI to analyze requirements, create detailed task plans, and maintain focus throughout the development process.

@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/open-webui/open-webui?style=social)](https://github.com/open-webui/open-webui)
+[![License: BSD](https://img.shields.io/badge/License-BSD--3-green.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/open-webui/open-webui)
+
+
 Open WebUI<sup>[View Repo](https://github.com/open-webui/open-webui)</sup> is a powerful, self-hosted web interface for Large Language Models. It provides a ChatGPT-like experience while giving you full control over your data and models.
 
 ## Tutorial Chapters

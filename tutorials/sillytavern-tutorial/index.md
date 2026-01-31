@@ -9,6 +9,11 @@ has_children: true
 
 > Unlock the full potential of large language models with SillyTavern's comprehensive interface for role-playing, creative writing, and AI experimentation.
 
+[![Stars](https://img.shields.io/github/stars/SillyTavern/SillyTavern?style=social)](https://github.com/SillyTavern/SillyTavern)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![JavaScript](https://img.shields.io/badge/JavaScript-blue)](https://github.com/SillyTavern/SillyTavern)
+
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/SillyTavern/SillyTavern/main/public/img/logo.png" alt="SillyTavern Logo" width="200"/>
 </div>

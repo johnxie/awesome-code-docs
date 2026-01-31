@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/ClickHouse/ClickHouse?style=social)](https://github.com/ClickHouse/ClickHouse)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![C++](https://img.shields.io/badge/C%2B%2B-blue)](https://github.com/ClickHouse/ClickHouse)
+
+
 ClickHouse<sup>[View Repo](https://github.com/ClickHouse/ClickHouse)</sup> is an open-source column-oriented database management system designed for online analytical processing (OLAP) workloads. It excels at processing massive amounts of data with lightning-fast query performance, making it ideal for real-time analytics, log analysis, and time-series data.
 
 ClickHouse provides unparalleled performance for analytical queries while maintaining simplicity in deployment and management, making it a go-to solution for modern data analytics platforms.

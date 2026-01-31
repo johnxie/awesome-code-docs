@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/TransformerOptimus/SuperAGI?style=social)](https://github.com/TransformerOptimus/SuperAGI)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/TransformerOptimus/SuperAGI)
+
+
 SuperAGI<sup>[View Repo](https://github.com/TransformerOptimus/SuperAGI)</sup> is a production-ready autonomous AI agent framework that enables developers to build sophisticated AI agents capable of performing complex tasks independently. It provides a comprehensive platform for creating, deploying, and managing autonomous agents with advanced reasoning, tool integration, and self-improvement capabilities.
 
 SuperAGI combines the power of large language models with practical agent architectures, enabling agents to plan, execute, and learn from their experiences in real-world applications.

@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/siyuan-note/siyuan?style=social)](https://github.com/siyuan-note/siyuan)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/siyuan-note/siyuan)
+
+
 SiYuan<sup>[View Repo](https://github.com/siyuan-note/siyuan)</sup> is a privacy-first personal knowledge management system that focuses on building a completely self-hosted, local-first knowledge base. Unlike cloud-based solutions, SiYuan gives you full control over your data while providing powerful features for organizing and connecting your thoughts.
 
 SiYuan combines the best of note-taking apps with advanced features like block-based editing, bi-directional linking, and powerful query capabilities. It's designed for serious knowledge workers who value privacy and data ownership.

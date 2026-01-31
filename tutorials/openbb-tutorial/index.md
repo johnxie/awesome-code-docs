@@ -9,6 +9,11 @@ has_children: true
 
 > Democratize investment research with OpenBB's comprehensive financial data and analysis platform.
 
+[![Stars](https://img.shields.io/github/stars/OpenBB-finance/OpenBB?style=social)](https://github.com/OpenBB-finance/OpenBB)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/OpenBB-finance/OpenBB)
+
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/OpenBB-finance/OpenBB/main/assets/logo.png" alt="OpenBB Logo" width="200"/>
 </div>

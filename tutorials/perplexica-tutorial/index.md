@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/ItzCrazyKns/Perplexica?style=social)](https://github.com/ItzCrazyKns/Perplexica)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/ItzCrazyKns/Perplexica)
+
+
 Perplexica<sup>[View Repo](https://github.com/ItzCrazyKns/Perplexica)</sup> is an AI-powered search engine and open-source alternative to Perplexity AI. It provides intelligent search capabilities with natural language processing, web scraping, and AI-driven result analysis.
 
 Perplexica combines the power of large language models with web search capabilities to provide comprehensive, contextual answers to complex queries, making it an excellent tool for research and information discovery.
