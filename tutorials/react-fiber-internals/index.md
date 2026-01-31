@@ -54,6 +54,21 @@ This tutorial provides a comprehensive exploration of React Fiber, the reimpleme
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+```mermaid
+graph TB
+    JSX[JSX / createElement] --> ELEMENTS[React Elements]
+    ELEMENTS --> FIBER[Fiber Tree]
+    FIBER --> RENDER[Render Phase]
+    RENDER --> WIP[Work-in-Progress Tree]
+    WIP --> DIFF[Reconciliation / Diff]
+    DIFF --> EFFECTS[Effect List]
+    EFFECTS --> COMMIT[Commit Phase]
+    COMMIT --> DOM[DOM Updates]
+
+    SCHEDULER[Scheduler] --> RENDER
+    LANES[Priority Lanes] --> SCHEDULER
+```
+
 ## Prerequisites
 
 - Solid understanding of React fundamentals

@@ -40,6 +40,19 @@ This tutorial provides an in-depth exploration of PostgreSQL's query planner and
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+```mermaid
+graph LR
+    SQL[SQL Query] --> PARSER[Parser]
+    PARSER --> REWRITER[Rewriter]
+    REWRITER --> PLANNER[Planner]
+    PLANNER --> EXECUTOR[Executor]
+    EXECUTOR --> RESULTS[Results]
+
+    PLANNER --> STATS[(pg_statistics)]
+    PLANNER --> COST[Cost Model]
+    STATS --> COST
+```
+
 ## Prerequisites
 
 - Basic SQL knowledge
