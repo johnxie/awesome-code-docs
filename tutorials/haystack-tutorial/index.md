@@ -5,90 +5,96 @@ nav_order: 23
 has_children: true
 ---
 
-# Haystack Tutorial: Building Intelligent Search Systems
+# Haystack: Deep Dive Tutorial
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> **Project**: [Haystack](https://github.com/deepset-ai/haystack) — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
 
-Haystack<sup>[View Repo](https://github.com/deepset-ai/haystack)</sup> is an open-source framework for building search systems that work intelligently over large document collections. It enables developers to create production-ready applications with advanced NLP capabilities, including question answering, document search, and information retrieval.
+[![Stars](https://img.shields.io/github/stars/deepset-ai/haystack?style=social)](https://github.com/deepset-ai/haystack)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-3.9+-blue)](https://github.com/deepset-ai/haystack)
 
-Haystack provides a modular architecture that combines the best of retrieval-augmented generation (RAG) with powerful search capabilities, making it easy to build sophisticated AI-powered search applications.
+## What Is Haystack?
+
+Haystack is an open-source LLM framework by deepset for building composable AI pipelines. It provides a modular, component-based architecture that combines retrieval, generation, and evaluation into production-ready workflows. Haystack supports dozens of LLM providers, vector databases, and retrieval strategies out of the box.
+
+| Feature | Description |
+|---------|-------------|
+| **Pipeline System** | Directed graph of components with typed inputs/outputs and automatic validation |
+| **RAG** | First-class retrieval-augmented generation with hybrid search (BM25 + embedding) |
+| **Multi-Provider** | OpenAI, Anthropic, Cohere, Google, Hugging Face, Ollama, and more |
+| **Document Stores** | In-memory, Elasticsearch, OpenSearch, Pinecone, Qdrant, Weaviate, Chroma, pgvector |
+| **Evaluation** | Built-in metrics (MRR, MAP, NDCG) and LLM-based evaluation components |
+| **Custom Components** | `@component` decorator for building reusable pipeline nodes with typed I/O |
+
+## Architecture Overview
 
 ```mermaid
-flowchart TD
-    A[Documents] --> B[Document Store]
-    B --> C[Retrievers]
-    C --> D[Generators]
-    D --> E[Search Results]
+graph TB
+    subgraph Ingestion["Ingestion Pipeline"]
+        FILES[File Converters]
+        SPLIT[Document Splitter]
+        EMBED_D[Document Embedder]
+        WRITER[Document Writer]
+    end
 
-    A --> F[Preprocessors]
-    F --> G[Embeddings]
-    G --> B
+    subgraph Store["Document Stores"]
+        MEM[In-Memory]
+        ES[Elasticsearch]
+        PG[pgvector]
+        VEC[Pinecone / Qdrant / Weaviate]
+    end
 
-    C --> H[Rankers]
-    H --> I[Filters]
-    I --> E
+    subgraph Query["Query Pipeline"]
+        EMBED_Q[Query Embedder]
+        BM25[BM25 Retriever]
+        EMB_RET[Embedding Retriever]
+        JOINER[Document Joiner]
+        RANKER[Ranker]
+        PROMPT[Prompt Builder]
+        GEN[Generator / LLM]
+    end
 
-    classDef input fill:#e1f5fe,stroke:#01579b
-    classDef processing fill:#f3e5f5,stroke:#4a148c
-    classDef output fill:#e8f5e8,stroke:#1b5e20
+    FILES --> SPLIT --> EMBED_D --> WRITER
+    WRITER --> Store
 
-    class A,F input
-    class B,C,D,G,H,I processing
-    class E output
+    Store --> BM25
+    Store --> EMB_RET
+    EMBED_Q --> EMB_RET
+    BM25 --> JOINER
+    EMB_RET --> JOINER
+    JOINER --> RANKER --> PROMPT --> GEN
 ```
 
-## Tutorial Chapters
+## Tutorial Structure
 
-Welcome to your journey through intelligent search systems! This tutorial explores how to build powerful search applications with Haystack.
+| Chapter | Topic | What You'll Learn |
+|---------|-------|-------------------|
+| [1. Getting Started](01-getting-started.md) | Setup | Installation, first RAG pipeline, architecture overview |
+| [2. Document Stores](02-document-stores.md) | Storage | Store backends, indexing, preprocessing, multi-store patterns |
+| [3. Retrievers & Search](03-retrievers-search.md) | Retrieval | BM25, embedding, hybrid search, filtering, re-ranking |
+| [4. Generators & LLMs](04-generators-llms.md) | Generation | Multi-provider LLMs, prompt engineering, streaming, chat |
+| [5. Pipelines & Workflows](05-pipelines-workflows.md) | Composition | Pipeline graph, branching, loops, serialization, async |
+| [6. Evaluation & Optimization](06-evaluation-optimization.md) | Quality | Retrieval metrics, LLM evaluation, A/B testing, optimization |
+| [7. Custom Components](07-custom-components.md) | Extensibility | @component decorator, typed I/O, testing, packaging |
+| [8. Production Deployment](08-production-deployment.md) | Operations | REST API, Docker, Kubernetes, monitoring, scaling |
 
-1. **[Chapter 1: Getting Started with Haystack](01-getting-started.md)** - Installation, setup, and your first search pipeline
-2. **[Chapter 2: Document Stores](02-document-stores.md)** - Managing and storing your document collections
-3. **[Chapter 3: Retrievers & Search](03-retrievers-search.md)** - Finding relevant documents efficiently
-4. **[Chapter 4: Generators & LLMs](04-generators-llms.md)** - Integrating language models for answer generation
-5. **[Chapter 5: Pipelines & Workflows](05-pipelines-workflows.md)** - Building complex search workflows
-6. **[Chapter 6: Evaluation & Optimization](06-evaluation-optimization.md)** - Measuring and improving search quality
-7. **[Chapter 7: Custom Components](07-custom-components.md)** - Extending Haystack with custom functionality
-8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling Haystack applications for production
+## Tech Stack
 
-## What You'll Learn
-
-By the end of this tutorial, you'll be able to:
-
-- **Build intelligent search systems** with document retrieval and question answering
-- **Implement RAG pipelines** combining retrieval with generation
-- **Work with various document stores** including vector databases and search engines
-- **Integrate multiple LLMs** for different search and generation tasks
-- **Create custom components** to extend Haystack's functionality
-- **Evaluate and optimize** search system performance
-- **Deploy search applications** at scale with proper monitoring
-- **Handle complex search scenarios** with filtering and ranking
-
-## Prerequisites
-
-- Python 3.8+
-- Basic understanding of NLP concepts
-- Familiarity with vector databases (helpful but not required)
-- Knowledge of REST APIs and web services
-
-## Learning Path
-
-### 🟢 Beginner Track
-Perfect for developers new to search systems:
-1. Chapters 1-2: Setup and basic document management
-2. Focus on understanding Haystack fundamentals
-
-### 🟡 Intermediate Track
-For developers building search applications:
-1. Chapters 3-5: Retrieval, generation, and pipeline construction
-2. Learn to build sophisticated search workflows
-
-### 🔴 Advanced Track
-For production search system development:
-1. Chapters 6-8: Evaluation, customization, and deployment
-2. Master enterprise-grade search applications
+| Component | Technology |
+|-----------|-----------|
+| **Language** | Python 3.9+ |
+| **Pipeline Engine** | Custom directed graph with topological execution |
+| **Serialization** | YAML / JSON pipeline definitions |
+| **Embeddings** | Sentence Transformers, OpenAI, Cohere, Fastembed |
+| **Vector Search** | FAISS, Pinecone, Qdrant, Weaviate, Chroma, pgvector |
+| **Text Search** | Elasticsearch, OpenSearch, BM25 (in-memory) |
+| **LLM Providers** | OpenAI, Anthropic, Google, Cohere, Hugging Face, Ollama |
+| **API Layer** | Hayhooks (FastAPI-based pipeline serving) |
 
 ---
 
-**Ready to build intelligent search systems with Haystack? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
+Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
-*Generated by [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)*
+---
+
+*Built with insights from the [Haystack repository](https://github.com/deepset-ai/haystack) and community documentation.*
