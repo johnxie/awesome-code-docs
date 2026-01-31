@@ -5,62 +5,107 @@ nav_order: 84
 has_children: true
 ---
 
-# Khoj AI - Personal Assistant Deep Dive
+# Khoj AI: Deep Dive Tutorial
 
-Khoj<sup>[View Repo](https://github.com/khoj-ai/khoj)</sup> is an open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data. It provides natural language search and chat across your personal knowledge base, combining semantic search with powerful LLM-backed conversational capabilities to help you retrieve, synthesize, and act on your information.
+> **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
 
-Khoj supports multiple LLM backends (OpenAI, Anthropic, local models via Ollama), integrates with popular note-taking systems like Obsidian, Emacs Org-mode, and Notion, and offers automation through scheduled tasks and autonomous agents.
+[![Stars](https://img.shields.io/github/stars/khoj-ai/khoj?style=social)](https://github.com/khoj-ai/khoj)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Python](https://img.shields.io/badge/Python-Django-green)](https://github.com/khoj-ai/khoj)
+
+## What Is Khoj?
+
+Khoj is an open-source AI personal assistant that transforms your scattered notes, documents, and online data into a searchable, conversational knowledge base. It combines semantic search with LLM-backed chat to help you retrieve, synthesize, and act on your personal information. Khoj can be self-hosted for full data privacy or used via the hosted service.
+
+| Feature | Description |
+|---------|-------------|
+| **Semantic Search** | Symmetric and asymmetric search with cross-encoder re-ranking over personal data |
+| **Multi-Source** | Org-mode, Markdown, PDF, GitHub repos, Notion pages, web content |
+| **LLM Chat** | Conversational AI with context from your knowledge base (OpenAI, Anthropic, Ollama) |
+| **Automation** | Scheduled tasks, autonomous agents, and tool-use for proactive assistance |
+| **Self-Hostable** | Full Docker deployment with PostgreSQL, data stays on your infrastructure |
+| **Client Integrations** | Obsidian plugin, Emacs package, web UI, WhatsApp, and API access |
+
+## Architecture Overview
 
 ```mermaid
-flowchart TD
-    A[Data Sources] --> B[Khoj Server]
-    B --> C[Search Index]
-    B --> D[LLM Backend]
-    C --> E[Semantic Search]
-    D --> F[Chat Interface]
-    E --> G[Results]
-    F --> G
+graph TB
+    subgraph Clients["Client Layer"]
+        WEB[Web UI]
+        OBS[Obsidian Plugin]
+        EMACS[Emacs Package]
+        WHATSAPP[WhatsApp]
+        API_CLIENT[REST API]
+    end
 
-    A --> H[Org-mode Files]
-    A --> I[Markdown Notes]
-    A --> J[PDFs & Documents]
-    A --> K[GitHub Repos]
-    A --> L[Notion Pages]
-    A --> M[Web Content]
+    subgraph Server["Khoj Server (Django)"]
+        API[API Routes]
+        SEARCH[Search Engine]
+        CHAT[Chat Engine]
+        INDEX[Indexer Pipeline]
+        AUTO[Automation Engine]
+    end
 
-    D --> N[OpenAI]
-    D --> O[Anthropic]
-    D --> P[Ollama / Local]
+    subgraph Data["Data Connectors"]
+        ORG[Org-mode]
+        MD[Markdown]
+        PDF[PDF / Docx]
+        GH[GitHub]
+        NOTION[Notion]
+        WEB_SRC[Web Content]
+    end
 
-    B --> Q[Automation Engine]
-    Q --> R[Scheduled Tasks]
-    Q --> S[Autonomous Agents]
+    subgraph Storage["Storage Layer"]
+        PG[(PostgreSQL)]
+        EMBED[(Embeddings)]
+        FILES[(File Store)]
+    end
 
-    classDef sources fill:#e1f5fe,stroke:#01579b
-    classDef core fill:#fff3e0,stroke:#e65100
-    classDef output fill:#e8f5e9,stroke:#1b5e20
-    classDef llm fill:#f3e5f5,stroke:#4a148c
-    classDef automation fill:#fce4ec,stroke:#880e4f
+    subgraph LLM["LLM Providers"]
+        OPENAI[OpenAI]
+        ANTHROPIC[Anthropic]
+        OLLAMA[Ollama / Local]
+    end
 
-    class A,H,I,J,K,L,M sources
-    class B,C,E core
-    class G,F output
-    class D,N,O,P llm
-    class Q,R,S automation
+    Clients --> Server
+    Data --> INDEX
+    INDEX --> Storage
+    SEARCH --> EMBED
+    CHAT --> LLM
+    AUTO --> CHAT
+    SERVER --> Storage
 ```
 
-## Tutorial Chapters
+## Tutorial Structure
 
-Welcome to your comprehensive deep dive into Khoj AI! This tutorial explores how to set up, configure, and extend Khoj as your personal AI assistant, from basic installation through production-grade deployment.
+| Chapter | Topic | What You'll Learn |
+|---------|-------|-------------------|
+| [1. Getting Started](01-getting-started.md) | Setup | Installation, self-hosting, connecting first data sources |
+| [2. Architecture Overview](02-architecture-overview.md) | Design | System components, search indexing, LLM integration pipeline |
+| [3. Data Connectors](03-data-connectors.md) | Ingestion | Org-mode, Markdown, PDF, GitHub, Notion connector internals |
+| [4. Search & Retrieval](04-search-and-retrieval.md) | Search | Symmetric/asymmetric search, embeddings, cross-encoder ranking |
+| [5. Chat Interface](05-chat-interface.md) | Conversation | Context management, conversation threads, tool use, citations |
+| [6. Automation & Agents](06-automation-and-agents.md) | Agents | Scheduled tasks, autonomous actions, tool integration |
+| [7. Customization & Plugins](07-customization-and-plugins.md) | Extensibility | Custom data types, model configuration, extensions |
+| [8. Production Deployment](08-production-deployment.md) | Operations | Docker, scaling, security, monitoring, backup strategies |
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, self-hosting setup, connecting data sources
-2. **[Chapter 2: Architecture Overview](02-architecture-overview.md)** - System design, search indexing, LLM integration pipeline
-3. **[Chapter 3: Data Connectors](03-data-connectors.md)** - Org-mode, Markdown, PDF, GitHub, Notion connectors
-4. **[Chapter 4: Search & Retrieval](04-search-and-retrieval.md)** - Symmetric/asymmetric search, embeddings, indexing pipeline
-5. **[Chapter 5: Chat Interface](05-chat-interface.md)** - Conversational AI, context management, conversation threads
-6. **[Chapter 6: Automation & Agents](06-automation-and-agents.md)** - Scheduled tasks, autonomous actions, tool integration
-7. **[Chapter 7: Customization & Plugins](07-customization-and-plugins.md)** - Custom data types, model configuration, extensions
-8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Docker deployment, scaling, security, monitoring
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| **Backend** | Python, Django |
+| **Database** | PostgreSQL |
+| **Search** | Sentence Transformers embeddings, cross-encoder re-ranking |
+| **LLM Providers** | OpenAI, Anthropic, Google, Ollama (local) |
+| **Frontend** | Next.js (web UI) |
+| **Clients** | Obsidian plugin, Emacs package, WhatsApp bot |
+| **Deployment** | Docker Compose, systemd |
+| **Task Queue** | Django Q / APScheduler for automation |
 
 ---
-*Built with insights from the [Khoj](https://github.com/khoj-ai/khoj) project.*
+
+Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+
+---
+
+*Built with insights from the [Khoj repository](https://github.com/khoj-ai/khoj) and community documentation.*
