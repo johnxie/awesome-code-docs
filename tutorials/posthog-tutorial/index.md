@@ -7,6 +7,11 @@ has_children: true
 
 # PostHog Tutorial: Open Source Product Analytics Platform
 
+[![Stars](https://img.shields.io/github/stars/PostHog/posthog?style=social)](https://github.com/PostHog/posthog)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/PostHog/posthog)
+
+
 PostHog<sup>[View Repo](https://github.com/PostHog/posthog)</sup> is a comprehensive open-source product analytics platform that provides everything you need to understand user behavior, track conversions, and make data-driven product decisions. It combines web analytics, session recordings, feature flags, and A/B testing in a single, privacy-focused platform.
 
 PostHog empowers product teams to build better products by providing deep insights into user behavior without compromising on privacy or data ownership.

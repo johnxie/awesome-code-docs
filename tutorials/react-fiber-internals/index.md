@@ -9,6 +9,11 @@ has_children: true
 
 > Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
 
+[![Stars](https://img.shields.io/github/stars/facebook/react?style=social)](https://github.com/facebook/react)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![JavaScript](https://img.shields.io/badge/JavaScript-blue)](https://github.com/facebook/react)
+
+
 ## What You'll Learn
 
 This tutorial provides a comprehensive exploration of React Fiber, the reimplementation of React's core algorithm introduced in React 16. Understanding Fiber helps you write more performant React applications and debug complex rendering issues.
@@ -52,6 +57,21 @@ This tutorial provides a comprehensive exploration of React Fiber, the reimpleme
 │  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
+```
+
+```mermaid
+graph TB
+    JSX[JSX / createElement] --> ELEMENTS[React Elements]
+    ELEMENTS --> FIBER[Fiber Tree]
+    FIBER --> RENDER[Render Phase]
+    RENDER --> WIP[Work-in-Progress Tree]
+    WIP --> DIFF[Reconciliation / Diff]
+    DIFF --> EFFECTS[Effect List]
+    EFFECTS --> COMMIT[Commit Phase]
+    COMMIT --> DOM[DOM Updates]
+
+    SCHEDULER[Scheduler] --> RENDER
+    LANES[Priority Lanes] --> SCHEDULER
 ```
 
 ## Prerequisites

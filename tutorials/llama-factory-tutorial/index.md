@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/hiyouga/LLaMA-Factory?style=social)](https://github.com/hiyouga/LLaMA-Factory)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/hiyouga/LLaMA-Factory)
+
+
 LLaMA-Factory<sup>[View Repo](https://github.com/hiyouga/LLaMA-Factory)</sup> is a unified framework designed to streamline the entire lifecycle of large language model (LLM) development. It provides an easy-to-use interface for training, fine-tuning, evaluation, and deployment of LLMs, supporting multiple model architectures and training methodologies.
 
 LLaMA-Factory democratizes access to advanced LLM capabilities by providing a unified, user-friendly interface that works across different model architectures and training scenarios.

@@ -7,6 +7,11 @@ has_children: true
 
 # Ollama Tutorial: Running Large Language Models Locally
 
+[![Stars](https://img.shields.io/github/stars/ollama/ollama?style=social)](https://github.com/ollama/ollama)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Go](https://img.shields.io/badge/Go-blue)](https://github.com/ollama/ollama)
+
+
 Ollama<sup>[View Repo](https://github.com/ollama/ollama)</sup> is a powerful platform for running Large Language Models locally on your machine. It provides an easy way to download, run, and manage open-source LLMs with a simple command-line interface and REST API, enabling privacy-preserving AI applications without relying on external API calls.
 
 Ollama supports a wide range of models from different architectures and provides tools for model customization, fine-tuning, and integration with various applications.

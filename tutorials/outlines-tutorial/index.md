@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/dottxt-ai/outlines?style=social)](https://github.com/dottxt-ai/outlines)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/dottxt-ai/outlines)
+
+
 Outlines<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a Python library that allows you to control Large Language Model outputs with structural constraints. Use JSON Schema, regular expressions, context-free grammars, and more to guide model generation.
 
 ## Tutorial Chapters

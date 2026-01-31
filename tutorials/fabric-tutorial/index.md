@@ -9,6 +9,11 @@ has_children: true
 
 > Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.
 
+[![Stars](https://img.shields.io/github/stars/danielmiessler/fabric?style=social)](https://github.com/danielmiessler/fabric)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Go](https://img.shields.io/badge/Go-blue)](https://github.com/danielmiessler/fabric)
+
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/danielmiessler/Fabric/main/images/logo.png" alt="Fabric Logo" width="200"/>
 </div>

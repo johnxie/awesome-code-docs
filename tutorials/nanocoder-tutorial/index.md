@@ -9,6 +9,11 @@ has_children: true
 
 > A deep dive into how local-first AI coding agents work internally, using Nanocoder as a practical reference implementation.
 
+[![Stars](https://img.shields.io/github/stars/Nano-Collective/nanocoder?style=social)](https://github.com/Nano-Collective/nanocoder)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/Nano-Collective/nanocoder)
+
+
 AI coding agents represent a fundamental shift in developer tooling—moving from passive code completion to autonomous code understanding, generation, and execution. Nanocoder is a community-driven, local-first CLI coding agent built in TypeScript that demonstrates the core architectural patterns shared by tools like Aider, Claude Code, and Continue.
 
 This tutorial goes beyond usage guides. You'll learn **how AI coding agents work internally**: the tool-calling architecture, multi-provider abstraction layers, context management strategies, and the agent loop that ties everything together.

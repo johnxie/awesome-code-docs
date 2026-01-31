@@ -82,6 +82,11 @@ graph TB
 
 > **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
 
+[![Stars](https://img.shields.io/github/stars/photoprism/photoprism?style=social)](https://github.com/photoprism/photoprism)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Go](https://img.shields.io/badge/Go-blue)](https://github.com/photoprism/photoprism)
+
+
 **🎨 AI & Integration Breakthroughs (December 2025):**
 - 📝 **Batch Metadata Editing**: Edit metadata across multiple photos simultaneously
 - 👤 **Enhanced Facial Recognition**: More accurate automatic person identification

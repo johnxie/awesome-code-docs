@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/ggml-org/whisper.cpp?style=social)](https://github.com/ggml-org/whisper.cpp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![C++](https://img.shields.io/badge/C%2B%2B-blue)](https://github.com/ggml-org/whisper.cpp)
+
+
 Whisper.cpp<sup>[View Repo](https://github.com/ggml-org/whisper.cpp)</sup> is a complete C/C++ port of OpenAI's Whisper automatic speech recognition (ASR) model. What makes it special is its focus on high performance, low resource usage, and the ability to run on edge devices without requiring a GPU or internet connection.
 
 Imagine building a voice assistant that can run on a Raspberry Pi, or adding speech recognition to an embedded system. Whisper.cpp makes this possible by running the Whisper model entirely on CPU with minimal memory requirements.

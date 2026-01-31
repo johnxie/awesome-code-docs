@@ -7,6 +7,11 @@ has_children: true
 
 # Liveblocks - Real-Time Collaboration Deep Dive
 
+[![Stars](https://img.shields.io/github/stars/liveblocks/liveblocks?style=social)](https://github.com/liveblocks/liveblocks)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/liveblocks/liveblocks)
+
+
 A comprehensive guide to building collaborative applications with Liveblocks, the real-time collaboration infrastructure used by companies building the next generation of multiplayer experiences.
 
 ## What is Liveblocks?

@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/pydantic/pydantic-ai?style=social)](https://github.com/pydantic/pydantic-ai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/pydantic/pydantic-ai)
+
+
 Pydantic AI<sup>[View Repo](https://github.com/pydantic/pydantic-ai)</sup> is a Python library for building type-safe AI agents using Pydantic models. It provides structured outputs, runtime validation, and seamless integration with popular AI providers.
 
 ## Tutorial Chapters

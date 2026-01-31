@@ -9,6 +9,11 @@ has_children: true
 
 > Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
 
+[![Stars](https://img.shields.io/github/stars/bytedance/deer-flow?style=social)](https://github.com/bytedance/deer-flow)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/bytedance/deer-flow)
+
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/bytedance/deer-flow/main/docs/images/logo.png" alt="Deer Flow Logo" width="200"/>
 </div>

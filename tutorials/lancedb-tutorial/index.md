@@ -9,6 +9,11 @@ has_children: true
 
 > Master LanceDB, the open-source serverless vector database designed for AI applications, RAG systems, and semantic search.
 
+[![Stars](https://img.shields.io/github/stars/lancedb/lancedb?style=social)](https://github.com/lancedb/lancedb)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Rust](https://img.shields.io/badge/Rust-blue)](https://github.com/lancedb/lancedb)
+
+
 <div align="center">
 
 **Build AI-Native Applications with Vector Search**

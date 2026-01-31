@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/taskade/docs?style=social)](https://github.com/taskade/docs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Productivity](https://img.shields.io/badge/Productivity-blue)](https://github.com/taskade/docs)
+
+
 Taskade<sup>[View Repo](https://github.com/taskade/docs)</sup> is a revolutionary productivity platform that combines AI-powered intelligence with collaborative workflows, featuring "living DNA" architecture where your workspace becomes an intelligent organism.
 
 ## Tutorial Chapters

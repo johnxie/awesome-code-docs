@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/microsoft/autogen?style=social)](https://github.com/microsoft/autogen)
+[![License: CC](https://img.shields.io/badge/License-CC--BY--4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/microsoft/autogen)
+
+
 Microsoft AutoGen<sup>[View Repo](https://github.com/microsoft/autogen)</sup> is a framework for building multi-agent AI systems that can collaborate, communicate, and solve complex tasks autonomously. It enables the creation of customizable agents with specialized roles, tools, and communication patterns, making it easy to build sophisticated AI workflows and applications.
 
 AutoGen provides a flexible architecture for creating agent-based systems that can work together to accomplish tasks that would be difficult or impossible for a single AI model.

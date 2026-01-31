@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/phidatahq/phidata?style=social)](https://github.com/phidatahq/phidata)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/phidatahq/phidata)
+
+
 Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framework for building autonomous AI agents with memory, reasoning, and tool integration capabilities. Create intelligent agents that can perform complex tasks, maintain conversation context, and use various tools to accomplish goals.
 
 ## Tutorial Chapters

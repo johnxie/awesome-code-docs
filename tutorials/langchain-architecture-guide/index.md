@@ -7,6 +7,11 @@ has_children: true
 
 # LangChain Architecture: Internal Design Deep Dive
 
+[![Stars](https://img.shields.io/github/stars/langchain-ai/langchain?style=social)](https://github.com/langchain-ai/langchain)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/langchain-ai/langchain)
+
+
 This guide explores LangChain<sup>[View Repo](https://github.com/langchain-ai/langchain)</sup> from the inside out. Rather than teaching you how to use LangChain (see the [LangChain Tutorial](../langchain-tutorial/) for that), this deep dive examines **how LangChain is built**, the design patterns it employs, and why its architects made specific decisions. If you have ever wondered what happens behind the scenes when you pipe a prompt through a chain, bind tools to an agent, or stream tokens from a chat model, this is the guide for you.
 
 Think of this as the difference between learning to drive a car and studying how the engine works. Both forms of knowledge are valuable, but understanding the internals gives you the power to extend, debug, and optimize the framework at a level that surface-level usage never can.

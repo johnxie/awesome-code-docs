@@ -9,6 +9,11 @@ has_children: true
 
 > Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.
 
+[![Stars](https://img.shields.io/github/stars/postgres/postgres?style=social)](https://github.com/postgres/postgres)
+[![License: PostgreSQL](https://img.shields.io/badge/License-PostgreSQL-blue.svg)](https://opensource.org/licenses/postgresql)
+[![C](https://img.shields.io/badge/C-blue)](https://github.com/postgres/postgres)
+
+
 ## What You'll Learn
 
 This tutorial provides an in-depth exploration of PostgreSQL's query planner and executor, teaching you how to analyze, understand, and optimize query performance at the database level.
@@ -38,6 +43,19 @@ This tutorial provides an in-depth exploration of PostgreSQL's query planner and
 │  • Ch 5-6: Index strategies and advanced optimization          │
 │  • Ch 7-8: Real-world tuning and troubleshooting               │
 └─────────────────────────────────────────────────────────────────┘
+```
+
+```mermaid
+graph LR
+    SQL[SQL Query] --> PARSER[Parser]
+    PARSER --> REWRITER[Rewriter]
+    REWRITER --> PLANNER[Planner]
+    PLANNER --> EXECUTOR[Executor]
+    EXECUTOR --> RESULTS[Results]
+
+    PLANNER --> STATS[(pg_statistics)]
+    PLANNER --> COST[Cost Model]
+    STATS --> COST
 ```
 
 ## Prerequisites

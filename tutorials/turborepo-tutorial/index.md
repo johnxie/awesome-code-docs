@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/vercel/turborepo?style=social)](https://github.com/vercel/turborepo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/Rust-blue)](https://github.com/vercel/turborepo)
+
+
 Turborepo<sup>[View Repo](https://github.com/vercel/turborepo)</sup> is a high-performance build system for JavaScript and TypeScript codebases, written in Rust. It optimizes your monorepo by intelligently caching build outputs and running tasks in parallel, dramatically speeding up your development workflow.
 
 Turborepo enables developers to build scalable monorepos with efficient caching, parallel execution, and smart dependency management, making large codebases feel as fast as small ones.

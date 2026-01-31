@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/vercel/ai?style=social)](https://github.com/vercel/ai)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/vercel/ai)
+
+
 Vercel AI<sup>[View Repo](https://github.com/vercel/ai)</sup> is the AI Toolkit for TypeScript created by the makers of Next.js. It provides a comprehensive, type-safe library for building AI-powered applications with streaming responses, function calling, and seamless integration with popular AI providers.
 
 Vercel AI enables developers to build sophisticated AI applications with React/Next.js, featuring real-time streaming, structured outputs, tool calling, and production-ready patterns for modern web applications.

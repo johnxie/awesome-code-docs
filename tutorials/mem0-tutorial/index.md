@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/mem0ai/mem0?style=social)](https://github.com/mem0ai/mem0)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/mem0ai/mem0)
+
+
 Mem0<sup>[View Repo](https://github.com/mem0ai/mem0)</sup> is a universal memory layer for AI agents that enables personalized AI interactions with intelligent memory management. It provides an intelligent memory layer that remembers user preferences, adapts to individual needs, and continuously learns over time - ideal for customer support chatbots, AI assistants, and autonomous systems.
 
 Mem0 enhances AI assistants and agents with a production-ready memory system that delivers +26% accuracy improvements, 91% faster responses, and 90% lower token usage compared to traditional memory approaches.

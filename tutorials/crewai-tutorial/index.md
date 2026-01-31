@@ -81,6 +81,11 @@ By the end of this tutorial, you'll be able to:
 
 > **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
 
+[![Stars](https://img.shields.io/github/stars/crewAIInc/crewAI?style=social)](https://github.com/crewAIInc/crewAI)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/crewAIInc/crewAI)
+
+
 Key recent features:
 - 🧠 **Agent Evaluation**: Built-in performance assessment and regression testing
 - 🔌 **Qdrant RAG Provider**: New vector store support alongside ChromaDB

@@ -7,6 +7,11 @@ has_children: true
 
 # OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
 
+[![Stars](https://img.shields.io/github/stars/openai/swarm?style=social)](https://github.com/openai/swarm)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/openai/swarm)
+
+
 <div align="center">
 
 **🐝 Build Agent Teams That Work Together Seamlessly**

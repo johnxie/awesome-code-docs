@@ -75,6 +75,11 @@ By the end of this tutorial, you'll be able to:
 
 > **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
 
+[![Stars](https://img.shields.io/github/stars/langchain-ai/langchain?style=social)](https://github.com/langchain-ai/langchain)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/langchain-ai/langchain)
+
+
 > **Simplified Tool Definition**: New streamlined APIs for defining and using tools with LLMs.
 
 Key changes in v0.3:

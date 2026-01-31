@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/reworkd/AgentGPT?style=social)](https://github.com/reworkd/AgentGPT)
+[![License: GPL](https://img.shields.io/badge/License-GPL--3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/reworkd/AgentGPT)
+
+
 AgentGPT<sup>[View Repo](https://github.com/reworkd/AgentGPT)</sup> is a platform for creating and deploying autonomous AI agents that can perform complex tasks, make decisions, and execute actions independently. It demonstrates advanced patterns in AI agent development, including goal-oriented planning, tool integration, and autonomous execution.
 
 AgentGPT shows how to build AI systems that can break down complex objectives into manageable tasks, use various tools and APIs, and execute plans autonomously while maintaining safety and reliability.

@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/comfyanonymous/ComfyUI?style=social)](https://github.com/comfyanonymous/ComfyUI)
+[![License: GPL](https://img.shields.io/badge/License-GPL--3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/comfyanonymous/ComfyUI)
+
+
 ComfyUI<sup>[View Repo](https://github.com/comfyanonymous/ComfyUI)</sup> is a powerful and modular Stable Diffusion GUI with a graph/nodes interface that allows users to create complex AI image generation workflows with unprecedented control and flexibility. It provides a node-based interface where users can connect different components to create sophisticated image generation pipelines.
 
 ComfyUI represents a paradigm shift in AI image generation, offering unparalleled customization and control compared to traditional interfaces, making it the tool of choice for professional artists, researchers, and advanced users.

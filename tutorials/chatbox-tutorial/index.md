@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/Bin-Huang/chatbox?style=social)](https://github.com/Bin-Huang/chatbox)
+[![License: GPL](https://img.shields.io/badge/License-GPL--3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/Bin-Huang/chatbox)
+
+
 Chatbox<sup>[View Repo](https://github.com/Bin-Huang/chatbox)</sup> is a modern, cross-platform AI chat interface that supports multiple AI providers and offers a polished user experience. It demonstrates best practices for building conversational AI applications with clean interfaces, multi-provider support, and excellent user experience design.
 
 Chatbox combines the best of modern web technologies with native desktop capabilities, showing how to build AI applications that users actually enjoy using.

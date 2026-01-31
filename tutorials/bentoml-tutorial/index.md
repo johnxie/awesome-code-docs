@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/bentoml/BentoML?style=social)](https://github.com/bentoml/BentoML)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/bentoml/BentoML)
+
+
 BentoML<sup>[View Repo](https://github.com/bentoml/BentoML)</sup> is the unified MLOps platform for building, deploying, and managing machine learning models in production. It provides a complete framework for serving ML models with high performance, scalability, and reliability, supporting any ML framework and deployment target.
 
 BentoML simplifies the ML deployment process by providing tools for model packaging, API serving, monitoring, and scaling, making it easy to take models from development to production.

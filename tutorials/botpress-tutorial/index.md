@@ -86,6 +86,11 @@ graph TB
 
 > **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
 
+[![Stars](https://img.shields.io/github/stars/botpress/botpress?style=social)](https://github.com/botpress/botpress)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/botpress/botpress)
+
+
 **Migration Path:**
 - **For New Users**: Use **Botpress Cloud** - the fully managed platform with continuous updates
 - **For Existing v12 Users**: Full support continues, but consider migrating to Botpress Cloud for latest features

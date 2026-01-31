@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/chroma-core/chroma?style=social)](https://github.com/chroma-core/chroma)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/chroma-core/chroma)
+
+
 Chroma<sup>[View Repo](https://github.com/chroma-core/chroma)</sup> is the AI-native open-source embedding database designed specifically for AI applications. It provides a simple, fast, and scalable solution for storing and retrieving embeddings with advanced features like metadata filtering, multimodal support, and seamless integration with popular AI frameworks.
 
 Chroma enables developers to build sophisticated AI applications with persistent memory, fast retrieval, and powerful querying capabilities without the complexity of traditional databases.

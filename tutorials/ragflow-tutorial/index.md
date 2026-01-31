@@ -9,6 +9,11 @@ has_children: true
 
 > Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.
 
+[![Stars](https://img.shields.io/github/stars/infiniflow/ragflow?style=social)](https://github.com/infiniflow/ragflow)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/infiniflow/ragflow)
+
+
 <div align="center">
   <img src="https://raw.githubusercontent.com/infiniflow/ragflow/main/docs/image/logo.png" alt="RAGFlow Logo" width="200"/>
 </div>

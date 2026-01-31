@@ -9,6 +9,11 @@ has_children: true
 
 > This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
 
+[![Stars](https://img.shields.io/github/stars/huggingface/transformers?style=social)](https://github.com/huggingface/transformers)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/huggingface/transformers)
+
+
 HuggingFace Transformers<sup>[View Repo](https://github.com/huggingface/transformers)</sup> is the leading open-source library for natural language processing and multimodal AI. It provides thousands of pre-trained models for tasks like text classification, question answering, text generation, translation, and more, making state-of-the-art AI accessible to everyone.
 
 Transformers has become the foundation of modern AI development, with over 100,000 models and 10,000+ datasets available through the HuggingFace Hub.

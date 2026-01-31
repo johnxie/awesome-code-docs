@@ -1,0 +1,78 @@
+---
+layout: default
+title: "Athens Research Knowledge Graph"
+nav_order: 39
+has_children: true
+---
+
+# Athens Research: Deep Dive Tutorial
+
+> **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
+
+[![Stars](https://img.shields.io/github/stars/athensresearch/athens?style=social)](https://github.com/athensresearch/athens)
+[![License: EPL 1.0](https://img.shields.io/badge/License-EPL_1.0-blue.svg)](https://www.eclipse.org/legal/epl-v10.html)
+[![ClojureScript](https://img.shields.io/badge/ClojureScript-Reagent-purple)](https://github.com/athensresearch/athens)
+
+## What Is Athens Research?
+
+Athens is an open-source knowledge management system inspired by Roam Research. It uses Datascript (an in-memory graph database) with ClojureScript to provide block-based editing, bi-directional linking, and knowledge graph visualization — all running locally for full data ownership.
+
+| Feature | Description |
+|---------|-------------|
+| **Block-Based Editor** | Flexible, composable content editing with outliner UX |
+| **Bi-Directional Links** | Automatic backlinks between pages and blocks |
+| **Graph Database** | Datascript in-memory graph for knowledge relationships |
+| **Knowledge Graph** | Interactive visualization of connections between notes |
+| **Local-First** | All data stored locally, no cloud dependency |
+| **Real-Time Collab** | Multi-user editing with conflict resolution |
+
+## Architecture Overview
+
+```mermaid
+graph TB
+    subgraph Frontend["ClojureScript Frontend"]
+        EDITOR[Block Editor]
+        GRAPH[Graph Visualization]
+        SEARCH[Search Interface]
+    end
+
+    subgraph State["State Management"]
+        REFRAME[Re-frame Events]
+        SUBS[Subscriptions]
+    end
+
+    subgraph Data["Data Layer"]
+        DS[(Datascript DB)]
+        FS[File System]
+        SYNC[Sync Engine]
+    end
+
+    Frontend --> State
+    State --> Data
+```
+
+## Tutorial Structure
+
+| Chapter | Topic | What You'll Learn |
+|---------|-------|-------------------|
+| [1. System Overview](docs/01-system-overview.md) | Architecture | Athens's approach to knowledge management |
+| [2. Datascript Database](docs/02-datascript-database.md) | Data Layer | In-memory graph database, queries, transactions |
+| [3. Schema Design](docs/03-schema-design.md) | Data Model | Blocks, pages, and relationship modeling |
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| **Language** | ClojureScript |
+| **UI Framework** | Reagent (React wrapper) |
+| **State** | Re-frame |
+| **Database** | Datascript (in-memory graph) |
+| **Desktop** | Electron |
+
+---
+
+Ready to begin? Start with [Chapter 1: System Overview](docs/01-system-overview.md).
+
+---
+
+*Built with insights from the [Athens Research repository](https://github.com/athensresearch/athens) and community documentation.*
