@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 5: Facial Recognition"
+parent: "PhotoPrism Tutorial"
+nav_order: 5
+---
+
 # Chapter 5: Facial Recognition
 
 This chapter covers PhotoPrism's facial recognition capabilities for identifying and organizing people in your photos.

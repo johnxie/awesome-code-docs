@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 8: Production Deployment"
+parent: "PhotoPrism Tutorial"
+nav_order: 8
+---
+
 # Chapter 8: Production Deployment
 
 This final chapter covers deploying PhotoPrism in production environments with scaling, security, monitoring, and performance optimization.

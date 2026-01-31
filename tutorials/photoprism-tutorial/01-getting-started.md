@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 1: Getting Started with PhotoPrism"
+parent: "PhotoPrism Tutorial"
+nav_order: 1
+---
+
 # Chapter 1: Getting Started with PhotoPrism
 
 Welcome to PhotoPrism! In this chapter, we'll install PhotoPrism, set up your first photo library, and explore the basic features.

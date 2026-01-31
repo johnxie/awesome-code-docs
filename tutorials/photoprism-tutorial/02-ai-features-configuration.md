@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 2: AI Features & Configuration"
+parent: "PhotoPrism Tutorial"
+nav_order: 2
+---
+
 # Chapter 2: AI Features & Configuration
 
 This chapter covers PhotoPrism's AI capabilities including TensorFlow integration, automatic tagging, and AI model configuration.

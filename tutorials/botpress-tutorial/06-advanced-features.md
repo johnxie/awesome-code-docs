@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 6: Advanced Features"
+parent: "Botpress Tutorial"
+nav_order: 6
+---
+
 # Chapter 6: Advanced Features
 
 This chapter explores advanced Botpress features including hooks, middleware, plugins, and custom integrations.

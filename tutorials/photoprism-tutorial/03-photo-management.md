@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 3: Photo Management"
+parent: "PhotoPrism Tutorial"
+nav_order: 3
+---
+
 # Chapter 3: Photo Management
 
 This chapter covers importing, organizing, and managing your photo collection in PhotoPrism.

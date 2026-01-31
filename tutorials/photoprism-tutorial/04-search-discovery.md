@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 4: Search & Discovery"
+parent: "PhotoPrism Tutorial"
+nav_order: 4
+---
+
 # Chapter 4: Search & Discovery
 
 This chapter explores PhotoPrism's powerful search capabilities and discovery features for finding photos in your collection.

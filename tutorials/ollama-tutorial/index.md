@@ -46,13 +46,13 @@ flowchart TD
 Welcome to your journey through local LLM deployment! This tutorial explores how to run, manage, and customize Large Language Models locally with Ollama.
 
 1. **[Chapter 1: Getting Started with Ollama](01-getting-started.md)** - Installation, setup, and your first local LLM
-2. **[Chapter 2: Model Management](02-model-management.md)** - Downloading, listing, and managing models
-3. **[Chapter 3: Running Models](03-running-models.md)** - Interactive chat and generation
-4. **[Chapter 4: REST API Integration](04-rest-api.md)** - Building applications with Ollama's API
-5. **[Chapter 5: Custom Models](05-custom-models.md)** - Creating and modifying models
-6. **[Chapter 6: Model Optimization](06-model-optimization.md)** - Performance tuning and optimization
-7. **[Chapter 7: Advanced Usage](07-advanced-usage.md)** - Multi-modal models and advanced features
-8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Running Ollama in production environments
+2. **[Chapter 2: Models & Modelfiles](02-models.md)** - Downloading, managing, and customizing models
+3. **[Chapter 3: Chat & Completions](03-chat-completions.md)** - Interactive chat, streaming, and parameters
+4. **[Chapter 4: Embeddings & RAG](04-embeddings-rag.md)** - Vector embeddings and retrieval-augmented generation
+5. **[Chapter 5: Custom Models](05-modelfiles-custom.md)** - Building tailored models with Modelfiles
+6. **[Chapter 6: Performance Tuning](06-performance.md)** - GPU tuning, quantization, and optimization
+7. **[Chapter 7: Integrations](07-integrations.md)** - LangChain, LlamaIndex, and OpenAI-compatible SDKs
+8. **[Chapter 8: Production Deployment](08-production.md)** - Docker, security, and monitoring
 
 ## What You'll Learn
 

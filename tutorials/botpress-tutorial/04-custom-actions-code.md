@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 4: Custom Actions & Code"
+parent: "Botpress Tutorial"
+nav_order: 4
+---
+
 # Chapter 4: Custom Actions & Code
 
 This chapter teaches you how to extend Botpress functionality with custom actions, JavaScript/TypeScript code, and external API integrations.

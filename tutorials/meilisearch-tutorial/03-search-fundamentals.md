@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 3: Search Fundamentals"
+parent: "MeiliSearch Tutorial"
+nav_order: 3
+---
+
 # Chapter 3: Search Fundamentals
 
 This chapter covers the core search capabilities of Meilisearch, from basic queries to advanced search features.

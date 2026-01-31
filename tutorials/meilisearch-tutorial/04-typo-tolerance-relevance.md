@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 4: Typo Tolerance & Relevance"
+parent: "MeiliSearch Tutorial"
+nav_order: 4
+---
+
 # Chapter 4: Typo Tolerance & Relevance
 
 This chapter dives deep into Meilisearch's typo tolerance system and how to customize search relevance for your use case.

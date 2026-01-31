@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 7: API Integration"
+parent: "MeiliSearch Tutorial"
+nav_order: 7
+---
+
 # Chapter 7: API Integration
 
 This chapter covers integrating Meilisearch with various applications using its REST API and available SDKs.

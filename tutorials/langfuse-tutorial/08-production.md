@@ -10,6 +10,68 @@ parent: Langfuse Tutorial
 
 > Self-host Langfuse, secure your setup, and scale for high-traffic applications.
 
+Previous: [Chapter 7: Integrations](07-integrations.md)
+
+## Production Architecture
+
+Here is a high-level view of a production Langfuse deployment:
+
+```mermaid
+flowchart TB
+    subgraph Clients
+        A[LLM App - Instance 1]
+        B[LLM App - Instance 2]
+        C[LLM App - Instance N]
+    end
+
+    subgraph Load Balancer
+        D[NGINX / ALB]
+    end
+
+    subgraph Langfuse Cluster
+        E[Langfuse Pod 1]
+        F[Langfuse Pod 2]
+        G[Langfuse Pod 3]
+    end
+
+    subgraph Data Layer
+        H[(PostgreSQL Primary)]
+        I[(PostgreSQL Replica)]
+        J[(Redis Cluster)]
+    end
+
+    subgraph Observability
+        K[Prometheus]
+        L[Grafana]
+        M[Log Aggregation]
+    end
+
+    subgraph Backup
+        N[S3 / Object Storage]
+    end
+
+    A --> D
+    B --> D
+    C --> D
+    D --> E
+    D --> F
+    D --> G
+    E --> H
+    F --> H
+    G --> H
+    H --> I
+    E --> J
+    F --> J
+    G --> J
+    E --> K
+    F --> K
+    G --> K
+    K --> L
+    H --> N
+```
+
+Multiple application instances send traces through a load balancer to a cluster of Langfuse pods. The data layer consists of a PostgreSQL primary with a read replica for analytics queries and a Redis cluster for caching and session management. Prometheus and Grafana handle monitoring, and automated backups go to object storage.
+
 ## Overview
 
 Deploy Langfuse securely with proper scaling, backup, and monitoring. Options include Docker, Kubernetes, or cloud platforms.
@@ -335,4 +397,17 @@ docker logs langfuse-app
 docker exec langfuse-redis redis-cli info
 ```
 
-With this setup, Langfuse can handle production workloads with high reliability and performance. 
+## Conclusion
+
+Congratulations -- you have completed the Langfuse tutorial series! Over eight chapters, you have gone from setting up your first trace to deploying a production-grade observability platform for your LLM applications. Here is a quick recap of what you learned:
+
+- **Chapter 1**: Getting started with Langfuse -- installation, configuration, and your first trace.
+- **Chapter 2**: Tracing -- capturing the full lifecycle of LLM requests with spans and generations.
+- **Chapter 3**: Prompt management -- versioning, deploying, and A/B testing prompts.
+- **Chapter 4**: Evaluation -- using LLM judges and human feedback to measure quality.
+- **Chapter 5**: Analytics and metrics -- tracking costs, latency, and ROI.
+- **Chapter 6**: Datasets and testing -- building test suites and running regression tests.
+- **Chapter 7**: Integrations -- connecting Langfuse with LangChain, OpenAI, and other frameworks.
+- **Chapter 8**: Production deployment -- self-hosting, security, scaling, and monitoring.
+
+With these tools and practices in place, you are well-equipped to build, monitor, and continuously improve LLM applications at any scale. The key is to start simple, measure everything, and iterate based on real data. Happy building!

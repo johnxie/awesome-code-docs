@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 6: Multi-Language Support"
+parent: "MeiliSearch Tutorial"
+nav_order: 6
+---
+
 # Chapter 6: Multi-Language Support
 
 Meilisearch provides excellent support for multiple languages, making it perfect for international applications and global search experiences.

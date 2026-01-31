@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 8: Production Deployment"
+parent: "MeiliSearch Tutorial"
+nav_order: 8
+---
+
 # Chapter 8: Production Deployment
 
 This final chapter covers deploying Meilisearch in production environments, including scaling, monitoring, security, and maintenance strategies.
