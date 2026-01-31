@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-80+-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1000%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-91-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1100%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -60,10 +60,10 @@ Each chapter includes **Mermaid architecture diagrams**, **annotated code exampl
 ## 📚 Tutorial Catalog
 
 ```
- ╔══════════════════════════════════════════════════════╗
- ║   🤖  AI & AGENTS   │   🔧  DEV TOOLS   │   🗄️  DATA  ║
- ║   55+ tutorials      │   14 tutorials     │   10+ tutorials║
- ╚══════════════════════════════════════════════════════╝
+ ╔════════════════════════════════════════════════════════════╗
+ ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
+ ║   57+ tutorials    │   18 tutorials  │  14 tutorials │  3 tutorials  ║
+ ╚════════════════════════════════════════════════════════════╝
 ```
 
 ### 🤖 AI Agents & Multi-Agent Systems
@@ -86,6 +86,7 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[OpenClaw](tutorials/openclaw-tutorial/)** | 119K+ | TypeScript | Personal AI assistant, multi-channel |
 | **[Deer Flow](tutorials/deer-flow-tutorial/)** | - | Python | Research agent workflows |
 | **[Letta](tutorials/letta-tutorial/)** | 14K+ | Python | Stateful agents with long-term memory |
+| **[Anthropic Skills](tutorials/anthropic-skills-tutorial/)** | 59K+ | Python/TypeScript | Reusable AI agent capabilities, MCP integration |
 
 ### 🧠 LLM Frameworks & RAG
 
@@ -140,6 +141,7 @@ Full-stack AI chat platforms and copilots.
 | **[Botpress](tutorials/botpress-tutorial/)** | 13K+ | Node.js | Enterprise chatbot platform |
 | **[AnythingLLM](tutorials/anything-llm-tutorial/)** | 30K+ | Node.js | All-in-one AI desktop app |
 | **[GPT-OSS](tutorials/gpt-oss-tutorial/)** | - | TypeScript | Open-source GPT implementation |
+| **[Claude Quickstarts](tutorials/claude-quickstarts-tutorial/)** | 13.7K+ | Python/TypeScript | Production Claude integration patterns |
 
 ### 🔧 Developer Tools & Productivity
 
@@ -159,7 +161,10 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Taskade](tutorials/taskade-tutorial/)** | - | AI/Productivity | AI-powered project management |
 | **[Browser Use](tutorials/browser-use-tutorial/)** | 10K+ | Python | AI-powered browser automation |
 | **[ComfyUI](tutorials/comfyui-tutorial/)** | 65K+ | Python | Node-based AI art workflows |
-| **[Whisper.cpp](tutorials/whisper-cpp-tutorial/)** | 37K+ | C++ | Speech recognition on edge |
+| **[MCP Python SDK](tutorials/mcp-python-sdk-tutorial/)** | 21.4K+ | Python | Building MCP servers and tool integrations |
+| **[MCP Servers](tutorials/mcp-servers-tutorial/)** | 77.6K+ | Multi-lang | Reference MCP server implementations |
+| **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
+| **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
 
 ### 🗄️ Databases, Knowledge & Analytics
 
@@ -194,6 +199,16 @@ Low-level systems, cloud native, and infrastructure patterns.
 | **[LangChain Architecture](tutorials/langchain-architecture-guide/)** | - | Python | LangChain deep architecture guide |
 | **[n8n MCP](tutorials/n8n-mcp-tutorial/)** | - | TypeScript | Model Context Protocol with n8n |
 | **[Firecrawl](tutorials/firecrawl-tutorial/)** | 22K+ | Python | LLM-ready web data extraction |
+
+### 🎤 Speech & Multimodal AI
+
+Voice recognition, audio processing, and multimodal AI applications.
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[OpenAI Whisper](tutorials/openai-whisper-tutorial/)** | 93.9K+ | Python | Speech-to-text, translation, multilingual ASR |
+| **[Whisper.cpp](tutorials/whisper-cpp-tutorial/)** | 37K+ | C++ | Speech recognition on edge devices |
+| **[OpenAI Realtime Agents](tutorials/openai-realtime-agents-tutorial/)** | 6.7K+ | TypeScript | Voice-first AI agents with WebRTC |
 
 ---
 
@@ -270,6 +285,43 @@ Continue ──→ Aider ──→ OpenHands ──→ Browser Use ──→ Cla
   completion)   prog)     agent)       automation)      agent)
 ```
 
+### 🟡 Path 7: MCP Mastery
+
+> *"I want to build AI tool servers and extend Claude with custom capabilities"*
+
+```
+MCP Python SDK ──→ MCP Servers ──→ Anthropic Skills ──→ n8n MCP ──→ Claude Code
+ (build             (reference        (reusable            (production   (use MCP
+  servers)           implementations)  capabilities)        patterns)      tools)
+```
+
+**Duration:** 40-50 hours | **Difficulty:** Intermediate to Advanced
+
+### 🟢 Path 8: Speech & Voice AI
+
+> *"I want to build voice-first AI applications"*
+
+```
+OpenAI Whisper ──→ Whisper.cpp ──→ OpenAI Realtime Agents ──→ Voice Apps
+ (Python ASR,       (edge            (voice-first             (production
+  fine-tuning)       deployment)       conversations)           voice apps)
+```
+
+**Duration:** 25-35 hours | **Difficulty:** Intermediate
+
+### 🟡 Path 9: OpenAI Ecosystem
+
+> *"I want to master OpenAI's tools and APIs"*
+
+```
+OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime Agents
+ (core API,          (token         (speech              (voice
+  embeddings,         optimization)  recognition)         agents)
+  assistants)
+```
+
+**Duration:** 35-45 hours | **Difficulty:** Beginner to Intermediate
+
 ---
 
 ## 📊 Collection Stats
@@ -278,24 +330,25 @@ Continue ──→ Aider ──→ OpenHands ──→ Browser Use ──→ Cla
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        83                            ║
-║  📝 Total Chapters         700+                          ║
-║  📏 Lines of Content       400,000+                      ║
-║  ⏱️  Estimated Hours        1,000+                        ║
-║  🏗️  Architecture Diagrams  500+                          ║
-║  💻 Code Examples           2,000+                        ║
+║  📦 Total Tutorials        91                            ║
+║  📝 Total Chapters         760+                          ║
+║  📏 Lines of Content       520,000+                      ║
+║  ⏱️  Estimated Hours        1,100+                        ║
+║  🏗️  Architecture Diagrams  550+                          ║
+║  💻 Code Examples           2,400+                        ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
 | Category | Tutorials | Status |
 |:---------|:---------:|:------:|
-| 🤖 AI Agents & Multi-Agent | 14 | Complete |
+| 🤖 AI Agents & Multi-Agent | 15 | Complete |
 | 🧠 LLM Frameworks & RAG | 12 | Complete |
 | 🖥️ LLM Infrastructure | 9 | Complete |
-| 💬 Chat & AI Apps | 12 | Complete |
-| 🔧 Developer Tools | 13 | Complete |
+| 💬 Chat & AI Apps | 13 | Complete |
+| 🔧 Developer Tools | 17 | Complete |
 | 🗄️ Data & Analytics | 14 | Complete |
 | ⚙️ Systems & Infra | 6 | Complete |
+| 🎤 Speech & Multimodal AI | 3 | Complete |
 
 ---
 
