@@ -35,8 +35,10 @@ jobs:
           python scripts/generate_discoverability_assets.py \
             --output-json /tmp/tutorial-index.json \
             --llms /tmp/llms.txt \
-            --llms-full /tmp/llms-full.txt
+            --llms-full /tmp/llms-full.txt \
+            --directory-md /tmp/tutorial-directory.md
           diff -u discoverability/tutorial-index.json /tmp/tutorial-index.json
+          diff -u discoverability/tutorial-directory.md /tmp/tutorial-directory.md
           diff -u llms.txt /tmp/llms.txt
           diff -u llms-full.txt /tmp/llms-full.txt
 

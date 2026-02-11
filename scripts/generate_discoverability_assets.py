@@ -3,6 +3,7 @@
 
 Outputs:
 - discoverability/tutorial-index.json
+- discoverability/tutorial-directory.md
 - llms.txt
 - llms-full.txt
 """
@@ -180,6 +181,36 @@ def write_llms_full_txt(output_path: Path, records: list[dict]) -> None:
     output_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
 
 
+def write_directory_markdown(output_path: Path, records: list[dict]) -> None:
+    lines = [
+        "# Tutorial Directory (A-Z)",
+        "",
+        "This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.",
+        "",
+        f"- Total tutorials: **{len(records)}**",
+        "- Source: `scripts/generate_discoverability_assets.py`",
+        "",
+    ]
+
+    grouped: dict[str, list[dict]] = {}
+    for record in records:
+        key = record["title"][:1].upper() if record["title"] else "#"
+        if not key.isalpha():
+            key = "#"
+        grouped.setdefault(key, []).append(record)
+
+    for key in sorted(grouped.keys()):
+        lines.append(f"## {key}")
+        lines.append("")
+        for record in grouped[key]:
+            summary = record["summary"] or "Deep technical walkthrough."
+            lines.append(f"- [{record['title']}]({record['file_url']})")
+            lines.append(f"  - {summary}")
+        lines.append("")
+
+    output_path.write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Generate discoverability assets")
     parser.add_argument("--root", default=".", help="Repository root")
@@ -190,25 +221,34 @@ def main() -> int:
     )
     parser.add_argument("--llms", default="llms.txt", help="llms.txt output path")
     parser.add_argument("--llms-full", default="llms-full.txt", help="llms-full.txt output path")
+    parser.add_argument(
+        "--directory-md",
+        default="discoverability/tutorial-directory.md",
+        help="A-Z markdown directory output path",
+    )
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
     json_path = (root / args.output_json).resolve()
     llms_path = (root / args.llms).resolve()
     llms_full_path = (root / args.llms_full).resolve()
+    directory_md_path = (root / args.directory_md).resolve()
 
     json_path.parent.mkdir(parents=True, exist_ok=True)
     llms_path.parent.mkdir(parents=True, exist_ok=True)
     llms_full_path.parent.mkdir(parents=True, exist_ok=True)
+    directory_md_path.parent.mkdir(parents=True, exist_ok=True)
 
     records = build_records(root)
     write_json(json_path, records)
     write_llms_txt(llms_path, records)
     write_llms_full_txt(llms_full_path, records)
+    write_directory_markdown(directory_md_path, records)
 
     print(f"Wrote JSON: {json_path}")
     print(f"Wrote llms.txt: {llms_path}")
     print(f"Wrote llms-full.txt: {llms_full_path}")
+    print(f"Wrote directory markdown: {directory_md_path}")
     print(f"tutorial_count={len(records)}")
 
     return 0
