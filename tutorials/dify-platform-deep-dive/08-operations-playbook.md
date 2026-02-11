@@ -34,5 +34,5 @@ This chapter consolidates practical operations patterns for running Dify at scal
 You now have full Dify tutorial coverage from architecture through production operations.
 
 Related:
-- [Dify Index](../index.md)
-- [Setup Guide](setup.md)
+- [Dify Index](index.md)
+- [Setup Guide](docs/setup.md)

@@ -1,9 +1,9 @@
 {
   "structure_counts": {
-    "docs_only": 4,
+    "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 87
+    "root_only": 91
   },
   "tutorial_count": 91,
   "tutorials": [
@@ -452,12 +452,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "dify-platform-deep-dive",
       "path": "tutorials/dify-platform-deep-dive",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {
@@ -566,12 +566,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "flowise-llm-orchestration",
       "path": "tutorials/flowise-llm-orchestration",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {
@@ -909,12 +909,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "lobechat-ai-platform",
       "path": "tutorials/lobechat-ai-platform",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {
@@ -1119,12 +1119,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "obsidian-outliner-plugin",
       "path": "tutorials/obsidian-outliner-plugin",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {

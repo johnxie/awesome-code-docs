@@ -65,14 +65,14 @@ graph TB
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
-| [1. System Overview](docs/01-system-overview.md) | Architecture | Dify's place in the LLM ecosystem, core components |
-| [2. Core Architecture](docs/02-core-architecture.md) | Design | Components, data flow, service boundaries |
-| [3. Workflow Engine](docs/03-workflow-engine.md) | Orchestration | Node system, visual workflows, execution pipeline |
-| [4. RAG Implementation](docs/04-rag-implementation.md) | Retrieval | Document processing, embeddings, vector search |
-| [5. Agent Framework](docs/05-agent-framework.md) | Agents | Tool calling, reasoning loops, agent types |
-| [6. Custom Nodes](docs/06-custom-nodes.md) | Extensibility | Building custom workflow nodes and plugins |
-| [7. Production Deployment](docs/07-production-deployment.md) | Operations | Docker, scaling, monitoring, security |
-| [8. Operations Playbook](docs/08-operations-playbook.md) | Reliability | Incident response, SLOs, and cost controls |
+| [1. System Overview](01-system-overview.md) | Architecture | Dify's place in the LLM ecosystem, core components |
+| [2. Core Architecture](02-core-architecture.md) | Design | Components, data flow, service boundaries |
+| [3. Workflow Engine](03-workflow-engine.md) | Orchestration | Node system, visual workflows, execution pipeline |
+| [4. RAG Implementation](04-rag-implementation.md) | Retrieval | Document processing, embeddings, vector search |
+| [5. Agent Framework](05-agent-framework.md) | Agents | Tool calling, reasoning loops, agent types |
+| [6. Custom Nodes](06-custom-nodes.md) | Extensibility | Building custom workflow nodes and plugins |
+| [7. Production Deployment](07-production-deployment.md) | Operations | Docker, scaling, monitoring, security |
+| [8. Operations Playbook](08-operations-playbook.md) | Reliability | Incident response, SLOs, and cost controls |
 
 ## Tech Stack
 
@@ -87,7 +87,7 @@ graph TB
 
 ---
 
-Ready to begin? Start with [Chapter 1: System Overview](docs/01-system-overview.md).
+Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 ---
 
