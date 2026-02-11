@@ -57,11 +57,11 @@ Main repository:
 - Summary: A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.
 - Keywords: bentoml, building, production, ready, services, deep, technical, walkthrough, covering
 
-## bolt.diy Tutorial: Open-Source AI Full-Stack Builder
+## bolt.diy Tutorial: Build and Operate an Open Source AI App Builder
 - Path: tutorials/bolt-diy-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md
-- Summary: Learn how to run, extend, and operate `stackblitz-labs/bolt.diy`, the open-source version of Bolt-style AI app building with provider flexibility.
-- Keywords: bolt, diy, open, source, full, stack, builder, learn, run, extend, operate, stackblitz, labs, version, style, app, building, provider
+- Summary: A production-focused deep dive into `stackblitz-labs/bolt.diy`: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.
+- Keywords: bolt, diy, build, operate, open, source, app, builder, production, focused, deep, dive, into, stackblitz, labs, architecture, provider, routing
 
 ## Botpress Tutorial: Open Source Conversational AI Platform
 - Path: tutorials/botpress-tutorial

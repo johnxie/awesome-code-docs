@@ -5,51 +5,88 @@ nav_order: 96
 has_children: true
 ---
 
-# bolt.diy Tutorial: Open-Source AI Full-Stack Builder
+# bolt.diy Tutorial: Build and Operate an Open Source AI App Builder
 
-> Learn how to run, extend, and operate `stackblitz-labs/bolt.diy`, the open-source version of Bolt-style AI app building with provider flexibility.
+> A production-focused deep dive into `stackblitz-labs/bolt.diy`: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.
 
-[![Stars](https://img.shields.io/github/stars/stackblitz-labs/bolt.diy?style=social)](https://github.com/stackblitz-labs/bolt.diy)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Stack](https://img.shields.io/badge/Stack-Remix%20%2B%20Vite-blue)](https://github.com/stackblitz-labs/bolt.diy)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-stackblitz--labs%2Fbolt.diy-black?logo=github)](https://github.com/stackblitz-labs/bolt.diy)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](https://github.com/stackblitz-labs/bolt.diy/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-bolt.diy-blue)](https://github.com/stackblitz-labs/bolt.diy/tree/main/docs)
 
-## What is bolt.diy?
+## Why This Tutorial Exists
 
-`bolt.diy` is an open-source AI coding and app-building environment inspired by Bolt-style workflows, with support for many model providers and local/self-hosted deployment options. It combines chat-driven code generation with an editable workspace, terminal execution, diffing, file locking, and deployment integrations.
+Most bolt.diy guides stop at setup. This track is for engineers and teams that want to:
 
-## Current Snapshot (February 11, 2026)
+- run bolt.diy reliably across local, container, and hosted environments
+- enforce safe human-in-the-loop change controls for generated code
+- connect MCP tools and backend services without creating governance debt
+- choose practical deployment and operations patterns for real teams
 
-- repository: `stackblitz-labs/bolt.diy`
-- stars: ~19K
-- latest stable release in GitHub Releases: `v1.0.0` (published May 12, 2025)
-- active development continues on `main` with frequent updates
+## Current Snapshot (Verified February 11, 2026)
 
-## Tutorial Chapters
+- repository: [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy)
+- stars: about **19k**
+- latest stable release: [`v1.0.0`](https://github.com/stackblitz-labs/bolt.diy/releases/tag/v1.0.0) (published May 12, 2025)
+- default branch activity: active (`main`, recent pushes)
+- package manager from source: `pnpm@9.14.4`
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - Local setup, Docker path, and first run
-2. **[Chapter 2: Architecture Overview](02-architecture-overview.md)** - Remix/Vite app structure and execution model
-3. **[Chapter 3: Providers and Model Routing](03-providers-and-routing.md)** - Multi-provider strategy and key management
-4. **[Chapter 4: Prompt-to-App Workflow](04-prompt-to-app-workflow.md)** - How prompt loops become code changes
-5. **[Chapter 5: Files, Diff, and Locking](05-files-diff-locking.md)** - Safety controls for generated edits
-6. **[Chapter 6: Integrations and MCP](06-integrations-and-mcp.md)** - External services, MCP, and extension pathways
-7. **[Chapter 7: Deployment and Distribution](07-deployment-distribution.md)** - Netlify/Vercel/GitHub Pages and desktop packaging
-8. **[Chapter 8: Production Operations](08-production-operations.md)** - Security, observability, and governance patterns
+## Mental Model
 
-## What You Will Learn
+```mermaid
+flowchart LR
+    U[User Intent] --> P[Prompt + Constraints]
+    P --> M[Model Provider Routing]
+    M --> G[Generated Plan and Code Changes]
+    G --> D[Diff and File Controls]
+    D --> T[Runtime Validation]
+    T --> I[Iterative Repair]
+    I --> R[Deployment and Release]
+    R --> O[Operations and Governance]
+```
 
-- operate bolt.diy locally and in containerized environments
-- configure cloud and local model providers safely
-- manage generated code changes with diff/locking workflows
-- integrate MCP and external services responsibly
-- deploy and run bolt.diy in team/production settings
+## Learning Path
+
+| Chapter | Core Question | What You Build |
+|:--------|:--------------|:---------------|
+| [01 - Getting Started](01-getting-started.md) | How do we get a reliable local baseline fast? | Local and Docker-first setup + first safe task |
+| [02 - Architecture Overview](02-architecture-overview.md) | How is bolt.diy organized internally? | A practical map of runtime and code boundaries |
+| [03 - Providers and Routing](03-providers-and-routing.md) | How should model/provider selection be governed? | Provider policy, fallback chains, and cost controls |
+| [04 - Prompt-to-App Workflow](04-prompt-to-app-workflow.md) | How do prompts become reviewable product changes? | A deterministic prompt-review-validate loop |
+| [05 - Files, Diff, and Locking](05-files-diff-locking.md) | How do we keep generated edits safe? | Diff review standards and high-risk file controls |
+| [06 - Integrations and MCP](06-integrations-and-mcp.md) | How do we connect tools and services without chaos? | MCP + integration rollout strategy and contracts |
+| [07 - Deployment and Distribution](07-deployment-distribution.md) | Which runtime target should we pick and why? | Deployment matrix for web, container, and desktop |
+| [08 - Production Operations](08-production-operations.md) | What does production readiness look like? | SLOs, observability, incident playbooks, and audits |
+
+## Skill Outcomes
+
+By the end of this track, you should be able to:
+
+- run bolt.diy in a reproducible dev environment with clear guardrails
+- choose provider/model defaults by task class and policy constraints
+- structure AI-assisted edits into auditable, low-risk delivery loops
+- integrate external tools with explicit schemas and approval boundaries
+- ship and operate bolt.diy with measurable reliability and rollback paths
+
+## Suggested Prerequisites
+
+- Comfortable with Git workflows, code review, and CI/CD basics
+- Basic knowledge of Node.js, package managers, and environment variables
+- Familiarity with LLM provider APIs and secret management fundamentals
+
+## Source References
+
+- [bolt.diy README](https://github.com/stackblitz-labs/bolt.diy/blob/main/README.md)
+- [bolt.diy docs index](https://github.com/stackblitz-labs/bolt.diy/blob/main/docs/docs/index.md)
+- [bolt.diy Releases](https://github.com/stackblitz-labs/bolt.diy/releases)
 
 ## Related Tutorials
 
 - [Dyad Tutorial](../dyad-tutorial/)
+- [Cline Tutorial](../cline-tutorial/)
+- [Roo Code Tutorial](../roo-code-tutorial/)
 - [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
 - [OpenHands Tutorial](../openhands-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
 
 ---
 
-Ready to start? Open [Chapter 1: Getting Started](01-getting-started.md).
+Start with [Chapter 1: Getting Started](01-getting-started.md).

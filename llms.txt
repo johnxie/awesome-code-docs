@@ -23,7 +23,7 @@
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
-- bolt.diy Tutorial: Open-Source AI Full-Stack Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
+- bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
 - Botpress Tutorial: Open Source Conversational AI Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/botpress-tutorial
 - Browser Use Tutorial: AI-Powered Web Automation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/browser-use-tutorial
 - Chatbox Tutorial: Building Modern AI Chat Interfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial
