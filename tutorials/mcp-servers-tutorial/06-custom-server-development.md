@@ -7,33 +7,62 @@ parent: MCP Servers Tutorial
 
 # Chapter 6: Custom Server Development
 
-Use the reference servers as templates for your domain-specific tools.
+This chapter turns reference patterns into your own server implementation approach.
 
-## Build Workflow
+## Build Sequence
 
-1. Start from the closest reference server.
-2. Replace backend adapters with your own systems.
-3. Keep tool schemas explicit and versioned.
-4. Add tests for success and failure paths.
+Use this sequence instead of coding tools ad hoc:
 
-## Suggested Project Layout
+1. Define tool contracts (inputs, outputs, error types).
+2. Define authorization and side-effect policy.
+3. Implement read-only tools first.
+4. Add mutating tools with explicit confirmations.
+5. Add observability hooks before rollout.
+
+## Recommended Starting Point
+
+Pick the closest reference server to your domain.
+
+- file-centric automation -> filesystem
+- repository workflows -> git
+- conversational memory -> memory
+- utility helpers -> time/fetch
+
+Reuse structure, not just code snippets.
+
+## Tool Contract Template
 
 ```text
-my-mcp-server/
-  src/
-  tests/
-  docs/
-  README.md
+name
+purpose
+input schema
+output schema
+idempotency behavior
+destructive behavior
+failure taxonomy
 ```
 
-## Contract Testing
+If this template is incomplete, production operation will likely be painful.
 
-- Validate request and response schema.
-- Test invalid input handling.
-- Confirm deterministic behavior for critical tools.
+## Implementation Checklist
+
+- Strict schema validation on input/output
+- Deterministic error objects
+- Timeouts and cancellation handling
+- Bounded retries where safe
+- Safe defaults for missing optional fields
+
+## Verification Before Release
+
+Run both protocol-level and behavior-level checks:
+
+- protocol handshake and tool listing
+- negative tests for malformed inputs
+- side-effect tests in sandbox environments
+- audit log completeness checks
 
 ## Summary
 
-You now have a practical path to build custom MCP servers from proven patterns.
+You now have a repeatable way to turn reference ideas into a maintainable custom MCP server.
 
 Next: [Chapter 7: Security Considerations](07-security-considerations.md)

@@ -7,29 +7,56 @@ parent: Anthropic Skills Tutorial
 
 # Chapter 6: Best Practices
 
-High-quality skills are specific, testable, and easy to evolve.
+Strong skills are explicit, testable, and easy to review.
 
-## Authoring Best Practices
+## Authoring Principles
 
-- Use precise task boundaries.
-- Define allowed/forbidden behaviors.
-- Include examples for difficult edge cases.
-- Keep instructions concise and unambiguous.
+- Prefer concrete verbs over broad goals.
+- Define what to do when inputs are missing.
+- State prohibited actions directly.
+- Include examples for tricky edge cases.
 
-## Testing Practices
+## Testing Strategy
 
-- Golden test prompts and expected outputs.
-- Regression checks after any instruction changes.
-- Negative tests for unsupported requests.
+Use three test layers:
 
-## Versioning and Change Control
+1. **Golden tests**: stable prompts with expected output shape
+2. **Adversarial tests**: malformed or ambiguous inputs
+3. **Regression tests**: replay historical failures
 
-- Semantic version skill releases.
-- Maintain a changelog in the repository.
-- Document breaking changes in output format.
+Keep test fixtures in version control with the skill.
+
+## Versioning and Changelogs
+
+Treat prompt changes as code changes.
+
+- Use semantic versioning for skills distributed broadly.
+- Keep a changelog with behavioral deltas.
+- Call out breaking output changes explicitly.
+
+## Review Checklist
+
+| Check | Why |
+|:------|:----|
+| Output contract unchanged or migrated | Prevent downstream breakage |
+| References updated and valid | Avoid stale policy behavior |
+| Script interfaces still compatible | Prevent runtime failures |
+| Security notes updated | Keep operators informed |
+
+## Observability
+
+Capture at least:
+
+- skill name + version
+- request category
+- validation pass/fail
+- major error class
+- latency/cost envelope
+
+This data is essential for continuous improvement.
 
 ## Summary
 
-You now have a repeatable quality standard for skill development.
+You now have a concrete quality system for maintaining skills over time.
 
 Next: [Chapter 7: Publishing and Sharing](07-publishing-sharing.md)

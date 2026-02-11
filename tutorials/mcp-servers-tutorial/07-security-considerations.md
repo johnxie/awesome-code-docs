@@ -7,29 +7,52 @@ parent: MCP Servers Tutorial
 
 # Chapter 7: Security Considerations
 
-Security posture is the difference between a useful MCP server and a risky one.
+Security is the largest gap between reference servers and production deployment.
 
-## Threat Areas
+## Start with a Threat Model
 
-- Prompt-driven misuse of privileged tools
-- path traversal and command injection
-- exfiltration through overbroad network/file access
+At minimum, answer:
 
-## Required Controls
+- What can this server read?
+- What can it mutate?
+- What trust boundary separates model output from side effects?
+- What happens if tool arguments are malicious or malformed?
 
-- strict input validation and schema checks
-- allowlisted operations and bounded parameters
-- least-privilege runtime permissions
-- structured audit logs and trace IDs
+## Control Layers
 
-## Operational Controls
+| Layer | Control |
+|:------|:--------|
+| Input validation | Strict schema + semantic checks |
+| Authorization | Allowlists for paths/resources/actions |
+| Execution boundary | Sandboxing and least privilege runtime |
+| Change protection | Confirmation gates for destructive operations |
+| Auditing | Immutable logs with actor, inputs, outputs, and outcome |
 
-- rate limits by caller identity
-- anomaly detection on tool usage
-- incident runbook for key rotation and containment
+## High-Risk Patterns to Block
+
+- unrestricted filesystem roots
+- unconstrained shell/network execution behind tools
+- silent mutation without user/system confirmation
+- missing source-of-truth identity for requests
+
+## Practical Security Enhancements
+
+- classify tools by read/write/destructive and route policies accordingly
+- require explicit approval for destructive or non-idempotent operations
+- redact sensitive payloads in logs while preserving traceability
+- enforce policy checks before tool execution, not after
+
+## Incident Readiness
+
+Have a runbook with:
+
+- emergency disable switch for tool classes
+- rollback strategy for unintended mutations
+- artifact and log retention windows
+- owner escalation path
 
 ## Summary
 
-You can now harden MCP servers against common abuse and failure patterns.
+You now have a concrete security baseline for adapting MCP server patterns responsibly.
 
 Next: [Chapter 8: Production Adaptation](08-production-adaptation.md)

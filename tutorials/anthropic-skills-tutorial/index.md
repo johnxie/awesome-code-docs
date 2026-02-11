@@ -7,174 +7,86 @@ has_children: true
 
 # Anthropic Skills Tutorial: Reusable AI Agent Capabilities
 
-> Build, share, and deploy reusable skills that extend Claude's capabilities across Claude Code, Claude.ai, and the Anthropic API.
+> Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
 
 [![Stars](https://img.shields.io/github/stars/anthropics/skills?style=social)](https://github.com/anthropics/skills)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-83.9%25-blue)](https://github.com/anthropics/skills)
+[![Spec](https://img.shields.io/badge/Spec-agentskills.io-blue)](https://agentskills.io/specification)
 
-## 🎯 What are Anthropic Skills?
+## What are Anthropic Skills?
 
-**Anthropic Skills** are packages of instructions, scripts, and resources that teach Claude how to complete specific tasks in a repeatable, consistent way. Skills can range from simple templates to complex multi-file applications that integrate with tools, APIs, and external systems.
+Anthropic Skills are packaged instructions and supporting files that Claude can load for specific jobs. A skill can be lightweight (one `SKILL.md`) or operationally rich (scripts, templates, and domain references).
 
-### Key Features
+The official `anthropics/skills` repository demonstrates real patterns used for:
 
-| Feature | Description |
-|:--------|:------------|
-| **Simple Structure** | Just a folder with a `SKILL.md` file containing YAML frontmatter and instructions |
-| **Multi-Platform** | Works with Claude Code, Claude.ai (paid plans), and Anthropic API |
-| **Reusable** | Share skills via GitHub, Claude Code plugin marketplace, or private repos |
-| **Composable** | Combine multiple skills or reference other skills in workflows |
-| **Rich Content** | Support for Python scripts, TypeScript tools, templates, and resources |
-| **Category Diversity** | Document generation, creative work, development tools, enterprise workflows |
+- document generation workflows (DOCX, PDF, XLSX, PPTX)
+- development and automation tasks
+- enterprise process standardization
+- reusable task-specific behavior across teams
 
-## Architecture Overview
+## Core Concepts
 
-```mermaid
-graph TB
-    subgraph Skill["Skill Package"]
-        META[SKILL.md Metadata]
-        INSTR[Instructions]
-        SCRIPTS[Scripts/Tools]
-        TEMPLATES[Templates]
-        RESOURCES[Resources/Assets]
-    end
-
-    subgraph Platforms["Integration Platforms"]
-        CODE[Claude Code CLI]
-        WEB[Claude.ai Web]
-        API[Anthropic API]
-    end
-
-    subgraph Claude["Claude Agent"]
-        CONTEXT[Skill Context]
-        EXEC[Execution Engine]
-        TOOLS[Tool Calling]
-    end
-
-    subgraph Output["Outputs"]
-        DOCS[Generated Documents]
-        CODE_OUT[Generated Code]
-        DATA[Processed Data]
-        WORKFLOW[Completed Workflows]
-    end
-
-    META --> CONTEXT
-    INSTR --> CONTEXT
-    SCRIPTS --> EXEC
-    TEMPLATES --> EXEC
-    RESOURCES --> EXEC
-
-    CODE --> CONTEXT
-    WEB --> CONTEXT
-    API --> CONTEXT
-
-    CONTEXT --> EXEC
-    EXEC --> TOOLS
-    TOOLS --> DOCS
-    TOOLS --> CODE_OUT
-    TOOLS --> DATA
-    TOOLS --> WORKFLOW
-
-    classDef skill fill:#e1f5fe,stroke:#01579b
-    classDef platform fill:#f3e5f5,stroke:#4a148c
-    classDef agent fill:#fff3e0,stroke:#ef6c00
-    classDef output fill:#e8f5e8,stroke:#1b5e20
-
-    class META,INSTR,SCRIPTS,TEMPLATES,RESOURCES skill
-    class CODE,WEB,API platform
-    class CONTEXT,EXEC,TOOLS agent
-    class DOCS,CODE_OUT,DATA,WORKFLOW output
-```
+| Concept | Why It Matters |
+|:--------|:---------------|
+| `SKILL.md` | Defines how and when the skill should be used |
+| Frontmatter | Enables discovery, routing, and compatibility metadata |
+| Body instructions | The behavioral contract Claude follows while the skill is active |
+| `scripts/` | Deterministic external logic for tasks that should not be left to free-form generation |
+| `references/` | Source material Claude can load on demand for better answers |
+| `assets/` | Non-text files required by the workflow |
 
 ## Tutorial Structure
 
-> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+| Chapter | Topic | What You Will Learn |
+|:--------|:------|:--------------------|
+| [1. Getting Started](01-getting-started.md) | Setup | Skill anatomy, minimal valid skill, local iteration loop |
+| [2. Skill Categories](02-skill-categories.md) | Taxonomy | How to choose category boundaries and avoid "mega-skills" |
+| [3. Advanced Skill Design](03-advanced-skill-design.md) | Architecture | Multi-file composition with scripts, references, and assets |
+| [4. Integration Platforms](04-integration-platforms.md) | Runtime | Claude Code, Claude.ai, and Claude API integration patterns |
+| [5. Production Skills](05-production-skills.md) | Reliability | Deterministic outputs, guardrails, and validation pipelines |
+| [6. Best Practices](06-best-practices.md) | Quality | Testing strategy, change management, and security hygiene |
+| [7. Publishing and Sharing](07-publishing-sharing.md) | Distribution | Versioning, release channels, governance, and ownership |
+| [8. Real-World Examples](08-real-world-examples.md) | Case Studies | End-to-end patterns you can adapt for real teams |
 
-| Chapter | Topic | What You'll Learn |
-|:--------|:------|:------------------|
-| **1. Getting Started (Planned)** | Basics | Skill structure, SKILL.md format, first skill creation |
-| **2. Skill Categories (Planned)** | Taxonomy | Document, creative, technical, enterprise skill types |
-| **3. Advanced Skill Design (Planned)** | Architecture | Multi-file skills, Python/TypeScript scripts, resources |
-| **4. Integration Platforms (Planned)** | Deployment | Claude Code, Claude.ai, API integration patterns |
-| **5. Production Skills (Planned)** | Real-World | Document generation (DOCX, PDF, PPTX, XLSX) |
-| **6. Best Practices (Planned)** | Quality | Skill composition, testing, documentation, versioning |
-| **7. Publishing & Sharing (Planned)** | Distribution | Plugin marketplace, GitHub, private distribution |
-| **8. Real-World Examples (Planned)** | Case Studies | Brand guidelines, data analysis, automation workflows |
+## Current Ecosystem Notes (February 11, 2026)
 
-## Tech Stack
+- The public reference implementation remains in `anthropics/skills`.
+- The repository points to the evolving Agent Skills format specification at `agentskills.io/specification`.
+- Claude Code supports plugin marketplace workflows for skill installation from published skill repositories.
 
-| Component | Technology |
-|:----------|:-----------|
-| **Languages** | Python 83.9%, JavaScript 9.4%, HTML 4.3% |
-| **Skill Format** | Markdown with YAML frontmatter |
-| **Document Gen** | python-docx, openpyxl, python-pptx, ReportLab |
-| **Integration** | MCP (Model Context Protocol) for advanced skills |
-| **Platforms** | Claude Code (CLI), Claude.ai (web), Anthropic API |
-| **Distribution** | GitHub, npm (Claude Code plugins) |
+## What You Will Build
 
-## What You'll Build
+By the end of this tutorial, you will be able to:
 
-By the end of this tutorial, you'll be able to:
-
-- **Create Skills** with SKILL.md files, instructions, and metadata
-- **Build Multi-File Skills** with Python scripts, templates, and resources
-- **Integrate with Claude Code** via the plugin system and MCP
-- **Generate Documents** programmatically (Word, Excel, PowerPoint, PDF)
-- **Publish Skills** to the Claude Code marketplace and GitHub
-- **Compose Workflows** by combining multiple skills
-- **Follow Best Practices** for testing, documentation, and versioning
-- **Deploy Enterprise Skills** for brand guidelines, compliance, and automation
+- design skills with clear invocation boundaries
+- package repeatable outputs with strict templates
+- integrate script-backed workflows safely
+- publish versioned skills for internal or public reuse
+- run regression checks to prevent prompt drift
+- operate a skills catalog with ownership and lifecycle controls
 
 ## Prerequisites
 
-- **Basic programming** (Python or JavaScript preferred)
-- **Markdown** syntax familiarity
-- **Claude experience** (helpful but not required)
-- **Git/GitHub** for skill distribution (optional)
+- Basic markdown and YAML familiarity
+- Working knowledge of Claude Code or Claude API workflows
+- Git/GitHub basics for version control and sharing
 
 ## Related Tutorials
 
 **Prerequisites:**
-- [Anthropic API Tutorial](../anthropic-code-tutorial/) - Understanding Claude's API (recommended)
+- [Anthropic API Tutorial](../anthropic-code-tutorial/) - Claude API fundamentals
 
 **Complementary:**
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/) - Building MCP tools for advanced skills
-- [Claude Code Tutorial](../claude-code-tutorial/) - Using skills in Claude Code CLI
-- [Claude Task Master Tutorial](../claude-task-master-tutorial/) - Task management with Claude
+- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/) - Tool integration patterns
+- [Claude Code Tutorial](../claude-code-tutorial/) - CLI-driven agent workflows
 
 **Next Steps:**
-- [MCP Servers Tutorial](../mcp-servers-tutorial/) - Advanced tool integration
-
-## Skill Categories
-
-### Document Skills
-- **Word Documents** (DOCX): Reports, letters, proposals
-- **Spreadsheets** (XLSX): Data analysis, financial models
-- **Presentations** (PPTX): Slide decks, pitch materials
-- **PDFs**: Contracts, invoices, formatted documents
-
-### Creative & Design Skills
-- **Art Generation**: Prompts for DALL-E, Midjourney
-- **Music Composition**: Chord progressions, lyrics
-- **Graphic Design**: Layout templates, color palettes
-
-### Development & Technical Skills
-- **Code Generation**: Boilerplate, testing, CI/CD
-- **Testing**: Test case generation, web app testing
-- **Documentation**: API docs, README files, tutorials
-- **MCP Servers**: Dynamic tool generation
-
-### Enterprise & Communication Skills
-- **Brand Guidelines**: Consistent voice, style, formatting
-- **Email Templates**: Sales, support, internal comms
-- **Data Workflows**: ETL, analysis, reporting
-- **Partner Integrations**: Notion, Slack, calendaring
+- [MCP Servers Tutorial](../mcp-servers-tutorial/) - Reference server patterns for richer tool ecosystems
 
 ---
 
-Ready to begin? Review the roadmap above while chapter pages are being finalized.
+Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ---
 
-*Built with insights from the [Anthropic Skills repository](https://github.com/anthropics/skills) and Claude developer documentation.*
+*Built with references from the official [anthropics/skills repository](https://github.com/anthropics/skills), linked support articles, and the Agent Skills specification.*

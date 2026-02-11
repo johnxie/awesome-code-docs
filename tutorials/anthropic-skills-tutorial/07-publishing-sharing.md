@@ -7,29 +7,56 @@ parent: Anthropic Skills Tutorial
 
 # Chapter 7: Publishing and Sharing
 
-Distribution determines how teams discover, trust, and reuse your skills.
+Publishing is where many teams lose quality. The fix is strong packaging and governance.
 
-## Publishing Options
+## Distribution Models
 
-- Public GitHub repository.
-- Private internal repository.
-- Plugin/marketplace packaging where supported.
+| Model | Best For | Tradeoff |
+|:------|:---------|:---------|
+| Public GitHub repo | Community adoption | Requires stronger support burden |
+| Internal monorepo | Enterprise governance | Lower external discoverability |
+| Curated plugin catalog | Controlled deployment | More release process overhead |
 
-## Release Checklist
+## Release Process
 
-- Clear README with usage examples.
-- Supported platform matrix.
-- License and contribution guidance.
-- Version tags and release notes.
+1. Update skill version and changelog.
+2. Run regression suite.
+3. Verify references/assets integrity.
+4. Tag release and publish notes.
+5. Announce migration steps for breaking changes.
 
-## Security and Governance
+## Ownership and Governance
 
-- Remove secrets from templates/scripts.
-- Document external dependencies.
-- Add ownership metadata for incident response.
+Every published skill should have:
+
+- a technical owner
+- a backup owner
+- an issue escalation path
+- a deprecation policy
+
+Without clear ownership, popular skills decay quickly.
+
+## Security and Compliance Gates
+
+Before publishing:
+
+- scan for secrets in instructions/scripts
+- verify license metadata for bundled assets
+- validate third-party dependency policy
+- confirm personally identifiable information handling
+
+## Consumer-Facing Documentation
+
+At minimum include:
+
+- when to use the skill
+- known limitations
+- input expectations
+- output contract
+- examples for successful and failed cases
 
 ## Summary
 
-You can now publish skills in a maintainable and secure way.
+You can now publish skills with predictable quality and clear operational ownership.
 
 Next: [Chapter 8: Real-World Examples](08-real-world-examples.md)

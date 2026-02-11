@@ -7,31 +7,56 @@ parent: Anthropic Skills Tutorial
 
 # Chapter 2: Skill Categories
 
-Choosing the right skill type helps define boundaries, outputs, and test strategy.
+Category design controls maintainability. If categories are too broad, skills become brittle and hard to trust.
 
-## Common Skill Types
+## Four Practical Categories
 
-| Category | Typical Input | Typical Output |
-|:---------|:--------------|:---------------|
-| Document | Raw notes, data | Report, memo, proposal |
-| Creative | Prompt intent | Copy, concepts, variants |
-| Technical | Codebase context | Code changes, tests, docs |
-| Enterprise | Policy/workflow rules | Structured compliance actions |
+| Category | Typical Inputs | Typical Outputs | Typical Risk |
+|:---------|:---------------|:----------------|:-------------|
+| Document Workflows | Notes, policy docs, datasets | Structured docs/slides/sheets | Formatting drift |
+| Creative and Brand | Briefs, tone rules, examples | On-brand copy or concepts | Brand inconsistency |
+| Engineering and Ops | Codebase context, tickets, logs | Patches, runbooks, plans | Incorrect assumptions |
+| Enterprise Process | Internal standards and controls | Audit artifacts, compliance actions | Governance gaps |
 
-## Category Decision Rules
+## How to Choose Category Boundaries
 
-- Start with one narrow business outcome.
-- Keep input assumptions explicit.
-- Prefer deterministic output formats when possible.
+Use one outcome per skill. If two outcomes have different acceptance criteria, split the skill.
+
+**Good split:**
+- `incident-triage`
+- `postmortem-draft`
+- `stakeholder-update`
+
+**Bad split:**
+- `incident-everything`
+
+A single giant skill creates unclear prompts, conflicting priorities, and harder testing.
+
+## Decision Matrix
+
+| Question | If "Yes" | If "No" |
+|:---------|:----------|:----------|
+| Is the output contract identical across requests? | Keep in same skill | Split into separate skills |
+| Do tasks share the same references and policies? | Keep shared references | Isolate by domain |
+| Can one test suite verify quality for all use cases? | Keep grouped | Split for clearer quality gates |
+| Are escalation paths identical? | Keep grouped | Split by risk/approval path |
+
+## Category-Specific Design Tips
+
+- **Document skills:** prioritize template fidelity and deterministic section ordering.
+- **Creative skills:** define what variation is allowed and what must stay fixed.
+- **Technical skills:** enforce constraints on tools, files, and unsafe operations.
+- **Enterprise skills:** include explicit policy references and audit fields.
 
 ## Anti-Patterns
 
-- One mega-skill for unrelated tasks.
-- Missing output contract.
-- Hidden dependencies not described in `SKILL.md`.
+- Category names that describe team structure instead of behavior
+- Mixing high-stakes and low-stakes actions in one skill
+- Using skills as a substitute for missing source documentation
+- Requiring hidden tribal knowledge to run the skill
 
 ## Summary
 
-You can now classify skills by purpose and scope them effectively.
+You can now define category boundaries that keep skills focused, testable, and easier to operate.
 
 Next: [Chapter 3: Advanced Skill Design](03-advanced-skill-design.md)
