@@ -255,11 +255,11 @@ Main repository:
 - Summary: **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
 - Keywords: langchain, building, applications, large, language, models, pydantic, required, fully, migrated, code, using, core, should, updated, native, syntax
 
-## Langfuse Tutorial: LLM Observability & Analytics
+## Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations
 - Path: tutorials/langfuse-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md
-- Summary: Debug, analyze, and improve your LLM applications with production-grade observability.
-- Keywords: langfuse, llm, observability, analytics, debug, analyze, improve, applications, production, grade
+- Summary: Learn how to use `langfuse/langfuse` to trace, evaluate, and improve production LLM systems with structured observability workflows.
+- Keywords: langfuse, llm, observability, evaluation, prompt, operations, learn, use, trace, evaluate, improve, production, systems, structured, workflows
 
 ## LangGraph Tutorial: Building Stateful Multi-Actor Applications
 - Path: tutorials/langgraph-tutorial
@@ -273,11 +273,11 @@ Main repository:
 - Summary: Build AI agents with persistent memory using the framework formerly known as MemGPT.
 - Keywords: letta, stateful, llm, agents, build, persistent, memory, using, framework, formerly, known, memgpt
 
-## LiteLLM Tutorial: Unified LLM API Gateway
+## LiteLLM Tutorial: Unified LLM Gateway and Routing Layer
 - Path: tutorials/litellm-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md
-- Summary: Call 100+ LLM providers with a single, consistent interface.
-- Keywords: litellm, unified, llm, api, gateway, call, providers, single, consistent, interface
+- Summary: Build provider-agnostic LLM applications with `BerriAI/litellm`, including routing, fallbacks, proxy deployment, and cost-aware operations.
+- Keywords: litellm, unified, llm, gateway, routing, layer, build, provider, agnostic, applications, berriai, including, fallbacks, proxy, deployment, cost, aware, operations
 
 ## Liveblocks - Real-Time Collaboration Deep Dive
 - Path: tutorials/liveblocks-tutorial
