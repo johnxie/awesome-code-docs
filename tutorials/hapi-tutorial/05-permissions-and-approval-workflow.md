@@ -7,32 +7,32 @@ parent: HAPI Tutorial
 
 # Chapter 5: Permissions and Approval Workflow
 
-Permission requests are where HAPI's remote control model becomes operationally useful and safe.
+Remote approvals are the core safety boundary when agents request actions.
 
-## Approval Flow
+## Approval Event Flow
 
-1. agent requests action approval
-2. CLI sends request to hub
-3. hub broadcasts to PWA/Telegram
-4. user approves or denies from remote device
-5. decision is relayed back to session
+1. agent emits permission request
+2. CLI forwards request to hub
+3. hub stores and broadcasts to PWA/Telegram
+4. operator approves/denies
+5. decision returns to active session
 
-## Policy Guidelines
+## Policy Matrix
 
-| Action Class | Recommended Policy |
+| Request Type | Recommended Policy |
 |:-------------|:-------------------|
-| file edits in scoped repo | manual approval |
-| command execution | manual approval with command visibility |
-| high-risk destructive ops | deny by default |
+| scoped file edits | approve with diff visibility |
+| command execution | require explicit command preview |
+| destructive/system-wide actions | deny by default |
 
-## Reliability Practices
+## Operational Controls
 
-- require explicit request context for each approval
-- track approval latency and denial rates
-- maintain audit logs for approval decisions
+- enforce timeout for unresolved approvals
+- require request metadata (target file/command/context)
+- retain immutable approval logs for audit and incident review
 
 ## Summary
 
-You can now govern remote approvals with clear safety boundaries.
+You now have a governance model for remote permission handling in HAPI.
 
 Next: [Chapter 6: PWA, Telegram, and Extensions](06-pwa-telegram-and-extensions.md)

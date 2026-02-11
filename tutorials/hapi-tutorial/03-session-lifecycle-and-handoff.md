@@ -7,33 +7,34 @@ parent: HAPI Tutorial
 
 # Chapter 3: Session Lifecycle and Handoff
 
-HAPI's defining capability is seamless control handoff between terminal and remote devices.
+HAPI's key design goal is switching control surfaces without restarting or losing session context.
 
-## Session Lifecycle
-
-1. user starts `hapi` locally
-2. CLI registers session with hub
-3. hub persists session and broadcasts updates
-4. remote client sends messages/approvals
-5. CLI continues agent execution without restarting context
-
-## Handoff Model
+## Lifecycle Flow
 
 ```mermaid
 graph LR
-    L[Local Terminal Control] <--> R[Remote Phone/Web Control]
-    L --> S[Same Session State]
-    R --> S
+    A[Start hapi in terminal] --> B[Session registered in hub]
+    B --> C[Remote client attaches]
+    C --> D[Messages and approvals flow]
+    D --> E[Control switches local <-> remote]
 ```
 
-## Operational Benefits
+## Handoff Rules
 
-- no context reset while switching devices
-- async approvals while away from workstation
-- easier long-running task supervision without terminal lock-in
+- local and remote operate on the same persisted session state
+- permission decisions are relayed in real time
+- switching surfaces should not fork or duplicate session identity
+
+## High-Value Use Cases
+
+| Use Case | Benefit |
+|:---------|:--------|
+| stepping away mid-task | continue approvals from phone |
+| long-running agent work | monitor status without terminal lock |
+| team/operator handoff | preserve continuity during shift changes |
 
 ## Summary
 
-You can now design workflows that intentionally switch between local focus and remote supervision.
+You can now model HAPI sessions as persistent control channels, not transient terminal jobs.
 
 Next: [Chapter 4: Remote Access and Networking](04-remote-access-and-networking.md)

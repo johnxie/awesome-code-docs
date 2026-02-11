@@ -7,28 +7,28 @@ parent: HAPI Tutorial
 
 # Chapter 6: PWA, Telegram, and Extensions
 
-HAPI provides multiple client surfaces so teams can choose how they receive and act on agent events.
+HAPI supports multiple control surfaces so users can choose the right experience for context and urgency.
 
-## Client Surfaces
+## Client Surface Comparison
 
-| Surface | Strength |
+| Surface | Best For |
 |:--------|:---------|
-| PWA | app-like browser experience with installable workflow |
-| Telegram Mini App | integrated notifications and quick approvals |
-| terminal + runner | machine-targeted session orchestration |
+| PWA | full mobile/desktop remote session control |
+| Telegram Mini App | fast approvals and notification-first workflow |
+| terminal + runner | machine-level orchestration and spawning |
 
-## PWA Advantages
+## PWA Operations
 
-- installable mobile/desktop UX
-- cached session views and update prompts
-- notification support for approval events
+- install as home-screen app for fast access
+- use notification permissions for approval alerts
+- rely on cached UI for degraded connectivity scenarios
 
-## Extension Strategy
+## Extension Opportunities
 
-Use runner + multi-machine setup to spawn or route sessions where compute or access policy is best suited.
+Use runner + machine identities to route new sessions to specific hosts based on performance, policy, or ownership.
 
 ## Summary
 
-You can now map HAPI interfaces to user roles and on-call workflows.
+You can now align HAPI interfaces with operator roles and team workflow needs.
 
 Next: [Chapter 7: Configuration and Security](07-configuration-and-security.md)

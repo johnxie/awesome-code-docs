@@ -7,28 +7,32 @@ parent: HAPI Tutorial
 
 # Chapter 4: Remote Access and Networking
 
-HAPI can run local-only or exposed remotely through relay and tunnel strategies.
+Networking design determines whether HAPI is simple local tooling or production remote infrastructure.
 
 ## Access Modes
 
-| Mode | Best For |
+| Mode | Strength |
 |:-----|:---------|
-| local-only (`hapi hub`) | single-machine private usage |
-| relay (`hapi hub --relay`) | fast secure remote access |
-| self-managed tunnels | custom infra and network governance |
+| local-only (`hapi hub`) | tight isolation and low setup overhead |
+| relay (`hapi hub --relay`) | quick secure internet access |
+| self-hosted tunnel/public host | full routing and policy ownership |
 
-## Networking Considerations
+## Network Requirements
 
-- ensure reachable public URL for remote devices
-- preserve SSE compatibility in chosen tunnel setup
-- maintain TLS and token-based access controls
+- stable SSE-compatible ingress path
+- TLS for remote clients
+- explicit host/port/public URL configuration
+- firewall rules matching hub ingress and tunnel design
 
-## Self-Hosted Tunnel Options
+## Deployment Pattern
 
-Common patterns include Cloudflare Tunnel (named tunnel), Tailscale, or ngrok-style access.
+1. validate local-only mode
+2. enable relay or named tunnel
+3. test phone/browser connectivity and auth
+4. verify reconnect behavior under network interruption
 
 ## Summary
 
-You now have a decision framework for exposing HAPI safely to remote clients.
+You now have a practical network rollout sequence for safe remote HAPI access.
 
 Next: [Chapter 5: Permissions and Approval Workflow](05-permissions-and-approval-workflow.md)

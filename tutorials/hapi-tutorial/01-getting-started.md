@@ -7,17 +7,17 @@ parent: HAPI Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter gets HAPI installed and validates a complete first session from terminal to mobile/web control.
+This chapter gets HAPI installed and verifies a full terminal-to-mobile control loop.
 
 ## Prerequisites
 
 | Requirement | Purpose |
 |:------------|:--------|
-| Claude/Codex/Gemini/OpenCode CLI | underlying coding agent runtime |
-| Node/npm or Homebrew | HAPI installation path |
-| phone/browser access | remote control and approval validation |
+| Claude/Codex/Gemini/OpenCode CLI | agent runtime HAPI wraps |
+| npm/Homebrew | HAPI install path |
+| phone/browser access | remote approvals and messaging |
 
-## Install and Boot Sequence
+## Install and Start
 
 ```bash
 npm install -g @twsxtd/hapi
@@ -25,23 +25,24 @@ hapi hub --relay
 hapi
 ```
 
-`hapi server` remains available as an alias for hub startup.
+`hapi server` is supported as a hub alias.
 
-## First Validation Checklist
+## First Session Validation
 
-- hub prints URL + QR code
-- login with access token works
-- terminal session appears in web UI
-- sending message from phone reaches active terminal session
+1. hub prints URL + QR code
+2. login using generated access token
+3. session appears in UI
+4. send a message from phone/web and observe terminal response
+5. verify permission prompt can be approved remotely
 
-## Fast Troubleshooting
+## Initial Troubleshooting
 
-- verify target agent CLI is installed and authenticated
-- confirm `HAPI_API_URL` and token values if not using localhost
-- check firewall/tunnel settings when remote device cannot connect
+- ensure underlying agent CLI is installed and authenticated
+- confirm `HAPI_API_URL`/`CLI_API_TOKEN` when hub is not localhost
+- verify relay/tunnel reachability and TLS path
 
 ## Summary
 
-You now have HAPI installed and a working first local-to-remote control loop.
+You now have a working HAPI baseline with remote control enabled.
 
 Next: [Chapter 2: System Architecture](02-system-architecture.md)
