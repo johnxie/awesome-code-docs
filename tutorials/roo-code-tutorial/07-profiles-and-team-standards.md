@@ -7,32 +7,72 @@ parent: Roo Code Tutorial
 
 # Chapter 7: Profiles and Team Standards
 
-Profiles are the mechanism for scaling Roo Code behavior consistently across teams.
+Profiles are the mechanism for making Roo behavior consistent across individuals and repositories.
 
-## Profile Baseline
+## Why Profiles Matter
+
+Without shared profiles, teams get:
+
+- inconsistent model/provider usage
+- variable prompt quality
+- unpredictable cost and latency
+- uneven review and approval behavior
+
+Profiles solve this by encoding defaults.
+
+## Profile Baseline Components
 
 | Component | Standardize |
 |:----------|:------------|
 | model strategy | default model tiers by task class |
-| mode policy | which mode is allowed for which work |
-| tool policy | allowlist and approval thresholds |
-| output format | required summary and evidence template |
+| mode policy | which modes are preferred/forbidden per work type |
+| tool policy | approved tools and approval thresholds |
+| output format | required summary and evidence structure |
+| budget controls | per-task and per-session limits |
 
-## Rollout Sequence
+## Example Team Profile Set
 
-1. pilot profile in one repository
-2. measure quality, latency, and cost outcomes
-3. revise policy and publish versioned baseline
-4. expand to additional repos with opt-in gates
+| Profile | Use Case |
+|:--------|:---------|
+| `dev-fast` | everyday implementation loops |
+| `debug-deep` | incident and regression investigation |
+| `release-safe` | high scrutiny before merge/release |
+| `private-compliance` | sensitive code and restricted providers |
 
-## Operational Benefits
+## Rollout Pattern
 
-- more predictable task quality
-- easier onboarding and review
-- lower variance in cost and execution time
+1. pilot profile in one repo
+2. collect quality/cost/latency metrics
+3. revise defaults and publish versioned profile
+4. expand to more teams with opt-in gates
 
-## Summary
+## Policy Drift Controls
 
-You can now deploy Roo Code with shared operating standards instead of ad hoc usage.
+- version profile definitions
+- log profile changes with rationale
+- run scheduled profile health checks
+- review exceptions and temporary overrides
+
+## Team Enablement Checklist
+
+- profile docs are accessible
+- onboarding includes profile selection guidance
+- prompt templates are profile-aware
+- incident runbooks reference profile behavior
+
+## Anti-Patterns
+
+- too many profiles with overlapping scope
+- profiles that hide risky defaults
+- no ownership for profile maintenance
+- no metric feedback loop after rollout
+
+## Chapter Summary
+
+You now have a profile-driven scaling model for Roo Code:
+
+- shared defaults for quality and safety
+- staged rollout with measurable impact
+- governance against policy drift
 
 Next: [Chapter 8: Enterprise Operations](08-enterprise-operations.md)

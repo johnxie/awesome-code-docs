@@ -7,39 +7,122 @@ parent: Roo Code Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter gets Roo Code installed and validated in a safe editor workflow.
+This chapter establishes a stable Roo Code baseline in a VS Code-compatible workflow.
+
+## Objectives
+
+By the end, you will have:
+
+1. Roo Code installed and running
+2. one provider configured successfully
+3. a deterministic first task completed
+4. a minimum approval policy for safe usage
 
 ## Prerequisites
 
-| Requirement | Purpose |
-|:------------|:--------|
+| Requirement | Why It Matters |
+|:------------|:---------------|
 | VS Code-compatible editor | Roo Code extension runtime |
-| provider credentials | enables model-backed task execution |
-| test repository | low-risk place to calibrate behavior |
+| API credentials for at least one provider | model-backed execution |
+| sandbox repository | low-risk calibration environment |
+| canonical lint/test command | repeatable validation signal |
 
-## Setup Sequence
+## Installation Paths
 
-1. install Roo Code from the supported marketplace path
-2. configure provider and profile defaults
-3. open a sandbox project with stable tests
-4. run a bounded first task with approvals enabled
+### Marketplace install
 
-## First Validation Prompt
+Install Roo Code from the VS Code marketplace and reload the editor.
 
-```text
-Summarize module structure, refactor one utility function,
-run the repository lint command, and report changed files.
+### VSIX install (team/internal path)
+
+Roo Code repository docs include VSIX build/install flows.
+
+Typical dev workflow commands:
+
+```bash
+git clone https://github.com/RooCodeInc/Roo-Code.git
+cd Roo-Code
+pnpm install
+pnpm install:vsix
 ```
 
-## First-Run Success Criteria
+Alternative manual VSIX flow:
 
-- file reads and summaries are accurate
-- edit proposals are reviewable before apply
-- command output is captured clearly
-- final summary maps edits to validation results
+```bash
+pnpm vsix
+code --install-extension bin/roo-cline-<version>.vsix
+```
 
-## Summary
+## Provider Setup
 
-You now have Roo Code running with a controlled baseline for deeper mode-driven workflows.
+Start with one known-good provider/model pair. Add more only after first task reliability is proven.
+
+Initial policy:
+
+- approvals enabled for file edits and commands
+- no broad automation modes during first-day onboarding
+- explicit task summaries required
+
+## First Task Prompt
+
+```text
+Analyze src/services/session.ts,
+refactor one function for readability without changing behavior,
+run the target test command,
+and summarize changed files and validation output.
+```
+
+Success criteria:
+
+- proposed patch is reviewable
+- expected file scope is respected
+- command output is captured
+- summary maps changes to results
+
+## Baseline Safety Defaults
+
+Set and document:
+
+- default mode for routine coding tasks
+- approval threshold for mutating commands
+- required validation command for each task class
+- rollback expectation for risky changes
+
+## First-Run Checklist
+
+| Area | Check | Pass Signal |
+|:-----|:------|:------------|
+| Install | extension loads correctly | Roo interface opens without errors |
+| Provider | model call succeeds | initial task response is actionable |
+| Edit flow | diffs are visible before apply | review step works consistently |
+| Command flow | test/lint command executes | output attached to task result |
+| Summary | results are clear and complete | reviewer can understand outcome quickly |
+
+## Common Startup Issues
+
+### Provider mismatch
+
+- confirm selected provider and key are aligned
+- reduce to one provider first
+
+### Unstable task outputs
+
+- tighten task scope to one file/module
+- include explicit non-goals
+- require final summary format
+
+### Command confusion
+
+- specify exact command in prompt
+- avoid ambiguous phrasing like "run checks"
+
+## Chapter Summary
+
+You now have Roo Code running with:
+
+- installation complete
+- provider baseline validated
+- deterministic first task executed
+- initial safety policy in place
 
 Next: [Chapter 2: Modes and Task Design](02-modes-and-task-design.md)
