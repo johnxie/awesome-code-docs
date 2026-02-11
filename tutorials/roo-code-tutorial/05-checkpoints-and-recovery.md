@@ -7,30 +7,31 @@ parent: Roo Code Tutorial
 
 # Chapter 5: Checkpoints and Recovery
 
-Checkpoint workflows make autonomous experimentation safer.
+Checkpoints let teams experiment quickly without accepting irreversible drift.
 
-## Checkpoint Pattern
+## Checkpoint Lifecycle
 
-- snapshot workspace before risky edits
-- compare output against checkpoint state
-- restore quickly when changes regress behavior
+1. capture baseline before risky edits
+2. execute candidate patch set
+3. compare behavior and diff against checkpoint
+4. restore and branch another strategy when needed
 
-## Use Cases
+## When to Checkpoint
 
-- trying alternative implementation strategies
-- testing aggressive refactors
-- recovering from prompt overreach
+| Situation | Why Snapshot First |
+|:----------|:-------------------|
+| multi-file refactor | rollback cost is otherwise high |
+| dependency/config shifts | blast radius can be broad |
+| uncertain bug root cause | enables parallel repair paths |
 
 ## Recovery Rules
 
-| Rule | Why |
-|:-----|:----|
-| checkpoint before multi-file edits | fast rollback |
-| annotate checkpoints with intent | easier comparison |
-| restore with validation rerun | confirm clean recovery |
+- annotate checkpoint intent before execution
+- always rerun validation after restore
+- record winning vs rejected approaches for future prompts
 
 ## Summary
 
-You now have a controlled rollback strategy for agent-assisted development.
+You now have a rollback discipline that supports fast experimentation with lower operational risk.
 
 Next: [Chapter 6: MCP and Tool Extensions](06-mcp-and-tool-extensions.md)

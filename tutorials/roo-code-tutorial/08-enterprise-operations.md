@@ -7,33 +7,34 @@ parent: Roo Code Tutorial
 
 # Chapter 8: Enterprise Operations
 
-This chapter covers production governance for Roo Code at organizational scale.
+This chapter covers the controls needed for production-scale Roo Code deployment.
 
 ## Enterprise Control Areas
 
-- identity and access policy
-- centralized model/provider governance
-- immutable audit and usage telemetry
-- network and secret management controls
+- identity and access governance
+- centralized provider/model policy
+- audit-ready logs for commands and tool calls
+- network and secret management boundaries
 
-## Observability Baseline
+## Observability Signals
 
-Track:
-
-- task success/failure rates
-- command and tool error classes
-- model latency and token cost by mode
-- policy-denied action trends
+| Signal | Why Track It |
+|:-------|:-------------|
+| task success/failure rate | baseline reliability |
+| command/tool error classes | integration quality |
+| median mode latency | performance bottlenecks |
+| cost per completed task | budget governance |
 
 ## Incident Readiness
 
-- keep emergency disable controls for risky tools
-- maintain rollback paths for policy/profile changes
-- run periodic drills for provider outages
+- keep emergency disable switches for risky tools
+- maintain rollback for policy/profile changes
+- document provider outage playbooks
+- run periodic failure drills with real repositories
 
 ## Final Summary
 
-You now have end-to-end guidance for operating Roo Code from individual productivity to enterprise-grade governance.
+You now have an end-to-end model for operating Roo Code from individual usage to enterprise-scale governance.
 
 Related:
 - [Cline Tutorial](../cline-tutorial/)

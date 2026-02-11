@@ -7,32 +7,33 @@ parent: Roo Code Tutorial
 
 # Chapter 3: File and Command Operations
 
-Effective Roo workflows combine code edits with runtime verification.
+Roo Code is most effective when edits and runtime validation are tightly coupled.
 
-## Operation Loop
+## Controlled Edit-and-Verify Loop
 
-1. propose targeted file changes
-2. review diffs
-3. approve and apply
-4. execute validation commands
-5. iterate based on output
+1. generate a targeted patch
+2. review diff scope and semantics
+3. approve apply step
+4. run lint/test/build command
+5. iterate until deterministic pass
 
-## Safety Controls
+## Review Rubric
 
-- keep destructive shell actions approval-gated
-- scope edits to explicit file sets
-- require validation command before task completion
+| Dimension | Check |
+|:----------|:------|
+| scope | only intended files changed |
+| correctness | logic matches requested behavior |
+| risk | no hidden config/security regressions |
+| compatibility | public interfaces remain valid |
 
-## Reliability Practices
+## Command Safety Controls
 
-| Practice | Benefit |
-|:---------|:--------|
-| deterministic test/lint command | consistent verification |
-| structured command logs | easier debugging/audit |
-| bounded retry policy | avoids runaway loops |
+- keep destructive commands approval-gated
+- use canonical repo commands where possible
+- set retry/timeout boundaries for noisy commands
 
 ## Summary
 
-You now have a practical edit-and-verify loop for reliable Roo Code operation.
+You now have a repeatable patch-validation loop for dependable Roo Code outcomes.
 
 Next: [Chapter 4: Context and Indexing](04-context-and-indexing.md)

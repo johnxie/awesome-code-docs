@@ -7,31 +7,39 @@ parent: Roo Code Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter gets Roo Code installed and validated in an editor development loop.
+This chapter gets Roo Code installed and validated in a safe editor workflow.
 
-## Setup Path
+## Prerequisites
 
-1. install Roo Code from supported marketplace/install method
-2. configure provider credentials/profile
-3. open a sandbox repository
-4. run a small bounded task with review enabled
+| Requirement | Purpose |
+|:------------|:--------|
+| VS Code-compatible editor | Roo Code extension runtime |
+| provider credentials | enables model-backed task execution |
+| test repository | low-risk place to calibrate behavior |
 
-## First Validation Task
+## Setup Sequence
 
-Use a low-risk task combining analysis + edit + verification:
+1. install Roo Code from the supported marketplace path
+2. configure provider and profile defaults
+3. open a sandbox project with stable tests
+4. run a bounded first task with approvals enabled
 
-- summarize module structure
-- apply a tiny refactor
-- run lint or one test command
+## First Validation Prompt
 
-This confirms end-to-end toolchain behavior.
+```text
+Summarize module structure, refactor one utility function,
+run the repository lint command, and report changed files.
+```
 
-## Safety Baseline
+## First-Run Success Criteria
 
-Keep approvals active for command and edit operations while calibrating your profile and mode defaults.
+- file reads and summaries are accurate
+- edit proposals are reviewable before apply
+- command output is captured clearly
+- final summary maps edits to validation results
 
 ## Summary
 
-You now have a functioning Roo Code setup and baseline for deeper mode-driven workflows.
+You now have Roo Code running with a controlled baseline for deeper mode-driven workflows.
 
 Next: [Chapter 2: Modes and Task Design](02-modes-and-task-design.md)
