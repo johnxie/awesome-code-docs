@@ -14,7 +14,7 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-93-brightgreen.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-94-brightgreen.svg)](#-tutorial-catalog)
 [![Content Hours](https://img.shields.io/badge/content-1100%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -62,7 +62,7 @@ Each chapter includes **Mermaid architecture diagrams**, **annotated code exampl
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   57+ tutorials    │   20 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   57+ tutorials    │   21 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -152,7 +152,8 @@ AI coding assistants, build systems, and dev infrastructure.
 | Tutorial | Stars | Stack | What You'll Learn |
 |:---------|:-----:|:------|:------------------|
 | **[Continue](tutorials/continue-tutorial/)** | 22K+ | TypeScript | Open-source AI coding assistant |
-| **[Cline](tutorials/cline-tutorial/)** | 57K+ | TypeScript/VS Code | Agentic coding with terminal, browser, MCP tools |
+| **[Cline](tutorials/cline-tutorial/)** | 58K+ | TypeScript/VS Code | Agentic coding with terminal, browser, MCP tools |
+| **[Roo Code](tutorials/roo-code-tutorial/)** | 22K+ | TypeScript/VS Code | Multi-mode coding agents with checkpoints and MCP |
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[OpenHands](tutorials/openhands-tutorial/)** | 67K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
@@ -336,8 +337,8 @@ OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        93                            ║
-║  📝 Total Chapters         776+                          ║
+║  📦 Total Tutorials        94                            ║
+║  📝 Total Chapters         784+                          ║
 ║  📏 Lines of Content       520,000+                      ║
 ║  ⏱️  Estimated Hours        1,100+                        ║
 ║  🏗️  Architecture Diagrams  550+                          ║
@@ -351,7 +352,7 @@ OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime
 | 🧠 LLM Frameworks & RAG | 12 | Complete |
 | 🖥️ LLM Infrastructure | 9 | Complete |
 | 💬 Chat & AI Apps | 13 | Complete |
-| 🔧 Developer Tools | 19 | Complete |
+| 🔧 Developer Tools | 20 | Complete |
 | 🗄️ Data & Analytics | 14 | Complete |
 | ⚙️ Systems & Infra | 6 | Complete |
 | 🎤 Speech & Multimodal AI | 3 | Complete |
