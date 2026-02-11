@@ -7,41 +7,52 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 5: Function Calling
 
-Tool execution lets realtime agents act on live data during voice interactions.
+Tooling is where realtime agents become operationally useful.
 
-## Define Tools
+## Function-Call Workflow
 
-```ts
-const tools = [
-  {
-    type: "function",
-    name: "get_weather",
-    description: "Get current weather by city",
-    parameters: {
-      type: "object",
-      properties: { city: { type: "string" } },
-      required: ["city"],
-    },
-  },
-];
+1. model emits tool request with arguments
+2. app validates and executes tool logic
+3. tool result is returned to conversation
+4. model synthesizes user-facing response
+
+## Safety Requirements
+
+Before executing any tool:
+
+- validate schema and semantic constraints
+- apply authorization checks
+- enforce timeout budgets
+- classify side-effect risk level
+
+## Realtime-Specific Considerations
+
+- tool latency should be surfaced in UX (for example, short acknowledgments)
+- long-running tools need status updates or fallback paths
+- partial results can reduce perceived latency when safe
+
+## Structured Return Shape
+
+Always return stable tool payloads.
+
+```json
+{
+  "status": "ok",
+  "data": {"order_id": "123", "state": "shipped"},
+  "confidence": 0.98
+}
 ```
 
-## Tool Execution Loop
+This improves downstream response reliability and simplifies auditing.
 
-1. Receive tool-call event.
-2. Validate arguments.
-3. Execute server-side function.
-4. Send tool result event.
-5. Resume assistant response.
+## Anti-Patterns
 
-## Safety Rules
-
-- Never trust raw tool arguments.
-- Enforce allowlisted operations.
-- Set execution timeouts and retries.
+- returning unstructured free text from tools
+- giving tools direct access to unrestricted resources
+- silently swallowing tool errors
 
 ## Summary
 
-You can now run real-time function calls safely in voice sessions.
+You now have a dependable model for real-time tool use and response synthesis.
 
 Next: [Chapter 6: Voice Output](06-voice-output.md)

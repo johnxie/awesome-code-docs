@@ -7,49 +7,42 @@ parent: OpenAI Whisper Tutorial
 
 # Chapter 3: Audio Preprocessing
 
-Input quality strongly affects output quality. Standardize audio before inference.
+Input quality is often the biggest lever for transcription quality.
 
-## Normalize Audio with ffmpeg
+## Core Preprocessing Steps
 
-```bash
-ffmpeg -i input.m4a -ar 16000 -ac 1 -c:a pcm_s16le clean.wav
-```
+1. decode source media reliably
+2. normalize sample rate/channel layout
+3. remove long silence where appropriate
+4. segment long recordings into manageable chunks
 
-This converts to 16 kHz mono WAV, a stable format for ASR pipelines.
+## Why Segmentation Matters
 
-## Segment Long Files
+Long, unsegmented audio increases latency and can reduce coherence around topic transitions. Segmenting with overlap often improves both throughput and quality.
 
-```bash
-ffmpeg -i long_call.wav -f segment -segment_time 300 -c copy chunk_%03d.wav
-```
+## Noise and Channel Considerations
 
-Chunking improves memory behavior and retry granularity.
+- apply gentle denoising for severe background noise
+- prefer close-talk microphone capture when possible
+- monitor clipping and low-SNR audio
 
-## Python Preprocessing Pattern
+## Preprocessing Checklist
 
-```python
-import subprocess
-from pathlib import Path
+| Check | Target |
+|:------|:-------|
+| Decoding reliability | No missing/corrupt audio frames |
+| Segment length | Predictable, bounded chunk sizes |
+| Overlap policy | Enough context to avoid word truncation |
+| Silence policy | Remove dead air but preserve speaker pauses |
 
+## Pitfalls
 
-def preprocess(src: str, dst: str) -> None:
-    cmd = [
-        "ffmpeg", "-y", "-i", src,
-        "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", dst,
-    ]
-    subprocess.run(cmd, check=True)
-
-preprocess("raw_audio.mp3", "ready.wav")
-```
-
-## Noise and Silence Strategy
-
-- Remove long leading/trailing silence.
-- Use VAD for streaming scenarios.
-- Keep original audio for forensic reprocessing.
+- over-aggressive noise reduction harming speech intelligibility
+- inconsistent segmentation causing duplicate or dropped text
+- mixing wildly different audio domains in one pipeline without adaptation
 
 ## Summary
 
-You can now build a deterministic preprocessing step before Whisper inference.
+You now have a repeatable preprocessing pipeline that improves both quality and runtime stability.
 
 Next: [Chapter 4: Transcription and Translation](04-transcription-translation.md)

@@ -7,30 +7,45 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 6: Voice Output
 
-Output speech quality depends on chunking strategy and playback control.
+Output quality in voice systems is a mix of timing, clarity, and interruption behavior.
 
-## Stream and Play Audio Deltas
+## Output Pipeline
 
-```ts
-function handleAudioDelta(base64Chunk: string) {
-  // decode chunk, enqueue PCM frames, feed audio output buffer
-}
-```
+1. model emits response deltas
+2. audio stream is synthesized
+3. client buffers/playbacks frames
+4. playback is interrupted or completed based on user behavior
 
-## Playback Controls
+## Voice UX Guidelines
 
-- Pause/resume output for interruptions.
-- Flush buffered audio when context changes.
-- Keep jitter buffers small to reduce delay.
+- Keep responses shorter than text chat equivalents.
+- Prefer plain wording over dense lists.
+- Use brief verbal markers for transitions (for example: "Checking that now").
+- Avoid long unbroken monologues.
 
-## Voice UX Principles
+## Barge-In Handling
 
-- Start audio quickly, even before full response completion.
-- Keep utterances concise for conversational feel.
-- Handle TTS errors with text fallback.
+When user starts speaking while output audio is playing:
+
+- stop playback quickly
+- preserve minimal assistant state
+- prioritize new user turn
+
+Fast barge-in handling is one of the strongest predictors of perceived quality.
+
+## Audio Quality Monitoring
+
+Track:
+
+- time-to-first-audio
+- synthesis completion latency
+- interruption rate
+- playback error rate
+
+These metrics catch regressions earlier than subjective feedback alone.
 
 ## Summary
 
-You can now deliver low-latency, interruptible voice output.
+You now understand how to make realtime voice output feel responsive and controllable.
 
 Next: [Chapter 7: Advanced Patterns](07-advanced-patterns.md)

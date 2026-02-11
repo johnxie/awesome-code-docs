@@ -7,44 +7,44 @@ parent: OpenAI Whisper Tutorial
 
 # Chapter 4: Transcription and Translation
 
-Whisper supports both same-language transcription and translation to English.
+This chapter covers the two highest-value tasks: transcription and speech-to-English translation.
 
-## Transcribe in Source Language
+## Basic Transcription
 
 ```python
-result = model.transcribe(
-    "meeting_es.wav",
-    task="transcribe",
-    language="es",
-)
+import whisper
+
+model = whisper.load_model("small")
+result = model.transcribe("meeting.wav")
 print(result["text"])
 ```
 
-## Translate to English
+## Translation Workflow
+
+For non-English speech to English text, use a multilingual model and task override:
 
 ```python
-result = model.transcribe(
-    "meeting_es.wav",
-    task="translate",
-)
-print(result["text"])  # English output
+result = model.transcribe("speech.wav", task="translate")
 ```
 
-## Segment-Level Timestamps
+The official README warns that `turbo` is not translation-focused, so prefer other multilingual models when translation quality matters.
 
-```python
-for seg in result["segments"]:
-    print(f"{seg['start']:.2f}s - {seg['end']:.2f}s :: {seg['text']}")
-```
+## Language Detection
 
-## Practical Guidelines
+Lower-level APIs allow explicit language detection and decoding control. This is useful for analytics pipelines that need language metadata.
 
-- Set explicit `language` for better stability when known.
-- Use `task="translate"` for multilingual content pipelines.
-- Persist segments for subtitle and search indexing.
+## Timestamps and Subtitles
+
+Whisper can produce segment timing data that supports subtitle generation and aligned transcript experiences.
+
+## Evaluation Tips
+
+- track WER/CER by language/domain
+- review difficult audio categories separately
+- compare model choices against real workload latency budgets
 
 ## Summary
 
-You can now run multilingual transcription and translation with timestamped segments.
+You can now run robust transcription and translation workflows with explicit model/task choices.
 
-Next: [Chapter 5: Fine-Tuning](05-fine-tuning.md)
+Next: [Chapter 5: Fine-Tuning and Adaptation](05-fine-tuning.md)

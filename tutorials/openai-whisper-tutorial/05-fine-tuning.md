@@ -1,51 +1,48 @@
 ---
 layout: default
-title: "Chapter 5: Fine-Tuning"
+title: "Chapter 5: Fine-Tuning and Adaptation"
 nav_order: 5
 parent: OpenAI Whisper Tutorial
 ---
 
-# Chapter 5: Fine-Tuning
+# Chapter 5: Fine-Tuning and Adaptation
 
-Whisper in production is often used as-is, but domain adaptation can improve niche accuracy.
+This chapter explains what is practical today when domain-specific performance is required.
 
-## Important Context
+## Reality Check
 
-The core Whisper repo is optimized for inference. Full training and fine-tuning workflows are typically implemented with external training stacks (for example Hugging Face Seq2Seq recipes).
+The official Whisper repository is primarily focused on inference and reference usage, not a turnkey fine-tuning product workflow.
 
-## Dataset Preparation
+For many teams, better results come first from:
 
-- Paired audio and transcript text.
-- Consistent sampling rate (usually 16 kHz).
-- Clean labels with punctuation conventions.
-- Separate train/validation/test splits.
+- improved preprocessing
+- smarter segmentation
+- better model-size selection
+- domain-aware post-processing
 
-## Fine-Tuning Loop (Conceptual)
+## Adaptation Strategies
 
-```python
-# Pseudocode only
-for batch in train_loader:
-    mel, labels = batch
-    loss = model(mel, labels=labels).loss
-    loss.backward()
-    optimizer.step()
-    optimizer.zero_grad()
-```
+1. **Lexicon correction layer** for domain terms and names
+2. **Context-aware post-editing** with an LLM
+3. **Confidence-triggered human review** for critical domains
+4. **Selective retraining** with community/custom pipelines when justified
 
-## Evaluation Metrics
+## When to Consider Custom Training
 
-- **WER (Word Error Rate)** for transcription quality.
-- **CER (Character Error Rate)** for noisy or multilingual scripts.
-- Domain-specific benchmark sets (support calls, medical dictation, etc.).
+Consider it only when:
 
-## Risks and Guardrails
+- domain error rates remain unacceptable after pipeline optimization
+- you can curate high-quality labeled speech data
+- you can maintain a reproducible training and evaluation stack
 
-- Overfitting on narrow vocabulary.
-- Regression on accents not present in training data.
-- Label quality issues causing hallucinated punctuation.
+## Risks
+
+- expensive training and infra complexity
+- fragile gains if data quality is inconsistent
+- regression risk across languages/accents not represented in training
 
 ## Summary
 
-You now understand when and how to approach Whisper domain adaptation safely.
+You now have a realistic adaptation path that starts with low-risk pipeline improvements before costly retraining.
 
 Next: [Chapter 6: Advanced Features](06-advanced-features.md)

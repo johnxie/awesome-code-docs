@@ -7,34 +7,55 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 8: Production Deployment
 
-This chapter turns your prototype into a production realtime voice system.
+Production voice agents require coordinated controls across security, latency, and reliability.
 
-## Infrastructure Blueprint
+## Security Baseline
 
-- Edge frontend for capture and playback.
-- Session service for short-lived auth tokens.
-- Realtime gateway for signaling and observability.
-- Tool execution service isolated from public traffic.
+- use short-lived session credentials
+- never expose long-lived API secrets in clients
+- enforce server-side tool authorization
+- log high-risk tool calls with full trace metadata
 
-## Production Checklist
+## Latency and Reliability Baseline
 
-- Region-aware routing for lower latency.
-- Autoscaling based on concurrent session count.
-- Circuit breakers for tool backends.
-- Session recording and audit trails where policy allows.
+Track and alert on:
 
-## Monitoring Essentials
+- session creation latency
+- time-to-first-audio
+- tool call latency and timeout rates
+- response failure and reconnect rates
 
-- first-audio-byte latency
-- interruption success rate
-- handoff completion rate
-- tool call error rate
-- session drop/reconnect frequency
+## Rollout Strategy
+
+1. Ship internal beta with verbose logs.
+2. Enable limited external traffic with canary routing.
+3. Compare voice quality + latency against baseline.
+4. Gradually scale while preserving rollback capability.
+
+## Failure Handling
+
+Prepare for:
+
+- transport interruptions
+- tool backend outages
+- malformed client events
+- model-level service degradations
+
+Every failure mode needs a user-visible fallback path.
+
+## Migration Readiness
+
+Because Realtime platform interfaces evolve quickly, keep:
+
+- pinned SDK versions
+- contract tests for event handling
+- migration notes tied to explicit dates and versions
 
 ## Final Summary
 
-You now have the complete path for building, orchestrating, and operating realtime voice agents.
+You now have an end-to-end architecture and operating playbook for production-grade realtime voice agents.
 
 Related:
-- [OpenAI Whisper Tutorial](../openai-whisper-tutorial/)
 - [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
+- [OpenAI Whisper Tutorial](../openai-whisper-tutorial/)
+- [Swarm Tutorial](../swarm-tutorial/)

@@ -7,34 +7,45 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 7: Advanced Patterns
 
-This chapter covers multi-agent orchestration patterns from the reference project.
+This chapter covers the two flagship patterns demonstrated by the official repository.
 
 ## Pattern 1: Chat-Supervisor
 
-- Realtime agent handles quick conversational turns.
-- Supervisor model handles deeper reasoning tasks.
-- Supervisor returns guidance that realtime agent verbalizes.
+**Design:**
+
+- fast realtime chat agent handles greeting, small talk, and quick confirmations
+- stronger text model supervisor handles complex reasoning and heavy tool usage
+
+**Why it works:**
+
+- preserves responsiveness for routine turns
+- provides stronger reasoning where needed
+- reduces full-stack migration risk for existing text-agent systems
 
 ## Pattern 2: Sequential Handoff
 
-- Triage agent classifies intent.
-- Control transfers to specialist agent (support, sales, technical).
-- Shared context store preserves state across handoffs.
+**Design:**
 
-## Pattern 3: Escalation Guardrails
+- specialist realtime agents (for example auth, billing, returns) hand off based on intent
+- transfer rules are explicit in agent graph configuration
 
-- Detect high-risk topics.
-- Route to stricter policy/safety pipeline.
-- Require confirmation for sensitive actions.
+**Why it works:**
 
-## Operational Notes
+- keeps prompts/tools scoped per agent
+- reduces instruction collisions
+- improves domain-specific accuracy
 
-- Add handoff latency metrics.
-- Track failed or oscillating handoffs.
-- Keep handoff rules deterministic and testable.
+## Pattern Selection Heuristic
+
+| Need | Best Pattern |
+|:-----|:-------------|
+| Fast migration from text agent | Chat-Supervisor |
+| Clear multi-domain routing | Sequential Handoff |
+| High control over specialist behavior | Sequential Handoff |
+| Minimal orchestration complexity | Chat-Supervisor |
 
 ## Summary
 
-You can now design scalable voice-agent orchestration.
+You can now choose and implement the right orchestration pattern for your voice-agent product.
 
 Next: [Chapter 8: Production Deployment](08-production-deployment.md)

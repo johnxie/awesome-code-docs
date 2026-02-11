@@ -7,44 +7,47 @@ parent: OpenAI Whisper Tutorial
 
 # Chapter 2: Model Architecture
 
-Whisper uses a Transformer encoder-decoder pipeline that maps audio to text tokens.
+Understanding Whisper internals helps explain its strengths and limitations.
 
-## End-to-End Pipeline
+## High-Level Design
 
-1. Decode and resample audio to 16 kHz.
-2. Convert waveform to log-Mel spectrogram.
-3. Feed spectrogram into the encoder.
-4. Autoregressively decode text tokens.
+Whisper uses a transformer encoder-decoder setup:
 
-## Core Building Blocks
+1. audio is converted to log-Mel spectrogram features
+2. encoder processes acoustic representation
+3. decoder predicts token sequences conditioned on encoder states
 
-- **Encoder**: consumes Mel frames and builds contextual acoustic features.
-- **Decoder**: generates transcript tokens conditioned on encoder states.
-- **Special tokens**: language, task (`transcribe` or `translate`), and timestamps.
+## Multitask Token Strategy
 
-## Why Whisper Generalizes Well
+Whisper uses special tokens to steer behavior for:
 
-- Trained on large multilingual, multitask audio-text pairs.
-- Learns accents, domain terms, and noisy audio patterns.
-- Uses the same architecture for transcription and translation.
+- transcription
+- translation
+- language identification
+- timestamp prediction
 
-## Decode Controls
+This unified token-driven design replaces many separate ASR pipeline stages.
 
-```python
-result = model.transcribe(
-    "sample_audio.mp3",
-    language="en",
-    task="transcribe",
-    temperature=0.0,
-    beam_size=5,
-)
-```
+## Why This Matters Operationally
 
-- `temperature=0.0` improves determinism.
-- `beam_size` can improve accuracy at higher latency.
+- a single model can handle multiple speech tasks
+- prompt/token settings influence behavior directly
+- decoding configuration affects latency and output style
+
+## Sliding Window Behavior
+
+The standard transcription API processes longer audio with sliding windows, which can introduce boundary artifacts if segmentation and stitching are not handled carefully.
+
+## Practical Implications
+
+| Architectural Trait | Operational Effect |
+|:--------------------|:-------------------|
+| Unified multitask decoder | Flexible but sensitive to token/config choices |
+| Large model family | Strong quality/speed tradeoff control |
+| Windowed inference | Requires careful chunk handling for long recordings |
 
 ## Summary
 
-You understand how audio becomes text and which decode parameters drive behavior.
+You now understand the core mechanics behind Whisper's multilingual and multitask behavior.
 
 Next: [Chapter 3: Audio Preprocessing](03-audio-preprocessing.md)
