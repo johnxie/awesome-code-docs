@@ -7,28 +7,47 @@ nav_order: 7
 
 # Chapter 7: Automation Pipelines
 
-This chapter covers integrating analysis outputs into automated engineering pipelines.
+This chapter covers operationalizing analysis outputs inside CI/CD and scheduled workflows.
 
-## Pipeline Integrations
+## Pipeline Integration Layers
 
-- CI checks for static analysis regressions
-- nightly repository-wide indexing refresh jobs
-- pull-request annotations with symbol-impact summaries
+1. **Pull Request checks**: fail on new high-severity analysis findings
+2. **Nightly index refresh**: rebuild code graph and dependency metadata
+3. **Report publishing**: generate trend dashboards and team-level summaries
 
-## Reliability Patterns
+## PR Workflow Pattern
 
-- checkpoint incremental state between runs
-- retry transient parser/index failures with backoff
-- isolate language workers to prevent cross-language contention
+```text
+new PR -> scoped analysis -> annotate changed files -> enforce policy thresholds
+```
 
-## Data Products
+Use changed-file scoping for fast feedback and reserve full-repo scans for scheduled jobs.
 
-- architecture drift reports
-- dependency risk dashboards
-- trend metrics for complexity and ownership
+## Reliability Controls
+
+- checkpoint index state between runs
+- retry transient parser/network failures with backoff
+- isolate language workers to prevent cross-language failures
+- time-box expensive graph traversals
+
+## Data Products for Engineering Leadership
+
+- architecture drift alerts
+- ownership hotspot reports
+- dependency risk trendlines
+- complexity deltas by repository area
+
+## Operational Metrics
+
+| Metric | Why It Matters |
+|:-------|:---------------|
+| analysis duration | CI throughput and developer UX |
+| stale-index ratio | data freshness confidence |
+| parser failure rate | source-coverage reliability |
+| policy violation trend | risk posture over time |
 
 ## Summary
 
-You can now operationalize analysis artifacts in continuous engineering workflows.
+You can now embed code analysis into continuous delivery with measurable reliability.
 
 Next: [Chapter 8: Production Rollout](08-production-rollout.md)

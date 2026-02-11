@@ -7,22 +7,44 @@ parent: tiktoken Tutorial
 
 # Chapter 7: Multilingual Tokenization
 
-Token distributions vary significantly across languages and scripts.
+Token-per-character ratios vary widely across scripts and languages, so multilingual systems need language-aware budgeting.
 
-## Key Considerations
+## Why It Matters
 
-- token-to-character ratios differ by language family
-- emoji and mixed-script text can inflate token counts
-- localization can materially change context budgets
+A prompt that fits comfortably in one language can exceed context limits in another after localization.
 
-## Testing Strategy
+High-variance contributors include:
 
-- maintain benchmark prompts per target language
-- compare token counts before shipping localized prompts
-- alert when localization exceeds model/token budgets
+- script differences (Latin vs CJK vs mixed scripts)
+- emoji and symbolic characters
+- transliterated names and technical terms
+
+## Benchmarking Pattern
+
+Create a multilingual benchmark set with representative prompts per target locale.
+
+For each locale, track:
+
+- input token count distribution
+- output token distribution
+- truncation/cutoff rate
+
+## Release Guardrails
+
+| Guardrail | Purpose |
+|:----------|:--------|
+| locale-specific token budgets | prevent hidden overages |
+| pre-release localization token tests | catch oversized prompts early |
+| fallback compression strategy | preserve essential context under limits |
+
+## Practical Mitigations
+
+- shorten verbose system text in high-token locales
+- move repeated instructions to reusable templates
+- summarize long retrieved context before generation
 
 ## Summary
 
-You can now plan multilingual prompt budgets with fewer surprises.
+You can now design multilingual prompt systems that are budget-aware and resilient across languages.
 
 Next: [Chapter 8: Cost Governance](08-cost-governance.md)
