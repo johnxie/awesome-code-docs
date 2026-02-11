@@ -35,7 +35,7 @@
 - Cline Tutorial: Agentic Coding with Human Control: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cline-tutorial
 - Codex Analysis Platform: Building Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
 - ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
-- Continue Tutorial: Open-Source AI Autopilot for Development: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
+- Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
 - Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
@@ -83,7 +83,7 @@
 - OpenAI Whisper Tutorial: Speech Recognition and Translation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-whisper-tutorial
 - OpenBB Tutorial: Complete Guide to Investment Research Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openbb-tutorial
 - OpenClaw: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openclaw-tutorial
-- OpenHands Tutorial: AI Software Engineering Agent: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
+- OpenHands Tutorial: Autonomous Software Engineering Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
 - Outlines Tutorial: Structured Text Generation with LLMs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/outlines-tutorial
 - Perplexica Tutorial: AI-Powered Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial
 - Phidata Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial

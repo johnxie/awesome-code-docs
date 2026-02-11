@@ -129,11 +129,11 @@ Main repository:
 - Summary: A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 - Keywords: comfyui, mastering, image, generation, workflows, deep, technical, walkthrough, covering
 
-## Continue Tutorial: Open-Source AI Autopilot for Development
+## Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI
 - Path: tutorials/continue-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md
-- Summary: A deep technical walkthrough of Continue covering Open-Source AI Autopilot for Development.
-- Keywords: continue, open, source, autopilot, development, deep, technical, walkthrough, covering
+- Summary: A practical guide to `continuedev/continue`, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
+- Keywords: continue, open, source, coding, agents, ide, cli, practical, continuedev, covering, usage, headless, workflows, model, configuration, team, collaboration, enterprise
 
 ## CopilotKit Tutorial: Building AI Copilots for React Applications
 - Path: tutorials/copilotkit-tutorial
@@ -417,11 +417,11 @@ Main repository:
 - Summary: **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
 - Keywords: openclaw, deep, dive, project, own, personal, assistant, any, platform
 
-## OpenHands Tutorial: AI Software Engineering Agent
+## OpenHands Tutorial: Autonomous Software Engineering Workflows
 - Path: tutorials/openhands-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md
-- Summary: Master OpenHands (formerly OpenDevin) - the autonomous AI agent that can write code, run commands, and solve complex software engineering tasks.
-- Keywords: openhands, software, engineering, agent, master, formerly, opendevin, autonomous, that, can, write, code, run, commands, solve, complex, tasks
+- Summary: Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
+- Keywords: openhands, autonomous, software, engineering, workflows, learn, operate, across, local, gui, cli, sdk, production, minded, safety, validation, integration, patterns
 
 ## Outlines Tutorial: Structured Text Generation with LLMs
 - Path: tutorials/outlines-tutorial
