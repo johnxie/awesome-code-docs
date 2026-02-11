@@ -8,24 +8,43 @@ parent: "Logseq Knowledge Management"
 
 # Chapter 5: Block Data Model
 
-Blocks are Logseq's atomic knowledge units.
+Blocks are the atomic units of content and graph connectivity in Logseq.
 
-## Block Fields
+## Block Structure
 
-- stable UUID
-- text/content payload
-- parent-child hierarchy
-- page and backlink relationships
-- metadata (timestamps, properties, tags)
+A robust block model typically includes:
 
-## Model Constraints
+- stable UUID/ID
+- textual content
+- parent-child ordering metadata
+- page association
+- references/tags/properties
+- creation/update metadata
 
-- parent references must remain acyclic
-- order indexes must be deterministic
-- link refs must survive text edits
+## Invariants
+
+- hierarchy must remain acyclic
+- sibling order must be deterministic
+- references should survive text edits and reformatting
+- deleted/moved blocks should not leave dangling graph edges
+
+## Mutation Types
+
+1. content edit
+2. reorder/reparent
+3. reference/property change
+4. delete/restore
+
+Each mutation should update both hierarchy and graph indexes consistently.
+
+## Validation Practices
+
+- schema validation before persisting
+- invariant checks in development/test mode
+- repair routines for broken references
 
 ## Summary
 
-You can now map user edits to the underlying block graph model.
+You can now map user operations to block-level graph mutations and identify where consistency bugs emerge.
 
 Next: [Chapter 6: Block Editor](06-block-editor.md)

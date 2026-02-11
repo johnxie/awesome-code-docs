@@ -8,29 +8,38 @@ parent: "Logseq Knowledge Management"
 
 # Chapter 2: System Architecture
 
-This chapter maps Logseq's desktop architecture and data flow.
+This chapter maps Logseq's architecture from desktop runtime to graph-level services.
 
-## Architecture Layers
+## Core Architecture Layers
 
-- Electron shell for desktop runtime and native integrations.
-- ClojureScript core for state + domain logic.
-- Datascript + filesystem for local-first persistence.
+- **Desktop shell**: Electron runtime and native integration boundary
+- **Application core**: ClojureScript state, commands, and domain logic
+- **Persistence/index**: plain-text files plus in-memory/query index
+- **UI layer**: block editor, page views, graph view, search surfaces
 
-## Data Flow
+## Data Flow Model
 
 ```text
-user action -> event handler -> state update -> markdown write/sync
+user action -> command/event -> state transition -> file sync/index update -> UI re-render
 ```
 
-## Core Modules
+## Module Responsibilities
 
-- parser and block index
-- page/link graph manager
-- search and query execution
-- plugin runtime bridge
+| Module | Responsibility |
+|:-------|:---------------|
+| parser | convert markdown/org into block structures |
+| block graph manager | maintain parent/child and reference edges |
+| query engine | execute page/block graph queries |
+| plugin bridge | expose extension hooks safely |
+
+## Architectural Tradeoffs
+
+- local-first responsiveness vs cross-device consistency complexity
+- plain-text durability vs richer schema constraints
+- extensibility power vs plugin isolation/security overhead
 
 ## Summary
 
-You can now identify where Logseq responsibilities are split across runtime layers.
+You can now reason about where Logseq behavior originates and where to debug architectural issues.
 
 Next: [Chapter 3: Local-First Data](03-local-first-data.md)

@@ -8,23 +8,35 @@ parent: "Logseq Knowledge Management"
 
 # Chapter 7: Bi-Directional Links
 
-Bi-directional linking is the core mechanism behind connected-note discovery.
+Bi-directional links transform notes from isolated documents into a navigable knowledge graph.
 
 ## Link Lifecycle
 
-1. user types `[[page]]` reference
-2. parser records outgoing edge
-3. target page accumulates backlink edge
-4. graph view/search indexes both directions
+1. user creates inline reference (for example `[[Page]]`)
+2. parser detects outbound relation
+3. index updates backlinks for target entity/page
+4. search and graph views expose both directions
 
-## Practical Benefits
+## Why Bi-Directional Links Matter
 
-- contextual discovery of related notes
-- automatic backlink maintenance
-- emergent structure without rigid folders
+- discovery of related ideas without manual cross-indexing
+- emergent structure from everyday note-taking
+- contextual navigation through backlinks and linked references
+
+## Consistency Concerns
+
+- renamed pages must retain link integrity
+- deleted targets need clear broken-link handling
+- partial file edits should not produce stale backlink indexes
+
+## Scaling Considerations
+
+- backlink queries should be incremental and cached
+- graph updates should avoid full reindex on small edits
+- visualization should limit edge rendering for large graphs
 
 ## Summary
 
-You now understand how Logseq builds a navigable knowledge graph from inline references.
+You now understand how Logseq derives connected knowledge structure directly from inline references.
 
 Next: [Chapter 8: Graph Visualization](08-graph-visualization.md)

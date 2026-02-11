@@ -8,23 +8,50 @@ parent: "Flowise LLM Orchestration"
 
 # Chapter 6: Security and Governance
 
-Security controls are required when orchestrating models, tools, and external data.
+Flowise workflows combine models, tools, connectors, and credentials. Governance must be explicit.
 
-## Core Risk Areas
+## Primary Risk Areas
 
-- secret leakage in node configs and logs
-- unsafe tool execution with unvalidated model output
-- data exfiltration via connectors
+- secrets exposed in node configs or logs
+- unsafe tool execution from unvalidated model outputs
+- data exfiltration through permissive connectors
+- tenant boundary violations in shared deployments
 
-## Governance Controls
+## Security Control Layers
 
-- scoped credentials per workflow/environment
-- allowlisted tools and outbound domains
-- policy checks for prompt and response classes
-- immutable audit logs for workflow runs
+| Layer | Required Control |
+|:------|:-----------------|
+| Credential handling | scoped secrets per environment/workflow |
+| Tool invocation | input validation + allowlists |
+| Data access | least privilege for connectors and stores |
+| Network egress | outbound domain and protocol restrictions |
+| Audit | immutable run-level logs with redaction |
+
+## Governance Process
+
+1. classify workflow risk level (read-only vs mutating)
+2. require reviews for prompt/node changes on high-risk flows
+3. version workflow definitions and policies together
+4. enforce release gates before production promotion
+
+## Runtime Safeguards
+
+- timeout budgets per node
+- bounded retry policies
+- explicit human approval for destructive actions
+- deny-by-default for new external tool integrations
+
+## Incident Readiness
+
+Maintain playbooks for:
+
+- secret leakage response
+- unsafe automation rollback
+- connector compromise or abuse
+- tenant-isolation incidents
 
 ## Summary
 
-You now understand baseline security posture for Flowise workflow operations.
+You now have a practical security and governance baseline for operating Flowise in production.
 
 Next: [Chapter 7: Observability](07-observability.md)
