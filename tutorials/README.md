@@ -11,24 +11,31 @@ This file describes the structure of `tutorials/` and points to the authoritativ
 
 | Metric | Value |
 |:-------|:------|
-| Tutorial directories | 91 |
-| Tutorial markdown files | 753 |
-| Tutorial markdown lines | 440,098 |
+| Tutorial directories | 95 |
+| Tutorial markdown files | 868 |
+| Tutorial markdown lines | 441,114 |
 
 ## Content Structure Patterns
 
 | Pattern | Count | Description |
 |:--------|:------|:------------|
-| Root chapter files | 75 | `index.md` + top-level `01-...md` to `08-...md` |
-| `docs/` chapter files | 8 | `index.md` with chapter files under `docs/` |
-| Index-only roadmap | 7 | `index.md` exists, chapter files not yet published |
-| Mixed root + `docs/` | 1 | Hybrid layout (legacy) |
+| Root chapter files | 95 | `index.md` + top-level `01-...md` to `08-...md` |
+| `docs/` chapter files | 0 | Deprecated and fully migrated |
+| Index-only roadmap | 0 | All catalog entries publish full chapter sets |
+| Mixed root + `docs/` | 0 | Legacy hybrid layout removed |
 
 ## Why This Exists
 
-The repository has grown quickly, and tutorial folders currently use multiple historical structures. This file helps contributors navigate those patterns while the project converges on stricter validation and consistency checks.
+The repository now uses a single canonical tutorial structure. This file helps contributors keep that structure consistent and avoid reintroducing legacy layouts.
 
 ## Quick Navigation
 
 - Browse all tutorials: [../README.md#-tutorial-catalog](../README.md#-tutorial-catalog)
 - Start a new tutorial proposal: <https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md>
+
+## Structure Contract
+
+Each tutorial directory should contain:
+
+- `index.md`
+- `01-...md` through `08-...md` at the tutorial root (not under `docs/`)
