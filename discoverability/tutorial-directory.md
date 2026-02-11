@@ -53,8 +53,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Master building sophisticated code analysis platforms with static analysis, AST manipulation, and developer tooling.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
   - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
-- [Continue Tutorial: Open-Source AI Autopilot for Development](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md)
-  - A deep technical walkthrough of Continue covering Open-Source AI Autopilot for Development.
+- [Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md)
+  - A practical guide to `continuedev/continue`, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
 - [CopilotKit Tutorial: Building AI Copilots for React Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md)
   - Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
 - [CrewAI Tutorial: Building Collaborative AI Agent Teams](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md)
@@ -184,8 +184,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Democratize investment research with OpenBB's comprehensive financial data and analysis platform.
 - [OpenClaw: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md)
   - **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
-- [OpenHands Tutorial: AI Software Engineering Agent](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md)
-  - Master OpenHands (formerly OpenDevin) - the autonomous AI agent that can write code, run commands, and solve complex software engineering tasks.
+- [OpenHands Tutorial: Autonomous Software Engineering Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md)
+  - Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
 - [Outlines Tutorial: Structured Text Generation with LLMs](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md)
   - A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.
 - [OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md)
