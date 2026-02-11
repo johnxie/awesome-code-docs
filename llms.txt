@@ -1,0 +1,112 @@
+# Awesome Code Docs
+> Deep-dive tutorials for popular open-source AI, developer-tooling, and data platforms.
+
+## Start Here
+- https://github.com/johnxie/awesome-code-docs
+- https://github.com/johnxie/awesome-code-docs/blob/main/README.md
+- https://github.com/johnxie/awesome-code-docs/blob/main/CONTRIBUTING.md
+- https://github.com/johnxie/awesome-code-docs/tree/main/tutorials
+
+## Priority Tutorial Clusters
+- AI Coding Tools: Cline, Roo Code, bolt.diy, OpenHands, Continue
+- Vibe Coding Platforms: Dyad, bolt.diy, VibeSDK, HAPI
+- LLM Frameworks: LangChain, LangGraph, LlamaIndex, DSPy
+- Infrastructure: Ollama, vLLM, LiteLLM, llama.cpp
+
+## Tutorial Directory
+- AG2 Tutorial: Next-Generation Multi-Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ag2-tutorial
+- AgentGPT Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial
+- Aider Tutorial: AI Pair Programming in Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/aider-tutorial
+- Anthropic API Tutorial: Building with Claude's API: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-code-tutorial
+- Anthropic Skills Tutorial: Reusable AI Agent Capabilities: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial
+- AnythingLLM Tutorial: All-in-One AI Document Chat: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anything-llm-tutorial
+- Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph
+- Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
+- BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
+- bolt.diy Tutorial: Open-Source AI Full-Stack Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
+- Botpress Tutorial: Open Source Conversational AI Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/botpress-tutorial
+- Browser Use Tutorial: AI-Powered Web Automation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/browser-use-tutorial
+- Chatbox Tutorial: Building Modern AI Chat Interfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial
+- ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
+- Claude Code Tutorial: AI-Powered Terminal Coding: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
+- Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
+- Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
+- ClickHouse Tutorial: High-Performance Analytical Database: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/clickhouse-tutorial
+- Cline Tutorial: Agentic Coding in Your IDE: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cline-tutorial
+- Codex Analysis Platform: Building Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
+- ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
+- Continue Tutorial: Open-Source AI Autopilot for Development: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
+- CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
+- CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
+- Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
+- Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-platform-deep-dive
+- DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
+- Dyad Tutorial: Local Open-Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
+- ElizaOS: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/elizaos-tutorial
+- Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
+- Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
+- Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
+- GPT Open Source: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gpt-oss-tutorial
+- HAPI Tutorial: Remote Control for Local AI Coding Sessions: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hapi-tutorial
+- Haystack: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/haystack-tutorial
+- HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/huggingface-tutorial
+- Instructor Tutorial: Structured LLM Outputs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/instructor-tutorial
+- Khoj AI: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/khoj-tutorial
+- Kubernetes Operator Patterns: Building Production-Grade Controllers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-patterns
+- LanceDB Tutorial: Serverless Vector Database for AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lancedb-tutorial
+- LangChain Architecture: Internal Design Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-architecture-guide
+- LangChain Tutorial: Building AI Applications with Large Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-tutorial
+- Langfuse Tutorial: LLM Observability & Analytics: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langfuse-tutorial
+- LangGraph Tutorial: Building Stateful Multi-Actor Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langgraph-tutorial
+- Letta Tutorial: Stateful LLM Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/letta-tutorial
+- LiteLLM Tutorial: Unified LLM API Gateway: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/litellm-tutorial
+- Liveblocks - Real-Time Collaboration Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/liveblocks-tutorial
+- llama.cpp Tutorial: Local LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llama-cpp-tutorial
+- LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llama-factory-tutorial
+- LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llamaindex-tutorial
+- LobeChat AI Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lobechat-ai-platform
+- LocalAI Tutorial: Self-Hosted OpenAI Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/localai-tutorial
+- Logseq: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management
+- MCP Python SDK Tutorial: Building AI Tool Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-python-sdk-tutorial
+- MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
+- MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
+- Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
+- n8n AI Tutorial: Workflow Automation with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-ai-tutorial
+- n8n Model Context Protocol: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-mcp-tutorial
+- Nanocoder: Building & Understanding AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nanocoder-tutorial
+- NocoDB: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nocodb-database-platform
+- Obsidian Outliner Plugin: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-plugin
+- Ollama Tutorial: Running Large Language Models Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
+- Open WebUI Tutorial: Self-Hosted ChatGPT Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
+- OpenAI Python SDK Tutorial: Production API Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-python-sdk-tutorial
+- OpenAI Realtime Agents Tutorial: Voice-First AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-realtime-agents-tutorial
+- OpenAI Whisper Tutorial: Speech Recognition and Translation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-whisper-tutorial
+- OpenBB Tutorial: Complete Guide to Investment Research Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openbb-tutorial
+- OpenClaw: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openclaw-tutorial
+- OpenHands Tutorial: AI Software Engineering Agent: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
+- Outlines Tutorial: Structured Text Generation with LLMs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/outlines-tutorial
+- Perplexica Tutorial: AI-Powered Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial
+- Phidata Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial
+- PhotoPrism Tutorial: AI-Powered Photos App: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/photoprism-tutorial
+- PostgreSQL Query Planner Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/postgresql-query-planner
+- PostHog Tutorial: Open Source Product Analytics Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/posthog-tutorial
+- Pydantic AI Tutorial: Type-Safe AI Agent Development: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pydantic-ai-tutorial
+- Quivr Tutorial: Open-Source RAG Framework for Document Ingestion: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/quivr-tutorial
+- RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ragflow-tutorial
+- React Fiber Internals: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-internals
+- Roo Code Tutorial: AI Dev Team in Your Editor: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/roo-code-tutorial
+- Semantic Kernel Tutorial: Microsoft's AI Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/semantic-kernel-tutorial
+- SillyTavern Tutorial: Advanced LLM Frontend for Power Users: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sillytavern-tutorial
+- SiYuan Tutorial: Privacy-First Knowledge Management: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/siyuan-tutorial
+- Smolagents Tutorial: Hugging Face's Lightweight Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/smolagents-tutorial
+- Supabase Tutorial: Building Modern Backend Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/supabase-tutorial
+- SuperAGI Tutorial: Production-Ready Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superagi-tutorial
+- OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swarm-tutorial
+- Taskade Tutorial: AI-Powered Productivity Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
+- Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
+- tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
+- Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial
+- Vercel AI SDK Tutorial: TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
+- VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
+- vLLM Tutorial: High-Performance LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vllm-tutorial
+- Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial
