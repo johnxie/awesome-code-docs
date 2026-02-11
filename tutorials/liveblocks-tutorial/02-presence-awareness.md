@@ -729,7 +729,7 @@ Presence and awareness are the building blocks of any collaborative experience. 
 
 ## Next Steps
 
-Now that users can see each other, it is time to let them collaborate on shared data. In **[Chapter 3: Storage & Conflict Resolution](./03-storage-conflict-resolution.html)**, we will explore LiveObject, LiveList, LiveMap, and the CRDT-based system that keeps everyone in sync.
+Now that users can see each other, it is time to let them collaborate on shared data. In **[Chapter 3: Storage & Conflict Resolution](./03-storage-conflict-resolution.md)**, we will explore LiveObject, LiveList, LiveMap, and the CRDT-based system that keeps everyone in sync.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*

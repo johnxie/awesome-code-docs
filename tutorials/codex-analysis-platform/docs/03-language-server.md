@@ -861,4 +861,4 @@ interface DocumentCacheEntry {
 
 ---
 
-**Ready for code intelligence?** Continue to [Chapter 4: Code Intelligence](04-code-intelligence.md)
+**Ready for code intelligence?** Continue to [Chapter 4: Code Intelligence](../04-code-intelligence.md)

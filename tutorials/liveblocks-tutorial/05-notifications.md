@@ -786,7 +786,7 @@ In this chapter you learned:
 
 ## Next Steps
 
-With presence, storage, comments, and notifications covered, it is time to see how everything fits together in React. In **[Chapter 6: React Integration](./06-react-integration.html)**, we will explore the full set of hooks, Suspense patterns, and best practices for building performant collaborative React apps.
+With presence, storage, comments, and notifications covered, it is time to see how everything fits together in React. In **[Chapter 6: React Integration](./06-react-integration.md)**, we will explore the full set of hooks, Suspense patterns, and best practices for building performant collaborative React apps.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*
