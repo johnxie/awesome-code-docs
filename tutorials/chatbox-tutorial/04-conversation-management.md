@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 4: Conversation Management"
+parent: "Chatbox Tutorial"
+nav_order: 4
+---
+
 # Chapter 4: Conversation Management
 
 This chapter covers managing chat conversations, including history, context, and multi-conversation workflows.

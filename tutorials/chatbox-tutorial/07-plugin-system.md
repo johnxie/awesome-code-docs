@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 7: Plugin Architecture"
+parent: "Chatbox Tutorial"
+nav_order: 7
+---
+
 # Chapter 7: Plugin Architecture
 
 This chapter covers building an extensible plugin system for chat applications, enabling third-party integrations and custom functionality.

@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Getting Started"
 parent: "OpenClaw Deep Dive"
 nav_order: 1

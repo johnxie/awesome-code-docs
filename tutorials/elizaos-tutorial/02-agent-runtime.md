@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Agent Runtime"
 parent: "ElizaOS Deep Dive"
 nav_order: 2

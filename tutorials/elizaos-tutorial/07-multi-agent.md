@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Multi-Agent Orchestration"
 parent: "ElizaOS Deep Dive"
 nav_order: 7

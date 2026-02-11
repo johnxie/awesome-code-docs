@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Channel Drivers"
 parent: "OpenClaw Deep Dive"
 nav_order: 3

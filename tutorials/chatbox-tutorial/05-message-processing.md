@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 5: Message Processing Pipeline"
+parent: "Chatbox Tutorial"
+nav_order: 5
+---
+
 # Chapter 5: Message Processing Pipeline
 
 This chapter covers the message processing pipeline, including text processing, formatting, and content enhancement.

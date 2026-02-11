@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Agent Runtime"
 parent: "OpenClaw Deep Dive"
 nav_order: 4

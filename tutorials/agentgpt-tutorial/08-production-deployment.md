@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 8: Production Deployment"
+parent: "AgentGPT Tutorial"
+nav_order: 8
+---
+
 # Chapter 8: Production Deployment
 
 This final chapter covers deploying autonomous AI agents to production environments with proper scaling, monitoring, and operational practices.

@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 2: Agent Architecture & Design"
+parent: "AgentGPT Tutorial"
+nav_order: 2
+---
+
 # Chapter 2: Agent Architecture & Design
 
 This chapter explores the fundamental architecture of autonomous AI agents in AgentGPT, including agent components, design patterns, and core principles.

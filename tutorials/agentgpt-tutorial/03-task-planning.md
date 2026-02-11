@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 3: Task Planning & Goal Setting"
+parent: "AgentGPT Tutorial"
+nav_order: 3
+---
+
 # Chapter 3: Task Planning & Goal Setting
 
 This chapter covers how AgentGPT agents plan and execute complex tasks by breaking them down into manageable steps and setting achievable goals.

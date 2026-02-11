@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Security & Networking"
 parent: "OpenClaw Deep Dive"
 nav_order: 7

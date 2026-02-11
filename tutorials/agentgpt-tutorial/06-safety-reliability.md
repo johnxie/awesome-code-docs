@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 6: Safety & Reliability"
+parent: "AgentGPT Tutorial"
+nav_order: 6
+---
+
 # Chapter 6: Safety & Reliability
 
 This chapter covers implementing safety mechanisms, reliability features, and ethical considerations for autonomous AI agents.

@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Memory & Sessions"
 parent: "OpenClaw Deep Dive"
 nav_order: 5

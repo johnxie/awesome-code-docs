@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 4: Tool Integration & APIs"
+parent: "AgentGPT Tutorial"
+nav_order: 4
+---
+
 # Chapter 4: Tool Integration & APIs
 
 This chapter covers how AgentGPT agents integrate with external tools and APIs to extend their capabilities and perform real-world actions.
