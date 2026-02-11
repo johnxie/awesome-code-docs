@@ -10,15 +10,15 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 |:-----|------:|:---------|:-----|:-------|
 | [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | 102k+ | P0 | `pack-ae` | done |
 | [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra) | 21k+ | P0 | `pack-ae` | done |
-| [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 144k+ | P0 | `pack-af` | in_progress |
-| [`agno-agi/agno`](https://github.com/agno-agi/agno) | 37k+ | P0 | `pack-af` | in_progress |
+| [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 144k+ | P0 | `pack-af` | done |
+| [`agno-agi/agno`](https://github.com/agno-agi/agno) | 37k+ | P0 | `pack-af` | done |
 
 ## P1 (High Impact)
 
 | Repo | Stars | Priority | Pack | Status |
 |:-----|------:|:---------|:-----|:-------|
-| [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP) | 13k+ | P1 | `pack-ag` | planned |
-| [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer) | 9k+ | P1 | `pack-ag` | planned |
+| [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP) | 13k+ | P1 | `pack-ag` | in_progress |
+| [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer) | 9k+ | P1 | `pack-ag` | in_progress |
 | [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow) | 9k+ | P1 | `pack-ah` | planned |
 | [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | planned |
 

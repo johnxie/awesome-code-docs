@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **100**
+- Total tutorials: **102**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -82,6 +82,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md)
   - Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.
+- [Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md)
+  - Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
 - [Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md)
   - Deep technical walkthrough.
 - [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md)
@@ -100,6 +102,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - **Project**: [Haystack](https://github.com/deepset-ai/haystack) — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
 - [HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/index.md)
   - A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.
+- [HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/humanlayer-tutorial/index.md)
+  - Learn how to use `humanlayer/humanlayer` patterns to orchestrate coding agents with stronger context control, human oversight, and team-scale workflows.
 
 ## I
 

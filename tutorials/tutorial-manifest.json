@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 100
+    "root_only": 102
   },
-  "tutorial_count": 100,
+  "tutorial_count": 102,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -610,6 +610,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "figma-context-mcp-tutorial",
+      "path": "tutorials/figma-context-mcp-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "firecrawl-tutorial",
       "path": "tutorials/firecrawl-tutorial",
       "structure": "root_only",
@@ -707,6 +726,25 @@
       "has_index": true,
       "name": "huggingface-tutorial",
       "path": "tutorials/huggingface-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "humanlayer-tutorial",
+      "path": "tutorials/humanlayer-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
