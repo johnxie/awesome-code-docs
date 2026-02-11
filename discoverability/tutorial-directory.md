@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **98**
+- Total tutorials: **100**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -11,6 +11,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
 - [AgentGPT Tutorial: Building Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md)
   - A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
+- [Agno Tutorial: Multi-Agent Systems That Learn Over Time](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md)
+  - Learn how to build and operate learning multi-agent systems with `agno-agi/agno`, including memory, orchestration, AgentOS runtime, and production guardrails.
 - [Aider Tutorial: AI Pair Programming in Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md)
   - Learn to use `Aider-AI/aider` for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
 - [Anthropic API Tutorial: Build Production Apps with Claude](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md)
@@ -119,6 +121,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Deep technical walkthrough.
 - [LangChain Tutorial: Building AI Applications with Large Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/index.md)
   - **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
+- [Langflow Tutorial: Visual AI Agent and Workflow Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langflow-tutorial/index.md)
+  - Learn how to build, deploy, and operate agent workflows with `langflow-ai/langflow`, including visual flow composition, API/MCP deployment, and production reliability controls.
 - [Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md)
   - Learn how to use `langfuse/langfuse` to trace, evaluate, and improve production LLM systems with structured observability workflows.
 - [LangGraph Tutorial: Building Stateful Multi-Actor Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/index.md)

@@ -15,6 +15,12 @@ Main repository:
 - Summary: A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
 - Keywords: agentgpt, building, autonomous, agents, deep, technical, walkthrough, covering
 
+## Agno Tutorial: Multi-Agent Systems That Learn Over Time
+- Path: tutorials/agno-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md
+- Summary: Learn how to build and operate learning multi-agent systems with `agno-agi/agno`, including memory, orchestration, AgentOS runtime, and production guardrails.
+- Keywords: agno, multi, agent, systems, that, learn, over, time, build, operate, learning, agi, including, memory, orchestration, agentos, runtime, production
+
 ## Aider Tutorial: AI Pair Programming in Your Terminal
 - Path: tutorials/aider-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md
@@ -254,6 +260,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/index.md
 - Summary: **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
 - Keywords: langchain, building, applications, large, language, models, pydantic, required, fully, migrated, code, using, core, should, updated, native, syntax
+
+## Langflow Tutorial: Visual AI Agent and Workflow Platform
+- Path: tutorials/langflow-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langflow-tutorial/index.md
+- Summary: Learn how to build, deploy, and operate agent workflows with `langflow-ai/langflow`, including visual flow composition, API/MCP deployment, and production reliability controls.
+- Keywords: langflow, visual, agent, workflow, platform, learn, build, deploy, operate, workflows, including, flow, composition, api, mcp, deployment, production, reliability
 
 ## Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations
 - Path: tutorials/langfuse-tutorial

@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 98,
+  "tutorial_count": 100,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -44,6 +44,35 @@
       "slug": "agentgpt-tutorial",
       "summary": "A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.",
       "title": "AgentGPT Tutorial: Building Autonomous AI Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md",
+      "index_path": "tutorials/agno-tutorial/index.md",
+      "keywords": [
+        "agno",
+        "multi",
+        "agent",
+        "systems",
+        "that",
+        "learn",
+        "over",
+        "time",
+        "build",
+        "operate",
+        "learning",
+        "agi",
+        "including",
+        "memory",
+        "orchestration",
+        "agentos",
+        "runtime",
+        "production"
+      ],
+      "path": "tutorials/agno-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agno-tutorial",
+      "slug": "agno-tutorial",
+      "summary": "Learn how to build and operate learning multi-agent systems with `agno-agi/agno`, including memory, orchestration, AgentOS runtime, and production guardrails.",
+      "title": "Agno Tutorial: Multi-Agent Systems That Learn Over Time"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md",
@@ -1054,6 +1083,35 @@
       "slug": "langchain-tutorial",
       "summary": "**Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.",
       "title": "LangChain Tutorial: Building AI Applications with Large Language Models"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langflow-tutorial/index.md",
+      "index_path": "tutorials/langflow-tutorial/index.md",
+      "keywords": [
+        "langflow",
+        "visual",
+        "agent",
+        "workflow",
+        "platform",
+        "learn",
+        "build",
+        "deploy",
+        "operate",
+        "workflows",
+        "including",
+        "flow",
+        "composition",
+        "api",
+        "mcp",
+        "deployment",
+        "production",
+        "reliability"
+      ],
+      "path": "tutorials/langflow-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langflow-tutorial",
+      "slug": "langflow-tutorial",
+      "summary": "Learn how to build, deploy, and operate agent workflows with `langflow-ai/langflow`, including visual flow composition, API/MCP deployment, and production reliability controls.",
+      "title": "Langflow Tutorial: Visual AI Agent and Workflow Platform"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md",

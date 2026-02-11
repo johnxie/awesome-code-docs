@@ -8,10 +8,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 
 | Repo | Stars | Priority | Pack | Status |
 |:-----|------:|:---------|:-----|:-------|
-| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | 102k+ | P0 | `pack-ae` | in_progress |
-| [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra) | 21k+ | P0 | `pack-ae` | in_progress |
-| [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 144k+ | P0 | `pack-af` | planned |
-| [`agno-agi/agno`](https://github.com/agno-agi/agno) | 37k+ | P0 | `pack-af` | planned |
+| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | 102k+ | P0 | `pack-ae` | done |
+| [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra) | 21k+ | P0 | `pack-ae` | done |
+| [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 144k+ | P0 | `pack-af` | in_progress |
+| [`agno-agi/agno`](https://github.com/agno-agi/agno) | 37k+ | P0 | `pack-af` | in_progress |
 
 ## P1 (High Impact)
 
