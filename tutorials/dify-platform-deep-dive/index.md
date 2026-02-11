@@ -72,6 +72,7 @@ graph TB
 | [5. Agent Framework](docs/05-agent-framework.md) | Agents | Tool calling, reasoning loops, agent types |
 | [6. Custom Nodes](docs/06-custom-nodes.md) | Extensibility | Building custom workflow nodes and plugins |
 | [7. Production Deployment](docs/07-production-deployment.md) | Operations | Docker, scaling, monitoring, security |
+| [8. Operations Playbook](docs/08-operations-playbook.md) | Reliability | Incident response, SLOs, and cost controls |
 
 ## Tech Stack
 

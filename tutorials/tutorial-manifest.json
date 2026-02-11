@@ -449,15 +449,16 @@
         "04",
         "05",
         "06",
-        "07"
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 7,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "dify-platform-deep-dive",
       "path": "tutorials/dify-platform-deep-dive",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 7
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -560,15 +561,18 @@
         "02",
         "03",
         "04",
-        "05"
+        "05",
+        "06",
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 5,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "flowise-llm-orchestration",
       "path": "tutorials/flowise-llm-orchestration",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 5
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -1109,15 +1113,19 @@
         "01",
         "02",
         "03",
-        "04"
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 4,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "obsidian-outliner-plugin",
       "path": "tutorials/obsidian-outliner-plugin",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 4
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [

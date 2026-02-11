@@ -1,69 +1,38 @@
 # Flowise LLM Orchestration Platform Deep Dive
 
-> Master Flowise's visual LLM workflow orchestration - building no-code AI applications with Node.js, React, and advanced prompt engineering
+A focused architecture tutorial for visual LLM workflow orchestration with Flowise.
 
-## 🎯 Learning Objectives
+## Current Status
 
-By completing this tutorial, you'll master:
-- **Visual Workflow Design** - Creating complex LLM workflows with drag-and-drop interfaces
-- **LLM Integration Patterns** - Connecting multiple AI models and services seamlessly
-- **Advanced Prompt Engineering** - Designing effective prompts for complex multi-step workflows
-- **Node.js Backend Architecture** - Building scalable API servers for AI applications
-- **Real-time Execution Engine** - Processing workflows with streaming responses and error handling
-- **Custom Node Development** - Extending Flowise with custom integrations and logic
-- **Production Deployment** - Scaling AI workflows for enterprise use
+Core chapter set is now published.
 
-## 📋 Prerequisites
+| Item | Status |
+|:-----|:-------|
+| Published chapter docs | 8 |
+| Canonical entry point | [index.md](index.md) |
 
-- **Node.js & JavaScript**: Solid understanding of modern JavaScript and Node.js ecosystem
-- **React Development**: Experience with React hooks, state management, and component patterns
-- **API Integration**: Familiarity with REST APIs, authentication, and external service integration
-- **LLM Concepts**: Basic understanding of large language models and prompt engineering
-- **Database Knowledge**: Experience with databases and data persistence patterns
+## Published Chapters
 
-## ⏱️ Time Investment
+| Chapter | File | Focus |
+|:--------|:-----|:------|
+| 1 | [docs/01-system-overview.md](docs/01-system-overview.md) | Monorepo architecture and component relationships |
+| 2 | [docs/02-workflow-engine.md](docs/02-workflow-engine.md) | Graph execution and streaming pipeline |
+| 3 | [docs/03-node-development.md](docs/03-node-development.md) | Custom node construction patterns |
+| 4 | [docs/04-advanced-integrations.md](docs/04-advanced-integrations.md) | Provider and tool integrations |
+| 5 | [docs/05-production-deployment.md](docs/05-production-deployment.md) | Deployment and scaling strategy |
+| 6 | [docs/06-security-governance.md](docs/06-security-governance.md) | Security posture and policy controls |
+| 7 | [docs/07-observability.md](docs/07-observability.md) | Metrics, tracing, and debugging |
+| 8 | [docs/08-extension-ecosystem.md](docs/08-extension-ecosystem.md) | Extension contracts and distribution |
 
-**Total: 10-12 hours**
-- Setup and architecture: 1.5 hours
-- Workflow engine deep-dive: 2.5 hours
-- Custom node development: 2 hours
-- Advanced integrations: 2 hours
-- Production deployment: 2 hours
+## Suggested Reading Order
 
-## 🔧 Quick Setup
+1. Start with [index.md](index.md).
+2. Read chapters [1](docs/01-system-overview.md) through [8](docs/08-extension-ecosystem.md) in order.
 
-```bash
-# Clone Flowise
-git clone https://github.com/FlowiseAI/Flowise.git
-cd Flowise
+## Upstream Project
 
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Access at http://localhost:3000
-```
-
-## 💡 Key Architecture Insights
-
-- **Visual Workflow Engine**: Drag-and-drop interface for building complex AI workflows
-- **Modular Node System**: Extensible architecture for custom integrations
-- **Real-time Processing**: Streaming responses and live workflow execution
-- **Multi-Model Support**: Integration with OpenAI, Anthropic, Google, and local models
-- **Production Scalability**: Docker deployment with horizontal scaling capabilities
-
-## 🎯 What You'll Build
-
-1. **Custom LLM Workflow** - Multi-step AI processing pipeline
-2. **Integration Nodes** - Custom connectors for external APIs
-3. **Advanced Chat Interface** - Real-time conversational AI system
-4. **Production Deployment** - Scalable containerized deployment
-5. **Monitoring Dashboard** - Workflow analytics and performance tracking
+- Flowise repository: <https://github.com/FlowiseAI/Flowise>
 
 ---
 
-**🎉 Tutorial Complete**: This comprehensive guide now includes full implementations of workflow engines, custom node development, advanced integrations, and production deployment strategies.
-
-*Part of the [Awesome Code Docs](../../README.md) collection*
+Part of [Awesome Code Docs](../../README.md)
