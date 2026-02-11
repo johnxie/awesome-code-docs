@@ -1,9 +1,9 @@
 {
   "structure_counts": {
     "docs_only": 8,
-    "index_only": 7,
+    "index_only": 0,
     "mixed": 1,
-    "root_only": 75
+    "root_only": 82
   },
   "tutorial_count": 91,
   "tutorials": [
@@ -85,14 +85,23 @@
       "total_numbered_chapter_count": 8
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "anthropic-skills-tutorial",
       "path": "tutorials/anthropic-skills-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -261,14 +270,21 @@
       "total_numbered_chapter_count": 8
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "claude-quickstarts-tutorial",
       "path": "tutorials/claude-quickstarts-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 6,
+      "total_numbered_chapter_count": 6
     },
     {
       "chapter_numbers": [
@@ -947,14 +963,23 @@
       "total_numbered_chapter_count": 8
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "mcp-servers-tutorial",
       "path": "tutorials/mcp-servers-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -1121,34 +1146,61 @@
       "total_numbered_chapter_count": 8
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "openai-python-sdk-tutorial",
       "path": "tutorials/openai-python-sdk-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "openai-realtime-agents-tutorial",
       "path": "tutorials/openai-realtime-agents-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "openai-whisper-tutorial",
       "path": "tutorials/openai-whisper-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -1564,14 +1616,20 @@
       "total_numbered_chapter_count": 3
     },
     {
-      "chapter_numbers": [],
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05"
+      ],
       "docs_chapter_count": 0,
       "has_index": true,
       "name": "tiktoken-tutorial",
       "path": "tutorials/tiktoken-tutorial",
-      "structure": "index_only",
-      "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 0
+      "structure": "root_only",
+      "top_level_chapter_count": 5,
+      "total_numbered_chapter_count": 5
     },
     {
       "chapter_numbers": [
