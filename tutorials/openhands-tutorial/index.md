@@ -13,7 +13,7 @@ has_children: true
 
 **🤖 Autonomous AI Software Engineer**
 
-[![GitHub](https://img.shields.io/github/stars/All-Hands-AI/OpenHands?style=social)](https://github.com/All-Hands-AI/OpenHands)
+[![GitHub](https://img.shields.io/github/stars/OpenHands/OpenHands?style=social)](https://github.com/OpenHands/OpenHands)
 
 </div>
 
@@ -21,7 +21,7 @@ has_children: true
 
 ## 🎯 What is OpenHands?
 
-**OpenHands**<sup>[View Repo](https://github.com/All-Hands-AI/OpenHands)</sup> (formerly OpenDevin) is an autonomous AI software engineering agent that can perform complex coding tasks. It combines advanced reasoning with practical execution capabilities, allowing it to write code, run tests, fix bugs, and deploy applications - all autonomously.
+**OpenHands**<sup>[View Repo](https://github.com/OpenHands/OpenHands)</sup> (formerly OpenDevin) is an autonomous AI software engineering agent that can perform complex coding tasks. It combines advanced reasoning with practical execution capabilities, allowing it to write code, run tests, fix bugs, and deploy applications - all autonomously.
 
 ### OpenHands Capabilities
 
