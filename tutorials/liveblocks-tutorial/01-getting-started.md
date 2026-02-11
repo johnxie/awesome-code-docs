@@ -624,7 +624,7 @@ In this chapter you learned:
 
 ## Next Steps
 
-In the next chapter, we will dive deep into **[Presence & Awareness](./02-presence-awareness.html)** -- learning how to build rich "who's online" experiences, live cursors, and real-time broadcasting.
+In the next chapter, we will dive deep into **[Presence & Awareness](./02-presence-awareness.md)** -- learning how to build rich "who's online" experiences, live cursors, and real-time broadcasting.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*

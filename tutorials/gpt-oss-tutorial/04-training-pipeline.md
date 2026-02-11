@@ -600,7 +600,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 5: Attention Mechanisms](05-attention-mechanisms.html), we will explore advanced attention techniques including causal masking implementation details, KV-cache for efficient inference, multi-query attention, and Flash Attention.
+In [Chapter 5: Attention Mechanisms](05-attention-mechanisms.md), we will explore advanced attention techniques including causal masking implementation details, KV-cache for efficient inference, multi-query attention, and Flash Attention.
 
 ---
 *Built with insights from open-source GPT implementations.*

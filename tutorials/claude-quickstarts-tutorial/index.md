@@ -77,14 +77,16 @@ graph TB
 
 ## Tutorial Structure
 
+> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| [1. Getting Started](01-getting-started.md) | Overview | Repository structure, setup, choosing quickstarts |
-| [2. Customer Support Agents](02-customer-support-agents.md) | Chatbots | Support chatbots, ticket classification, knowledge base integration |
-| [3. Data Processing & Analysis](03-data-processing-analysis.md) | Analytics | Financial data analysis, visualization, structured outputs |
-| [4. Browser & Computer Use](04-browser-computer-use.md) | Automation | Browser automation with Playwright, desktop control |
-| [5. Autonomous Coding Agents](05-autonomous-coding-agents.md) | Development | Two-agent pattern, git persistence, multi-session coding |
-| [6. Production Patterns](06-production-patterns.md) | Deployment | Error handling, monitoring, scaling, security |
+| **1. Getting Started (Planned)** | Overview | Repository structure, setup, choosing quickstarts |
+| **2. Customer Support Agents (Planned)** | Chatbots | Support chatbots, ticket classification, knowledge base integration |
+| **3. Data Processing & Analysis (Planned)** | Analytics | Financial data analysis, visualization, structured outputs |
+| **4. Browser & Computer Use (Planned)** | Automation | Browser automation with Playwright, desktop control |
+| **5. Autonomous Coding Agents (Planned)** | Development | Two-agent pattern, git persistence, multi-session coding |
+| **6. Production Patterns (Planned)** | Deployment | Error handling, monitoring, scaling, security |
 
 ## Tech Stack
 
@@ -224,7 +226,7 @@ def support_agent(user_query: str, knowledge_base: list):
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+Ready to begin? Review the roadmap above while chapter pages are being finalized.
 
 ---
 

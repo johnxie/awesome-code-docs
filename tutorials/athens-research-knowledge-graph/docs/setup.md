@@ -357,7 +357,7 @@ Once your environment is set up:
 1. **Explore the Database** - Query existing data and understand the schema
 2. **Create Your First Block** - Use the REPL to add content
 3. **Build a Simple Component** - Create a basic UI element
-4. **Study the Architecture** - [Application Architecture](04-app-architecture.md)
+4. **Study the Architecture** - Application Architecture (planned)
 
 ## Getting Help
 

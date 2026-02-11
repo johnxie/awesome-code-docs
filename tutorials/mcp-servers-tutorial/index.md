@@ -78,16 +78,18 @@ graph TB
 
 ## Tutorial Structure
 
+> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| [1. Getting Started](01-getting-started.md) | Overview | Repository structure, installation, testing servers |
-| [2. Filesystem Server](02-filesystem-server.md) | File Ops | Secure file operations, directory browsing, search |
-| [3. Git Server](03-git-server.md) | Version Control | Repository tools, commit history, diff analysis |
-| [4. Memory Server](04-memory-server.md) | Knowledge Graph | Entity storage, relationship management, RAG patterns |
-| [5. Multi-Language Servers](05-multi-language-servers.md) | Implementations | Python, TypeScript, Rust patterns comparison |
-| [6. Custom Server Development](06-custom-server-development.md) | Building | Using reference servers as templates |
-| [7. Security Considerations](07-security-considerations.md) | Safety | Sandboxing, authentication, input validation |
-| [8. Production Adaptation](08-production-adaptation.md) | Deployment | Hardening reference servers for production use |
+| **1. Getting Started (Planned)** | Overview | Repository structure, installation, testing servers |
+| **2. Filesystem Server (Planned)** | File Ops | Secure file operations, directory browsing, search |
+| **3. Git Server (Planned)** | Version Control | Repository tools, commit history, diff analysis |
+| **4. Memory Server (Planned)** | Knowledge Graph | Entity storage, relationship management, RAG patterns |
+| **5. Multi-Language Servers (Planned)** | Implementations | Python, TypeScript, Rust patterns comparison |
+| **6. Custom Server Development (Planned)** | Building | Using reference servers as templates |
+| **7. Security Considerations (Planned)** | Safety | Sandboxing, authentication, input validation |
+| **8. Production Adaptation (Planned)** | Deployment | Hardening reference servers for production use |
 
 ## Tech Stack
 
@@ -165,7 +167,7 @@ By the end of this tutorial, you'll be able to:
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+Ready to begin? Review the roadmap above while chapter pages are being finalized.
 
 ---
 

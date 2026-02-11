@@ -965,4 +965,4 @@ interface OptimizationSuggestion {
 
 ---
 
-**Ready for real-time collaboration?** Continue to [Chapter 3: Real-Time Collaboration](03-realtime-collaboration.md)
+**Ready for real-time collaboration?** Continue to Chapter 3: Real-Time Collaboration (planned).

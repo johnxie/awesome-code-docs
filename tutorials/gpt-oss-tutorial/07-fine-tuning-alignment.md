@@ -639,7 +639,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 8: Production Inference](08-production-inference.html), we will cover everything needed to deploy your fine-tuned GPT model -- including quantization, continuous batching, speculative decoding, and deployment strategies.
+In [Chapter 8: Production Inference](08-production-inference.md), we will cover everything needed to deploy your fine-tuned GPT model -- including quantization, continuous batching, speculative decoding, and deployment strategies.
 
 ---
 *Built with insights from open-source GPT implementations.*

@@ -598,4 +598,4 @@ In Athens, everything revolves around entities and their connections:
 
 ---
 
-**Ready to explore ClojureScript architecture?** Continue to [Chapter 4: Application Architecture](04-app-architecture.md)
+**Ready to explore ClojureScript architecture?** Continue to Chapter 4: Application Architecture (planned).

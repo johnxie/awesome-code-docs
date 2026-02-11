@@ -515,7 +515,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 6: Scaling & Distributed Training](06-scaling-distributed-training.html), we will explore how to scale GPT training across multiple GPUs and nodes -- covering data parallelism, model parallelism, ZeRO optimization, and FSDP.
+In [Chapter 6: Scaling & Distributed Training](06-scaling-distributed-training.md), we will explore how to scale GPT training across multiple GPUs and nodes -- covering data parallelism, model parallelism, ZeRO optimization, and FSDP.
 
 ---
 *Built with insights from open-source GPT implementations.*

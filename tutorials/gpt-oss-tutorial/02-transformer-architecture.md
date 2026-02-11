@@ -549,7 +549,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 3: Tokenization & Embeddings](03-tokenization-embeddings.html), we will explore how raw text is converted into the token sequences that feed into the transformer -- covering BPE tokenization, vocabulary construction, and positional encoding strategies.
+In [Chapter 3: Tokenization & Embeddings](03-tokenization-embeddings.md), we will explore how raw text is converted into the token sequences that feed into the transformer -- covering BPE tokenization, vocabulary construction, and positional encoding strategies.
 
 ---
 *Built with insights from open-source GPT implementations.*

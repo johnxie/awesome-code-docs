@@ -64,18 +64,18 @@ graph TB
 This tutorial is organized into eight chapters that progressively build your understanding of Liveblocks:
 
 ### Foundation
-1. **[Getting Started](./01-getting-started.html)** - Installation, room setup, and connecting your first collaborative app
-2. **[Presence & Awareness](./02-presence-awareness.html)** - User cursors, avatars, "who's online", and broadcasting events
+1. **[Getting Started](./01-getting-started.md)** - Installation, room setup, and connecting your first collaborative app
+2. **[Presence & Awareness](./02-presence-awareness.md)** - User cursors, avatars, "who's online", and broadcasting events
 
 ### Core Features
-3. **[Storage & Conflict Resolution](./03-storage-conflict-resolution.html)** - LiveObject, LiveList, LiveMap, and CRDT-based conflict resolution
-4. **[Comments & Threads](./04-comments-threads.html)** - Thread-based commenting, inline annotations, and mentions
-5. **[Notifications](./05-notifications.html)** - Inbox notifications, email notifications, and custom triggers
+3. **[Storage & Conflict Resolution](./03-storage-conflict-resolution.md)** - LiveObject, LiveList, LiveMap, and CRDT-based conflict resolution
+4. **[Comments & Threads](./04-comments-threads.md)** - Thread-based commenting, inline annotations, and mentions
+5. **[Notifications](./05-notifications.md)** - Inbox notifications, email notifications, and custom triggers
 
 ### Integration & Production
-6. **[React Integration](./06-react-integration.html)** - useSelf, useOthers, useStorage hooks, and Suspense patterns
-7. **[Advanced Patterns](./07-advanced-patterns.html)** - Undo/redo, offline support, permissions, and Yjs integration
-8. **[Production Deployment](./08-production-deployment.html)** - Scaling, webhooks, authentication, monitoring, and security
+6. **[React Integration](./06-react-integration.md)** - useSelf, useOthers, useStorage hooks, and Suspense patterns
+7. **[Advanced Patterns](./07-advanced-patterns.md)** - Undo/redo, offline support, permissions, and Yjs integration
+8. **[Production Deployment](./08-production-deployment.md)** - Scaling, webhooks, authentication, monitoring, and security
 
 ## Who Is This For?
 
@@ -171,7 +171,7 @@ function App() {
 }
 ```
 
-Ready to get started? Head to **[Chapter 1: Getting Started](./01-getting-started.html)** to set up your first Liveblocks project.
+Ready to get started? Head to **[Chapter 1: Getting Started](./01-getting-started.md)** to set up your first Liveblocks project.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*

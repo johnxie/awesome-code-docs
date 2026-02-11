@@ -468,7 +468,7 @@ Congratulations! 🎉 You've mastered editor integrations with Task Master:
 
 ## Next Steps
 
-Now that you have Task Master fully integrated with your editor, let's explore team collaboration and advanced project management features. In [Chapter 6: Advanced Workflows](06-advanced-workflows.md), we'll dive into complex project structures, team coordination, and enterprise-level task management.
+Now that you have Task Master fully integrated with your editor, let's explore team collaboration and advanced project management features. In [Chapter 6: Context Control](06-context-control.md), we'll dive into complex project structures, team coordination, and enterprise-level task management.
 
 ---
 

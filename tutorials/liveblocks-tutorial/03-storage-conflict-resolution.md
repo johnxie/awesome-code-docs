@@ -700,7 +700,7 @@ In this chapter you learned:
 
 ## Next Steps
 
-With shared data synchronized, it is time to add discussion capabilities. In **[Chapter 4: Comments & Threads](./04-comments-threads.html)**, we will build thread-based commenting, inline annotations, and mention support.
+With shared data synchronized, it is time to add discussion capabilities. In **[Chapter 4: Comments & Threads](./04-comments-threads.md)**, we will build thread-based commenting, inline annotations, and mention support.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*
