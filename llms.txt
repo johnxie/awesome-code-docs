@@ -17,7 +17,7 @@
 - AG2 Tutorial: Next-Generation Multi-Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ag2-tutorial
 - AgentGPT Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial
 - Aider Tutorial: AI Pair Programming in Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/aider-tutorial
-- Anthropic API Tutorial: Building with Claude's API: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-code-tutorial
+- Anthropic API Tutorial: Build Production Apps with Claude: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-code-tutorial
 - Anthropic Skills Tutorial: Reusable AI Agent Capabilities: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial
 - AnythingLLM Tutorial: All-in-One AI Document Chat: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anything-llm-tutorial
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph
@@ -28,7 +28,7 @@
 - Browser Use Tutorial: AI-Powered Web Automation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/browser-use-tutorial
 - Chatbox Tutorial: Building Modern AI Chat Interfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial
 - ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
-- Claude Code Tutorial: AI-Powered Terminal Coding: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
+- Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
 - Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
 - Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
 - ClickHouse Tutorial: High-Performance Analytical Database: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/clickhouse-tutorial

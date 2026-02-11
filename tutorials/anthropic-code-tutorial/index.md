@@ -3,213 +3,80 @@ layout: default
 title: "Anthropic API Tutorial"
 nav_order: 84
 has_children: true
+format_version: v2
 ---
 
-# Anthropic API Tutorial: Building with Claude's API
+# Anthropic API Tutorial: Build Production Apps with Claude
 
-> Master the Anthropic API and SDKs to build powerful AI applications with Claude.
+> A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
 
-[![Stars](https://img.shields.io/github/stars/anthropics/anthropic-sdk-python?style=social)](https://github.com/anthropics/anthropic-sdk-python)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-blue)](https://github.com/anthropics/anthropic-sdk-python)
+[![Python SDK](https://img.shields.io/badge/GitHub-anthropics%2Fanthropic--sdk--python-black?logo=github)](https://github.com/anthropics/anthropic-sdk-python)
+[![TypeScript SDK](https://img.shields.io/badge/GitHub-anthropics%2Fanthropic--sdk--typescript-black?logo=github)](https://github.com/anthropics/anthropic-sdk-typescript)
+[![Docs](https://img.shields.io/badge/docs-console.anthropic.com-blue)](https://docs.anthropic.com/)
 
+## Why This Track Matters
 
-<div align="center">
+Anthropic's API is now a core building block for many production AI products. Teams need more than basic examples to ship safely.
 
-**Build Production AI Applications with Claude**
+This track focuses on:
 
-</div>
+- reliable messages API usage across SDKs
+- tool-use patterns for real integrations
+- multimodal and streaming UX workflows
+- production controls for latency, cost, and reliability
 
----
+## Current Snapshot (Verified February 11, 2026)
 
-## What is the Anthropic API?
+- Python SDK repo: [`anthropics/anthropic-sdk-python`](https://github.com/anthropics/anthropic-sdk-python)
+- Python SDK version in source: `0.79.0` (released as `v0.79.0`)
+- TypeScript SDK version in source: `0.74.0` (release tag `sdk-v0.74.0`)
+- docs and platform entrypoint: [`docs.anthropic.com`](https://docs.anthropic.com/)
+- API capabilities covered here: messages, tools, vision, streaming, batching, and production best practices
 
-The **Anthropic API** provides programmatic access to Claude, Anthropic's family of AI assistants. It enables developers to integrate Claude's capabilities into applications, build conversational interfaces, create AI agents, and leverage advanced features like tool use, vision, and streaming.
-
-### Key Features
-
-| Feature | Description |
-|:--------|:------------|
-| **Messages API** | Core API for conversations with Claude |
-| **Tool Use** | Let Claude call functions and interact with external systems |
-| **Vision** | Process and analyze images with Claude |
-| **Streaming** | Real-time token-by-token responses |
-| **Embeddings** | Generate text embeddings for semantic search |
-| **Batches** | Process large volumes efficiently |
-| **Prompt Caching** | Reduce costs with cached system prompts |
+## Mental Model
 
 ```mermaid
-flowchart TD
-    A[Your Application] --> B[Anthropic SDK]
-    B --> C[Anthropic API]
-
-    C --> D{Claude Models}
-    D --> E[Claude Opus 4.5]
-    D --> F[Claude Sonnet 4]
-    D --> G[Claude Haiku 3.5]
-
-    C --> H[Features]
-    H --> I[Messages]
-    H --> J[Tool Use]
-    H --> K[Vision]
-    H --> L[Streaming]
-    H --> M[Batches]
-
-    I --> N[Response]
-    J --> N
-    K --> N
-    L --> N
-    M --> N
-
-    N --> A
-
-    classDef app fill:#e1f5fe,stroke:#01579b
-    classDef sdk fill:#fff3e0,stroke:#ef6c00
-    classDef api fill:#d4a574,stroke:#8b5a2b
-    classDef model fill:#e8f5e8,stroke:#1b5e20
-    classDef feature fill:#f3e5f5,stroke:#4a148c
-
-    class A app
-    class B sdk
-    class C,D api
-    class E,F,G model
-    class H,I,J,K,L,M feature
+flowchart LR
+    A[Application Request] --> B[Anthropic SDK]
+    B --> C[Messages API]
+    C --> D[Model Response or Tool Call]
+    D --> E[Application Logic and Validation]
+    E --> F[User Experience and Observability]
 ```
 
-## Tutorial Chapters
+## Chapter Guide
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - API setup, authentication, and first API call
-2. **[Chapter 2: Messages API](02-messages-api.md)** - Core conversation API and message handling
-3. **[Chapter 3: Tool Use](03-tool-use.md)** - Function calling and external integrations
-4. **[Chapter 4: Vision](04-vision.md)** - Image processing and multimodal inputs
-5. **[Chapter 5: Streaming](05-streaming.md)** - Real-time responses and server-sent events
-6. **[Chapter 6: Advanced Patterns](06-advanced-patterns.md)** - Prompt engineering and optimization
-7. **[Chapter 7: Production Best Practices](07-production.md)** - Rate limiting, error handling, and scaling
-8. **[Chapter 8: Enterprise Integration](08-enterprise.md)** - Security, compliance, and enterprise features
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I authenticate and run first requests? | Working API baseline |
+| [02 - Messages API](02-messages-api.md) | How do I structure robust conversations? | Stable message flow patterns |
+| [03 - Tool Use](03-tool-use.md) | How do I connect Claude to external systems? | Safe function/tool integrations |
+| [04 - Vision](04-vision.md) | How do I handle multimodal inputs? | Image-aware workflows |
+| [05 - Streaming](05-streaming.md) | How do I deliver real-time responses? | Streaming UX architecture |
+| [06 - Advanced Patterns](06-advanced-patterns.md) | How do I optimize prompts and control behavior? | Higher-quality response strategies |
+| [07 - Production Best Practices](07-production.md) | How do I run reliably under load? | Reliability and ops baseline |
+| [08 - Enterprise Integration](08-enterprise.md) | How do I align with enterprise constraints? | Security/compliance integration model |
 
-## What You'll Learn
+## What You Will Learn
 
-- **Connect to Claude** via the Anthropic API and SDKs
-- **Build Conversations** with the Messages API
-- **Enable Tool Use** for function calling and integrations
-- **Process Images** with Claude's vision capabilities
-- **Stream Responses** for real-time user experiences
-- **Optimize Costs** with prompt caching and batching
-- **Deploy Safely** with proper error handling and rate limiting
-- **Scale Applications** for production workloads
+- how to build Claude-powered features using official SDKs
+- how to design tool-use and streaming flows for production products
+- how to control quality, cost, and reliability in live systems
+- how to deploy Anthropic-based workloads with operational discipline
 
-## Prerequisites
+## Source References
 
-- Programming experience (Python, TypeScript, or other languages)
-- Anthropic API key from [console.anthropic.com](https://console.anthropic.com/)
-- Basic understanding of REST APIs
-- Familiarity with async programming (helpful)
+- [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
+- [Anthropic TypeScript SDK](https://github.com/anthropics/anthropic-sdk-typescript)
+- [Anthropic Docs](https://docs.anthropic.com/)
 
-## Quick Start
+## Related Tutorials
 
-```python
-# Install the SDK
-pip install anthropic
-
-# Basic usage
-import anthropic
-
-client = anthropic.Anthropic()
-
-message = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
-    messages=[
-        {"role": "user", "content": "Hello, Claude!"}
-    ]
-)
-
-print(message.content[0].text)
-```
-
-```typescript
-// TypeScript/Node.js
-import Anthropic from '@anthropic-ai/sdk';
-
-const client = new Anthropic();
-
-const message = await client.messages.create({
-    model: "claude-sonnet-4-20250514",
-    max_tokens: 1024,
-    messages: [
-        { role: "user", content: "Hello, Claude!" }
-    ]
-});
-
-console.log(message.content[0].text);
-```
-
-## Available Models
-
-| Model | Best For | Context | Speed |
-|:------|:---------|:--------|:------|
-| **Claude Opus 4.5** | Complex reasoning, analysis | 200K | Slower |
-| **Claude Sonnet 4** | Balanced performance | 200K | Medium |
-| **Claude Haiku 3.5** | Fast, cost-effective tasks | 200K | Fast |
-
-## Key Capabilities
-
-### Conversations
-```python
-# Multi-turn conversation
-messages = [
-    {"role": "user", "content": "What's the capital of France?"},
-    {"role": "assistant", "content": "Paris is the capital of France."},
-    {"role": "user", "content": "What's its population?"}
-]
-```
-
-### Tool Use
-```python
-# Define tools for Claude to use
-tools = [{
-    "name": "get_weather",
-    "description": "Get current weather for a location",
-    "input_schema": {
-        "type": "object",
-        "properties": {
-            "location": {"type": "string"}
-        }
-    }
-}]
-```
-
-### Vision
-```python
-# Process images
-message = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    messages=[{
-        "role": "user",
-        "content": [
-            {"type": "image", "source": {"type": "url", "url": "https://..."}},
-            {"type": "text", "text": "What's in this image?"}
-        ]
-    }]
-)
-```
-
-## Learning Path
-
-### Beginner Track
-1. Chapters 1-2: Setup and basic Messages API
-2. Build simple conversational applications
-
-### Intermediate Track
-1. Chapters 3-5: Tool use, vision, and streaming
-2. Create interactive AI-powered features
-
-### Advanced Track
-1. Chapters 6-8: Optimization, production, and enterprise
-2. Deploy scalable AI applications
+- [Claude Code Tutorial](../claude-code-tutorial/)
+- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
+- [LiteLLM Tutorial](../litellm-tutorial/)
+- [Langfuse Tutorial](../langfuse-tutorial/)
 
 ---
 
-**Ready to build with Claude? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
-
-*Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+Start with [Chapter 1: Getting Started](01-getting-started.md).

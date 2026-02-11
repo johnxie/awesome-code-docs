@@ -21,11 +21,11 @@ Main repository:
 - Summary: Learn to use `Aider-AI/aider` for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
 - Keywords: aider, pair, programming, terminal, learn, use, real, file, edits, git, native, workflows, model, routing, reliable, day, coding, loops
 
-## Anthropic API Tutorial: Building with Claude's API
+## Anthropic API Tutorial: Build Production Apps with Claude
 - Path: tutorials/anthropic-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md
-- Summary: Master the Anthropic API and SDKs to build powerful AI applications with Claude.
-- Keywords: anthropic, code, api, building, claude, master, sdks, build, powerful, applications
+- Summary: A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
+- Keywords: anthropic, code, api, build, production, apps, claude, practical, building, official, sdks, including, messages, tools, vision, streaming, operations
 
 ## Anthropic Skills Tutorial: Reusable AI Agent Capabilities
 - Path: tutorials/anthropic-skills-tutorial
@@ -87,11 +87,11 @@ Main repository:
 - Summary: A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
 - Keywords: chroma, chromadb, building, native, vector, databases, deep, technical, walkthrough, covering
 
-## Claude Code Tutorial: AI-Powered Terminal Coding
+## Claude Code Tutorial: Agentic Coding from Your Terminal
 - Path: tutorials/claude-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md
-- Summary: Master Anthropic's agentic coding tool that lives in your terminal.
-- Keywords: claude, code, powered, terminal, coding, master, anthropic, agentic, tool, that, lives
+- Summary: Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
+- Keywords: claude, code, agentic, coding, terminal, learn, use, anthropics, codebase, understanding, multi, file, edits, command, execution, git, workflows, mcp
 
 ## Claude Quickstarts Tutorial: Production Integration Patterns
 - Path: tutorials/claude-quickstarts-tutorial
