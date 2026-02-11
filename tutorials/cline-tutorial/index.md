@@ -5,50 +5,80 @@ nav_order: 97
 has_children: true
 ---
 
-# Cline Tutorial: Agentic Coding in Your IDE
+# Cline Tutorial: Agentic Coding with Human Control
 
-> Learn how to use and operate `cline/cline`, an open-source VS Code agent that can edit files, run terminal commands, use browser workflows, and extend itself via MCP.
+> A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
 
-[![Stars](https://img.shields.io/github/stars/cline/cline?style=social)](https://github.com/cline/cline)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![VS Code](https://img.shields.io/badge/Platform-VS_Code-blue)](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-cline%2Fcline-black?logo=github)](https://github.com/cline/cline)
+[![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/cline/cline/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-docs.cline.bot-blue)](https://docs.cline.bot/)
 
-## What is Cline?
+## Why This Track Matters
 
-Cline is an open-source coding agent integrated directly in the editor. It combines model-driven reasoning with tool execution (file edits, terminal commands, browser actions, context retrieval), while keeping a human approval layer for safety.
+Cline can read code, edit files, execute commands, use browser workflows, and integrate MCP tools. That power is valuable only if you can keep it:
 
-## Current Snapshot (February 11, 2026)
+- deterministic
+- auditable
+- cost-aware
+- safe for shared repositories
 
-- repository: `cline/cline`
-- stars: ~58K
-- latest release line: `v3.57.x`
-- active focus areas include tool workflows, checkpoints, and enterprise controls
+This tutorial focuses on those outcomes.
 
-## Tutorial Chapters
+## Current Snapshot (Verified February 11, 2026)
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - Install and run Cline in VS Code
-2. **[Chapter 2: Agent Workflow](02-agent-workflow.md)** - Task loop and human-in-the-loop approvals
-3. **[Chapter 3: File Editing and Diffs](03-file-editing-and-diffs.md)** - Safe code modifications and review flows
-4. **[Chapter 4: Terminal and Runtime Tools](04-terminal-and-runtime-tools.md)** - Command execution, long-running tasks, and diagnostics
-5. **[Chapter 5: Browser Automation](05-browser-automation.md)** - Visual/runtime debugging with browser interactions
-6. **[Chapter 6: MCP and Custom Tools](06-mcp-and-custom-tools.md)** - Extending capabilities through protocol-based tools
-7. **[Chapter 7: Context and Cost Control](07-context-and-cost-control.md)** - Large-codebase context handling and token governance
-8. **[Chapter 8: Team and Enterprise Operations](08-team-and-enterprise-operations.md)** - Policies, observability, and production governance
+- repository: [`cline/cline`](https://github.com/cline/cline)
+- stars: about **57.8k**
+- latest release: [`v3.57.1`](https://github.com/cline/cline/releases/tag/v3.57.1)
+- extension package version in source: `3.57.1`
+- docs surface includes: CLI, MCP integration, hooks, plan/act, worktrees, tasks, enterprise controls
+
+## Cline Operating Model
+
+```mermaid
+flowchart LR
+    A[Task Request] --> B[Context and Planning]
+    B --> C[Approval Boundaries]
+    C --> D[File or Tool Actions]
+    D --> E[Terminal and Browser Validation]
+    E --> F[Task Summary and Evidence]
+    F --> G[Next Iteration or Completion]
+```
+
+## Chapter Guide
+
+| Chapter | Key Question | Deliverable |
+|:--------|:-------------|:------------|
+| [01 - Getting Started](01-getting-started.md) | How do I install and validate Cline safely? | Working extension + first deterministic task loop |
+| [02 - Agent Workflow](02-agent-workflow.md) | How should tasks be structured for predictable results? | Prompt contract + Plan/Act workflow template |
+| [03 - File Editing and Diffs](03-file-editing-and-diffs.md) | How do we review and govern AI edits? | Diff rubric, rollback, and acceptance gates |
+| [04 - Terminal and Runtime Tools](04-terminal-and-runtime-tools.md) | How do we run command-driven fix loops safely? | Command policy + long-running process pattern |
+| [05 - Browser Automation](05-browser-automation.md) | How do we verify runtime UX and browser behavior? | Browser validation loop with evidence artifacts |
+| [06 - MCP and Custom Tools](06-mcp-and-custom-tools.md) | How do we extend Cline with external tools? | MCP rollout strategy and tool contract checklist |
+| [07 - Context and Cost Control](07-context-and-cost-control.md) | How do we handle large repos and spend governance? | Context strategy + token/cost operating model |
+| [08 - Team and Enterprise Operations](08-team-and-enterprise-operations.md) | How do teams run Cline reliably at scale? | Team policy baseline + incident playbooks |
 
 ## What You Will Learn
 
-- run Cline safely in day-to-day coding workflows
-- structure high-quality prompts for deterministic edits
-- integrate CLI/browser/MCP tools with approval controls
-- operate Cline with cost, security, and team governance guardrails
+- how to run Cline with explicit human-in-the-loop controls
+- how to design task prompts that produce small, reviewable patches
+- how to combine file edits, terminal tools, browser checks, and MCP integrations safely
+- how to standardize usage across teams with measurable quality and cost outcomes
+
+## Source References
+
+- [Cline README](https://github.com/cline/cline/blob/main/README.md)
+- [Cline Docs](https://docs.cline.bot/)
+- [Cline docs config (repo)](https://github.com/cline/cline/blob/main/docs/docs.json)
+- [Cline Releases](https://github.com/cline/cline/releases)
 
 ## Related Tutorials
 
+- [Roo Code Tutorial](../roo-code-tutorial/)
 - [Continue Tutorial](../continue-tutorial/)
 - [Aider Tutorial](../aider-tutorial/)
 - [OpenHands Tutorial](../openhands-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
+- [MCP Servers Tutorial](../mcp-servers-tutorial/)
 
 ---
 
-Ready to begin? Continue to [Chapter 1: Getting Started](01-getting-started.md).
+Start with [Chapter 1: Getting Started](01-getting-started.md).

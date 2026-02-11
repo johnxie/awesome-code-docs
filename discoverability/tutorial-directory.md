@@ -47,8 +47,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.
 - [ClickHouse Tutorial: High-Performance Analytical Database](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/index.md)
   - A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
-- [Cline Tutorial: Agentic Coding in Your IDE](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md)
-  - Learn how to use and operate `cline/cline`, an open-source VS Code agent that can edit files, run terminal commands, use browser workflows, and extend itself via MCP.
+- [Cline Tutorial: Agentic Coding with Human Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md)
+  - A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
 - [Codex Analysis Platform: Building Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md)
   - Master building sophisticated code analysis platforms with static analysis, AST manipulation, and developer tooling.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)

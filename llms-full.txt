@@ -111,11 +111,11 @@ Main repository:
 - Summary: A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
 - Keywords: clickhouse, high, performance, analytical, database, deep, technical, walkthrough, covering
 
-## Cline Tutorial: Agentic Coding in Your IDE
+## Cline Tutorial: Agentic Coding with Human Control
 - Path: tutorials/cline-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md
-- Summary: Learn how to use and operate `cline/cline`, an open-source VS Code agent that can edit files, run terminal commands, use browser workflows, and extend itself via MCP.
-- Keywords: cline, agentic, coding, ide, learn, use, operate, open, source, code, agent, that, can, edit, files, run, terminal, commands
+- Summary: A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
+- Keywords: cline, agentic, coding, human, control, practical, engineering, install, operate, govern, across, local, development, team, environments
 
 ## Codex Analysis Platform: Building Code Intelligence Systems
 - Path: tutorials/codex-analysis-platform

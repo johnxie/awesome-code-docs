@@ -7,46 +7,91 @@ parent: Cline Tutorial
 
 # Chapter 6: MCP and Custom Tools
 
-MCP extends Cline into your internal platform surface area: tickets, docs, infra, and domain-specific systems.
+Cline can be extended with MCP servers and custom tool workflows, turning it into an interface for your internal platform.
 
-## Integration Model
+## Extension Surface
+
+Cline docs and repository docs cover MCP integration and custom tool flows, including adding/configuring servers and transport mechanisms.
+
+Typical enterprise use cases:
+
+- ticket and incident retrieval
+- internal documentation search
+- deployment/CI operations
+- cloud resource introspection
+
+## MCP Architecture Pattern
 
 ```mermaid
-graph TD
-    C[Cline] --> M[MCP Client Layer]
-    M --> T1[Issue Tracker Tool]
-    M --> T2[Docs/Knowledge Tool]
-    M --> T3[CI/CD or Cloud Tool]
-    T1 --> R[Structured Results]
-    T2 --> R
-    T3 --> R
-    R --> C
+flowchart LR
+    A[Cline Task] --> B[MCP Client in Cline]
+    B --> C1[Read-only Docs Tool]
+    B --> C2[Issue Tracker Tool]
+    B --> C3[Deployment Tool]
+    C1 --> D[Structured Responses]
+    C2 --> D
+    C3 --> D
+    D --> E[Decision and Next Action]
 ```
 
-## Tool Contract Requirements
+## Tool Contract Checklist
 
 | Contract Area | Requirement |
 |:--------------|:------------|
-| input schema | strict typed arguments |
-| output schema | predictable machine-readable response |
-| side effects | declared read-only vs mutating behavior |
-| failure mode | explicit error codes and actionable messages |
+| input schema | typed parameters, strict validation |
+| output schema | deterministic JSON-style response |
+| side effects | explicit read-only vs mutating |
+| retries/timeouts | bounded and predictable |
+| failure states | machine-readable error types |
 
-## Rollout Pattern
+## Rollout Sequence
 
-1. start with read-only tools
-2. validate result quality in real tasks
-3. add mutating tools behind explicit approvals
-4. audit usage and prune low-value tools
+1. onboard read-only tools first
+2. validate output quality across real tasks
+3. add mutating tools behind strict approvals
+4. monitor usage and prune low-signal tools
 
-## Common Pitfalls
+## Hooks and Workflow Automation
 
-- overloading one tool with many unrelated operations
-- vague error responses that force model guessing
-- skipping timeout and retry behavior definitions
+Cline docs also cover hooks/workflow-style automation. Use hooks for standardized checks, not hidden side effects.
 
-## Summary
+Good hook examples:
 
-You can now extend Cline safely with protocol-based tools that remain auditable and operable.
+- enforce summary format
+- run lightweight lint checks on specific tasks
+- inject required context for known repo workflows
+
+Avoid hooks that quietly mutate production systems.
+
+## Security Model for Tooling
+
+- least-privilege credentials per tool
+- environment-specific credentials (dev/stage/prod)
+- full audit logs for mutating tool calls
+- fast kill switch for unstable servers
+
+## Common MCP Pitfalls
+
+- one server doing too many unrelated actions
+- vague errors forcing model guesses
+- no distinction between read and write operations
+- unlimited retries against unstable endpoints
+
+## Tool Readiness Checklist
+
+- schemas are explicit
+- auth scopes are minimized
+- side effects are declared
+- timeout/retry behavior is tested
+- approval policy is documented
+
+## Chapter Summary
+
+You now have a pragmatic model for extending Cline:
+
+- MCP-first tool architecture
+- controlled rollout by risk level
+- hook usage with clear boundaries
+- governance for secure, auditable operations
 
 Next: [Chapter 7: Context and Cost Control](07-context-and-cost-control.md)
