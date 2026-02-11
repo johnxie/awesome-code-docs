@@ -7,35 +7,39 @@ parent: Bolt.diy Tutorial
 
 # Chapter 6: Integrations and MCP
 
-bolt.diy supports a growing integration surface, including MCP-oriented tool extensions.
+bolt.diy can connect to external systems through provider APIs and MCP-oriented tool paths.
 
-## Integration Categories
+## Integration Domains
 
-- model provider APIs
-- deployment providers
-- data/service integrations (for example Supabase workflows)
-- tool protocol integrations such as MCP patterns
+- model providers and gateways
+- deployment targets
+- backend/data services
+- MCP-style external tools
 
-## MCP-Oriented Capability
+## Tool Contract Standards
 
-MCP support allows richer external tool interaction patterns, enabling AI workflows to call structured tools beyond plain text generation.
+| Contract Area | Requirement |
+|:--------------|:------------|
+| inputs | strict schema validation |
+| outputs | structured, machine-readable results |
+| side effects | declared mutating vs read-only class |
+| reliability | timeout, retry, and fallback behavior |
 
-## Integration Design Rules
+## Rollout Pattern
 
-1. validate external payloads before execution
-2. bound side effects behind explicit confirmation paths
-3. isolate credentials by integration and environment
-4. log integration calls for troubleshooting and audit
+1. start with read-only integrations
+2. validate outputs in real workflows
+3. add mutating tools behind explicit approvals
+4. monitor and prune low-value integrations
 
-## Extension Checklist
+## Governance Boundaries
 
-- clear contract for tool inputs/outputs
-- timeout and retry behavior
-- failure fallback path
-- versioned integration configuration
+- isolate credentials per environment and integration
+- log all mutating tool calls with actor + timestamp
+- define emergency disable switches for unstable connectors
 
 ## Summary
 
-You can now treat bolt.diy integrations as governed system components rather than ad hoc add-ons.
+You can now treat bolt.diy integrations as governed platform components.
 
 Next: [Chapter 7: Deployment and Distribution](07-deployment-distribution.md)

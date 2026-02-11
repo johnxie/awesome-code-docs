@@ -7,9 +7,17 @@ parent: Bolt.diy Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter gets bolt.diy running locally with a clean baseline.
+This chapter gets bolt.diy running locally and verifies the full prompt-to-edit loop.
 
-## Local Setup (Node + pnpm)
+## Setup Options
+
+| Path | Best For |
+|:-----|:---------|
+| local Node + pnpm | active development and customization |
+| Docker | isolated, reproducible runtime |
+| desktop build | local-first user workflows |
+
+## Local Development Flow
 
 ```bash
 git clone https://github.com/stackblitz-labs/bolt.diy.git
@@ -21,31 +29,25 @@ cp .env.example .env.local
 pnpm run dev
 ```
 
-The app runs through Remix + Vite development flow.
+## Baseline First Task
 
-## Docker Setup (Isolated Runtime)
+After startup, run a small bounded prompt that:
 
-```bash
-pnpm run dockerbuild
-# or production image
-pnpm run dockerbuild:prod
-```
+- modifies one component or utility
+- shows a reviewable diff
+- runs a validation command
 
-Then run via compose profiles (`development` or `production`) according to the project’s `docker-compose.yaml` guidance.
+This confirms provider setup, file mutation, and runtime validation are all healthy.
 
-## Desktop App Path
+## Initial Verification Checklist
 
-bolt.diy also ships Electron binaries and supports building desktop artifacts from source. This is useful for users who want local-native UX and controlled workstation installs.
-
-## First Validation Checklist
-
-- settings panel loads
-- provider configuration tab is accessible
-- first prompt can generate and apply a simple file change
-- diff and snapshot controls are visible
+- settings panel and provider config load correctly
+- prompt returns structured output rather than raw text only
+- diff panel exposes exact file-level changes
+- validation command results are visible and interpretable
 
 ## Summary
 
-You now have a working bolt.diy environment and a baseline for architecture exploration.
+You now have bolt.diy running with a safe first-task baseline.
 
 Next: [Chapter 2: Architecture Overview](02-architecture-overview.md)

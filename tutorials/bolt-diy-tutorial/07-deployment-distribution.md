@@ -7,36 +7,37 @@ parent: Bolt.diy Tutorial
 
 # Chapter 7: Deployment and Distribution
 
-bolt.diy supports several deployment and packaging paths depending on your use case.
+bolt.diy supports browser-hosted, containerized, and desktop distribution models.
 
-## Web Deployment Targets
-
-The project documents deployment options such as:
-
-- Netlify
-- Vercel
-- GitHub Pages
-
-These are useful for browser-accessible team instances and demo environments.
-
-## Containerized Deployment
-
-Docker-based profiles support reproducible runtime environments and easier infra automation.
-
-## Desktop Distribution
-
-Electron builds provide native app delivery for macOS, Windows, and Linux workflows where local-first operation is preferred.
-
-## Deployment Decision Matrix
+## Deployment Matrix
 
 | Target | Best For |
 |:-------|:---------|
-| Browser-hosted | team sharing and central management |
-| Docker/self-hosted | controlled infra and compliance alignment |
-| Desktop | local-only power-user workflows |
+| Vercel/Netlify/GitHub Pages | shared web usage and demos |
+| Docker/self-hosted | controlled infrastructure and compliance |
+| Electron desktop | local-first power users |
+
+## Selection Criteria
+
+- choose web deployment for broad team accessibility
+- choose Docker when policy and environment control matter
+- choose desktop for offline/local-only user profiles
+
+## Release Hygiene
+
+- pin environment variables per target environment
+- version deployment configs with application changes
+- maintain rollback-ready release artifacts
+
+## Pre-Release Validation Steps
+
+1. smoke test generation and diff flow
+2. run target-platform build/deploy command
+3. validate auth/provider settings in deployed environment
+4. test rollback path before promoting broadly
 
 ## Summary
 
-You can now choose and implement the correct distribution strategy for your bolt.diy audience.
+You can now select and operate the right delivery model for your bolt.diy audience.
 
 Next: [Chapter 8: Production Operations](08-production-operations.md)

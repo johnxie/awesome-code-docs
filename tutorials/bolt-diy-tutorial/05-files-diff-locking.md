@@ -7,35 +7,38 @@ parent: Bolt.diy Tutorial
 
 # Chapter 5: Files, Diff, and Locking
 
-File safety features are central to making AI-assisted coding trustworthy.
+Diff visibility, locking, and snapshots are the core safety controls in bolt.diy workflows.
 
-## Diff-Centric Review
+## Safety Controls
 
-bolt.diy exposes AI-generated changes through diff-oriented interfaces. This enables:
+| Control | Purpose |
+|:--------|:--------|
+| diff review | detect unintended file or logic changes |
+| file locking | protect critical config/security files |
+| snapshots | enable quick rollback after poor generations |
 
-- quick impact review
-- selective acceptance/rejection patterns
-- safer collaboration on generated edits
+## Recommended Policy
 
-## File Locking Model
+1. review all generated diffs before apply
+2. lock high-risk files (infra/auth/secrets/config)
+3. snapshot before multi-file or irreversible operations
+4. validate immediately after apply
 
-The project includes file locking capabilities aimed at reducing collision and overwrite risks during generation loops.
+## Diff Review Checklist
 
-## Snapshot and Restore
+| Check | Goal |
+|:------|:-----|
+| file scope | reject unrelated file modifications |
+| logic intent | confirm patch matches prompt objective |
+| config/security impact | catch risky changes early |
+| test evidence | require command output before acceptance |
 
-Project snapshots and restoration flows let users revert or recover workspace states after unsuccessful generations.
+## Why This Matters
 
-## Practical Safety Policy
-
-| Policy | Why |
-|:-------|:----|
-| review diffs before apply | catches unintended broad edits |
-| lock critical files | protects infra/security config |
-| snapshot before risky prompts | fast rollback path |
-| validate after apply | prevents silent runtime breakage |
+AI assistance increases change velocity; these controls keep correctness and auditability intact as velocity rises.
 
 ## Summary
 
-You now have a concrete change-governance model for AI-generated edits in bolt.diy.
+You now have a practical governance pattern for safely accepting or rejecting generated changes.
 
 Next: [Chapter 6: Integrations and MCP](06-integrations-and-mcp.md)
