@@ -7,45 +7,52 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter sets up a local voice-agent project and validates a working realtime session.
+This chapter gets the official demo running locally so you can inspect real event flow and agent orchestration.
 
-## Prerequisites
-
-- Node.js 20+
-- OpenAI API key with Realtime access
-- Browser with microphone permission support
-
-## Project Setup
+## Local Setup
 
 ```bash
 git clone https://github.com/openai/openai-realtime-agents.git
 cd openai-realtime-agents
 npm install
-cp .env.example .env.local
-```
-
-Set credentials in `.env.local`.
-
-```bash
-OPENAI_API_KEY=your_key_here
-```
-
-## Run Locally
-
-```bash
+cp .env.sample .env
+# add OPENAI_API_KEY
 npm run dev
 ```
 
-Open `http://localhost:3000`, allow microphone access, and start a session.
+Open `http://localhost:3000` and test both built-in scenarios.
 
-## First Success Criteria
+## What You Should Verify First
 
-- Agent connects without WebSocket errors.
-- Voice input is captured.
-- Assistant returns audible output.
+- Session initialization succeeds and ephemeral credentials are returned.
+- Audio input is captured and pushed to the realtime pipeline.
+- Tool calls appear in logs when scenarios require them.
+- Agent switches are visible in transcript or event stream.
+
+## Architecture in Practice
+
+The demo combines:
+
+1. Browser UI for voice I/O and logs
+2. API route to mint short-lived session credentials
+3. Realtime transport channel for streaming events
+4. Agent config modules defining instructions, tools, and handoff graph
+
+## Initial Debug Checklist
+
+| Check | Symptom if Broken |
+|:------|:------------------|
+| API key loaded | session endpoint returns auth errors |
+| Mic permissions granted | no input events or silent transcripts |
+| Realtime channel established | events panel shows no server messages |
+| Agent config selected | handoffs never occur |
+
+## Development Tip
+
+Start by understanding one scenario end-to-end before editing prompts or adding tools. Most latency and correctness issues are easier to diagnose when baseline behavior is known.
 
 ## Summary
 
-You now have a local realtime voice agent running end to end.
+You now have a running reference app and a concrete baseline for deeper protocol and orchestration work.
 
 Next: [Chapter 2: Realtime API Fundamentals](02-realtime-api-fundamentals.md)

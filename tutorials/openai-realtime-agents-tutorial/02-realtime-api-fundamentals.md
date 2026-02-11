@@ -7,46 +7,52 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 2: Realtime API Fundamentals
 
-Realtime systems are event-driven: client audio in, model events out.
+Realtime systems are event systems first and prompt systems second.
 
-## Core Session Flow
+## Session Lifecycle
 
-1. Client creates a realtime session token.
-2. Browser opens a WebSocket/WebRTC channel.
-3. Audio frames stream continuously.
-4. Server and model exchange structured events.
+A typical sequence is:
 
-## Event Types to Track
+1. client requests short-lived session credentials
+2. client opens realtime connection
+3. session config is updated (modalities, behavior)
+4. conversation items are created
+5. response generation events stream back
 
-- `session.created`
-- `input_audio_buffer.append`
-- `response.created`
-- `response.output_audio.delta`
-- `response.completed`
+## Transport Choices
 
-## Minimal Event Handler Pattern
+- **WebRTC**: preferred for browser voice latency and media handling
+- **WebSocket**: useful for server-side or custom client pipelines
 
-```ts
-function onEvent(evt: { type: string; [k: string]: unknown }) {
-  switch (evt.type) {
-    case "response.created":
-      console.log("response started");
-      break;
-    case "response.completed":
-      console.log("response finished");
-      break;
-  }
-}
-```
+Both rely on client and server event streams.
 
-## Reliability Basics
+## Event Model
 
-- Reconnect with backoff on dropped sessions.
-- Include session IDs in logs.
-- Apply timeout guards for stalled responses.
+Client events often include:
+
+- session updates
+- new conversation items
+- response creation requests
+
+Server events include:
+
+- response deltas
+- tool call requests/results
+- response completion/failure markers
+
+## GA Migration Practicalities
+
+As of February 11, 2026, OpenAI documentation indicates GA-first Realtime usage and deprecation timelines for beta interfaces. Build new integrations against current GA docs and event contracts to avoid near-term migration debt.
+
+## Validation Checklist
+
+- log every event type during development
+- verify event ordering assumptions with real traces
+- treat unknown events as non-fatal until classified
+- isolate transport issues from prompt issues
 
 ## Summary
 
-You understand the realtime event model and session lifecycle.
+You now understand the realtime lifecycle and why event observability is essential for stable voice applications.
 
 Next: [Chapter 3: Voice Input Processing](03-voice-input-processing.md)

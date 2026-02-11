@@ -5,159 +5,62 @@ nav_order: 90
 has_children: true
 ---
 
-# OpenAI Whisper Tutorial: Speech Recognition with Deep Learning
+# OpenAI Whisper Tutorial: Speech Recognition and Translation
 
-> Master OpenAI's Whisper model for robust, multilingual speech recognition, transcription, and translation.
+> Build robust transcription pipelines with Whisper, from local experiments to production deployment.
 
 [![Stars](https://img.shields.io/github/stars/openai/whisper?style=social)](https://github.com/openai/whisper)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-3.8+-blue)](https://github.com/openai/whisper)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-blue)](https://arxiv.org/abs/2212.04356)
 
-## 🎯 What is OpenAI Whisper?
+## What Whisper is
 
-**Whisper** is a general-purpose speech recognition model trained on 680,000 hours of multilingual and multitask supervised data. It provides robust automatic speech recognition (ASR), speech translation, and language identification through a unified transformer architecture.
+Whisper is an open-source speech model family trained for multilingual transcription, language identification, and speech-to-English translation.
 
-### Key Features
+The official repository provides:
 
-| Feature | Description |
-|:--------|:------------|
-| **Multilingual** | Supports 99+ languages with high accuracy |
-| **Multi-task** | Transcription, translation, language detection, VAD |
-| **Multiple Models** | 6 model sizes (tiny → large) with speed/accuracy tradeoffs |
-| **Zero-shot Transfer** | Works on diverse audio without fine-tuning |
-| **Word-level Timestamps** | Precise temporal alignment for subtitles |
-| **Robust** | Handles accents, background noise, technical jargon |
+- command-line and Python usage paths
+- multiple model sizes (tiny to large, plus turbo variant)
+- implementation details for tokenization and decoding behavior
 
-## Architecture Overview
+## Key Practical Notes
 
-```mermaid
-graph TB
-    subgraph Input["Audio Input"]
-        AUDIO[Audio File]
-        MIC[Microphone Stream]
-        VIDEO[Video Audio Track]
-    end
-
-    subgraph Preprocessing["Audio Preprocessing"]
-        RESAMPLE[Resample to 16kHz]
-        MEL[Mel Spectrogram]
-        PAD[Padding/Chunking]
-    end
-
-    subgraph Model["Whisper Model"]
-        ENCODER[Audio Encoder]
-        DECODER[Text Decoder]
-        ATTN[Cross Attention]
-    end
-
-    subgraph Output["Outputs"]
-        TEXT[Transcription]
-        TRANS[Translation]
-        LANG[Language]
-        TIME[Timestamps]
-    end
-
-    AUDIO --> RESAMPLE
-    MIC --> RESAMPLE
-    VIDEO --> RESAMPLE
-    RESAMPLE --> MEL
-    MEL --> PAD
-    PAD --> ENCODER
-
-    ENCODER --> ATTN
-    ATTN --> DECODER
-    DECODER --> TEXT
-    DECODER --> TRANS
-    DECODER --> LANG
-    DECODER --> TIME
-
-    classDef input fill:#e1f5fe,stroke:#01579b
-    classDef process fill:#f3e5f5,stroke:#4a148c
-    classDef model fill:#fff3e0,stroke:#ef6c00
-    classDef output fill:#e8f5e8,stroke:#1b5e20
-
-    class AUDIO,MIC,VIDEO input
-    class RESAMPLE,MEL,PAD process
-    class ENCODER,DECODER,ATTN model
-    class TEXT,TRANS,LANG,TIME output
-```
+- Whisper requires `ffmpeg` for audio decoding in most workflows.
+- The `turbo` model is optimized for fast transcription but is not recommended for translation tasks.
+- Accuracy and speed vary significantly by language, audio quality, and hardware.
 
 ## Tutorial Structure
 
-> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
-
-| Chapter | Topic | What You'll Learn |
-|:--------|:------|:------------------|
-| **1. Getting Started (Planned)** | Installation | Setup, first transcription, model selection guide |
-| **2. Model Architecture (Planned)** | Internals | Encoder-decoder transformer, mel-spectrograms, attention |
-| **3. Audio Preprocessing (Planned)** | Input | WAV/MP3 handling, resampling, noise reduction, VAD |
-| **4. Transcription & Translation (Planned)** | Core Features | Multilingual transcription, translation mode, timestamps |
-| **5. Fine-Tuning (Planned)** | Customization | Domain adaptation, custom datasets, language-specific models |
-| **6. Advanced Features (Planned)** | Capabilities | Speaker diarization, word-level timing, confidence scores |
-| **7. Performance Optimization (Planned)** | Speed | GPU acceleration, batching, quantization, FP16 |
-| **8. Production Deployment (Planned)** | Operations | API serving, streaming, caching, monitoring |
-
-## Tech Stack
-
-| Component | Technology |
-|:----------|:-----------|
-| **Language** | Python 3.8+ |
-| **ML Framework** | PyTorch 1.10+ |
-| **Audio Processing** | librosa, ffmpeg, soundfile |
-| **Model Arch** | Transformer encoder-decoder |
-| **Deployment** | FastAPI, Docker, CUDA (optional) |
-| **Model Sizes** | tiny (39M) → large (1550M params) |
-
-## What You'll Learn
-
-By the end of this tutorial, you'll be able to:
-
-- **Transcribe Audio** in 99+ languages with high accuracy
-- **Translate Speech** from any language to English
-- **Detect Languages** automatically from audio
-- **Generate Subtitles** with word-level timestamps
-- **Fine-tune Models** on custom datasets for domain-specific accuracy
-- **Optimize Performance** with GPU acceleration and quantization
-- **Deploy Production APIs** with FastAPI, Docker, and cloud platforms
-- **Handle Edge Cases** including background noise, accents, and technical content
+| Chapter | Topic | What You Will Learn |
+|:--------|:------|:--------------------|
+| [1. Getting Started](01-getting-started.md) | Setup | Install Whisper, verify dependencies, and run first transcription |
+| [2. Model Architecture](02-model-architecture.md) | Internals | Encoder-decoder design and multitask token behavior |
+| [3. Audio Preprocessing](03-audio-preprocessing.md) | Input Quality | Resampling, normalization, segmentation, and noise handling |
+| [4. Transcription and Translation](04-transcription-translation.md) | Core Tasks | Language detection, transcription, translation, and timestamps |
+| [5. Fine-Tuning and Adaptation](05-fine-tuning.md) | Customization | Practical adaptation strategies and limits of official tooling |
+| [6. Advanced Features](06-advanced-features.md) | Extensions | Word timestamps, diarization integrations, confidence workflows |
+| [7. Performance Optimization](07-performance-optimization.md) | Throughput | Model sizing, batching, hardware acceleration, and quantization |
+| [8. Production Deployment](08-production-deployment.md) | Operations | Service design, observability, retry strategy, and governance |
 
 ## Prerequisites
 
-- **Python** programming experience
-- **Basic ML concepts** (transformers, embeddings) helpful but not required
-- **Audio fundamentals** (sampling rates, formats) covered in Chapter 3
-- **Command-line** experience for installation and testing
+- Python experience
+- Basic familiarity with audio formats/sample rates
+- Comfort with command-line tooling
 
 ## Related Tutorials
 
 **Complementary:**
-- [Whisper.cpp Tutorial](../whisper-cpp-tutorial/) - C++ implementation for edge devices
+- [Whisper.cpp Tutorial](../whisper-cpp-tutorial/) - edge/embedded deployments
+- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/) - voice interaction systems
 
 **Next Steps:**
-- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/) - Voice-first AI agents
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/) - Integrating with OpenAI APIs
-
-## Whisper Python vs. Whisper.cpp
-
-| Aspect | Whisper (Python - This Tutorial) | Whisper.cpp |
-|:-------|:--------------------------------|:------------|
-| **Language** | Python + PyTorch | C++ with GGML |
-| **Target Use Case** | ML research, API services, cloud deployment | Edge devices, mobile apps, embedded systems |
-| **Flexibility** | Easy fine-tuning, custom models, experiments | High performance, low resource usage |
-| **Dependencies** | Heavy (PyTorch, CUDA) | Minimal (pure C++) |
-| **Fine-tuning** | ✅ Native support | ❌ Use converted models |
-| **GPU Support** | ✅ CUDA, MPS, ROCm | ✅ CUDA, Metal, OpenCL |
-| **Deployment** | Cloud servers, containers | Raspberry Pi, iOS, Android, WASM |
-| **Learning Curve** | Easier for Python developers | Requires C++ knowledge |
-| **Best For** | Production APIs, batch processing, research | Offline apps, real-time on low-power devices |
-
-**When to use Python Whisper:** API services, batch transcription, fine-tuning, research
-**When to use Whisper.cpp:** Mobile apps, edge devices, offline usage, minimal dependencies
+- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/) - broader platform integrations
 
 ---
 
-Ready to begin? Review the roadmap above while chapter pages are being finalized.
+Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ---
 
-*Built with insights from the [OpenAI Whisper repository](https://github.com/openai/whisper) and OpenAI research papers.*
+*Built with references from the official [openai/whisper repository](https://github.com/openai/whisper), model card, and paper resources linked there.*

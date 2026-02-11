@@ -7,7 +7,7 @@ parent: OpenAI Whisper Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter sets up Whisper locally and runs your first transcription.
+This chapter sets up Whisper locally and validates the baseline transcription workflow.
 
 ## Install Dependencies
 
@@ -15,52 +15,44 @@ This chapter sets up Whisper locally and runs your first transcription.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install --upgrade pip
-pip install openai-whisper torch
-brew install ffmpeg  # macOS
+pip install -U openai-whisper
 ```
 
-If you are on Linux, install `ffmpeg` from your distro package manager.
+Install `ffmpeg` using your platform package manager (required for most audio inputs).
 
-## First Transcription
+## Quick CLI Test
+
+```bash
+whisper sample_audio.wav --model turbo
+```
+
+If the model downloads and transcription completes, your baseline setup is working.
+
+## Quick Python Test
 
 ```python
 import whisper
 
-model = whisper.load_model("base")
-result = model.transcribe("sample_audio.mp3")
+model = whisper.load_model("turbo")
+result = model.transcribe("sample_audio.wav")
 print(result["text"])
 ```
 
-## Model Size Selection
+## Model Selection Snapshot
 
-| Model | Speed | Accuracy | Typical Use |
-|:------|:------|:---------|:------------|
-| `tiny` | Fastest | Lowest | Real-time prototypes |
-| `base` | Fast | Moderate | Dev and QA |
-| `small` | Medium | Good | Balanced production |
-| `medium` | Slower | Better | High-quality transcription |
-| `large` | Slowest | Best | Offline batch quality |
+| Model | Typical Use |
+|:------|:------------|
+| tiny/base | Fast, resource-limited environments |
+| small/medium | Balanced quality and speed |
+| large | Highest quality, high compute cost |
+| turbo | Fast transcription-focused workflows |
 
-## Device Configuration
+## Important Constraint
 
-```python
-import whisper
-import torch
-
-device = "cuda" if torch.cuda.is_available() else "cpu"
-model = whisper.load_model("small", device=device)
-```
-
-## Common Errors
-
-| Error | Cause | Fix |
-|:------|:------|:----|
-| `FileNotFoundError` | Bad audio path | Verify file path and extension |
-| `ffmpeg not found` | Missing system binary | Install `ffmpeg` and retry |
-| CUDA OOM | Model too large | Use smaller model or CPU |
+The official README notes that `turbo` is not trained for translation tasks. Use multilingual non-turbo models when you need speech-to-English translation.
 
 ## Summary
 
-You now have Whisper running locally with a repeatable baseline transcription flow.
+You now have a working Whisper setup and know how to choose a baseline model for your environment.
 
 Next: [Chapter 2: Model Architecture](02-model-architecture.md)

@@ -7,44 +7,44 @@ parent: OpenAI Whisper Tutorial
 
 # Chapter 8: Production Deployment
 
-This chapter outlines a production-ready service architecture for Whisper.
+This chapter converts Whisper workflows into reliable production services.
 
-## Minimal FastAPI Service
+## Service Architecture Pattern
 
-```python
-from fastapi import FastAPI, UploadFile
-import whisper
+1. ingestion service accepts audio/video
+2. preprocessing workers normalize and segment
+3. transcription workers run Whisper inference
+4. post-processing layer enriches + validates output
+5. storage/index layer serves search and playback UX
 
-app = FastAPI()
-model = whisper.load_model("small")
+## Reliability Controls
 
-@app.post("/transcribe")
-async def transcribe(file: UploadFile):
-    data = await file.read()
-    with open("/tmp/in.wav", "wb") as f:
-        f.write(data)
-    result = model.transcribe("/tmp/in.wav")
-    return {"text": result["text"], "segments": result.get("segments", [])}
-```
+- queue-based backpressure
+- idempotent job IDs
+- retry with bounded attempts
+- dead-letter handling for malformed media
 
-## Deployment Checklist
+## Observability
 
-- Queue long-running jobs asynchronously.
-- Add request size and duration limits.
-- Store original audio and transcript artifacts.
-- Emit metrics for WER proxy, latency, and failure rate.
+Track:
 
-## Observability Baseline
+- job latency by media duration
+- error rate by codec/source
+- model-specific WER/CER trends
+- human-correction rate for critical workloads
 
-- p50/p95/p99 transcription latency
-- failure class distribution
-- average audio duration by tenant
-- queue depth and backlog age
+## Governance and Security
+
+- define transcript retention policy
+- classify sensitive audio domains
+- redact PII where required
+- enforce regional data handling constraints when applicable
 
 ## Final Summary
 
-You now have the end-to-end Whisper blueprint: setup, preprocessing, core inference, advanced enhancements, and deployment.
+You now have a full operational playbook for deploying Whisper from prototype to production.
 
 Related:
-- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
 - [Whisper.cpp Tutorial](../whisper-cpp-tutorial/)
+- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
+- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)

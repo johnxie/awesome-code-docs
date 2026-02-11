@@ -7,39 +7,44 @@ parent: OpenAI Whisper Tutorial
 
 # Chapter 6: Advanced Features
 
-This chapter covers high-value additions often paired with Whisper in production.
+Whisper becomes far more useful when combined with downstream enrichment layers.
+
+## Word and Segment Timing
+
+Whisper supports timestamp-centric workflows that enable:
+
+- subtitle generation
+- transcript navigation
+- clip-level search and indexing
 
 ## Speaker Diarization Integration
 
-Whisper itself does not label speakers. Pair it with diarization tools and merge timelines.
+Whisper itself does not perform full diarization. Production stacks often pair it with diarization tools to assign text spans to speakers.
 
-```text
-whisper segments + diarization segments -> aligned speaker transcript
+## Confidence and QA Pipelines
+
+Common pattern:
+
+1. produce transcript + timing metadata
+2. run confidence heuristics or secondary scoring
+3. route low-confidence spans to review
+
+## Structured Transcript Outputs
+
+Prefer explicit schema output for downstream consumers:
+
+```json
+{
+  "segments": [
+    {"start": 0.0, "end": 2.4, "speaker": "A", "text": "Hello"}
+  ]
+}
 ```
 
-## Word-Level Timing
-
-For subtitle editors and search UX, generate finer timing than sentence-level segments.
-
-- Use timestamped decode options where available.
-- Post-process with forced alignment tools for frame-level precision.
-
-## Confidence Heuristics
-
-Whisper does not expose a single stable confidence score for all outputs, so teams often use heuristics:
-
-- Average log probability thresholds.
-- Compression ratio checks.
-- No-speech probability filters.
-
-## Post-Processing Pipeline
-
-- Restore punctuation and casing if needed.
-- Normalize numbers, dates, and abbreviations.
-- Add domain dictionary correction for known entities.
+This avoids brittle text parsing in later systems.
 
 ## Summary
 
-You can now design a richer transcription stack around core Whisper decoding.
+You now understand how to extend Whisper into richer, production-friendly transcript products.
 
 Next: [Chapter 7: Performance Optimization](07-performance-optimization.md)
