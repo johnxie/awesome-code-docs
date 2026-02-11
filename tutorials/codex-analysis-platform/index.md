@@ -95,6 +95,8 @@ graph TB
 | **[04-code-intelligence](04-code-intelligence.md)** | Cross-References & Search | 45 min | 🔴 Expert |
 | **[05-lsp-implementation](05-lsp-implementation.md)** | Language Server Protocol | 60 min | 🔴 Expert |
 | **[06-visualization](06-visualization.md)** | Interactive Code Exploration | 40 min | 🟡 Intermediate |
+| **[07-automation-pipelines](07-automation-pipelines.md)** | CI Integration & Reporting | 40 min | 🟡 Intermediate |
+| **[08-production-rollout](08-production-rollout.md)** | Governance & Platform Ops | 35 min | 🟡 Intermediate |
 
 ## 🎯 Learning Outcomes
 

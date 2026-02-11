@@ -633,16 +633,11 @@ In this chapter, you've learned:
 4. **Performance matters**: Handle large codebases gracefully
 5. **Context is everything**: Show relevant details on demand
 
-## Tutorial Complete!
+## Next Steps
 
-Congratulations! 🎉 You've completed the Codex Analysis Platform tutorial. You now have the knowledge to:
+You now have strong visualization foundations and are ready to operationalize the platform.
 
-- Build multi-language analysis engines
-- Parse and manipulate ASTs
-- Implement symbol tables and type resolution
-- Create code intelligence features
-- Build LSP servers for editor integration
-- Visualize code structure and metrics
+Continue with [Chapter 7: Automation Pipelines](07-automation-pipelines.md) to integrate analysis outputs into CI and reporting workflows.
 
 ## Further Reading
 

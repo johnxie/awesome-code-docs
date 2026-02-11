@@ -54,6 +54,8 @@ def count_many(texts):
 
 You now have a complete tiktoken workflow from basics to production optimization.
 
+Next: [Chapter 6: ChatML and Tool Call Accounting](06-chatml-and-tool-calls.md)
+
 Related:
 - [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
 - [LangChain Tutorial](../langchain-tutorial/)
