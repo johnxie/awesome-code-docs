@@ -357,11 +357,11 @@ Main repository:
 - Summary: **Project**: [n8n](https://github.com/n8n-io/n8n) — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.
 - Keywords: n8n, mcp, model, context, protocol, deep, dive, project, visual, workflow, automation, integration, powered, tool, use
 
-## Nanocoder: Building & Understanding AI Coding Agents
+## Nanocoder Tutorial: Building and Understanding AI Coding Agents
 - Path: tutorials/nanocoder-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/index.md
-- Summary: A deep dive into how local-first AI coding agents work internally, using Nanocoder as a practical reference implementation.
-- Keywords: nanocoder, building, understanding, coding, agents, deep, dive, into, local, first, work, internally, using, practical, reference, implementation
+- Summary: Learn how `Nano-Collective/nanocoder` implements local-first coding-agent workflows, tool execution loops, and multi-provider model integration.
+- Keywords: nanocoder, building, understanding, coding, agents, learn, nano, collective, implements, local, first, agent, workflows, tool, execution, loops, multi, provider
 
 ## NocoDB: Deep Dive Tutorial
 - Path: tutorials/nocodb-database-platform
@@ -561,11 +561,11 @@ Main repository:
 - Summary: Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
 - Keywords: vercel, sdk, production, typescript, apps, agents, build, robust, product, features, including, streaming, structured, outputs, tool, loops, framework, integration
 
-## VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare
+## VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare
 - Path: tutorials/vibesdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md
-- Summary: Learn `cloudflare/vibesdk`, an open-source platform that turns natural-language product prompts into deployable full-stack apps.
-- Keywords: vibesdk, build, own, vibe, coding, platform, cloudflare, learn, open, source, that, turns, natural, language, product, prompts, into, deployable
+- Summary: Learn how to use `cloudflare/vibesdk` to run a prompt-to-app platform with agent orchestration, preview sandboxes, and production deployment on Cloudflare.
+- Keywords: vibesdk, build, vibe, coding, platform, cloudflare, learn, use, run, prompt, app, agent, orchestration, preview, sandboxes, production, deployment
 
 ## vLLM Tutorial: High-Performance LLM Inference
 - Path: tutorials/vllm-tutorial

@@ -161,8 +161,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Build powerful AI-powered automations with n8n's visual workflow builder.
 - [n8n Model Context Protocol: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-mcp-tutorial/index.md)
   - **Project**: [n8n](https://github.com/n8n-io/n8n) — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.
-- [Nanocoder: Building & Understanding AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/index.md)
-  - A deep dive into how local-first AI coding agents work internally, using Nanocoder as a practical reference implementation.
+- [Nanocoder Tutorial: Building and Understanding AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/index.md)
+  - Learn how `Nano-Collective/nanocoder` implements local-first coding-agent workflows, tool execution loops, and multi-provider model integration.
 - [NocoDB: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/index.md)
   - **Project**: [NocoDB](https://github.com/nocodb/nocodb) — An open-source Airtable alternative that turns any database into a smart spreadsheet.
 
@@ -250,8 +250,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md)
   - Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
-- [VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md)
-  - Learn `cloudflare/vibesdk`, an open-source platform that turns natural-language product prompts into deployable full-stack apps.
+- [VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md)
+  - Learn how to use `cloudflare/vibesdk` to run a prompt-to-app platform with agent orchestration, preview sandboxes, and production deployment on Cloudflare.
 - [vLLM Tutorial: High-Performance LLM Inference](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/index.md)
   - Master vLLM for blazing-fast, cost-effective large language model inference with advanced optimization techniques.
 

@@ -73,7 +73,7 @@
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
 - n8n AI Tutorial: Workflow Automation with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-ai-tutorial
 - n8n Model Context Protocol: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-mcp-tutorial
-- Nanocoder: Building & Understanding AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nanocoder-tutorial
+- Nanocoder Tutorial: Building and Understanding AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nanocoder-tutorial
 - NocoDB: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nocodb-database-platform
 - Obsidian Outliner Plugin: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-plugin
 - Ollama Tutorial: Running and Serving LLMs Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
@@ -107,6 +107,6 @@
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
 - Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial
 - Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
-- VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
+- VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
 - vLLM Tutorial: High-Performance LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vllm-tutorial
 - Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial
