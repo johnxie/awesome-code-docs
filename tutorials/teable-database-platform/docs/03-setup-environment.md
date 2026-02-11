@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Chapter 3: Setup Environment"
+nav_order: 3
+has_children: false
+parent: "Teable Database Platform"
+---
+
 # Teable Development Environment Setup
 
 ## Prerequisites Overview

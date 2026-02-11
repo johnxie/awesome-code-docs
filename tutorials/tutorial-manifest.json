@@ -126,15 +126,20 @@
       "chapter_numbers": [
         "01",
         "02",
-        "03"
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 3,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "athens-research-knowledge-graph",
       "path": "tutorials/athens-research-knowledge-graph",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 3
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -930,15 +935,21 @@
     {
       "chapter_numbers": [
         "01",
-        "04"
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 2,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "logseq-knowledge-management",
       "path": "tutorials/logseq-knowledge-management",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 2
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -1079,15 +1090,19 @@
         "01",
         "02",
         "03",
-        "04"
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 4,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "nocodb-database-platform",
       "path": "tutorials/nocodb-database-platform",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 4
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [
@@ -1602,15 +1617,20 @@
       "chapter_numbers": [
         "01",
         "02",
-        "03"
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
       ],
-      "docs_chapter_count": 3,
+      "docs_chapter_count": 8,
       "has_index": true,
       "name": "teable-database-platform",
       "path": "tutorials/teable-database-platform",
       "structure": "docs_only",
       "top_level_chapter_count": 0,
-      "total_numbered_chapter_count": 3
+      "total_numbered_chapter_count": 8
     },
     {
       "chapter_numbers": [

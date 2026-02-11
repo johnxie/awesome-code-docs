@@ -58,6 +58,11 @@ graph TB
 | [1. System Overview](docs/01-system-overview.md) | Architecture | Athens's approach to knowledge management |
 | [2. Datascript Database](docs/02-datascript-database.md) | Data Layer | In-memory graph database, queries, transactions |
 | [3. Schema Design](docs/03-schema-design.md) | Data Model | Blocks, pages, and relationship modeling |
+| [4. Application Architecture](docs/04-app-architecture.md) | App Flow | Re-frame event flow and state boundaries |
+| [5. Component System](docs/05-component-system.md) | UI Layer | Reagent composition and recursive block rendering |
+| [6. Event Handling](docs/06-event-handling.md) | State Changes | Editing, navigation, and sync event orchestration |
+| [7. Block Editor](docs/07-block-editor.md) | Editor Core | Outliner commands, hierarchy edits, and UX behavior |
+| [8. Rich Text](docs/08-rich-text.md) | Rendering | Rich-text tokenization, AST rendering, and safeguards |
 
 ## Tech Stack
 

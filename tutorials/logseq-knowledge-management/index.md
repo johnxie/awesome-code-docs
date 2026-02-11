@@ -58,7 +58,13 @@ graph TB
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
 | [1. Knowledge Management Principles](docs/01-knowledge-management-principles.md) | Philosophy | Local-first paradigms, block-based thinking |
+| [2. System Architecture](docs/02-system-architecture.md) | Architecture | Desktop/runtime boundaries and data flow |
+| [3. Local-First Data](docs/03-local-first-data.md) | Data Model | Filesystem-first storage, indexing, and sync tradeoffs |
 | [4. Development Setup](docs/04-development-setup.md) | Setup | ClojureScript + Electron development stack |
+| [5. Block Data Model](docs/05-block-data-model.md) | Block Graph | Block identity, hierarchy, and constraints |
+| [6. Block Editor](docs/06-block-editor.md) | Editing UX | Command handling and structural edits |
+| [7. Bi-Directional Links](docs/07-bidirectional-links.md) | Graph Edges | Reference lifecycle and backlink generation |
+| [8. Graph Visualization](docs/08-graph-visualization.md) | Visualization | Graph rendering and large-graph performance |
 
 ## Tech Stack
 
