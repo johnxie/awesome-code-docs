@@ -7,16 +7,17 @@ parent: VibeSDK Tutorial
 
 # Chapter 1: Getting Started and Deployment Paths
 
-This chapter gets VibeSDK running either locally for development or via Cloudflare deployment for team usage.
+This chapter gets VibeSDK running in a local development loop and explains when to use hosted deployment.
 
-## Two Onboarding Paths
+## Deployment Modes
 
-| Path | Best For | Core Requirement |
-|:-----|:---------|:-----------------|
-| Local development | Platform customization and debugging | Node.js 18+, Bun, Docker |
-| Deploy button | Fast hosted environment setup | Cloudflare paid Workers setup |
+| Mode | Best For | Key Requirement |
+|:-----|:---------|:----------------|
+| local development | platform customization and debugging | Node 18+, Bun, Docker |
+| deploy-button bootstrap | fast hosted trial | Cloudflare paid Workers setup |
+| scripted deployment | repeatable team environments | managed env vars and CI controls |
 
-## Local Setup Flow
+## Local Setup Workflow
 
 ```bash
 bun install
@@ -25,35 +26,32 @@ bun run db:migrate:local
 bun run dev
 ```
 
-The setup script configures Cloudflare account values, API keys, and resource IDs into your local env files.
+The setup flow configures account IDs, keys, resource bindings, and local vars.
 
-## Required Environment Areas
+## Core Configuration Areas
 
-| Area | Examples |
-|:-----|:---------|
-| Cloudflare identity | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` |
-| Security | `JWT_SECRET`, `WEBHOOK_SECRET`, `SECRETS_ENCRYPTION_KEY` |
-| AI providers | `GOOGLE_AI_STUDIO_API_KEY` and/or provider-specific keys |
-| Domain/routing | `CUSTOM_DOMAIN`, dispatch namespace values |
-
-## Deploy-to-Cloudflare Path
-
-1. trigger the deploy button from the upstream repository
-2. set required variables and account bindings
-3. configure wildcard/custom-domain routing for previews
-4. validate app generation and preview URLs
-
-If you use a first-level subdomain model (for example `abc.xyz.com`), certificate and DNS setup must be aligned before previews resolve.
+| Area | Typical Variables |
+|:-----|:------------------|
+| cloud identity | `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN` |
+| security | `JWT_SECRET`, `WEBHOOK_SECRET`, `SECRETS_ENCRYPTION_KEY` |
+| AI providers | `GOOGLE_AI_STUDIO_API_KEY` and provider-specific keys |
+| runtime shape | `CUSTOM_DOMAIN`, `MAX_SANDBOX_INSTANCES`, `SANDBOX_INSTANCE_TYPE` |
 
 ## First Validation Checklist
 
-- authenticated user can open the chat workspace
-- generation request produces phase events
-- preview container URL becomes reachable
-- generated app can be deployed/exported
+- chat interface loads after auth
+- generation request emits phase progression
+- preview URL resolves and app runs
+- export/deploy flow completes for a sample app
+
+## Common Early Failures
+
+- missing Cloudflare permissions for D1/KV/R2/containers
+- domain/certificate mismatch for preview routes
+- model configuration mismatch with selected provider strategy
 
 ## Summary
 
-You now have a working baseline environment and a repeatable setup checklist.
+You now have a repeatable setup baseline for VibeSDK development and deployment.
 
 Next: [Chapter 2: System Architecture](02-system-architecture.md)

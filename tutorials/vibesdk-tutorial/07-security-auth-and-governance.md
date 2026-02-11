@@ -7,35 +7,44 @@ parent: VibeSDK Tutorial
 
 # Chapter 7: Security, Auth, and Governance
 
-VibeSDK includes security controls across identity, secret handling, and abuse protection.
+VibeSDK security spans identity, secret handling, abuse controls, and operational policy.
 
 ## Security Domains
 
 | Domain | Controls |
 |:-------|:---------|
-| Authentication | email auth and OAuth providers |
-| Session integrity | JWT signing and secret rotation |
-| Secrets protection | encrypted secret storage patterns |
-| Abuse prevention | API/auth rate limit bindings |
-| Access control | allowlist patterns such as `ALLOWED_EMAIL` |
+| identity | OAuth/email auth and session governance |
+| session integrity | JWT controls and rotation |
+| secret management | encrypted storage and scoped env vars |
+| abuse protection | API/auth rate limit bindings |
+| access policy | allowlists and environment separation |
 
-## Config Signals in Deployment
+## Deployment-Level Controls
 
-`wrangler.jsonc` typically includes:
+`wrangler.jsonc` commonly includes:
 
-- rate limiter bindings for API and auth paths
-- secure bindings/vars for auth and provider credentials
-- controlled feature toggles via platform capability vars
+- API/auth rate limiter bindings
+- secure vars for provider/auth credentials
+- feature capability toggles and route controls
 
 ## Governance Practices
 
-- separate dev, staging, and production credential scopes
-- enforce minimum review standards for model/provider changes
-- centralize audit logs for generation requests and deploy actions
-- define data retention policies for generated artifacts and sessions
+- separate dev/stage/prod credentials and bindings
+- require review for provider/model config changes
+- retain audit trails for generation and deploy actions
+- define retention and deletion policies for session artifacts
+
+## Practical Runbook Checks
+
+| Check | Frequency |
+|:------|:----------|
+| token/secret rotation audit | monthly |
+| permission/policy drift review | bi-weekly |
+| auth failure anomaly review | daily |
+| emergency rollback drill | quarterly |
 
 ## Summary
 
-You now understand the baseline controls required before multi-user rollout.
+You now have a security and governance baseline for multi-user VibeSDK rollout.
 
 Next: [Chapter 8: Production Operations and Scaling](08-production-operations-and-scaling.md)

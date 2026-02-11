@@ -7,50 +7,45 @@ parent: VibeSDK Tutorial
 
 # Chapter 2: System Architecture
 
-VibeSDK uses a split architecture: React UI on the front, Worker APIs in the middle, and Durable Object agents coordinating generation state.
+VibeSDK combines a React frontend, Worker API control plane, and Durable Object orchestration for long-running generation workflows.
 
-## High-Level Topology
+## Topology
 
 ```mermaid
 graph TD
-    U[User] --> FE[React + Vite Frontend]
-    FE --> API[Hono API Router in Worker]
+    U[User] --> FE[React + Vite UI]
+    FE --> API[Worker API Router]
     API --> AG[Code Generator Durable Object]
-    AG --> AI[AI Gateway / Provider APIs]
-    AG --> SB[Sandbox Container Service]
-    API --> DB[D1 Database]
-    API --> KV[KV Namespace]
-    API --> R2[R2 Templates/Assets]
+    AG --> AI[AI Gateway / Providers]
+    AG --> SB[Sandbox Service]
+    API --> D1[D1]
+    API --> KV[KV]
+    API --> R2[R2]
 ```
 
-## Runtime Layers
+## Layer Responsibilities
 
-| Layer | Primary Components |
-|:------|:-------------------|
-| UI | React routes, chat workspace, live preview panel |
-| API | Worker router, auth middleware, platform controllers |
-| Agent orchestration | `CodeGeneratorAgent` state machine in Durable Objects |
-| Infrastructure | D1, KV, R2, dispatch namespaces, containers |
+| Layer | Components |
+|:------|:-----------|
+| frontend | routes, chat/workspace UI, preview controls |
+| API plane | auth, routing, controller endpoints |
+| orchestration | stateful generation agent and phase transitions |
+| infra plane | D1/KV/R2, containers, dispatch namespaces |
 
-## Why Durable Objects Matter Here
+## Why Durable Objects
 
-The generation lifecycle is multi-step and stateful. Durable Objects give each active session consistent state, ordered events, and deterministic transitions across phase updates.
+The generation engine needs ordered event handling and session continuity. Durable Objects provide deterministic per-session state transitions without forcing client-side orchestration.
 
-## Key Files to Read First
+## Key Code Areas
 
-- `worker/index.ts` and `worker/app.ts`
+- `worker/index.ts`, `worker/app.ts`
 - `worker/agents/`
+- `worker/api/`
 - `wrangler.jsonc`
-- `src/routes/` and `src/features/`
-
-## Tradeoffs
-
-- strong Cloudflare-native integration speeds platform assembly
-- platform coupling increases migration cost if you leave the stack
-- persistent agent state simplifies operations but requires strict versioned migrations
+- `src/features/` and `src/routes/`
 
 ## Summary
 
-You now understand where VibeSDK's UI, APIs, orchestration logic, and storage responsibilities live.
+You now understand where state, execution, and UI responsibilities are separated in VibeSDK.
 
 Next: [Chapter 3: AI Pipeline and Phase Engine](03-ai-pipeline-and-phase-engine.md)
