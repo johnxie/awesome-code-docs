@@ -7,32 +7,32 @@ parent: HAPI Tutorial
 
 # Chapter 7: Configuration and Security
 
-HAPI security depends on token management, network boundaries, and environment discipline.
+HAPI security depends on disciplined token management, environment separation, and controlled exposure.
 
-## Critical Configuration Areas
+## Key Configuration Domains
 
-| Area | Examples |
-|:-----|:---------|
-| hub auth | `CLI_API_TOKEN`, access token settings |
-| endpoint config | `HAPI_API_URL`, host/port/public URL values |
-| notification integration | Telegram bot and notification toggles |
-| voice integration | ElevenLabs key/agent settings (if used) |
+| Domain | Examples |
+|:-------|:---------|
+| auth/token | `CLI_API_TOKEN`, access token settings |
+| endpoint config | `HAPI_API_URL`, listen host/port, `publicUrl` |
+| notifications | Telegram token/settings |
+| optional voice | ElevenLabs key and agent settings |
 
-## Hardening Practices
+## Hardening Checklist
 
-- keep tokens out of source control
-- scope public exposure to necessary interfaces only
-- rotate tokens and integration secrets on schedule
-- separate dev/stage/prod hub deployments
+- keep secrets outside version control
+- rotate tokens on schedule and after incidents
+- segregate dev/stage/prod hub deployments
+- restrict externally reachable surfaces to required endpoints
 
 ## Governance Controls
 
-- least-privilege machine access
-- audit logging for auth and approvals
-- documented offboarding and token revocation paths
+- audit log review for auth failures and approval anomalies
+- machine offboarding process with token revocation
+- periodic configuration drift audits against baseline policy
 
 ## Summary
 
-You now have a baseline security model for operating HAPI beyond personal use.
+You now have a security baseline for moving HAPI from personal setup to team deployment.
 
 Next: [Chapter 8: Production Operations](08-production-operations.md)
