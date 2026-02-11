@@ -7,28 +7,34 @@ parent: Roo Code Tutorial
 
 # Chapter 4: Context and Indexing
 
-Large-codebase performance depends on disciplined context management.
+Large-repo reliability depends on disciplined context selection and retrieval quality.
 
-## Context Strategy
+## Context Budget Strategy
 
-- include only task-relevant files and traces
-- use indexing/search features for targeted retrieval
-- avoid context flooding with entire repositories
+- include only files relevant to the active decision
+- attach exact logs/errors instead of broad narratives
+- split large work into smaller context-bounded tasks
 
-## Indexing Benefits
+## Retrieval Pipeline
 
-Good indexing enables faster retrieval of symbols, references, and related files, which improves agent grounding and reduces hallucinated edits.
+```mermaid
+graph LR
+    A[Task Goal] --> B[Targeted Search/Index Lookup]
+    B --> C[Curated File Set]
+    C --> D[Mode Execution]
+    D --> E[Validation + Next Context Slice]
+```
 
-## Context Governance
+## Governance Controls
 
-| Rule | Purpose |
-|:-----|:--------|
-| explicit include set | lower token cost |
-| relevance-first retrieval | higher answer precision |
-| stale context refresh | prevent outdated assumptions |
+| Control | Benefit |
+|:--------|:--------|
+| explicit include lists | lower token waste |
+| relevance-first retrieval | better grounding |
+| context refresh checkpoints | less stale-assumption risk |
 
 ## Summary
 
-You can now manage context as a resource with quality, latency, and cost impact.
+You can now treat context as a managed resource for quality, speed, and cost.
 
 Next: [Chapter 5: Checkpoints and Recovery](05-checkpoints-and-recovery.md)

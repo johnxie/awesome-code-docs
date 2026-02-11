@@ -7,31 +7,33 @@ parent: Roo Code Tutorial
 
 # Chapter 6: MCP and Tool Extensions
 
-MCP tool integration extends Roo Code into domain-specific workflows.
+MCP lets Roo Code integrate with the real systems your team already operates.
 
-## MCP Extension Workflow
+## Typical Tooling Domains
 
-1. connect or register an MCP server
-2. inspect tool contracts
-3. validate call/response behavior
-4. gate mutating tools via explicit approvals
+- ticket/issue systems
+- internal documentation and knowledge APIs
+- cloud/deployment controls
+- observability and incident data sources
 
-## Tool Contract Guidelines
+## Tool Contract Checklist
 
-- strict schema validation
-- deterministic error responses
-- side-effect classification
-- timeout and retry limits
+| Area | Requirement |
+|:-----|:------------|
+| input schema | strict typed arguments and validation |
+| output schema | structured response, not prose blobs |
+| side effects | explicit read-only vs mutating class |
+| errors/timeouts | deterministic handling and retry strategy |
 
-## Common High-Value Tools
+## Rollout Pattern
 
-- issue tracker integration
-- cloud infra operations
-- internal docs/knowledge retrieval
-- deployment/environment status queries
+1. onboard read-only tools first
+2. verify output quality in real tasks
+3. add mutating tools with explicit approvals
+4. audit usage and remove low-signal tools
 
 ## Summary
 
-You can now design MCP integrations that are powerful but still governable.
+You can now extend Roo Code into enterprise workflows while keeping operations governable.
 
 Next: [Chapter 7: Profiles and Team Standards](07-profiles-and-team-standards.md)

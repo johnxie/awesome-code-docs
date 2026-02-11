@@ -7,32 +7,32 @@ parent: Roo Code Tutorial
 
 # Chapter 7: Profiles and Team Standards
 
-Team adoption depends on shared profiles and operating conventions.
+Profiles are the mechanism for scaling Roo Code behavior consistently across teams.
 
-## Team Profile Components
+## Profile Baseline
 
-- default model/provider strategy
-- mode usage rules by task type
-- command and tool allowlists
-- coding and review standards
+| Component | Standardize |
+|:----------|:------------|
+| model strategy | default model tiers by task class |
+| mode policy | which mode is allowed for which work |
+| tool policy | allowlist and approval thresholds |
+| output format | required summary and evidence template |
 
-## Standardization Benefits
+## Rollout Sequence
 
-| Standard | Outcome |
-|:---------|:--------|
-| shared prompt patterns | more consistent results |
-| common validation commands | easier CI alignment |
-| policy versioning | safer rollout and rollback |
+1. pilot profile in one repository
+2. measure quality, latency, and cost outcomes
+3. revise policy and publish versioned baseline
+4. expand to additional repos with opt-in gates
 
-## Rollout Pattern
+## Operational Benefits
 
-1. start with a pilot profile
-2. measure quality/cost outcomes
-3. refine and publish team baseline
-4. expand to more repositories
+- more predictable task quality
+- easier onboarding and review
+- lower variance in cost and execution time
 
 ## Summary
 
-You can now deploy Roo Code with predictable team-wide behavior and quality controls.
+You can now deploy Roo Code with shared operating standards instead of ad hoc usage.
 
 Next: [Chapter 8: Enterprise Operations](08-enterprise-operations.md)
