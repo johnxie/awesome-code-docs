@@ -58,14 +58,14 @@ graph TB
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
-| [1. System Overview](docs/01-system-overview.md) | Architecture | Teable's position in the database ecosystem |
-| [2. Database Architecture](docs/02-database-architecture.md) | Data Layer | PostgreSQL schema, storage engines, indexing |
-| [3. Setup Environment](docs/03-setup-environment.md) | Development | Complete development stack configuration |
-| [4. API Development](docs/04-api-development.md) | API Layer | REST/GraphQL contracts and validation patterns |
-| [5. Realtime Collaboration](docs/05-realtime-collaboration.md) | Collaboration | WebSocket events and multi-user consistency |
-| [6. Query System](docs/06-query-system.md) | Querying | View-driven query planning and optimization |
-| [7. Frontend Architecture](docs/07-frontend-architecture.md) | UI Layer | Dynamic view rendering and state boundaries |
-| [8. Production Deployment](docs/08-production-deployment.md) | Operations | Deployment hardening, scaling, and observability |
+| [1. System Overview](01-system-overview.md) | Architecture | Teable's position in the database ecosystem |
+| [2. Database Architecture](02-database-architecture.md) | Data Layer | PostgreSQL schema, storage engines, indexing |
+| [3. Setup Environment](03-setup-environment.md) | Development | Complete development stack configuration |
+| [4. API Development](04-api-development.md) | API Layer | REST/GraphQL contracts and validation patterns |
+| [5. Realtime Collaboration](05-realtime-collaboration.md) | Collaboration | WebSocket events and multi-user consistency |
+| [6. Query System](06-query-system.md) | Querying | View-driven query planning and optimization |
+| [7. Frontend Architecture](07-frontend-architecture.md) | UI Layer | Dynamic view rendering and state boundaries |
+| [8. Production Deployment](08-production-deployment.md) | Operations | Deployment hardening, scaling, and observability |
 
 ## Tech Stack
 
@@ -80,7 +80,7 @@ graph TB
 
 ---
 
-Ready to begin? Start with [Chapter 1: System Overview](docs/01-system-overview.md).
+Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 ---
 

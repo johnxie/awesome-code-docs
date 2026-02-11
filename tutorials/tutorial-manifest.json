@@ -1,9 +1,9 @@
 {
   "structure_counts": {
-    "docs_only": 8,
+    "docs_only": 4,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 83
+    "root_only": 87
   },
   "tutorial_count": 91,
   "tutorials": [
@@ -133,12 +133,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "athens-research-knowledge-graph",
       "path": "tutorials/athens-research-knowledge-graph",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {
@@ -947,12 +947,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "logseq-knowledge-management",
       "path": "tutorials/logseq-knowledge-management",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {
@@ -1100,12 +1100,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "nocodb-database-platform",
       "path": "tutorials/nocodb-database-platform",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {
@@ -1632,12 +1632,12 @@
         "07",
         "08"
       ],
-      "docs_chapter_count": 8,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "teable-database-platform",
       "path": "tutorials/teable-database-platform",
-      "structure": "docs_only",
-      "top_level_chapter_count": 0,
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
     },
     {

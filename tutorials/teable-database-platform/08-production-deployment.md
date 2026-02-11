@@ -29,4 +29,4 @@ This chapter covers production hardening for Teable-based deployments.
 You now have complete Teable coverage from system architecture to production operations.
 
 Related:
-- [Teable Index](../index.md)
+- [Teable Index](index.md)

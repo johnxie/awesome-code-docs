@@ -27,5 +27,5 @@ Realtime features keep shared tables consistent across concurrent collaborators.
 You now have complete NocoDB foundations from architecture through realtime collaboration.
 
 Related:
-- [NocoDB Index](../index.md)
-- [Setup Guide](setup.md)
+- [NocoDB Index](index.md)
+- [Setup Guide](docs/setup.md)

@@ -34,5 +34,5 @@ This chapter covers rich-text parsing and rendering tradeoffs in a block-based g
 You now have complete Athens core coverage from architecture through editor and rich text internals.
 
 Related:
-- [Athens Index](../index.md)
-- [Setup Guide](setup.md)
+- [Athens Index](index.md)
+- [Setup Guide](docs/setup.md)
