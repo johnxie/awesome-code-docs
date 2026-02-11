@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Skills & Tools"
 parent: "OpenClaw Deep Dive"
 nav_order: 6

@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Platform Connectors"
 parent: "ElizaOS Deep Dive"
 nav_order: 6

@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 2: UI Architecture & Components"
+parent: "Chatbox Tutorial"
+nav_order: 2
+---
+
 # Chapter 2: UI Architecture & Components
 
 This chapter explores the user interface architecture and component design patterns used in modern AI chat applications like Chatbox.

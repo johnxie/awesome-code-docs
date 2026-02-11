@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 5: Memory & Context Management"
+parent: "AgentGPT Tutorial"
+nav_order: 5
+---
+
 # Chapter 5: Memory & Context Management
 
 This chapter explores how AgentGPT agents manage memory, maintain context, and learn from past interactions to improve future performance.

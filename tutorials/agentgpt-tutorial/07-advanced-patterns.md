@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 7: Advanced Agent Patterns"
+parent: "AgentGPT Tutorial"
+nav_order: 7
+---
+
 # Chapter 7: Advanced Agent Patterns
 
 This chapter explores advanced patterns for building sophisticated multi-agent systems and complex agent interactions.

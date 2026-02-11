@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 8: Production Deployment"
+parent: "Chatbox Tutorial"
+nav_order: 8
+---
+
 # Chapter 8: Production Deployment
 
 This final chapter covers deploying Chatbox applications to production environments with proper scaling, security, and operational practices.

@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Memory & RAG"
 parent: "ElizaOS Deep Dive"
 nav_order: 5

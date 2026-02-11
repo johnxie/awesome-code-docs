@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 3: AI Provider Integration"
+parent: "Chatbox Tutorial"
+nav_order: 3
+---
+
 # Chapter 3: AI Provider Integration
 
 This chapter covers integrating multiple AI providers and managing different language models in chat applications.

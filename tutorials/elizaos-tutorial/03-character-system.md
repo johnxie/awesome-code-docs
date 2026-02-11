@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Character System"
 parent: "ElizaOS Deep Dive"
 nav_order: 3

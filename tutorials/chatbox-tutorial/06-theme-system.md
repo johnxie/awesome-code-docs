@@ -1,3 +1,10 @@
+---
+layout: default
+title: "Chapter 6: Theme & Customization System"
+parent: "Chatbox Tutorial"
+nav_order: 6
+---
+
 # Chapter 6: Theme & Customization System
 
 This chapter covers building a comprehensive theming system and customization options for chat applications.

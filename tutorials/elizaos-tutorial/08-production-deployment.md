@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Production Deployment"
 parent: "ElizaOS Deep Dive"
 nav_order: 8

@@ -1,4 +1,5 @@
 ---
+layout: default
 title: "Gateway Architecture"
 parent: "OpenClaw Deep Dive"
 nav_order: 2
