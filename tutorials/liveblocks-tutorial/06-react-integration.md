@@ -764,7 +764,7 @@ In this chapter you learned:
 
 ## Next Steps
 
-Now that you have mastered the React integration, let us explore advanced patterns. In **[Chapter 7: Advanced Patterns](./07-advanced-patterns.html)**, we will cover undo/redo, offline support, permissions, and Yjs integration for rich text editing.
+Now that you have mastered the React integration, let us explore advanced patterns. In **[Chapter 7: Advanced Patterns](./07-advanced-patterns.md)**, we will cover undo/redo, offline support, permissions, and Yjs integration for rich text editing.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*

@@ -547,7 +547,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 4: Training Pipeline](04-training-pipeline.html), we will examine the complete training loop -- from data loading and batching through loss computation, gradient accumulation, mixed-precision training, and learning rate scheduling.
+In [Chapter 4: Training Pipeline](04-training-pipeline.md), we will examine the complete training loop -- from data loading and batching through loss computation, gradient accumulation, mixed-precision training, and learning rate scheduling.
 
 ---
 *Built with insights from open-source GPT implementations.*
