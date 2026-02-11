@@ -8,24 +8,42 @@ parent: "Logseq Knowledge Management"
 
 # Chapter 8: Graph Visualization
 
-This chapter covers graph rendering patterns and large-graph usability.
+Graph visualization turns underlying note relationships into interactive exploration tools.
 
 ## Visualization Pipeline
 
-- query graph neighborhood around selected node
-- compute layout coordinates incrementally
-- render nodes/edges with interaction affordances
-- support filters by page type, tag, or depth
+1. select graph scope (global or local neighborhood)
+2. resolve nodes/edges from index
+3. compute layout positions
+4. render and apply interaction filters
 
 ## Performance Controls
 
-- cap rendered node count per frame
-- progressive expansion on interaction
-- cache layout results for repeated views
+- cap node/edge count per frame
+- progressively expand neighborhoods on demand
+- cache layout coordinates for repeated views
+- debounce expensive recomputations during rapid interactions
+
+## Interaction Design
+
+Useful controls include:
+
+- depth filters
+- tag/type filters
+- pin/focus nodes
+- path highlighting between selected pages
+
+## Large-Graph Usability
+
+| Problem | Mitigation |
+|:--------|:-----------|
+| visual clutter | local graph mode + filtering |
+| slow rendering | progressive loading and caching |
+| hard-to-find context | focus mode and search-linked navigation |
 
 ## Final Summary
 
-You now have full Logseq foundations from philosophy to graph visualization.
+You now have complete Logseq coverage from architecture and local-first data to graph visualization behavior at scale.
 
 Related:
 - [Logseq Index](index.md)
