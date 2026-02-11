@@ -13,8 +13,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
 - [Aider Tutorial: AI Pair Programming in Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md)
   - Learn to use `Aider-AI/aider` for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
-- [Anthropic API Tutorial: Building with Claude's API](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md)
-  - Master the Anthropic API and SDKs to build powerful AI applications with Claude.
+- [Anthropic API Tutorial: Build Production Apps with Claude](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md)
+  - A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
 - [Anthropic Skills Tutorial: Reusable AI Agent Capabilities](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/index.md)
   - Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
 - [AnythingLLM Tutorial: All-in-One AI Document Chat](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/index.md)
@@ -39,8 +39,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
 - [ChromaDB Tutorial: Building AI-Native Vector Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md)
   - A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
-- [Claude Code Tutorial: AI-Powered Terminal Coding](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
-  - Master Anthropic's agentic coding tool that lives in your terminal.
+- [Claude Code Tutorial: Agentic Coding from Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
+  - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - [Claude Quickstarts Tutorial: Production Integration Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md)
   - Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
 - [Claude Task Master Tutorial: AI-Powered Task Management for Developers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md)
