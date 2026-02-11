@@ -31,6 +31,8 @@ This chapter consolidates production lessons across all quickstarts.
 
 You now have a practical framework for moving Claude quickstart prototypes into production.
 
+Next: [Chapter 7: Evaluation and Guardrails](07-evaluation-guardrails.md)
+
 Related:
 - [Anthropic Skills Tutorial](../anthropic-skills-tutorial/)
 - [Claude Code Tutorial](../claude-code-tutorial/)

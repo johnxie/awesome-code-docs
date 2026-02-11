@@ -68,15 +68,16 @@ graph LR
 
 ## Tutorial Structure
 
-> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
-
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| **1. Getting Started (Planned)** | Basics | Installation, first encoding, BPE fundamentals |
-| **2. Tokenization Mechanics (Planned)** | Deep Dive | How BPE works, encoding algorithms, vocabulary |
-| **3. Practical Applications (Planned)** | Use Cases | Token counting, cost estimation, prompt optimization |
-| **4. Educational Module (Planned)** | Learning | Training custom tokenizers, visualization tools |
-| **5. Optimization Strategies (Planned)** | Performance | Caching, batch processing, performance tuning |
+| [1. Getting Started](01-getting-started.md) | Basics | Installation, first encoding, BPE fundamentals |
+| [2. Tokenization Mechanics](02-tokenization-mechanics.md) | Deep Dive | How BPE works, encoding algorithms, vocabulary |
+| [3. Practical Applications](03-practical-applications.md) | Use Cases | Token counting, cost estimation, prompt optimization |
+| [4. Educational Module](04-educational-module.md) | Learning | Training custom tokenizers, visualization tools |
+| [5. Optimization Strategies](05-optimization-strategies.md) | Performance | Caching, batch processing, performance tuning |
+| [6. ChatML and Tool Call Accounting](06-chatml-and-tool-calls.md) | Chat Workloads | Message-format overhead and tool payload budgeting |
+| [7. Multilingual Tokenization](07-multilingual-tokenization.md) | Localization | Cross-language token variance and budget planning |
+| [8. Cost Governance](08-cost-governance.md) | Operations | Token spend controls and production FinOps |
 
 ## Tech Stack
 
@@ -161,7 +162,7 @@ def chunk_text(text, max_tokens=500):
 
 ---
 
-Ready to begin? Review the roadmap above while chapter pages are being finalized.
+Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ---
 
