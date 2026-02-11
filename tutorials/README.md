@@ -7,19 +7,19 @@ This file describes the structure of `tutorials/` and points to the authoritativ
 - Full catalog and learning paths: [../README.md](../README.md)
 - Contribution guidelines: [../CONTRIBUTING.md](../CONTRIBUTING.md)
 
-## Snapshot (February 11, 2026)
+## Snapshot (auto-generated)
 
 | Metric | Value |
 |:-------|:------|
-| Tutorial directories | 95 |
-| Tutorial markdown files | 868 |
-| Tutorial markdown lines | 441,114 |
+| Tutorial directories | 96 |
+| Tutorial markdown files | 877 |
+| Tutorial markdown lines | 441,505 |
 
 ## Content Structure Patterns
 
 | Pattern | Count | Description |
 |:--------|:------|:------------|
-| Root chapter files | 95 | `index.md` + top-level `01-...md` to `08-...md` |
+| Root chapter files | 96 | `index.md` + top-level `01-...md` to `08-...md` |
 | `docs/` chapter files | 0 | Deprecated and fully migrated |
 | Index-only roadmap | 0 | All catalog entries publish full chapter sets |
 | Mixed root + `docs/` | 0 | Legacy hybrid layout removed |
