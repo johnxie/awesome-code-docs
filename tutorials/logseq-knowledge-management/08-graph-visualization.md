@@ -28,4 +28,4 @@ This chapter covers graph rendering patterns and large-graph usability.
 You now have full Logseq foundations from philosophy to graph visualization.
 
 Related:
-- [Logseq Index](../index.md)
+- [Logseq Index](index.md)

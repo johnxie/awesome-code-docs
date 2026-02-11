@@ -367,4 +367,4 @@ Once your environment is set up:
 
 ---
 
-**✅ Environment ready? Continue to [System Overview](01-system-overview.md)**
+**✅ Environment ready? Continue to [System Overview](../01-system-overview.md)**

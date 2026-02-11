@@ -295,7 +295,7 @@ Once your environment is set up:
 1. **Explore the UI** - Create your first base and table
 2. **Check the API** - Test auto-generated endpoints
 3. **Review the Code** - Start with core models and routes
-4. **Read Architecture Guide** - [System Overview](01-system-overview.md)
+4. **Read Architecture Guide** - [System Overview](../01-system-overview.md)
 
 ## Getting Help
 
@@ -305,4 +305,4 @@ Once your environment is set up:
 
 ---
 
-**✅ Environment ready? Continue to [System Overview](01-system-overview.md)**
+**✅ Environment ready? Continue to [System Overview](../01-system-overview.md)**
