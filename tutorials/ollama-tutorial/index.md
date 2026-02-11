@@ -3,96 +3,80 @@ layout: default
 title: "Ollama Tutorial"
 nav_order: 19
 has_children: true
+format_version: v2
 ---
 
-# Ollama Tutorial: Running Large Language Models Locally
+# Ollama Tutorial: Running and Serving LLMs Locally
 
-[![Stars](https://img.shields.io/github/stars/ollama/ollama?style=social)](https://github.com/ollama/ollama)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Go](https://img.shields.io/badge/Go-blue)](https://github.com/ollama/ollama)
+> Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
 
+[![GitHub Repo](https://img.shields.io/badge/GitHub-ollama%2Follama-black?logo=github)](https://github.com/ollama/ollama)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ollama/ollama/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-ollama.com-blue)](https://ollama.com/)
 
-Ollama<sup>[View Repo](https://github.com/ollama/ollama)</sup> is a powerful platform for running Large Language Models locally on your machine. It provides an easy way to download, run, and manage open-source LLMs with a simple command-line interface and REST API, enabling privacy-preserving AI applications without relying on external API calls.
+## Why This Track Matters
 
-Ollama supports a wide range of models from different architectures and provides tools for model customization, fine-tuning, and integration with various applications.
+Ollama is one of the most adopted local-LLM runtimes. Teams use it for privacy-sensitive workloads, cost control, and offline-capable development.
+
+This track focuses on:
+
+- practical local model operations
+- model configuration and customization workflows
+- embeddings/RAG application patterns
+- production deployment and performance tuning
+
+## Current Snapshot (Verified February 11, 2026)
+
+- repository: [`ollama/ollama`](https://github.com/ollama/ollama)
+- stars: about **162.4k**
+- latest release: [`v0.15.6`](https://github.com/ollama/ollama/releases/tag/v0.15.6)
+- development activity: active with frequent releases
+- project positioning in repo: local runtime for modern open models with CLI and API
+
+## Mental Model
 
 ```mermaid
-flowchart TD
-    A[Model Library] --> B[Ollama Download]
-    B --> C[Local Model Storage]
-    C --> D[Model Server]
-    D --> E[REST API]
-    E --> F[Client Applications]
-
-    D --> G[Model Customization]
-    G --> H[Fine-tuning]
-    H --> I[Custom Models]
-
-    F --> J[Web UI]
-    F --> K[CLI Tools]
-    F --> L[API Integrations]
-
-    classDef core fill:#e1f5fe,stroke:#01579b
-    classDef customization fill:#f3e5f5,stroke:#4a148c
-    classDef applications fill:#e8f5e8,stroke:#1b5e20
-
-    class A,B,C,D,E core
-    class G,H,I customization
-    class F,J,K,L applications
+flowchart LR
+    A[Model Registry] --> B[Ollama Pull and Storage]
+    B --> C[Local Runtime]
+    C --> D[CLI and REST API]
+    D --> E[Applications and Integrations]
+    C --> F[Customization and Performance Tuning]
 ```
 
-## Tutorial Chapters
+## Chapter Guide
 
-Welcome to your journey through local LLM deployment! This tutorial explores how to run, manage, and customize Large Language Models locally with Ollama.
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I install and run first local models? | Working local baseline |
+| [02 - Models and Modelfiles](02-models.md) | How do I manage and configure model variants? | Better model lifecycle control |
+| [03 - Chat and Completions](03-chat-completions.md) | How do I build reliable generation flows? | Stable interaction patterns |
+| [04 - Embeddings and RAG](04-embeddings-rag.md) | How do I build retrieval workflows locally? | Local RAG architecture |
+| [05 - Custom Models](05-modelfiles-custom.md) | How do I tailor models to tasks? | Modelfile customization playbook |
+| [06 - Performance Tuning](06-performance.md) | How do I optimize latency and throughput? | Performance and hardware strategy |
+| [07 - Integrations](07-integrations.md) | How does Ollama fit larger toolchains? | Ecosystem integration patterns |
+| [08 - Production Deployment](08-production.md) | How do I run Ollama in production? | Deployment and operations baseline |
 
-1. **[Chapter 1: Getting Started with Ollama](01-getting-started.md)** - Installation, setup, and your first local LLM
-2. **[Chapter 2: Models & Modelfiles](02-models.md)** - Downloading, managing, and customizing models
-3. **[Chapter 3: Chat & Completions](03-chat-completions.md)** - Interactive chat, streaming, and parameters
-4. **[Chapter 4: Embeddings & RAG](04-embeddings-rag.md)** - Vector embeddings and retrieval-augmented generation
-5. **[Chapter 5: Custom Models](05-modelfiles-custom.md)** - Building tailored models with Modelfiles
-6. **[Chapter 6: Performance Tuning](06-performance.md)** - GPU tuning, quantization, and optimization
-7. **[Chapter 7: Integrations](07-integrations.md)** - LangChain, LlamaIndex, and OpenAI-compatible SDKs
-8. **[Chapter 8: Production Deployment](08-production.md)** - Docker, security, and monitoring
+## What You Will Learn
 
-## What You'll Learn
+- how to run and manage local LLMs with Ollama
+- how to configure models and prompts for specific workloads
+- how to build embeddings/RAG flows using local infrastructure
+- how to deploy and operate Ollama with reliability and security controls
 
-By the end of this tutorial, you'll be able to:
+## Source References
 
-- **Run LLMs locally** with complete privacy and control
-- **Manage model libraries** and switch between different models
-- **Build applications** using Ollama's REST API
-- **Customize models** for specific use cases and domains
-- **Optimize performance** for different hardware configurations
-- **Deploy Ollama** in production environments
-- **Integrate multimodal models** including vision and audio
-- **Fine-tune models** for specialized tasks
+- [Ollama Repository](https://github.com/ollama/ollama)
+- [Ollama Releases](https://github.com/ollama/ollama/releases)
+- [Ollama Website and Docs](https://ollama.com/)
 
-## Prerequisites
+## Related Tutorials
 
-- Modern computer with sufficient RAM (8GB+ recommended)
-- Basic command-line knowledge
-- Understanding of AI/LLM concepts
-- Programming knowledge for API integration
-
-## Learning Path
-
-### 🟢 Beginner Track
-Perfect for users new to local LLMs:
-1. Chapters 1-2: Installation and basic model management
-2. Focus on getting started with local AI
-
-### 🟡 Intermediate Track
-For developers building applications:
-1. Chapters 3-5: Running models and API integration
-2. Learn to build applications with local LLMs
-
-### 🔴 Advanced Track
-For production deployment and customization:
-1. Chapters 6-8: Optimization, advanced features, and production
-2. Master enterprise-grade local LLM deployment
+- [Open WebUI Tutorial](../open-webui-tutorial/)
+- [LiteLLM Tutorial](../litellm-tutorial/)
+- [Llama.cpp Tutorial](../llama-cpp-tutorial/)
+- [VLLM Tutorial](../vllm-tutorial/)
 
 ---
 
-**Ready to run LLMs locally with Ollama? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
-
-*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*
+Start with [Chapter 1: Getting Started](01-getting-started.md).

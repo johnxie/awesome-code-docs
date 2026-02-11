@@ -375,17 +375,17 @@ Main repository:
 - Summary: **Project**: [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
 - Keywords: obsidian, outliner, plugin, deep, dive, project, vslinko, that, adds, style, editing, behaviors, demonstrating, advanced, architecture, patterns
 
-## Ollama Tutorial: Running Large Language Models Locally
+## Ollama Tutorial: Running and Serving LLMs Locally
 - Path: tutorials/ollama-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md
-- Summary: N/A
-- Keywords: ollama, running, large, language, models, locally
+- Summary: Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
+- Keywords: ollama, running, serving, llms, locally, learn, use, local, model, execution, customization, embeddings, rag, integration, production, deployment
 
-## Open WebUI Tutorial: Self-Hosted ChatGPT Alternative
+## Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface
 - Path: tutorials/open-webui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
-- Summary: A deep technical walkthrough of Open WebUI covering Self-Hosted ChatGPT Alternative.
-- Keywords: open, webui, self, hosted, chatgpt, alternative, deep, technical, walkthrough, covering
+- Summary: Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
+- Keywords: open, webui, self, hosted, workspace, chat, interface, learn, run, operate, model, routing, rag, workflows, multi, user, controls, production
 
 ## OpenAI Python SDK Tutorial: Production API Patterns
 - Path: tutorials/openai-python-sdk-tutorial
