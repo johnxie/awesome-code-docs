@@ -2,6 +2,9 @@
 
 Use this simple template when suggesting new documentation.
 
+For full tutorial tracks that live under `tutorials/<name>/index.md`, use
+`templates/tutorial-index-template-v2.md` instead.
+
 ## Basic Format
 
 ```markdown

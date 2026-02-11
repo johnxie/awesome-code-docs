@@ -3,6 +3,7 @@ layout: default
 title: "Bolt.diy Tutorial"
 nav_order: 96
 has_children: true
+format_version: v2
 ---
 
 # bolt.diy Tutorial: Build and Operate an Open Source AI App Builder

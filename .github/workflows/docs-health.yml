@@ -47,6 +47,10 @@ jobs:
           python scripts/update_tutorials_readme_snapshot.py --output /tmp/tutorials-readme.md
           diff -u tutorials/README.md /tmp/tutorials-readme.md
 
+      - name: Validate Format v2 Tutorial Indexes
+        run: |
+          python scripts/check_index_format_v2.py
+
       - name: Validate Repository Status Docs Are Current
         run: |
           python scripts/update_repo_status_docs.py \

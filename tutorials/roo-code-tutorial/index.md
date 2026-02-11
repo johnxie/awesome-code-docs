@@ -3,6 +3,7 @@ layout: default
 title: "Roo Code Tutorial"
 nav_order: 98
 has_children: true
+format_version: v2
 ---
 
 # Roo Code Tutorial: Run an AI Dev Team in Your Editor
