@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 96,
+  "tutorial_count": 98,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -1319,6 +1319,32 @@
       "title": "Logseq: Deep Dive Tutorial"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md",
+      "index_path": "tutorials/mastra-tutorial/index.md",
+      "keywords": [
+        "mastra",
+        "typescript",
+        "framework",
+        "agents",
+        "workflows",
+        "learn",
+        "build",
+        "production",
+        "applications",
+        "including",
+        "memory",
+        "mcp",
+        "tooling",
+        "reliability",
+        "operations"
+      ],
+      "path": "tutorials/mastra-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mastra-tutorial",
+      "slug": "mastra-tutorial",
+      "summary": "Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.",
+      "title": "Mastra Tutorial: TypeScript Framework for AI Agents and Workflows"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md",
       "index_path": "tutorials/mcp-python-sdk-tutorial/index.md",
       "keywords": [
@@ -1722,6 +1748,35 @@
       "slug": "openclaw-tutorial",
       "summary": "**Project**: [OpenClaw](https://github.com/openclaw/openclaw) \u2014 Your own personal AI assistant. Any OS. Any Platform.",
       "title": "OpenClaw: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md",
+      "index_path": "tutorials/opencode-tutorial/index.md",
+      "keywords": [
+        "opencode",
+        "open",
+        "source",
+        "terminal",
+        "coding",
+        "agent",
+        "scale",
+        "learn",
+        "use",
+        "anomalyco",
+        "run",
+        "native",
+        "agents",
+        "provider",
+        "flexibility",
+        "strong",
+        "tool",
+        "control"
+      ],
+      "path": "tutorials/opencode-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-tutorial",
+      "slug": "opencode-tutorial",
+      "summary": "Learn how to use `anomalyco/opencode` to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.",
+      "title": "OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md",
