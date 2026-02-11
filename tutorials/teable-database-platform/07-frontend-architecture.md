@@ -8,23 +8,32 @@ parent: "Teable Database Platform"
 
 # Chapter 7: Frontend Architecture
 
-The frontend combines dynamic view rendering with shared state and realtime subscriptions.
+The frontend must combine schema-driven rendering, editable grids, and real-time state updates.
 
 ## Core Frontend Modules
 
 - schema-aware view renderer
-- reusable cell editor system
+- reusable cell editor subsystem
 - filter/query configuration panels
 - presence and collaboration indicators
 
-## Engineering Practices
+## State Architecture Principles
 
-- isolate server state from transient UI state
-- virtualize large datasets in grid views
-- keep websocket reconnect logic centralized
+- separate server-synced data from transient UI state
+- centralize websocket/reconnect logic
+- model optimistic updates explicitly
+
+## Performance Controls
+
+| Control | Benefit |
+|:--------|:--------|
+| dataset virtualization | scalable rendering |
+| memoized derived state | lower recompute overhead |
+| batched state updates | smoother UI under event bursts |
+| lazy panel rendering | reduced initial load cost |
 
 ## Summary
 
-You can now navigate Teable frontend responsibilities and performance constraints.
+You can now navigate Teable frontend responsibilities with a focus on scalability and collaboration correctness.
 
 Next: [Chapter 8: Production Deployment](08-production-deployment.md)

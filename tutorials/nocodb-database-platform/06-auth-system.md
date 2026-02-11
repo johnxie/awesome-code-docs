@@ -8,22 +8,40 @@ parent: "NocoDB Database Platform"
 
 # Chapter 6: Auth System
 
-Authentication and authorization enforce tenant boundaries and role-based access.
+Authentication and authorization enforce tenant boundaries and protect data operations.
 
-## Core Capabilities
+## Auth Layer Capabilities
 
-- identity management and session/token issuance
-- role-based permissions for tables/views/actions
-- workspace-level access control and audit logs
+- identity/session or token lifecycle management
+- role- and workspace-scoped permission checks
+- API-level access enforcement for tables/views/actions
+- audit event generation for privileged changes
 
-## Production Practices
+## Authorization Model
 
-- short-lived tokens + refresh flows
-- permission checks at API boundary and data layer
-- immutable audit events for privileged actions
+A robust NocoDB deployment typically applies checks at multiple layers:
+
+1. API boundary (request identity and role)
+2. domain service layer (action permissions)
+3. data layer (row/table/workspace constraints)
+
+## Production Controls
+
+| Control | Purpose |
+|:--------|:--------|
+| short-lived access tokens | reduce blast radius of credential leakage |
+| refresh-token rotation | mitigate token replay risk |
+| least-privilege role design | minimize unnecessary access |
+| immutable audit logs | support incident response and compliance |
+
+## Common Failure Modes
+
+- role drift due to ad hoc permission grants
+- missing checks on non-UI API paths
+- unclear ownership of privileged operations
 
 ## Summary
 
-You now understand NocoDB's access-control design and operational safeguards.
+You now understand the access-control architecture needed for secure multi-user NocoDB operations.
 
 Next: [Chapter 7: Vue Components](07-vue-components.md)

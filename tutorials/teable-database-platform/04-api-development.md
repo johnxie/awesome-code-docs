@@ -8,23 +8,32 @@ parent: "Teable Database Platform"
 
 # Chapter 4: API Development
 
-Teable exposes both REST and GraphQL APIs on top of its PostgreSQL-native model.
+Teable's API layer bridges schema-rich database operations with application-friendly contracts.
 
 ## API Layer Responsibilities
 
-- map table metadata to typed API contracts
-- enforce authz and workspace boundaries
+- map table/view metadata to typed request/response contracts
+- enforce auth and workspace boundaries
 - validate payloads before query execution
-- return consistent error envelopes
+- return structured error envelopes for predictable clients
 
-## Endpoint Design Principles
+## Design Principles
 
 - stable IDs over mutable labels
-- pagination by default for list responses
-- explicit include/select semantics for relation loading
+- pagination defaults for list endpoints
+- explicit field selection to prevent overfetching
+- relation loading controls for predictable performance
+
+## Versioning Strategy
+
+| Strategy | Benefit |
+|:---------|:--------|
+| explicit API versioning | controlled breaking changes |
+| deprecation windows | client migration time |
+| compatibility tests | prevents accidental regressions |
 
 ## Summary
 
-You now understand core API design patterns in Teable.
+You now understand core API-development patterns for reliable Teable integrations.
 
 Next: [Chapter 5: Realtime Collaboration](05-realtime-collaboration.md)

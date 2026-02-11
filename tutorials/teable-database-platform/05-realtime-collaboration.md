@@ -8,23 +8,32 @@ parent: "Teable Database Platform"
 
 # Chapter 5: Realtime Collaboration
 
-Realtime collaboration keeps multi-user edits coherent under low latency.
+Realtime collaboration enables low-latency multi-user editing while preserving canonical data consistency.
 
-## Collaboration Flow
+## Collaboration Event Flow
 
-1. client submits optimistic mutation
+1. client submits optimistic change
 2. backend validates and persists
-3. websocket broadcasts canonical event
-4. peers reconcile state and render updates
+3. canonical change event is broadcast
+4. clients reconcile local state with authoritative event
 
 ## Consistency Controls
 
-- row versioning for conflict detection
-- ordered event streams per table/workspace
+- row/version metadata for conflict detection
+- ordered event streams by workspace/table
 - reconnect replay for missed events
+- explicit conflict UI when auto-merge cannot resolve
+
+## Reliability Considerations
+
+| Concern | Mitigation |
+|:--------|:-----------|
+| dropped websocket events | replay-on-reconnect window |
+| out-of-order updates | monotonic sequence IDs |
+| optimistic drift | bounded pending mutation queue |
 
 ## Summary
 
-You can now reason about Teable's collaborative consistency model.
+You can now reason about Teable's real-time consistency model under concurrent edits.
 
 Next: [Chapter 6: Query System](06-query-system.md)
