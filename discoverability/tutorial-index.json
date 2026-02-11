@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 102,
+  "tutorial_count": 104,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -2006,6 +2006,64 @@
       "slug": "photoprism-tutorial",
       "summary": "**AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.",
       "title": "PhotoPrism Tutorial: AI-Powered Photos App"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md",
+      "index_path": "tutorials/plandex-tutorial/index.md",
+      "keywords": [
+        "plandex",
+        "large",
+        "task",
+        "coding",
+        "agent",
+        "workflows",
+        "learn",
+        "use",
+        "codebase",
+        "tasks",
+        "strong",
+        "context",
+        "management",
+        "cumulative",
+        "diff",
+        "review",
+        "model",
+        "packs"
+      ],
+      "path": "tutorials/plandex-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/plandex-tutorial",
+      "slug": "plandex-tutorial",
+      "summary": "Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.",
+      "title": "Plandex Tutorial: Large-Task AI Coding Agent Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md",
+      "index_path": "tutorials/pocketflow-tutorial/index.md",
+      "keywords": [
+        "pocketflow",
+        "minimal",
+        "llm",
+        "framework",
+        "graph",
+        "based",
+        "power",
+        "learn",
+        "build",
+        "agentic",
+        "applications",
+        "pocket",
+        "minimalist",
+        "that",
+        "still",
+        "supports",
+        "workflows",
+        "multi"
+      ],
+      "path": "tutorials/pocketflow-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pocketflow-tutorial",
+      "slug": "pocketflow-tutorial",
+      "summary": "Learn how to build agentic applications with `The-Pocket/PocketFlow`, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.",
+      "title": "PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md",

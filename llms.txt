@@ -94,6 +94,8 @@
 - Perplexica Tutorial: AI-Powered Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial
 - Phidata Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial
 - PhotoPrism Tutorial: AI-Powered Photos App: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/photoprism-tutorial
+- Plandex Tutorial: Large-Task AI Coding Agent Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/plandex-tutorial
+- PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pocketflow-tutorial
 - PostgreSQL Query Planner Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/postgresql-query-planner
 - PostHog Tutorial: Open Source Product Analytics Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/posthog-tutorial
 - Pydantic AI Tutorial: Type-Safe AI Agent Development: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pydantic-ai-tutorial
