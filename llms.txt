@@ -76,8 +76,8 @@
 - Nanocoder: Building & Understanding AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nanocoder-tutorial
 - NocoDB: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nocodb-database-platform
 - Obsidian Outliner Plugin: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-plugin
-- Ollama Tutorial: Running Large Language Models Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
-- Open WebUI Tutorial: Self-Hosted ChatGPT Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
+- Ollama Tutorial: Running and Serving LLMs Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
+- Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
 - OpenAI Python SDK Tutorial: Production API Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-python-sdk-tutorial
 - OpenAI Realtime Agents Tutorial: Voice-First AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-realtime-agents-tutorial
 - OpenAI Whisper Tutorial: Speech Recognition and Translation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-whisper-tutorial

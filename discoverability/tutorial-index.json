@@ -1543,16 +1543,26 @@
       "keywords": [
         "ollama",
         "running",
-        "large",
-        "language",
-        "models",
-        "locally"
+        "serving",
+        "llms",
+        "locally",
+        "learn",
+        "use",
+        "local",
+        "model",
+        "execution",
+        "customization",
+        "embeddings",
+        "rag",
+        "integration",
+        "production",
+        "deployment"
       ],
       "path": "tutorials/ollama-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial",
       "slug": "ollama-tutorial",
-      "summary": "",
-      "title": "Ollama Tutorial: Running Large Language Models Locally"
+      "summary": "Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.",
+      "title": "Ollama Tutorial: Running and Serving LLMs Locally"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md",
@@ -1562,18 +1572,26 @@
         "webui",
         "self",
         "hosted",
-        "chatgpt",
-        "alternative",
-        "deep",
-        "technical",
-        "walkthrough",
-        "covering"
+        "workspace",
+        "chat",
+        "interface",
+        "learn",
+        "run",
+        "operate",
+        "model",
+        "routing",
+        "rag",
+        "workflows",
+        "multi",
+        "user",
+        "controls",
+        "production"
       ],
       "path": "tutorials/open-webui-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial",
       "slug": "open-webui-tutorial",
-      "summary": "A deep technical walkthrough of Open WebUI covering Self-Hosted ChatGPT Alternative.",
-      "title": "Open WebUI Tutorial: Self-Hosted ChatGPT Alternative"
+      "summary": "Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.",
+      "title": "Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md",

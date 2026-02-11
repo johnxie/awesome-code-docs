@@ -170,10 +170,10 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Obsidian Outliner Plugin: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/index.md)
   - **Project**: [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
-- [Ollama Tutorial: Running Large Language Models Locally](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md)
-  - Deep technical walkthrough.
-- [Open WebUI Tutorial: Self-Hosted ChatGPT Alternative](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md)
-  - A deep technical walkthrough of Open WebUI covering Self-Hosted ChatGPT Alternative.
+- [Ollama Tutorial: Running and Serving LLMs Locally](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md)
+  - Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
+- [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md)
+  - Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
 - [OpenAI Python SDK Tutorial: Production API Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md)
   - Build reliable Python applications with the official OpenAI SDK using Responses-first workflows, with clear migration guidance for legacy APIs.
 - [OpenAI Realtime Agents Tutorial: Voice-First AI Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/index.md)
