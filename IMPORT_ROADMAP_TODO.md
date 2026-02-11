@@ -19,15 +19,15 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 |:-----|------:|:---------|:-----|:-------|
 | [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP) | 13k+ | P1 | `pack-ag` | done |
 | [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer) | 9k+ | P1 | `pack-ag` | done |
-| [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow) | 9k+ | P1 | `pack-ah` | in_progress |
-| [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | in_progress |
+| [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow) | 9k+ | P1 | `pack-ah` | done |
+| [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | done |
 
 ## P2 (Strategic Extensions)
 
 | Repo | Stars | Priority | Pack | Status |
 |:-----|------:|:---------|:-----|:-------|
-| [`numman-ali/openskills`](https://github.com/numman-ali/openskills) | 8k+ | P2 | `pack-ai` | planned |
-| [`moazbuilds/CodeMachine-CLI`](https://github.com/moazbuilds/CodeMachine-CLI) | 2k+ | P2 | `pack-ai` | planned |
+| [`numman-ali/openskills`](https://github.com/numman-ali/openskills) | 8k+ | P2 | `pack-ai` | in_progress |
+| [`moazbuilds/CodeMachine-CLI`](https://github.com/moazbuilds/CodeMachine-CLI) | 2k+ | P2 | `pack-ai` | in_progress |
 | [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun) | 500+ | P2 | `pack-aj` | planned |
 | [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc) | 300+ | P2 | `pack-aj` | planned |
 | [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof) | 900+ | P2 | `pack-ak` | planned |

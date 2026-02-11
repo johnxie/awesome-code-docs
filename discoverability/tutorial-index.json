@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 104,
+  "tutorial_count": 106,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -503,6 +503,35 @@
       "slug": "cline-tutorial",
       "summary": "A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.",
       "title": "Cline Tutorial: Agentic Coding with Human Control"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/index.md",
+      "index_path": "tutorials/codemachine-cli-tutorial/index.md",
+      "keywords": [
+        "codemachine",
+        "cli",
+        "orchestrating",
+        "long",
+        "running",
+        "coding",
+        "agent",
+        "workflows",
+        "learn",
+        "use",
+        "moazbuilds",
+        "orchestrate",
+        "repeatable",
+        "multi",
+        "coordination",
+        "context",
+        "control",
+        "execution"
+      ],
+      "path": "tutorials/codemachine-cli-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codemachine-cli-tutorial",
+      "slug": "codemachine-cli-tutorial",
+      "summary": "Learn how to use `moazbuilds/CodeMachine-CLI` to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.",
+      "title": "CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md",
@@ -1920,6 +1949,35 @@
       "slug": "openhands-tutorial",
       "summary": "Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.",
       "title": "OpenHands Tutorial: Autonomous Software Engineering Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md",
+      "index_path": "tutorials/openskills-tutorial/index.md",
+      "keywords": [
+        "openskills",
+        "universal",
+        "skill",
+        "loading",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "numman",
+        "ali",
+        "install",
+        "synchronize",
+        "operate",
+        "reusable",
+        "packs",
+        "across",
+        "claude",
+        "code"
+      ],
+      "path": "tutorials/openskills-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openskills-tutorial",
+      "slug": "openskills-tutorial",
+      "summary": "Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.",
+      "title": "OpenSkills Tutorial: Universal Skill Loading for Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md",

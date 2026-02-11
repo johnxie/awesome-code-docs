@@ -34,6 +34,7 @@
 - Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
 - ClickHouse Tutorial: High-Performance Analytical Database: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/clickhouse-tutorial
 - Cline Tutorial: Agentic Coding with Human Control: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cline-tutorial
+- CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codemachine-cli-tutorial
 - Codex Analysis Platform Tutorial: Build Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
 - ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
@@ -90,6 +91,7 @@
 - OpenClaw: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openclaw-tutorial
 - OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-tutorial
 - OpenHands Tutorial: Autonomous Software Engineering Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
+- OpenSkills Tutorial: Universal Skill Loading for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openskills-tutorial
 - Outlines Tutorial: Structured Text Generation with LLMs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/outlines-tutorial
 - Perplexica Tutorial: AI-Powered Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial
 - Phidata Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial

@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **104**
+- Total tutorials: **106**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -51,6 +51,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
 - [Cline Tutorial: Agentic Coding with Human Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md)
   - A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
+- [CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/index.md)
+  - Learn how to use `moazbuilds/CodeMachine-CLI` to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.
 - [Codex Analysis Platform Tutorial: Build Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md)
   - Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
@@ -198,6 +200,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `anomalyco/opencode` to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.
 - [OpenHands Tutorial: Autonomous Software Engineering Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md)
   - Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
+- [OpenSkills Tutorial: Universal Skill Loading for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md)
+  - Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
 - [Outlines Tutorial: Structured Text Generation with LLMs](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md)
   - A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.
 - [OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md)

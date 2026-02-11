@@ -123,6 +123,12 @@ Main repository:
 - Summary: A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
 - Keywords: cline, agentic, coding, human, control, practical, engineering, install, operate, govern, across, local, development, team, environments
 
+## CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows
+- Path: tutorials/codemachine-cli-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/index.md
+- Summary: Learn how to use `moazbuilds/CodeMachine-CLI` to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.
+- Keywords: codemachine, cli, orchestrating, long, running, coding, agent, workflows, learn, use, moazbuilds, orchestrate, repeatable, multi, coordination, context, control, execution
+
 ## Codex Analysis Platform Tutorial: Build Code Intelligence Systems
 - Path: tutorials/codex-analysis-platform
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md
@@ -458,6 +464,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md
 - Summary: Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
 - Keywords: openhands, autonomous, software, engineering, workflows, learn, operate, across, local, gui, cli, sdk, production, minded, safety, validation, integration, patterns
+
+## OpenSkills Tutorial: Universal Skill Loading for Coding Agents
+- Path: tutorials/openskills-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md
+- Summary: Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
+- Keywords: openskills, universal, skill, loading, coding, agents, learn, use, numman, ali, install, synchronize, operate, reusable, packs, across, claude, code
 
 ## Outlines Tutorial: Structured Text Generation with LLMs
 - Path: tutorials/outlines-tutorial
