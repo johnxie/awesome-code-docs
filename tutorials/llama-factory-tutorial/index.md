@@ -55,12 +55,12 @@ Welcome to your journey through unified LLM training! This tutorial explores how
 
 1. **[Chapter 1: Getting Started with LLaMA-Factory](01-getting-started.md)** - Installation, setup, and basic model training
 2. **[Chapter 2: Data Preparation & Processing](02-data-preparation.md)** - Dataset formatting and preprocessing
-3. **[Chapter 3: Model Fine-tuning](03-model-finetuning.md)** - LoRA and full fine-tuning techniques
-4. **[Chapter 4: Instruction Tuning](04-instruction-tuning.md)** - Training chat models and assistants
-5. **[Chapter 5: Advanced Training Techniques](05-advanced-techniques.md)** - Multi-GPU training and optimization
-6. **[Chapter 6: Model Evaluation & Testing](06-model-evaluation.md)** - Performance assessment and benchmarking
-7. **[Chapter 7: Deployment & Inference](07-deployment-inference.md)** - Model deployment and serving
-8. **[Chapter 8: Production Workflows](08-production-workflows.md)** - Scaling and automation
+3. **[Chapter 3: Model Configuration](03-model-configuration.md)** - Configuring LoRA, full fine-tuning, and training parameters
+4. **[Chapter 4: Training Pipeline](04-training-pipeline.md)** - End-to-end training workflows and execution
+5. **[Chapter 5: Model Evaluation & Testing](05-model-evaluation.md)** - Performance assessment and benchmarking
+6. **[Chapter 6: Deployment](06-deployment.md)** - Model deployment and serving patterns
+7. **[Chapter 7: Advanced Techniques](07-advanced-techniques.md)** - Multi-GPU training and optimization
+8. **[Chapter 8: Production Case Studies](08-production-case-studies.md)** - Scaling and automation patterns
 
 ## What You'll Learn
 

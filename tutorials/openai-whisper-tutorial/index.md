@@ -84,16 +84,18 @@ graph TB
 
 ## Tutorial Structure
 
+> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| [1. Getting Started](01-getting-started.md) | Installation | Setup, first transcription, model selection guide |
-| [2. Model Architecture](02-model-architecture.md) | Internals | Encoder-decoder transformer, mel-spectrograms, attention |
-| [3. Audio Preprocessing](03-audio-preprocessing.md) | Input | WAV/MP3 handling, resampling, noise reduction, VAD |
-| [4. Transcription & Translation](04-transcription-translation.md) | Core Features | Multilingual transcription, translation mode, timestamps |
-| [5. Fine-Tuning](05-fine-tuning.md) | Customization | Domain adaptation, custom datasets, language-specific models |
-| [6. Advanced Features](06-advanced-features.md) | Capabilities | Speaker diarization, word-level timing, confidence scores |
-| [7. Performance Optimization](07-performance-optimization.md) | Speed | GPU acceleration, batching, quantization, FP16 |
-| [8. Production Deployment](08-production-deployment.md) | Operations | API serving, streaming, caching, monitoring |
+| **1. Getting Started (Planned)** | Installation | Setup, first transcription, model selection guide |
+| **2. Model Architecture (Planned)** | Internals | Encoder-decoder transformer, mel-spectrograms, attention |
+| **3. Audio Preprocessing (Planned)** | Input | WAV/MP3 handling, resampling, noise reduction, VAD |
+| **4. Transcription & Translation (Planned)** | Core Features | Multilingual transcription, translation mode, timestamps |
+| **5. Fine-Tuning (Planned)** | Customization | Domain adaptation, custom datasets, language-specific models |
+| **6. Advanced Features (Planned)** | Capabilities | Speaker diarization, word-level timing, confidence scores |
+| **7. Performance Optimization (Planned)** | Speed | GPU acceleration, batching, quantization, FP16 |
+| **8. Production Deployment (Planned)** | Operations | API serving, streaming, caching, monitoring |
 
 ## Tech Stack
 
@@ -154,7 +156,7 @@ By the end of this tutorial, you'll be able to:
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+Ready to begin? Review the roadmap above while chapter pages are being finalized.
 
 ---
 

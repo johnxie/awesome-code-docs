@@ -88,16 +88,18 @@ graph TB
 
 ## Tutorial Structure
 
+> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| [1. Getting Started](01-getting-started.md) | Setup | Installation, first voice agent, architecture overview |
-| [2. Realtime API Fundamentals](02-realtime-api-fundamentals.md) | Protocol | WebSocket, audio streaming, event-driven patterns |
-| [3. Voice Input Processing](03-voice-input-processing.md) | Audio | Capture, VAD (Voice Activity Detection), transcription |
-| [4. Conversational AI](04-conversational-ai.md) | Interaction | Turn-taking, interruption handling, context management |
-| [5. Function Calling](05-function-calling.md) | Tools | Real-time tool use, async execution, response synthesis |
-| [6. Voice Output](06-voice-output.md) | Speech | TTS integration, audio streaming, emotional expression |
-| [7. Advanced Patterns](07-advanced-patterns.md) | Orchestration | Chat-supervisor, sequential handoff, multi-agent systems |
-| [8. Production Deployment](08-production-deployment.md) | Operations | WebRTC infrastructure, latency optimization, scaling |
+| **1. Getting Started (Planned)** | Setup | Installation, first voice agent, architecture overview |
+| **2. Realtime API Fundamentals (Planned)** | Protocol | WebSocket, audio streaming, event-driven patterns |
+| **3. Voice Input Processing (Planned)** | Audio | Capture, VAD (Voice Activity Detection), transcription |
+| **4. Conversational AI (Planned)** | Interaction | Turn-taking, interruption handling, context management |
+| **5. Function Calling (Planned)** | Tools | Real-time tool use, async execution, response synthesis |
+| **6. Voice Output (Planned)** | Speech | TTS integration, audio streaming, emotional expression |
+| **7. Advanced Patterns (Planned)** | Orchestration | Chat-supervisor, sequential handoff, multi-agent systems |
+| **8. Production Deployment (Planned)** | Operations | WebRTC infrastructure, latency optimization, scaling |
 
 ## Tech Stack
 
@@ -200,7 +202,7 @@ Agent   Agent  Agent    Agent
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+Ready to begin? Review the roadmap above while chapter pages are being finalized.
 
 ---
 

@@ -57,8 +57,8 @@ Welcome to your journey through AI-powered software development! This tutorial e
 4. **[Chapter 4: Documentation & Comments](04-documentation-comments.md)** - Automatic documentation generation and code explanation
 5. **[Chapter 5: Debugging & Testing](05-debugging-testing.md)** - AI-assisted debugging and test generation
 6. **[Chapter 6: Custom Models & Configuration](06-custom-models.md)** - Setting up custom AI models and configurations
-7. **[Chapter 7: Extensions & Plugins](07-extensions-plugins.md)** - Building and using Continue extensions
-8. **[Chapter 8: Enterprise Deployment](08-enterprise-deployment.md)** - Scaling Continue for teams and organizations
+7. **[Chapter 7: Team Collaboration](07-team-collaboration.md)** - Multi-developer workflows and collaboration practices
+8. **[Chapter 8: Advanced Enterprise](08-advanced-enterprise.md)** - Scaling Continue for teams and organizations
 
 ## What You'll Learn
 

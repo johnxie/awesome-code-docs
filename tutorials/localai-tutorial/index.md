@@ -74,7 +74,7 @@ flowchart TD
 5. **[Chapter 5: Audio](05-audio.md)** - Whisper transcription and TTS
 6. **[Chapter 6: Embeddings](06-embeddings.md)** - Vector embeddings for RAG
 7. **[Chapter 7: Configuration](07-configuration.md)** - Advanced settings and tuning
-8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling and optimization
+8. **[Chapter 8: Integrations](08-integration.md)** - Production integrations and optimization
 
 ## What You'll Learn
 
