@@ -26,8 +26,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [BentoML Tutorial: Building Production-Ready ML Services](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md)
   - A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.
-- [bolt.diy Tutorial: Open-Source AI Full-Stack Builder](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md)
-  - Learn how to run, extend, and operate `stackblitz-labs/bolt.diy`, the open-source version of Bolt-style AI app building with provider flexibility.
+- [bolt.diy Tutorial: Build and Operate an Open Source AI App Builder](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md)
+  - A production-focused deep dive into `stackblitz-labs/bolt.diy`: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.
 - [Botpress Tutorial: Open Source Conversational AI Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/index.md)
   - **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
 - [Browser Use Tutorial: AI-Powered Web Automation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md)

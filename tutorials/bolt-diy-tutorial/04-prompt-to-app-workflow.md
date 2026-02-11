@@ -7,47 +7,150 @@ parent: Bolt.diy Tutorial
 
 # Chapter 4: Prompt-to-App Workflow
 
-Effective bolt.diy usage depends on bounded prompt loops and explicit acceptance criteria.
+This chapter explains how to transform natural-language intent into deterministic, reviewable product changes.
 
-## Prompt-to-Change Loop
+## The Core Principle
+
+A high-quality bolt.diy workflow is not "prompt and pray". It is a controlled loop:
+
+1. define target outcome
+2. constrain scope
+3. generate minimal patch
+4. validate with commands
+5. iterate using evidence
+
+## Workflow Diagram
 
 ```mermaid
-graph LR
-    A[Goal Definition] --> B[Scoped Prompt]
-    B --> C[Generated Patch]
-    C --> D[Diff Review]
-    D --> E[Validation Command]
-    E --> F[Refine or Accept]
+flowchart LR
+    A[Define Goal and Constraints] --> B[Draft Scoped Prompt]
+    B --> C[Generate Candidate Changes]
+    C --> D[Review Diff and Risk]
+    D --> E[Run Validation Commands]
+    E --> F{Pass?}
+    F -- Yes --> G[Accept and Document]
+    F -- No --> H[Refine Prompt with Failure Evidence]
+    H --> B
 ```
 
-## Prompt Structure That Works
+## Prompt Contract Template
 
-Include:
+Use this structure for most tasks:
 
-- target files/components
-- expected behavior and non-goals
-- validation command to run
-- completion condition
+```text
+Goal:
+Scope (allowed files/directories):
+Non-goals (must not change):
+Expected behavior:
+Validation command(s):
+Definition of done:
+```
 
-## Failure Patterns to Avoid
+This simple template dramatically reduces drift.
 
-- broad prompts with no file scope
-- accepting large diffs without review
-- skipping runtime validation after major edits
+## Good vs Bad Prompt Example
 
-## Iteration Playbook
+### Weak prompt
 
-For larger features, split the request into milestone prompts:
+```text
+Improve auth flow.
+```
 
-1. scaffold base structure
+Problems:
+
+- no scope
+- no expected behavior
+- no validation command
+
+### Strong prompt
+
+```text
+Refactor token refresh handling in src/auth/session.ts only.
+Do not modify routing or UI components.
+Maintain current public API.
+Run npm test -- auth-session.
+Return changed files and test result summary.
+```
+
+Benefits:
+
+- bounded file surface
+- explicit constraints
+- deterministic acceptance criteria
+
+## Iteration Strategy for Large Features
+
+For multi-step work, break into milestones:
+
+1. scaffold interfaces only
 2. implement one subsystem
-3. validate and fix
-4. only then move to the next subsystem
+3. run targeted tests
+4. integrate cross-module wiring
+5. run broader validation
 
-This keeps each generation step reviewable and reversible.
+Never request architecture redesign and production bugfix in the same first prompt.
 
-## Summary
+## Evidence-Driven Correction Loop
 
-You now have a deterministic pattern for converting intent into controlled code changes.
+When output is wrong, avoid vague feedback like "still broken".
+
+Provide:
+
+- failing command output
+- exact expected behavior
+- explicit file/function targets
+- what should remain unchanged
+
+This creates focused rework rather than broad retries.
+
+## Acceptance Gates
+
+| Gate | Question |
+|:-----|:---------|
+| scope gate | Did changes stay inside allowed files? |
+| behavior gate | Does output satisfy stated goal? |
+| safety gate | Any hidden config/auth/security impact? |
+| validation gate | Did specified commands pass? |
+| clarity gate | Is summary sufficient for reviewer handoff? |
+
+## Team Prompt Standards
+
+If multiple engineers share bolt.diy, standardize:
+
+- one prompt template
+- one summary format
+- one minimal evidence format (command + result)
+- one escalation path for risky changes
+
+Consistency matters more than perfect wording.
+
+## Common Failure Patterns
+
+### Pattern: Over-scoped edits
+
+Symptom: unrelated files modified.
+
+Fix: tighten scope and explicitly forbid unrelated directories.
+
+### Pattern: Repeated patch churn
+
+Symptom: same issue reappears across iterations.
+
+Fix: include exact failing evidence and force minimal patch objective.
+
+### Pattern: Noisy summaries
+
+Symptom: hard to review what changed.
+
+Fix: require per-file summary plus pass/fail results.
+
+## Chapter Summary
+
+You now have a deterministic prompt-to-app method:
+
+- explicit prompt contracts
+- milestone-based iteration
+- evidence-driven correction
+- consistent acceptance gates
 
 Next: [Chapter 5: Files, Diff, and Locking](05-files-diff-locking.md)

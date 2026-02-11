@@ -7,46 +7,126 @@ parent: Bolt.diy Tutorial
 
 # Chapter 3: Providers and Model Routing
 
-Provider flexibility is a core bolt.diy advantage, but it needs explicit policy.
+bolt.diy's biggest advantage is provider flexibility. This chapter shows how to turn that flexibility into a controlled routing policy.
 
-## Routing Strategy by Task Class
+## Current Provider Surface
 
-| Task Type | Preferred Model Tier |
-|:----------|:---------------------|
-| scaffolding and low-risk refactor | fast/low-cost models |
-| architecture or complex debugging | stronger reasoning models |
-| privacy-sensitive iteration | local/self-hosted models |
+Upstream project docs describe support for many cloud and local providers, including OpenAI, Anthropic, Gemini, OpenRouter, Bedrock, local engines (for example Ollama/LM Studio), and more.
 
-## Configuration Modes
+That breadth is useful only if you define:
 
-- environment-based secrets for CI and production
-- UI-based key switching for local exploration
-- hybrid mode with explicit default + fallback paths
+- a primary provider strategy
+- a fallback chain
+- task-class routing rules
+- cost and latency boundaries
 
-## Guardrails
+## Routing as Policy, Not Preference
 
-| Risk | Control |
-|:-----|:--------|
-| credential leakage | secrets management and no hardcoded keys |
-| wrong fallback behavior | explicit provider priority rules |
-| cost spikes | per-session budgets and usage review |
+Avoid ad-hoc switching from UI alone. Use a policy table.
 
-## Operational Tip
+| Task Class | Primary | Fallback 1 | Fallback 2 | Notes |
+|:-----------|:--------|:-----------|:-----------|:------|
+| small scaffolding | low-latency model | medium model | local model | optimize for speed |
+| architecture decisions | high-reasoning model | second high-reasoning model | medium model | quality over speed |
+| privacy-sensitive tasks | local/self-hosted model | private gateway model | none | avoid external egress when required |
+| high-volume batch edits | cost-efficient model | mid-cost model | local model | enforce spend caps |
 
-Standardize one team default provider profile, then allow opt-in overrides for special workloads.
+## Minimum Routing Configuration
 
-## Fallback Planning
+At a minimum, define these values per environment:
 
-Keep an explicit fallback order documented and tested:
+- default provider/model
+- allowed provider list
+- forbidden provider list (if compliance requires)
+- fallback order
+- timeout and retry limits
+- budget cap per task/session
 
-1. preferred primary provider/model
-2. lower-cost secondary for non-critical tasks
-3. local/self-hosted fallback for outage or policy events
+## Credential Management Baseline
 
-This avoids emergency reconfiguration during incidents.
+### Development
 
-## Summary
+- allow UI-assisted key setup for quick experimentation
+- keep local secrets out of Git
+- avoid sharing personal API keys across team accounts
 
-You can now treat model routing as a managed engineering policy rather than ad hoc settings changes.
+### Staging/Production
+
+- inject provider credentials from secret manager
+- rotate keys on a fixed schedule
+- separate read-only and privileged environment credentials
+
+## Common Routing Failure Modes
+
+### 1) Inconsistent results across providers
+
+Different providers may follow tool and formatting instructions differently.
+
+Mitigation:
+
+- enforce stricter prompt contracts
+- normalize output expectations in orchestration layer
+- route sensitive tasks to stable high-performing defaults
+
+### 2) Hidden cost spikes
+
+Switching to stronger models without guardrails can silently increase spend.
+
+Mitigation:
+
+- per-task budget cap
+- visible usage accounting per session
+- periodic usage review by task type
+
+### 3) Broken fallback logic
+
+Fallback can fail if secondary provider config is incomplete.
+
+Mitigation:
+
+- scheduled fallback health checks
+- failover drills in non-production environment
+- keep a tested emergency fallback profile
+
+## Recommended Team Profiles
+
+| Profile | Purpose | Default Settings |
+|:--------|:--------|:-----------------|
+| `dev-fast` | everyday iteration | low-latency model + cheap fallback |
+| `review-safe` | risky or wide-scope refactors | stronger reasoning model + strict approvals |
+| `private-mode` | sensitive code/data | local/self-hosted providers only |
+| `batch-cost` | repetitive bulk work | cost-optimized model + hard caps |
+
+## Example Environment Strategy
+
+```bash
+# Example names only; use your real variables and secret manager
+PRIMARY_PROVIDER=openrouter
+PRIMARY_MODEL=...
+FALLBACK_PROVIDER=anthropic
+FALLBACK_MODEL=...
+TERTIARY_PROVIDER=ollama
+TERTIARY_MODEL=...
+TASK_BUDGET_USD=3.00
+```
+
+Use this as conceptual structure, not a hard-coded upstream contract.
+
+## Routing Readiness Checklist
+
+- default and fallback providers are documented
+- each provider path is smoke-tested weekly
+- budget limits are visible to operators
+- error categories are captured in logs
+- incident runbook includes provider outage steps
+
+## Chapter Summary
+
+You now have a provider-routing governance model that covers:
+
+- task-class model selection
+- fallback resilience
+- spend controls
+- credential and compliance boundaries
 
 Next: [Chapter 4: Prompt-to-App Workflow](04-prompt-to-app-workflow.md)
