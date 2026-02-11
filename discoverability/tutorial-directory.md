@@ -68,8 +68,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - **Project**: [Dify](https://github.com/langgenius/dify) — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
 - [DSPy Tutorial: Programming Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/index.md)
   - Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines.
-- [Dyad Tutorial: Local Open-Source AI App Builder](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md)
-  - Learn how to build and iterate apps with `dyad-sh/dyad`, a local-first AI app builder aimed at power users.
+- [Dyad Tutorial: Local-First AI App Building](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md)
+  - A practical guide to `dyad-sh/dyad`, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.
 
 ## E
 
@@ -248,8 +248,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 ## V
 
-- [Vercel AI SDK Tutorial: TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md)
-  - Build production AI features with `vercel/ai`, the provider-agnostic TypeScript toolkit behind modern streaming and agent-style app experiences.
+- [Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md)
+  - Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
 - [VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md)
   - Learn `cloudflare/vibesdk`, an open-source platform that turns natural-language product prompts into deployable full-stack apps.
 - [vLLM Tutorial: High-Performance LLM Inference](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/index.md)

@@ -3,53 +3,78 @@ layout: default
 title: "Dyad Tutorial"
 nav_order: 22
 has_children: true
+format_version: v2
 ---
 
-# Dyad Tutorial: Local Open-Source AI App Builder
+# Dyad Tutorial: Local-First AI App Building
 
-> Learn how to build and iterate apps with `dyad-sh/dyad`, a local-first AI app builder aimed at power users.
+> A practical guide to `dyad-sh/dyad`, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.
 
-[![Stars](https://img.shields.io/github/stars/dyad-sh/dyad?style=social)](https://github.com/dyad-sh/dyad)
-[![License](https://img.shields.io/badge/License-Hybrid-yellow.svg)](https://github.com/dyad-sh/dyad)
-[![Stack](https://img.shields.io/badge/Stack-Electron%20%2B%20React-blue)](https://github.com/dyad-sh/dyad)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-dyad--sh%2Fdyad-black?logo=github)](https://github.com/dyad-sh/dyad)
+[![License](https://img.shields.io/badge/license-Hybrid-yellow.svg)](https://github.com/dyad-sh/dyad)
+[![Stack](https://img.shields.io/badge/stack-Electron%20%2B%20React-blue)](https://github.com/dyad-sh/dyad)
 
-## What is Dyad?
+## Why This Track Matters
 
-Dyad is a local AI app builder that turns natural-language instructions into runnable applications. It is positioned as an open-source alternative to cloud-native vibe-coding tools, emphasizing local control, bring-your-own-keys model usage, and quick iteration loops.
+Dyad is one of the fastest-moving local-first vibe-coding tools. To use it effectively, teams need more than setup steps:
 
-## Current Snapshot (February 11, 2026)
+- clear prompt-to-change workflows
+- safe handling of generated edits
+- repeatable validation patterns
+- practical deployment and sharing guidance
 
-- repository: `dyad-sh/dyad`
-- stars: ~19K
-- latest release: `v0.36.0` (published February 9, 2026)
-- active development cadence with frequent minor releases
-- licensing model in repo: Apache 2.0 for most code, fair-source licensing in `src/pro`
+## Current Snapshot (Verified February 11, 2026)
 
-## Tutorial Chapters
+- repository: [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad)
+- stars: about **19.6k**
+- latest release: [`v0.36.0`](https://github.com/dyad-sh/dyad/releases/tag/v0.36.0) (published February 9, 2026)
+- development activity: frequent updates on `main`
+- licensing model in repo: Apache 2.0 for most code and fair-source licensing in `src/pro`
 
-1. **[Chapter 1: Getting Started with Dyad](01-getting-started.md)** - Installation, setup, and first app
-2. **[Chapter 2: Natural Language App Building](02-natural-language-building.md)** - Prompt design for app generation
-3. **[Chapter 3: Component Integration](03-component-integration.md)** - UI/component extension patterns
-4. **[Chapter 4: Data Management](04-data-management.md)** - Data source and persistence integration
-5. **[Chapter 5: API Integration](05-api-integration.md)** - External API/service integration
-6. **[Chapter 6: Customization and Styling](06-customization-styling.md)** - UX and theming control
-7. **[Chapter 7: Testing and Validation](07-testing-validation.md)** - Quality control for generated apps
-8. **[Chapter 8: Deployment and Sharing](08-deployment-sharing.md)** - Distribution and rollout workflows
+## Mental Model
 
-## What You'll Learn
+```mermaid
+flowchart LR
+    A[User Intent] --> B[Prompt and Constraints]
+    B --> C[Generated App Changes]
+    C --> D[Local Runtime and Preview]
+    D --> E[Validation and Iteration]
+    E --> F[Share or Deploy]
+```
 
-- run Dyad locally and manage provider keys safely
-- drive prompt-to-app loops with lower rework
-- integrate APIs and data sources into generated projects
-- apply validation and deployment practices for production-readiness
+## Chapter Guide
+
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I install and run Dyad safely? | Stable local baseline |
+| [02 - Natural Language App Building](02-natural-language-building.md) | How do prompts map to predictable app changes? | Better prompt contracts |
+| [03 - Component Integration](03-component-integration.md) | How do I add reusable UI systems? | Structured component extension |
+| [04 - Data Management](04-data-management.md) | How should persistence and state be modeled? | Cleaner data architecture |
+| [05 - API Integration](05-api-integration.md) | How do I connect external services safely? | API integration playbook |
+| [06 - Customization and Styling](06-customization-styling.md) | How do I control UX quality and branding? | Design-system alignment |
+| [07 - Testing and Validation](07-testing-validation.md) | How do I verify generated output quality? | Automated and manual QA loops |
+| [08 - Deployment and Sharing](08-deployment-sharing.md) | How do I deliver apps to users reliably? | Practical release workflow |
+
+## What You Will Learn
+
+- how to run Dyad as a reliable local-first app builder
+- how to reduce rework with better scope and prompt constraints
+- how to validate generated changes before sharing/deploying
+- how to integrate APIs and data layers with lower risk
+
+## Source References
+
+- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
+- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
+- [Dyad Repository](https://github.com/dyad-sh/dyad)
 
 ## Related Tutorials
 
 - [bolt.diy Tutorial](../bolt-diy-tutorial/)
 - [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
 - [Cline Tutorial](../cline-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
+- [Roo Code Tutorial](../roo-code-tutorial/)
 
 ---
 
-Ready to begin? Continue to [Chapter 1: Getting Started](01-getting-started.md).
+Start with [Chapter 1: Getting Started](01-getting-started.md).
