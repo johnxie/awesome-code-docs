@@ -1,65 +1,38 @@
 # Obsidian Outliner Plugin Architecture Deep Dive
 
-> Master Obsidian plugin development through the Outliner plugin - advanced text editing, tree manipulation, and plugin architecture patterns
+A focused architecture tutorial for advanced Obsidian plugin development patterns.
 
-## 🎯 Learning Objectives
+## Current Status
 
-- **Obsidian Plugin Architecture** - Understanding the plugin system and API boundaries
-- **Advanced Text Editing** - Implementing sophisticated editor behaviors and shortcuts
-- **Tree Data Structures** - Managing hierarchical content with efficient algorithms
-- **TypeScript Plugin Development** - Building type-safe, maintainable plugin code
-- **Editor Extensions** - Creating custom editing experiences and UI components
-- **Performance Optimization** - Handling large documents and complex operations efficiently
+Core chapter set is now published.
 
-## 📋 Prerequisites
+| Item | Status |
+|:-----|:-------|
+| Published chapter docs | 8 |
+| Canonical entry point | [index.md](index.md) |
 
-- **TypeScript**: Advanced knowledge of TypeScript and modern JavaScript
-- **Obsidian Usage**: Familiarity with Obsidian's interface and markdown editing
-- **Plugin Development**: Basic understanding of browser extensions or plugin systems
-- **Tree Algorithms**: Knowledge of tree traversal and manipulation algorithms
+## Published Chapters
 
-## ⏱️ Time Investment
+| Chapter | File | Focus |
+|:--------|:-----|:------|
+| 1 | [docs/01-plugin-architecture.md](docs/01-plugin-architecture.md) | Plugin lifecycle and API boundaries |
+| 2 | [docs/02-text-editing.md](docs/02-text-editing.md) | Editor integration and cursor behavior |
+| 3 | [docs/03-tree-structures.md](docs/03-tree-structures.md) | Hierarchical list parsing and operations |
+| 4 | [docs/04-advanced-features.md](docs/04-advanced-features.md) | Performance and advanced UX features |
+| 5 | [docs/05-keyboard-shortcuts.md](docs/05-keyboard-shortcuts.md) | Command registration and hotkey handling |
+| 6 | [docs/06-testing-debugging.md](docs/06-testing-debugging.md) | Testing and debugging strategies |
+| 7 | [docs/07-plugin-packaging.md](docs/07-plugin-packaging.md) | Build/release packaging and compatibility |
+| 8 | [docs/08-production-maintenance.md](docs/08-production-maintenance.md) | Stability and long-term maintenance |
 
-**Total: 6-8 hours**
-- Plugin architecture: 2 hours
-- Text editing implementation: 2 hours
-- Tree manipulation: 2 hours
-- Advanced features: 2 hours
+## Suggested Reading Order
 
-## 🔧 Quick Setup
+1. Start with [index.md](index.md).
+2. Read chapters [1](docs/01-plugin-architecture.md) through [8](docs/08-production-maintenance.md) in order.
 
-```bash
-# Clone Obsidian sample plugin
-git clone https://github.com/obsidianmd/obsidian-sample-plugin.git
-cd obsidian-sample-plugin
+## Upstream Project
 
-# Install dependencies
-npm install
-
-# Build plugin
-npm run build
-
-# Link to Obsidian vault for testing
-```
-
-## 💡 Key Insights
-
-- **Plugin API Boundaries** - Safe interaction with Obsidian's core functionality
-- **Editor State Management** - Managing complex editor states and operations
-- **Tree Manipulation Algorithms** - Efficient hierarchical content management
-- **Performance Patterns** - Optimizing for large documents and real-time editing
-- **User Experience Design** - Creating intuitive editing workflows
-
-## 🎯 What You'll Build
-
-1. **Advanced Outliner Logic** - Sophisticated list and tree manipulation
-2. **Custom Editor Commands** - Keyboard shortcuts and editing behaviors
-3. **UI Extensions** - Custom interface elements and interactions
-4. **Performance Optimizations** - Efficient algorithms for large outlines
-5. **Plugin Distribution** - Publishing and maintaining Obsidian plugins
+- Obsidian Outliner repository: <https://github.com/vslinko/obsidian-outliner>
 
 ---
 
-**🎉 Tutorial Complete**: This comprehensive guide now includes full implementations of plugin architecture, text editing, tree structures, and advanced features.
-
-*Part of the [Awesome Code Docs](../../README.md) collection*
+Part of [Awesome Code Docs](../../README.md)

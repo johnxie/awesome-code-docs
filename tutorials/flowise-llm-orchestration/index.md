@@ -62,6 +62,9 @@ graph TB
 | [3. Node Development](docs/03-node-development.md) | Extensibility | Building custom nodes, input/output types |
 | [4. Advanced Integrations](docs/04-advanced-integrations.md) | Connections | LLM providers, vector stores, tools |
 | [5. Production Deployment](docs/05-production-deployment.md) | Operations | Docker, scaling, monitoring |
+| [6. Security and Governance](docs/06-security-governance.md) | Security | Secret handling, policy controls, tool safety |
+| [7. Observability](docs/07-observability.md) | Monitoring | Tracing, metrics, and failure analysis |
+| [8. Extension Ecosystem](docs/08-extension-ecosystem.md) | Growth | Extension contracts, distribution, compatibility |
 
 ## Tech Stack
 
