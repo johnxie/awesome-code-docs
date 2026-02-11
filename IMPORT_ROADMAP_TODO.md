@@ -17,10 +17,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 
 | Repo | Stars | Priority | Pack | Status |
 |:-----|------:|:---------|:-----|:-------|
-| [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP) | 13k+ | P1 | `pack-ag` | in_progress |
-| [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer) | 9k+ | P1 | `pack-ag` | in_progress |
-| [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow) | 9k+ | P1 | `pack-ah` | planned |
-| [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | planned |
+| [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP) | 13k+ | P1 | `pack-ag` | done |
+| [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer) | 9k+ | P1 | `pack-ag` | done |
+| [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow) | 9k+ | P1 | `pack-ah` | in_progress |
+| [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | in_progress |
 
 ## P2 (Strategic Extensions)
 

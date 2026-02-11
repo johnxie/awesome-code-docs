@@ -1,0 +1,83 @@
+---
+layout: default
+title: "Plandex Tutorial"
+nav_order: 107
+has_children: true
+format_version: v2
+---
+
+# Plandex Tutorial: Large-Task AI Coding Agent Workflows
+
+> Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
+
+[![GitHub Repo](https://img.shields.io/badge/GitHub-plandex--ai%2Fplandex-black?logo=github)](https://github.com/plandex-ai/plandex)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/plandex-ai/plandex/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-docs.plandex.ai-blue)](https://docs.plandex.ai/)
+
+## Why This Track Matters
+
+Plandex is a terminal AI coding agent built specifically for large, multi-file, long-horizon tasks where simpler assistants often break down.
+
+This track focuses on:
+
+- context management for large codebases
+- planning and execution loops with review sandboxing
+- model pack and provider strategy optimization
+- self-hosted and production deployment practices
+
+## Current Snapshot (Verified February 11, 2026)
+
+- repository: [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex)
+- stars: about **15.0k**
+- latest release: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1)
+- development activity: active with mature docs and workflows
+- project positioning: terminal coding agent for large projects with diff sandbox and autonomy controls
+
+## Mental Model
+
+```mermaid
+flowchart LR
+    A[Task Request] --> B[Context Loading]
+    B --> C[Planning]
+    C --> D[Execution and Debugging]
+    D --> E[Diff Sandbox Review]
+    E --> F[Apply or Iterate]
+```
+
+## Chapter Guide
+
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I install and run Plandex quickly? | Working baseline |
+| [02 - Architecture and Workflow](02-architecture-and-workflow.md) | How does Plandex handle large coding tasks end-to-end? | Strong operating model |
+| [03 - Context Management at Scale](03-context-management-at-scale.md) | How does Plandex manage large context efficiently? | Better context discipline |
+| [04 - Planning, Execution, and Diff Sandbox](04-planning-execution-and-diff-sandbox.md) | How do I keep changes safe and reviewable? | Safer change management |
+| [05 - Model Packs and Provider Strategy](05-model-packs-and-provider-strategy.md) | How do I combine models for quality and cost? | Robust provider strategy |
+| [06 - Autonomy, Control, and Debugging](06-autonomy-control-and-debugging.md) | How do I tune automation vs manual control? | Better reliability controls |
+| [07 - Git, Branching, and Review Workflows](07-git-branching-and-review-workflows.md) | How do I integrate Plandex with team Git workflows? | Team-ready process |
+| [08 - Self-Hosting and Production Operations](08-self-hosting-and-production-operations.md) | How do I deploy and operate Plandex in production? | Ops runbook baseline |
+
+## What You Will Learn
+
+- how to run Plandex effectively on large code tasks
+- how to manage context, model selection, and review loops safely
+- how to integrate Plandex with team Git and CI workflows
+- how to self-host and operate Plandex with production controls
+
+## Source References
+
+- [Plandex Repository](https://github.com/plandex-ai/plandex)
+- [Plandex Releases](https://github.com/plandex-ai/plandex/releases)
+- [Plandex Docs](https://docs.plandex.ai/)
+- [Plandex Local Self-Hosting Quickstart](https://docs.plandex.ai/hosting/self-hosting/local-mode-quickstart)
+
+## Related Tutorials
+
+- [Aider Tutorial](../aider-tutorial/)
+- [OpenCode Tutorial](../opencode-tutorial/)
+- [Cline Tutorial](../cline-tutorial/)
+- [Roo Code Tutorial](../roo-code-tutorial/)
+
+---
+
+Start with [Chapter 1: Getting Started](01-getting-started.md).

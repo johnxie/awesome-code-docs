@@ -483,6 +483,18 @@ Main repository:
 - Summary: **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
 - Keywords: photoprism, powered, photos, app, photo, management, revolution, enhanced, facial, recognition, llm, integrations, advanced, organization, features, mark, evolution
 
+## Plandex Tutorial: Large-Task AI Coding Agent Workflows
+- Path: tutorials/plandex-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md
+- Summary: Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
+- Keywords: plandex, large, task, coding, agent, workflows, learn, use, codebase, tasks, strong, context, management, cumulative, diff, review, model, packs
+
+## PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power
+- Path: tutorials/pocketflow-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md
+- Summary: Learn how to build agentic applications with `The-Pocket/PocketFlow`, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
+- Keywords: pocketflow, minimal, llm, framework, graph, based, power, learn, build, agentic, applications, pocket, minimalist, that, still, supports, workflows, multi
+
 ## PostgreSQL Query Planner Deep Dive
 - Path: tutorials/postgresql-query-planner
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md

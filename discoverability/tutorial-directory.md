@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **102**
+- Total tutorials: **104**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -211,6 +211,10 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Phidata covering Building Autonomous AI Agents.
 - [PhotoPrism Tutorial: AI-Powered Photos App](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/photoprism-tutorial/index.md)
   - **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
+- [Plandex Tutorial: Large-Task AI Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md)
+  - Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
+- [PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md)
+  - Learn how to build agentic applications with `The-Pocket/PocketFlow`, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
 - [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md)
   - Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.
 - [PostHog Tutorial: Open Source Product Analytics Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/posthog-tutorial/index.md)
