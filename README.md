@@ -57,6 +57,21 @@ Each chapter includes **Mermaid architecture diagrams**, **annotated code exampl
 
 ---
 
+## 🔎 Find Tutorials by Goal
+
+Use this quick-start map if you searched for a specific outcome.
+
+| Search Intent | Start Here | Then Go To |
+|:--------------|:-----------|:-----------|
+| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
+| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) |
+| build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
+| run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
+| build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [MCP Servers](tutorials/mcp-servers-tutorial/) → [Anthropic Skills](tutorials/anthropic-skills-tutorial/) |
+
+---
+
 ## 📚 Tutorial Catalog
 
 ```
@@ -331,6 +346,18 @@ OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime
 
 **Duration:** 35-45 hours | **Difficulty:** Beginner to Intermediate
 
+### 🔴 Path 10: Vibe Coding Platforms
+
+> *"I want to build and operate vibe-coding stacks end to end"*
+
+```
+Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ──→ HAPI
+ (local      (OSS app      (IDE        (multi-mode    (cloud         (remote
+  builder)    builder)      agent)      dev team)      platform)      approvals)
+```
+
+**Duration:** 35-50 hours | **Difficulty:** Intermediate to Advanced
+
 ---
 
 ## 📊 Collection Stats
@@ -339,25 +366,19 @@ OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        94                            ║
-║  📝 Total Chapters         784+                          ║
-║  📏 Lines of Content       520,000+                      ║
+║  📦 Total Tutorials        96                            ║
+║  📝 Numbered Chapters      771                           ║
+║  📏 Tutorial Markdown      441,000+ lines                ║
 ║  ⏱️  Estimated Hours        1,100+                        ║
-║  🏗️  Architecture Diagrams  550+                          ║
-║  💻 Code Examples           2,400+                        ║
+║  ✅ Local Broken Links      0                             ║
+║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
-| Category | Tutorials | Status |
-|:---------|:---------:|:------:|
-| 🤖 AI Agents & Multi-Agent | 15 | Complete |
-| 🧠 LLM Frameworks & RAG | 12 | Complete |
-| 🖥️ LLM Infrastructure | 9 | Complete |
-| 💬 Chat & AI Apps | 13 | Complete |
-| 🔧 Developer Tools | 20 | Complete |
-| 🗄️ Data & Analytics | 14 | Complete |
-| ⚙️ Systems & Infra | 6 | Complete |
-| 🎤 Speech & Multimodal AI | 3 | Complete |
+Stats are synchronized against:
+
+- `tutorials/tutorial-manifest.json`
+- `scripts/docs_health.py` baseline checks
 
 ---
 
