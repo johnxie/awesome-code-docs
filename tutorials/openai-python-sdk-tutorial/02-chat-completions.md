@@ -7,101 +7,55 @@ parent: OpenAI Python SDK Tutorial
 
 # Chapter 2: Chat Completions
 
-This chapter covers message-based interactions, streaming output, and tool/function calling patterns.
+Chat Completions remains important for existing systems even as new builds move to Responses-first flows.
 
-## Message-Based Requests
+## Basic Message-Based Request
 
 ```python
 from openai import OpenAI
 
 client = OpenAI()
 
-messages = [
-    {"role": "system", "content": "You are a concise assistant."},
-    {"role": "user", "content": "Explain exponential backoff in two bullets."},
-]
-
-response = client.chat.completions.create(
-    model="gpt-4.1-mini",
-    messages=messages,
-    temperature=0.2,
+completion = client.chat.completions.create(
+    model="gpt-5.2",
+    messages=[
+        {"role": "developer", "content": "Be concise and structured."},
+        {"role": "user", "content": "Explain exponential backoff in 2 bullets."}
+    ]
 )
 
-print(response.choices[0].message.content)
+print(completion.choices[0].message.content)
 ```
 
-## Streaming
+## Streaming Pattern
 
 ```python
-from openai import OpenAI
-
-client = OpenAI()
-
 stream = client.chat.completions.create(
-    model="gpt-4.1-mini",
-    messages=[{"role": "user", "content": "List five API reliability checks."}],
-    stream=True,
+    model="gpt-5.2",
+    messages=[{"role": "user", "content": "List 5 SRE runbook checks."}],
+    stream=True
 )
 
 for chunk in stream:
     delta = chunk.choices[0].delta
     if delta and delta.content:
         print(delta.content, end="", flush=True)
-print()
 ```
 
-## Tool Calling Pattern
+## When to Keep Chat Completions
 
-```python
-import json
-from openai import OpenAI
+- existing production systems with stable message middleware
+- deeply integrated toolchains using current message schemas
+- migration phases where Responses API adoption is incremental
 
-client = OpenAI()
+## When to Prefer Responses
 
-tools = [{
-    "type": "function",
-    "function": {
-        "name": "get_weather",
-        "description": "Get weather by city",
-        "parameters": {
-            "type": "object",
-            "properties": {"city": {"type": "string"}},
-            "required": ["city"],
-        },
-    },
-}]
-
-resp = client.chat.completions.create(
-    model="gpt-4.1-mini",
-    messages=[{"role": "user", "content": "What is the weather in Seattle?"}],
-    tools=tools,
-    tool_choice="auto",
-)
-
-choice = resp.choices[0].message
-if choice.tool_calls:
-    call = choice.tool_calls[0]
-    args = json.loads(call.function.arguments)
-    print("Tool requested:", call.function.name, args)
-```
-
-## Recommended Practices
-
-- Keep system prompts short and explicit.
-- Validate tool arguments before execution.
-- Keep tool responses structured and bounded.
-- Capture request IDs for incident triage.
-
-## Common Pitfalls
-
-| Pitfall | Symptom | Fix |
-|:--------|:--------|:----|
-| Overlong prompts | Higher cost/latency | Summarize and chunk context |
-| Missing tool schema validation | Runtime errors | Strict JSON schema checks |
-| No streaming backpressure handling | UI freezes | Buffer and throttle rendering |
+- new services
+- multimodal and unified response flows
+- systems that need cleaner forward compatibility with current OpenAI platform direction
 
 ## Summary
 
-You can now implement chat flows with streaming and function calls.
+You can now support legacy/interoperable message workflows while planning Responses-first migration.
 
 Next: [Chapter 3: Embeddings and Search](03-embeddings-search.md)

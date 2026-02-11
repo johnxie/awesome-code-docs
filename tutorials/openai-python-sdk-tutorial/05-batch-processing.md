@@ -7,9 +7,9 @@ parent: OpenAI Python SDK Tutorial
 
 # Chapter 5: Batch Processing
 
-Batch jobs are useful when latency is less important than throughput and cost control.
+Batch processing is useful for large asynchronous workloads where per-request latency is less important.
 
-## Prepare a JSONL Batch File
+## Build Input File
 
 ```python
 import json
@@ -17,23 +17,17 @@ from pathlib import Path
 
 rows = [
     {
-        "custom_id": "task-1",
+        "custom_id": "job-1",
         "method": "POST",
-        "url": "/v1/chat/completions",
-        "body": {
-            "model": "gpt-4.1-mini",
-            "messages": [{"role": "user", "content": "Summarize release notes in one sentence."}],
-        },
+        "url": "/v1/responses",
+        "body": {"model": "gpt-5.2", "input": "Summarize this incident report."}
     },
     {
-        "custom_id": "task-2",
+        "custom_id": "job-2",
         "method": "POST",
-        "url": "/v1/chat/completions",
-        "body": {
-            "model": "gpt-4.1-mini",
-            "messages": [{"role": "user", "content": "Extract three risks from this migration plan."}],
-        },
-    },
+        "url": "/v1/responses",
+        "body": {"model": "gpt-5.2", "input": "Extract top 3 risks from this change plan."}
+    }
 ]
 
 path = Path("batch_input.jsonl")
@@ -42,7 +36,7 @@ with path.open("w", encoding="utf-8") as f:
         f.write(json.dumps(row) + "\n")
 ```
 
-## Upload and Start Batch
+## Submit Batch
 
 ```python
 from openai import OpenAI
@@ -50,32 +44,23 @@ from openai import OpenAI
 client = OpenAI()
 
 upload = client.files.create(file=open("batch_input.jsonl", "rb"), purpose="batch")
-batch = client.batches.create(input_file_id=upload.id, endpoint="/v1/chat/completions", completion_window="24h")
-
+batch = client.batches.create(
+    input_file_id=upload.id,
+    endpoint="/v1/responses",
+    completion_window="24h"
+)
 print(batch.id, batch.status)
 ```
 
-## Poll and Download Results
+## Operational Practices
 
-```python
-from time import sleep
-
-while batch.status in {"validating", "in_progress", "finalizing"}:
-    sleep(5)
-    batch = client.batches.retrieve(batch.id)
-
-print("final status:", batch.status)
-```
-
-## Operational Tips
-
-- Use `custom_id` for deterministic reconciliation.
-- Split very large jobs into bounded shards.
-- Keep input payloads normalized and validated.
-- Store both input and output artifacts for replay.
+- make `custom_id` deterministic for reconciliation
+- shard very large jobs
+- store both input and output artifacts
+- alert on partial-failure rates
 
 ## Summary
 
-You can now run large asynchronous workloads with traceable batch artifacts.
+You now have a scalable asynchronous processing pattern for bulk OpenAI workloads.
 
 Next: [Chapter 6: Fine-Tuning](06-fine-tuning.md)

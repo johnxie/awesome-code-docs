@@ -7,7 +7,7 @@ parent: OpenAI Python SDK Tutorial
 
 # Chapter 3: Embeddings and Search
 
-Embeddings convert text into vectors so you can perform semantic retrieval for RAG and search.
+Embeddings power retrieval quality in most production RAG systems.
 
 ## Create Embeddings
 
@@ -16,71 +16,37 @@ from openai import OpenAI
 
 client = OpenAI()
 
-texts = [
-    "How to rotate API keys safely",
-    "Rate limits and retry policies",
-    "How to design a deployment checklist",
+docs = [
+    "Retry transient failures with exponential backoff.",
+    "Use idempotency keys for side-effecting writes.",
+    "Track p95 and p99 latency separately."
 ]
 
 emb = client.embeddings.create(
     model="text-embedding-3-small",
-    input=texts,
+    input=docs,
 )
 
 vectors = [row.embedding for row in emb.data]
 print(len(vectors), len(vectors[0]))
 ```
 
-## Simple Similarity Search
+## Retrieval Pipeline Blueprint
 
-```python
-import math
-from openai import OpenAI
+1. chunk source docs with semantic boundaries
+2. generate embeddings and store vectors + metadata
+3. retrieve top-k candidates by similarity
+4. re-rank or filter by business constraints
+5. pass compact context to generation layer
 
+## Quality Controls
 
-def cosine(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    na = math.sqrt(sum(x * x for x in a))
-    nb = math.sqrt(sum(y * y for y in b))
-    return dot / (na * nb + 1e-12)
-
-client = OpenAI()
-
-docs = [
-    "Use exponential backoff for transient failures",
-    "Store credentials in env vars and rotate them",
-    "Benchmark latency and tail percentiles",
-]
-
-query = "How should I handle temporary API errors?"
-
-all_vectors = client.embeddings.create(model="text-embedding-3-small", input=docs + [query]).data
-
-doc_vectors = [x.embedding for x in all_vectors[:-1]]
-query_vec = all_vectors[-1].embedding
-
-scores = [(i, cosine(query_vec, dv)) for i, dv in enumerate(doc_vectors)]
-for i, s in sorted(scores, key=lambda t: t[1], reverse=True):
-    print(round(s, 4), docs[i])
-```
-
-## Retrieval Pipeline Notes
-
-- Chunk by meaning, not fixed bytes only.
-- Store metadata (source, timestamp, section).
-- Re-rank top candidates when quality matters.
-- Track retrieval hit quality over time.
-
-## Troubleshooting
-
-| Issue | Cause | Fix |
-|:------|:------|:----|
-| Poor matches | Bad chunking or noisy docs | Improve segmentation and cleaning |
-| High cost | Embedding everything repeatedly | Cache vectors and incremental updates |
-| Slow retrieval | No ANN index | Use a vector DB or optimized index |
+- maintain versioned chunking strategy
+- keep source timestamps for freshness checks
+- evaluate retrieval quality with labeled benchmark queries
 
 ## Summary
 
-You can now generate embeddings and implement semantic retrieval.
+You now have the core pieces to build and evaluate a robust embeddings-backed retrieval system.
 
-Next: [Chapter 4: Assistants API](04-assistants-api.md)
+Next: [Chapter 4: Agents and Assistants](04-assistants-api.md)
