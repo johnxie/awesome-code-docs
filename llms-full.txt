@@ -321,6 +321,12 @@ Main repository:
 - Summary: **Project**: [Logseq](https://github.com/logseq/logseq) — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
 - Keywords: logseq, knowledge, management, deep, dive, project, privacy, first, local, platform, block, based, editing, graph, visualization
 
+## Mastra Tutorial: TypeScript Framework for AI Agents and Workflows
+- Path: tutorials/mastra-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md
+- Summary: Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
+- Keywords: mastra, typescript, framework, agents, workflows, learn, build, production, applications, including, memory, mcp, tooling, reliability, operations
+
 ## MCP Python SDK Tutorial: Building AI Tool Servers
 - Path: tutorials/mcp-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md
@@ -416,6 +422,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md
 - Summary: **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
 - Keywords: openclaw, deep, dive, project, own, personal, assistant, any, platform
+
+## OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale
+- Path: tutorials/opencode-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md
+- Summary: Learn how to use `anomalyco/opencode` to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.
+- Keywords: opencode, open, source, terminal, coding, agent, scale, learn, use, anomalyco, run, native, agents, provider, flexibility, strong, tool, control
 
 ## OpenHands Tutorial: Autonomous Software Engineering Workflows
 - Path: tutorials/openhands-tutorial

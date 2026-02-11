@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **96**
+- Total tutorials: **98**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -146,6 +146,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/index.md)
   - A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
+- [Mastra Tutorial: TypeScript Framework for AI Agents and Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md)
+  - Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - [MCP Python SDK Tutorial: Building AI Tool Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md)
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - [MCP Servers Tutorial: Reference Implementations and Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md)
@@ -184,6 +186,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Democratize investment research with OpenBB's comprehensive financial data and analysis platform.
 - [OpenClaw: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md)
   - **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
+- [OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md)
+  - Learn how to use `anomalyco/opencode` to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.
 - [OpenHands Tutorial: Autonomous Software Engineering Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md)
   - Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
 - [Outlines Tutorial: Structured Text Generation with LLMs](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md)

@@ -67,6 +67,7 @@
 - LobeChat AI Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lobechat-ai-platform
 - LocalAI Tutorial: Self-Hosted OpenAI Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/localai-tutorial
 - Logseq: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management
+- Mastra Tutorial: TypeScript Framework for AI Agents and Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mastra-tutorial
 - MCP Python SDK Tutorial: Building AI Tool Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-python-sdk-tutorial
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
@@ -83,6 +84,7 @@
 - OpenAI Whisper Tutorial: Speech Recognition and Translation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-whisper-tutorial
 - OpenBB Tutorial: Complete Guide to Investment Research Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openbb-tutorial
 - OpenClaw: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openclaw-tutorial
+- OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-tutorial
 - OpenHands Tutorial: Autonomous Software Engineering Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
 - Outlines Tutorial: Structured Text Generation with LLMs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/outlines-tutorial
 - Perplexica Tutorial: AI-Powered Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial
