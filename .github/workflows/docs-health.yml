@@ -46,3 +46,11 @@ jobs:
         run: |
           python scripts/update_tutorials_readme_snapshot.py --output /tmp/tutorials-readme.md
           diff -u tutorials/README.md /tmp/tutorials-readme.md
+
+      - name: Validate Repository Status Docs Are Current
+        run: |
+          python scripts/update_repo_status_docs.py \
+            --structure-output /tmp/TUTORIAL_STRUCTURE.md \
+            --gaps-output /tmp/CONTENT_GAPS_ANALYSIS.md
+          diff -u TUTORIAL_STRUCTURE.md /tmp/TUTORIAL_STRUCTURE.md
+          diff -u CONTENT_GAPS_ANALYSIS.md /tmp/CONTENT_GAPS_ANALYSIS.md
