@@ -7,52 +7,69 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 5: Function Calling
 
-Tooling is where realtime agents become operationally useful.
+Function calling is where realtime agents move from conversation to action. It must be fast, safe, and auditable.
 
-## Function-Call Workflow
+## Learning Goals
+
+By the end of this chapter, you should be able to:
+
+- implement a reliable tool-call lifecycle
+- enforce schema and authorization checks before execution
+- design robust error and timeout handling for realtime UX
+- return structured outputs that improve downstream response quality
+
+## Tool-Call Lifecycle
 
 1. model emits tool request with arguments
-2. app validates and executes tool logic
-3. tool result is returned to conversation
-4. model synthesizes user-facing response
+2. gateway validates schema and authorization
+3. tool executes with timeout and retry policy
+4. structured result (or structured error) returns to session
+5. assistant synthesizes user-facing response
 
-## Safety Requirements
+## Tool Gateway Requirements
 
-Before executing any tool:
+| Requirement | Purpose |
+|:------------|:--------|
+| strict argument validation | prevents malformed or unsafe calls |
+| auth and policy checks | enforces user/tenant permissions |
+| timeout budgeting | protects responsiveness |
+| idempotency keys | reduces duplicate side effects on retries |
+| structured logging | supports forensic debugging |
 
-- validate schema and semantic constraints
-- apply authorization checks
-- enforce timeout budgets
-- classify side-effect risk level
+## Realtime-Specific UX Considerations
 
-## Realtime-Specific Considerations
+- acknowledge long-running tools immediately
+- stream progress where possible
+- provide deterministic fallback when tool backend is unavailable
+- never leave the user without a completion/error state
 
-- tool latency should be surfaced in UX (for example, short acknowledgments)
-- long-running tools need status updates or fallback paths
-- partial results can reduce perceived latency when safe
-
-## Structured Return Shape
-
-Always return stable tool payloads.
+## Recommended Result Contract
 
 ```json
 {
   "status": "ok",
   "data": {"order_id": "123", "state": "shipped"},
-  "confidence": 0.98
+  "confidence": 0.98,
+  "trace_id": "tool-req-abc"
 }
 ```
 
-This improves downstream response reliability and simplifies auditing.
+For errors, keep an explicit shape (`status`, `error_code`, `message`, `retryable`).
 
-## Anti-Patterns
+## High-Risk Anti-Patterns
 
-- returning unstructured free text from tools
-- giving tools direct access to unrestricted resources
-- silently swallowing tool errors
+- unrestricted tool access from model-generated arguments
+- free-form text outputs instead of typed result envelopes
+- silent tool failures without user-visible recovery
+- long retries that block turn transitions
+
+## Source References
+
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
+- [OpenAI Realtime Guide](https://platform.openai.com/docs/guides/realtime)
 
 ## Summary
 
-You now have a dependable model for real-time tool use and response synthesis.
+You now have a production-safe tool-calling blueprint for realtime agents with clear reliability and security controls.
 
 Next: [Chapter 6: Voice Output](06-voice-output.md)

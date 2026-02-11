@@ -7,45 +7,64 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 6: Voice Output
 
-Output quality in voice systems is a mix of timing, clarity, and interruption behavior.
+Voice output quality is primarily a timing and interaction problem. Good prosody helps, but responsiveness and interruption behavior matter more.
+
+## Learning Goals
+
+By the end of this chapter, you should be able to:
+
+- design low-latency output streaming behavior
+- handle barge-in cleanly without losing conversation continuity
+- monitor core audio response metrics
+- tune output policy for different use cases
 
 ## Output Pipeline
 
-1. model emits response deltas
-2. audio stream is synthesized
-3. client buffers/playbacks frames
-4. playback is interrupted or completed based on user behavior
+1. response deltas are generated
+2. audio is synthesized/streamed
+3. client buffers and plays frames
+4. playback is interrupted or completed
+5. session state is updated for next turn
 
-## Voice UX Guidelines
+## Voice UX Rules of Thumb
 
-- Keep responses shorter than text chat equivalents.
-- Prefer plain wording over dense lists.
-- Use brief verbal markers for transitions (for example: "Checking that now").
-- Avoid long unbroken monologues.
+- prefer short, direct phrasing
+- avoid dense list-heavy answers in speech mode
+- announce long actions briefly before tool calls
+- use natural checkpoint phrases for easier interruption
 
-## Barge-In Handling
+## Barge-In Behavior
 
-When user starts speaking while output audio is playing:
+When user speaks during playback:
 
-- stop playback quickly
-- preserve minimal assistant state
-- prioritize new user turn
+- stop playback immediately
+- mark current response state as interrupted
+- prioritize next user input event path
+- ensure transcript/state remains coherent after cutover
 
-Fast barge-in handling is one of the strongest predictors of perceived quality.
+## Latency Targets (Product-Dependent)
 
-## Audio Quality Monitoring
+| Metric | Why It Matters |
+|:-------|:---------------|
+| time to first audio | user perceived responsiveness |
+| interruption stop latency | user sense of control |
+| full response completion latency | overall task pacing |
+| playback error rate | trust and reliability |
 
-Track:
+## Output Regression Signals
 
-- time-to-first-audio
-- synthesis completion latency
-- interruption rate
-- playback error rate
+- rising interruption dissatisfaction despite stable model quality
+- increased repeated-user prompts ("hello?", "are you there?")
+- higher manual retry rates for basic interactions
+- audible clipping or stutter under normal network conditions
 
-These metrics catch regressions earlier than subjective feedback alone.
+## Source References
+
+- [OpenAI Realtime Guide](https://platform.openai.com/docs/guides/realtime)
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
 
 ## Summary
 
-You now understand how to make realtime voice output feel responsive and controllable.
+You now understand how to tune voice output for perceived speed, clarity, and user control.
 
 Next: [Chapter 7: Advanced Patterns](07-advanced-patterns.md)

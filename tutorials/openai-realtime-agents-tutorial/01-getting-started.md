@@ -7,7 +7,23 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter gets the official demo running locally so you can inspect real event flow and agent orchestration.
+This chapter gets the official realtime demo running locally and establishes a baseline you can measure future changes against.
+
+## Learning Goals
+
+By the end of this chapter, you should be able to:
+
+- run the official demo end to end
+- explain the local components that participate in a realtime voice session
+- validate microphone, session, and tool-call flow quickly
+- identify the most common local setup failures
+
+## Prerequisites
+
+- Node.js 20+
+- npm or pnpm
+- OpenAI API access with Realtime capability
+- modern browser with microphone permissions
 
 ## Local Setup
 
@@ -20,39 +36,65 @@ cp .env.sample .env
 npm run dev
 ```
 
-Open `http://localhost:3000` and test both built-in scenarios.
+Open `http://localhost:3000` and run both built-in scenarios to compare orchestration behavior.
 
-## What You Should Verify First
+## Local Architecture Map
 
-- Session initialization succeeds and ephemeral credentials are returned.
-- Audio input is captured and pushed to the realtime pipeline.
-- Tool calls appear in logs when scenarios require them.
-- Agent switches are visible in transcript or event stream.
+```mermaid
+flowchart LR
+    A[Browser UI] --> B[Session Token Endpoint]
+    A --> C[Realtime Connection]
+    C --> D[Realtime Agent Runtime]
+    D --> E[Tools and Handoffs]
+    E --> A
+```
 
-## Architecture in Practice
+## First-Run Validation Checklist
 
-The demo combines:
+1. session creation succeeds and short-lived credentials are returned
+2. microphone capture starts and input meters move
+3. model responses stream in text/audio without long stalls
+4. tool calls appear in logs for scenarios that need external actions
+5. agent handoffs are visible in timeline/transcript when using multi-agent scenarios
 
-1. Browser UI for voice I/O and logs
-2. API route to mint short-lived session credentials
-3. Realtime transport channel for streaming events
-4. Agent config modules defining instructions, tools, and handoff graph
+## Quick Health Commands
 
-## Initial Debug Checklist
+Use these while debugging startup problems:
 
-| Check | Symptom if Broken |
-|:------|:------------------|
-| API key loaded | session endpoint returns auth errors |
-| Mic permissions granted | no input events or silent transcripts |
-| Realtime channel established | events panel shows no server messages |
-| Agent config selected | handoffs never occur |
+```bash
+node -v
+npm -v
+cat .env | rg OPENAI_API_KEY
+npm run dev
+```
 
-## Development Tip
+## Common Setup Failures
 
-Start by understanding one scenario end-to-end before editing prompts or adding tools. Most latency and correctness issues are easier to diagnose when baseline behavior is known.
+| Failure | Most Likely Cause | First Fix |
+|:--------|:------------------|:----------|
+| 401/403 on session endpoint | missing or invalid API key | regenerate key, reload dev server |
+| microphone appears silent | browser permission denied | re-enable mic permission and refresh |
+| no realtime events | transport connection failed | inspect browser network and server logs |
+| no tool/handoff activity | wrong scenario or config mismatch | rerun stock scenario before custom edits |
+
+## Baseline Test Script
+
+Before any customization, run this short baseline test:
+
+- ask for a simple greeting and confirm low-latency response
+- interrupt output mid-sentence and verify barge-in behavior
+- trigger a scenario that requires tool invocation
+- verify transcript coherence after handoff
+
+If these four checks pass, your local environment is stable enough for deeper protocol work.
+
+## Source References
+
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
+- [OpenAI Realtime Guide](https://platform.openai.com/docs/guides/realtime)
 
 ## Summary
 
-You now have a running reference app and a concrete baseline for deeper protocol and orchestration work.
+You now have a reproducible local baseline and a structured way to verify realtime session health.
 
 Next: [Chapter 2: Realtime API Fundamentals](02-realtime-api-fundamentals.md)
