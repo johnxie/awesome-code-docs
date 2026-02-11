@@ -63,6 +63,10 @@ graph TB
 | [2. Database Abstraction](docs/02-database-abstraction.md) | Connectors | Multi-database support and schema mapping |
 | [3. Schema Management](docs/03-schema-management.md) | Data Model | Dynamic table/field handling and migrations |
 | [4. API Generation](docs/04-api-generation.md) | APIs | Automatic REST endpoint creation |
+| [5. Query Builder](docs/05-query-builder.md) | Querying | Translating UI/API filters into SQL safely |
+| [6. Auth System](docs/06-auth-system.md) | Security | Authentication, RBAC, and auditability |
+| [7. Vue Components](docs/07-vue-components.md) | Frontend | Grid/editor component architecture |
+| [8. Realtime Features](docs/08-realtime-features.md) | Collaboration | Event streams, optimistic updates, and conflict handling |
 
 ## Tech Stack
 

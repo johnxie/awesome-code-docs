@@ -1,3 +1,11 @@
+---
+layout: default
+title: "Chapter 4: Development Setup"
+nav_order: 4
+has_children: false
+parent: "Logseq Knowledge Management"
+---
+
 # Logseq Development Environment Setup
 
 ## Prerequisites & System Requirements

@@ -4,12 +4,11 @@ A focused architecture walkthrough of Teable's multi-dimensional database platfo
 
 ## Current Status
 
-This tutorial is in an early published state.
+Core chapter set is now published.
 
 | Item | Status |
 |:-----|:-------|
-| Published chapter docs | 3 |
-| Planned chapter docs | Additional chapters in progress |
+| Published chapter docs | 8 |
 | Canonical entry point | [index.md](index.md) |
 
 ## Published Chapters
@@ -19,21 +18,16 @@ This tutorial is in an early published state.
 | 1 | [docs/01-system-overview.md](docs/01-system-overview.md) | System overview and architectural principles |
 | 2 | [docs/02-database-architecture.md](docs/02-database-architecture.md) | Core database architecture |
 | 3 | [docs/03-setup-environment.md](docs/03-setup-environment.md) | Local development setup |
+| 4 | [docs/04-api-development.md](docs/04-api-development.md) | REST/GraphQL API layer design |
+| 5 | [docs/05-realtime-collaboration.md](docs/05-realtime-collaboration.md) | Multi-user realtime consistency model |
+| 6 | [docs/06-query-system.md](docs/06-query-system.md) | View-driven query and optimization |
+| 7 | [docs/07-frontend-architecture.md](docs/07-frontend-architecture.md) | Frontend rendering and state boundaries |
+| 8 | [docs/08-production-deployment.md](docs/08-production-deployment.md) | Production hardening and observability |
 
 ## Suggested Reading Order
 
 1. Start with [index.md](index.md).
-2. Read [docs/01-system-overview.md](docs/01-system-overview.md).
-3. Continue with [docs/02-database-architecture.md](docs/02-database-architecture.md).
-4. Finish with [docs/03-setup-environment.md](docs/03-setup-environment.md).
-
-## Planned Roadmap (Not Yet Published)
-
-- Query engine deep dive
-- Real-time collaboration internals
-- API layer design (REST and GraphQL)
-- Frontend architecture and dynamic views
-- Production deployment and observability
+2. Read chapters [1](docs/01-system-overview.md) through [8](docs/08-production-deployment.md) in order.
 
 ## Upstream Project
 
