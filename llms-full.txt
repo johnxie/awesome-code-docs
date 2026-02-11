@@ -165,11 +165,11 @@ Main repository:
 - Summary: Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines.
 - Keywords: dspy, programming, language, models, learn, program, declaratively, stanford, nlp, framework, systematic, prompt, optimization, modular, llm, pipelines
 
-## Dyad Tutorial: Local Open-Source AI App Builder
+## Dyad Tutorial: Local-First AI App Building
 - Path: tutorials/dyad-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md
-- Summary: Learn how to build and iterate apps with `dyad-sh/dyad`, a local-first AI app builder aimed at power users.
-- Keywords: dyad, local, open, source, app, builder, learn, build, iterate, apps, first, aimed, power, users
+- Summary: A practical guide to `dyad-sh/dyad`, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.
+- Keywords: dyad, local, first, app, building, practical, focused, generation, integration, patterns, validation, loops, deployment, readiness
 
 ## ElizaOS: Deep Dive Tutorial
 - Path: tutorials/elizaos-tutorial
@@ -555,11 +555,11 @@ Main repository:
 - Summary: A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
 - Keywords: turborepo, high, performance, monorepo, build, system, deep, technical, walkthrough, covering
 
-## Vercel AI SDK Tutorial: TypeScript AI Apps and Agents
+## Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents
 - Path: tutorials/vercel-ai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md
-- Summary: Build production AI features with `vercel/ai`, the provider-agnostic TypeScript toolkit behind modern streaming and agent-style app experiences.
-- Keywords: vercel, sdk, typescript, apps, agents, build, production, features, provider, agnostic, toolkit, behind, modern, streaming, agent, style, app, experiences
+- Summary: Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
+- Keywords: vercel, sdk, production, typescript, apps, agents, build, robust, product, features, including, streaming, structured, outputs, tool, loops, framework, integration
 
 ## VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare
 - Path: tutorials/vibesdk-tutorial

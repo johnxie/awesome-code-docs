@@ -3,60 +3,78 @@ layout: default
 title: "Vercel AI Tutorial"
 nav_order: 20
 has_children: true
+format_version: v2
 ---
 
-# Vercel AI SDK Tutorial: TypeScript AI Apps and Agents
+# Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents
 
-> Build production AI features with `vercel/ai`, the provider-agnostic TypeScript toolkit behind modern streaming and agent-style app experiences.
+> Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
 
-[![Stars](https://img.shields.io/github/stars/vercel/ai?style=social)](https://github.com/vercel/ai)
-[![License](https://img.shields.io/badge/License-Hybrid-yellow.svg)](https://github.com/vercel/ai)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-vercel%2Fai-black?logo=github)](https://github.com/vercel/ai)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/vercel/ai/blob/main/LICENSE)
 [![Package](https://img.shields.io/badge/npm-ai-blue)](https://www.npmjs.com/package/ai)
 
-## What is the AI SDK?
+## Why This Track Matters
 
-The AI SDK provides unified primitives for generating text/structured outputs, streaming UI updates, integrating tool loops, and routing models across multiple providers from one TypeScript interface.
+The AI SDK is one of the most widely used TypeScript toolkits for shipping modern AI UX. Teams still need practical guidance on:
 
-Current official docs emphasize:
+- provider-agnostic architecture
+- streaming-first UX design
+- safe tool-calling workflows
+- production reliability and observability
 
-- unified provider architecture
-- AI SDK UI hooks for framework integration
-- agent/tool-loop capabilities
-- compatibility with modern runtimes and frameworks
+## Current Snapshot (Verified February 11, 2026)
 
-## Current Snapshot (February 11, 2026)
+- repository: [`vercel/ai`](https://github.com/vercel/ai)
+- stars: about **21.7k**
+- latest core package release: `ai@6.0.79` (published February 11, 2026)
+- release cadence: frequent package updates across core and provider integrations
+- official docs site: [`ai-sdk.dev`](https://ai-sdk.dev)
 
-- repository: `vercel/ai`
-- stars: ~21K
-- active release stream: AI SDK `6.0.x`
-- Node support in repo tooling includes modern LTS/current lines
-- docs and reference are published at `ai-sdk.dev`
+## Mental Model
 
-## Tutorial Chapters
+```mermaid
+flowchart LR
+    A[User Input] --> B[Model and Provider Abstraction]
+    B --> C[Generation or Tool Loop]
+    C --> D[Streaming or Structured Output]
+    D --> E[UI Integration Layer]
+    E --> F[Validation, Logging, and Production Runtime]
+```
 
-1. **[Chapter 1: Getting Started with Vercel AI](01-getting-started.md)** - Installation and first generation calls
-2. **[Chapter 2: Text Generation](02-text-generation.md)** - Provider-agnostic generation patterns
-3. **[Chapter 3: Streaming Responses](03-streaming-responses.md)** - Real-time UX with streamed outputs
-4. **[Chapter 4: Function Calling](04-function-calling.md)** - Tool integrations and execution loops
-5. **[Chapter 5: Structured Outputs](05-structured-outputs.md)** - Typed schema-driven AI responses
-6. **[Chapter 6: React Integration](06-react-integration.md)** - Hooks and component-level AI UX
-7. **[Chapter 7: Next.js Applications](07-nextjs-applications.md)** - Full-stack AI app architecture
-8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling, observability, and reliability
+## Chapter Guide
 
-## What You'll Learn
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I set up the SDK quickly and safely? | Stable project baseline |
+| [02 - Text Generation](02-text-generation.md) | How do I build provider-agnostic generation flows? | Reusable generation primitives |
+| [03 - Streaming Responses](03-streaming-responses.md) | How do I design real-time AI UX? | Streaming-ready frontend patterns |
+| [04 - Function Calling](04-function-calling.md) | How do tool loops execute reliably? | Safe tool invocation architecture |
+| [05 - Structured Outputs](05-structured-outputs.md) | How do I enforce type-safe responses? | Schema-driven response handling |
+| [06 - React Integration](06-react-integration.md) | How do SDK hooks fit real UI systems? | Production React integration |
+| [07 - Next.js Applications](07-nextjs-applications.md) | How do I build full-stack AI features? | End-to-end app architecture |
+| [08 - Production Deployment](08-production-deployment.md) | How do I operate AI SDK apps at scale? | Deployment and observability playbook |
 
-- build AI features with provider flexibility and type safety
-- implement streaming-first user experiences
-- design tool-calling workflows with robust validation
-- ship and operate AI SDK applications in production
+## What You Will Learn
+
+- how to build provider-flexible AI features with strong TypeScript ergonomics
+- how to stream responses and tool outputs into responsive interfaces
+- how to enforce structured output contracts
+- how to deploy and operate AI SDK apps with production controls
+
+## Source References
+
+- [AI SDK Repository](https://github.com/vercel/ai)
+- [AI SDK Releases](https://github.com/vercel/ai/releases)
+- [AI SDK Docs](https://ai-sdk.dev)
 
 ## Related Tutorials
 
 - [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
 - [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
-- [bolt.diy Tutorial](../bolt-diy-tutorial/)
 - [Dyad Tutorial](../dyad-tutorial/)
+- [bolt.diy Tutorial](../bolt-diy-tutorial/)
 
 ---
 
-Ready to begin? Continue to [Chapter 1: Getting Started](01-getting-started.md).
+Start with [Chapter 1: Getting Started](01-getting-started.md).

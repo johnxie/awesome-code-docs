@@ -41,7 +41,7 @@
 - Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
 - Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-platform-deep-dive
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
-- Dyad Tutorial: Local Open-Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
+- Dyad Tutorial: Local-First AI App Building: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
 - ElizaOS: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/elizaos-tutorial
 - Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
 - Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
@@ -106,7 +106,7 @@
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
 - Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial
-- Vercel AI SDK Tutorial: TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
+- Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
 - VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
 - vLLM Tutorial: High-Performance LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vllm-tutorial
 - Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial
