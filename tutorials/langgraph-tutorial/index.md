@@ -7,7 +7,7 @@ has_children: true
 
 # LangGraph Tutorial: Building Stateful Multi-Actor Applications
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications.
 
 [![Stars](https://img.shields.io/github/stars/langchain-ai/langgraph?style=social)](https://github.com/langchain-ai/langgraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

@@ -7,7 +7,7 @@ has_children: true
 
 # Outlines Tutorial: Structured Text Generation with LLMs
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.
 
 [![Stars](https://img.shields.io/github/stars/dottxt-ai/outlines?style=social)](https://github.com/dottxt-ai/outlines)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

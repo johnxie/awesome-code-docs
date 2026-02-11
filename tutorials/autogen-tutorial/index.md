@@ -7,7 +7,7 @@ has_children: true
 
 # Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 
 [![Stars](https://img.shields.io/github/stars/microsoft/autogen?style=social)](https://github.com/microsoft/autogen)
 [![License: CC](https://img.shields.io/badge/License-CC--BY--4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)

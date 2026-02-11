@@ -7,7 +7,7 @@ has_children: true
 
 # Chatbox Tutorial: Building Modern AI Chat Interfaces
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
 
 [![Stars](https://img.shields.io/github/stars/Bin-Huang/chatbox?style=social)](https://github.com/Bin-Huang/chatbox)
 [![License: GPL](https://img.shields.io/badge/License-GPL--3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0)

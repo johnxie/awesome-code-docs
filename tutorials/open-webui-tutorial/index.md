@@ -7,7 +7,7 @@ has_children: true
 
 # Open WebUI Tutorial: Self-Hosted ChatGPT Alternative
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Open WebUI covering Self-Hosted ChatGPT Alternative.
 
 [![Stars](https://img.shields.io/github/stars/open-webui/open-webui?style=social)](https://github.com/open-webui/open-webui)
 [![License: BSD](https://img.shields.io/badge/License-BSD--3-green.svg)](https://opensource.org/licenses/BSD-3-Clause)

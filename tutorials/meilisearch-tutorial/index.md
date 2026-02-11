@@ -7,7 +7,7 @@ has_children: true
 
 # MeiliSearch Tutorial: Lightning Fast Search Engine
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
 
 [![Stars](https://img.shields.io/github/stars/meilisearch/meilisearch?style=social)](https://github.com/meilisearch/meilisearch)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

@@ -7,7 +7,7 @@ has_children: true
 
 # AgentGPT Tutorial: Building Autonomous AI Agents
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
 
 [![Stars](https://img.shields.io/github/stars/reworkd/AgentGPT?style=social)](https://github.com/reworkd/AgentGPT)
 [![License: GPL](https://img.shields.io/badge/License-GPL--3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0)

@@ -7,7 +7,7 @@ has_children: true
 
 # Taskade Tutorial: AI-Powered Productivity Platform
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Taskade covering AI-Powered Productivity Platform.
 
 [![Stars](https://img.shields.io/github/stars/taskade/docs?style=social)](https://github.com/taskade/docs)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
