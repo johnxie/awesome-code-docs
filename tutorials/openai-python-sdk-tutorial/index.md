@@ -3,65 +3,81 @@ layout: default
 title: "OpenAI Python SDK Tutorial"
 nav_order: 93
 has_children: true
+format_version: v2
 ---
 
 # OpenAI Python SDK Tutorial: Production API Patterns
 
-> Build reliable Python applications with the official OpenAI SDK using Responses-first workflows, with clear migration guidance for legacy APIs.
+> Learn how to build reliable Python integrations with `openai/openai-python` using Responses-first architecture, migration-safe patterns, and production operations.
 
-[![Stars](https://img.shields.io/github/stars/openai/openai-python?style=social)](https://github.com/openai/openai-python)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python](https://img.shields.io/badge/Python-3.9+-blue)](https://github.com/openai/openai-python)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-openai%2Fopenai--python-black?logo=github)](https://github.com/openai/openai-python)
+[![License](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://github.com/openai/openai-python/blob/main/LICENSE)
+[![PyPI](https://img.shields.io/badge/pypi-openai-blue)](https://pypi.org/project/openai/)
 
-## What is current in the SDK
+## Why This Track Matters
 
-According to the official `openai-python` README:
+The OpenAI Python SDK is the primary production interface for many backend AI systems. Correct architecture choices now reduce migration risk and improve reliability.
 
-- **Responses API** is the primary interface for model interaction.
-- **Chat Completions API** remains supported for existing systems.
-- Sync and async clients are both first-class.
-- Realtime and streaming interfaces are available through SDK-supported channels.
+This track focuses on:
 
-## Migration Notes (February 11, 2026)
+- Responses-first application design
+- interoperability with legacy Chat Completions and Assistants-era systems
+- batch, embeddings, and tool-call workflows in production
+- migration planning aligned with official deprecation timelines
 
-OpenAI documentation indicates:
+## Current Snapshot (Verified February 11, 2026)
 
-- target sunset for Assistants API around **August 26, 2026**
-- migration path centered on Responses API + Agents platform patterns
+- repository: [`openai/openai-python`](https://github.com/openai/openai-python)
+- stars: about **29.9k**
+- latest release: [`v2.20.0`](https://github.com/openai/openai-python/releases/tag/v2.20.0)
+- development activity: active with recent releases
+- project positioning in repo: official Python SDK for OpenAI API integrations
 
-If you are starting new development now, default to Responses-first architecture.
+## Mental Model
 
-## Tutorial Structure
+```mermaid
+flowchart LR
+    A[Application Request] --> B[OpenAI Python SDK]
+    B --> C[Responses API]
+    C --> D[Model and Tool Execution]
+    D --> E[Structured Outputs]
+    E --> F[Application Logic]
+```
 
-| Chapter | Topic | What You Will Learn |
-|:--------|:------|:--------------------|
-| [1. Getting Started](01-getting-started.md) | Setup | Install, authenticate, and make first Responses API calls |
-| [2. Chat Completions](02-chat-completions.md) | Legacy + Interop | Use message-based flows and decide when to keep them |
-| [3. Embeddings and Search](03-embeddings-search.md) | Retrieval | Build semantic retrieval pipelines and RAG foundations |
-| [4. Agents and Assistants](04-assistants-api.md) | Transition | Operate current assistant patterns while planning migration |
-| [5. Batch Processing](05-batch-processing.md) | Scale | Run large asynchronous jobs with traceable artifacts |
-| [6. Fine-Tuning](06-fine-tuning.md) | Specialization | Curate datasets, train models, and evaluate quality |
-| [7. Advanced Patterns](07-advanced-patterns.md) | Production | Reliability, observability, and cost control patterns |
-| [8. Integration Examples](08-integration-examples.md) | Applications | FastAPI, retrieval services, and tool-enabled endpoints |
+## Chapter Guide
 
-## Prerequisites
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I install and run first production-safe calls? | Working SDK baseline |
+| [02 - Chat Completions](02-chat-completions.md) | When should I keep legacy chat patterns vs migrate? | Better interoperability decisions |
+| [03 - Embeddings and Search](03-embeddings-search.md) | How do I build retrieval foundations in Python? | Retrieval-ready architecture baseline |
+| [04 - Agents and Assistants](04-assistants-api.md) | How do I migrate Assistants-era systems safely? | Migration strategy and risk reduction |
+| [05 - Batch Processing](05-batch-processing.md) | How do I run large async jobs with traceability? | Scalable batch workflow model |
+| [06 - Fine-Tuning](06-fine-tuning.md) | How do I specialize model behavior responsibly? | Practical fine-tuning lifecycle |
+| [07 - Advanced Patterns](07-advanced-patterns.md) | How do I harden reliability and observability? | Production readiness patterns |
+| [08 - Integration Examples](08-integration-examples.md) | How do I embed SDK flows into real services? | Deployable integration playbook |
 
-- Python 3.9+
-- OpenAI API credentials
-- Basic REST/JSON understanding
-- Familiarity with async programming (recommended)
+## What You Will Learn
+
+- how to structure Python services around the Responses API
+- how to keep legacy compatibility while migrating safely
+- how to run batch and retrieval pipelines with operational controls
+- how to align roadmap decisions with official API deprecation timelines
+
+## Source References
+
+- [openai/openai-python Repository](https://github.com/openai/openai-python)
+- [openai/openai-python Releases](https://github.com/openai/openai-python/releases)
+- [OpenAI API Deprecations](https://platform.openai.com/docs/deprecations)
+- [Assistants Migration Guide](https://platform.openai.com/docs/assistants/how-it-works)
 
 ## Related Tutorials
 
-**Complementary:**
-- [tiktoken Tutorial](../tiktoken-tutorial/) - token accounting and budgeting
-- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/) - voice and low-latency orchestration
-- [OpenAI Whisper Tutorial](../openai-whisper-tutorial/) - speech processing pipelines
+- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
+- [tiktoken Tutorial](../tiktoken-tutorial/)
+- [OpenAI Whisper Tutorial](../openai-whisper-tutorial/)
+- [Vercel AI Tutorial](../vercel-ai-tutorial/)
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
-
----
-
-*Built from the official [openai/openai-python repository](https://github.com/openai/openai-python) and OpenAI platform migration/deprecation documentation.*
+Start with [Chapter 1: Getting Started](01-getting-started.md).

@@ -175,9 +175,9 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 - [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md)
   - Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
 - [OpenAI Python SDK Tutorial: Production API Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md)
-  - Build reliable Python applications with the official OpenAI SDK using Responses-first workflows, with clear migration guidance for legacy APIs.
+  - Learn how to build reliable Python integrations with `openai/openai-python` using Responses-first architecture, migration-safe patterns, and production operations.
 - [OpenAI Realtime Agents Tutorial: Voice-First AI Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/index.md)
-  - Build low-latency voice agents using OpenAI Realtime APIs and agent orchestration patterns from the official demo repository.
+  - Learn how to build low-latency voice agents with `openai/openai-realtime-agents`, including realtime session design, tool orchestration, and production rollout patterns.
 - [OpenAI Whisper Tutorial: Speech Recognition and Translation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-whisper-tutorial/index.md)
   - Build robust transcription pipelines with Whisper, from local experiments to production deployment.
 - [OpenBB Tutorial: Complete Guide to Investment Research Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openbb-tutorial/index.md)
