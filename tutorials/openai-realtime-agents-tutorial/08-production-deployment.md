@@ -7,53 +7,74 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 8: Production Deployment
 
-Production voice agents require coordinated controls across security, latency, and reliability.
+This chapter converts a successful demo into a production-grade voice-agent system with clear reliability, security, and migration controls.
 
-## Security Baseline
+## Learning Goals
 
-- use short-lived session credentials
-- never expose long-lived API secrets in clients
-- enforce server-side tool authorization
-- log high-risk tool calls with full trace metadata
+By the end of this chapter, you should be able to:
 
-## Latency and Reliability Baseline
+- define a production readiness checklist for realtime agents
+- operate rollout/rollback safely with measurable gates
+- monitor latency, quality, and security signals together
+- keep realtime integrations resilient to API evolution
 
-Track and alert on:
+## Production Readiness Checklist
 
-- session creation latency
-- time-to-first-audio
-- tool call latency and timeout rates
-- response failure and reconnect rates
+Before broad launch, verify:
 
-## Rollout Strategy
+- short-lived credentials are enforced for client sessions
+- server-side tool authorization and audit logging are in place
+- reconnect, retry, and timeout policies are tested
+- voice latency and interruption SLOs are defined
+- rollback procedures are rehearsed with owners assigned
 
-1. Ship internal beta with verbose logs.
-2. Enable limited external traffic with canary routing.
-3. Compare voice quality + latency against baseline.
-4. Gradually scale while preserving rollback capability.
+## Core SLO Signals
 
-## Failure Handling
+| Area | Metrics |
+|:-----|:--------|
+| session health | creation success rate, reconnect success rate |
+| voice responsiveness | time to first audio, interruption stop latency |
+| tool reliability | tool success rate, timeout/error frequency |
+| quality outcomes | task completion rate, clarification loop rate |
+| safety/security | blocked unsafe actions, auth anomalies |
 
-Prepare for:
+## Rollout Plan
 
-- transport interruptions
-- tool backend outages
-- malformed client events
-- model-level service degradations
+1. internal pilot with full debug telemetry
+2. canary release to small external segment
+3. compare SLOs against baseline weekly
+4. expand gradually by tenant/use-case risk tier
+5. auto-pause rollout when critical SLOs breach
 
-Every failure mode needs a user-visible fallback path.
+## Incident Taxonomy
 
-## Migration Readiness
+| Incident Class | First Action |
+|:---------------|:-------------|
+| transport instability | fail over region/path and reduce concurrency |
+| tool backend outage | disable affected tools and activate fallback response path |
+| auth/session failure spike | rotate credentials and enforce stricter issuance policy |
+| model/service degradation | route to validated backup config and reduce optional workloads |
 
-Because Realtime platform interfaces evolve quickly, keep:
+## Migration Discipline
 
-- pinned SDK versions
-- contract tests for event handling
-- migration notes tied to explicit dates and versions
+Because realtime interfaces evolve quickly:
+
+- pin SDK/dependency versions
+- maintain contract tests for event handlers
+- track deprecations with explicit calendar dates
+- budget time for periodic migration rehearsals
+
+As of official deprecation docs, the Realtime beta interface shutdown date is listed as **February 27, 2026**, so production systems should remain GA-aligned.
+
+## Source References
+
+- [OpenAI API Deprecations](https://platform.openai.com/docs/deprecations)
+- [OpenAI Realtime Guide](https://platform.openai.com/docs/guides/realtime)
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
 
 ## Final Summary
 
-You now have an end-to-end architecture and operating playbook for production-grade realtime voice agents.
+You now have an end-to-end operating model for production realtime voice agents, from security posture to latency SLOs and migration resilience.
 
 Related:
 - [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)

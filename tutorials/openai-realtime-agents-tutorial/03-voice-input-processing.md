@@ -7,53 +7,74 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 3: Voice Input Processing
 
-Input quality determines downstream model quality and latency.
+Input quality and turn-boundary accuracy are the biggest predictors of perceived voice-agent quality.
+
+## Learning Goals
+
+By the end of this chapter, you should be able to:
+
+- design a robust audio input pipeline
+- tune voice activity detection (VAD) for your environment
+- handle interruption and partial-turn scenarios correctly
+- track metrics that reveal input regressions early
 
 ## Input Pipeline Stages
 
 1. microphone capture
-2. buffering/chunking
-3. optional local preprocessing
-4. VAD (voice activity detection) decisions
-5. commit audio to conversation stream
+2. buffering and chunk framing
+3. optional preprocessing (normalization/noise reduction)
+4. VAD-based turn detection
+5. commit audio segment to session
+6. begin response generation
 
-## VAD Strategy
+## VAD Strategy Choices
 
-Two common modes:
+| Mode | Best For | Risk |
+|:-----|:---------|:-----|
+| automatic VAD | consumer voice UX with minimal friction | clipping in noisy environments if tuned poorly |
+| push-to-talk | controlled enterprise or noisy contexts | higher user interaction cost |
+| hybrid | mixed environments and advanced clients | more implementation complexity |
 
-- **Automatic VAD**: lower user friction
-- **Push-to-talk**: higher control in noisy environments
+## Interruption Handling (Barge-In)
 
-For production deployments, expose both and let product context decide default behavior.
+When user speech starts while assistant is speaking:
 
-## Interruption Handling
-
-Realtime agents must handle barge-in cleanly.
-
-Best practice:
-
-- detect user speech onset quickly
-- cancel or pause current output stream
-- preserve minimal context needed to continue naturally
+- stop output quickly
+- preserve minimal state needed for continuity
+- commit new user input immediately
+- avoid long blocking operations before acknowledgement
 
 ## Input Reliability Controls
 
-- normalize sample format expected by your pipeline
-- guard against long silent segments
-- cap max segment duration to avoid oversized turns
-- surface network jitter and dropped-frame metrics
+- enforce expected sample format at ingestion
+- cap maximum segment duration to prevent oversized turns
+- detect prolonged silence and reset capture state gracefully
+- log dropped frames and jitter indicators
 
 ## Quality Pitfalls
 
-| Pitfall | User Impact |
-|:--------|:------------|
-| overly aggressive VAD | clipped user speech |
-| delayed VAD release | laggy turn transitions |
-| no interruption support | agents talk over users |
-| weak noise handling | bad intent recognition |
+| Pitfall | User Impact | Mitigation |
+|:--------|:------------|:-----------|
+| aggressive VAD | clipped speech and repeated clarifications | relax sensitivity and add hysteresis |
+| conservative VAD | laggy turn transitions | reduce release delay |
+| no interruption support | assistant talks over user | prioritize barge-in cancellation path |
+| poor noise handling | wrong intent extraction | add preprocessing and environment presets |
+
+## Metrics to Track
+
+- speech-start to commit latency
+- clipped-turn rate
+- interruption success rate
+- speech-to-first-token latency
+- retry rate after misunderstood turns
+
+## Source References
+
+- [OpenAI Realtime Guide](https://platform.openai.com/docs/guides/realtime)
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
 
 ## Summary
 
-You now have a practical blueprint for robust voice capture and turn-boundary management.
+You now have a robust input architecture pattern that supports low-latency conversation without sacrificing turn accuracy.
 
 Next: [Chapter 4: Conversational AI](04-conversational-ai.md)

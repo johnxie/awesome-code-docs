@@ -7,45 +7,74 @@ parent: OpenAI Realtime Agents Tutorial
 
 # Chapter 4: Conversational AI
 
-Voice conversation design is about coordination, not just generation quality.
+Great realtime conversation design is about policy, pacing, and recoverability, not just response quality.
+
+## Learning Goals
+
+By the end of this chapter, you should be able to:
+
+- define turn-management rules for voice interactions
+- structure prompt/policy layers to reduce regressions
+- maintain bounded context in long sessions
+- design graceful recovery paths for misunderstanding
 
 ## Turn Management Principles
 
-- Acknowledge quickly when latency-sensitive.
-- Keep answers concise in voice mode.
-- Ask one clarifying question at a time.
-- Confirm critical details before tool execution.
+- acknowledge quickly when operations may take time
+- keep spoken responses concise and easy to parse
+- ask one clarifying question at a time
+- confirm risky actions before tool execution
 
-## Context Management
+## Policy Layering Model
 
-Realtime conversations can grow quickly. Keep context bounded:
+Separate policy concerns so updates stay targeted:
 
-- summarize older turns periodically
-- retain explicit task state separately
-- track unresolved slots (name, account id, intent)
+1. interaction policy: tone, brevity, pacing
+2. domain policy: workflow and business constraints
+3. safety policy: prohibited actions/escalation triggers
+4. tool policy: when and how external actions are allowed
 
-## Response Policy Layers
+## Context Management in Long Sessions
 
-A strong production stack separates:
+- summarize older turns into compact state
+- maintain explicit slot state (intent, entities, pending actions)
+- avoid replaying full transcript when compressed memory is sufficient
+- track unresolved tasks independently of raw transcript
 
-1. interaction policy (tone, pacing, brevity)
-2. domain policy (business rules)
-3. safety policy (what must be blocked/escalated)
+## Recovery Patterns
 
-This keeps prompt updates targeted and easier to test.
+When confidence drops or user correction appears:
 
-## Recovery from Misunderstandings
+- restate interpreted intent
+- ask for explicit confirmation
+- avoid irreversible side effects
+- fallback to human handoff where required
 
-When confidence is low:
+## Conversational Quality Checks
 
-- restate what was heard
-- ask explicit confirmation
-- avoid making irreversible calls
+| Check | Why It Matters |
+|:------|:---------------|
+| interruption continuity | prevents broken conversation after barge-in |
+| clarification rate | reveals understanding quality |
+| task completion rate | measures practical utility |
+| escalation correctness | protects user trust and safety |
 
-In voice systems, graceful clarification is cheaper than correcting bad side effects.
+## Evaluation Loop
+
+Run weekly conversation evals using real transcripts:
+
+1. sample high-friction sessions
+2. classify failure category (policy, context, tool, latency)
+3. apply smallest targeted change
+4. rerun benchmark set before release
+
+## Source References
+
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
+- [OpenAI Realtime Guide](https://platform.openai.com/docs/guides/realtime)
 
 ## Summary
 
-You can now design conversational behavior that is fast, safe, and stable under real user interruptions.
+You now have a conversation-design framework that holds up under interruption, ambiguity, and production constraints.
 
 Next: [Chapter 5: Function Calling](05-function-calling.md)
