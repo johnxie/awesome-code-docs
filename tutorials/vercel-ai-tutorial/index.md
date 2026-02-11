@@ -5,116 +5,58 @@ nav_order: 20
 has_children: true
 ---
 
-# Vercel AI Tutorial: Building AI-Powered Applications with TypeScript
+# Vercel AI SDK Tutorial: TypeScript AI Apps and Agents
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> Build production AI features with `vercel/ai`, the provider-agnostic TypeScript toolkit behind modern streaming and agent-style app experiences.
 
 [![Stars](https://img.shields.io/github/stars/vercel/ai?style=social)](https://github.com/vercel/ai)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/vercel/ai)
+[![License](https://img.shields.io/badge/License-Hybrid-yellow.svg)](https://github.com/vercel/ai)
+[![Package](https://img.shields.io/badge/npm-ai-blue)](https://www.npmjs.com/package/ai)
 
+## What is the AI SDK?
 
-Vercel AI<sup>[View Repo](https://github.com/vercel/ai)</sup> is the AI Toolkit for TypeScript created by the makers of Next.js. It provides a comprehensive, type-safe library for building AI-powered applications with streaming responses, function calling, and seamless integration with popular AI providers.
+The AI SDK provides unified primitives for generating text/structured outputs, streaming UI updates, integrating tool loops, and routing models across multiple providers from one TypeScript interface.
 
-Vercel AI enables developers to build sophisticated AI applications with React/Next.js, featuring real-time streaming, structured outputs, tool calling, and production-ready patterns for modern web applications.
+Current official docs emphasize:
 
-```mermaid
-flowchart TD
-    A[User Request] --> B[AI SDK]
-    B --> C[Provider Router]
-    C --> D[OpenAI]
-    C --> E[Anthropic]
-    C --> F[Other Providers]
+- unified provider architecture
+- AI SDK UI hooks for framework integration
+- agent/tool-loop capabilities
+- compatibility with modern runtimes and frameworks
 
-    B --> G[Streaming Handler]
-    G --> H[React Components]
-    H --> I[Real-time UI]
+## Current Snapshot (February 11, 2026)
 
-    B --> J[Tool Manager]
-    J --> K[Function Calling]
-    K --> L[External APIs]
-
-    B --> M[Output Parser]
-    M --> N[Structured Data]
-    N --> O[Type Safety]
-
-    classDef input fill:#e1f5fe,stroke:#01579b
-    classDef core fill:#f3e5f5,stroke:#4a148c
-    classDef providers fill:#fff3e0,stroke:#ef6c00
-    classDef features fill:#e8f5e8,stroke:#1b5e20
-
-    class A input
-    class B,C core
-    class D,E,F providers
-    class G,H,I,J,K,L,M,N,O features
-```
+- repository: `vercel/ai`
+- stars: ~21K
+- active release stream: AI SDK `6.0.x`
+- Node support in repo tooling includes modern LTS/current lines
+- docs and reference are published at `ai-sdk.dev`
 
 ## Tutorial Chapters
 
-Welcome to your journey through AI-powered TypeScript applications! This tutorial explores building modern AI applications with Vercel AI.
-
-1. **[Chapter 1: Getting Started with Vercel AI](01-getting-started.md)** - Installation, setup, and your first AI application
-2. **[Chapter 2: Text Generation](02-text-generation.md)** - Basic text generation with different providers
-3. **[Chapter 3: Streaming Responses](03-streaming-responses.md)** - Real-time streaming for better UX
-4. **[Chapter 4: Function Calling](04-function-calling.md)** - Tool integration and function calling
-5. **[Chapter 5: Structured Outputs](05-structured-outputs.md)** - Type-safe structured data generation
-6. **[Chapter 6: React Integration](06-react-integration.md)** - Building AI-powered React components
-7. **[Chapter 7: Next.js Applications](07-nextjs-applications.md)** - Full-stack AI applications
-8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling and deploying AI applications
+1. **[Chapter 1: Getting Started with Vercel AI](01-getting-started.md)** - Installation and first generation calls
+2. **[Chapter 2: Text Generation](02-text-generation.md)** - Provider-agnostic generation patterns
+3. **[Chapter 3: Streaming Responses](03-streaming-responses.md)** - Real-time UX with streamed outputs
+4. **[Chapter 4: Function Calling](04-function-calling.md)** - Tool integrations and execution loops
+5. **[Chapter 5: Structured Outputs](05-structured-outputs.md)** - Typed schema-driven AI responses
+6. **[Chapter 6: React Integration](06-react-integration.md)** - Hooks and component-level AI UX
+7. **[Chapter 7: Next.js Applications](07-nextjs-applications.md)** - Full-stack AI app architecture
+8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling, observability, and reliability
 
 ## What You'll Learn
 
-By the end of this tutorial, you'll be able to:
+- build AI features with provider flexibility and type safety
+- implement streaming-first user experiences
+- design tool-calling workflows with robust validation
+- ship and operate AI SDK applications in production
 
-- **Build AI Applications** - Create sophisticated AI-powered apps with TypeScript
-- **Generate Images** - Use AI to create images from text prompts with multiple providers
-- **Handle Advanced Streaming** - Implement real-time AI responses with stream transformation
-- **Integrate Tools** - Connect external APIs and functions to AI models with enhanced tool calling
-- **Ensure Type Safety** - Use TypeScript for type-safe AI interactions
-- **Create React Components** - Build interactive AI-powered UI components with improved persistence
-- **Deploy at Scale** - Production-ready AI applications on Vercel
-- **Handle Multiple Providers** - Work with OpenAI, Anthropic, Replicate, and other AI providers
-- **Implement Error Handling** - Robust error handling and fallback strategies
+## Related Tutorials
 
-## Prerequisites
-
-- Node.js 18+
-- TypeScript basics
-- React/Next.js fundamentals (for later chapters)
-- Understanding of async/await patterns
-
-## What's New in Vercel AI v4.1 (January 2025)
-
-> **AI SDK v4.1 Release**: Major enhancements for multimodal AI applications with image generation, improved streaming, and enhanced tool calling.
-
-Key features in v4.1:
-- 🎨 **Image Generation**: `generateImage` function supporting Replicate, OpenAI DALL-E, Google Vertex, and Fireworks
-- 📊 **Stream Transformation**: Enhanced data streaming with smoothing and transformation capabilities
-- 💾 **Simplified Persistence**: Improved `useChat` hook for easier state management
-- ⚡ **Non-Blocking Streaming**: Better performance with non-blocking data streams
-- 🔧 **Enhanced Tool Calling**: Improved API and integrations for function calling
-- 📋 **Structured Outputs**: Better handling of structured data generation
-- 🔌 **Provider Expansion**: Support for additional AI model providers
-
-## Learning Path
-
-### 🟢 Beginner Track
-Perfect for developers new to AI application development:
-1. Chapters 1-2: Setup and basic AI integration
-2. Focus on understanding Vercel AI fundamentals
-
-### 🟡 Intermediate Track
-For developers building AI-powered applications:
-1. Chapters 3-5: Streaming, tools, and structured outputs
-2. Learn advanced AI integration patterns
-
-### 🔴 Advanced Track
-For production AI application development:
-1. Chapters 6-8: React integration, full-stack apps, and deployment
-2. Master enterprise-grade AI applications
+- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
+- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
+- [bolt.diy Tutorial](../bolt-diy-tutorial/)
+- [Dyad Tutorial](../dyad-tutorial/)
 
 ---
 
-**Ready to build AI applications with Vercel AI? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
-
-*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*
+Ready to begin? Continue to [Chapter 1: Getting Started](01-getting-started.md).

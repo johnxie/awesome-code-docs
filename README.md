@@ -136,7 +136,7 @@ Full-stack AI chat platforms and copilots.
 | **[Flowise](tutorials/flowise-llm-orchestration/)** | 35K+ | Node.js/React | Visual LLM workflow orchestration |
 | **[CopilotKit](tutorials/copilotkit-tutorial/)** | 15K+ | React/TypeScript | In-app AI copilots |
 | **[Chatbox](tutorials/chatbox-tutorial/)** | 24K+ | JavaScript/React | Multi-provider chat client |
-| **[Vercel AI SDK](tutorials/vercel-ai-tutorial/)** | 12K+ | TypeScript | AI-powered React/Next.js apps |
+| **[Vercel AI SDK](tutorials/vercel-ai-tutorial/)** | 21K+ | TypeScript | AI-powered React/Next.js apps |
 | **[Perplexica](tutorials/perplexica-tutorial/)** | 19K+ | TypeScript | AI-powered search engine |
 | **[SillyTavern](tutorials/sillytavern-tutorial/)** | 9K+ | Node.js | Advanced roleplay chat platform |
 | **[Khoj](tutorials/khoj-tutorial/)** | 18K+ | Python/Django | Self-hosted AI personal assistant |
@@ -154,7 +154,7 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Continue](tutorials/continue-tutorial/)** | 22K+ | TypeScript | Open-source AI coding assistant |
 | **[Cline](tutorials/cline-tutorial/)** | 57K+ | TypeScript/VS Code | Agentic coding with terminal, browser, MCP tools |
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
-| **[OpenHands](tutorials/openhands-tutorial/)** | 45K+ | Python | AI software engineering agent |
+| **[OpenHands](tutorials/openhands-tutorial/)** | 67K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
 | **[Claude Code](tutorials/claude-code-tutorial/)** | - | TypeScript | Anthropic's AI coding CLI |
 | **[Anthropic API](tutorials/anthropic-code-tutorial/)** | - | Python/TypeScript | Claude API integration, tool use, streaming |
@@ -201,7 +201,7 @@ Low-level systems, cloud native, and infrastructure patterns.
 |:---------|:-----:|:------|:------------------|
 | **[Kubernetes Operators](tutorials/kubernetes-operator-patterns/)** | - | Go | Production-grade K8s operator patterns |
 | **[React Fiber](tutorials/react-fiber-internals/)** | - | JavaScript | React reconciler internals |
-| **[Dyad](tutorials/dyad-tutorial/)** | - | TypeScript | Local AI app development |
+| **[Dyad](tutorials/dyad-tutorial/)** | 19K+ | TypeScript | Local AI app development |
 | **[LangChain Architecture](tutorials/langchain-architecture-guide/)** | - | Python | LangChain deep architecture guide |
 | **[n8n MCP](tutorials/n8n-mcp-tutorial/)** | - | TypeScript | Model Context Protocol with n8n |
 | **[Firecrawl](tutorials/firecrawl-tutorial/)** | 22K+ | Python | LLM-ready web data extraction |
