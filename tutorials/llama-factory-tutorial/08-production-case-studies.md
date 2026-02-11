@@ -301,7 +301,7 @@ Follow best practices and include error handling.
         Provide improved version:
         """
 
-        improved_code = self.models['code_reviewer'](review_prompt)
+        improved_code = self.models['code_reviewer'] (review_prompt)
         return self.extract_code_from_response(improved_code)
 
     def generate_documentation(self, code: str, requirements: str) -> str:
@@ -324,7 +324,7 @@ Follow best practices and include error handling.
         4. Dependencies
         """
 
-        return self.models['code_generator'](doc_prompt, max_length=800)
+        return self.models['code_generator'] (doc_prompt, max_length=800)
 
 # Production configuration
 code_gen_config = {
@@ -446,7 +446,7 @@ class FinancialAnalysisAI:
 
         prediction_prompt = self.build_prediction_prompt(market_data, market_context)
 
-        prediction = self.models['trend_predictor'](prediction_prompt)
+        prediction = self.models['trend_predictor'] (prediction_prompt)
 
         return self.parse_prediction(prediction)
 
@@ -455,7 +455,7 @@ class FinancialAnalysisAI:
 
         risk_prompt = self.build_risk_assessment_prompt(company_data, market_context)
 
-        risk_analysis = self.models['risk_assessor'](risk_prompt)
+        risk_analysis = self.models['risk_assessor'] (risk_prompt)
 
         return self.parse_risk_assessment(risk_analysis)
 

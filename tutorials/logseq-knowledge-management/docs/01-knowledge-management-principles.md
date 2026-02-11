@@ -474,4 +474,4 @@ Users can start simple and grow complexity:
 
 ---
 
-**Ready to dive into system architecture?** Continue to [Chapter 2: System Architecture](02-system-architecture.md)
+**Ready to dive into system architecture?** Continue to Chapter 2: System Architecture (planned).
