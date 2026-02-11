@@ -3,202 +3,84 @@ layout: default
 title: "Browser Use Tutorial"
 nav_order: 74
 has_children: true
+format_version: v2
 ---
 
-# Browser Use Tutorial: AI-Powered Web Automation
+# Browser Use Tutorial: AI-Powered Web Automation Agents
 
-> Build autonomous AI agents that can browse and interact with any website.
+> Learn how to use `browser-use/browser-use` to build agents that can navigate websites, execute workflows, and run reliable browser automation in production.
 
-<div align="center">
+[![GitHub Repo](https://img.shields.io/badge/GitHub-browser--use%2Fbrowser--use-black?logo=github)](https://github.com/browser-use/browser-use)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/browser-use/browser-use/blob/main/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-docs.browser--use.com-blue)](https://docs.browser-use.com/)
 
-**🌐 Let AI Agents Navigate the Web for You**
+## Why This Track Matters
 
-[![GitHub](https://img.shields.io/github/stars/browser-use/browser-use?style=social)](https://github.com/browser-use/browser-use)
+Browser Use is a leading open-source framework for LLM-driven browser control. Teams use it to automate real-world web workflows that static APIs cannot cover.
 
-</div>
+This track focuses on:
 
----
+- building robust browser agents that can reason over page state
+- handling navigation, interaction, extraction, and multi-step tasks
+- integrating Browser Use into larger coding-agent and operations pipelines
+- deploying reliable automations with observability and safeguards
 
-## 🎯 What is Browser Use?
+## Current Snapshot (Verified February 11, 2026)
 
-**Browser Use**<sup>[View Repo](https://github.com/browser-use/browser-use)</sup> is an open-source library that enables AI agents to control web browsers autonomously. It provides a simple interface for LLMs to browse websites, fill forms, click buttons, extract data, and complete complex web-based tasks.
+- repository: [`browser-use/browser-use`](https://github.com/browser-use/browser-use)
+- stars: about **78.2k**
+- latest release: [`0.11.9`](https://github.com/browser-use/browser-use/releases/tag/0.11.9)
+- development activity: active with frequent updates
+- project positioning in repo: framework for autonomous browser agents with cloud and local workflows
 
-### Key Features
-
-| Feature | Description |
-|:--------|:------------|
-| **Vision + HTML** | Uses both visual and DOM understanding for robust navigation |
-| **Multi-Tab Support** | Manage multiple browser tabs simultaneously |
-| **Form Filling** | Intelligent form detection and completion |
-| **Element Interaction** | Click, type, scroll, and interact with any web element |
-| **Custom Actions** | Define domain-specific browser actions |
-| **Session Persistence** | Maintain login states and cookies across sessions |
+## Mental Model
 
 ```mermaid
-flowchart TD
-    A[User Task] --> B[AI Agent]
+flowchart LR
+    A[Task Objective] --> B[LLM Agent]
     B --> C[Browser Use Controller]
-    
-    C --> D[Vision Analysis]
-    C --> E[DOM Parsing]
-    
-    D --> F{Decision Engine}
-    E --> F
-    
-    F --> G[Click Action]
-    F --> H[Type Action]
-    F --> I[Scroll Action]
-    F --> J[Extract Action]
-    
-    G --> K[Browser State]
-    H --> K
-    I --> K
-    J --> K
-    
-    K --> L{Task Complete?}
-    L -->|No| D
-    L -->|Yes| M[Result]
-    
-    classDef agent fill:#e1f5fe,stroke:#01579b
-    classDef controller fill:#f3e5f5,stroke:#4a148c
-    classDef analysis fill:#fff3e0,stroke:#ef6c00
-    classDef action fill:#e8f5e8,stroke:#1b5e20
-    
-    class A,B agent
-    class C controller
-    class D,E,F analysis
-    class G,H,I,J,K,L,M action
+    C --> D[Browser Session]
+    D --> E[DOM and Visual State]
+    E --> B
+    B --> F[Action Plan]
+    F --> D
+    D --> G[Structured Output]
 ```
 
-## Tutorial Chapters
+## Chapter Guide
 
-1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first browser agent
-2. **[Chapter 2: Browser Control Basics](02-browser-control.md)** - Navigation, clicking, and typing
-3. **[Chapter 3: Element Selection](03-element-selection.md)** - Finding and interacting with web elements
-4. **[Chapter 4: Form Automation](04-form-automation.md)** - Intelligent form filling and submission
-5. **[Chapter 5: Data Extraction](05-data-extraction.md)** - Scraping and extracting structured data
-6. **[Chapter 6: Multi-Tab Workflows](06-multi-tab.md)** - Managing complex multi-tab operations
-7. **[Chapter 7: Custom Actions](07-custom-actions.md)** - Building domain-specific browser actions
-8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling, reliability, and best practices
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I install Browser Use and run first tasks? | Working local baseline |
+| [02 - Browser Control Basics](02-browser-control.md) | How do agents click, type, and navigate reliably? | Core interaction workflows |
+| [03 - Element Selection](03-element-selection.md) | How do I target elements across changing pages? | Resilient selection patterns |
+| [04 - Form Automation](04-form-automation.md) | How do I handle end-to-end form flows? | Repeatable form execution patterns |
+| [05 - Data Extraction](05-data-extraction.md) | How do I extract clean structured outputs from pages? | Data capture and transformation playbook |
+| [06 - Multi-Tab Workflows](06-multi-tab.md) | How do I coordinate complex multi-tab tasks? | Reliable cross-tab orchestration |
+| [07 - Custom Actions](07-custom-actions.md) | How do I implement domain-specific browser actions? | Extensible custom action toolkit |
+| [08 - Production Deployment](08-production.md) | How do I run browser agents in production safely? | Deployment and operations baseline |
 
-## What You'll Learn
+## What You Will Learn
 
-- **Automate Web Tasks** with AI-powered browser control
-- **Navigate Complex Sites** using vision and DOM understanding
-- **Extract Structured Data** from any website
-- **Build Reliable Agents** with error handling and retries
-- **Handle Authentication** and session management
-- **Create Custom Workflows** for domain-specific tasks
-- **Scale Browser Automation** for production use cases
+- how to build browser automation agents with LLM-driven reasoning
+- how to improve reliability with structured execution and retries
+- how to extract data and perform authenticated workflows
+- how to deploy Browser Use workloads with production controls
 
-## Prerequisites
+## Source References
 
-- Python 3.10+
-- OpenAI or Anthropic API key
-- Chrome or Chromium browser
-- Basic understanding of web technologies (HTML, CSS)
+- [Browser Use Repository](https://github.com/browser-use/browser-use)
+- [Browser Use Releases](https://github.com/browser-use/browser-use/releases)
+- [Browser Use Docs](https://docs.browser-use.com/)
+- [Browser Use Cloud](https://cloud.browser-use.com/)
 
-## Quick Start
+## Related Tutorials
 
-```bash
-# Install browser-use
-pip install browser-use
-
-# Install playwright browsers
-playwright install chromium
-```
-
-```python
-from browser_use import Agent
-from langchain_openai import ChatOpenAI
-
-# Initialize the agent
-agent = Agent(
-    task="Go to google.com and search for 'browser automation with AI'",
-    llm=ChatOpenAI(model="gpt-4o"),
-)
-
-# Run the agent
-result = await agent.run()
-print(result)
-```
-
-## Example: Research Assistant
-
-```python
-from browser_use import Agent, Controller
-from langchain_openai import ChatOpenAI
-
-# Create a research agent
-agent = Agent(
-    task="""
-    1. Go to arxiv.org
-    2. Search for 'large language models'
-    3. Find the 3 most recent papers
-    4. Extract their titles, authors, and abstracts
-    5. Return the information as structured data
-    """,
-    llm=ChatOpenAI(model="gpt-4o"),
-)
-
-# Run with extended timeout for complex tasks
-result = await agent.run(max_steps=50)
-
-# Process extracted data
-for paper in result.extracted_content:
-    print(f"Title: {paper['title']}")
-    print(f"Authors: {paper['authors']}")
-    print(f"Abstract: {paper['abstract'][:200]}...")
-    print("---")
-```
-
-## Example: Form Automation
-
-```python
-from browser_use import Agent
-from langchain_openai import ChatOpenAI
-
-agent = Agent(
-    task="""
-    Go to the demo form at https://example.com/signup
-    Fill in the form with:
-    - Name: John Doe
-    - Email: john@example.com
-    - Company: Acme Inc
-    Submit the form and confirm success
-    """,
-    llm=ChatOpenAI(model="gpt-4o"),
-)
-
-result = await agent.run()
-print(f"Form submitted: {result.is_done()}")
-```
-
-## Supported LLM Providers
-
-| Provider | Models | Vision Support |
-|:---------|:-------|:---------------|
-| **OpenAI** | GPT-4o, GPT-4-turbo | ✅ Yes |
-| **Anthropic** | Claude 3.5 Sonnet, Claude 3 Opus | ✅ Yes |
-| **Google** | Gemini Pro, Gemini Ultra | ✅ Yes |
-| **Local** | LLaVA, Qwen-VL | ✅ Yes |
-
-## Learning Path
-
-### 🟢 Beginner Track
-1. Chapters 1-3: Setup, navigation, and element interaction
-2. Build simple web automation scripts
-
-### 🟡 Intermediate Track
-1. Chapters 4-6: Forms, data extraction, and multi-tab
-2. Create complex web workflows
-
-### 🔴 Advanced Track
-1. Chapters 7-8: Custom actions and production deployment
-2. Build enterprise-grade browser automation
+- [OpenHands Tutorial](../openhands-tutorial/)
+- [Cline Tutorial](../cline-tutorial/)
+- [Roo Code Tutorial](../roo-code-tutorial/)
+- [Claude Code Tutorial](../claude-code-tutorial/)
 
 ---
 
-**Ready to automate the web with AI? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
-
-*Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+Start with [Chapter 1: Getting Started](01-getting-started.md).

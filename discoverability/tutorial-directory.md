@@ -17,8 +17,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
 - [Anthropic Skills Tutorial: Reusable AI Agent Capabilities](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/index.md)
   - Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
-- [AnythingLLM Tutorial: All-in-One AI Document Chat](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/index.md)
-  - Turn any document into an intelligent chatbot with full privacy control.
+- [AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/index.md)
+  - Learn how to deploy and operate `Mintplex-Labs/anything-llm` for document-grounded chat, workspace management, agent workflows, and production use.
 - [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/index.md)
   - **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
 
@@ -30,8 +30,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A production-focused deep dive into `stackblitz-labs/bolt.diy`: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.
 - [Botpress Tutorial: Open Source Conversational AI Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/index.md)
   - **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
-- [Browser Use Tutorial: AI-Powered Web Automation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md)
-  - Build autonomous AI agents that can browse and interact with any website.
+- [Browser Use Tutorial: AI-Powered Web Automation Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md)
+  - Learn how to use `browser-use/browser-use` to build agents that can navigate websites, execute workflows, and run reliable browser automation in production.
 
 ## C
 

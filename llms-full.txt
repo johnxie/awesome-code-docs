@@ -33,11 +33,11 @@ Main repository:
 - Summary: Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
 - Keywords: anthropic, skills, reusable, agent, capabilities, build, operate, production, quality, claude, code, api
 
-## AnythingLLM Tutorial: All-in-One AI Document Chat
+## AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform
 - Path: tutorials/anything-llm-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/index.md
-- Summary: Turn any document into an intelligent chatbot with full privacy control.
-- Keywords: anything, llm, anythingllm, all, one, document, chat, turn, any, into, intelligent, chatbot, full, privacy, control
+- Summary: Learn how to deploy and operate `Mintplex-Labs/anything-llm` for document-grounded chat, workspace management, agent workflows, and production use.
+- Keywords: anything, llm, anythingllm, self, hosted, rag, agents, platform, learn, deploy, operate, mintplex, labs, document, grounded, chat, workspace, management
 
 ## Athens Research: Deep Dive Tutorial
 - Path: tutorials/athens-research-knowledge-graph
@@ -69,11 +69,11 @@ Main repository:
 - Summary: **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
 - Keywords: botpress, open, source, conversational, platform, important, notice, v12, has, been, sunset, longer, available, new, deployments, however, existing, customers
 
-## Browser Use Tutorial: AI-Powered Web Automation
+## Browser Use Tutorial: AI-Powered Web Automation Agents
 - Path: tutorials/browser-use-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md
-- Summary: Build autonomous AI agents that can browse and interact with any website.
-- Keywords: browser, use, powered, web, automation, build, autonomous, agents, that, can, browse, interact, any, website
+- Summary: Learn how to use `browser-use/browser-use` to build agents that can navigate websites, execute workflows, and run reliable browser automation in production.
+- Keywords: browser, use, powered, web, automation, agents, learn, build, that, can, navigate, websites, execute, workflows, run, reliable, production
 
 ## Chatbox Tutorial: Building Modern AI Chat Interfaces
 - Path: tutorials/chatbox-tutorial
