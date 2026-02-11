@@ -39,3 +39,8 @@ jobs:
           diff -u discoverability/tutorial-index.json /tmp/tutorial-index.json
           diff -u llms.txt /tmp/llms.txt
           diff -u llms-full.txt /tmp/llms-full.txt
+
+      - name: Validate Tutorials README Snapshot Is Current
+        run: |
+          python scripts/update_tutorials_readme_snapshot.py --output /tmp/tutorials-readme.md
+          diff -u tutorials/README.md /tmp/tutorials-readme.md
