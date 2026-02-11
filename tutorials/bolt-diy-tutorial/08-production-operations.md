@@ -7,36 +7,43 @@ parent: Bolt.diy Tutorial
 
 # Chapter 8: Production Operations
 
-This chapter finalizes bolt.diy with production reliability, security, and governance patterns.
+This chapter closes with the controls needed to run bolt.diy as a production service.
 
-## Operations Baseline
+## Production Baseline
 
-- environment-specific configuration profiles
-- centralized secrets and key rotation
-- usage monitoring (token/cost/provider mix)
-- incident runbooks for provider outages or malformed generations
+- environment-specific config and secret rotation
+- provider usage and token-cost observability
+- incident runbooks for provider/tool failures
+- staged rollout plus rollback procedures
 
-## Observability Baseline
+## Key Metrics
 
-Track:
+| Metric | Operational Value |
+|:-------|:------------------|
+| generation success rate | platform reliability trend |
+| retry/failure distribution | weak provider or prompt patterns |
+| diff acceptance ratio | output quality signal |
+| median task completion time | user experience and throughput |
 
-- request latency by provider/model
-- generation failure and retry rates
-- diff rejection vs acceptance rates
-- deployment and integration error classes
+## Governance Controls
 
-## Governance Baseline
+- mandatory review for high-risk files
+- retention/redaction policy for logs and prompts
+- role-scoped admin access for provider settings
+- regular disaster-recovery and failover drills
 
-| Area | Control |
-|:-----|:--------|
-| change safety | mandatory diff review for high-risk files |
-| data security | redaction and retention policy for logs |
-| access | role-scoped admin/provider controls |
-| release | staged rollout and rollback procedures |
+## Incident Playbook Essentials
+
+| Incident Type | First Response |
+|:--------------|:---------------|
+| provider outage | force fallback provider profile |
+| malformed generation spike | tighten prompt policy and review gates |
+| cost anomaly | cap usage and inspect model routing logs |
+| deployment failure | revert to last known good release artifact |
 
 ## Final Summary
 
-You now have end-to-end coverage for running bolt.diy from local experiments to production-grade operations.
+You now have end-to-end coverage for operating bolt.diy from local iteration to production governance.
 
 Related:
 - [Dyad Tutorial](../dyad-tutorial/)

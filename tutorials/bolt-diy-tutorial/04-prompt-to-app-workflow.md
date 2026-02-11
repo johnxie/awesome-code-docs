@@ -7,43 +7,47 @@ parent: Bolt.diy Tutorial
 
 # Chapter 4: Prompt-to-App Workflow
 
-This chapter covers how prompts become concrete, reviewable application changes.
+Effective bolt.diy usage depends on bounded prompt loops and explicit acceptance criteria.
 
-## Workflow Stages
+## Prompt-to-Change Loop
 
-1. define target outcome (feature, fix, refactor)
-2. generate proposed edits
-3. inspect diffs and workspace impacts
-4. run or validate changes
-5. iterate with focused follow-up prompts
-
-## Prompting Pattern That Works
-
-Use constrained prompts:
-
-- requested files/components
-- acceptance criteria
-- non-goals and constraints
-- validation command to run
-
-This significantly reduces oversized or misdirected edits.
-
-## Effective Iteration Loop
-
-```text
-goal -> scoped prompt -> diff review -> run checks -> refine
+```mermaid
+graph LR
+    A[Goal Definition] --> B[Scoped Prompt]
+    B --> C[Generated Patch]
+    C --> D[Diff Review]
+    D --> E[Validation Command]
+    E --> F[Refine or Accept]
 ```
 
-Treat each loop as a bounded change set, not an open-ended generation session.
+## Prompt Structure That Works
 
-## Common Failure Modes
+Include:
 
-- vague prompts leading to broad edits
-- skipped diff review before applying
-- no validation command after major modifications
+- target files/components
+- expected behavior and non-goals
+- validation command to run
+- completion condition
+
+## Failure Patterns to Avoid
+
+- broad prompts with no file scope
+- accepting large diffs without review
+- skipping runtime validation after major edits
+
+## Iteration Playbook
+
+For larger features, split the request into milestone prompts:
+
+1. scaffold base structure
+2. implement one subsystem
+3. validate and fix
+4. only then move to the next subsystem
+
+This keeps each generation step reviewable and reversible.
 
 ## Summary
 
-You can now drive bolt.diy like a controlled development workflow instead of a one-shot code generator.
+You now have a deterministic pattern for converting intent into controlled code changes.
 
 Next: [Chapter 5: Files, Diff, and Locking](05-files-diff-locking.md)

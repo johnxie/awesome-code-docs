@@ -7,36 +7,46 @@ parent: Bolt.diy Tutorial
 
 # Chapter 3: Providers and Model Routing
 
-A major bolt.diy advantage is provider flexibility across cloud and local models.
+Provider flexibility is a core bolt.diy advantage, but it needs explicit policy.
 
-## Provider Model
+## Routing Strategy by Task Class
 
-The project supports a large set of providers (OpenAI, Anthropic, Google-family integrations, OpenRouter, Ollama, and others), with configuration managed through environment variables and settings UI.
+| Task Type | Preferred Model Tier |
+|:----------|:---------------------|
+| scaffolding and low-risk refactor | fast/low-cost models |
+| architecture or complex debugging | stronger reasoning models |
+| privacy-sensitive iteration | local/self-hosted models |
 
-## Configuration Patterns
+## Configuration Modes
 
-- **Production/CI**: manage keys in environment variables and secret stores
-- **Interactive local use**: settings UI for rapid provider switching
-- **Hybrid**: cloud for complex tasks, local for low-cost/private iterations
-
-## Routing Strategy
-
-Use workload-based routing:
-
-- fast/cheap models for scaffolding and refactors
-- stronger models for architecture decisions and tricky debugging
-- local models when privacy or offline constraints dominate
+- environment-based secrets for CI and production
+- UI-based key switching for local exploration
+- hybrid mode with explicit default + fallback paths
 
 ## Guardrails
 
 | Risk | Control |
 |:-----|:--------|
-| leaked keys | no hardcoded keys, secrets scanning |
-| wrong provider fallback | explicit default model policy |
-| cost spikes | per-session token budget and alerts |
+| credential leakage | secrets management and no hardcoded keys |
+| wrong fallback behavior | explicit provider priority rules |
+| cost spikes | per-session budgets and usage review |
+
+## Operational Tip
+
+Standardize one team default provider profile, then allow opt-in overrides for special workloads.
+
+## Fallback Planning
+
+Keep an explicit fallback order documented and tested:
+
+1. preferred primary provider/model
+2. lower-cost secondary for non-critical tasks
+3. local/self-hosted fallback for outage or policy events
+
+This avoids emergency reconfiguration during incidents.
 
 ## Summary
 
-You can now configure provider routing as a deliberate engineering policy instead of ad hoc toggling.
+You can now treat model routing as a managed engineering policy rather than ad hoc settings changes.
 
 Next: [Chapter 4: Prompt-to-App Workflow](04-prompt-to-app-workflow.md)

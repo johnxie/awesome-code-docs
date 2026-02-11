@@ -7,41 +7,45 @@ parent: Bolt.diy Tutorial
 
 # Chapter 2: Architecture Overview
 
-bolt.diy combines a chat-driven AI orchestration layer with an interactive code workspace.
+bolt.diy combines chat orchestration, workspace mutation, and runtime verification in one interface.
 
-## Core Stack
+## High-Level Architecture
 
-- frontend/runtime: Remix + React + Vite
-- package/tooling: pnpm-based monorepo-style workflows
-- optional desktop distribution: Electron
-- deployment targets: browser-hosted and desktop-native
+```mermaid
+graph TD
+    U[User Prompt] --> C[Chat/Prompt Engine]
+    C --> P[Provider Routing Layer]
+    P --> G[Generation Output]
+    G --> W[Workspace + Diff Manager]
+    W --> T[Terminal/Runtime Validation]
+    T --> U
+```
 
-## High-Level Flow
-
-1. user submits prompt
-2. model provider is selected/routed
-3. generated plan/code operations are emitted
-4. workspace files are updated with diff visibility
-5. user reviews, iterates, and runs commands
-
-## Subsystems
+## Core Subsystems
 
 | Subsystem | Responsibility |
 |:----------|:---------------|
-| Chat/Prompt Engine | prompt management and response streaming |
-| Workspace Manager | file tree, mutations, and snapshots |
-| Terminal Integration | command execution and output display |
-| Provider Config Layer | API keys, endpoints, model lists |
-| Deploy/Export Layer | packaging and deployment workflows |
+| Prompt engine | transforms intent into model-ready instructions |
+| Provider layer | selects model/provider and handles credentials |
+| Workspace manager | applies file edits and maintains visible diffs |
+| Runtime tools | executes commands and captures output |
+| Deployment/export | packages and publishes generated artifacts |
 
-## Architecture Tradeoffs
+## Architectural Tradeoffs
 
-- browser-first UX vs strict enterprise controls
-- rapid generation loops vs deterministic change governance
-- broad provider support vs configuration complexity
+- high flexibility across providers increases configuration complexity
+- rapid generation loops require strict diff review discipline
+- desktop + web support broadens adoption but increases release surface
+
+## First Files to Inspect
+
+- `app/` for routing and UI flow
+- provider/config modules for model selection behavior
+- diff/workspace handling modules for patch safety
+- deployment scripts and Docker assets for runtime packaging
 
 ## Summary
 
-You now understand where prompt orchestration, file edits, and runtime execution are coordinated.
+You now understand where bolt.diy coordinates prompts, edits, and validation.
 
 Next: [Chapter 3: Providers and Model Routing](03-providers-and-routing.md)
