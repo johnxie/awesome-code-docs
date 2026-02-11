@@ -483,11 +483,11 @@ Main repository:
 - Summary: Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
 - Keywords: react, fiber, internals, deep, dive, into, reconciliation, algorithm, architecture, that, powers, modern, applications
 
-## Roo Code Tutorial: AI Dev Team in Your Editor
+## Roo Code Tutorial: Run an AI Dev Team in Your Editor
 - Path: tutorials/roo-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md
-- Summary: Learn `RooCodeInc/Roo-Code`, a multi-mode coding agent extension for VS Code-style workflows with MCP support, checkpoints, and team customization.
-- Keywords: roo, code, dev, team, editor, learn, roocodeinc, multi, mode, coding, agent, extension, style, workflows, mcp, support, checkpoints, customization
+- Summary: A production-focused guide to `RooCodeInc/Roo-Code`: mode design, task execution, checkpoints, MCP, team profiles, and enterprise operations.
+- Keywords: roo, code, run, dev, team, editor, production, focused, roocodeinc, mode, design, task, execution, checkpoints, mcp, profiles, enterprise, operations
 
 ## Semantic Kernel Tutorial: Microsoft's AI Orchestration
 - Path: tutorials/semantic-kernel-tutorial

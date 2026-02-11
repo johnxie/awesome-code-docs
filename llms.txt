@@ -94,7 +94,7 @@
 - Quivr Tutorial: Open-Source RAG Framework for Document Ingestion: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/quivr-tutorial
 - RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ragflow-tutorial
 - React Fiber Internals: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-internals
-- Roo Code Tutorial: AI Dev Team in Your Editor: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/roo-code-tutorial
+- Roo Code Tutorial: Run an AI Dev Team in Your Editor: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/roo-code-tutorial
 - Semantic Kernel Tutorial: Microsoft's AI Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/semantic-kernel-tutorial
 - SillyTavern Tutorial: Advanced LLM Frontend for Power Users: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sillytavern-tutorial
 - SiYuan Tutorial: Privacy-First Knowledge Management: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/siyuan-tutorial

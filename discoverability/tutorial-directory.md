@@ -217,8 +217,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.
 - [React Fiber Internals](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/index.md)
   - Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
-- [Roo Code Tutorial: AI Dev Team in Your Editor](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md)
-  - Learn `RooCodeInc/Roo-Code`, a multi-mode coding agent extension for VS Code-style workflows with MCP support, checkpoints, and team customization.
+- [Roo Code Tutorial: Run an AI Dev Team in Your Editor](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md)
+  - A production-focused guide to `RooCodeInc/Roo-Code`: mode design, task execution, checkpoints, MCP, team profiles, and enterprise operations.
 
 ## S
 
