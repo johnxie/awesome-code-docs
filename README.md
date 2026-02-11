@@ -14,7 +14,7 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-95-brightgreen.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-96-brightgreen.svg)](#-tutorial-catalog)
 [![Content Hours](https://img.shields.io/badge/content-1100%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -62,7 +62,7 @@ Each chapter includes **Mermaid architecture diagrams**, **annotated code exampl
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   57+ tutorials    │   22 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   57+ tutorials    │   23 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -156,6 +156,7 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Roo Code](tutorials/roo-code-tutorial/)** | 22K+ | TypeScript/VS Code | Multi-mode coding agents with checkpoints and MCP |
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[Cloudflare VibeSDK](tutorials/vibesdk-tutorial/)** | 4.7K+ | TypeScript/Cloudflare | Build and operate a cloud-native vibe-coding platform |
+| **[HAPI](tutorials/hapi-tutorial/)** | 1.4K+ | TypeScript/CLI | Remote control and approval workflows for local coding agents |
 | **[OpenHands](tutorials/openhands-tutorial/)** | 67K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
 | **[Claude Code](tutorials/claude-code-tutorial/)** | - | TypeScript | Anthropic's AI coding CLI |
