@@ -56,10 +56,10 @@
 - LanceDB Tutorial: Serverless Vector Database for AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lancedb-tutorial
 - LangChain Architecture: Internal Design Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-architecture-guide
 - LangChain Tutorial: Building AI Applications with Large Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-tutorial
-- Langfuse Tutorial: LLM Observability & Analytics: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langfuse-tutorial
+- Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langfuse-tutorial
 - LangGraph Tutorial: Building Stateful Multi-Actor Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langgraph-tutorial
 - Letta Tutorial: Stateful LLM Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/letta-tutorial
-- LiteLLM Tutorial: Unified LLM API Gateway: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/litellm-tutorial
+- LiteLLM Tutorial: Unified LLM Gateway and Routing Layer: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/litellm-tutorial
 - Liveblocks - Real-Time Collaboration Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/liveblocks-tutorial
 - llama.cpp Tutorial: Local LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llama-cpp-tutorial
 - LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llama-factory-tutorial

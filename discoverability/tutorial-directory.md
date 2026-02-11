@@ -119,14 +119,14 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Deep technical walkthrough.
 - [LangChain Tutorial: Building AI Applications with Large Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/index.md)
   - **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
-- [Langfuse Tutorial: LLM Observability & Analytics](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md)
-  - Debug, analyze, and improve your LLM applications with production-grade observability.
+- [Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md)
+  - Learn how to use `langfuse/langfuse` to trace, evaluate, and improve production LLM systems with structured observability workflows.
 - [LangGraph Tutorial: Building Stateful Multi-Actor Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/index.md)
   - A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications.
 - [Letta Tutorial: Stateful LLM Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/letta-tutorial/index.md)
   - Build AI agents with persistent memory using the framework formerly known as MemGPT.
-- [LiteLLM Tutorial: Unified LLM API Gateway](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md)
-  - Call 100+ LLM providers with a single, consistent interface.
+- [LiteLLM Tutorial: Unified LLM Gateway and Routing Layer](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md)
+  - Build provider-agnostic LLM applications with `BerriAI/litellm`, including routing, fallbacks, proxy deployment, and cost-aware operations.
 - [Liveblocks - Real-Time Collaboration Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/liveblocks-tutorial/index.md)
   - Deep technical walkthrough.
 - [llama.cpp Tutorial: Local LLM Inference](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-cpp-tutorial/index.md)
