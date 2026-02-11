@@ -175,7 +175,9 @@ We're especially looking for documentation in these areas:
 ### 📚 Helpful Resources
 
 - **[Tutorial Template](templates/tutorial-template.md)** - Structure for comprehensive tutorials
+- **[Tutorial Index Template v2](templates/tutorial-index-template-v2.md)** - Standard structure for chapter-track index pages
 - **[Quality Checklist](templates/doc-quality-checklist.md)** - Self-assessment guide
+- **[PocketFlow-Inspired Index Style](formats/pocketflow-index-style.md)** - Formatting and section guidance for `format_version: v2`
 - **[Existing Tutorials](tutorials/)** - Examples of our quality standards
 
 ---

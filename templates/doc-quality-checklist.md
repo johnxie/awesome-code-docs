@@ -29,9 +29,11 @@ Use this checklist before submitting a tutorial update or new tutorial.
 - [ ] Tables and diagrams render correctly
 - [ ] Links are working and point to the intended targets
 - [ ] Markdown is readable on desktop and mobile
+- [ ] If using `format_version: v2`, index follows `formats/pocketflow-index-style.md`
 
 ## Repository Standards
 
 - [ ] Entry follows `templates/tutorial-template.md`
+- [ ] Tutorial indexes use `templates/tutorial-index-template-v2.md` when applicable
 - [ ] Category placement is correct
 - [ ] Related docs (`README.md`, `CONTRIBUTING.md`, templates) are updated when needed

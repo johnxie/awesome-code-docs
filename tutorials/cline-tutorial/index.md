@@ -3,6 +3,7 @@ layout: default
 title: "Cline Tutorial"
 nav_order: 97
 has_children: true
+format_version: v2
 ---
 
 # Cline Tutorial: Agentic Coding with Human Control
