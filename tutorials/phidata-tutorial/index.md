@@ -7,7 +7,7 @@ has_children: true
 
 # Phidata Tutorial: Building Autonomous AI Agents
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Phidata covering Building Autonomous AI Agents.
 
 [![Stars](https://img.shields.io/github/stars/phidatahq/phidata?style=social)](https://github.com/phidatahq/phidata)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

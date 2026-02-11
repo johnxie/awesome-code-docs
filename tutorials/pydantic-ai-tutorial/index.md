@@ -7,7 +7,7 @@ has_children: true
 
 # Pydantic AI Tutorial: Type-Safe AI Agent Development
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Pydantic AI covering Type-Safe AI Agent Development.
 
 [![Stars](https://img.shields.io/github/stars/pydantic/pydantic-ai?style=social)](https://github.com/pydantic/pydantic-ai)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

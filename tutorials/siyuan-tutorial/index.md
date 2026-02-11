@@ -7,7 +7,7 @@ has_children: true
 
 # SiYuan Tutorial: Privacy-First Knowledge Management
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.
 
 [![Stars](https://img.shields.io/github/stars/siyuan-note/siyuan?style=social)](https://github.com/siyuan-note/siyuan)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)

@@ -7,7 +7,7 @@ has_children: true
 
 # SuperAGI Tutorial: Production-Ready Autonomous AI Agents
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.
 
 [![Stars](https://img.shields.io/github/stars/TransformerOptimus/SuperAGI?style=social)](https://github.com/TransformerOptimus/SuperAGI)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

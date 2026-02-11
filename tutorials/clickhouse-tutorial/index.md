@@ -7,7 +7,7 @@ has_children: true
 
 # ClickHouse Tutorial: High-Performance Analytical Database
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
 
 [![Stars](https://img.shields.io/github/stars/ClickHouse/ClickHouse?style=social)](https://github.com/ClickHouse/ClickHouse)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

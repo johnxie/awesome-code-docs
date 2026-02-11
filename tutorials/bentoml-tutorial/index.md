@@ -7,7 +7,7 @@ has_children: true
 
 # BentoML Tutorial: Building Production-Ready ML Services
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.
 
 [![Stars](https://img.shields.io/github/stars/bentoml/BentoML?style=social)](https://github.com/bentoml/BentoML)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

@@ -7,7 +7,7 @@ has_children: true
 
 # Claude Task Master Tutorial: AI-Powered Task Management for Developers
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.
 
 [![Stars](https://img.shields.io/github/stars/eyaltoledano/claude-task-master?style=social)](https://github.com/eyaltoledano/claude-task-master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

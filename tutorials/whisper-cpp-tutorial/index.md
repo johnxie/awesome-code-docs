@@ -7,7 +7,7 @@ has_children: true
 
 # Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
 
 [![Stars](https://img.shields.io/github/stars/ggml-org/whisper.cpp?style=social)](https://github.com/ggml-org/whisper.cpp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

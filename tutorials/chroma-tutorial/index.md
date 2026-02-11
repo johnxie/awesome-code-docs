@@ -7,7 +7,7 @@ has_children: true
 
 # ChromaDB Tutorial: Building AI-Native Vector Databases
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
 
 [![Stars](https://img.shields.io/github/stars/chroma-core/chroma?style=social)](https://github.com/chroma-core/chroma)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)

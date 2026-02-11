@@ -7,7 +7,7 @@ has_children: true
 
 # Turborepo Tutorial: High-Performance Monorepo Build System
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
 
 [![Stars](https://img.shields.io/github/stars/vercel/turborepo?style=social)](https://github.com/vercel/turborepo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

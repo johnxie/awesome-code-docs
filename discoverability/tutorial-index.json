@@ -34,19 +34,15 @@
         "building",
         "autonomous",
         "agents",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/agentgpt-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial",
       "slug": "agentgpt-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.",
       "title": "AgentGPT Tutorial: Building Autonomous AI Agents"
     },
     {
@@ -178,19 +174,15 @@
         "multi",
         "agent",
         "systems",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/autogen-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial",
       "slug": "autogen-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.",
       "title": "Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems"
     },
     {
@@ -202,19 +194,15 @@
         "production",
         "ready",
         "services",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/bentoml-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial",
       "slug": "bentoml-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.",
       "title": "BentoML Tutorial: Building Production-Ready ML Services"
     },
     {
@@ -309,19 +297,15 @@
         "modern",
         "chat",
         "interfaces",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/chatbox-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial",
       "slug": "chatbox-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.",
       "title": "Chatbox Tutorial: Building Modern AI Chat Interfaces"
     },
     {
@@ -334,19 +318,15 @@
         "native",
         "vector",
         "databases",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/chroma-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial",
       "slug": "chroma-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.",
       "title": "ChromaDB Tutorial: Building AI-Native Vector Databases"
     },
     {
@@ -410,19 +390,15 @@
         "powered",
         "management",
         "developers",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/claude-task-master-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial",
       "slug": "claude-task-master-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.",
       "title": "Claude Task Master Tutorial: AI-Powered Task Management for Developers"
     },
     {
@@ -434,19 +410,15 @@
         "performance",
         "analytical",
         "database",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/clickhouse-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/clickhouse-tutorial",
       "slug": "clickhouse-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.",
       "title": "ClickHouse Tutorial: High-Performance Analytical Database"
     },
     {
@@ -513,19 +485,15 @@
         "image",
         "generation",
         "workflows",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/comfyui-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial",
       "slug": "comfyui-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.",
       "title": "ComfyUI Tutorial: Mastering AI Image Generation Workflows"
     },
     {
@@ -537,19 +505,15 @@
         "source",
         "autopilot",
         "development",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/continue-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial",
       "slug": "continue-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Continue covering Open-Source AI Autopilot for Development.",
       "title": "Continue Tutorial: Open-Source AI Autopilot for Development"
     },
     {
@@ -896,19 +860,15 @@
         "state",
         "art",
         "models",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/huggingface-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/huggingface-tutorial",
       "slug": "huggingface-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.",
       "title": "HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models"
     },
     {
@@ -1089,19 +1049,15 @@
         "multi",
         "actor",
         "applications",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/langgraph-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langgraph-tutorial",
       "slug": "langgraph-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications.",
       "title": "LangGraph Tutorial: Building Stateful Multi-Actor Applications"
     },
     {
@@ -1200,19 +1156,15 @@
         "training",
         "fine",
         "tuning",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/llama-factory-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llama-factory-tutorial",
       "slug": "llama-factory-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of LLaMA-Factory covering Unified Framework for LLM Training and Fine-tuning.",
       "title": "LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning"
     },
     {
@@ -1226,19 +1178,15 @@
         "systems",
         "data",
         "frameworks",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/llamaindex-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/llamaindex-tutorial",
       "slug": "llamaindex-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks.",
       "title": "LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks"
     },
     {
@@ -1383,19 +1331,15 @@
         "fast",
         "search",
         "engine",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/meilisearch-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial",
       "slug": "meilisearch-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.",
       "title": "MeiliSearch Tutorial: Lightning Fast Search Engine"
     },
     {
@@ -1411,19 +1355,15 @@
         "long",
         "term",
         "memory",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/mem0-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial",
       "slug": "mem0-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.",
       "title": "Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory"
     },
     {
@@ -1580,19 +1520,15 @@
         "hosted",
         "chatgpt",
         "alternative",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/open-webui-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial",
       "slug": "open-webui-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Open WebUI covering Self-Hosted ChatGPT Alternative.",
       "title": "Open WebUI Tutorial: Self-Hosted ChatGPT Alternative"
     },
     {
@@ -1754,19 +1690,15 @@
         "text",
         "generation",
         "llms",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/outlines-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/outlines-tutorial",
       "slug": "outlines-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.",
       "title": "Outlines Tutorial: Structured Text Generation with LLMs"
     },
     {
@@ -1777,19 +1709,15 @@
         "powered",
         "search",
         "engine",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/perplexica-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial",
       "slug": "perplexica-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Perplexica covering AI-Powered Search Engine.",
       "title": "Perplexica Tutorial: AI-Powered Search Engine"
     },
     {
@@ -1800,19 +1728,15 @@
         "building",
         "autonomous",
         "agents",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/phidata-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial",
       "slug": "phidata-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Phidata covering Building Autonomous AI Agents.",
       "title": "Phidata Tutorial: Building Autonomous AI Agents"
     },
     {
@@ -1896,19 +1820,15 @@
         "safe",
         "agent",
         "development",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/pydantic-ai-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pydantic-ai-tutorial",
       "slug": "pydantic-ai-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Pydantic AI covering Type-Safe AI Agent Development.",
       "title": "Pydantic AI Tutorial: Type-Safe AI Agent Development"
     },
     {
@@ -2068,19 +1988,15 @@
         "first",
         "knowledge",
         "management",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/siyuan-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/siyuan-tutorial",
       "slug": "siyuan-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.",
       "title": "SiYuan Tutorial: Privacy-First Knowledge Management"
     },
     {
@@ -2132,19 +2048,15 @@
         "ready",
         "autonomous",
         "agents",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/superagi-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superagi-tutorial",
       "slug": "superagi-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.",
       "title": "SuperAGI Tutorial: Production-Ready Autonomous AI Agents"
     },
     {
@@ -2172,19 +2084,15 @@
         "powered",
         "productivity",
         "platform",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/taskade-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial",
       "slug": "taskade-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Taskade covering AI-Powered Productivity Platform.",
       "title": "Taskade Tutorial: AI-Powered Productivity Platform"
     },
     {
@@ -2252,19 +2160,15 @@
         "monorepo",
         "build",
         "system",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/turborepo-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial",
       "slug": "turborepo-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.",
       "title": "Turborepo Tutorial: High-Performance Monorepo Build System"
     },
     {
@@ -2362,19 +2266,15 @@
         "performance",
         "speech",
         "recognition",
-        "this",
-        "generated",
-        "learn",
-        "more",
-        "check",
-        "out",
-        "awesome",
-        "code"
+        "deep",
+        "technical",
+        "walkthrough",
+        "covering"
       ],
       "path": "tutorials/whisper-cpp-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial",
       "slug": "whisper-cpp-tutorial",
-      "summary": "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)",
+      "summary": "A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.",
       "title": "Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++"
     }
   ]

@@ -7,7 +7,7 @@ has_children: true
 
 # ComfyUI Tutorial: Mastering AI Image Generation Workflows
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 
 [![Stars](https://img.shields.io/github/stars/comfyanonymous/ComfyUI?style=social)](https://github.com/comfyanonymous/ComfyUI)
 [![License: GPL](https://img.shields.io/badge/License-GPL--3.0-red.svg)](https://www.gnu.org/licenses/gpl-3.0)

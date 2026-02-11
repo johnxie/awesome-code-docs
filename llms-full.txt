@@ -12,8 +12,8 @@ Main repository:
 ## AgentGPT Tutorial: Building Autonomous AI Agents
 - Path: tutorials/agentgpt-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: agentgpt, building, autonomous, agents, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
+- Keywords: agentgpt, building, autonomous, agents, deep, technical, walkthrough, covering
 
 ## Aider Tutorial: AI Pair Programming in Your Terminal
 - Path: tutorials/aider-tutorial
@@ -48,14 +48,14 @@ Main repository:
 ## Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
 - Path: tutorials/autogen-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: autogen, microsoft, building, multi, agent, systems, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
+- Keywords: autogen, microsoft, building, multi, agent, systems, deep, technical, walkthrough, covering
 
 ## BentoML Tutorial: Building Production-Ready ML Services
 - Path: tutorials/bentoml-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: bentoml, building, production, ready, services, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.
+- Keywords: bentoml, building, production, ready, services, deep, technical, walkthrough, covering
 
 ## bolt.diy Tutorial: Open-Source AI Full-Stack Builder
 - Path: tutorials/bolt-diy-tutorial
@@ -78,14 +78,14 @@ Main repository:
 ## Chatbox Tutorial: Building Modern AI Chat Interfaces
 - Path: tutorials/chatbox-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: chatbox, building, modern, chat, interfaces, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
+- Keywords: chatbox, building, modern, chat, interfaces, deep, technical, walkthrough, covering
 
 ## ChromaDB Tutorial: Building AI-Native Vector Databases
 - Path: tutorials/chroma-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: chroma, chromadb, building, native, vector, databases, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
+- Keywords: chroma, chromadb, building, native, vector, databases, deep, technical, walkthrough, covering
 
 ## Claude Code Tutorial: AI-Powered Terminal Coding
 - Path: tutorials/claude-code-tutorial
@@ -102,14 +102,14 @@ Main repository:
 ## Claude Task Master Tutorial: AI-Powered Task Management for Developers
 - Path: tutorials/claude-task-master-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: claude, task, master, powered, management, developers, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.
+- Keywords: claude, task, master, powered, management, developers, deep, technical, walkthrough, covering
 
 ## ClickHouse Tutorial: High-Performance Analytical Database
 - Path: tutorials/clickhouse-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: clickhouse, high, performance, analytical, database, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
+- Keywords: clickhouse, high, performance, analytical, database, deep, technical, walkthrough, covering
 
 ## Cline Tutorial: Agentic Coding in Your IDE
 - Path: tutorials/cline-tutorial
@@ -126,14 +126,14 @@ Main repository:
 ## ComfyUI Tutorial: Mastering AI Image Generation Workflows
 - Path: tutorials/comfyui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: comfyui, mastering, image, generation, workflows, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
+- Keywords: comfyui, mastering, image, generation, workflows, deep, technical, walkthrough, covering
 
 ## Continue Tutorial: Open-Source AI Autopilot for Development
 - Path: tutorials/continue-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: continue, open, source, autopilot, development, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Continue covering Open-Source AI Autopilot for Development.
+- Keywords: continue, open, source, autopilot, development, deep, technical, walkthrough, covering
 
 ## CopilotKit Tutorial: Building AI Copilots for React Applications
 - Path: tutorials/copilotkit-tutorial
@@ -216,8 +216,8 @@ Main repository:
 ## HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models
 - Path: tutorials/huggingface-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: huggingface, transformers, building, state, art, models, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.
+- Keywords: huggingface, transformers, building, state, art, models, deep, technical, walkthrough, covering
 
 ## Instructor Tutorial: Structured LLM Outputs
 - Path: tutorials/instructor-tutorial
@@ -264,8 +264,8 @@ Main repository:
 ## LangGraph Tutorial: Building Stateful Multi-Actor Applications
 - Path: tutorials/langgraph-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: langgraph, building, stateful, multi, actor, applications, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications.
+- Keywords: langgraph, building, stateful, multi, actor, applications, deep, technical, walkthrough, covering
 
 ## Letta Tutorial: Stateful LLM Agents
 - Path: tutorials/letta-tutorial
@@ -294,14 +294,14 @@ Main repository:
 ## LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning
 - Path: tutorials/llama-factory-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-factory-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: llama, factory, unified, framework, llm, training, fine, tuning, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of LLaMA-Factory covering Unified Framework for LLM Training and Fine-tuning.
+- Keywords: llama, factory, unified, framework, llm, training, fine, tuning, deep, technical, walkthrough, covering
 
 ## LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks
 - Path: tutorials/llamaindex-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: llamaindex, building, advanced, rag, systems, data, frameworks, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks.
+- Keywords: llamaindex, building, advanced, rag, systems, data, frameworks, deep, technical, walkthrough, covering
 
 ## LobeChat AI Platform: Deep Dive Tutorial
 - Path: tutorials/lobechat-ai-platform
@@ -336,14 +336,14 @@ Main repository:
 ## MeiliSearch Tutorial: Lightning Fast Search Engine
 - Path: tutorials/meilisearch-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: meilisearch, lightning, fast, search, engine, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
+- Keywords: meilisearch, lightning, fast, search, engine, deep, technical, walkthrough, covering
 
 ## Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory
 - Path: tutorials/mem0-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: mem0, building, production, ready, agents, scalable, long, term, memory, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
+- Keywords: mem0, building, production, ready, agents, scalable, long, term, memory, deep, technical, walkthrough, covering
 
 ## n8n AI Tutorial: Workflow Automation with AI
 - Path: tutorials/n8n-ai-tutorial
@@ -384,8 +384,8 @@ Main repository:
 ## Open WebUI Tutorial: Self-Hosted ChatGPT Alternative
 - Path: tutorials/open-webui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: open, webui, self, hosted, chatgpt, alternative, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Open WebUI covering Self-Hosted ChatGPT Alternative.
+- Keywords: open, webui, self, hosted, chatgpt, alternative, deep, technical, walkthrough, covering
 
 ## OpenAI Python SDK Tutorial: Production API Patterns
 - Path: tutorials/openai-python-sdk-tutorial
@@ -426,20 +426,20 @@ Main repository:
 ## Outlines Tutorial: Structured Text Generation with LLMs
 - Path: tutorials/outlines-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: outlines, structured, text, generation, llms, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.
+- Keywords: outlines, structured, text, generation, llms, deep, technical, walkthrough, covering
 
 ## Perplexica Tutorial: AI-Powered Search Engine
 - Path: tutorials/perplexica-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/perplexica-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: perplexica, powered, search, engine, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Perplexica covering AI-Powered Search Engine.
+- Keywords: perplexica, powered, search, engine, deep, technical, walkthrough, covering
 
 ## Phidata Tutorial: Building Autonomous AI Agents
 - Path: tutorials/phidata-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/phidata-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: phidata, building, autonomous, agents, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Phidata covering Building Autonomous AI Agents.
+- Keywords: phidata, building, autonomous, agents, deep, technical, walkthrough, covering
 
 ## PhotoPrism Tutorial: AI-Powered Photos App
 - Path: tutorials/photoprism-tutorial
@@ -462,8 +462,8 @@ Main repository:
 ## Pydantic AI Tutorial: Type-Safe AI Agent Development
 - Path: tutorials/pydantic-ai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pydantic-ai-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: pydantic, type, safe, agent, development, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Pydantic AI covering Type-Safe AI Agent Development.
+- Keywords: pydantic, type, safe, agent, development, deep, technical, walkthrough, covering
 
 ## Quivr Tutorial: Open-Source RAG Framework for Document Ingestion
 - Path: tutorials/quivr-tutorial
@@ -504,8 +504,8 @@ Main repository:
 ## SiYuan Tutorial: Privacy-First Knowledge Management
 - Path: tutorials/siyuan-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/siyuan-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: siyuan, privacy, first, knowledge, management, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.
+- Keywords: siyuan, privacy, first, knowledge, management, deep, technical, walkthrough, covering
 
 ## Smolagents Tutorial: Hugging Face's Lightweight Agent Framework
 - Path: tutorials/smolagents-tutorial
@@ -522,8 +522,8 @@ Main repository:
 ## SuperAGI Tutorial: Production-Ready Autonomous AI Agents
 - Path: tutorials/superagi-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: superagi, production, ready, autonomous, agents, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.
+- Keywords: superagi, production, ready, autonomous, agents, deep, technical, walkthrough, covering
 
 ## OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
 - Path: tutorials/swarm-tutorial
@@ -534,8 +534,8 @@ Main repository:
 ## Taskade Tutorial: AI-Powered Productivity Platform
 - Path: tutorials/taskade-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: taskade, powered, productivity, platform, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Taskade covering AI-Powered Productivity Platform.
+- Keywords: taskade, powered, productivity, platform, deep, technical, walkthrough, covering
 
 ## Teable: Deep Dive Tutorial
 - Path: tutorials/teable-database-platform
@@ -552,8 +552,8 @@ Main repository:
 ## Turborepo Tutorial: High-Performance Monorepo Build System
 - Path: tutorials/turborepo-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: turborepo, high, performance, monorepo, build, system, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
+- Keywords: turborepo, high, performance, monorepo, build, system, deep, technical, walkthrough, covering
 
 ## Vercel AI SDK Tutorial: TypeScript AI Apps and Agents
 - Path: tutorials/vercel-ai-tutorial
@@ -576,5 +576,5 @@ Main repository:
 ## Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++
 - Path: tutorials/whisper-cpp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/index.md
-- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-- Keywords: whisper, cpp, high, performance, speech, recognition, this, generated, learn, more, check, out, awesome, code
+- Summary: A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
+- Keywords: whisper, cpp, high, performance, speech, recognition, deep, technical, walkthrough, covering

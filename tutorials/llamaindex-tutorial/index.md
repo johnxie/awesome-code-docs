@@ -7,7 +7,7 @@ has_children: true
 
 # LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks
 
-> This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+> A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks.
 
 [![Stars](https://img.shields.io/github/stars/run-llama/llama_index?style=social)](https://github.com/run-llama/llama_index)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)

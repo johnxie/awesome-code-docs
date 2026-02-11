@@ -12,6 +12,7 @@ from typing import Iterable
 
 LINK_PATTERN = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 NUMBERED_MD_PATTERN = "[0-9][0-9]*.md"
+PLACEHOLDER_SUMMARY = "This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)"
 
 
 @dataclass(frozen=True)
@@ -153,6 +154,16 @@ def classify_tutorial_structure(root: Path) -> dict:
     }
 
 
+def collect_placeholder_summaries(root: Path) -> list[str]:
+    tutorials_dir = root / "tutorials"
+    matches: list[str] = []
+    for index_file in sorted(tutorials_dir.glob("*/index.md")):
+        text = index_file.read_text(encoding="utf-8", errors="ignore")
+        if PLACEHOLDER_SUMMARY in text:
+            matches.append(index_file.relative_to(root).as_posix())
+    return matches
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Markdown docs health checker")
     parser.add_argument("--root", default=".", help="Repository root")
@@ -164,6 +175,7 @@ def main() -> int:
     root = Path(args.root).resolve()
     broken_links = collect_broken_links(root)
     structure_report = classify_tutorial_structure(root)
+    placeholder_summary_files = collect_placeholder_summaries(root)
 
     baseline_path = Path(args.baseline_file).resolve() if args.baseline_file else None
     baseline_links: set[BrokenLink] = set()
@@ -179,15 +191,18 @@ def main() -> int:
         "new_broken_link_count": len(new_broken),
         "resolved_link_count": len(resolved),
         "missing_index_count": len(structure_report["missing_index"]),
+        "placeholder_summary_count": len(placeholder_summary_files),
         "structure": structure_report,
         "new_broken_links": [x.as_tsv() for x in new_broken],
         "resolved_links": [x.as_tsv() for x in resolved],
+        "placeholder_summary_files": placeholder_summary_files,
     }
 
     print(f"broken_link_count={len(broken_links)}")
     print(f"new_broken_link_count={len(new_broken)}")
     print(f"resolved_link_count={len(resolved)}")
     print(f"missing_index_count={len(structure_report['missing_index'])}")
+    print(f"placeholder_summary_count={len(placeholder_summary_files)}")
     print("structure_counts=" + json.dumps(structure_report["structure_counts"], sort_keys=True))
 
     if new_broken:
@@ -198,6 +213,11 @@ def main() -> int:
     if structure_report["missing_index"]:
         print("\nTutorial directories missing index.md:")
         for item in structure_report["missing_index"]:
+            print(item)
+
+    if placeholder_summary_files:
+        print("\nTutorial index files with placeholder summaries:")
+        for item in placeholder_summary_files:
             print(item)
 
     if args.json_output:
@@ -211,6 +231,9 @@ def main() -> int:
         print(f"Wrote baseline to {baseline_path}")
 
     if structure_report["missing_index"]:
+        return 1
+
+    if placeholder_summary_files:
         return 1
 
     if baseline_path:
