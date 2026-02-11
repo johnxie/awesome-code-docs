@@ -12,7 +12,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 - [AgentGPT Tutorial: Building Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md)
   - A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
 - [Aider Tutorial: AI Pair Programming in Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md)
-  - Collaborate with AI to edit code in your local git repository.
+  - Learn to use `Aider-AI/aider` for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
 - [Anthropic API Tutorial: Building with Claude's API](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md)
   - Master the Anthropic API and SDKs to build powerful AI applications with Claude.
 - [Anthropic Skills Tutorial: Reusable AI Agent Capabilities](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/index.md)
@@ -49,8 +49,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
 - [Cline Tutorial: Agentic Coding with Human Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md)
   - A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
-- [Codex Analysis Platform: Building Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md)
-  - Master building sophisticated code analysis platforms with static analysis, AST manipulation, and developer tooling.
+- [Codex Analysis Platform Tutorial: Build Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md)
+  - Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
   - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 - [Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md)

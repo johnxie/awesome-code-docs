@@ -3,205 +3,79 @@ layout: default
 title: "Codex Analysis Platform"
 nav_order: 40
 has_children: true
+format_version: v2
 ---
 
-# Codex Analysis Platform: Building Code Intelligence Systems
+# Codex Analysis Platform Tutorial: Build Code Intelligence Systems
 
-> Master building sophisticated code analysis platforms with static analysis, AST manipulation, and developer tooling.
+> Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 
-[![Stars](https://img.shields.io/github/stars/microsoft/TypeScript?style=social)](https://github.com/microsoft/TypeScript)
-[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/microsoft/TypeScript)
+[![Category](https://img.shields.io/badge/category-code%20intelligence-blue)](../README.md)
+[![Focus](https://img.shields.io/badge/focus-static%20analysis%20%2B%20developer%20tooling-green)](01-analysis-engine.md)
 
+## Why This Track Matters
 
----
+Most engineering teams rely on code intelligence features but do not understand how they are built or operated.
 
-## 🎯 What You'll Build
+This track focuses on:
 
-A comprehensive code analysis platform that provides:
-- **Static Code Analysis**: Multi-language analysis engines
-- **AST Processing**: Abstract syntax tree manipulation and transformation
-- **Code Intelligence**: Symbol resolution, cross-references, and semantic analysis
-- **Developer Tools**: Editor integrations and CLI interfaces
-- **Visualization**: Interactive code exploration dashboards
+- architecture of multi-language analysis systems
+- AST and symbol pipelines that power developer tooling
+- practical LSP implementation patterns
+- production rollout, governance, and CI automation
 
-## 🏗️ Architecture Overview
+## Current Snapshot (Verified February 11, 2026)
+
+- tutorial scope: design and implementation patterns for code analysis platforms
+- primary references: TypeScript Compiler API, Babel parser/traverse, Tree-sitter, and LSP specification
+- chapter set includes architecture -> implementation -> operations
+- structure and links validated by repository docs-health checks
+
+## Mental Model
 
 ```mermaid
-graph TB
-    subgraph "Input Layer"
-        A[Source Files]
-        B[Git Repositories]
-        C[Build Artifacts]
-    end
-
-    subgraph "Parsing Engine"
-        D[Lexer]
-        E[Parser]
-        F[AST Generator]
-        G[Multi-Language Support]
-    end
-
-    subgraph "Analysis Core"
-        H[Symbol Table]
-        I[Type Resolver]
-        J[Control Flow]
-        K[Data Flow]
-        L[Call Graph]
-    end
-
-    subgraph "Intelligence Layer"
-        M[Code Search]
-        N[Cross References]
-        O[Impact Analysis]
-        P[Metrics Engine]
-    end
-
-    subgraph "Output Layer"
-        Q[LSP Server]
-        R[REST API]
-        S[CLI Tool]
-        T[Web Dashboard]
-    end
-
-    A --> D
-    B --> D
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-    H --> I
-    I --> J
-    J --> K
-    K --> L
-    L --> M
-    M --> N
-    N --> O
-    O --> P
-    P --> Q
-    P --> R
-    P --> S
-    P --> T
+flowchart LR
+    A[Source Code Inputs] --> B[Parsing and AST Generation]
+    B --> C[Semantic Analysis]
+    C --> D[Intelligence Features]
+    D --> E[LSP and API Delivery]
+    E --> F[Automation and Production Ops]
 ```
 
-## 📋 Tutorial Chapters
+## Chapter Guide
 
-| Chapter | Topic | Time | Difficulty |
-|:--------|:------|:-----|:-----------|
-| **[01-analysis-engine](01-analysis-engine.md)** | Building the Analysis Engine | 45 min | 🟡 Intermediate |
-| **[02-ast-processing](02-ast-processing.md)** | AST Manipulation & Transformation | 50 min | 🟡 Intermediate |
-| **[03-symbol-resolution](03-symbol-resolution.md)** | Symbol Tables & Type Resolution | 55 min | 🔴 Expert |
-| **[04-code-intelligence](04-code-intelligence.md)** | Cross-References & Search | 45 min | 🔴 Expert |
-| **[05-lsp-implementation](05-lsp-implementation.md)** | Language Server Protocol | 60 min | 🔴 Expert |
-| **[06-visualization](06-visualization.md)** | Interactive Code Exploration | 40 min | 🟡 Intermediate |
-| **[07-automation-pipelines](07-automation-pipelines.md)** | CI Integration & Reporting | 40 min | 🟡 Intermediate |
-| **[08-production-rollout](08-production-rollout.md)** | Governance & Platform Ops | 35 min | 🟡 Intermediate |
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Analysis Engine](01-analysis-engine.md) | How should the core analysis runtime be structured? | Engine architecture baseline |
+| [02 - AST Processing](02-ast-processing.md) | How do we parse and transform code safely? | Robust AST workflow |
+| [03 - Symbol Resolution](03-symbol-resolution.md) | How do we map identifiers to meaning? | Semantic foundation |
+| [04 - Code Intelligence](04-code-intelligence.md) | How do we expose search/navigation features? | Developer-facing intelligence layer |
+| [05 - LSP Implementation](05-lsp-implementation.md) | How do we integrate with editors? | LSP-compatible service |
+| [06 - Visualization](06-visualization.md) | How do we make insights explorable? | Interactive analysis views |
+| [07 - Automation Pipelines](07-automation-pipelines.md) | How do we operationalize analysis in CI/CD? | Reliable automation patterns |
+| [08 - Production Rollout](08-production-rollout.md) | How do we govern and scale the platform? | Rollout and operations playbook |
 
-## 🎯 Learning Outcomes
+## What You Will Learn
 
-By the end of this tutorial, you'll be able to:
+- how to design static analysis architecture for real repositories
+- how to build symbol/type/code-intelligence features incrementally
+- how to integrate analysis output into editor and CI workflows
+- how to operate analysis infrastructure with governance and reliability
 
-- ✅ Build multi-language static analysis engines
-- ✅ Parse and manipulate abstract syntax trees
-- ✅ Implement symbol resolution and type inference
-- ✅ Create cross-reference and code search systems
-- ✅ Build LSP-compliant language servers
-- ✅ Develop interactive code visualization tools
-- ✅ Handle enterprise-scale codebases efficiently
+## Source References
 
-## 🛠️ Prerequisites
-
-### Technical Knowledge
-- **Compiler Theory**: Understanding of lexers, parsers, and ASTs
-- **TypeScript/JavaScript**: Advanced knowledge for tooling development
-- **Language Processing**: Familiarity with multiple programming languages
-- **Web Technologies**: React, Node.js, and modern web development
-
-### Development Environment
-- Node.js 18+ and npm/yarn
-- TypeScript 5.0+
-- Git and a code editor (VS Code recommended)
-- Docker (optional, for containerized deployment)
-
-## 🚀 Quick Start
-
-```bash
-# Clone starter project
-git clone https://github.com/example/codex-analysis-starter.git
-cd codex-analysis-starter
-
-# Install dependencies
-npm install
-
-# Install analysis libraries
-npm install @babel/parser @babel/traverse tree-sitter
-npm install typescript vscode-languageserver
-
-# Start development
-npm run dev
-```
-
-## 🎨 What Makes This Tutorial Special
-
-### 🏆 **Production-Grade Patterns**
-- Incremental analysis for performance
-- Multi-threaded processing
-- Caching and persistence strategies
-
-### 🔧 **Multi-Language Focus**
-- JavaScript/TypeScript analysis
-- Python analysis
-- Generic parsing frameworks
-
-### 📊 **Enterprise Scale**
-- Handling millions of lines of code
-- Distributed analysis architectures
-- Real-time incremental updates
-
-### 🌟 **Editor Integration**
-- Full LSP implementation
-- VS Code extension patterns
-- IDE feature development
-
-## 💡 Use Cases
-
-### Developer Tooling
-- Code navigation and search
-- Refactoring assistance
-- Documentation generation
-- Code review automation
-
-### Code Quality
-- Static analysis rules
-- Security vulnerability detection
-- Code smell identification
-- Technical debt tracking
-
-### Enterprise Intelligence
-- Dependency analysis
-- Impact assessment
-- Architecture visualization
-- Migration planning
-
-## 🤝 Contributing
-
-Found an issue or want to improve this tutorial? Contributions are welcome!
-
-1. Fork this repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## 📚 Additional Resources
-
-- [Babel Parser Documentation](https://babeljs.io/docs/en/babel-parser)
-- [Tree-sitter Documentation](https://tree-sitter.github.io/tree-sitter/)
-- [LSP Specification](https://microsoft.github.io/language-server-protocol/)
 - [TypeScript Compiler API](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
+- [Babel Parser](https://babeljs.io/docs/babel-parser)
+- [Tree-sitter](https://tree-sitter.github.io/tree-sitter/)
+- [Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
+
+## Related Tutorials
+
+- [Aider Tutorial](../aider-tutorial/)
+- [Cline Tutorial](../cline-tutorial/)
+- [Roo Code Tutorial](../roo-code-tutorial/)
+- [LangGraph Tutorial](../langgraph-tutorial/)
 
 ---
 
-**Ready to build powerful code analysis tools?** Let's start with [Chapter 1: Analysis Engine](01-analysis-engine.md)! 🚀
-
-*Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+Start with [Chapter 1: Building the Analysis Engine](01-analysis-engine.md).

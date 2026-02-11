@@ -33,7 +33,7 @@
 - Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
 - ClickHouse Tutorial: High-Performance Analytical Database: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/clickhouse-tutorial
 - Cline Tutorial: Agentic Coding with Human Control: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cline-tutorial
-- Codex Analysis Platform: Building Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
+- Codex Analysis Platform Tutorial: Build Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
 - ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial

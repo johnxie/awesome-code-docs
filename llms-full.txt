@@ -18,8 +18,8 @@ Main repository:
 ## Aider Tutorial: AI Pair Programming in Your Terminal
 - Path: tutorials/aider-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md
-- Summary: Collaborate with AI to edit code in your local git repository.
-- Keywords: aider, pair, programming, terminal, collaborate, edit, code, local, git, repository
+- Summary: Learn to use `Aider-AI/aider` for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
+- Keywords: aider, pair, programming, terminal, learn, use, real, file, edits, git, native, workflows, model, routing, reliable, day, coding, loops
 
 ## Anthropic API Tutorial: Building with Claude's API
 - Path: tutorials/anthropic-code-tutorial
@@ -117,11 +117,11 @@ Main repository:
 - Summary: A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
 - Keywords: cline, agentic, coding, human, control, practical, engineering, install, operate, govern, across, local, development, team, environments
 
-## Codex Analysis Platform: Building Code Intelligence Systems
+## Codex Analysis Platform Tutorial: Build Code Intelligence Systems
 - Path: tutorials/codex-analysis-platform
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md
-- Summary: Master building sophisticated code analysis platforms with static analysis, AST manipulation, and developer tooling.
-- Keywords: codex, analysis, platform, building, code, intelligence, systems, master, sophisticated, platforms, static, ast, manipulation, developer, tooling
+- Summary: Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
+- Keywords: codex, analysis, platform, build, code, intelligence, systems, design, operate, production, grade, parsing, symbol, resolution, features, lsp, integration, rollout
 
 ## ComfyUI Tutorial: Mastering AI Image Generation Workflows
 - Path: tutorials/comfyui-tutorial
