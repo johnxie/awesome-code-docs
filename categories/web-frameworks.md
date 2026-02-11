@@ -1,35 +1,35 @@
 # 🌐 Web Frameworks
 
-> Documentation that reveals how modern web frameworks work under the hood
+> Architecture tutorials for modern full-stack frameworks, UI runtimes, and AI-native application stacks.
 
-## 📊 Current Status
+## Snapshot (February 11, 2026)
 
-| Status | Meaning |
-|:-------|:--------|
-| ✅ **Complete** | Full tutorial with all chapters and working examples |
-| 🚧 **In Progress** | Index created, chapters being developed |
-| 📝 **Planned** | Index created, content development pending |
+- framework and application-architecture content spans AI apps, DX tools, and frontend internals
+- strongest coverage areas: Next.js/React AI apps, chat platforms, and coding-assistant interfaces
 
-**Active Development**: Building comprehensive guides to framework internals and architecture patterns.
+## Start Here by Goal
 
-## Featured Documentation
+| Goal | Recommended Starting Tutorial | Next Tutorials |
+|:-----|:------------------------------|:---------------|
+| Build AI apps with TypeScript | [Vercel AI SDK](../tutorials/vercel-ai-tutorial/) | [CopilotKit](../tutorials/copilotkit-tutorial/) → [LobeChat](../tutorials/lobechat-ai-platform/) |
+| Build chat/product interfaces | [Chatbox](../tutorials/chatbox-tutorial/) | [Open WebUI](../tutorials/open-webui-tutorial/) → [Perplexica](../tutorials/perplexica-tutorial/) |
+| Understand visual workflow products | [Flowise](../tutorials/flowise-llm-orchestration/) | [Dify](../tutorials/dify-platform-deep-dive/) |
+| Build with vibe-coding UX patterns | [bolt.diy](../tutorials/bolt-diy-tutorial/) | [Dyad](../tutorials/dyad-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) |
 
-Documentation that teaches:
-- **React/Vue Internals** - How virtual DOM, hooks, and reactivity systems work
-- **Backend Architecture** - Django ORM, Express middleware, FastAPI performance
-- **Framework Design** - Why frameworks make certain architectural decisions
-- **Performance Optimization** - Real-world scaling and optimization techniques
+## Featured Framework/App Tracks
 
-## Examples We'd Love to See
+- [Vercel AI SDK](../tutorials/vercel-ai-tutorial/)
+- [CopilotKit](../tutorials/copilotkit-tutorial/)
+- [LobeChat](../tutorials/lobechat-ai-platform/)
+- [Flowise](../tutorials/flowise-llm-orchestration/)
+- [Dify](../tutorials/dify-platform-deep-dive/)
 
-- React Fiber reconciliation algorithm walkthrough
-- Vue 3 reactivity system deep-dive  
-- Django request/response lifecycle analysis
-- Next.js SSR implementation details
-- Framework comparison with code examples
+## Related Hubs
 
-**[→ Submit web framework documentation](https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md)**
+- [Chat and AI Applications in README](../README.md#-chat--ai-applications)
+- [Learning Paths](../README.md#-learning-paths)
 
----
+## Suggest Additions
 
-*Part of [Awesome Code Docs](../README.md)*
+- propose new framework deep dives: <https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md>
+- contribution standards: [Contributing](../CONTRIBUTING.md)

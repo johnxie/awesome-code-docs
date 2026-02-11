@@ -81,6 +81,15 @@ Use this quick-start map if you searched for a specific outcome.
  ╚════════════════════════════════════════════════════════════╝
 ```
 
+### Category Hubs
+
+| Hub | Focus |
+|:----|:------|
+| [AI & ML Platforms](categories/ai-ml-platforms.md) | agents, RAG, coding assistants, vibe coding, and LLM operations |
+| [Databases & Storage](categories/databases-storage.md) | data systems, search engines, query planning, and knowledge platforms |
+| [Systems Programming](categories/systems-programming.md) | runtime internals, infrastructure patterns, and architecture mechanics |
+| [Web Frameworks](categories/web-frameworks.md) | AI application frameworks, chat stacks, and modern full-stack architecture |
+
 ### 🤖 AI Agents & Multi-Agent Systems
 
 Build autonomous AI systems that reason, plan, and collaborate.

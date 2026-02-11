@@ -1,104 +1,42 @@
 # 🤖 AI & ML Platforms
 
-> Documentation that teaches how AI/ML frameworks and platforms actually work
+> Deep technical tutorials for AI agents, LLM frameworks, vibe-coding tools, and production AI infrastructure.
 
-## 📊 Current Status
+## Snapshot (February 11, 2026)
 
-| Status | Meaning |
-|:-------|:--------|
-| ✅ **Complete** | Full tutorial with all chapters and working examples |
-| 🚧 **In Progress** | Index created, chapters being developed |
-| 📝 **Planned** | Index created, content development pending |
+- repository-wide tutorials: **96**
+- AI/agent + developer-tooling coverage: **largest cluster in the catalog**
+- canonical structure status: **all tracks publish full chapter sets**
 
-**Active Development**: Focusing on completing remaining AI agent tutorials and expanding coverage of emerging AI platforms and frameworks.
+## Start Here by Goal
 
-## Featured Documentation
+| Goal | Recommended Starting Tutorial | Next Tutorials |
+|:-----|:------------------------------|:---------------|
+| Build autonomous AI agents | [LangChain](../tutorials/langchain-tutorial/) | [LangGraph](../tutorials/langgraph-tutorial/) → [CrewAI](../tutorials/crewai-tutorial/) |
+| Understand AI coding agents | [Cline](../tutorials/cline-tutorial/) | [Roo Code](../tutorials/roo-code-tutorial/) → [OpenHands](../tutorials/openhands-tutorial/) |
+| Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) |
+| Build RAG systems | [LlamaIndex](../tutorials/llamaindex-tutorial/) | [Haystack](../tutorials/haystack-tutorial/) → [RAGFlow](../tutorials/ragflow-tutorial/) |
+| Run LLMs in production | [Ollama](../tutorials/ollama-tutorial/) | [vLLM](../tutorials/vllm-tutorial/) → [LiteLLM](../tutorials/litellm-tutorial/) |
+| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Anthropic Skills](../tutorials/anthropic-skills-tutorial/) |
 
-### [Dify Platform Deep Dive](../tutorials/dify-platform-deep-dive/)
-**🏗️ Architecture | ⭐ Beginner-Friendly | ⏱️ 4-6 hours**
+## Featured AI/ML Tutorial Tracks
 
-Complete guide to Dify's LLM application platform with 100+ code examples.
+- [LangChain](../tutorials/langchain-tutorial/)
+- [LangGraph](../tutorials/langgraph-tutorial/)
+- [OpenHands](../tutorials/openhands-tutorial/)
+- [Vercel AI SDK](../tutorials/vercel-ai-tutorial/)
+- [OpenAI Python SDK](../tutorials/openai-python-sdk-tutorial/)
+- [OpenAI Realtime Agents](../tutorials/openai-realtime-agents-tutorial/)
 
-- **What You'll Learn**: Workflow engines, RAG systems, agent frameworks
-- **Prerequisites**: Basic Python knowledge
-- **Standout Feature**: Real production codebase analysis
+## Related Hubs
 
----
+- [Developer Tools and Productivity in README](../README.md#-developer-tools--productivity)
+- [Speech and Multimodal in README](../README.md#-speech--multimodal-ai)
+- [Learning Paths](../README.md#-learning-paths)
 
-## 🆕 New AI Agent Tutorials (December 2025)
+## Suggest Additions
 
-### Multi-Agent Frameworks
+Want to add a high-quality AI/ML tutorial?
 
-| Tutorial | Status | Description | Key Concepts |
-|:---------|:-------|:------------|:-------------|
-| **[CrewAI](../tutorials/crewai-tutorial/)** | ✅ Complete | Collaborative AI agent workflows | Role-based agents, task management |
-| **[AutoGen](../tutorials/autogen-tutorial/)** | ✅ Complete | Multi-agent AI agent teams | Conversable agents, group chat, tool integration |
-| **[OpenAI Swarm](../tutorials/swarm-tutorial/)** | 🚧 In Progress | Lightweight multi-agent orchestration | Handoffs, routines, context variables |
-| **[AG2](../tutorials/ag2-tutorial/)** | 🚧 In Progress | Community successor to AutoGen | Conversable agents, group chat |
-| **[Pydantic AI](../tutorials/pydantic-ai-tutorial/)** | 📝 Planned | Type-safe AI agents | Structured outputs, dependency injection |
-| **[Smolagents](../tutorials/smolagents-tutorial/)** | 📝 Planned | Hugging Face's lightweight agents | Code execution, tool calling |
-| **[CopilotKit](../tutorials/copilotkit-tutorial/)** | 📝 Planned | In-app AI copilots for React | Generative UI, LangGraph integration |
-| **[Anthropic Skills](../tutorials/anthropic-skills-tutorial/)** | ✅ Complete | Reusable agent capabilities for Claude | Skill structure, MCP integration, document generation |
-
-### MCP Server Implementation
-
-| Tutorial | Status | Description | Key Concepts |
-|:---------|:-------|:------------|:-------------|
-| **[MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/)** | ✅ Complete | Build AI tool servers with Model Context Protocol | Server/client architecture, tools, resources, prompts, transports |
-| **[MCP Servers](../tutorials/mcp-servers-tutorial/)** | ✅ Complete | Reference implementations across multiple languages | Filesystem, Git, Memory servers, multi-language patterns |
-| **[n8n-MCP Tutorial](../tutorials/n8n-mcp-tutorial/)** | ✅ Complete | Production-grade MCP servers bridging AI assistants with workflow automation | MCP protocol, multi-tenant architecture, session management, SQLite FTS5 |
-
-### LLM Development & Infrastructure
-
-| Tutorial | Status | Description | Key Concepts |
-|:---------|:-------|:------------|:-------------|
-| **[Langfuse](../tutorials/langfuse-tutorial/)** | ✅ Complete | LLM observability platform | Tracing, prompt management, evaluation |
-| **[DSPy](../tutorials/dspy-tutorial/)** | 📝 Planned | Programmatic LLM development | Signatures, modules, optimizers |
-| **[LiteLLM](../tutorials/litellm-tutorial/)** | 📝 Planned | Unified LLM API gateway | 100+ providers, fallbacks, cost tracking |
-| **[Open WebUI](../tutorials/open-webui-tutorial/)** | 📝 Planned | Self-hosted ChatGPT alternative | Ollama integration, RAG, multi-user |
-| **[vLLM](../tutorials/vllm-tutorial/)** | 📝 Planned | High-performance LLM inference | Optimized serving, distributed inference |
-| **[LocalAI](../tutorials/localai-tutorial/)** | 📝 Planned | Self-hosted OpenAI alternative | Local LLM deployment, API compatibility |
-| **[Llama.cpp](../tutorials/llama-cpp-tutorial/)** | 📝 Planned | Efficient LLM inference | CPU/GPU optimization, quantization |
-| **[OpenAI Python SDK](../tutorials/openai-python-sdk-tutorial/)** | ✅ Complete | Build with GPT, embeddings, and assistants | Chat completions, function calling, batch processing, fine-tuning |
-| **[tiktoken](../tutorials/tiktoken-tutorial/)** | ✅ Complete | Token encoding and cost optimization | BPE tokenization, token counting, prompt optimization |
-
-### AI Coding Assistants
-
-| Tutorial | Status | Description | Key Concepts |
-|:---------|:-------|:------------|:-------------|
-| **[Nanocoder](../tutorials/nanocoder-tutorial/)** | ✅ Complete | Local-first AI coding agent deep dive | Agent loop, tool calling, multi-provider, building your own |
-| **[OpenHands](../tutorials/openhands-tutorial/)** | 📝 Planned | AI software engineering agent | Code generation, web browsing, execution |
-| **[Aider](../tutorials/aider-tutorial/)** | 📝 Planned | AI pair programming in terminal | Git integration, multi-file editing |
-| **[Browser Use](../tutorials/browser-use-tutorial/)** | 📝 Planned | AI web automation | Vision + DOM, form filling, scraping |
-| **[Claude Code](../tutorials/claude-code-tutorial/)** | 📝 Planned | Claude-powered coding assistant | Interactive development, code analysis |
-| **[AnythingLLM](../tutorials/anything-llm-tutorial/)** | 📝 Planned | Full-stack LLM application builder | Document processing, chat interfaces |
-| **[Instructor](../tutorials/instructor-tutorial/)** | 📝 Planned | Structured LLM outputs | Type validation, Pydantic integration |
-
-### Speech & Multimodal AI
-
-| Tutorial | Status | Description | Key Concepts |
-|:---------|:-------|:------------|:-------------|
-| **[OpenAI Whisper](../tutorials/openai-whisper-tutorial/)** | ✅ Complete | Multilingual speech recognition with deep learning | Transcription, translation, fine-tuning, production deployment |
-| **[Whisper.cpp](../tutorials/whisper-cpp-tutorial/)** | ✅ Complete | High-performance speech recognition in C++ | Edge deployment, CPU optimization, real-time streaming |
-| **[OpenAI Realtime Agents](../tutorials/openai-realtime-agents-tutorial/)** | ✅ Complete | Voice-first AI agents with low latency | Chat-supervisor pattern, agent handoffs, WebRTC |
-
-### Claude Integration Patterns
-
-| Tutorial | Status | Description | Key Concepts |
-|:---------|:-------|:------------|:-------------|
-| **[Claude Quickstarts](../tutorials/claude-quickstarts-tutorial/)** | ✅ Complete | Production integration patterns for Claude | Customer support, data analysis, browser automation, autonomous coding |
-
----
-
-## What We're Looking For
-
-Great AI/ML documentation that explains:
-- How LLM frameworks like LangChain work internally
-- RAG system implementation and architecture
-- Model training pipelines and optimization
-- Production deployment patterns for AI apps
-- Custom tool integration with agents
-- Multi-agent orchestration patterns
-- LLM observability and evaluation
-
-**[→ Suggest AI/ML documentation](https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md)**
+- open an issue: <https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md>
+- follow contribution quality guidance: [Contributing](../CONTRIBUTING.md)

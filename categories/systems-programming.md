@@ -1,35 +1,35 @@
 # ⚙️ Systems Programming
 
-> Documentation that teaches how low-level systems work
+> Internals-focused tutorials for low-level architecture, infrastructure patterns, and runtime behavior.
 
-## 📊 Current Status
+## Snapshot (February 11, 2026)
 
-| Status | Meaning |
-|:-------|:--------|
-| ✅ **Complete** | Full tutorial with all chapters and working examples |
-| 🚧 **In Progress** | Index created, chapters being developed |
-| 📝 **Planned** | Index created, content development pending |
+- systems and infrastructure tracks in catalog: **6+**
+- scope includes runtime internals, operators, protocol-level systems, and architecture deep dives
+- all active tracks are in canonical root chapter layout
 
-**Active Development**: Seeking comprehensive guides to compilers, operating systems, and networking internals.
+## Start Here by Goal
 
-## Featured Documentation
+| Goal | Recommended Starting Tutorial | Next Tutorials |
+|:-----|:------------------------------|:---------------|
+| Learn React internals | [React Fiber](../tutorials/react-fiber-internals/) | [LangChain Architecture](../tutorials/langchain-architecture-guide/) |
+| Learn production K8s control loops | [Kubernetes Operators](../tutorials/kubernetes-operator-patterns/) | [n8n MCP](../tutorials/n8n-mcp-tutorial/) |
+| Learn web-scale data extraction | [Firecrawl](../tutorials/firecrawl-tutorial/) | [OpenHands](../tutorials/openhands-tutorial/) for autonomous SWE workflows |
+| Learn local-first app runtime design | [Dyad](../tutorials/dyad-tutorial/) | [VibeSDK](../tutorials/vibesdk-tutorial/) |
 
-Documentation that explains:
-- **Compilers & Languages** - How Rust, LLVM, or JavaScript engines work
-- **Operating Systems** - Kernel internals, memory management, process scheduling
-- **Networking** - TCP/IP implementation, HTTP protocols, performance optimization
-- **Memory & Performance** - Garbage collection, allocators, cache optimization
+## Featured Systems Tracks
 
-## Examples We'd Love to See
+- [Kubernetes Operator Patterns](../tutorials/kubernetes-operator-patterns/)
+- [React Fiber Internals](../tutorials/react-fiber-internals/)
+- [LangChain Architecture Guide](../tutorials/langchain-architecture-guide/)
+- [Firecrawl](../tutorials/firecrawl-tutorial/)
 
-- Rust borrow checker implementation 
-- Linux kernel process scheduling
-- TCP/IP stack walkthrough
-- V8 JavaScript engine internals
-- Memory allocator deep-dive
+## Related Hubs
 
-**[→ Submit systems programming documentation](https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md)**
+- [Systems and Infrastructure in README](../README.md#-systems--infrastructure)
+- [Developer Tools and Productivity in README](../README.md#-developer-tools--productivity)
 
----
+## Suggest Additions
 
-*Part of [Awesome Code Docs](../README.md)*
+- submit system-internals tutorials: <https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md>
+- follow review standards: [Contributing](../CONTRIBUTING.md)
