@@ -7,39 +7,46 @@ parent: Cline Tutorial
 
 # Chapter 2: Agent Workflow
 
-Cline’s strength is its structured task loop, not just raw code generation.
+Cline works best as a deterministic loop, not a one-shot generator.
 
-## Typical Loop
+## Core Loop
 
-1. understand request and gather context
-2. propose targeted actions
-3. request permission for execution/editing
-4. apply changes and run validation
-5. summarize results and next steps
+```mermaid
+graph TD
+    A[Task Request] --> B[Context Read + Plan]
+    B --> C[Approval Request]
+    C --> D[Edit/Command Execution]
+    D --> E[Validation + Evidence]
+    E --> F[Result Summary]
+    F --> G[Next Iteration or Done]
+```
 
-## Human-in-the-Loop Model
+## Prompt Contract Design
 
-The approval layer is a core safety feature, especially when commands or edits can have broad side effects.
+Every high-quality task prompt should include:
 
-## Prompt Engineering for Workflow Quality
+- scope: files/directories Cline may touch
+- success criteria: concrete pass/fail outcome
+- validation command: exact command to run
+- constraints: non-goals and forbidden changes
 
-Use prompts with:
+## Approval Strategy by Risk
 
-- explicit scope (files/modules)
-- acceptance criteria
-- validation command
-- non-goals
-
-This reduces overreach and improves review quality.
+| Action Type | Default Policy |
+|:------------|:---------------|
+| read/search | usually allow |
+| small edits in scoped files | review diff, then approve |
+| dependency/config changes | require explicit human review |
+| shell commands with side effects | approve one-by-one |
 
 ## Workflow Anti-Patterns
 
-- large vague tasks with no acceptance test
-- skipping approval review under pressure
-- no rollback point before risky changes
+- vague requests with no validation step
+- letting failed commands loop without intervention
+- mixing architecture redesign and bugfix in one task
 
 ## Summary
 
-You can now drive Cline through a repeatable and auditable agent workflow.
+You can now run Cline with a repeatable plan-approve-execute-verify loop.
 
 Next: [Chapter 3: File Editing and Diffs](03-file-editing-and-diffs.md)

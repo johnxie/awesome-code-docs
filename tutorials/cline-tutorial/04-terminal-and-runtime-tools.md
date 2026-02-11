@@ -7,33 +7,41 @@ parent: Cline Tutorial
 
 # Chapter 4: Terminal and Runtime Tools
 
-Terminal execution lets Cline move beyond static edits into full engineering loops.
+Cline's command execution makes it useful for full fix-verify loops, not just code edits.
 
-## Command Execution Capabilities
+## Command Workflow
 
-- run build/test/lint commands
-- install dependencies
-- inspect runtime logs
-- react to failing output with follow-up edits
+```mermaid
+graph LR
+    A[Run Command] --> B[Capture Output]
+    B --> C[Diagnose Failure]
+    C --> D[Apply Patch]
+    D --> E[Re-run Command]
+    E --> F[Pass or Escalate]
+```
 
-## Long-Running Command Pattern
+## High-Value Commands
 
-For development servers or watchers, use proceed-while-running patterns so Cline can continue work while monitoring output.
+- lint and static checks
+- targeted test suites
+- build commands
+- runtime diagnostics for failing environments
 
-## Safety Controls
+## Guardrails for Safe Execution
 
-- keep explicit approval for commands
-- avoid broad destructive shell operations
-- use allowlists for high-risk environments
+| Guardrail | Purpose |
+|:----------|:--------|
+| command approval | prevent destructive or unrelated shell actions |
+| scoped working directory | avoid cross-project side effects |
+| timeout/retry limits | stop runaway loops |
+| explicit denylist | block dangerous command classes |
 
-## Reliability Practices
+## Long-Running Process Pattern
 
-- pin canonical test command per repo
-- keep command outputs in task trace
-- fail fast on repeated non-deterministic command errors
+For dev servers/watchers, keep one controlled background process and ask Cline to use separate short commands for validation checks.
 
 ## Summary
 
-You can now use Cline’s terminal toolchain for iterative build-fix-validate workflows.
+You can now use Cline as a controlled terminal copilot for build-test-debug cycles.
 
 Next: [Chapter 5: Browser Automation](05-browser-automation.md)
