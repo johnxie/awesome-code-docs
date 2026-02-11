@@ -22,9 +22,9 @@ Closes #[issue-number]
 ## ✅ Checklist
 
 ### For New Documentation Entries
-- [ ] Documentation meets all [quality criteria](templates/doc-quality-checklist.md)
+- [ ] Documentation meets all [quality criteria](../templates/doc-quality-checklist.md)
 - [ ] Added to appropriate category file
-- [ ] Used correct [entry format](templates/tutorial-template.md)
+- [ ] Used correct [entry format](../templates/tutorial-template.md)
 - [ ] Tested all code examples and links
 - [ ] Verified information is current (within 12 months)
 - [ ] Confirmed educational value beyond basic tutorials
