@@ -7,42 +7,95 @@ parent: Cline Tutorial
 
 # Chapter 3: File Editing and Diffs
 
-Diff quality is the primary reliability control in Cline-driven development.
+Cline's editing power is useful only when diff governance is strong. This chapter covers that governance model.
 
 ## Diff-Centric Edit Lifecycle
 
-1. Cline proposes file modifications
-2. you review the exact patch
-3. approve or reject with targeted feedback
-4. rerun until the patch is minimal and correct
+1. Cline proposes patch
+2. human reviews diff
+3. approve/reject with targeted feedback
+4. run validation command
+5. checkpoint or finalize
 
-## High-Signal Diff Review Rubric
+Never skip step 2 or step 4.
 
-| Review Lens | Questions |
-|:------------|:----------|
-| Scope | Did Cline touch only expected files? |
-| Logic | Does code match requested behavior? |
-| Safety | Any hidden config, auth, or data-path risk? |
-| Compatibility | Could this break external callers/contracts? |
+## Review Rubric
 
-## Checkpoints and Recovery
+| Lens | Key Question |
+|:-----|:-------------|
+| Scope | Did changes stay in intended files? |
+| Semantics | Does code match requested behavior? |
+| Safety | Any secret/config/auth risk introduced? |
+| Compatibility | Could this break callers/contracts? |
+| Maintainability | Is the patch minimal and understandable? |
 
-When tasks get large, checkpoint before risky edits so you can recover quickly if output quality degrades.
+## Checkpoints and Restore
 
-Recommended moments:
+Cline supports checkpoint-style workflows for comparing/restoring prior states. Use checkpoints before:
 
-- before schema/config rewrites
-- before multi-file refactors
-- before dependency upgrades
+- multi-file refactors
+- config or dependency changes
+- uncertain bugfix attempts
+- broad generated code insertions
 
-## Patch Hygiene Rules
+This enables fast rollback instead of manual repair.
 
-- prefer small, staged diffs over single large edits
-- require validation evidence next to each accepted patch
-- reject formatting-only churn unless intentional
+## Patch Acceptance Gates
 
-## Summary
+Require all gates to pass:
 
-You now have a practical model for governing Cline edits through robust diff review.
+- **Scope gate**: no unrelated files changed
+- **Quality gate**: implementation matches prompt contract
+- **Validation gate**: required commands pass
+- **Risk gate**: no unreviewed high-risk edits
+
+## Reject Triggers
+
+Reject patches when you see:
+
+- unexplained dependency/config updates
+- hidden binary or generated artifact churn
+- large formatting-only noise masking logic edits
+- missing command evidence
+
+Then rerun with tighter scope.
+
+## High-Risk File Strategy
+
+Treat these paths with elevated scrutiny:
+
+- auth and permissions
+- deployment and CI config
+- billing/cost enforcement
+- secret/config loaders
+
+For these files, require explicit second review or stricter approval policy.
+
+## Practical Diff Hygiene
+
+- keep tasks small and file-bounded
+- ask for one subsystem per iteration
+- request changelog-style summary per accepted patch
+- avoid accepting multi-concern patches in one step
+
+## Timeline and Audit Value
+
+A clear edit timeline helps with:
+
+- incident analysis
+- regression triage
+- policy improvement
+- compliance evidence
+
+Make sure each accepted change has associated validation context.
+
+## Chapter Summary
+
+You now have a diff governance model that supports:
+
+- safe patch acceptance
+- fast rollback with checkpoints
+- high-signal review patterns
+- auditable change history
 
 Next: [Chapter 4: Terminal and Runtime Tools](04-terminal-and-runtime-tools.md)
