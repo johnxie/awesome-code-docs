@@ -92,16 +92,18 @@ graph TB
 
 ## Tutorial Structure
 
+> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| [1. Getting Started](01-getting-started.md) | Setup | Installation, API keys, first GPT call, model selection |
-| [2. Chat Completions](02-chat-completions.md) | Core API | Messages, streaming, function calling, vision |
-| [3. Embeddings & Search](03-embeddings-search.md) | Vectors | Text embeddings, similarity search, RAG foundations |
-| [4. Assistants API](04-assistants-api.md) | Agents | Persistent threads, code interpreter, file search |
-| [5. Batch Processing](05-batch-processing.md) | Scale | Batch API, cost optimization, large-scale jobs |
-| [6. Fine-Tuning](06-fine-tuning.md) | Customization | Custom models, training data, evaluation |
-| [7. Advanced Patterns](07-advanced-patterns.md) | Production | Error handling, retries, caching, token management |
-| [8. Integration Examples](08-integration-examples.md) | Applications | RAG systems, chatbots, agent frameworks |
+| **1. Getting Started (Planned)** | Setup | Installation, API keys, first GPT call, model selection |
+| **2. Chat Completions (Planned)** | Core API | Messages, streaming, function calling, vision |
+| **3. Embeddings & Search (Planned)** | Vectors | Text embeddings, similarity search, RAG foundations |
+| **4. Assistants API (Planned)** | Agents | Persistent threads, code interpreter, file search |
+| **5. Batch Processing (Planned)** | Scale | Batch API, cost optimization, large-scale jobs |
+| **6. Fine-Tuning (Planned)** | Customization | Custom models, training data, evaluation |
+| **7. Advanced Patterns (Planned)** | Production | Error handling, retries, caching, token management |
+| **8. Integration Examples (Planned)** | Applications | RAG systems, chatbots, agent frameworks |
 
 ## Tech Stack
 
@@ -193,7 +195,7 @@ thread = client.beta.threads.create()
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+Ready to begin? Review the roadmap above while chapter pages are being finalized.
 
 ---
 
