@@ -2,8 +2,8 @@
   "structure_counts": {
     "docs_only": 8,
     "index_only": 0,
-    "mixed": 1,
-    "root_only": 82
+    "mixed": 0,
+    "root_only": 83
   },
   "tutorial_count": 91,
   "tutorials": [
@@ -327,22 +327,19 @@
     {
       "chapter_numbers": [
         "01",
-        "01",
         "02",
-        "02",
-        "03",
         "03",
         "04",
         "05",
         "06"
       ],
-      "docs_chapter_count": 3,
+      "docs_chapter_count": 0,
       "has_index": true,
       "name": "codex-analysis-platform",
       "path": "tutorials/codex-analysis-platform",
-      "structure": "mixed",
+      "structure": "root_only",
       "top_level_chapter_count": 6,
-      "total_numbered_chapter_count": 9
+      "total_numbered_chapter_count": 6
     },
     {
       "chapter_numbers": [
