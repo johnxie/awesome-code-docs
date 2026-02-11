@@ -72,6 +72,26 @@ Use this quick-start map if you searched for a specific outcome.
 
 ---
 
+## 📈 Trending Vibe-Coding Repos (Verified February 11, 2026)
+
+This section tracks high-impact open-source vibe-coding and coding-agent ecosystems with direct tutorial coverage.
+
+| Ecosystem Repo | Tutorial | Stars | Why It Matters |
+|:---------------|:---------|------:|:---------------|
+| [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad) | [Dyad Tutorial](tutorials/dyad-tutorial/) | 19,591 | local-first AI app generation workflows |
+| [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy) | [bolt.diy Tutorial](tutorials/bolt-diy-tutorial/) | 18,997 | open-source Bolt-style product builder stack |
+| [`cloudflare/vibesdk`](https://github.com/cloudflare/vibesdk) | [VibeSDK Tutorial](tutorials/vibesdk-tutorial/) | 4,762 | Cloudflare-native prompt-to-app platform architecture |
+| [`vercel/ai`](https://github.com/vercel/ai) | [Vercel AI SDK Tutorial](tutorials/vercel-ai-tutorial/) | 21,688 | production TypeScript AI app and agent SDK patterns |
+| [`cline/cline`](https://github.com/cline/cline) | [Cline Tutorial](tutorials/cline-tutorial/) | 57,809 | agentic coding with terminal/browser/MCP tools |
+| [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 22,198 | multi-mode coding agents and approval workflows |
+| [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 31,348 | IDE-native AI coding assistant architecture |
+| [`Nano-Collective/nanocoder`](https://github.com/Nano-Collective/nanocoder) | [Nanocoder Tutorial](tutorials/nanocoder-tutorial/) | 1,318 | local-first coding-agent internals and tool loops |
+| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 78,191 | browser-native AI automation and agent execution |
+| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | [Open WebUI Tutorial](tutorials/open-webui-tutorial/) | 123,601 | self-hosted AI interface and model operations |
+| [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm) | [AnythingLLM Tutorial](tutorials/anything-llm-tutorial/) | 54,477 | self-hosted RAG workspaces and agent workflows |
+
+---
+
 ## 📚 Tutorial Catalog
 
 ```
