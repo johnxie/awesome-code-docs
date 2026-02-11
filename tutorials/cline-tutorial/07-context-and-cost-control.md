@@ -7,29 +7,38 @@ parent: Cline Tutorial
 
 # Chapter 7: Context and Cost Control
 
-Large-codebase reliability requires context discipline and cost visibility.
+Large-repo performance depends on context precision and model tiering discipline.
 
-## Context Management Strategy
+## Context Strategy
 
-- load only relevant files/folders
-- include explicit problem traces (`@problems`, logs)
-- avoid unnecessary broad context expansion
+- include only files needed for the current decision
+- provide concrete logs/errors, not narrative summaries only
+- split large tasks into sub-tasks with separate context windows
 
-## Cost Governance
+## Cost Governance Framework
 
-Track usage per task and per model. Route simpler tasks to cheaper/faster models and reserve premium models for complex architecture/debugging work.
+| Control | Outcome |
+|:--------|:--------|
+| model tiering by task complexity | better quality-cost balance |
+| token budget per task | prevents runaway spend |
+| context pre-filtering | reduces irrelevant tokens |
+| post-task usage review | improves future prompt efficiency |
 
-## Practical Controls
+## Practical Task Template
 
-| Control | Effect |
-|:--------|:-------|
-| task-scoped context | lower token waste |
-| model tiering | better cost-performance balance |
-| per-task budget limits | prevents runaway spend |
-| post-task usage review | continuous prompt optimization |
+```text
+Goal:
+Scope:
+Files allowed:
+Validation command:
+Budget cap:
+Stop conditions:
+```
+
+This format makes output quality and spend more predictable.
 
 ## Summary
 
-You can now balance task quality with predictable context and token costs.
+You now have a repeatable method for balancing reliability, latency, and token cost in Cline workflows.
 
 Next: [Chapter 8: Team and Enterprise Operations](08-team-and-enterprise-operations.md)

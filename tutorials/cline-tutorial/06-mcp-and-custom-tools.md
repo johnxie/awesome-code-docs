@@ -7,28 +7,46 @@ parent: Cline Tutorial
 
 # Chapter 6: MCP and Custom Tools
 
-Cline can be extended through MCP to interact with domain-specific tools.
+MCP extends Cline into your internal platform surface area: tickets, docs, infra, and domain-specific systems.
 
-## Why MCP Matters
+## Integration Model
 
-MCP allows structured tool integration with clear contracts, enabling workflows like issue tracking, cloud ops, internal knowledge retrieval, and custom automation.
+```mermaid
+graph TD
+    C[Cline] --> M[MCP Client Layer]
+    M --> T1[Issue Tracker Tool]
+    M --> T2[Docs/Knowledge Tool]
+    M --> T3[CI/CD or Cloud Tool]
+    T1 --> R[Structured Results]
+    T2 --> R
+    T3 --> R
+    R --> C
+```
 
-## Tool Design Principles
+## Tool Contract Requirements
 
-- strict input schema validation
-- explicit output schemas
-- side-effect classification (read-only vs mutating)
-- robust timeout and error behavior
+| Contract Area | Requirement |
+|:--------------|:------------|
+| input schema | strict typed arguments |
+| output schema | predictable machine-readable response |
+| side effects | declared read-only vs mutating behavior |
+| failure mode | explicit error codes and actionable messages |
 
-## Integration Workflow
+## Rollout Pattern
 
-1. define tool contract
-2. connect MCP server
-3. verify tool listing and invocation
-4. gate high-risk operations with explicit approval
+1. start with read-only tools
+2. validate result quality in real tasks
+3. add mutating tools behind explicit approvals
+4. audit usage and prune low-value tools
+
+## Common Pitfalls
+
+- overloading one tool with many unrelated operations
+- vague error responses that force model guessing
+- skipping timeout and retry behavior definitions
 
 ## Summary
 
-You can now extend Cline beyond base capabilities with governed tool integrations.
+You can now extend Cline safely with protocol-based tools that remain auditable and operable.
 
 Next: [Chapter 7: Context and Cost Control](07-context-and-cost-control.md)

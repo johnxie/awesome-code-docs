@@ -7,33 +7,34 @@ parent: Cline Tutorial
 
 # Chapter 5: Browser Automation
 
-Browser capabilities allow Cline to validate runtime UI behavior, not just source code.
+Browser tooling lets Cline verify behavior in the running application, closing the gap between source edits and user-facing outcomes.
 
-## Browser Workflow
+## UI Validation Loop
 
-1. run app locally
-2. open target page
-3. interact with UI elements
-4. capture screenshots/logs
-5. propose and apply fixes
+1. launch app/runtime target
+2. navigate to target view
+3. execute user-like interactions
+4. capture errors/screenshots/DOM observations
+5. apply and verify fixes
 
-## High-Value Use Cases
+## Best-Fit Use Cases
 
-- visual regression checks
-- runtime exception discovery
-- form flow validation
-- end-to-end smoke tests
+| Use Case | Why Browser Tooling Helps |
+|:---------|:--------------------------|
+| regression checks | validates actual rendered behavior |
+| form/flow breakages | reproduces interaction bugs faster |
+| runtime JS errors | captures failures not visible in static code |
+| accessibility smoke checks | verifies baseline navigation/readability issues |
 
-## Guardrails
+## Reliability Controls
 
-| Guardrail | Why |
-|:----------|:----|
-| domain allowlist | prevent unintended web actions |
-| bounded action loops | avoid runaway autonomous browsing |
-| artifact capture | keep proof for debugging and review |
+- whitelist domains and environments
+- keep action loops bounded by max steps
+- require artifacts (screenshots/logs) for bug claims
+- separate exploratory browsing from release validation
 
 ## Summary
 
-You can now incorporate browser-grounded validation into Cline-assisted development tasks.
+You can now combine Cline edits with browser-grounded evidence before accepting changes.
 
 Next: [Chapter 6: MCP and Custom Tools](06-mcp-and-custom-tools.md)

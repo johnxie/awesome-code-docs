@@ -7,38 +7,51 @@ parent: Cline Tutorial
 
 # Chapter 1: Getting Started
 
-This chapter sets up Cline in VS Code and validates the core agent loop.
+This chapter sets up Cline in VS Code and validates a safe first engineering loop.
 
-## Install Path
+## Prerequisites
+
+| Requirement | Why It Matters |
+|:------------|:---------------|
+| VS Code (or compatible fork) | Cline runs as an editor extension |
+| model provider keys | powers reasoning, planning, and tool decisions |
+| sandbox repository | lets you validate behavior before real projects |
+
+## Installation and First Configuration
 
 1. install Cline from the VS Code marketplace
-2. configure provider/API credentials in extension settings
-3. open a test repository
-4. issue a small bounded task
+2. configure provider/API settings in extension preferences
+3. open a small repository with passing tests
+4. keep manual approvals enabled for edits and commands
 
 ## First Task Pattern
 
-Use a low-risk task for first validation:
+Use a bounded, auditable prompt:
 
-- summarize project structure
-- add a tiny utility function
-- run one existing test command
+```text
+Analyze module X, refactor function Y for readability,
+run npm test -- module-z, and summarize changed files.
+```
 
-This tests analysis, edit, and execution capabilities together.
+This validates analysis, edit, command execution, and reporting in one pass.
 
-## Safety Defaults
+## Initial Verification Checklist
 
-Cline is designed around explicit user approvals for actions such as terminal commands and file edits. Keep this enabled while calibrating prompts and workflows.
+- Cline can read and summarize relevant files
+- proposed edits appear in explicit diffs before write
+- command output is captured and attached to the task
+- final summary includes files changed + validation status
 
-## Baseline Checklist
+## Common Early Issues
 
-- extension can read relevant project files
-- proposed file changes appear as reviewable diffs
-- terminal command outputs are captured correctly
-- task can complete with deterministic summary
+| Symptom | Fix |
+|:--------|:----|
+| broad, noisy edits | tighten prompt scope and acceptance criteria |
+| repeated command retries | specify canonical command and timeout expectations |
+| weak summaries | require explicit final format in your prompt |
 
 ## Summary
 
-You now have a working Cline setup and a safe baseline for deeper agent workflows.
+You now have Cline installed with a controlled first-task baseline.
 
 Next: [Chapter 2: Agent Workflow](02-agent-workflow.md)
