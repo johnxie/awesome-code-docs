@@ -8,25 +8,34 @@ parent: "Teable Database Platform"
 
 # Chapter 8: Production Deployment
 
-This chapter covers production hardening for Teable-based deployments.
+Production Teable deployments require coordinated application, database, and realtime operations.
 
 ## Deployment Baseline
 
-- containerized backend/frontend split
-- managed PostgreSQL and Redis with backups
-- TLS termination and ingress controls
-- horizontal scaling for API and websocket nodes
+- containerized API/frontend services
+- managed PostgreSQL and cache/message infrastructure
+- TLS termination and ingress policy controls
+- horizontal scaling for API and websocket workers
 
-## Observability Baseline
+## Operational Metrics
 
-- p50/p95/p99 query latency by endpoint
-- websocket connection churn and reconnects
-- workspace-level mutation error rates
-- replication/backup health signals
+Track:
+
+- p50/p95/p99 API and query latency
+- websocket connection churn/reconnect rate
+- workspace mutation error rates
+- replication and backup health indicators
+
+## Release and Rollback Strategy
+
+1. stage schema migrations with backward compatibility checks
+2. run canary rollout for API/websocket nodes
+3. monitor error/latency deviations
+4. rollback quickly on sustained regression
 
 ## Final Summary
 
-You now have complete Teable coverage from system architecture to production operations.
+You now have full Teable coverage from architecture to production-grade deployment and operations.
 
 Related:
 - [Teable Index](index.md)

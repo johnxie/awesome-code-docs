@@ -8,23 +8,39 @@ parent: "Obsidian Outliner Plugin"
 
 # Chapter 6: Testing and Debugging
 
-Testing outliner behavior requires strong coverage of tree mutations and cursor state.
+Editor plugins require strong mutation-focused testing because small command bugs can corrupt note structure.
 
 ## High-Value Test Areas
 
-- indent/outdent transformations
-- move up/down across nested siblings
-- fold/unfold state persistence
+- indent/outdent in nested hierarchies
+- move up/down with mixed sibling depths
+- fold/unfold state persistence across reloads
 - multi-cursor and selection edge cases
+- undo/redo across structural + text mutations
+
+## Test Layering Strategy
+
+1. unit tests for pure tree-transform helpers
+2. integration tests for command execution in editor context
+3. fixture-based regression tests for known bug patterns
 
 ## Debugging Workflow
 
 - instrument command entry/exit with structured logs
-- snapshot document tree before and after commands
-- isolate parser bugs with minimal markdown fixtures
+- snapshot outline tree before and after each command
+- isolate parser/selection issues with minimal markdown fixtures
+- add deterministic reproduction scripts for flaky failures
+
+## Observability Tips
+
+| Signal | Use |
+|:-------|:----|
+| command failure rate | catches regressions quickly |
+| unexpected selection states | identifies cursor logic bugs |
+| mutation latency | reveals slow tree operations |
 
 ## Summary
 
-You can now design a practical test strategy for editor-heavy plugin behavior.
+You can now implement a practical quality system for reliable outliner command behavior.
 
 Next: [Chapter 7: Plugin Packaging](07-plugin-packaging.md)

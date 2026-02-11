@@ -8,23 +8,38 @@ parent: "NocoDB Database Platform"
 
 # Chapter 7: Vue Components
 
-The NocoDB frontend composes reusable Vue components for dense data operations.
+The NocoDB frontend relies on reusable Vue components to support dense data editing workflows.
 
-## Component Groups
+## Major Component Domains
 
-- grid and cell editors
-- schema/config side panels
+- data grid and cell editors
+- schema/view configuration panels
 - filter/sort/query controls
-- form and relation pickers
+- relation pickers and form controls
 
-## UI Engineering Notes
+## Component Architecture Goals
 
-- virtualize large row sets
-- debounce expensive query-triggering inputs
-- isolate editor state from server sync latency
+- keep business logic separate from presentation logic
+- centralize server-state synchronization
+- avoid duplicated query state handling across views
+
+## Performance Practices
+
+| Practice | Benefit |
+|:---------|:--------|
+| row virtualization | scalable rendering for large datasets |
+| debounced query controls | fewer redundant server roundtrips |
+| editor-state isolation | reduces UI jitter during async sync |
+| memoized derived state | lower recompute overhead |
+
+## UX Reliability Concerns
+
+- preserve editing intent under latency
+- make validation errors field-specific and actionable
+- keep keyboard navigation deterministic for power users
 
 ## Summary
 
-You can now map major frontend responsibilities across NocoDB component layers.
+You can now map NocoDB's frontend responsibilities into maintainable, performance-aware Vue component layers.
 
 Next: [Chapter 8: Realtime Features](08-realtime-features.md)
