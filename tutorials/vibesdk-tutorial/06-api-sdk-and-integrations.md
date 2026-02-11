@@ -7,9 +7,9 @@ parent: VibeSDK Tutorial
 
 # Chapter 6: API, SDK, and Integrations
 
-Beyond the web UI, VibeSDK exposes programmable workflows through APIs and an official TypeScript SDK.
+VibeSDK can be operated programmatically through APIs and the official TypeScript SDK.
 
-## SDK Quick Start
+## SDK Starter
 
 ```bash
 npm install @cf-vibesdk/sdk
@@ -36,20 +36,20 @@ session.close();
 
 | Surface | Use Case |
 |:--------|:---------|
-| REST/API routes | internal platform and automation hooks |
-| SDK (`@cf-vibesdk/sdk`) | CI-driven app generation and lifecycle orchestration |
-| GitHub export flow | move generated code into external repos |
-| Postman collections in `docs/` | team onboarding and API exploration |
+| REST/API routes | internal platform actions and governance flows |
+| SDK | CI-driven generation and lifecycle control |
+| GitHub exporter | repository handoff and PR workflows |
+| Postman collection in `docs/` | team onboarding and API testing |
 
-## Practical Integration Pattern
+## Automation Pattern
 
-1. trigger generation from CI or an internal portal
-2. stream state until deployable
-3. auto-run policy checks
-4. export code and open PR in target repo
+1. trigger generation from CI or internal portal
+2. wait for deployable state
+3. enforce policy checks
+4. export and open PR in target repository
 
 ## Summary
 
-You now have the building blocks to automate VibeSDK workflows outside the default chat interface.
+You now have the integration model to run VibeSDK beyond manual chat usage.
 
 Next: [Chapter 7: Security, Auth, and Governance](07-security-auth-and-governance.md)
