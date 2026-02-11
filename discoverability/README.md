@@ -5,6 +5,8 @@ This directory contains generated assets used to improve organic discoverability
 ## Files
 
 - `tutorial-index.json`: machine-readable index of all tutorial tracks with titles, summaries, keywords, and canonical repo URLs.
+- `SEO_DISCOVERABILITY_PLAN.md`: SEO backlog, cadence, and measurement framework.
+- `REPOSITORY_METADATA.md`: canonical GitHub description/homepage/topics contract.
 
 ## Regeneration
 
@@ -21,3 +23,11 @@ The command regenerates:
 - `llms-full.txt`
 
 These files should be committed whenever the tutorial catalog changes.
+
+## Repository Metadata Sync
+
+To reapply canonical repository metadata (description, homepage, topics):
+
+```bash
+bash scripts/sync_repo_metadata.sh
+```
