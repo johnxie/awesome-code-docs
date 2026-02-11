@@ -612,7 +612,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 7: Fine-Tuning & Alignment](07-fine-tuning-alignment.html), we will explore how to adapt pre-trained GPT models to specific tasks using LoRA, QLoRA, RLHF, DPO, and instruction tuning techniques.
+In [Chapter 7: Fine-Tuning & Alignment](07-fine-tuning-alignment.md), we will explore how to adapt pre-trained GPT models to specific tasks using LoRA, QLoRA, RLHF, DPO, and instruction tuning techniques.
 
 ---
 *Built with insights from open-source GPT implementations.*

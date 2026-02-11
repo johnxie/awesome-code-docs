@@ -422,7 +422,7 @@ This chapter provided the foundation for understanding Athens Research's knowled
 
 - **[Chapter 2: Datascript Deep Dive](02-datascript-database.md)** - The in-memory graph database powering Athens
 - **[Chapter 3: Schema Design](03-schema-design.md)** - Modeling blocks, pages, and relationships
-- **[Chapter 4: Application Architecture](04-app-architecture.md)** - Re-frame patterns and state management
+- **Chapter 4: Application Architecture (Planned)** - Re-frame patterns and state management
 
 ## 💡 Key Takeaways
 

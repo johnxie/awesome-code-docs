@@ -54,9 +54,9 @@ Welcome to your journey through AI-powered task management! This tutorial explor
 3. **[Chapter 3: Task Management & Execution](03-task-management.md)** - Working with tasks, dependencies, and progress tracking
 4. **[Chapter 4: Multi-Model Integration](04-multi-model-integration.md)** - Leveraging different AI models for specialized tasks
 5. **[Chapter 5: Editor Integrations](05-editor-integrations.md)** - Using Task Master with Cursor, Windsurf, and other editors
-6. **[Chapter 6: Advanced Workflows](06-advanced-workflows.md)** - Complex project structures and team collaboration
-7. **[Chapter 7: Customization & Extensions](07-customization.md)** - Adapting Task Master for specific workflows
-8. **[Chapter 8: Production Project Management](08-production-management.md)** - Scaling Task Master for large projects
+6. **[Chapter 6: Context Control](06-context-control.md)** - Managing agent context and complex project structures
+7. **[Chapter 7: Automation](07-automation.md)** - Automating recurring workflows and task orchestration
+8. **[Chapter 8: Production Project Management](08-production.md)** - Scaling Task Master for large projects
 
 ## What You'll Learn
 

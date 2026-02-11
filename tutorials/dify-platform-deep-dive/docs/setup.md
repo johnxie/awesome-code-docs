@@ -267,7 +267,7 @@ Once your environment is running:
 1. **Explore the Web Interface** - Create your first application
 2. **Review the API Documentation** - Test endpoints with Postman
 3. **Check the Database Schema** - Understand the data model
-4. **Read the Architecture Guide** - [Core Architecture](02-architecture.md)
+4. **Read the Architecture Guide** - [Core Architecture](02-core-architecture.md)
 
 ## Getting Help
 
@@ -277,4 +277,4 @@ Once your environment is running:
 
 ---
 
-**✅ Environment ready? Continue to [System Overview](01-overview.md)**
+**✅ Environment ready? Continue to [System Overview](01-system-overview.md)**

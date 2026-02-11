@@ -814,8 +814,8 @@ Teable generates comprehensive APIs automatically:
 This chapter provided the foundation for understanding Teable's multi-dimensional approach. In the following chapters, we'll dive deeper into:
 
 - **[Chapter 2: Database Architecture](02-database-architecture.md)** - PostgreSQL optimization, indexing strategies, and query performance
-- **[Chapter 3: Real-Time Collaboration](03-realtime-collaboration.md)** - WebSocket implementation, operational transforms, and conflict resolution
-- **[Chapter 4: API Development](04-api-development.md)** - REST/GraphQL APIs, authentication, and data validation
+- **Chapter 3: Real-Time Collaboration (Planned)** - WebSocket implementation, operational transforms, and conflict resolution
+- **Chapter 4: API Development (Planned)** - REST/GraphQL APIs, authentication, and data validation
 
 ## 💡 Key Takeaways
 

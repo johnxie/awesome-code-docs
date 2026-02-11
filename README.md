@@ -75,7 +75,8 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[LangChain](tutorials/langchain-tutorial/)** | 100K+ | Python | Chains, agents, RAG, prompt engineering |
 | **[LangGraph](tutorials/langgraph-tutorial/)** | 8K+ | Python | Stateful multi-actor graphs, cycles, persistence |
 | **[CrewAI](tutorials/crewai-tutorial/)** | 24K+ | Python | Role-based agent teams, task delegation |
-| **[AutoGen / AG2](tutorials/ag2-tutorial/)** | 40K+ | Python | Multi-agent conversations, code execution |
+| **[AG2](tutorials/ag2-tutorial/)** | 40K+ | Python | Community successor to AutoGen, multi-agent conversations |
+| **[AutoGen](tutorials/autogen-tutorial/)** | 40K+ | Python | Conversable agents, group chat, tool integration |
 | **[OpenAI Swarm](tutorials/swarm-tutorial/)** | 18K+ | Python | Lightweight agent handoffs, routines |
 | **[Smolagents](tutorials/smolagents-tutorial/)** | 14K+ | Python | Hugging Face code agents, tool calling |
 | **[Phidata](tutorials/phidata-tutorial/)** | 17K+ | Python | Autonomous agents with memory and tools |
@@ -104,6 +105,7 @@ Retrieval-augmented generation, model serving, and LLM tooling.
 | **[RAGFlow](tutorials/ragflow-tutorial/)** | 30K+ | Python | Document-aware RAG engine |
 | **[Quivr](tutorials/quivr-tutorial/)** | 37K+ | Python | Second brain with RAG |
 | **[Mem0](tutorials/mem0-tutorial/)** | 24K+ | Python | Intelligent memory layer for AI |
+| **[HuggingFace](tutorials/huggingface-tutorial/)** | 145K+ | Python | Transformers, model hub, training and inference |
 | **[Semantic Kernel](tutorials/semantic-kernel-tutorial/)** | 23K+ | C#/Python | Microsoft's AI orchestration SDK |
 | **[Fabric](tutorials/fabric-tutorial/)** | 26K+ | Go/Python | AI prompt pattern framework |
 
@@ -153,9 +155,11 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[OpenHands](tutorials/openhands-tutorial/)** | 45K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
 | **[Claude Code](tutorials/claude-code-tutorial/)** | - | TypeScript | Anthropic's AI coding CLI |
+| **[Anthropic API](tutorials/anthropic-code-tutorial/)** | - | Python/TypeScript | Claude API integration, tool use, streaming |
 | **[Claude Task Master](tutorials/claude-task-master-tutorial/)** | - | TypeScript | AI-powered task management |
 | **[CopilotKit](tutorials/copilotkit-tutorial/)** | 15K+ | React | In-app AI assistants |
 | **[Nanocoder](tutorials/nanocoder-tutorial/)** | - | TypeScript | AI coding agent internals |
+| **[Codex Analysis](tutorials/codex-analysis-platform/)** | - | TypeScript | Static analysis platform and LSP architecture |
 | **[Turborepo](tutorials/turborepo-tutorial/)** | 27K+ | Rust | High-performance monorepo builds |
 | **[n8n AI](tutorials/n8n-ai-tutorial/)** | 52K+ | Node.js | Visual AI workflow automation |
 | **[Taskade](tutorials/taskade-tutorial/)** | - | AI/Productivity | AI-powered project management |

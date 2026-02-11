@@ -70,14 +70,14 @@ This tutorial is organized into 8 chapters that progressively build your underst
 
 | Chapter | Title | What You Will Learn |
 |:--------|:------|:--------------------|
-| [Chapter 1](01-getting-started.html) | Getting Started | Open-source GPT landscape, nanoGPT setup, first training run |
-| [Chapter 2](02-transformer-architecture.html) | Transformer Architecture | Self-attention, multi-head attention, feed-forward networks |
-| [Chapter 3](03-tokenization-embeddings.html) | Tokenization & Embeddings | BPE, vocabulary construction, positional encodings |
-| [Chapter 4](04-training-pipeline.html) | Training Pipeline | Data loading, loss computation, gradient accumulation, mixed precision |
-| [Chapter 5](05-attention-mechanisms.html) | Attention Mechanisms | Causal masking, KV-cache, multi-query attention, Flash Attention |
-| [Chapter 6](06-scaling-distributed-training.html) | Scaling & Distributed Training | Model parallelism, data parallelism, ZeRO, FSDP |
-| [Chapter 7](07-fine-tuning-alignment.html) | Fine-Tuning & Alignment | LoRA, QLoRA, RLHF, DPO, instruction tuning |
-| [Chapter 8](08-production-inference.html) | Production Inference | Quantization, batching, speculative decoding, deployment |
+| [Chapter 1](01-getting-started.md) | Getting Started | Open-source GPT landscape, nanoGPT setup, first training run |
+| [Chapter 2](02-transformer-architecture.md) | Transformer Architecture | Self-attention, multi-head attention, feed-forward networks |
+| [Chapter 3](03-tokenization-embeddings.md) | Tokenization & Embeddings | BPE, vocabulary construction, positional encodings |
+| [Chapter 4](04-training-pipeline.md) | Training Pipeline | Data loading, loss computation, gradient accumulation, mixed precision |
+| [Chapter 5](05-attention-mechanisms.md) | Attention Mechanisms | Causal masking, KV-cache, multi-query attention, Flash Attention |
+| [Chapter 6](06-scaling-distributed-training.md) | Scaling & Distributed Training | Model parallelism, data parallelism, ZeRO, FSDP |
+| [Chapter 7](07-fine-tuning-alignment.md) | Fine-Tuning & Alignment | LoRA, QLoRA, RLHF, DPO, instruction tuning |
+| [Chapter 8](08-production-inference.md) | Production Inference | Quantization, batching, speculative decoding, deployment |
 
 ## Prerequisites
 
@@ -121,7 +121,7 @@ python train.py config/train_shakespeare_char.py
 
 ---
 
-**Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.html).**
+**Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).**
 
 ---
 *Built with insights from open-source GPT implementations.*

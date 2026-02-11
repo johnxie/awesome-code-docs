@@ -747,7 +747,7 @@ In this chapter you learned:
 
 ## Next Steps
 
-Your collaborative app is feature-complete. Now it needs to be production-ready. In **[Chapter 8: Production Deployment](./08-production-deployment.html)**, we will cover scaling, webhooks, authentication hardening, monitoring, and security best practices.
+Your collaborative app is feature-complete. Now it needs to be production-ready. In **[Chapter 8: Production Deployment](./08-production-deployment.md)**, we will cover scaling, webhooks, authentication hardening, monitoring, and security best practices.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*

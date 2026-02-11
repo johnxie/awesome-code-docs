@@ -810,7 +810,7 @@ In this chapter you learned:
 
 ## Next Steps
 
-Comments create conversations, but users need to know when someone mentions them or replies. In **[Chapter 5: Notifications](./05-notifications.html)**, we will build an inbox notification system with email delivery and custom triggers.
+Comments create conversations, but users need to know when someone mentions them or replies. In **[Chapter 5: Notifications](./05-notifications.md)**, we will build an inbox notification system with email delivery and custom triggers.
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*

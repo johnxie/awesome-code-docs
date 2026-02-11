@@ -449,7 +449,7 @@ In this chapter, you have:
 
 ## Next Steps
 
-In [Chapter 2: Transformer Architecture](02-transformer-architecture.html), we will dissect every component of the transformer architecture in detail -- from the mathematics of self-attention to the role of layer normalization and residual connections.
+In [Chapter 2: Transformer Architecture](02-transformer-architecture.md), we will dissect every component of the transformer architecture in detail -- from the mathematics of self-attention to the role of layer normalization and residual connections.
 
 ---
 *Built with insights from open-source GPT implementations.*

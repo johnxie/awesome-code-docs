@@ -89,16 +89,18 @@ graph TB
 
 ## Tutorial Structure
 
+> Status: This index is currently the published roadmap for the tutorial. Chapter pages are in progress.
+
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
-| [1. Getting Started](01-getting-started.md) | Basics | Skill structure, SKILL.md format, first skill creation |
-| [2. Skill Categories](02-skill-categories.md) | Taxonomy | Document, creative, technical, enterprise skill types |
-| [3. Advanced Skill Design](03-advanced-skill-design.md) | Architecture | Multi-file skills, Python/TypeScript scripts, resources |
-| [4. Integration Platforms](04-integration-platforms.md) | Deployment | Claude Code, Claude.ai, API integration patterns |
-| [5. Production Skills](05-production-skills.md) | Real-World | Document generation (DOCX, PDF, PPTX, XLSX) |
-| [6. Best Practices](06-best-practices.md) | Quality | Skill composition, testing, documentation, versioning |
-| [7. Publishing & Sharing](07-publishing-sharing.md) | Distribution | Plugin marketplace, GitHub, private distribution |
-| [8. Real-World Examples](08-real-world-examples.md) | Case Studies | Brand guidelines, data analysis, automation workflows |
+| **1. Getting Started (Planned)** | Basics | Skill structure, SKILL.md format, first skill creation |
+| **2. Skill Categories (Planned)** | Taxonomy | Document, creative, technical, enterprise skill types |
+| **3. Advanced Skill Design (Planned)** | Architecture | Multi-file skills, Python/TypeScript scripts, resources |
+| **4. Integration Platforms (Planned)** | Deployment | Claude Code, Claude.ai, API integration patterns |
+| **5. Production Skills (Planned)** | Real-World | Document generation (DOCX, PDF, PPTX, XLSX) |
+| **6. Best Practices (Planned)** | Quality | Skill composition, testing, documentation, versioning |
+| **7. Publishing & Sharing (Planned)** | Distribution | Plugin marketplace, GitHub, private distribution |
+| **8. Real-World Examples (Planned)** | Case Studies | Brand guidelines, data analysis, automation workflows |
 
 ## Tech Stack
 
@@ -171,7 +173,7 @@ By the end of this tutorial, you'll be able to:
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
+Ready to begin? Review the roadmap above while chapter pages are being finalized.
 
 ---
 
