@@ -1,0 +1,580 @@
+# Awesome Code Docs (Full Tutorial Index)
+
+Main repository:
+- https://github.com/johnxie/awesome-code-docs
+
+## AG2 Tutorial: Next-Generation Multi-Agent Framework
+- Path: tutorials/ag2-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md
+- Summary: Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
+- Keywords: ag2, next, generation, multi, agent, framework, build, collaborative, systems, community, driven, successor, autogen
+
+## AgentGPT Tutorial: Building Autonomous AI Agents
+- Path: tutorials/agentgpt-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: agentgpt, building, autonomous, agents, this, generated, learn, more, check, out, awesome, code
+
+## Aider Tutorial: AI Pair Programming in Your Terminal
+- Path: tutorials/aider-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md
+- Summary: Collaborate with AI to edit code in your local git repository.
+- Keywords: aider, pair, programming, terminal, collaborate, edit, code, local, git, repository
+
+## Anthropic API Tutorial: Building with Claude's API
+- Path: tutorials/anthropic-code-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md
+- Summary: Master the Anthropic API and SDKs to build powerful AI applications with Claude.
+- Keywords: anthropic, code, api, building, claude, master, sdks, build, powerful, applications
+
+## Anthropic Skills Tutorial: Reusable AI Agent Capabilities
+- Path: tutorials/anthropic-skills-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/index.md
+- Summary: Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
+- Keywords: anthropic, skills, reusable, agent, capabilities, build, operate, production, quality, claude, code, api
+
+## AnythingLLM Tutorial: All-in-One AI Document Chat
+- Path: tutorials/anything-llm-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/index.md
+- Summary: Turn any document into an intelligent chatbot with full privacy control.
+- Keywords: anything, llm, anythingllm, all, one, document, chat, turn, any, into, intelligent, chatbot, full, privacy, control
+
+## Athens Research: Deep Dive Tutorial
+- Path: tutorials/athens-research-knowledge-graph
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/index.md
+- Summary: **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
+- Keywords: athens, research, knowledge, graph, deep, dive, project, athensresearch, open, source, roam, like, management, system, built, clojurescript, databases
+
+## Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
+- Path: tutorials/autogen-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: autogen, microsoft, building, multi, agent, systems, this, generated, learn, more, check, out, awesome, code
+
+## BentoML Tutorial: Building Production-Ready ML Services
+- Path: tutorials/bentoml-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: bentoml, building, production, ready, services, this, generated, learn, more, check, out, awesome, code
+
+## bolt.diy Tutorial: Open-Source AI Full-Stack Builder
+- Path: tutorials/bolt-diy-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md
+- Summary: Learn how to run, extend, and operate `stackblitz-labs/bolt.diy`, the open-source version of Bolt-style AI app building with provider flexibility.
+- Keywords: bolt, diy, open, source, full, stack, builder, learn, run, extend, operate, stackblitz, labs, version, style, app, building, provider
+
+## Botpress Tutorial: Open Source Conversational AI Platform
+- Path: tutorials/botpress-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/index.md
+- Summary: **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
+- Keywords: botpress, open, source, conversational, platform, important, notice, v12, has, been, sunset, longer, available, new, deployments, however, existing, customers
+
+## Browser Use Tutorial: AI-Powered Web Automation
+- Path: tutorials/browser-use-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md
+- Summary: Build autonomous AI agents that can browse and interact with any website.
+- Keywords: browser, use, powered, web, automation, build, autonomous, agents, that, can, browse, interact, any, website
+
+## Chatbox Tutorial: Building Modern AI Chat Interfaces
+- Path: tutorials/chatbox-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: chatbox, building, modern, chat, interfaces, this, generated, learn, more, check, out, awesome, code
+
+## ChromaDB Tutorial: Building AI-Native Vector Databases
+- Path: tutorials/chroma-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: chroma, chromadb, building, native, vector, databases, this, generated, learn, more, check, out, awesome, code
+
+## Claude Code Tutorial: AI-Powered Terminal Coding
+- Path: tutorials/claude-code-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md
+- Summary: Master Anthropic's agentic coding tool that lives in your terminal.
+- Keywords: claude, code, powered, terminal, coding, master, anthropic, agentic, tool, that, lives
+
+## Claude Quickstarts Tutorial: Production Integration Patterns
+- Path: tutorials/claude-quickstarts-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md
+- Summary: Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
+- Keywords: claude, quickstarts, production, integration, patterns, learn, anthropic, official, quickstart, projects, build, deployable, applications, api, including, customer, support, data
+
+## Claude Task Master Tutorial: AI-Powered Task Management for Developers
+- Path: tutorials/claude-task-master-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: claude, task, master, powered, management, developers, this, generated, learn, more, check, out, awesome, code
+
+## ClickHouse Tutorial: High-Performance Analytical Database
+- Path: tutorials/clickhouse-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: clickhouse, high, performance, analytical, database, this, generated, learn, more, check, out, awesome, code
+
+## Cline Tutorial: Agentic Coding in Your IDE
+- Path: tutorials/cline-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md
+- Summary: Learn how to use and operate `cline/cline`, an open-source VS Code agent that can edit files, run terminal commands, use browser workflows, and extend itself via MCP.
+- Keywords: cline, agentic, coding, ide, learn, use, operate, open, source, code, agent, that, can, edit, files, run, terminal, commands
+
+## Codex Analysis Platform: Building Code Intelligence Systems
+- Path: tutorials/codex-analysis-platform
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md
+- Summary: Master building sophisticated code analysis platforms with static analysis, AST manipulation, and developer tooling.
+- Keywords: codex, analysis, platform, building, code, intelligence, systems, master, sophisticated, platforms, static, ast, manipulation, developer, tooling
+
+## ComfyUI Tutorial: Mastering AI Image Generation Workflows
+- Path: tutorials/comfyui-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: comfyui, mastering, image, generation, workflows, this, generated, learn, more, check, out, awesome, code
+
+## Continue Tutorial: Open-Source AI Autopilot for Development
+- Path: tutorials/continue-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: continue, open, source, autopilot, development, this, generated, learn, more, check, out, awesome, code
+
+## CopilotKit Tutorial: Building AI Copilots for React Applications
+- Path: tutorials/copilotkit-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md
+- Summary: Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
+- Keywords: copilotkit, building, copilots, react, applications, create, app, assistants, chatbots, agentic, uis, open, source, framework
+
+## CrewAI Tutorial: Building Collaborative AI Agent Teams
+- Path: tutorials/crewai-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md
+- Summary: **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
+- Keywords: crewai, building, collaborative, agent, teams, latest, release, has, evolved, significantly, support, gpt, gemini, pro, enhanced, knowledge, management, evaluation
+
+## Deer Flow Tutorial: Distributed Workflow Orchestration Platform
+- Path: tutorials/deer-flow-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md
+- Summary: Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
+- Keywords: deer, flow, distributed, workflow, orchestration, platform, orchestrate, complex, workflows, powerful, task, coordination, execution
+
+## Dify Platform: Deep Dive Tutorial
+- Path: tutorials/dify-platform-deep-dive
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md
+- Summary: **Project**: [Dify](https://github.com/langgenius/dify) — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
+- Keywords: dify, platform, deep, dive, project, langgenius, open, source, llm, application, development, building, workflows, rag, pipelines, agents, visual, interface
+
+## DSPy Tutorial: Programming Language Models
+- Path: tutorials/dspy-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/index.md
+- Summary: Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines.
+- Keywords: dspy, programming, language, models, learn, program, declaratively, stanford, nlp, framework, systematic, prompt, optimization, modular, llm, pipelines
+
+## Dyad Tutorial: Local Open-Source AI App Builder
+- Path: tutorials/dyad-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md
+- Summary: Learn how to build and iterate apps with `dyad-sh/dyad`, a local-first AI app builder aimed at power users.
+- Keywords: dyad, local, open, source, app, builder, learn, build, iterate, apps, first, aimed, power, users
+
+## ElizaOS: Deep Dive Tutorial
+- Path: tutorials/elizaos-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/elizaos-tutorial/index.md
+- Summary: **Project**: [ElizaOS](https://github.com/elizaOS/eliza) — Autonomous agents for everyone.
+- Keywords: elizaos, deep, dive, project, eliza, autonomous, agents, everyone
+
+## Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI
+- Path: tutorials/fabric-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md
+- Summary: Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.
+- Keywords: fabric, open, source, framework, augmenting, humans, enhance, human, capabilities, modular, powered, cognitive, assistance, task, automation
+
+## Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems
+- Path: tutorials/firecrawl-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md
+- Summary: N/A
+- Keywords: firecrawl, building, llm, ready, web, scraping, data, extraction, systems
+
+## Flowise LLM Orchestration: Deep Dive Tutorial
+- Path: tutorials/flowise-llm-orchestration
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md
+- Summary: **Project**: [Flowise](https://github.com/FlowiseAI/Flowise) — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
+- Keywords: flowise, llm, orchestration, deep, dive, project, flowiseai, open, source, visual, tool, building, workflows, drag, drop, interface
+
+## GPT Open Source: Deep Dive Tutorial
+- Path: tutorials/gpt-oss-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md
+- Summary: A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.
+- Keywords: gpt, oss, open, source, deep, dive, comprehensive, understanding, building, deploying, implementations, nanogpt, neox, beyond
+
+## HAPI Tutorial: Remote Control for Local AI Coding Sessions
+- Path: tutorials/hapi-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hapi-tutorial/index.md
+- Summary: Learn `tiann/hapi`, a local-first hub that lets you run Claude Code/Codex/Gemini/OpenCode sessions locally while controlling and approving them remotely.
+- Keywords: hapi, remote, control, local, coding, sessions, learn, tiann, first, hub, that, lets, run, claude, code, codex, gemini, opencode
+
+## Haystack: Deep Dive Tutorial
+- Path: tutorials/haystack-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/index.md
+- Summary: **Project**: [Haystack](https://github.com/deepset-ai/haystack) — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
+- Keywords: haystack, deep, dive, project, deepset, open, source, framework, building, production, ready, llm, applications, rag, pipelines, intelligent, search, systems
+
+## HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models
+- Path: tutorials/huggingface-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: huggingface, transformers, building, state, art, models, this, generated, learn, more, check, out, awesome, code
+
+## Instructor Tutorial: Structured LLM Outputs
+- Path: tutorials/instructor-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/instructor-tutorial/index.md
+- Summary: Get reliable, typed responses from LLMs with Pydantic validation.
+- Keywords: instructor, structured, llm, outputs, get, reliable, typed, responses, llms, pydantic, validation
+
+## Khoj AI: Deep Dive Tutorial
+- Path: tutorials/khoj-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/khoj-tutorial/index.md
+- Summary: **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
+- Keywords: khoj, deep, dive, project, open, source, self, hostable, personal, assistant, that, connects, notes, documents, online, data
+
+## Kubernetes Operator Patterns: Building Production-Grade Controllers
+- Path: tutorials/kubernetes-operator-patterns
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md
+- Summary: Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.
+- Keywords: kubernetes, operator, patterns, building, production, grade, controllers, master, operators, hands, implementation, using, sdk, controller, runtime, library, enterprise, application
+
+## LanceDB Tutorial: Serverless Vector Database for AI
+- Path: tutorials/lancedb-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lancedb-tutorial/index.md
+- Summary: Master LanceDB, the open-source serverless vector database designed for AI applications, RAG systems, and semantic search.
+- Keywords: lancedb, serverless, vector, database, master, open, source, designed, applications, rag, systems, semantic, search
+
+## LangChain Architecture: Internal Design Deep Dive
+- Path: tutorials/langchain-architecture-guide
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/index.md
+- Summary: N/A
+- Keywords: langchain, architecture, internal, design, deep, dive
+
+## LangChain Tutorial: Building AI Applications with Large Language Models
+- Path: tutorials/langchain-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/index.md
+- Summary: **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
+- Keywords: langchain, building, applications, large, language, models, pydantic, required, fully, migrated, code, using, core, should, updated, native, syntax
+
+## Langfuse Tutorial: LLM Observability & Analytics
+- Path: tutorials/langfuse-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md
+- Summary: Debug, analyze, and improve your LLM applications with production-grade observability.
+- Keywords: langfuse, llm, observability, analytics, debug, analyze, improve, applications, production, grade
+
+## LangGraph Tutorial: Building Stateful Multi-Actor Applications
+- Path: tutorials/langgraph-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: langgraph, building, stateful, multi, actor, applications, this, generated, learn, more, check, out, awesome, code
+
+## Letta Tutorial: Stateful LLM Agents
+- Path: tutorials/letta-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/letta-tutorial/index.md
+- Summary: Build AI agents with persistent memory using the framework formerly known as MemGPT.
+- Keywords: letta, stateful, llm, agents, build, persistent, memory, using, framework, formerly, known, memgpt
+
+## LiteLLM Tutorial: Unified LLM API Gateway
+- Path: tutorials/litellm-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md
+- Summary: Call 100+ LLM providers with a single, consistent interface.
+- Keywords: litellm, unified, llm, api, gateway, call, providers, single, consistent, interface
+
+## Liveblocks - Real-Time Collaboration Deep Dive
+- Path: tutorials/liveblocks-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/liveblocks-tutorial/index.md
+- Summary: N/A
+- Keywords: liveblocks, real, time, collaboration, deep, dive
+
+## llama.cpp Tutorial: Local LLM Inference
+- Path: tutorials/llama-cpp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-cpp-tutorial/index.md
+- Summary: Run large language models efficiently on your local machine with pure C/C++.
+- Keywords: llama, cpp, local, llm, inference, run, large, language, models, efficiently, machine, pure
+
+## LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning
+- Path: tutorials/llama-factory-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-factory-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: llama, factory, unified, framework, llm, training, fine, tuning, this, generated, learn, more, check, out, awesome, code
+
+## LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks
+- Path: tutorials/llamaindex-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: llamaindex, building, advanced, rag, systems, data, frameworks, this, generated, learn, more, check, out, awesome, code
+
+## LobeChat AI Platform: Deep Dive Tutorial
+- Path: tutorials/lobechat-ai-platform
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/index.md
+- Summary: **Project**: [LobeChat](https://github.com/lobehub/lobe-chat) — An open-source, modern-design AI chat framework for building private LLM applications.
+- Keywords: lobechat, platform, deep, dive, project, lobehub, lobe, chat, open, source, modern, design, framework, building, private, llm, applications
+
+## LocalAI Tutorial: Self-Hosted OpenAI Alternative
+- Path: tutorials/localai-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/localai-tutorial/index.md
+- Summary: Run LLMs, image generation, and audio models locally with an OpenAI-compatible API.
+- Keywords: localai, self, hosted, openai, alternative, run, llms, image, generation, audio, models, locally, compatible, api
+
+## Logseq: Deep Dive Tutorial
+- Path: tutorials/logseq-knowledge-management
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/index.md
+- Summary: **Project**: [Logseq](https://github.com/logseq/logseq) — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
+- Keywords: logseq, knowledge, management, deep, dive, project, privacy, first, local, platform, block, based, editing, graph, visualization
+
+## MCP Python SDK Tutorial: Building AI Tool Servers
+- Path: tutorials/mcp-python-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md
+- Summary: Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
+- Keywords: mcp, python, sdk, building, tool, servers, master, model, context, protocol, build, custom, that, extend, claude, other, llms, powerful
+
+## MCP Servers Tutorial: Reference Implementations and Patterns
+- Path: tutorials/mcp-servers-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md
+- Summary: Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
+- Keywords: mcp, servers, reference, implementations, patterns, learn, use, official, implementation, blueprints, not, drop, production, services
+
+## MeiliSearch Tutorial: Lightning Fast Search Engine
+- Path: tutorials/meilisearch-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: meilisearch, lightning, fast, search, engine, this, generated, learn, more, check, out, awesome, code
+
+## Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory
+- Path: tutorials/mem0-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: mem0, building, production, ready, agents, scalable, long, term, memory, this, generated, learn, more, check, out, awesome, code
+
+## n8n AI Tutorial: Workflow Automation with AI
+- Path: tutorials/n8n-ai-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-ai-tutorial/index.md
+- Summary: Build powerful AI-powered automations with n8n's visual workflow builder.
+- Keywords: n8n, workflow, automation, build, powerful, powered, automations, visual, builder
+
+## n8n Model Context Protocol: Deep Dive Tutorial
+- Path: tutorials/n8n-mcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-mcp-tutorial/index.md
+- Summary: **Project**: [n8n](https://github.com/n8n-io/n8n) — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.
+- Keywords: n8n, mcp, model, context, protocol, deep, dive, project, visual, workflow, automation, integration, powered, tool, use
+
+## Nanocoder: Building & Understanding AI Coding Agents
+- Path: tutorials/nanocoder-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/index.md
+- Summary: A deep dive into how local-first AI coding agents work internally, using Nanocoder as a practical reference implementation.
+- Keywords: nanocoder, building, understanding, coding, agents, deep, dive, into, local, first, work, internally, using, practical, reference, implementation
+
+## NocoDB: Deep Dive Tutorial
+- Path: tutorials/nocodb-database-platform
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/index.md
+- Summary: **Project**: [NocoDB](https://github.com/nocodb/nocodb) — An open-source Airtable alternative that turns any database into a smart spreadsheet.
+- Keywords: nocodb, database, platform, deep, dive, project, open, source, airtable, alternative, that, turns, any, into, smart, spreadsheet
+
+## Obsidian Outliner Plugin: Deep Dive Tutorial
+- Path: tutorials/obsidian-outliner-plugin
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/index.md
+- Summary: **Project**: [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
+- Keywords: obsidian, outliner, plugin, deep, dive, project, vslinko, that, adds, style, editing, behaviors, demonstrating, advanced, architecture, patterns
+
+## Ollama Tutorial: Running Large Language Models Locally
+- Path: tutorials/ollama-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md
+- Summary: N/A
+- Keywords: ollama, running, large, language, models, locally
+
+## Open WebUI Tutorial: Self-Hosted ChatGPT Alternative
+- Path: tutorials/open-webui-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: open, webui, self, hosted, chatgpt, alternative, this, generated, learn, more, check, out, awesome, code
+
+## OpenAI Python SDK Tutorial: Production API Patterns
+- Path: tutorials/openai-python-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md
+- Summary: Build reliable Python applications with the official OpenAI SDK using Responses-first workflows, with clear migration guidance for legacy APIs.
+- Keywords: openai, python, sdk, production, api, patterns, build, reliable, applications, official, using, responses, first, workflows, clear, migration, guidance, legacy
+
+## OpenAI Realtime Agents Tutorial: Voice-First AI Systems
+- Path: tutorials/openai-realtime-agents-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/index.md
+- Summary: Build low-latency voice agents using OpenAI Realtime APIs and agent orchestration patterns from the official demo repository.
+- Keywords: openai, realtime, agents, voice, first, systems, build, low, latency, using, apis, agent, orchestration, patterns, official, demo, repository
+
+## OpenAI Whisper Tutorial: Speech Recognition and Translation
+- Path: tutorials/openai-whisper-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-whisper-tutorial/index.md
+- Summary: Build robust transcription pipelines with Whisper, from local experiments to production deployment.
+- Keywords: openai, whisper, speech, recognition, translation, build, robust, transcription, pipelines, local, experiments, production, deployment
+
+## OpenBB Tutorial: Complete Guide to Investment Research Platform
+- Path: tutorials/openbb-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openbb-tutorial/index.md
+- Summary: Democratize investment research with OpenBB's comprehensive financial data and analysis platform.
+- Keywords: openbb, complete, investment, research, platform, democratize, comprehensive, financial, data, analysis
+
+## OpenClaw: Deep Dive Tutorial
+- Path: tutorials/openclaw-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md
+- Summary: **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
+- Keywords: openclaw, deep, dive, project, own, personal, assistant, any, platform
+
+## OpenHands Tutorial: AI Software Engineering Agent
+- Path: tutorials/openhands-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md
+- Summary: Master OpenHands (formerly OpenDevin) - the autonomous AI agent that can write code, run commands, and solve complex software engineering tasks.
+- Keywords: openhands, software, engineering, agent, master, formerly, opendevin, autonomous, that, can, write, code, run, commands, solve, complex, tasks
+
+## Outlines Tutorial: Structured Text Generation with LLMs
+- Path: tutorials/outlines-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: outlines, structured, text, generation, llms, this, generated, learn, more, check, out, awesome, code
+
+## Perplexica Tutorial: AI-Powered Search Engine
+- Path: tutorials/perplexica-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/perplexica-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: perplexica, powered, search, engine, this, generated, learn, more, check, out, awesome, code
+
+## Phidata Tutorial: Building Autonomous AI Agents
+- Path: tutorials/phidata-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/phidata-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: phidata, building, autonomous, agents, this, generated, learn, more, check, out, awesome, code
+
+## PhotoPrism Tutorial: AI-Powered Photos App
+- Path: tutorials/photoprism-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/photoprism-tutorial/index.md
+- Summary: **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
+- Keywords: photoprism, powered, photos, app, photo, management, revolution, enhanced, facial, recognition, llm, integrations, advanced, organization, features, mark, evolution
+
+## PostgreSQL Query Planner Deep Dive
+- Path: tutorials/postgresql-query-planner
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md
+- Summary: Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.
+- Keywords: postgresql, query, planner, deep, dive, master, execution, engine, understand, explain, output, optimize, complex, queries, maximum, performance
+
+## PostHog Tutorial: Open Source Product Analytics Platform
+- Path: tutorials/posthog-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/posthog-tutorial/index.md
+- Summary: N/A
+- Keywords: posthog, open, source, product, analytics, platform
+
+## Pydantic AI Tutorial: Type-Safe AI Agent Development
+- Path: tutorials/pydantic-ai-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pydantic-ai-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: pydantic, type, safe, agent, development, this, generated, learn, more, check, out, awesome, code
+
+## Quivr Tutorial: Open-Source RAG Framework for Document Ingestion
+- Path: tutorials/quivr-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/index.md
+- Summary: N/A
+- Keywords: quivr, open, source, rag, framework, document, ingestion
+
+## RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine
+- Path: tutorials/ragflow-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/index.md
+- Summary: Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.
+- Keywords: ragflow, complete, open, source, rag, engine, transform, documents, into, intelligent, systems, comprehensive, retrieval, augmented, generation, platform
+
+## React Fiber Internals
+- Path: tutorials/react-fiber-internals
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/index.md
+- Summary: Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
+- Keywords: react, fiber, internals, deep, dive, into, reconciliation, algorithm, architecture, that, powers, modern, applications
+
+## Roo Code Tutorial: AI Dev Team in Your Editor
+- Path: tutorials/roo-code-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md
+- Summary: Learn `RooCodeInc/Roo-Code`, a multi-mode coding agent extension for VS Code-style workflows with MCP support, checkpoints, and team customization.
+- Keywords: roo, code, dev, team, editor, learn, roocodeinc, multi, mode, coding, agent, extension, style, workflows, mcp, support, checkpoints, customization
+
+## Semantic Kernel Tutorial: Microsoft's AI Orchestration
+- Path: tutorials/semantic-kernel-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md
+- Summary: Build enterprise AI applications with Microsoft's SDK for integrating LLMs.
+- Keywords: semantic, kernel, microsoft, orchestration, build, enterprise, applications, sdk, integrating, llms
+
+## SillyTavern Tutorial: Advanced LLM Frontend for Power Users
+- Path: tutorials/sillytavern-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sillytavern-tutorial/index.md
+- Summary: Unlock the full potential of large language models with SillyTavern's comprehensive interface for role-playing, creative writing, and AI experimentation.
+- Keywords: sillytavern, advanced, llm, frontend, power, users, unlock, full, potential, large, language, models, comprehensive, interface, role, playing, creative, writing
+
+## SiYuan Tutorial: Privacy-First Knowledge Management
+- Path: tutorials/siyuan-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/siyuan-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: siyuan, privacy, first, knowledge, management, this, generated, learn, more, check, out, awesome, code
+
+## Smolagents Tutorial: Hugging Face's Lightweight Agent Framework
+- Path: tutorials/smolagents-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/smolagents-tutorial/index.md
+- Summary: Build efficient AI agents with minimal code using Hugging Face's smolagents library.
+- Keywords: smolagents, hugging, face, lightweight, agent, framework, build, efficient, agents, minimal, code, using, library
+
+## Supabase Tutorial: Building Modern Backend Applications
+- Path: tutorials/supabase-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/index.md
+- Summary: N/A
+- Keywords: supabase, building, modern, backend, applications
+
+## SuperAGI Tutorial: Production-Ready Autonomous AI Agents
+- Path: tutorials/superagi-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: superagi, production, ready, autonomous, agents, this, generated, learn, more, check, out, awesome, code
+
+## OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
+- Path: tutorials/swarm-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md
+- Summary: N/A
+- Keywords: swarm, openai, lightweight, multi, agent, orchestration
+
+## Taskade Tutorial: AI-Powered Productivity Platform
+- Path: tutorials/taskade-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: taskade, powered, productivity, platform, this, generated, learn, more, check, out, awesome, code
+
+## Teable: Deep Dive Tutorial
+- Path: tutorials/teable-database-platform
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/index.md
+- Summary: **Project**: [Teable](https://github.com/teableio/teable) — A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.
+- Keywords: teable, database, platform, deep, dive, project, teableio, high, performance, multi, dimensional, built, postgresql, real, time, collaboration
+
+## tiktoken Tutorial: OpenAI Token Encoding & Optimization
+- Path: tutorials/tiktoken-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tiktoken-tutorial/index.md
+- Summary: Master tiktoken, OpenAI's fast BPE tokenizer, to accurately count tokens, optimize prompts, and reduce API costs.
+- Keywords: tiktoken, openai, token, encoding, optimization, master, fast, bpe, tokenizer, accurately, count, tokens, optimize, prompts, reduce, api, costs
+
+## Turborepo Tutorial: High-Performance Monorepo Build System
+- Path: tutorials/turborepo-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: turborepo, high, performance, monorepo, build, system, this, generated, learn, more, check, out, awesome, code
+
+## Vercel AI SDK Tutorial: TypeScript AI Apps and Agents
+- Path: tutorials/vercel-ai-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md
+- Summary: Build production AI features with `vercel/ai`, the provider-agnostic TypeScript toolkit behind modern streaming and agent-style app experiences.
+- Keywords: vercel, sdk, typescript, apps, agents, build, production, features, provider, agnostic, toolkit, behind, modern, streaming, agent, style, app, experiences
+
+## VibeSDK Tutorial: Build Your Own Vibe-Coding Platform on Cloudflare
+- Path: tutorials/vibesdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md
+- Summary: Learn `cloudflare/vibesdk`, an open-source platform that turns natural-language product prompts into deployable full-stack apps.
+- Keywords: vibesdk, build, own, vibe, coding, platform, cloudflare, learn, open, source, that, turns, natural, language, product, prompts, into, deployable
+
+## vLLM Tutorial: High-Performance LLM Inference
+- Path: tutorials/vllm-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/index.md
+- Summary: Master vLLM for blazing-fast, cost-effective large language model inference with advanced optimization techniques.
+- Keywords: vllm, high, performance, llm, inference, master, blazing, fast, cost, effective, large, language, model, advanced, optimization, techniques
+
+## Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++
+- Path: tutorials/whisper-cpp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/index.md
+- Summary: This tutorial is AI-generated! To learn more, check out [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+- Keywords: whisper, cpp, high, performance, speech, recognition, this, generated, learn, more, check, out, awesome, code
