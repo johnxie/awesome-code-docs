@@ -64,14 +64,14 @@ graph TB
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
-| [1. System Overview](docs/01-system-overview.md) | Architecture | Next.js structure, data flow, core components |
-| [2. Chat Interface](docs/02-chat-interface.md) | Frontend | Message rendering, input handling, conversation management |
-| [3. Streaming Architecture](docs/03-streaming-architecture.md) | Real-Time | SSE streams, token handling, multi-model streaming |
-| [4. AI Integration](docs/04-ai-integration.md) | Providers | Model configuration, provider abstraction, Function Calling |
-| [5. Production Deployment](docs/05-production-deployment.md) | Operations | Docker, Vercel, monitoring, CI/CD, security |
-| [6. Plugin Development](docs/06-plugin-development.md) | Extensibility | Plugin SDK, Function Calling extensions, custom tools |
-| [7. Advanced Customization](docs/07-advanced-customization.md) | Deep Dive | Theme engine, i18n, monorepo architecture, component system |
-| [8. Scaling & Performance](docs/08-scaling-performance.md) | Optimization | Caching, database tuning, edge deployment, load testing |
+| [1. System Overview](01-system-overview.md) | Architecture | Next.js structure, data flow, core components |
+| [2. Chat Interface](02-chat-interface.md) | Frontend | Message rendering, input handling, conversation management |
+| [3. Streaming Architecture](03-streaming-architecture.md) | Real-Time | SSE streams, token handling, multi-model streaming |
+| [4. AI Integration](04-ai-integration.md) | Providers | Model configuration, provider abstraction, Function Calling |
+| [5. Production Deployment](05-production-deployment.md) | Operations | Docker, Vercel, monitoring, CI/CD, security |
+| [6. Plugin Development](06-plugin-development.md) | Extensibility | Plugin SDK, Function Calling extensions, custom tools |
+| [7. Advanced Customization](07-advanced-customization.md) | Deep Dive | Theme engine, i18n, monorepo architecture, component system |
+| [8. Scaling & Performance](08-scaling-performance.md) | Optimization | Caching, database tuning, edge deployment, load testing |
 
 ## Tech Stack
 
@@ -87,7 +87,7 @@ graph TB
 
 ---
 
-Ready to begin? Start with [Chapter 1: System Overview](docs/01-system-overview.md).
+Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 ---
 

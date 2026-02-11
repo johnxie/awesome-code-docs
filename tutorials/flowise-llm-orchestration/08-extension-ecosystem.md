@@ -27,4 +27,4 @@ This chapter covers sustainable extension development and ecosystem growth.
 You now have complete Flowise coverage from architecture and execution to secure production and extensibility.
 
 Related:
-- [Flowise Index](../index.md)
+- [Flowise Index](index.md)

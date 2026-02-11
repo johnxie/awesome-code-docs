@@ -52,14 +52,14 @@ graph TB
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
-| [1. Plugin Architecture](docs/01-plugin-architecture.md) | Foundation | Obsidian plugin API, lifecycle, settings |
-| [2. Text Editing](docs/02-text-editing.md) | Editor | CodeMirror integration, cursor management |
-| [3. Tree Structures](docs/03-tree-structures.md) | Data | Hierarchical list parsing and manipulation |
-| [4. Advanced Features](docs/04-advanced-features.md) | Polish | Folding, drag-and-drop, performance |
-| [5. Keyboard Shortcuts](docs/05-keyboard-shortcuts.md) | Commands | Hotkey registration and command precedence |
-| [6. Testing and Debugging](docs/06-testing-debugging.md) | Quality | Test strategy for tree mutations and editor state |
-| [7. Plugin Packaging](docs/07-plugin-packaging.md) | Release | Manifest/versioning and compatibility strategy |
-| [8. Production Maintenance](docs/08-production-maintenance.md) | Operations | Stability, triage, and long-term maintenance |
+| [1. Plugin Architecture](01-plugin-architecture.md) | Foundation | Obsidian plugin API, lifecycle, settings |
+| [2. Text Editing](02-text-editing.md) | Editor | CodeMirror integration, cursor management |
+| [3. Tree Structures](03-tree-structures.md) | Data | Hierarchical list parsing and manipulation |
+| [4. Advanced Features](04-advanced-features.md) | Polish | Folding, drag-and-drop, performance |
+| [5. Keyboard Shortcuts](05-keyboard-shortcuts.md) | Commands | Hotkey registration and command precedence |
+| [6. Testing and Debugging](06-testing-debugging.md) | Quality | Test strategy for tree mutations and editor state |
+| [7. Plugin Packaging](07-plugin-packaging.md) | Release | Manifest/versioning and compatibility strategy |
+| [8. Production Maintenance](08-production-maintenance.md) | Operations | Stability, triage, and long-term maintenance |
 
 ## Tech Stack
 
@@ -72,7 +72,7 @@ graph TB
 
 ---
 
-Ready to begin? Start with [Chapter 1: Plugin Architecture](docs/01-plugin-architecture.md).
+Ready to begin? Start with [Chapter 1: Plugin Architecture](01-plugin-architecture.md).
 
 ---
 

@@ -22,4 +22,4 @@ Production maintenance focuses on stability, supportability, and long-term evolu
 You now have end-to-end coverage for Obsidian plugin architecture, editing internals, and operational maintenance.
 
 Related:
-- [Obsidian Outliner Index](../index.md)
+- [Obsidian Outliner Index](index.md)
