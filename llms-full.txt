@@ -189,6 +189,12 @@ Main repository:
 - Summary: Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.
 - Keywords: fabric, open, source, framework, augmenting, humans, enhance, human, capabilities, modular, powered, cognitive, assistance, task, automation
 
+## Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents
+- Path: tutorials/figma-context-mcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md
+- Summary: Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
+- Keywords: figma, context, mcp, design, code, workflows, coding, agents, learn, use, glips, framelink, give, structured, higher, fidelity, implementation
+
 ## Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems
 - Path: tutorials/firecrawl-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md
@@ -224,6 +230,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/index.md
 - Summary: A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.
 - Keywords: huggingface, transformers, building, state, art, models, deep, technical, walkthrough, covering
+
+## HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents
+- Path: tutorials/humanlayer-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/humanlayer-tutorial/index.md
+- Summary: Learn how to use `humanlayer/humanlayer` patterns to orchestrate coding agents with stronger context control, human oversight, and team-scale workflows.
+- Keywords: humanlayer, context, engineering, human, governed, coding, agents, learn, use, patterns, orchestrate, stronger, control, oversight, team, scale, workflows
 
 ## Instructor Tutorial: Structured LLM Outputs
 - Path: tutorials/instructor-tutorial

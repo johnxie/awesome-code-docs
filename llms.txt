@@ -45,12 +45,14 @@
 - Dyad Tutorial: Local-First AI App Building: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
 - ElizaOS: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/elizaos-tutorial
 - Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
+- Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/figma-context-mcp-tutorial
 - Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
 - Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
 - GPT Open Source: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gpt-oss-tutorial
 - HAPI Tutorial: Remote Control for Local AI Coding Sessions: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hapi-tutorial
 - Haystack: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/haystack-tutorial
 - HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/huggingface-tutorial
+- HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/humanlayer-tutorial
 - Instructor Tutorial: Structured LLM Outputs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/instructor-tutorial
 - Khoj AI: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/khoj-tutorial
 - Kubernetes Operator Patterns: Building Production-Grade Controllers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-patterns

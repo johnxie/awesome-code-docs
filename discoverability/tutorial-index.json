@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 100,
+  "tutorial_count": 102,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -787,6 +787,34 @@
       "title": "Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md",
+      "index_path": "tutorials/figma-context-mcp-tutorial/index.md",
+      "keywords": [
+        "figma",
+        "context",
+        "mcp",
+        "design",
+        "code",
+        "workflows",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "glips",
+        "framelink",
+        "give",
+        "structured",
+        "higher",
+        "fidelity",
+        "implementation"
+      ],
+      "path": "tutorials/figma-context-mcp-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/figma-context-mcp-tutorial",
+      "slug": "figma-context-mcp-tutorial",
+      "summary": "Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.",
+      "title": "Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md",
       "index_path": "tutorials/firecrawl-tutorial/index.md",
       "keywords": [
@@ -936,6 +964,34 @@
       "slug": "huggingface-tutorial",
       "summary": "A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.",
       "title": "HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/humanlayer-tutorial/index.md",
+      "index_path": "tutorials/humanlayer-tutorial/index.md",
+      "keywords": [
+        "humanlayer",
+        "context",
+        "engineering",
+        "human",
+        "governed",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "patterns",
+        "orchestrate",
+        "stronger",
+        "control",
+        "oversight",
+        "team",
+        "scale",
+        "workflows"
+      ],
+      "path": "tutorials/humanlayer-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/humanlayer-tutorial",
+      "slug": "humanlayer-tutorial",
+      "summary": "Learn how to use `humanlayer/humanlayer` patterns to orchestrate coding agents with stronger context control, human oversight, and team-scale workflows.",
+      "title": "HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/instructor-tutorial/index.md",
