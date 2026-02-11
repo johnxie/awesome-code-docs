@@ -7,27 +7,58 @@ parent: Claude Quickstarts Tutorial
 
 # Chapter 4: Browser and Computer Use
 
-Automation quickstarts demonstrate how Claude can execute browser and desktop actions.
+Browser and desktop control quickstarts are high leverage, but they require explicit safety boundaries.
+
+## Execution Loop
+
+A reliable automation loop is:
+
+1. inspect state (DOM snapshot, screenshot, focused window)
+2. plan a single concrete action
+3. execute action
+4. verify resulting state
+5. repeat until goal or stop condition
+
+This keeps errors localized and makes debugging straightforward.
 
 ## Browser Automation Pattern
 
-- navigate page
-- inspect DOM state
-- perform targeted interactions
-- verify outcome with assertions/screenshots
+Use short, verifiable actions:
 
-## Safety Controls
+- navigate to known URL
+- wait for explicit selectors
+- fill one field at a time
+- verify expected text/state before continuing
 
-- strict allowlist of domains/actions
-- confirmation step for destructive operations
-- timeout and retry policies for flaky pages
+Avoid monolithic "do everything" instructions that hide failure points.
 
-## Computer Use Notes
+## Computer-Use Risk Model
 
-Computer control workflows are powerful but require strong human-in-the-loop controls for production.
+Desktop automation should classify actions into risk tiers:
+
+| Tier | Example | Required Control |
+|:-----|:--------|:-----------------|
+| Low | read visible state | none or lightweight logging |
+| Medium | non-destructive clicks/type | confirmation on first use |
+| High | file deletion/send/submit | explicit human approval per action |
+
+## Guardrails
+
+- strict domain and application allowlists
+- denylist destructive shortcuts by default
+- short action timeouts with retry limits
+- full action log with screenshots for audit
+
+## Failure Recovery
+
+When state diverges from expectations:
+
+- stop action sequence
+- capture current state artifacts
+- ask for user confirmation or corrected target
 
 ## Summary
 
-You can now apply Claude to UI automation with explicit safety boundaries.
+You can now run browser/computer-use workflows with a deterministic control loop and practical safety gates.
 
 Next: [Chapter 5: Autonomous Coding Agents](05-autonomous-coding-agents.md)

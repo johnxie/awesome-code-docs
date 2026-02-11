@@ -7,27 +7,56 @@ parent: Claude Quickstarts Tutorial
 
 # Chapter 5: Autonomous Coding Agents
 
-Coding quickstarts show how to combine planning, execution, and persistence across sessions.
+Autonomous coding quickstarts work best when planning and execution are separated.
 
-## Two-Agent Pattern
+## Two-Agent Baseline
 
-- **Initializer agent**: clarifies goals and constraints.
-- **Coding agent**: implements changes and tests them.
+- **Planner/Initializer**: clarifies objective, constraints, acceptance criteria
+- **Executor/Coder**: performs edits, runs tests, reports concrete outcomes
 
-## Persistence Strategy
+This split reduces context confusion and improves handoff quality.
 
-- Store progress in git commits/branches.
-- Keep machine-readable task state.
-- Resume work from explicit checkpoints.
+## Checkpointed Workflow
+
+Use explicit checkpoints after meaningful work units:
+
+1. expected outcome
+2. files changed
+3. tests run and result
+4. unresolved risks
+5. next step
+
+Store checkpoints in version control or task state files so runs can resume reliably.
+
+## Autonomous Loop Pattern
+
+```text
+plan -> edit -> test -> summarize diff -> checkpoint -> continue or stop
+```
+
+Stop conditions should be explicit:
+
+- acceptance criteria met
+- blocking test failures
+- unsafe/conflicting instructions
 
 ## Quality Controls
 
-- run tests before each checkpoint
-- require diff summaries
-- block merges on failing validations
+| Control | Purpose |
+|:--------|:--------|
+| Required tests per checkpoint | Prevent hidden regressions |
+| Diff summary requirement | Improve reviewability |
+| Policy checks before merge | Enforce org standards |
+| Max iteration budget | Prevent runaway loops |
+
+## Common Failure Modes
+
+- planning omitted, leading to aimless edits
+- too many edits before first test run
+- missing rollback strategy for failed experiments
 
 ## Summary
 
-You can now design persistent coding-agent flows with practical guardrails.
+You can now design autonomous coding flows that are resumable, test-driven, and reviewable.
 
 Next: [Chapter 6: Production Patterns](06-production-patterns.md)

@@ -7,23 +7,53 @@ parent: Claude Quickstarts Tutorial
 
 # Chapter 8: Enterprise Operations
 
-This chapter closes the quickstarts track with enterprise operations patterns.
+This chapter closes the quickstarts path with an enterprise operating model.
 
-## Operations Baseline
+## Multi-Tenant Governance Baseline
 
-- per-tenant quotas and usage governance
-- centralized prompt/config version management
-- incident runbooks for provider degradation
+- per-tenant rate and token quotas
+- model access policies by environment
+- centralized prompt/config versioning
+- approval workflows for high-risk tool classes
 
-## Compliance and Auditability
+## Auditability Requirements
 
-- trace IDs across request, tool, and response paths
-- immutable audit logs for high-risk actions
-- retention and redaction policies by environment
+Capture immutable run metadata:
+
+- request and trace IDs
+- model/version used
+- tools invoked and arguments (with redaction)
+- policy decisions and approval events
+- final outputs and status
+
+Without this, incident response and compliance review become guesswork.
+
+## Reliability and Incident Readiness
+
+- define SLOs for latency and success rate
+- maintain runbooks for provider degradation
+- implement fallback behavior for critical workflows
+- test rollback paths during release drills
+
+## Security and Data Handling
+
+| Area | Enterprise Control |
+|:-----|:-------------------|
+| Secrets | centralized secret management, no inline keys |
+| Data retention | environment-specific retention windows |
+| PII handling | classification + redaction policy |
+| Access control | least privilege by role/team |
+
+## Adoption Playbook
+
+1. launch read-only assistant capabilities first
+2. baseline quality/cost metrics
+3. introduce mutating actions with approvals
+4. expand scope by team with policy templates
 
 ## Final Summary
 
-You now have an end-to-end path from prototype quickstarts to enterprise-grade Claude systems.
+You now have a practical blueprint for scaling Claude quickstarts into governed enterprise operations.
 
 Related:
 - [Anthropic Skills Tutorial](../anthropic-skills-tutorial/)
