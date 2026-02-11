@@ -390,14 +390,14 @@ Main repository:
 ## OpenAI Python SDK Tutorial: Production API Patterns
 - Path: tutorials/openai-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md
-- Summary: Build reliable Python applications with the official OpenAI SDK using Responses-first workflows, with clear migration guidance for legacy APIs.
-- Keywords: openai, python, sdk, production, api, patterns, build, reliable, applications, official, using, responses, first, workflows, clear, migration, guidance, legacy
+- Summary: Learn how to build reliable Python integrations with `openai/openai-python` using Responses-first architecture, migration-safe patterns, and production operations.
+- Keywords: openai, python, sdk, production, api, patterns, learn, build, reliable, integrations, using, responses, first, architecture, migration, safe, operations
 
 ## OpenAI Realtime Agents Tutorial: Voice-First AI Systems
 - Path: tutorials/openai-realtime-agents-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/index.md
-- Summary: Build low-latency voice agents using OpenAI Realtime APIs and agent orchestration patterns from the official demo repository.
-- Keywords: openai, realtime, agents, voice, first, systems, build, low, latency, using, apis, agent, orchestration, patterns, official, demo, repository
+- Summary: Learn how to build low-latency voice agents with `openai/openai-realtime-agents`, including realtime session design, tool orchestration, and production rollout patterns.
+- Keywords: openai, realtime, agents, voice, first, systems, learn, build, low, latency, including, session, design, tool, orchestration, production, rollout, patterns
 
 ## OpenAI Whisper Tutorial: Speech Recognition and Translation
 - Path: tutorials/openai-whisper-tutorial

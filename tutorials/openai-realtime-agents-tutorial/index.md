@@ -3,64 +3,81 @@ layout: default
 title: "OpenAI Realtime Agents Tutorial"
 nav_order: 95
 has_children: true
+format_version: v2
 ---
 
 # OpenAI Realtime Agents Tutorial: Voice-First AI Systems
 
-> Build low-latency voice agents using OpenAI Realtime APIs and agent orchestration patterns from the official demo repository.
+> Learn how to build low-latency voice agents with `openai/openai-realtime-agents`, including realtime session design, tool orchestration, and production rollout patterns.
 
-[![Stars](https://img.shields.io/github/stars/openai/openai-realtime-agents?style=social)](https://github.com/openai/openai-realtime-agents)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Agents SDK](https://img.shields.io/badge/OpenAI-Agents_SDK-blue)](https://github.com/openai/openai-agents-js)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-openai%2Fopenai--realtime--agents-black?logo=github)](https://github.com/openai/openai-realtime-agents)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/openai/openai-realtime-agents/blob/main/LICENSE)
+[![Agents SDK](https://img.shields.io/badge/agents-openai--agents--js-blue)](https://github.com/openai/openai-agents-js)
 
-## What this tutorial covers
+## Why This Track Matters
 
-The `openai/openai-realtime-agents` repository demonstrates two high-impact voice-agent designs:
+Realtime voice agents require different engineering discipline than text-only bots: latency budgets, interruption handling, session resilience, and tool safety all become first-class concerns.
 
-- **Chat-Supervisor**: a fast realtime front agent plus a stronger text supervisor for complex reasoning/tool calls
-- **Sequential Handoff**: multiple specialized realtime agents transferring control by intent
+This track focuses on:
 
-These patterns are practical blueprints for customer support, sales assistants, and operational copilots.
+- architecture patterns from the official OpenAI realtime agent demos
+- reliable voice input/output and turn-management behavior
+- tool-calling and handoff patterns for specialized agent roles
+- migration-safe implementation aligned with current Realtime deprecations
 
-## Current Platform Notes (February 11, 2026)
+## Current Snapshot (Verified February 11, 2026)
 
-- OpenAI documentation now emphasizes the **GA Realtime interface** and migration away from beta semantics.
-- OpenAI deprecation documentation references **February 27, 2026** as the Realtime beta shutdown date.
-- New builds should target GA endpoints/models and avoid beta-only assumptions.
+- repository: [`openai/openai-realtime-agents`](https://github.com/openai/openai-realtime-agents)
+- stars: about **6.8k**
+- release status: no tagged releases at this time (main-branch reference implementation)
+- development activity: active with recent updates
+- project positioning in repo: demonstration patterns for advanced Realtime agent orchestration
 
-## Tutorial Structure
+## Mental Model
 
-| Chapter | Topic | What You Will Learn |
-|:--------|:------|:--------------------|
-| [1. Getting Started](01-getting-started.md) | Setup | Run the official demo and understand baseline architecture |
-| [2. Realtime API Fundamentals](02-realtime-api-fundamentals.md) | Protocol | Session lifecycle, event flow, and transport choices |
-| [3. Voice Input Processing](03-voice-input-processing.md) | Audio In | Capture, VAD strategy, interruption handling, normalization |
-| [4. Conversational AI](04-conversational-ai.md) | Dialogue | Turn management, memory boundaries, and response strategy |
-| [5. Function Calling](05-function-calling.md) | Tooling | Real-time tool execution and safe result integration |
-| [6. Voice Output](06-voice-output.md) | Audio Out | Streaming speech responses and barge-in behavior |
-| [7. Advanced Patterns](07-advanced-patterns.md) | Orchestration | Chat-supervisor and sequential-handoff implementations |
-| [8. Production Deployment](08-production-deployment.md) | Operations | Security, latency, reliability, and rollout controls |
+```mermaid
+flowchart LR
+    A[Audio Input] --> B[Realtime Session]
+    B --> C[Primary Realtime Agent]
+    C --> D[Tools and Handoffs]
+    D --> E[Supervisor or Specialist Agents]
+    E --> F[Audio and Text Response]
+```
 
-## Prerequisites
+## Chapter Guide
 
-- TypeScript/JavaScript comfort
-- WebSocket/WebRTC fundamentals
-- OpenAI platform credentials and API access
-- Basic frontend debugging skills (browser devtools)
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Getting Started](01-getting-started.md) | How do I run the official demos quickly? | Working realtime baseline |
+| [02 - Realtime API Fundamentals](02-realtime-api-fundamentals.md) | How do sessions, events, and transports work? | Correct protocol mental model |
+| [03 - Voice Input Processing](03-voice-input-processing.md) | How do I manage VAD and interruption cleanly? | Better low-latency input handling |
+| [04 - Conversational AI](04-conversational-ai.md) | How do I keep dialogue coherent under realtime constraints? | Stable conversational behavior |
+| [05 - Function Calling](05-function-calling.md) | How do realtime agents call tools safely? | Tool orchestration strategy |
+| [06 - Voice Output](06-voice-output.md) | How do I stream speech responses effectively? | Production voice-response baseline |
+| [07 - Advanced Patterns](07-advanced-patterns.md) | How do chat-supervisor and sequential-handoff patterns differ? | Better architecture tradeoff decisions |
+| [08 - Production Deployment](08-production-deployment.md) | How do I run voice agents with reliability/security controls? | Operations-ready deployment plan |
+
+## What You Will Learn
+
+- how to implement robust realtime voice-agent session flows
+- how to design specialist/supervisor handoffs and tool execution loops
+- how to manage latency, interruption, and recovery in production voice systems
+- how to align implementations with current GA Realtime guidance and beta deprecation timelines
+
+## Source References
+
+- [openai/openai-realtime-agents Repository](https://github.com/openai/openai-realtime-agents)
+- [OpenAI Realtime API Guide](https://platform.openai.com/docs/guides/realtime)
+- [OpenAI API Deprecations](https://platform.openai.com/docs/deprecations)
+- [OpenAI Agents JavaScript SDK](https://github.com/openai/openai-agents-js)
 
 ## Related Tutorials
 
-**Prerequisites:**
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/) - API interaction fundamentals
-
-**Complementary:**
-- [OpenAI Whisper Tutorial](../openai-whisper-tutorial/) - speech transcription foundations
-- [Swarm Tutorial](../swarm-tutorial/) - multi-agent routing concepts
+- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
+- [OpenAI Whisper Tutorial](../openai-whisper-tutorial/)
+- [Swarm Tutorial](../swarm-tutorial/)
+- [Vercel AI Tutorial](../vercel-ai-tutorial/)
 
 ---
 
-Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
-
----
-
-*Built from the official [openai-realtime-agents repository](https://github.com/openai/openai-realtime-agents), OpenAI Python SDK documentation, and OpenAI Realtime migration guidance.*
+Start with [Chapter 1: Getting Started](01-getting-started.md).
