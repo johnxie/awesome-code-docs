@@ -14,13 +14,14 @@
 | Build AI apps with TypeScript | [Vercel AI SDK](../tutorials/vercel-ai-tutorial/) | [CopilotKit](../tutorials/copilotkit-tutorial/) → [LobeChat](../tutorials/lobechat-ai-platform/) |
 | Build chat/product interfaces | [Chatbox](../tutorials/chatbox-tutorial/) | [Open WebUI](../tutorials/open-webui-tutorial/) → [Perplexica](../tutorials/perplexica-tutorial/) |
 | Understand visual workflow products | [Flowise](../tutorials/flowise-llm-orchestration/) | [Dify](../tutorials/dify-platform-deep-dive/) |
-| Build with vibe-coding UX patterns | [bolt.diy](../tutorials/bolt-diy-tutorial/) | [Dyad](../tutorials/dyad-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) |
+| Build with vibe-coding UX patterns | [Stagewise](../tutorials/stagewise-tutorial/) | [Dyad](../tutorials/dyad-tutorial/) → [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) |
 
 ## Featured Framework/App Tracks
 
 - [Vercel AI SDK](../tutorials/vercel-ai-tutorial/)
 - [CopilotKit](../tutorials/copilotkit-tutorial/)
 - [LobeChat](../tutorials/lobechat-ai-platform/)
+- [Stagewise](../tutorials/stagewise-tutorial/)
 - [Flowise](../tutorials/flowise-llm-orchestration/)
 - [Dify](../tutorials/dify-platform-deep-dive/)
 

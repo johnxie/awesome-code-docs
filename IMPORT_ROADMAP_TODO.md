@@ -67,6 +67,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`modelcontextprotocol/create-typescript-server`](https://github.com/modelcontextprotocol/create-typescript-server) | 100+ | P1 | `pack-bu` | done |
 | [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | 32k+ | P1 | `pack-bv` | done |
 | [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | 23k+ | P1 | `pack-bv` | done |
+| [`sweepai/sweep`](https://github.com/sweepai/sweep) | 7k+ | P1 | `pack-bw` | done |
+| [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | 6k+ | P1 | `pack-bw` | done |
 
 ## P2 (Strategic Extensions)
 

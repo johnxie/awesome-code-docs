@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **181**
+- Total tutorials: **183**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -386,6 +386,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.
 - [Smolagents Tutorial: Hugging Face's Lightweight Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/smolagents-tutorial/index.md)
   - Build efficient AI agents with minimal code using Hugging Face's smolagents library.
+- [Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/index.md)
+  - Learn how to use `stagewise-io/stagewise` to connect browser-selected UI context with coding agents, plugin extensions, and multi-agent bridge workflows.
 - [Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md)
   - Learn how to use `strands-agents/sdk-python` to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.
 - [Supabase Tutorial: Building Modern Backend Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/index.md)
@@ -396,6 +398,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `superset-sh/superset` to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.
 - [SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md)
   - Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
+- [Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/index.md)
+  - Learn how to use `sweepai/sweep` to turn GitHub issues into pull requests, operate feedback loops, and run self-hosted or CLI workflows with clear guardrails.
 
 ## T
 
