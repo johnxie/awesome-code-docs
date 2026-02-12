@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **149**
+- Total tutorials: **151**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -33,6 +33,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
 - [Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/index.md)
   - Learn how to use `hesreallyhim/awesome-claude-code` as a high-signal discovery and decision system for skills, commands, hooks, tooling, and `CLAUDE.md` patterns.
+- [Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md)
+  - Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.
 
 ## B
 
@@ -59,6 +61,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `ChromeDevTools/chrome-devtools-mcp` to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.
 - [Cipher Tutorial: Shared Memory Layer for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md)
   - Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
+- [Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-router-tutorial/index.md)
+  - Learn how to use `musistudio/claude-code-router` to route Claude Code workloads across multiple model providers with configurable routing rules, transformers, presets, and operational controls.
 - [Claude Code Tutorial: Agentic Coding from Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
   - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - [Claude-Mem Tutorial: Persistent Memory Compression for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md)

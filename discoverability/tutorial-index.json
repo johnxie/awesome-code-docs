@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 149,
+  "tutorial_count": 151,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -378,6 +378,35 @@
       "title": "Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md",
+      "index_path": "tutorials/awesome-claude-skills-tutorial/index.md",
+      "keywords": [
+        "awesome",
+        "claude",
+        "skills",
+        "high",
+        "signal",
+        "skill",
+        "discovery",
+        "reuse",
+        "workflows",
+        "learn",
+        "use",
+        "composiohq",
+        "discover",
+        "evaluate",
+        "install",
+        "contribute",
+        "coding",
+        "automation"
+      ],
+      "path": "tutorials/awesome-claude-skills-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial",
+      "slug": "awesome-claude-skills-tutorial",
+      "summary": "Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.",
+      "title": "Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md",
       "index_path": "tutorials/beads-tutorial/index.md",
       "keywords": [
@@ -639,6 +668,35 @@
       "slug": "cipher-tutorial",
       "summary": "Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.",
       "title": "Cipher Tutorial: Shared Memory Layer for Coding Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-router-tutorial/index.md",
+      "index_path": "tutorials/claude-code-router-tutorial/index.md",
+      "keywords": [
+        "claude",
+        "code",
+        "router",
+        "multi",
+        "provider",
+        "routing",
+        "control",
+        "plane",
+        "learn",
+        "use",
+        "musistudio",
+        "route",
+        "workloads",
+        "across",
+        "multiple",
+        "model",
+        "providers",
+        "configurable"
+      ],
+      "path": "tutorials/claude-code-router-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-router-tutorial",
+      "slug": "claude-code-router-tutorial",
+      "summary": "Learn how to use `musistudio/claude-code-router` to route Claude Code workloads across multiple model providers with configurable routing rules, transformers, presets, and operational controls.",
+      "title": "Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md",
