@@ -55,8 +55,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe) | 5k+ | P2 | `pack-au` | done |
 | [`SWE-agent/mini-swe-agent`](https://github.com/SWE-agent/mini-swe-agent) | 2k+ | P2 | `pack-aw` | done |
 | [`QwenLM/Qwen-Agent`](https://github.com/QwenLM/Qwen-Agent) | 13k+ | P2 | `pack-aw` | done |
-| [`agentsmd/agents.md`](https://github.com/agentsmd/agents.md) | 17k+ | P2 | `pack-ax` | todo |
-| [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode) | 10k+ | P2 | `pack-ax` | todo |
+| [`agentsmd/agents.md`](https://github.com/agentsmd/agents.md) | 17k+ | P2 | `pack-ax` | done |
+| [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode) | 10k+ | P2 | `pack-ax` | done |
+| [`steveyegge/beads`](https://github.com/steveyegge/beads) | 15k+ | P2 | `pack-ay` | todo |
+| [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | todo |
 
 ## Execution Rules
 

@@ -6,8 +6,8 @@ This document tracks structural and quality gaps that impact completeness and di
 
 | Metric | Value |
 |:-------|:------|
-| Tutorial directories | 133 |
-| Tutorials with exactly 8 numbered chapters | 130 |
+| Tutorial directories | 135 |
+| Tutorials with exactly 8 numbered chapters | 132 |
 | Tutorials with >8 numbered chapters | 3 |
 | Tutorials with 0 numbered chapters | 0 |
 | Tutorials with partial chapter coverage (1-7) | 0 |

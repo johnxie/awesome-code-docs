@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 133,
+  "tutorial_count": 135,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -73,6 +73,35 @@
       "slug": "agentgpt-tutorial",
       "summary": "A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.",
       "title": "AgentGPT Tutorial: Building Autonomous AI Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md",
+      "index_path": "tutorials/agents-md-tutorial/index.md",
+      "keywords": [
+        "agents",
+        "open",
+        "standard",
+        "coding",
+        "agent",
+        "guidance",
+        "repositories",
+        "learn",
+        "use",
+        "agentsmd",
+        "define",
+        "clear",
+        "portable",
+        "instruction",
+        "contract",
+        "across",
+        "projects",
+        "tools"
+      ],
+      "path": "tutorials/agents-md-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agents-md-tutorial",
+      "slug": "agents-md-tutorial",
+      "summary": "Learn how to use `agentsmd/agents.md` to define a clear, portable instruction contract for coding agents across projects and tools.",
+      "title": "AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md",
@@ -2442,6 +2471,32 @@
       "slug": "openclaw-tutorial",
       "summary": "**Project**: [OpenClaw](https://github.com/openclaw/openclaw) \u2014 Your own personal AI assistant. Any OS. Any Platform.",
       "title": "OpenClaw: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-ai-legacy-tutorial/index.md",
+      "index_path": "tutorials/opencode-ai-legacy-tutorial/index.md",
+      "keywords": [
+        "opencode",
+        "legacy",
+        "archived",
+        "terminal",
+        "agent",
+        "workflows",
+        "migration",
+        "crush",
+        "learn",
+        "architecture",
+        "migrate",
+        "safely",
+        "actively",
+        "maintained",
+        "successors"
+      ],
+      "path": "tutorials/opencode-ai-legacy-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-ai-legacy-tutorial",
+      "slug": "opencode-ai-legacy-tutorial",
+      "summary": "Learn from `opencode-ai/opencode` architecture and workflows, and migrate safely to actively maintained successors.",
+      "title": "OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md",

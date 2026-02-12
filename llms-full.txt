@@ -21,6 +21,12 @@ Main repository:
 - Summary: A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
 - Keywords: agentgpt, building, autonomous, agents, deep, technical, walkthrough, covering
 
+## AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories
+- Path: tutorials/agents-md-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md
+- Summary: Learn how to use `agentsmd/agents.md` to define a clear, portable instruction contract for coding agents across projects and tools.
+- Keywords: agents, open, standard, coding, agent, guidance, repositories, learn, use, agentsmd, define, clear, portable, instruction, contract, across, projects, tools
+
 ## Agno Tutorial: Multi-Agent Systems That Learn Over Time
 - Path: tutorials/agno-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md
@@ -566,6 +572,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md
 - Summary: **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
 - Keywords: openclaw, deep, dive, project, own, personal, assistant, any, platform
+
+## OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush
+- Path: tutorials/opencode-ai-legacy-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-ai-legacy-tutorial/index.md
+- Summary: Learn from `opencode-ai/opencode` architecture and workflows, and migrate safely to actively maintained successors.
+- Keywords: opencode, legacy, archived, terminal, agent, workflows, migration, crush, learn, architecture, migrate, safely, actively, maintained, successors
 
 ## OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale
 - Path: tutorials/opencode-tutorial
