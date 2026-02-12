@@ -37,6 +37,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`OthmanAdi/planning-with-files`](https://github.com/OthmanAdi/planning-with-files) | 13k+ | P1 | `pack-bc` | done |
 | [`hesreallyhim/awesome-claude-code`](https://github.com/hesreallyhim/awesome-claude-code) | 23k+ | P1 | `pack-bd` | done |
 | [`refly-ai/refly`](https://github.com/refly-ai/refly) | 6k+ | P1 | `pack-bd` | done |
+| [`github/github-mcp-server`](https://github.com/github/github-mcp-server) | 26k+ | P1 | `pack-be` | done |
+| [`microsoft/playwright-mcp`](https://github.com/microsoft/playwright-mcp) | 27k+ | P1 | `pack-be` | done |
 
 ## P2 (Strategic Extensions)
 

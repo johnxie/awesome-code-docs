@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 147,
+  "tutorial_count": 149,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -1469,6 +1469,35 @@
       "slug": "gemini-cli-tutorial",
       "summary": "Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.",
       "title": "Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/github-mcp-server-tutorial/index.md",
+      "index_path": "tutorials/github-mcp-server-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "server",
+        "production",
+        "operations",
+        "through",
+        "learn",
+        "use",
+        "connect",
+        "coding",
+        "agents",
+        "directly",
+        "repositories",
+        "issues",
+        "pull",
+        "requests",
+        "actions",
+        "code",
+        "security"
+      ],
+      "path": "tutorials/github-mcp-server-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/github-mcp-server-tutorial",
+      "slug": "github-mcp-server-tutorial",
+      "summary": "Learn how to use `github/github-mcp-server` to connect coding agents directly to repositories, issues, pull requests, actions, and code security workflows with stronger control.",
+      "title": "GitHub MCP Server Tutorial: Production GitHub Operations Through MCP"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md",
@@ -3018,6 +3047,35 @@
       "slug": "planning-with-files-tutorial",
       "summary": "Learn how to use `OthmanAdi/planning-with-files` to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.",
       "title": "Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/playwright-mcp-tutorial/index.md",
+      "index_path": "tutorials/playwright-mcp-tutorial/index.md",
+      "keywords": [
+        "playwright",
+        "mcp",
+        "browser",
+        "automation",
+        "coding",
+        "agents",
+        "through",
+        "learn",
+        "use",
+        "microsoft",
+        "give",
+        "structured",
+        "accessibility",
+        "snapshots",
+        "deterministic",
+        "actions",
+        "portable",
+        "host"
+      ],
+      "path": "tutorials/playwright-mcp-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/playwright-mcp-tutorial",
+      "slug": "playwright-mcp-tutorial",
+      "summary": "Learn how to use `microsoft/playwright-mcp` to give AI coding agents structured browser automation with accessibility snapshots, deterministic actions, and portable MCP host integrations.",
+      "title": "Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md",

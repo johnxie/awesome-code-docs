@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **147**
+- Total tutorials: **149**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -133,6 +133,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
 - [Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md)
   - Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
+- [GitHub MCP Server Tutorial: Production GitHub Operations Through MCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/github-mcp-server-tutorial/index.md)
+  - Learn how to use `github/github-mcp-server` to connect coding agents directly to repositories, issues, pull requests, actions, and code security workflows with stronger control.
 - [Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md)
   - Learn how to use `block/goose` to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.
 - [GPT Open Source: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md)
@@ -281,6 +283,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
 - [Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/index.md)
   - Learn how to use `OthmanAdi/planning-with-files` to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.
+- [Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/playwright-mcp-tutorial/index.md)
+  - Learn how to use `microsoft/playwright-mcp` to give AI coding agents structured browser automation with accessibility snapshots, deterministic actions, and portable MCP host integrations.
 - [PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md)
   - Learn how to build agentic applications with `The-Pocket/PocketFlow`, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
 - [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md)

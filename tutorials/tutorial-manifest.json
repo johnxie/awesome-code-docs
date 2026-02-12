@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 147
+    "root_only": 149
   },
-  "tutorial_count": 147,
+  "tutorial_count": 149,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -1049,6 +1049,25 @@
       "has_index": true,
       "name": "gemini-cli-tutorial",
       "path": "tutorials/gemini-cli-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "github-mcp-server-tutorial",
+      "path": "tutorials/github-mcp-server-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -2191,6 +2210,25 @@
       "has_index": true,
       "name": "planning-with-files-tutorial",
       "path": "tutorials/planning-with-files-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "playwright-mcp-tutorial",
+      "path": "tutorials/playwright-mcp-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
