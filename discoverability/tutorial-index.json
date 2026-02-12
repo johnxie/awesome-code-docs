@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 129,
+  "tutorial_count": 131,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -438,6 +438,35 @@
       "title": "ChromaDB Tutorial: Building AI-Native Vector Databases"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chrome-devtools-mcp-tutorial/index.md",
+      "index_path": "tutorials/chrome-devtools-mcp-tutorial/index.md",
+      "keywords": [
+        "chrome",
+        "devtools",
+        "mcp",
+        "browser",
+        "automation",
+        "debugging",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "chromedevtools",
+        "give",
+        "reliable",
+        "control",
+        "performance",
+        "tracing",
+        "deep",
+        "capabilities"
+      ],
+      "path": "tutorials/chrome-devtools-mcp-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chrome-devtools-mcp-tutorial",
+      "slug": "chrome-devtools-mcp-tutorial",
+      "summary": "Learn how to use `ChromeDevTools/chrome-devtools-mcp` to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.",
+      "title": "Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md",
       "index_path": "tutorials/cipher-tutorial/index.md",
       "keywords": [
@@ -677,6 +706,35 @@
       "slug": "codex-analysis-platform",
       "summary": "Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.",
       "title": "Codex Analysis Platform Tutorial: Build Code Intelligence Systems"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/index.md",
+      "index_path": "tutorials/codex-cli-tutorial/index.md",
+      "keywords": [
+        "codex",
+        "cli",
+        "local",
+        "terminal",
+        "agent",
+        "workflows",
+        "openai",
+        "learn",
+        "use",
+        "run",
+        "lightweight",
+        "coding",
+        "locally",
+        "strong",
+        "controls",
+        "auth",
+        "configuration",
+        "mcp"
+      ],
+      "path": "tutorials/codex-cli-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-cli-tutorial",
+      "slug": "codex-cli-tutorial",
+      "summary": "Learn how to use `openai/codex` to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.",
+      "title": "Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md",

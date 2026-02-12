@@ -27,6 +27,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook) | 24k+ | P1 | `pack-aq` | done |
 | [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban) | 21k+ | P1 | `pack-as` | done |
 | [`winfunc/opcode`](https://github.com/winfunc/opcode) | 20k+ | P1 | `pack-as` | done |
+| [`openai/codex`](https://github.com/openai/codex) | 60k+ | P1 | `pack-av` | done |
+| [`ChromeDevTools/chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | 24k+ | P1 | `pack-av` | done |
 
 ## P2 (Strategic Extensions)
 
@@ -51,6 +53,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python) | 5k+ | P2 | `pack-at` | done |
 | [`SWE-agent/SWE-agent`](https://github.com/SWE-agent/SWE-agent) | 18k+ | P2 | `pack-au` | done |
 | [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe) | 5k+ | P2 | `pack-au` | done |
+| [`SWE-agent/mini-swe-agent`](https://github.com/SWE-agent/mini-swe-agent) | 2k+ | P2 | `pack-aw` | todo |
+| [`QwenLM/Qwen-Agent`](https://github.com/QwenLM/Qwen-Agent) | 13k+ | P2 | `pack-aw` | todo |
 
 ## Execution Rules
 

@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **129**
+- Total tutorials: **131**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -45,6 +45,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `CherryHQ/cherry-studio` to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.
 - [ChromaDB Tutorial: Building AI-Native Vector Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md)
   - A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
+- [Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chrome-devtools-mcp-tutorial/index.md)
+  - Learn how to use `ChromeDevTools/chrome-devtools-mcp` to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.
 - [Cipher Tutorial: Shared Memory Layer for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md)
   - Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
 - [Claude Code Tutorial: Agentic Coding from Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
@@ -63,6 +65,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `moazbuilds/CodeMachine-CLI` to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.
 - [Codex Analysis Platform Tutorial: Build Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md)
   - Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
+- [Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/index.md)
+  - Learn how to use `openai/codex` to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
   - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 - [Context7 Tutorial: Live Documentation Context for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md)
