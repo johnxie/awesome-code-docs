@@ -243,10 +243,10 @@ Found an issue or want to improve this tutorial? Contributions are welcome!
 
 ## 📚 Additional Resources
 
-- [Official Documentation](https://docs.deer-flow.io/)
+- [Official Documentation](https://github.com/bytedance/deer-flow/tree/main/docs)
 - [GitHub Repository](https://github.com/bytedance/deer-flow)
-- [API Reference](https://docs.deer-flow.io/api)
-- [Community Forum](https://forum.deer-flow.io/)
+- [API Reference](https://github.com/bytedance/deer-flow/blob/main/docs/API.md)
+- [Community & Issues](https://github.com/bytedance/deer-flow/issues)
 - [Workflow Examples](https://github.com/bytedance/deer-flow/tree/main/examples)
 
 ## 🙏 Acknowledgments

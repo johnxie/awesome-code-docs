@@ -73,7 +73,7 @@ flowchart LR
 - [Using extensions](https://block.github.io/goose/docs/getting-started/using-extensions)
 - [CLI commands](https://block.github.io/goose/docs/guides/goose-cli-commands)
 - [Permissions guide](https://block.github.io/goose/docs/guides/goose-permissions)
-- [Architecture guide](https://block.github.io/goose/docs/goose-architecture/goose-architecture)
+- [Architecture guide](https://block.github.io/goose/docs/goose-architecture/)
 
 ## Related Tutorials
 

@@ -1231,10 +1231,10 @@ You've successfully completed the comprehensive RAGFlow tutorial! 🎉
 
 ### Resources for Continued Success
 
-- **RAGFlow Documentation**: [docs.ragflow.io](https://docs.ragflow.io)
-- **Community Forum**: [forum.ragflow.io](https://forum.ragflow.io)
+- **RAGFlow Documentation**: [ragflow.io/docs/dev](https://ragflow.io/docs/dev/)
+- **Community (Discord)**: [discord.gg/NjYzJD3GM3](https://discord.gg/NjYzJD3GM3)
 - **GitHub Repository**: [github.com/infiniflow/ragflow](https://github.com/infiniflow/ragflow)
-- **Blog & Updates**: [blog.ragflow.io](https://blog.ragflow.io)
+- **Releases & Updates**: [github.com/infiniflow/ragflow/releases](https://github.com/infiniflow/ragflow/releases)
 
 ---
 

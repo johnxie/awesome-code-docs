@@ -702,4 +702,4 @@ The UI is the user's window into Perplexica's capabilities. The next chapter exp
 
 ---
 
-*Built with insights from the [Perplexica](https://github.com/ItzCraworCoded/Perplexica) project.*
+*Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*

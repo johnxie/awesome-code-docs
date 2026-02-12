@@ -243,7 +243,7 @@ Found an issue or want to improve this tutorial? Contributions are welcome!
 
 - [Official Documentation](https://docs.fabric.io/)
 - [GitHub Repository](https://github.com/danielmiessler/Fabric)
-- [Pattern Library](https://github.com/danielmiessler/Fabric/tree/main/patterns)
+- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
 - [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
 - [API Reference](https://docs.fabric.io/api)
 

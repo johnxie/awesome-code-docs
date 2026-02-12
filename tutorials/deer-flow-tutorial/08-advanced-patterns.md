@@ -475,9 +475,9 @@ Congratulations! You've completed the Deer Flow tutorial. You now have the knowl
 
 ## Further Resources
 
-- [Deer Flow Documentation](https://docs.deer-flow.io/)
+- [Deer Flow Documentation](https://github.com/bytedance/deer-flow/tree/main/docs)
 - [GitHub Repository](https://github.com/bytedance/deer-flow)
-- [Example Workflows](https://github.com/bytedance/deer-flow/examples)
+- [Example Workflows](https://github.com/bytedance/deer-flow/tree/main/examples)
 
 ---
 

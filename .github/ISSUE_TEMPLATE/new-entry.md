@@ -16,7 +16,7 @@ assignees: ''
 ## 📝 Why This Documentation is Great
 
 ```markdown
-### [Documentation Title](https://example.com/docs)
+### [Documentation Title](https://example.com)
 **Format | Difficulty | Time Estimate**
 
 > One sentence explaining what makes this documentation special.

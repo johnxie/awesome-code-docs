@@ -179,7 +179,7 @@ Found an issue or want to improve this tutorial? Contributions are welcome!
 - [Official Documentation](https://ragflow.io/docs/)
 - [GitHub Repository](https://github.com/infiniflow/ragflow)
 - [Community Discord](https://discord.gg/ragflow)
-- [API Reference](https://ragflow.io/api/)
+- [API Reference](https://ragflow.io/docs/dev/http_api_reference)
 
 ## 🙏 Acknowledgments
 

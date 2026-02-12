@@ -612,7 +612,7 @@ Congratulations! You've completed the Fabric tutorial. You now have the knowledg
 ## Further Resources
 
 - [Fabric GitHub](https://github.com/danielmiessler/Fabric)
-- [Pattern Library](https://github.com/danielmiessler/Fabric/tree/main/patterns)
+- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
 - [Community Discord](https://discord.gg/fabric)
 
 ---

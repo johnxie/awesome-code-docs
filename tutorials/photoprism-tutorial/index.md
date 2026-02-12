@@ -148,7 +148,7 @@ By the end of this tutorial, you'll be able to:
 - **GitHub Repository**: [github.com/photoprism/photoprism](https://github.com/photoprism/photoprism)
 - **Demo Instance**: [demo.photoprism.app](https://demo.photoprism.app)
 - **API Documentation**: [docs.photoprism.app/developer-guide/api](https://docs.photoprism.app/developer-guide/api/)
-- **Community Forum**: [forum.photoprism.app](https://forum.photoprism.app)
+- **Community Discussions**: [github.com/photoprism/photoprism/discussions](https://github.com/photoprism/photoprism/discussions)
 
 ---
 

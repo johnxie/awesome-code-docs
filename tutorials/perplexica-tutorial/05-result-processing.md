@@ -611,4 +611,4 @@ With result processing understood, the next chapter covers how these processed a
 
 ---
 
-*Built with insights from the [Perplexica](https://github.com/ItzCraworCoded/Perplexica) project.*
+*Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*
