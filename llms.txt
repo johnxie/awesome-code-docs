@@ -14,6 +14,7 @@
 - Infrastructure: Ollama, vLLM, LiteLLM, llama.cpp
 
 ## Tutorial Directory
+- ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/adk-python-tutorial
 - AG2 Tutorial: Next-Generation Multi-Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ag2-tutorial
 - AgentGPT Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial
 - Agno Tutorial: Multi-Agent Systems That Learn Over Time: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agno-tutorial
@@ -126,6 +127,7 @@
 - SillyTavern Tutorial: Advanced LLM Frontend for Power Users: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sillytavern-tutorial
 - SiYuan Tutorial: Privacy-First Knowledge Management: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/siyuan-tutorial
 - Smolagents Tutorial: Hugging Face's Lightweight Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/smolagents-tutorial
+- Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/strands-agents-tutorial
 - Supabase Tutorial: Building Modern Backend Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/supabase-tutorial
 - SuperAGI Tutorial: Production-Ready Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superagi-tutorial
 - Superset Terminal Tutorial: Command Center for Parallel Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superset-terminal-tutorial

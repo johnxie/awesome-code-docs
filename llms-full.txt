@@ -3,6 +3,12 @@
 Main repository:
 - https://github.com/johnxie/awesome-code-docs
 
+## ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK
+- Path: tutorials/adk-python-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md
+- Summary: Learn how to use `google/adk-python` to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
+- Keywords: adk, python, production, grade, agent, engineering, google, learn, use, build, evaluate, deploy, modular, systems, strong, tooling, session, controls
+
 ## AG2 Tutorial: Next-Generation Multi-Agent Framework
 - Path: tutorials/ag2-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md
@@ -674,6 +680,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/smolagents-tutorial/index.md
 - Summary: Build efficient AI agents with minimal code using Hugging Face's smolagents library.
 - Keywords: smolagents, hugging, face, lightweight, agent, framework, build, efficient, agents, minimal, code, using, library
+
+## Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support
+- Path: tutorials/strands-agents-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md
+- Summary: Learn how to use `strands-agents/sdk-python` to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.
+- Keywords: strands, agents, model, driven, agent, systems, native, mcp, support, learn, use, sdk, python, build, lightweight, strong, tool, abstractions
 
 ## Supabase Tutorial: Building Modern Backend Applications
 - Path: tutorials/supabase-tutorial

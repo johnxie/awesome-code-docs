@@ -2,11 +2,13 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **125**
+- Total tutorials: **127**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
 
+- [ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md)
+  - Learn how to use `google/adk-python` to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
 - [AG2 Tutorial: Next-Generation Multi-Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md)
   - Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
 - [AgentGPT Tutorial: Building Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md)
@@ -284,6 +286,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.
 - [Smolagents Tutorial: Hugging Face's Lightweight Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/smolagents-tutorial/index.md)
   - Build efficient AI agents with minimal code using Hugging Face's smolagents library.
+- [Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md)
+  - Learn how to use `strands-agents/sdk-python` to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.
 - [Supabase Tutorial: Building Modern Backend Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/index.md)
   - Deep technical walkthrough.
 - [SuperAGI Tutorial: Production-Ready Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md)
