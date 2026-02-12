@@ -567,11 +567,23 @@ Main repository:
 - Summary: Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - Keywords: mastra, typescript, framework, agents, workflows, learn, build, production, applications, including, memory, mcp, tooling, reliability, operations
 
+## MCP Inspector Tutorial: Debugging and Validating MCP Servers
+- Path: tutorials/mcp-inspector-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
+- Keywords: mcp, inspector, debugging, validating, servers, learn, use, modelcontextprotocol, test, across, stdio, sse, streamable, safer, auth, defaults, repeatable, cli
+
 ## MCP Python SDK Tutorial: Building AI Tool Servers
 - Path: tutorials/mcp-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md
 - Summary: Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - Keywords: mcp, python, sdk, building, tool, servers, master, model, context, protocol, build, custom, that, extend, claude, other, llms, powerful
+
+## MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers
+- Path: tutorials/mcp-registry-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md
+- Summary: Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
+- Keywords: mcp, registry, publishing, discovery, governance, servers, learn, modelcontextprotocol, works, end, authenticated, server, metadata, consuming, api, aggregator, operating, infrastructure
 
 ## MCP Servers Tutorial: Reference Implementations and Patterns
 - Path: tutorials/mcp-servers-tutorial

@@ -79,10 +79,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | done |
 | [`Fosowl/agenticSeek`](https://github.com/Fosowl/agenticSeek) | 25k+ | P2 | `pack-az` | done |
 | [`wshobson/agents`](https://github.com/wshobson/agents) | 28k+ | P2 | `pack-az` | done |
-| [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox) | 12k+ | P2 | `pack-bk` | in_progress |
-| [`awslabs/mcp`](https://github.com/awslabs/mcp) | 8k+ | P2 | `pack-bk` | in_progress |
-| [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector) | 8k+ | P2 | `pack-bl` | queued |
-| [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry) | 6k+ | P2 | `pack-bl` | queued |
+| [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox) | 12k+ | P2 | `pack-bk` | done |
+| [`awslabs/mcp`](https://github.com/awslabs/mcp) | 8k+ | P2 | `pack-bk` | done |
+| [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector) | 8k+ | P2 | `pack-bl` | in_progress |
+| [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry) | 6k+ | P2 | `pack-bl` | in_progress |
 
 ## Execution Rules
 

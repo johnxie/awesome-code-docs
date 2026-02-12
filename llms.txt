@@ -108,7 +108,9 @@
 - LocalAI Tutorial: Self-Hosted OpenAI Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/localai-tutorial
 - Logseq: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management
 - Mastra Tutorial: TypeScript Framework for AI Agents and Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mastra-tutorial
+- MCP Inspector Tutorial: Debugging and Validating MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-inspector-tutorial
 - MCP Python SDK Tutorial: Building AI Tool Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-python-sdk-tutorial
+- MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-registry-tutorial
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial

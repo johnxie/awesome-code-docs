@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 159,
+  "tutorial_count": 161,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2503,6 +2503,35 @@
       "title": "Mastra Tutorial: TypeScript Framework for AI Agents and Workflows"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md",
+      "index_path": "tutorials/mcp-inspector-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "inspector",
+        "debugging",
+        "validating",
+        "servers",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "test",
+        "across",
+        "stdio",
+        "sse",
+        "streamable",
+        "safer",
+        "auth",
+        "defaults",
+        "repeatable",
+        "cli"
+      ],
+      "path": "tutorials/mcp-inspector-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-inspector-tutorial",
+      "slug": "mcp-inspector-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.",
+      "title": "MCP Inspector Tutorial: Debugging and Validating MCP Servers"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md",
       "index_path": "tutorials/mcp-python-sdk-tutorial/index.md",
       "keywords": [
@@ -2530,6 +2559,35 @@
       "slug": "mcp-python-sdk-tutorial",
       "summary": "Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.",
       "title": "MCP Python SDK Tutorial: Building AI Tool Servers"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md",
+      "index_path": "tutorials/mcp-registry-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "registry",
+        "publishing",
+        "discovery",
+        "governance",
+        "servers",
+        "learn",
+        "modelcontextprotocol",
+        "works",
+        "end",
+        "authenticated",
+        "server",
+        "metadata",
+        "consuming",
+        "api",
+        "aggregator",
+        "operating",
+        "infrastructure"
+      ],
+      "path": "tutorials/mcp-registry-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-registry-tutorial",
+      "slug": "mcp-registry-tutorial",
+      "summary": "Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.",
+      "title": "MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md",

@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **159**
+- Total tutorials: **161**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -228,8 +228,12 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 - [Mastra Tutorial: TypeScript Framework for AI Agents and Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md)
   - Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
+- [MCP Inspector Tutorial: Debugging and Validating MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
 - [MCP Python SDK Tutorial: Building AI Tool Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md)
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
+- [MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md)
+  - Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
 - [MCP Servers Tutorial: Reference Implementations and Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md)
   - Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
 - [MeiliSearch Tutorial: Lightning Fast Search Engine](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md)
