@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **119**
+- Total tutorials: **121**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -204,6 +204,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - **Project**: [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
 - [Ollama Tutorial: Running and Serving LLMs Locally](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md)
   - Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
+- [Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md)
+  - Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.
 - [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md)
   - Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
 - [OpenAI Python SDK Tutorial: Production API Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md)
@@ -266,6 +268,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Semantic Kernel Tutorial: Microsoft's AI Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md)
   - Build enterprise AI applications with Microsoft's SDK for integrating LLMs.
+- [Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/serena-tutorial/index.md)
+  - Learn how to use `oraios/serena` to give coding agents IDE-grade semantic retrieval and editing tools across large codebases.
 - [Shotgun Tutorial: Spec-Driven Development for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md)
   - Learn how to use `shotgun-sh/shotgun` to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.
 - [SillyTavern Tutorial: Advanced LLM Frontend for Power Users](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sillytavern-tutorial/index.md)
