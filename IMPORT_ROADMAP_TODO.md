@@ -39,6 +39,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`refly-ai/refly`](https://github.com/refly-ai/refly) | 6k+ | P1 | `pack-bd` | done |
 | [`github/github-mcp-server`](https://github.com/github/github-mcp-server) | 26k+ | P1 | `pack-be` | done |
 | [`microsoft/playwright-mcp`](https://github.com/microsoft/playwright-mcp) | 27k+ | P1 | `pack-be` | done |
+| [`ComposioHQ/awesome-claude-skills`](https://github.com/ComposioHQ/awesome-claude-skills) | 34k+ | P1 | `pack-bf` | done |
+| [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router) | 27k+ | P1 | `pack-bf` | done |
 
 ## P2 (Strategic Extensions)
 

@@ -28,6 +28,7 @@
 - AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
 - Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-code-tutorial
+- Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial
 - Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/beads-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
 - bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
@@ -38,6 +39,7 @@
 - ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
 - Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chrome-devtools-mcp-tutorial
 - Cipher Tutorial: Shared Memory Layer for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cipher-tutorial
+- Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-router-tutorial
 - Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
 - Claude-Mem Tutorial: Persistent Memory Compression for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-mem-tutorial
 - Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-plugins-official-tutorial
