@@ -59,6 +59,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`modelcontextprotocol/ruby-sdk`](https://github.com/modelcontextprotocol/ruby-sdk) | 700+ | P1 | `pack-bq` | done |
 | [`modelcontextprotocol/php-sdk`](https://github.com/modelcontextprotocol/php-sdk) | 1k+ | P1 | `pack-br` | done |
 | [`modelcontextprotocol/ext-apps`](https://github.com/modelcontextprotocol/ext-apps) | 1k+ | P1 | `pack-br` | done |
+| [`modelcontextprotocol/mcpb`](https://github.com/modelcontextprotocol/mcpb) | 1k+ | P1 | `pack-bs` | done |
+| [`modelcontextprotocol/use-mcp`](https://github.com/modelcontextprotocol/use-mcp) | 1k+ | P1 | `pack-bs` | done |
 
 ## P2 (Strategic Extensions)
 

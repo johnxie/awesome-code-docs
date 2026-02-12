@@ -4,7 +4,7 @@
 
 ## Snapshot (February 12, 2026)
 
-- repository-wide tutorials: **173**
+- repository-wide tutorials: **175**
 - AI/agent + developer-tooling coverage: **largest cluster in the catalog**
 - canonical structure status: **all tracks publish full chapter sets**
 
@@ -17,7 +17,7 @@
 | Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) |
 | Build RAG systems | [LlamaIndex](../tutorials/llamaindex-tutorial/) | [Haystack](../tutorials/haystack-tutorial/) → [RAGFlow](../tutorials/ragflow-tutorial/) |
 | Run LLMs in production | [Ollama](../tutorials/ollama-tutorial/) | [vLLM](../tutorials/vllm-tutorial/) → [LiteLLM](../tutorials/litellm-tutorial/) |
-| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [FastMCP](../tutorials/fastmcp-tutorial/) → [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](../tutorials/awesome-mcp-servers-tutorial/) → [Composio](../tutorials/composio-tutorial/) → [Daytona](../tutorials/daytona-tutorial/) → [GenAI Toolbox](../tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](../tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](../tutorials/mcp-inspector-tutorial/) → [MCP Registry](../tutorials/mcp-registry-tutorial/) → [MCP Specification](../tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](../tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](../tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](../tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](../tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](../tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](../tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](../tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](../tutorials/mcp-ruby-sdk-tutorial/) → [MCP PHP SDK](../tutorials/mcp-php-sdk-tutorial/) → [MCP Ext Apps](../tutorials/mcp-ext-apps-tutorial/) → [MCP Use](../tutorials/mcp-use-tutorial/) |
+| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [FastMCP](../tutorials/fastmcp-tutorial/) → [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](../tutorials/awesome-mcp-servers-tutorial/) → [Composio](../tutorials/composio-tutorial/) → [Daytona](../tutorials/daytona-tutorial/) → [GenAI Toolbox](../tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](../tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](../tutorials/mcp-inspector-tutorial/) → [MCP Registry](../tutorials/mcp-registry-tutorial/) → [MCP Specification](../tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](../tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](../tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](../tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](../tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](../tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](../tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](../tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](../tutorials/mcp-ruby-sdk-tutorial/) → [MCP PHP SDK](../tutorials/mcp-php-sdk-tutorial/) → [MCP Ext Apps](../tutorials/mcp-ext-apps-tutorial/) → [MCPB](../tutorials/mcpb-tutorial/) → [use-mcp](../tutorials/use-mcp-tutorial/) → [MCP Use](../tutorials/mcp-use-tutorial/) |
 
 ## Featured AI/ML Tutorial Tracks
 
@@ -45,6 +45,8 @@
 - [MCP Ruby SDK](../tutorials/mcp-ruby-sdk-tutorial/)
 - [MCP PHP SDK](../tutorials/mcp-php-sdk-tutorial/)
 - [MCP Ext Apps](../tutorials/mcp-ext-apps-tutorial/)
+- [MCPB](../tutorials/mcpb-tutorial/)
+- [use-mcp](../tutorials/use-mcp-tutorial/)
 - [MCP Use](../tutorials/mcp-use-tutorial/)
 - [OpenAI Python SDK](../tutorials/openai-python-sdk-tutorial/)
 - [OpenAI Realtime Agents](../tutorials/openai-realtime-agents-tutorial/)

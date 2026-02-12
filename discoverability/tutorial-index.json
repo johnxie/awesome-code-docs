@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 173,
+  "tutorial_count": 175,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2963,6 +2963,35 @@
       "title": "MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcpb-tutorial/index.md",
+      "index_path": "tutorials/mcpb-tutorial/index.md",
+      "keywords": [
+        "mcpb",
+        "packaging",
+        "distributing",
+        "local",
+        "mcp",
+        "servers",
+        "bundles",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "package",
+        "into",
+        "signed",
+        "manifest",
+        "metadata",
+        "cli",
+        "workflows",
+        "distribution"
+      ],
+      "path": "tutorials/mcpb-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcpb-tutorial",
+      "slug": "mcpb-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/mcpb` to package local MCP servers into signed `.mcpb` bundles with manifest metadata, CLI workflows, and distribution-ready operational controls.",
+      "title": "MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md",
       "index_path": "tutorials/meilisearch-tutorial/index.md",
       "keywords": [
@@ -4408,6 +4437,35 @@
       "slug": "turborepo-tutorial",
       "summary": "A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.",
       "title": "Turborepo Tutorial: High-Performance Monorepo Build System"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/use-mcp-tutorial/index.md",
+      "index_path": "tutorials/use-mcp-tutorial/index.md",
+      "keywords": [
+        "use",
+        "mcp",
+        "react",
+        "hook",
+        "patterns",
+        "client",
+        "integration",
+        "learn",
+        "modelcontextprotocol",
+        "connect",
+        "apps",
+        "servers",
+        "oauth",
+        "aware",
+        "flows",
+        "tool",
+        "resource",
+        "prompt"
+      ],
+      "path": "tutorials/use-mcp-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/use-mcp-tutorial",
+      "slug": "use-mcp-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/use-mcp` to connect React apps to MCP servers with OAuth-aware flows, tool/resource/prompt access, and resilient transport lifecycle handling.",
+      "title": "use-mcp Tutorial: React Hook Patterns for MCP Client Integration"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md",
