@@ -14,7 +14,7 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-155-brightgreen.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-157-brightgreen.svg)](#-tutorial-catalog)
 [![Content Hours](https://img.shields.io/badge/content-1700%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -64,11 +64,11 @@ Use this quick-start map if you searched for a specific outcome.
 | Search Intent | Start Here | Then Go To |
 |:--------------|:-----------|:-----------|
 | open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
-| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) |
+| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) |
 
 ---
 
@@ -132,6 +132,7 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[Deer Flow](tutorials/deer-flow-tutorial/)** | - | Python | Research agent workflows |
 | **[Letta](tutorials/letta-tutorial/)** | 14K+ | Python | Stateful agents with long-term memory |
 | **[Anthropic Skills](tutorials/anthropic-skills-tutorial/)** | 59K+ | Python/TypeScript | Reusable AI agent capabilities, MCP integration |
+| **[Claude Flow](tutorials/claude-flow-tutorial/)** | 14.0K+ | TypeScript | Multi-agent orchestration, MCP server operations, and V2-V3 migration tradeoffs |
 
 ### 🧠 LLM Frameworks & RAG
 
@@ -201,6 +202,7 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[Cloudflare VibeSDK](tutorials/vibesdk-tutorial/)** | 4.7K+ | TypeScript/Cloudflare | Build and operate a cloud-native vibe-coding platform |
 | **[HAPI](tutorials/hapi-tutorial/)** | 1.4K+ | TypeScript/CLI | Remote control and approval workflows for local coding agents |
+| **[Daytona](tutorials/daytona-tutorial/)** | 55.3K+ | Go/TypeScript/Python | Secure sandbox infrastructure for AI-generated code and coding-agent execution |
 | **[OpenHands](tutorials/openhands-tutorial/)** | 67K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
 | **[Claude Code](tutorials/claude-code-tutorial/)** | - | TypeScript | Anthropic's AI coding CLI |
@@ -337,9 +339,9 @@ llama.cpp ──→ vLLM ──→ LiteLLM ──→ BentoML ──→ K8s Opera
 > *"I want to understand how AI coding assistants work"*
 
 ```
-Continue ──→ Aider ──→ OpenHands ──→ Browser Use ──→ Claude Code
- (code         (pair     (AI SWE      (browser        (CLI
-  completion)   prog)     agent)       automation)      agent)
+Continue ──→ Aider ──→ OpenHands ──→ Claude Code ──→ Claude Flow
+ (code         (pair     (AI SWE      (CLI            (swarm
+  completion)   prog)     agent)       agent)           orchestration)
 ```
 
 ### 🟡 Path 7: MCP Mastery
@@ -347,9 +349,9 @@ Continue ──→ Aider ──→ OpenHands ──→ Browser Use ──→ Cla
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
 ```
-MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio
- (build             (build servers      (reference        (discovery and          (tool + auth
-  servers)           fast)               implementations)  curation)              runtime)
+MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona
+ (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox
+  servers)           fast)               implementations)  curation)               runtime)       infra)
 ```
 
 **Duration:** 40-50 hours | **Difficulty:** Intermediate to Advanced
@@ -399,8 +401,8 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        155                           ║
-║  📝 Numbered Chapters      1,243                         ║
+║  📦 Total Tutorials        157                           ║
+║  📝 Numbered Chapters      1,259                         ║
 ║  📏 Tutorial Markdown      466,000+ lines                ║
 ║  ⏱️  Estimated Hours        1,700+                        ║
 ║  ✅ Local Broken Links      0                             ║

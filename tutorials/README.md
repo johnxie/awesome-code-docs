@@ -11,15 +11,15 @@ This file describes the structure of `tutorials/` and points to the authoritativ
 
 | Metric | Value |
 |:-------|:------|
-| Tutorial directories | 155 |
-| Tutorial markdown files | 1408 |
-| Tutorial markdown lines | 465,411 |
+| Tutorial directories | 157 |
+| Tutorial markdown files | 1426 |
+| Tutorial markdown lines | 466,140 |
 
 ## Content Structure Patterns
 
 | Pattern | Count | Description |
 |:--------|:------|:------------|
-| Root chapter files | 155 | `index.md` + top-level `01-...md` to `08-...md` |
+| Root chapter files | 157 | `index.md` + top-level `01-...md` to `08-...md` |
 | `docs/` chapter files | 0 | Deprecated and fully migrated |
 | Index-only roadmap | 0 | All catalog entries publish full chapter sets |
 | Mixed root + `docs/` | 0 | Legacy hybrid layout removed |

@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **155**
+- Total tutorials: **157**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -69,6 +69,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `musistudio/claude-code-router` to route Claude Code workloads across multiple model providers with configurable routing rules, transformers, presets, and operational controls.
 - [Claude Code Tutorial: Agentic Coding from Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
   - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
+- [Claude Flow Tutorial: Multi-Agent Orchestration, MCP Tooling, and V3 Module Architecture](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-flow-tutorial/index.md)
+  - Learn how to use `ruvnet/claude-flow` to orchestrate multi-agent workflows, operate MCP/CLI surfaces, and reason about V2-to-V3 architecture and migration tradeoffs.
 - [Claude-Mem Tutorial: Persistent Memory Compression for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md)
   - Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
 - [Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-plugins-official-tutorial/index.md)
@@ -108,6 +110,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 ## D
 
+- [Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/index.md)
+  - Learn how to use `daytonaio/daytona` to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
 - [Deer Flow Tutorial: Distributed Workflow Orchestration Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md)
   - Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
 - [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md)

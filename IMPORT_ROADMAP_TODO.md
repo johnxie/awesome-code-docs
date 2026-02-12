@@ -43,10 +43,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router) | 27k+ | P1 | `pack-bf` | done |
 | [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) | 80k+ | P1 | `pack-bh` | done |
 | [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio) | 26k+ | P1 | `pack-bh` | done |
-| [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp) | 22k+ | P1 | `pack-bi` | in_progress |
-| [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | in_progress |
-| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | queued |
-| [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | queued |
+| [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp) | 22k+ | P1 | `pack-bi` | done |
+| [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | done |
+| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | in_progress |
+| [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | in_progress |
 
 ## P2 (Strategic Extensions)
 
