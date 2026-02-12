@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 179
+    "root_only": 181
   },
-  "tutorial_count": 179,
+  "tutorial_count": 181,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -2645,6 +2645,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "openspec-tutorial",
+      "path": "tutorials/openspec-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "opensrc-tutorial",
       "path": "tutorials/opensrc-tutorial",
       "structure": "root_only",
@@ -3198,6 +3217,25 @@
       "has_index": true,
       "name": "swe-agent-tutorial",
       "path": "tutorials/swe-agent-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "tabby-tutorial",
+      "path": "tutorials/tabby-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

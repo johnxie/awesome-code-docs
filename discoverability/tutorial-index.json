@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 179,
+  "tutorial_count": 181,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -3717,6 +3717,35 @@
       "title": "OpenSkills Tutorial: Universal Skill Loading for Coding Agents"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openspec-tutorial/index.md",
+      "index_path": "tutorials/openspec-tutorial/index.md",
+      "keywords": [
+        "openspec",
+        "spec",
+        "driven",
+        "workflows",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "fission",
+        "make",
+        "assisted",
+        "software",
+        "delivery",
+        "more",
+        "predictable",
+        "artifact",
+        "planning",
+        "implementation"
+      ],
+      "path": "tutorials/openspec-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openspec-tutorial",
+      "slug": "openspec-tutorial",
+      "summary": "Learn how to use `Fission-AI/OpenSpec` to make AI-assisted software delivery more predictable with artifact-driven planning, implementation, and archival workflows.",
+      "title": "OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md",
       "index_path": "tutorials/opensrc-tutorial/index.md",
       "keywords": [
@@ -4458,6 +4487,34 @@
       "slug": "swe-agent-tutorial",
       "summary": "Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.",
       "title": "SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md",
+      "index_path": "tutorials/tabby-tutorial/index.md",
+      "keywords": [
+        "tabby",
+        "self",
+        "hosted",
+        "coding",
+        "assistant",
+        "architecture",
+        "operations",
+        "learn",
+        "run",
+        "extend",
+        "tabbyml",
+        "production",
+        "code",
+        "completion",
+        "team",
+        "knowledge",
+        "workflows"
+      ],
+      "path": "tutorials/tabby-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tabby-tutorial",
+      "slug": "tabby-tutorial",
+      "summary": "Learn how to run and extend `TabbyML/tabby` for production code completion and team knowledge workflows.",
+      "title": "Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md",

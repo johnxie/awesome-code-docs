@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **179**
+- Total tutorials: **181**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -322,6 +322,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
 - [OpenSkills Tutorial: Universal Skill Loading for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md)
   - Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
+- [OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openspec-tutorial/index.md)
+  - Learn how to use `Fission-AI/OpenSpec` to make AI-assisted software delivery more predictable with artifact-driven planning, implementation, and archival workflows.
 - [OpenSrc Tutorial: Deep Source Context for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md)
   - Learn how to use `vercel-labs/opensrc` to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.
 - [Outlines Tutorial: Structured Text Generation with LLMs](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md)
@@ -397,6 +399,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 ## T
 
+- [Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md)
+  - Learn how to run and extend `TabbyML/tabby` for production code completion and team knowledge workflows.
 - [Taskade Tutorial: AI-Powered Productivity Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md)
   - A deep technical walkthrough of Taskade covering AI-Powered Productivity Platform.
 - [Teable: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/index.md)

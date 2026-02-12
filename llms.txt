@@ -152,6 +152,7 @@
 - OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-tutorial
 - OpenHands Tutorial: Autonomous Software Engineering Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
 - OpenSkills Tutorial: Universal Skill Loading for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openskills-tutorial
+- OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openspec-tutorial
 - OpenSrc Tutorial: Deep Source Context for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opensrc-tutorial
 - Outlines Tutorial: Structured Text Generation with LLMs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/outlines-tutorial
 - Perplexica Tutorial: AI-Powered Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/perplexica-tutorial
@@ -182,6 +183,7 @@
 - Superset Terminal Tutorial: Command Center for Parallel Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superset-terminal-tutorial
 - OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swarm-tutorial
 - SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swe-agent-tutorial
+- Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tabby-tutorial
 - Taskade Tutorial: AI-Powered Productivity Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
