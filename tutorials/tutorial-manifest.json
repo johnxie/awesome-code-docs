@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 96
+    "root_only": 98
   },
-  "tutorial_count": 96,
+  "tutorial_count": 98,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -173,6 +173,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "awesome-claude-skills-tutorial",
+      "path": "tutorials/awesome-claude-skills-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "bentoml-tutorial",
       "path": "tutorials/bentoml-tutorial",
       "structure": "root_only",
@@ -270,6 +289,25 @@
       "has_index": true,
       "name": "chroma-tutorial",
       "path": "tutorials/chroma-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "claude-code-router-tutorial",
+      "path": "tutorials/claude-code-router-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

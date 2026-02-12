@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **96**
+- Total tutorials: **98**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -21,6 +21,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Turn any document into an intelligent chatbot with full privacy control.
 - [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/index.md)
   - **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
+- [Awesome Claude Skills Tutorial: Curated Skill Discovery and Practical Adoption for Claude Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md)
+  - Learn how to use `ComposioHQ/awesome-claude-skills` to find, evaluate, install, and maintain high-impact skills across coding, productivity, and app automation workflows.
 
 ## B
 
@@ -39,6 +41,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
 - [ChromaDB Tutorial: Building AI-Native Vector Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md)
   - A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
+- [Claude Code Router Tutorial: Multi-Provider Routing Control for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-router-tutorial/index.md)
+  - Learn how to use `musistudio/claude-code-router` to route Claude Code requests across multiple model providers with configurable routing rules, transformer pipelines, fallback logic, and operational controls.
 - [Claude Code Tutorial: AI-Powered Terminal Coding](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
   - Master Anthropic's agentic coding tool that lives in your terminal.
 - [Claude Quickstarts Tutorial: Production Integration Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md)

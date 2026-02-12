@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 96,
+  "tutorial_count": 98,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -186,6 +186,35 @@
       "title": "Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md",
+      "index_path": "tutorials/awesome-claude-skills-tutorial/index.md",
+      "keywords": [
+        "awesome",
+        "claude",
+        "skills",
+        "curated",
+        "skill",
+        "discovery",
+        "practical",
+        "adoption",
+        "workflows",
+        "learn",
+        "use",
+        "composiohq",
+        "find",
+        "evaluate",
+        "install",
+        "maintain",
+        "high",
+        "impact"
+      ],
+      "path": "tutorials/awesome-claude-skills-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial",
+      "slug": "awesome-claude-skills-tutorial",
+      "summary": "Learn how to use `ComposioHQ/awesome-claude-skills` to find, evaluate, install, and maintain high-impact skills across coding, productivity, and app automation workflows.",
+      "title": "Awesome Claude Skills Tutorial: Curated Skill Discovery and Practical Adoption for Claude Workflows"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md",
       "index_path": "tutorials/bentoml-tutorial/index.md",
       "keywords": [
@@ -328,6 +357,35 @@
       "slug": "chroma-tutorial",
       "summary": "A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.",
       "title": "ChromaDB Tutorial: Building AI-Native Vector Databases"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-router-tutorial/index.md",
+      "index_path": "tutorials/claude-code-router-tutorial/index.md",
+      "keywords": [
+        "claude",
+        "code",
+        "router",
+        "multi",
+        "provider",
+        "routing",
+        "control",
+        "learn",
+        "use",
+        "musistudio",
+        "route",
+        "requests",
+        "across",
+        "multiple",
+        "model",
+        "providers",
+        "configurable",
+        "rules"
+      ],
+      "path": "tutorials/claude-code-router-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-router-tutorial",
+      "slug": "claude-code-router-tutorial",
+      "summary": "Learn how to use `musistudio/claude-code-router` to route Claude Code requests across multiple model providers with configurable routing rules, transformer pipelines, fallback logic, and operational controls.",
+      "title": "Claude Code Router Tutorial: Multi-Provider Routing Control for Claude Code"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md",

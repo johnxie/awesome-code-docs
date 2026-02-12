@@ -22,12 +22,14 @@
 - AnythingLLM Tutorial: All-in-One AI Document Chat: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anything-llm-tutorial
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
+- Awesome Claude Skills Tutorial: Curated Skill Discovery and Practical Adoption for Claude Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
 - bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
 - Botpress Tutorial: Open Source Conversational AI Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/botpress-tutorial
 - Browser Use Tutorial: AI-Powered Web Automation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/browser-use-tutorial
 - Chatbox Tutorial: Building Modern AI Chat Interfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial
 - ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
+- Claude Code Router Tutorial: Multi-Provider Routing Control for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-router-tutorial
 - Claude Code Tutorial: AI-Powered Terminal Coding: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
 - Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
 - Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
