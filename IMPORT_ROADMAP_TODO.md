@@ -61,6 +61,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`modelcontextprotocol/ext-apps`](https://github.com/modelcontextprotocol/ext-apps) | 1k+ | P1 | `pack-br` | done |
 | [`modelcontextprotocol/mcpb`](https://github.com/modelcontextprotocol/mcpb) | 1k+ | P1 | `pack-bs` | done |
 | [`modelcontextprotocol/use-mcp`](https://github.com/modelcontextprotocol/use-mcp) | 1k+ | P1 | `pack-bs` | done |
+| [`modelcontextprotocol/quickstart-resources`](https://github.com/modelcontextprotocol/quickstart-resources) | 900+ | P1 | `pack-bt` | done |
+| [`modelcontextprotocol/create-python-server`](https://github.com/modelcontextprotocol/create-python-server) | 400+ | P1 | `pack-bt` | done |
 
 ## P2 (Strategic Extensions)
 

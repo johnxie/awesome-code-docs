@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 175,
+  "tutorial_count": 177,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -1302,6 +1302,35 @@
       "slug": "copilotkit-tutorial",
       "summary": "Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.",
       "title": "CopilotKit Tutorial: Building AI Copilots for React Applications"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/index.md",
+      "index_path": "tutorials/create-python-server-tutorial/index.md",
+      "keywords": [
+        "create",
+        "python",
+        "server",
+        "scaffold",
+        "ship",
+        "mcp",
+        "servers",
+        "uvx",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "minimal",
+        "setup",
+        "template",
+        "driven",
+        "primitives",
+        "publish",
+        "ready"
+      ],
+      "path": "tutorials/create-python-server-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/create-python-server-tutorial",
+      "slug": "create-python-server-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/create-python-server` to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.",
+      "title": "Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md",
@@ -2733,6 +2762,35 @@
       "slug": "mcp-python-sdk-tutorial",
       "summary": "Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.",
       "title": "MCP Python SDK Tutorial: Building AI Tool Servers"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-quickstart-resources-tutorial/index.md",
+      "index_path": "tutorials/mcp-quickstart-resources-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "quickstart",
+        "resources",
+        "cross",
+        "language",
+        "servers",
+        "clients",
+        "example",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "practical",
+        "reference",
+        "multi",
+        "server",
+        "client",
+        "implementations",
+        "protocol"
+      ],
+      "path": "tutorials/mcp-quickstart-resources-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-quickstart-resources-tutorial",
+      "slug": "mcp-quickstart-resources-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/quickstart-resources` as a practical reference for multi-language MCP server/client implementations, protocol smoke testing, and onboarding workflows.",
+      "title": "MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md",
