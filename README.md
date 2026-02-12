@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-179-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1920%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-181-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1940%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -63,7 +63,8 @@ Use this quick-start map if you searched for a specific outcome.
 
 | Search Intent | Start Here | Then Go To |
 |:--------------|:-----------|:-----------|
-| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
+| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Tabby](tutorials/tabby-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
+| spec-driven AI delivery workflows | [OpenSpec](tutorials/openspec-tutorial/) | [Claude Task Master](tutorials/claude-task-master-tutorial/) → [Codex CLI](tutorials/codex-cli-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) |
 | build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
@@ -85,6 +86,9 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 | [`cline/cline`](https://github.com/cline/cline) | [Cline Tutorial](tutorials/cline-tutorial/) | 57,809 | agentic coding with terminal/browser/MCP tools |
 | [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 22,198 | multi-mode coding agents and approval workflows |
 | [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 31,348 | IDE-native AI coding assistant architecture |
+| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | [OpenCode Tutorial](tutorials/opencode-tutorial/) | 103,218 | terminal-native coding agent with strong provider and tool controls |
+| [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | [Tabby Tutorial](tutorials/tabby-tutorial/) | 32,884 | self-hosted coding assistant platform for teams and enterprises |
+| [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | [OpenSpec Tutorial](tutorials/openspec-tutorial/) | 23,765 | spec-driven workflow layer for predictable AI-assisted delivery |
 | [`Nano-Collective/nanocoder`](https://github.com/Nano-Collective/nanocoder) | [Nanocoder Tutorial](tutorials/nanocoder-tutorial/) | 1,318 | local-first coding-agent internals and tool loops |
 | [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 78,191 | browser-native AI automation and agent execution |
 | [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | [Open WebUI Tutorial](tutorials/open-webui-tutorial/) | 123,601 | self-hosted AI interface and model operations |
@@ -97,7 +101,7 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   67+ tutorials    │   39 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   67+ tutorials    │   41 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -199,6 +203,9 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Continue](tutorials/continue-tutorial/)** | 22K+ | TypeScript | Open-source AI coding assistant |
 | **[Cline](tutorials/cline-tutorial/)** | 58K+ | TypeScript/VS Code | Agentic coding with terminal, browser, MCP tools |
 | **[Roo Code](tutorials/roo-code-tutorial/)** | 22K+ | TypeScript/VS Code | Multi-mode coding agents with checkpoints and MCP |
+| **[OpenCode](tutorials/opencode-tutorial/)** | 103.2K+ | Go/TypeScript | Terminal-native coding agent architecture, provider routing, and tool safety controls |
+| **[Tabby](tutorials/tabby-tutorial/)** | 32.9K+ | Rust/TypeScript | Self-hosted code completion and answer platform with editor-agent integrations |
+| **[OpenSpec](tutorials/openspec-tutorial/)** | 23.8K+ | TypeScript/CLI | Spec-driven artifact workflow for planning, implementation, validation, and archive governance |
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[Cloudflare VibeSDK](tutorials/vibesdk-tutorial/)** | 4.7K+ | TypeScript/Cloudflare | Build and operate a cloud-native vibe-coding platform |
 | **[HAPI](tutorials/hapi-tutorial/)** | 1.4K+ | TypeScript/CLI | Remote control and approval workflows for local coding agents |
@@ -361,9 +368,9 @@ llama.cpp ──→ vLLM ──→ LiteLLM ──→ BentoML ──→ K8s Opera
 > *"I want to understand how AI coding assistants work"*
 
 ```
-Continue ──→ Aider ──→ OpenHands ──→ Claude Code ──→ Claude Flow
- (code         (pair     (AI SWE      (CLI            (swarm
-  completion)   prog)     agent)       agent)           orchestration)
+Continue ──→ Aider ──→ OpenHands ──→ OpenCode ──→ Tabby ──→ OpenSpec
+ (code         (pair     (AI SWE      (terminal        (self-hosted     (spec-driven
+  completion)   prog)     agent)       coding agent)    assistant)       delivery)
 ```
 
 ### 🟡 Path 7: MCP Mastery
@@ -423,10 +430,10 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        179                           ║
-║  📝 Numbered Chapters      1,435                         ║
-║  📏 Tutorial Markdown      474,000+ lines                ║
-║  ⏱️  Estimated Hours        1,920+                        ║
+║  📦 Total Tutorials        181                           ║
+║  📝 Numbered Chapters      1,451                         ║
+║  📏 Tutorial Markdown      475,000+ lines                ║
+║  ⏱️  Estimated Hours        1,940+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝

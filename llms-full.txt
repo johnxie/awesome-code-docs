@@ -831,6 +831,12 @@ Main repository:
 - Summary: Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
 - Keywords: openskills, universal, skill, loading, coding, agents, learn, use, numman, ali, install, synchronize, operate, reusable, packs, across, claude, code
 
+## OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents
+- Path: tutorials/openspec-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openspec-tutorial/index.md
+- Summary: Learn how to use `Fission-AI/OpenSpec` to make AI-assisted software delivery more predictable with artifact-driven planning, implementation, and archival workflows.
+- Keywords: openspec, spec, driven, workflows, coding, agents, learn, use, fission, make, assisted, software, delivery, more, predictable, artifact, planning, implementation
+
 ## OpenSrc Tutorial: Deep Source Context for Coding Agents
 - Path: tutorials/opensrc-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md
@@ -1010,6 +1016,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md
 - Summary: Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
 - Keywords: swe, agent, autonomous, repository, repair, benchmark, driven, engineering, learn, use, software, workflows, single, issue, runs, research, grade, evaluation
+
+## Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations
+- Path: tutorials/tabby-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md
+- Summary: Learn how to run and extend `TabbyML/tabby` for production code completion and team knowledge workflows.
+- Keywords: tabby, self, hosted, coding, assistant, architecture, operations, learn, run, extend, tabbyml, production, code, completion, team, knowledge, workflows
 
 ## Taskade Tutorial: AI-Powered Productivity Platform
 - Path: tutorials/taskade-tutorial
