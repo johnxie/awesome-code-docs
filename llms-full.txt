@@ -63,11 +63,23 @@ Main repository:
 - Summary: **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
 - Keywords: athens, research, knowledge, graph, deep, dive, project, athensresearch, open, source, roam, like, management, system, built, clojurescript, databases
 
+## AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration
+- Path: tutorials/autoagent-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/index.md
+- Summary: Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
+- Keywords: autoagent, zero, code, agent, creation, automated, workflow, orchestration, learn, use, hkuds, create, orchestrate, llm, agents, through, natural, language
+
 ## Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
 - Path: tutorials/autogen-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/index.md
 - Summary: A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 - Keywords: autogen, microsoft, building, multi, agent, systems, deep, technical, walkthrough, covering
+
+## Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents
+- Path: tutorials/beads-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md
+- Summary: Learn how to use `steveyegge/beads` to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.
+- Keywords: beads, git, backed, task, graph, memory, coding, agents, learn, use, steveyegge, give, durable, dependency, aware, structured, issue, graphs
 
 ## BentoML Tutorial: Building Production-Ready ML Services
 - Path: tutorials/bentoml-tutorial

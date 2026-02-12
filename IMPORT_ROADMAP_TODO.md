@@ -57,8 +57,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`QwenLM/Qwen-Agent`](https://github.com/QwenLM/Qwen-Agent) | 13k+ | P2 | `pack-aw` | done |
 | [`agentsmd/agents.md`](https://github.com/agentsmd/agents.md) | 17k+ | P2 | `pack-ax` | done |
 | [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode) | 10k+ | P2 | `pack-ax` | done |
-| [`steveyegge/beads`](https://github.com/steveyegge/beads) | 15k+ | P2 | `pack-ay` | todo |
-| [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | todo |
+| [`steveyegge/beads`](https://github.com/steveyegge/beads) | 15k+ | P2 | `pack-ay` | done |
+| [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | done |
 
 ## Execution Rules
 

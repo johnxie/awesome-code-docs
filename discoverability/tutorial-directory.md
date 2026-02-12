@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **135**
+- Total tutorials: **137**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -27,9 +27,13 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to deploy and operate `Mintplex-Labs/anything-llm` for document-grounded chat, workspace management, agent workflows, and production use.
 - [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/index.md)
   - **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
+- [AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/index.md)
+  - Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
 
 ## B
 
+- [Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md)
+  - Learn how to use `steveyegge/beads` to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.
 - [BentoML Tutorial: Building Production-Ready ML Services](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md)
   - A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.
 - [bolt.diy Tutorial: Build and Operate an Open Source AI App Builder](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md)
