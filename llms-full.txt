@@ -471,6 +471,12 @@ Main repository:
 - Summary: Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
 - Keywords: openskills, universal, skill, loading, coding, agents, learn, use, numman, ali, install, synchronize, operate, reusable, packs, across, claude, code
 
+## OpenSrc Tutorial: Deep Source Context for Coding Agents
+- Path: tutorials/opensrc-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md
+- Summary: Learn how to use `vercel-labs/opensrc` to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.
+- Keywords: opensrc, deep, source, context, coding, agents, learn, use, vercel, labs, fetch, package, repository, code, can, reason, about, implementation
+
 ## Outlines Tutorial: Structured Text Generation with LLMs
 - Path: tutorials/outlines-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md
@@ -554,6 +560,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md
 - Summary: Build enterprise AI applications with Microsoft's SDK for integrating LLMs.
 - Keywords: semantic, kernel, microsoft, orchestration, build, enterprise, applications, sdk, integrating, llms
+
+## Shotgun Tutorial: Spec-Driven Development for Coding Agents
+- Path: tutorials/shotgun-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md
+- Summary: Learn how to use `shotgun-sh/shotgun` to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.
+- Keywords: shotgun, spec, driven, development, coding, agents, learn, use, plan, specify, execute, large, code, changes, structured, agent, workflows, stronger
 
 ## SillyTavern Tutorial: Advanced LLM Frontend for Power Users
 - Path: tutorials/sillytavern-tutorial

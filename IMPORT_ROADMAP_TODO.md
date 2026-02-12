@@ -1,6 +1,6 @@
 # Import Roadmap TODO (Vibe Coding + Agent Ecosystem)
 
-_Last updated: February 11, 2026_
+_Last updated: February 12, 2026_
 
 This roadmap tracks the next highest-impact tutorial imports for `awesome-code-docs`, prioritized by ecosystem impact, recency, and strategic fit with AI coding agents, vibe coding, and MCP workflows.
 
@@ -26,10 +26,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 
 | Repo | Stars | Priority | Pack | Status |
 |:-----|------:|:---------|:-----|:-------|
-| [`numman-ali/openskills`](https://github.com/numman-ali/openskills) | 8k+ | P2 | `pack-ai` | in_progress |
-| [`moazbuilds/CodeMachine-CLI`](https://github.com/moazbuilds/CodeMachine-CLI) | 2k+ | P2 | `pack-ai` | in_progress |
-| [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun) | 500+ | P2 | `pack-aj` | planned |
-| [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc) | 300+ | P2 | `pack-aj` | planned |
+| [`numman-ali/openskills`](https://github.com/numman-ali/openskills) | 8k+ | P2 | `pack-ai` | done |
+| [`moazbuilds/CodeMachine-CLI`](https://github.com/moazbuilds/CodeMachine-CLI) | 2k+ | P2 | `pack-ai` | done |
+| [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun) | 500+ | P2 | `pack-aj` | in_progress |
+| [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc) | 300+ | P2 | `pack-aj` | in_progress |
 | [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof) | 900+ | P2 | `pack-ak` | planned |
 
 ## Execution Rules

@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 106,
+  "tutorial_count": 108,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -1980,6 +1980,35 @@
       "title": "OpenSkills Tutorial: Universal Skill Loading for Coding Agents"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md",
+      "index_path": "tutorials/opensrc-tutorial/index.md",
+      "keywords": [
+        "opensrc",
+        "deep",
+        "source",
+        "context",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "vercel",
+        "labs",
+        "fetch",
+        "package",
+        "repository",
+        "code",
+        "can",
+        "reason",
+        "about",
+        "implementation"
+      ],
+      "path": "tutorials/opensrc-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opensrc-tutorial",
+      "slug": "opensrc-tutorial",
+      "summary": "Learn how to use `vercel-labs/opensrc` to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.",
+      "title": "OpenSrc Tutorial: Deep Source Context for Coding Agents"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md",
       "index_path": "tutorials/outlines-tutorial/index.md",
       "keywords": [
@@ -2305,6 +2334,35 @@
       "slug": "semantic-kernel-tutorial",
       "summary": "Build enterprise AI applications with Microsoft's SDK for integrating LLMs.",
       "title": "Semantic Kernel Tutorial: Microsoft's AI Orchestration"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md",
+      "index_path": "tutorials/shotgun-tutorial/index.md",
+      "keywords": [
+        "shotgun",
+        "spec",
+        "driven",
+        "development",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "plan",
+        "specify",
+        "execute",
+        "large",
+        "code",
+        "changes",
+        "structured",
+        "agent",
+        "workflows",
+        "stronger"
+      ],
+      "path": "tutorials/shotgun-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/shotgun-tutorial",
+      "slug": "shotgun-tutorial",
+      "summary": "Learn how to use `shotgun-sh/shotgun` to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.",
+      "title": "Shotgun Tutorial: Spec-Driven Development for Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sillytavern-tutorial/index.md",

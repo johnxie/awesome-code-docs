@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **106**
+- Total tutorials: **108**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -202,6 +202,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
 - [OpenSkills Tutorial: Universal Skill Loading for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md)
   - Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
+- [OpenSrc Tutorial: Deep Source Context for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md)
+  - Learn how to use `vercel-labs/opensrc` to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.
 - [Outlines Tutorial: Structured Text Generation with LLMs](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md)
   - A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.
 - [OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md)
@@ -244,6 +246,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Semantic Kernel Tutorial: Microsoft's AI Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md)
   - Build enterprise AI applications with Microsoft's SDK for integrating LLMs.
+- [Shotgun Tutorial: Spec-Driven Development for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md)
+  - Learn how to use `shotgun-sh/shotgun` to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.
 - [SillyTavern Tutorial: Advanced LLM Frontend for Power Users](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sillytavern-tutorial/index.md)
   - Unlock the full potential of large language models with SillyTavern's comprehensive interface for role-playing, creative writing, and AI experimentation.
 - [SiYuan Tutorial: Privacy-First Knowledge Management](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/siyuan-tutorial/index.md)
