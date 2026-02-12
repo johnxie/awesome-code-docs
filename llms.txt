@@ -177,12 +177,14 @@
 - SillyTavern Tutorial: Advanced LLM Frontend for Power Users: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sillytavern-tutorial
 - SiYuan Tutorial: Privacy-First Knowledge Management: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/siyuan-tutorial
 - Smolagents Tutorial: Hugging Face's Lightweight Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/smolagents-tutorial
+- Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/stagewise-tutorial
 - Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/strands-agents-tutorial
 - Supabase Tutorial: Building Modern Backend Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/supabase-tutorial
 - SuperAGI Tutorial: Production-Ready Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superagi-tutorial
 - Superset Terminal Tutorial: Command Center for Parallel Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superset-terminal-tutorial
 - OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swarm-tutorial
 - SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swe-agent-tutorial
+- Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sweep-tutorial
 - Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tabby-tutorial
 - Taskade Tutorial: AI-Powered Productivity Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform

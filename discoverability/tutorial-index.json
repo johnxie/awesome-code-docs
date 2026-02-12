@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 181,
+  "tutorial_count": 183,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -4349,6 +4349,34 @@
       "title": "Smolagents Tutorial: Hugging Face's Lightweight Agent Framework"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/index.md",
+      "index_path": "tutorials/stagewise-tutorial/index.md",
+      "keywords": [
+        "stagewise",
+        "frontend",
+        "coding",
+        "agent",
+        "workflows",
+        "real",
+        "browser",
+        "context",
+        "learn",
+        "use",
+        "connect",
+        "selected",
+        "agents",
+        "plugin",
+        "extensions",
+        "multi",
+        "bridge"
+      ],
+      "path": "tutorials/stagewise-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/stagewise-tutorial",
+      "slug": "stagewise-tutorial",
+      "summary": "Learn how to use `stagewise-io/stagewise` to connect browser-selected UI context with coding agents, plugin extensions, and multi-agent bridge workflows.",
+      "title": "Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md",
       "index_path": "tutorials/strands-agents-tutorial/index.md",
       "keywords": [
@@ -4487,6 +4515,35 @@
       "slug": "swe-agent-tutorial",
       "summary": "Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.",
       "title": "SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/index.md",
+      "index_path": "tutorials/sweep-tutorial/index.md",
+      "keywords": [
+        "sweep",
+        "issue",
+        "coding",
+        "workflows",
+        "learn",
+        "use",
+        "sweepai",
+        "turn",
+        "issues",
+        "into",
+        "pull",
+        "requests",
+        "operate",
+        "feedback",
+        "loops",
+        "run",
+        "self",
+        "hosted"
+      ],
+      "path": "tutorials/sweep-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sweep-tutorial",
+      "slug": "sweep-tutorial",
+      "summary": "Learn how to use `sweepai/sweep` to turn GitHub issues into pull requests, operate feedback loops, and run self-hosted or CLI workflows with clear guardrails.",
+      "title": "Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md",

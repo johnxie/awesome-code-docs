@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-181-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1940%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-183-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1960%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -63,7 +63,7 @@ Use this quick-start map if you searched for a specific outcome.
 
 | Search Intent | Start Here | Then Go To |
 |:--------------|:-----------|:-----------|
-| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Tabby](tutorials/tabby-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
+| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Sweep](tutorials/sweep-tutorial/) → [Tabby](tutorials/tabby-tutorial/) → [Stagewise](tutorials/stagewise-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
 | spec-driven AI delivery workflows | [OpenSpec](tutorials/openspec-tutorial/) | [Claude Task Master](tutorials/claude-task-master-tutorial/) → [Codex CLI](tutorials/codex-cli-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) |
 | build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
@@ -87,7 +87,9 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 | [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 22,198 | multi-mode coding agents and approval workflows |
 | [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 31,348 | IDE-native AI coding assistant architecture |
 | [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | [OpenCode Tutorial](tutorials/opencode-tutorial/) | 103,218 | terminal-native coding agent with strong provider and tool controls |
+| [`sweepai/sweep`](https://github.com/sweepai/sweep) | [Sweep Tutorial](tutorials/sweep-tutorial/) | 7,636 | issue-to-PR coding agent workflows and self-hosted GitHub automation patterns |
 | [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | [Tabby Tutorial](tutorials/tabby-tutorial/) | 32,884 | self-hosted coding assistant platform for teams and enterprises |
+| [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | [Stagewise Tutorial](tutorials/stagewise-tutorial/) | 6,494 | browser-context frontend coding agent workflows with plugin and bridge architecture |
 | [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | [OpenSpec Tutorial](tutorials/openspec-tutorial/) | 23,765 | spec-driven workflow layer for predictable AI-assisted delivery |
 | [`Nano-Collective/nanocoder`](https://github.com/Nano-Collective/nanocoder) | [Nanocoder Tutorial](tutorials/nanocoder-tutorial/) | 1,318 | local-first coding-agent internals and tool loops |
 | [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 78,191 | browser-native AI automation and agent execution |
@@ -101,7 +103,7 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   67+ tutorials    │   41 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   67+ tutorials    │   43 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -204,7 +206,9 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Cline](tutorials/cline-tutorial/)** | 58K+ | TypeScript/VS Code | Agentic coding with terminal, browser, MCP tools |
 | **[Roo Code](tutorials/roo-code-tutorial/)** | 22K+ | TypeScript/VS Code | Multi-mode coding agents with checkpoints and MCP |
 | **[OpenCode](tutorials/opencode-tutorial/)** | 103.2K+ | Go/TypeScript | Terminal-native coding agent architecture, provider routing, and tool safety controls |
+| **[Sweep](tutorials/sweep-tutorial/)** | 7.6K+ | Python/GitHub | Issue-to-PR coding agent workflow with config-driven governance and CI feedback loops |
 | **[Tabby](tutorials/tabby-tutorial/)** | 32.9K+ | Rust/TypeScript | Self-hosted code completion and answer platform with editor-agent integrations |
+| **[Stagewise](tutorials/stagewise-tutorial/)** | 6.5K+ | TypeScript/CLI | Frontend coding agent proxy with browser context selection, bridge mode, and plugin runtime |
 | **[OpenSpec](tutorials/openspec-tutorial/)** | 23.8K+ | TypeScript/CLI | Spec-driven artifact workflow for planning, implementation, validation, and archive governance |
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[Cloudflare VibeSDK](tutorials/vibesdk-tutorial/)** | 4.7K+ | TypeScript/Cloudflare | Build and operate a cloud-native vibe-coding platform |
@@ -368,9 +372,9 @@ llama.cpp ──→ vLLM ──→ LiteLLM ──→ BentoML ──→ K8s Opera
 > *"I want to understand how AI coding assistants work"*
 
 ```
-Continue ──→ Aider ──→ OpenHands ──→ OpenCode ──→ Tabby ──→ OpenSpec
- (code         (pair     (AI SWE      (terminal        (self-hosted     (spec-driven
-  completion)   prog)     agent)       coding agent)    assistant)       delivery)
+Continue ──→ Sweep ──→ OpenHands ──→ OpenCode ──→ Tabby ──→ Stagewise ──→ OpenSpec
+ (code         (issue      (AI SWE      (terminal        (self-hosted     (frontend       (spec-driven
+  completion)   to PR)      agent)       coding agent)    assistant)       browser agent)  delivery)
 ```
 
 ### 🟡 Path 7: MCP Mastery
@@ -415,9 +419,9 @@ OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime
 > *"I want to build and operate vibe-coding stacks end to end"*
 
 ```
-Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ──→ HAPI
- (local      (OSS app      (IDE        (multi-mode    (cloud         (remote
-  builder)    builder)      agent)      dev team)      platform)      approvals)
+Dyad ──→ bolt.diy ──→ Stagewise ──→ Cline ──→ Roo Code ──→ VibeSDK ──→ HAPI
+ (local      (OSS app      (frontend      (IDE        (multi-mode    (cloud         (remote
+  builder)    builder)      browser agent) agent)      dev team)      platform)      approvals)
 ```
 
 **Duration:** 35-50 hours | **Difficulty:** Intermediate to Advanced
@@ -430,10 +434,10 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        181                           ║
-║  📝 Numbered Chapters      1,451                         ║
-║  📏 Tutorial Markdown      475,000+ lines                ║
-║  ⏱️  Estimated Hours        1,940+                        ║
+║  📦 Total Tutorials        183                           ║
+║  📝 Numbered Chapters      1,467                         ║
+║  📏 Tutorial Markdown      476,000+ lines                ║
+║  ⏱️  Estimated Hours        1,960+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝

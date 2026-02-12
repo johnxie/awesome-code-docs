@@ -981,6 +981,12 @@ Main repository:
 - Summary: Build efficient AI agents with minimal code using Hugging Face's smolagents library.
 - Keywords: smolagents, hugging, face, lightweight, agent, framework, build, efficient, agents, minimal, code, using, library
 
+## Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context
+- Path: tutorials/stagewise-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/index.md
+- Summary: Learn how to use `stagewise-io/stagewise` to connect browser-selected UI context with coding agents, plugin extensions, and multi-agent bridge workflows.
+- Keywords: stagewise, frontend, coding, agent, workflows, real, browser, context, learn, use, connect, selected, agents, plugin, extensions, multi, bridge
+
 ## Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support
 - Path: tutorials/strands-agents-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md
@@ -1016,6 +1022,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md
 - Summary: Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
 - Keywords: swe, agent, autonomous, repository, repair, benchmark, driven, engineering, learn, use, software, workflows, single, issue, runs, research, grade, evaluation
+
+## Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub
+- Path: tutorials/sweep-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/index.md
+- Summary: Learn how to use `sweepai/sweep` to turn GitHub issues into pull requests, operate feedback loops, and run self-hosted or CLI workflows with clear guardrails.
+- Keywords: sweep, issue, coding, workflows, learn, use, sweepai, turn, issues, into, pull, requests, operate, feedback, loops, run, self, hosted
 
 ## Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations
 - Path: tutorials/tabby-tutorial
