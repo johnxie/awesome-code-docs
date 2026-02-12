@@ -1,7 +1,36 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 125,
+  "tutorial_count": 127,
   "tutorials": [
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
+      "index_path": "tutorials/adk-python-tutorial/index.md",
+      "keywords": [
+        "adk",
+        "python",
+        "production",
+        "grade",
+        "agent",
+        "engineering",
+        "google",
+        "learn",
+        "use",
+        "build",
+        "evaluate",
+        "deploy",
+        "modular",
+        "systems",
+        "strong",
+        "tooling",
+        "session",
+        "controls"
+      ],
+      "path": "tutorials/adk-python-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/adk-python-tutorial",
+      "slug": "adk-python-tutorial",
+      "summary": "Learn how to use `google/adk-python` to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.",
+      "title": "ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK"
+    },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
       "index_path": "tutorials/ag2-tutorial/index.md",
@@ -2871,6 +2900,35 @@
       "slug": "smolagents-tutorial",
       "summary": "Build efficient AI agents with minimal code using Hugging Face's smolagents library.",
       "title": "Smolagents Tutorial: Hugging Face's Lightweight Agent Framework"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md",
+      "index_path": "tutorials/strands-agents-tutorial/index.md",
+      "keywords": [
+        "strands",
+        "agents",
+        "model",
+        "driven",
+        "agent",
+        "systems",
+        "native",
+        "mcp",
+        "support",
+        "learn",
+        "use",
+        "sdk",
+        "python",
+        "build",
+        "lightweight",
+        "strong",
+        "tool",
+        "abstractions"
+      ],
+      "path": "tutorials/strands-agents-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/strands-agents-tutorial",
+      "slug": "strands-agents-tutorial",
+      "summary": "Learn how to use `strands-agents/sdk-python` to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.",
+      "title": "Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/index.md",
