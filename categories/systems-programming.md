@@ -2,7 +2,7 @@
 
 > Internals-focused tutorials for low-level architecture, infrastructure patterns, and runtime behavior.
 
-## Snapshot (February 11, 2026)
+## Snapshot (February 12, 2026)
 
 - systems and infrastructure tracks in catalog: **6+**
 - scope includes runtime internals, operators, protocol-level systems, and architecture deep dives

@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 151
+    "root_only": 153
   },
-  "tutorial_count": 151,
+  "tutorial_count": 153,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -289,6 +289,25 @@
       "has_index": true,
       "name": "awesome-claude-skills-tutorial",
       "path": "tutorials/awesome-claude-skills-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "awesome-mcp-servers-tutorial",
+      "path": "tutorials/awesome-mcp-servers-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -726,6 +745,25 @@
       "has_index": true,
       "name": "comfyui-tutorial",
       "path": "tutorials/comfyui-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "composio-tutorial",
+      "path": "tutorials/composio-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

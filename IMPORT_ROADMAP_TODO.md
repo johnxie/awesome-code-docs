@@ -41,6 +41,12 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`microsoft/playwright-mcp`](https://github.com/microsoft/playwright-mcp) | 27k+ | P1 | `pack-be` | done |
 | [`ComposioHQ/awesome-claude-skills`](https://github.com/ComposioHQ/awesome-claude-skills) | 34k+ | P1 | `pack-bf` | done |
 | [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router) | 27k+ | P1 | `pack-bf` | done |
+| [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) | 80k+ | P1 | `pack-bh` | in_progress |
+| [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio) | 26k+ | P1 | `pack-bh` | in_progress |
+| [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp) | 22k+ | P1 | `pack-bi` | queued |
+| [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | queued |
+| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | queued |
+| [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | queued |
 
 ## P2 (Strategic Extensions)
 
@@ -73,6 +79,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | done |
 | [`Fosowl/agenticSeek`](https://github.com/Fosowl/agenticSeek) | 25k+ | P2 | `pack-az` | done |
 | [`wshobson/agents`](https://github.com/wshobson/agents) | 28k+ | P2 | `pack-az` | done |
+| [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox) | 12k+ | P2 | `pack-bk` | queued |
+| [`awslabs/mcp`](https://github.com/awslabs/mcp) | 8k+ | P2 | `pack-bk` | queued |
+| [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector) | 8k+ | P2 | `pack-bl` | queued |
+| [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry) | 6k+ | P2 | `pack-bl` | queued |
 
 ## Execution Rules
 

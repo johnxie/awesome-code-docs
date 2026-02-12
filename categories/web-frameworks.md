@@ -2,7 +2,7 @@
 
 > Architecture tutorials for modern full-stack frameworks, UI runtimes, and AI-native application stacks.
 
-## Snapshot (February 11, 2026)
+## Snapshot (February 12, 2026)
 
 - framework and application-architecture content spans AI apps, DX tools, and frontend internals
 - strongest coverage areas: Next.js/React AI apps, chat platforms, and coding-assistant interfaces
