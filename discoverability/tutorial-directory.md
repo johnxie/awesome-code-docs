@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **167**
+- Total tutorials: **169**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -240,10 +240,14 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - [MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md)
   - Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
+- [MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/rust-sdk` (`rmcp`) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.
 - [MCP Servers Tutorial: Reference Implementations and Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md)
   - Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
 - [MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-specification-tutorial/index.md)
   - Learn the current Model Context Protocol directly from `modelcontextprotocol/modelcontextprotocol`, including lifecycle, transports, security, authorization, and governance workflows.
+- [MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-swift-sdk-tutorial/index.md)
+  - Learn how to implement MCP client and server workflows with `modelcontextprotocol/swift-sdk`, including transport options, sampling, batching, and graceful service lifecycle control.
 - [MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/typescript-sdk` to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.
 - [MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md)

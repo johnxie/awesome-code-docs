@@ -51,8 +51,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use) | 9k+ | P1 | `pack-bm` | done |
 | [`modelcontextprotocol/modelcontextprotocol`](https://github.com/modelcontextprotocol/modelcontextprotocol) | 7k+ | P1 | `pack-bn` | done |
 | [`modelcontextprotocol/go-sdk`](https://github.com/modelcontextprotocol/go-sdk) | 3k+ | P1 | `pack-bn` | done |
-| [`modelcontextprotocol/java-sdk`](https://github.com/modelcontextprotocol/java-sdk) | 3k+ | P1 | `pack-bo` | in_progress |
-| [`modelcontextprotocol/csharp-sdk`](https://github.com/modelcontextprotocol/csharp-sdk) | 3k+ | P1 | `pack-bo` | in_progress |
+| [`modelcontextprotocol/java-sdk`](https://github.com/modelcontextprotocol/java-sdk) | 3k+ | P1 | `pack-bo` | done |
+| [`modelcontextprotocol/csharp-sdk`](https://github.com/modelcontextprotocol/csharp-sdk) | 3k+ | P1 | `pack-bo` | done |
+| [`modelcontextprotocol/rust-sdk`](https://github.com/modelcontextprotocol/rust-sdk) | 3k+ | P1 | `pack-bp` | in_progress |
+| [`modelcontextprotocol/swift-sdk`](https://github.com/modelcontextprotocol/swift-sdk) | 1k+ | P1 | `pack-bp` | in_progress |
 
 ## P2 (Strategic Extensions)
 
