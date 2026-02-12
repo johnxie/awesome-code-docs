@@ -17,6 +17,7 @@
 - ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/adk-python-tutorial
 - AG2 Tutorial: Next-Generation Multi-Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ag2-tutorial
 - AgentGPT Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial
+- AgenticSeek Tutorial: Local-First Autonomous Agent Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agenticseek-tutorial
 - AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agents-md-tutorial
 - Agno Tutorial: Multi-Agent Systems That Learn Over Time: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agno-tutorial
 - Aider Tutorial: AI Pair Programming in Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/aider-tutorial
@@ -151,3 +152,4 @@
 - VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
 - vLLM Tutorial: High-Performance LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vllm-tutorial
 - Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial
+- Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/wshobson-agents-tutorial

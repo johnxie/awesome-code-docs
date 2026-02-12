@@ -59,6 +59,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode) | 10k+ | P2 | `pack-ax` | done |
 | [`steveyegge/beads`](https://github.com/steveyegge/beads) | 15k+ | P2 | `pack-ay` | done |
 | [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | done |
+| [`Fosowl/agenticSeek`](https://github.com/Fosowl/agenticSeek) | 25k+ | P2 | `pack-az` | done |
+| [`wshobson/agents`](https://github.com/wshobson/agents) | 28k+ | P2 | `pack-az` | done |
 
 ## Execution Rules
 

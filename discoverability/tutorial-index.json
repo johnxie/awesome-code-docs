@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 137,
+  "tutorial_count": 139,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -73,6 +73,35 @@
       "slug": "agentgpt-tutorial",
       "summary": "A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.",
       "title": "AgentGPT Tutorial: Building Autonomous AI Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agenticseek-tutorial/index.md",
+      "index_path": "tutorials/agenticseek-tutorial/index.md",
+      "keywords": [
+        "agenticseek",
+        "local",
+        "first",
+        "autonomous",
+        "agent",
+        "operations",
+        "learn",
+        "use",
+        "fosowl",
+        "run",
+        "multi",
+        "planning",
+        "browsing",
+        "coding",
+        "workflows",
+        "model",
+        "support",
+        "docker"
+      ],
+      "path": "tutorials/agenticseek-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agenticseek-tutorial",
+      "slug": "agenticseek-tutorial",
+      "summary": "Learn how to use `Fosowl/agenticSeek` to run multi-agent planning, browsing, and coding workflows with local model support, Docker-first runtime defaults, and practical operator guardrails.",
+      "title": "AgenticSeek Tutorial: Local-First Autonomous Agent Operations"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md",
@@ -3527,6 +3556,35 @@
       "slug": "whisper-cpp-tutorial",
       "summary": "A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.",
       "title": "Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/wshobson-agents-tutorial/index.md",
+      "index_path": "tutorials/wshobson-agents-tutorial/index.md",
+      "keywords": [
+        "wshobson",
+        "agents",
+        "pluginized",
+        "multi",
+        "agent",
+        "workflows",
+        "claude",
+        "code",
+        "learn",
+        "use",
+        "install",
+        "focused",
+        "plugins",
+        "coordinate",
+        "specialist",
+        "run",
+        "scalable",
+        "clear"
+      ],
+      "path": "tutorials/wshobson-agents-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/wshobson-agents-tutorial",
+      "slug": "wshobson-agents-tutorial",
+      "summary": "Learn how to use `wshobson/agents` to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.",
+      "title": "Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code"
     }
   ]
 }

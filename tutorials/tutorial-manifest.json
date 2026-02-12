@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 137
+    "root_only": 139
   },
-  "tutorial_count": 137,
+  "tutorial_count": 139,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -61,6 +61,25 @@
       "has_index": true,
       "name": "agentgpt-tutorial",
       "path": "tutorials/agentgpt-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "agenticseek-tutorial",
+      "path": "tutorials/agenticseek-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -2609,6 +2628,25 @@
       "has_index": true,
       "name": "whisper-cpp-tutorial",
       "path": "tutorials/whisper-cpp-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "wshobson-agents-tutorial",
+      "path": "tutorials/wshobson-agents-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
