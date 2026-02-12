@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 143,
+  "tutorial_count": 145,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -1252,6 +1252,35 @@
       "slug": "elizaos-tutorial",
       "summary": "**Project**: [ElizaOS](https://github.com/elizaOS/eliza) \u2014 Autonomous agents for everyone.",
       "title": "ElizaOS: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/everything-claude-code-tutorial/index.md",
+      "index_path": "tutorials/everything-claude-code-tutorial/index.md",
+      "keywords": [
+        "everything",
+        "claude",
+        "code",
+        "production",
+        "configuration",
+        "patterns",
+        "learn",
+        "use",
+        "affaan",
+        "adopt",
+        "battle",
+        "tested",
+        "agents",
+        "skills",
+        "hooks",
+        "commands",
+        "rules",
+        "mcp"
+      ],
+      "path": "tutorials/everything-claude-code-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/everything-claude-code-tutorial",
+      "slug": "everything-claude-code-tutorial",
+      "summary": "Learn how to use `affaan-m/everything-claude-code` to adopt battle-tested Claude Code agents, skills, hooks, commands, rules, and MCP workflows in a structured, production-oriented way.",
+      "title": "Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md",
@@ -2931,6 +2960,35 @@
       "slug": "plandex-tutorial",
       "summary": "Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.",
       "title": "Plandex Tutorial: Large-Task AI Coding Agent Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/index.md",
+      "index_path": "tutorials/planning-with-files-tutorial/index.md",
+      "keywords": [
+        "planning",
+        "files",
+        "persistent",
+        "markdown",
+        "workflow",
+        "memory",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "othmanadi",
+        "run",
+        "manus",
+        "style",
+        "file",
+        "based",
+        "workflows",
+        "across"
+      ],
+      "path": "tutorials/planning-with-files-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/planning-with-files-tutorial",
+      "slug": "planning-with-files-tutorial",
+      "summary": "Learn how to use `OthmanAdi/planning-with-files` to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.",
+      "title": "Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md",

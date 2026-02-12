@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **143**
+- Total tutorials: **145**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -109,6 +109,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [ElizaOS: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/elizaos-tutorial/index.md)
   - **Project**: [ElizaOS](https://github.com/elizaOS/eliza) — Autonomous agents for everyone.
+- [Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/everything-claude-code-tutorial/index.md)
+  - Learn how to use `affaan-m/everything-claude-code` to adopt battle-tested Claude Code agents, skills, hooks, commands, rules, and MCP workflows in a structured, production-oriented way.
 
 ## F
 
@@ -275,6 +277,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
 - [Plandex Tutorial: Large-Task AI Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md)
   - Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
+- [Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/index.md)
+  - Learn how to use `OthmanAdi/planning-with-files` to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.
 - [PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md)
   - Learn how to build agentic applications with `The-Pocket/PocketFlow`, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
 - [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md)

@@ -285,6 +285,12 @@ Main repository:
 - Summary: **Project**: [ElizaOS](https://github.com/elizaOS/eliza) — Autonomous agents for everyone.
 - Keywords: elizaos, deep, dive, project, eliza, autonomous, agents, everyone
 
+## Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code
+- Path: tutorials/everything-claude-code-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/everything-claude-code-tutorial/index.md
+- Summary: Learn how to use `affaan-m/everything-claude-code` to adopt battle-tested Claude Code agents, skills, hooks, commands, rules, and MCP workflows in a structured, production-oriented way.
+- Keywords: everything, claude, code, production, configuration, patterns, learn, use, affaan, adopt, battle, tested, agents, skills, hooks, commands, rules, mcp
+
 ## Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI
 - Path: tutorials/fabric-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md
@@ -674,6 +680,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md
 - Summary: Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
 - Keywords: plandex, large, task, coding, agent, workflows, learn, use, codebase, tasks, strong, context, management, cumulative, diff, review, model, packs
+
+## Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents
+- Path: tutorials/planning-with-files-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/index.md
+- Summary: Learn how to use `OthmanAdi/planning-with-files` to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.
+- Keywords: planning, files, persistent, markdown, workflow, memory, coding, agents, learn, use, othmanadi, run, manus, style, file, based, workflows, across
 
 ## PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power
 - Path: tutorials/pocketflow-tutorial
