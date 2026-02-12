@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **117**
+- Total tutorials: **119**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -67,6 +67,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
 - [CrewAI Tutorial: Building Collaborative AI Agent Teams](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md)
   - **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
+- [Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md)
+  - Learn how to use `charmbracelet/crush` for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.
 
 ## D
 
@@ -101,6 +103,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilot-cli-tutorial/index.md)
   - Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
+- [Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md)
+  - Learn how to use `block/goose` to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.
 - [GPT Open Source: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md)
   - A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.
 - [gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gptme-tutorial/index.md)

@@ -21,6 +21,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`humanlayer/humanlayer`](https://github.com/humanlayer/humanlayer) | 9k+ | P1 | `pack-ag` | done |
 | [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow) | 9k+ | P1 | `pack-ah` | done |
 | [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | done |
+| [`block/goose`](https://github.com/block/goose) | 30k+ | P1 | `pack-ap` | done |
+| [`charmbracelet/crush`](https://github.com/charmbracelet/crush) | 19k+ | P1 | `pack-ap` | done |
+| [`oraios/serena`](https://github.com/oraios/serena) | 20k+ | P1 | `pack-aq` | todo |
+| [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook) | 24k+ | P1 | `pack-aq` | todo |
 
 ## P2 (Strategic Extensions)
 
@@ -37,8 +41,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad) | 5k+ | P2 | `pack-am` | done |
 | [`gptme/gptme`](https://github.com/gptme/gptme) | 4k+ | P2 | `pack-an` | done |
 | [`campfirein/cipher`](https://github.com/campfirein/cipher) | 3k+ | P2 | `pack-an` | done |
-| [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode) | 15k+ | P2 | `pack-ao` | in_progress |
-| [`superset-sh/superset`](https://github.com/superset-sh/superset) | 1.5k+ | P2 | `pack-ao` | in_progress |
+| [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode) | 15k+ | P2 | `pack-ao` | done |
+| [`superset-sh/superset`](https://github.com/superset-sh/superset) | 1.5k+ | P2 | `pack-ao` | done |
+| [`upstash/context7`](https://github.com/upstash/context7) | 45k+ | P2 | `pack-ar` | todo |
+| [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio) | 39k+ | P2 | `pack-ar` | todo |
 
 ## Execution Rules
 

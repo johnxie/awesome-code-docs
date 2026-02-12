@@ -43,6 +43,7 @@
 - GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
+- Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crush-tutorial
 - Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
 - Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-platform-deep-dive
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
@@ -53,6 +54,7 @@
 - Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
 - Fireproof Tutorial: Local-First Document Database for AI-Native Apps: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fireproof-tutorial
 - Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
+- Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/goose-tutorial
 - GPT Open Source: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gpt-oss-tutorial
 - gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gptme-tutorial
 - HAPI Tutorial: Remote Control for Local AI Coding Sessions: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hapi-tutorial

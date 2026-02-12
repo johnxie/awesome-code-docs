@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 117,
+  "tutorial_count": 119,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -753,6 +753,35 @@
       "title": "CrewAI Tutorial: Building Collaborative AI Agent Teams"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md",
+      "index_path": "tutorials/crush-tutorial/index.md",
+      "keywords": [
+        "crush",
+        "multi",
+        "model",
+        "terminal",
+        "coding",
+        "agent",
+        "strong",
+        "extensibility",
+        "learn",
+        "use",
+        "charmbracelet",
+        "native",
+        "workflows",
+        "flexible",
+        "providers",
+        "lsp",
+        "mcp",
+        "integrations"
+      ],
+      "path": "tutorials/crush-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crush-tutorial",
+      "slug": "crush-tutorial",
+      "summary": "Learn how to use `charmbracelet/crush` for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.",
+      "title": "Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md",
       "index_path": "tutorials/deer-flow-tutorial/index.md",
       "keywords": [
@@ -1005,6 +1034,35 @@
       "slug": "flowise-llm-orchestration",
       "summary": "**Project**: [Flowise](https://github.com/FlowiseAI/Flowise) \u2014 An open-source visual tool for building LLM workflows with a drag-and-drop interface.",
       "title": "Flowise LLM Orchestration: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md",
+      "index_path": "tutorials/goose-tutorial/index.md",
+      "keywords": [
+        "goose",
+        "extensible",
+        "open",
+        "source",
+        "agent",
+        "real",
+        "engineering",
+        "work",
+        "learn",
+        "use",
+        "block",
+        "automate",
+        "coding",
+        "workflows",
+        "controlled",
+        "tool",
+        "execution",
+        "strong"
+      ],
+      "path": "tutorials/goose-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/goose-tutorial",
+      "slug": "goose-tutorial",
+      "summary": "Learn how to use `block/goose` to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.",
+      "title": "Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md",
