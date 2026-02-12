@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 139,
+  "tutorial_count": 141,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -639,6 +639,35 @@
       "slug": "claude-code-tutorial",
       "summary": "Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.",
       "title": "Claude Code Tutorial: Agentic Coding from Your Terminal"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md",
+      "index_path": "tutorials/claude-mem-tutorial/index.md",
+      "keywords": [
+        "claude",
+        "mem",
+        "persistent",
+        "memory",
+        "compression",
+        "code",
+        "learn",
+        "use",
+        "thedotmack",
+        "capture",
+        "compress",
+        "retrieve",
+        "coding",
+        "session",
+        "hook",
+        "driven",
+        "automation",
+        "searchable"
+      ],
+      "path": "tutorials/claude-mem-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-mem-tutorial",
+      "slug": "claude-mem-tutorial",
+      "summary": "Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.",
+      "title": "Claude-Mem Tutorial: Persistent Memory Compression for Claude Code"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md",
@@ -1295,6 +1324,35 @@
       "slug": "flowise-llm-orchestration",
       "summary": "**Project**: [Flowise](https://github.com/FlowiseAI/Flowise) \u2014 An open-source visual tool for building LLM workflows with a drag-and-drop interface.",
       "title": "Flowise LLM Orchestration: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md",
+      "index_path": "tutorials/gemini-cli-tutorial/index.md",
+      "keywords": [
+        "gemini",
+        "cli",
+        "terminal",
+        "first",
+        "agent",
+        "workflows",
+        "google",
+        "learn",
+        "use",
+        "run",
+        "coding",
+        "operations",
+        "loops",
+        "strong",
+        "tooling",
+        "mcp",
+        "extensibility",
+        "headless"
+      ],
+      "path": "tutorials/gemini-cli-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gemini-cli-tutorial",
+      "slug": "gemini-cli-tutorial",
+      "summary": "Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.",
+      "title": "Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md",

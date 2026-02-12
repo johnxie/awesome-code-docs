@@ -12,6 +12,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra) | 21k+ | P0 | `pack-ae` | done |
 | [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 144k+ | P0 | `pack-af` | done |
 | [`agno-agi/agno`](https://github.com/agno-agi/agno) | 37k+ | P0 | `pack-af` | done |
+| [`google-gemini/gemini-cli`](https://github.com/google-gemini/gemini-cli) | 94k+ | P0 | `pack-ba` | done |
+| [`thedotmack/claude-mem`](https://github.com/thedotmack/claude-mem) | 27k+ | P0 | `pack-ba` | done |
 
 ## P1 (High Impact)
 

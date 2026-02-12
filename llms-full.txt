@@ -147,6 +147,12 @@ Main repository:
 - Summary: Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - Keywords: claude, code, agentic, coding, terminal, learn, use, anthropics, codebase, understanding, multi, file, edits, command, execution, git, workflows, mcp
 
+## Claude-Mem Tutorial: Persistent Memory Compression for Claude Code
+- Path: tutorials/claude-mem-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md
+- Summary: Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
+- Keywords: claude, mem, persistent, memory, compression, code, learn, use, thedotmack, capture, compress, retrieve, coding, session, hook, driven, automation, searchable
+
 ## Claude Quickstarts Tutorial: Production Integration Patterns
 - Path: tutorials/claude-quickstarts-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md
@@ -296,6 +302,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md
 - Summary: **Project**: [Flowise](https://github.com/FlowiseAI/Flowise) — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
 - Keywords: flowise, llm, orchestration, deep, dive, project, flowiseai, open, source, visual, tool, building, workflows, drag, drop, interface
+
+## Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini
+- Path: tutorials/gemini-cli-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md
+- Summary: Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
+- Keywords: gemini, cli, terminal, first, agent, workflows, google, learn, use, run, coding, operations, loops, strong, tooling, mcp, extensibility, headless
 
 ## Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work
 - Path: tutorials/goose-tutorial

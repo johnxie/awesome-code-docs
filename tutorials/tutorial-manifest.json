@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 139
+    "root_only": 141
   },
-  "tutorial_count": 139,
+  "tutorial_count": 141,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -460,6 +460,25 @@
       "has_index": true,
       "name": "claude-code-tutorial",
       "path": "tutorials/claude-code-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "claude-mem-tutorial",
+      "path": "tutorials/claude-mem-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -935,6 +954,25 @@
       "has_index": true,
       "name": "flowise-llm-orchestration",
       "path": "tutorials/flowise-llm-orchestration",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "gemini-cli-tutorial",
+      "path": "tutorials/gemini-cli-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

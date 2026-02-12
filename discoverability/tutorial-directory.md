@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **139**
+- Total tutorials: **141**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -59,6 +59,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
 - [Claude Code Tutorial: Agentic Coding from Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
   - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
+- [Claude-Mem Tutorial: Persistent Memory Compression for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md)
+  - Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
 - [Claude Quickstarts Tutorial: Production Integration Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md)
   - Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
 - [Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md)
@@ -121,6 +123,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilot-cli-tutorial/index.md)
   - Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
+- [Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md)
+  - Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
 - [Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md)
   - Learn how to use `block/goose` to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.
 - [GPT Open Source: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md)
