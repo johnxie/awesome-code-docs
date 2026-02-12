@@ -28,6 +28,7 @@
 - Botpress Tutorial: Open Source Conversational AI Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/botpress-tutorial
 - Browser Use Tutorial: AI-Powered Web Automation Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/browser-use-tutorial
 - Chatbox Tutorial: Building Modern AI Chat Interfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial
+- Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cherry-studio-tutorial
 - ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
 - Cipher Tutorial: Shared Memory Layer for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cipher-tutorial
 - Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
@@ -39,6 +40,7 @@
 - CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codemachine-cli-tutorial
 - Codex Analysis Platform Tutorial: Build Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
 - ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
+- Context7 Tutorial: Live Documentation Context for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/context7-tutorial
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
 - GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
