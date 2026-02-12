@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **171**
+- Total tutorials: **173**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -230,6 +230,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - [MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md)
   - Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
+- [MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/ext-apps` to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.
 - [MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/go-sdk` for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.
 - [MCP Inspector Tutorial: Debugging and Validating MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md)
@@ -238,6 +240,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.
 - [MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-kotlin-sdk-tutorial/index.md)
   - Learn how to implement MCP client/server workflows with `modelcontextprotocol/kotlin-sdk`, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.
+- [MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-php-sdk-tutorial/index.md)
+  - Learn how to implement MCP server workflows with `modelcontextprotocol/php-sdk`, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.
 - [MCP Python SDK Tutorial: Building AI Tool Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md)
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - [MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md)

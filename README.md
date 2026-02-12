@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-171-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1840%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-173-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1860%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -68,7 +68,7 @@ Use this quick-start map if you searched for a specific outcome.
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](tutorials/mcp-ruby-sdk-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](tutorials/mcp-ruby-sdk-tutorial/) → [MCP PHP SDK](tutorials/mcp-php-sdk-tutorial/) → [MCP Ext Apps](tutorials/mcp-ext-apps-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) |
 
 ---
 
@@ -97,7 +97,7 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   67+ tutorials    │   31 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   67+ tutorials    │   33 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -235,6 +235,8 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/)** | 1.2K+ | Swift | Official Swift MCP client/server setup, sampling controls, batching, and lifecycle-focused runtime operation patterns |
 | **[MCP Kotlin SDK](tutorials/mcp-kotlin-sdk-tutorial/)** | 1.3K+ | Kotlin/KMP | Official Kotlin multiplatform MCP SDK with typed core/client/server modules, capability checks, and transport integrations |
 | **[MCP Ruby SDK](tutorials/mcp-ruby-sdk-tutorial/)** | 700+ | Ruby | Official Ruby MCP server/client SDK with streamable HTTP sessions, schema-aware primitives, notifications, and release workflows |
+| **[MCP PHP SDK](tutorials/mcp-php-sdk-tutorial/)** | 1.3K+ | PHP | Official PHP MCP SDK with attribute discovery, server builder composition, schema controls, and stdio/HTTP transport patterns |
+| **[MCP Ext Apps](tutorials/mcp-ext-apps-tutorial/)** | 1.4K+ | TypeScript/Spec | Official MCP Apps extension SDK/spec for interactive UI resources, host bridges, security constraints, and migration workflows |
 | **[MCP Use](tutorials/mcp-use-tutorial/)** | 9.1K+ | Python/TypeScript | Full-stack MCP agents, clients, servers, and inspector workflows across both runtimes |
 | **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
 | **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
@@ -363,12 +365,12 @@ Continue ──→ Aider ──→ OpenHands ──→ Claude Code ──→ Cla
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
 ```
-MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp ──→ MCP Inspector ──→ MCP Registry ──→ MCP Specification ──→ MCP TypeScript SDK ──→ MCP Go SDK ──→ MCP Rust SDK ──→ MCP Java SDK ──→ MCP C# SDK ──→ MCP Swift SDK ──→ MCP Kotlin SDK ──→ MCP Ruby SDK ──→ MCP Use
- (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server          (debug +            (publish +           (protocol             (client/server         (go sdk +            (rust rmcp +         (java sdk +          (csharp sdk +         (swift sdk +          (kmp core +            (ruby server +          (full-stack
-  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)           transport tests)     discovery ops)        contract deep dive)    sdk internals)         conformance)          task/oauth focus)      spring modules)        aspnet filters)        lifecycle controls)    transport model)        client workflow)        mcp workflows)
+MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp ──→ MCP Inspector ──→ MCP Registry ──→ MCP Specification ──→ MCP TypeScript SDK ──→ MCP Go SDK ──→ MCP Rust SDK ──→ MCP Java SDK ──→ MCP C# SDK ──→ MCP Swift SDK ──→ MCP Kotlin SDK ──→ MCP Ruby SDK ──→ MCP PHP SDK ──→ MCP Ext Apps ──→ MCP Use
+ (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server          (debug +            (publish +           (protocol             (client/server         (go sdk +            (rust rmcp +         (java sdk +          (csharp sdk +         (swift sdk +          (kmp core +            (ruby server +          (php server +          (interactive ui +      (full-stack
+  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)           transport tests)     discovery ops)        contract deep dive)    sdk internals)         conformance)          task/oauth focus)      spring modules)        aspnet filters)        lifecycle controls)    transport model)        client workflow)        discovery model)        host bridge model)      mcp workflows)
 ```
 
-**Duration:** 72-100 hours | **Difficulty:** Intermediate to Advanced
+**Duration:** 80-110 hours | **Difficulty:** Intermediate to Advanced
 
 ### 🟢 Path 8: Speech & Voice AI
 
@@ -415,10 +417,10 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        171                           ║
-║  📝 Numbered Chapters      1,371                         ║
-║  📏 Tutorial Markdown      471,000+ lines                ║
-║  ⏱️  Estimated Hours        1,840+                        ║
+║  📦 Total Tutorials        173                           ║
+║  📝 Numbered Chapters      1,387                         ║
+║  📏 Tutorial Markdown      472,000+ lines                ║
+║  ⏱️  Estimated Hours        1,860+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝

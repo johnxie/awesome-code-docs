@@ -57,6 +57,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`modelcontextprotocol/swift-sdk`](https://github.com/modelcontextprotocol/swift-sdk) | 1k+ | P1 | `pack-bp` | done |
 | [`modelcontextprotocol/kotlin-sdk`](https://github.com/modelcontextprotocol/kotlin-sdk) | 1k+ | P1 | `pack-bq` | done |
 | [`modelcontextprotocol/ruby-sdk`](https://github.com/modelcontextprotocol/ruby-sdk) | 700+ | P1 | `pack-bq` | done |
+| [`modelcontextprotocol/php-sdk`](https://github.com/modelcontextprotocol/php-sdk) | 1k+ | P1 | `pack-br` | done |
+| [`modelcontextprotocol/ext-apps`](https://github.com/modelcontextprotocol/ext-apps) | 1k+ | P1 | `pack-br` | done |
 
 ## P2 (Strategic Extensions)
 

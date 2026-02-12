@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 171,
+  "tutorial_count": 173,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2532,6 +2532,35 @@
       "title": "MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md",
+      "index_path": "tutorials/mcp-ext-apps-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "ext",
+        "apps",
+        "building",
+        "interactive",
+        "hosts",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "build",
+        "wire",
+        "host",
+        "bridges",
+        "secure",
+        "resources",
+        "run",
+        "reliable",
+        "testing"
+      ],
+      "path": "tutorials/mcp-ext-apps-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-ext-apps-tutorial",
+      "slug": "mcp-ext-apps-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/ext-apps` to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.",
+      "title": "MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md",
       "index_path": "tutorials/mcp-go-sdk-tutorial/index.md",
       "keywords": [
@@ -2646,6 +2675,35 @@
       "slug": "mcp-kotlin-sdk-tutorial",
       "summary": "Learn how to implement MCP client/server workflows with `modelcontextprotocol/kotlin-sdk`, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.",
       "title": "MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-php-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-php-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "php",
+        "sdk",
+        "building",
+        "servers",
+        "discovery",
+        "transport",
+        "flexibility",
+        "learn",
+        "implement",
+        "server",
+        "workflows",
+        "modelcontextprotocol",
+        "including",
+        "attribute",
+        "manual",
+        "capability",
+        "registration"
+      ],
+      "path": "tutorials/mcp-php-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-php-sdk-tutorial",
+      "slug": "mcp-php-sdk-tutorial",
+      "summary": "Learn how to implement MCP server workflows with `modelcontextprotocol/php-sdk`, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.",
+      "title": "MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md",
