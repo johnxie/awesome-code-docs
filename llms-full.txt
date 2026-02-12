@@ -285,6 +285,12 @@ Main repository:
 - Summary: **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
 - Keywords: khoj, deep, dive, project, open, source, self, hostable, personal, assistant, that, connects, notes, documents, online, data
 
+## Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces
+- Path: tutorials/kilocode-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kilocode-tutorial/index.md
+- Summary: Learn how to use `Kilo-Org/kilocode` for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.
+- Keywords: kilocode, kilo, code, agentic, engineering, ide, cli, surfaces, learn, use, org, high, throughput, coding, workflows, multi, mode, operation
+
 ## Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP
 - Path: tutorials/kimi-cli-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md
@@ -638,6 +644,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md
 - Summary: A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.
 - Keywords: superagi, production, ready, autonomous, agents, deep, technical, walkthrough, covering
+
+## Superset Terminal Tutorial: Command Center for Parallel Coding Agents
+- Path: tutorials/superset-terminal-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superset-terminal-tutorial/index.md
+- Summary: Learn how to use `superset-sh/superset` to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.
+- Keywords: superset, terminal, command, center, parallel, coding, agents, learn, use, orchestrate, many, worktree, isolation, centralized, monitoring, fast, review, loops
 
 ## OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
 - Path: tutorials/swarm-tutorial

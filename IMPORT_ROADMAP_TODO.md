@@ -35,8 +35,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli) | 6k+ | P2 | `pack-al` | done |
 | [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe) | 3k+ | P2 | `pack-am` | done |
 | [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad) | 5k+ | P2 | `pack-am` | done |
-| [`gptme/gptme`](https://github.com/gptme/gptme) | 4k+ | P2 | `pack-an` | in_progress |
-| [`campfirein/cipher`](https://github.com/campfirein/cipher) | 3k+ | P2 | `pack-an` | in_progress |
+| [`gptme/gptme`](https://github.com/gptme/gptme) | 4k+ | P2 | `pack-an` | done |
+| [`campfirein/cipher`](https://github.com/campfirein/cipher) | 3k+ | P2 | `pack-an` | done |
+| [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode) | 15k+ | P2 | `pack-ao` | in_progress |
+| [`superset-sh/superset`](https://github.com/superset-sh/superset) | 1.5k+ | P2 | `pack-ao` | in_progress |
 
 ## Execution Rules
 

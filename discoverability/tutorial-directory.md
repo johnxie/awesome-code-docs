@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **115**
+- Total tutorials: **117**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -126,6 +126,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Khoj AI: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/khoj-tutorial/index.md)
   - **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
+- [Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kilocode-tutorial/index.md)
+  - Learn how to use `Kilo-Org/kilocode` for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.
 - [Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md)
   - Learn how to use `MoonshotAI/kimi-cli` to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.
 - [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md)
@@ -272,6 +274,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Deep technical walkthrough.
 - [SuperAGI Tutorial: Production-Ready Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md)
   - A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.
+- [Superset Terminal Tutorial: Command Center for Parallel Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superset-terminal-tutorial/index.md)
+  - Learn how to use `superset-sh/superset` to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.
 
 ## T
 

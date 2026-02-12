@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 115,
+  "tutorial_count": 117,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -1215,6 +1215,35 @@
       "slug": "khoj-tutorial",
       "summary": "**Project**: [Khoj](https://github.com/khoj-ai/khoj) \u2014 An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.",
       "title": "Khoj AI: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kilocode-tutorial/index.md",
+      "index_path": "tutorials/kilocode-tutorial/index.md",
+      "keywords": [
+        "kilocode",
+        "kilo",
+        "code",
+        "agentic",
+        "engineering",
+        "ide",
+        "cli",
+        "surfaces",
+        "learn",
+        "use",
+        "org",
+        "high",
+        "throughput",
+        "coding",
+        "workflows",
+        "multi",
+        "mode",
+        "operation"
+      ],
+      "path": "tutorials/kilocode-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kilocode-tutorial",
+      "slug": "kilocode-tutorial",
+      "summary": "Learn how to use `Kilo-Org/kilocode` for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.",
+      "title": "Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md",
@@ -2675,6 +2704,35 @@
       "slug": "superagi-tutorial",
       "summary": "A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.",
       "title": "SuperAGI Tutorial: Production-Ready Autonomous AI Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superset-terminal-tutorial/index.md",
+      "index_path": "tutorials/superset-terminal-tutorial/index.md",
+      "keywords": [
+        "superset",
+        "terminal",
+        "command",
+        "center",
+        "parallel",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "orchestrate",
+        "many",
+        "worktree",
+        "isolation",
+        "centralized",
+        "monitoring",
+        "fast",
+        "review",
+        "loops"
+      ],
+      "path": "tutorials/superset-terminal-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superset-terminal-tutorial",
+      "slug": "superset-terminal-tutorial",
+      "summary": "Learn how to use `superset-sh/superset` to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.",
+      "title": "Superset Terminal Tutorial: Command Center for Parallel Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md",

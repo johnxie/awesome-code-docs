@@ -61,6 +61,7 @@
 - HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/humanlayer-tutorial
 - Instructor Tutorial: Structured LLM Outputs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/instructor-tutorial
 - Khoj AI: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/khoj-tutorial
+- Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kilocode-tutorial
 - Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kimi-cli-tutorial
 - Kubernetes Operator Patterns: Building Production-Grade Controllers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-patterns
 - LanceDB Tutorial: Serverless Vector Database for AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lancedb-tutorial
@@ -120,6 +121,7 @@
 - Smolagents Tutorial: Hugging Face's Lightweight Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/smolagents-tutorial
 - Supabase Tutorial: Building Modern Backend Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/supabase-tutorial
 - SuperAGI Tutorial: Production-Ready Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superagi-tutorial
+- Superset Terminal Tutorial: Command Center for Parallel Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superset-terminal-tutorial
 - OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swarm-tutorial
 - Taskade Tutorial: AI-Powered Productivity Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
