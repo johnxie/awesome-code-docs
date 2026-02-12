@@ -17,6 +17,7 @@
 - ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/adk-python-tutorial
 - AG2 Tutorial: Next-Generation Multi-Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ag2-tutorial
 - AgentGPT Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial
+- AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agents-md-tutorial
 - Agno Tutorial: Multi-Agent Systems That Learn Over Time: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agno-tutorial
 - Aider Tutorial: AI Pair Programming in Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/aider-tutorial
 - Anthropic API Tutorial: Build Production Apps with Claude: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-code-tutorial
@@ -108,6 +109,7 @@
 - OpenAI Whisper Tutorial: Speech Recognition and Translation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-whisper-tutorial
 - OpenBB Tutorial: Complete Guide to Investment Research Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openbb-tutorial
 - OpenClaw: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openclaw-tutorial
+- OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-ai-legacy-tutorial
 - OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opencode-tutorial
 - OpenHands Tutorial: Autonomous Software Engineering Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openhands-tutorial
 - OpenSkills Tutorial: Universal Skill Loading for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openskills-tutorial

@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **133**
+- Total tutorials: **135**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -13,6 +13,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
 - [AgentGPT Tutorial: Building Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md)
   - A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
+- [AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md)
+  - Learn how to use `agentsmd/agents.md` to define a clear, portable instruction contract for coding agents across projects and tools.
 - [Agno Tutorial: Multi-Agent Systems That Learn Over Time](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md)
   - Learn how to build and operate learning multi-agent systems with `agno-agi/agno`, including memory, orchestration, AgentOS runtime, and production guardrails.
 - [Aider Tutorial: AI Pair Programming in Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md)
@@ -234,6 +236,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Democratize investment research with OpenBB's comprehensive financial data and analysis platform.
 - [OpenClaw: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md)
   - **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
+- [OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-ai-legacy-tutorial/index.md)
+  - Learn from `opencode-ai/opencode` architecture and workflows, and migrate safely to actively maintained successors.
 - [OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md)
   - Learn how to use `anomalyco/opencode` to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.
 - [OpenHands Tutorial: Autonomous Software Engineering Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md)
