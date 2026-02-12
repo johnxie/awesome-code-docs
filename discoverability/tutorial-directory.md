@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **175**
+- Total tutorials: **177**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -105,6 +105,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A practical guide to `continuedev/continue`, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
 - [CopilotKit Tutorial: Building AI Copilots for React Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md)
   - Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
+- [Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/create-python-server` to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.
 - [CrewAI Tutorial: Building Collaborative AI Agent Teams](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md)
   - **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
 - [Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md)
@@ -244,6 +246,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to implement MCP server workflows with `modelcontextprotocol/php-sdk`, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.
 - [MCP Python SDK Tutorial: Building AI Tool Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md)
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
+- [MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-quickstart-resources-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/quickstart-resources` as a practical reference for multi-language MCP server/client implementations, protocol smoke testing, and onboarding workflows.
 - [MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md)
   - Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
 - [MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ruby-sdk-tutorial/index.md)
