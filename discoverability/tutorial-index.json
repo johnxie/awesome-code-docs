@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 169,
+  "tutorial_count": 171,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2619,6 +2619,35 @@
       "title": "MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-kotlin-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-kotlin-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "kotlin",
+        "sdk",
+        "building",
+        "multiplatform",
+        "clients",
+        "servers",
+        "learn",
+        "implement",
+        "client",
+        "server",
+        "workflows",
+        "modelcontextprotocol",
+        "including",
+        "module",
+        "boundaries",
+        "transport",
+        "choices"
+      ],
+      "path": "tutorials/mcp-kotlin-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-kotlin-sdk-tutorial",
+      "slug": "mcp-kotlin-sdk-tutorial",
+      "summary": "Learn how to implement MCP client/server workflows with `modelcontextprotocol/kotlin-sdk`, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.",
+      "title": "MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md",
       "index_path": "tutorials/mcp-python-sdk-tutorial/index.md",
       "keywords": [
@@ -2675,6 +2704,35 @@
       "slug": "mcp-registry-tutorial",
       "summary": "Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.",
       "title": "MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ruby-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-ruby-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "ruby",
+        "sdk",
+        "building",
+        "servers",
+        "clients",
+        "learn",
+        "implement",
+        "server",
+        "client",
+        "workflows",
+        "modelcontextprotocol",
+        "including",
+        "tool",
+        "prompt",
+        "resource",
+        "registration",
+        "streamable"
+      ],
+      "path": "tutorials/mcp-ruby-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-ruby-sdk-tutorial",
+      "slug": "mcp-ruby-sdk-tutorial",
+      "summary": "Learn how to implement MCP server/client workflows with `modelcontextprotocol/ruby-sdk`, including tool/prompt/resource registration, streamable HTTP sessions, structured logging, and release operations.",
+      "title": "MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md",

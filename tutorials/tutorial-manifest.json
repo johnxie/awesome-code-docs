@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 169
+    "root_only": 171
   },
-  "tutorial_count": 169,
+  "tutorial_count": 171,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -1884,6 +1884,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "mcp-kotlin-sdk-tutorial",
+      "path": "tutorials/mcp-kotlin-sdk-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "mcp-python-sdk-tutorial",
       "path": "tutorials/mcp-python-sdk-tutorial",
       "structure": "root_only",
@@ -1905,6 +1924,25 @@
       "has_index": true,
       "name": "mcp-registry-tutorial",
       "path": "tutorials/mcp-registry-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "mcp-ruby-sdk-tutorial",
+      "path": "tutorials/mcp-ruby-sdk-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

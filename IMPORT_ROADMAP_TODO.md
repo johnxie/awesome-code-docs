@@ -53,8 +53,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`modelcontextprotocol/go-sdk`](https://github.com/modelcontextprotocol/go-sdk) | 3k+ | P1 | `pack-bn` | done |
 | [`modelcontextprotocol/java-sdk`](https://github.com/modelcontextprotocol/java-sdk) | 3k+ | P1 | `pack-bo` | done |
 | [`modelcontextprotocol/csharp-sdk`](https://github.com/modelcontextprotocol/csharp-sdk) | 3k+ | P1 | `pack-bo` | done |
-| [`modelcontextprotocol/rust-sdk`](https://github.com/modelcontextprotocol/rust-sdk) | 3k+ | P1 | `pack-bp` | in_progress |
-| [`modelcontextprotocol/swift-sdk`](https://github.com/modelcontextprotocol/swift-sdk) | 1k+ | P1 | `pack-bp` | in_progress |
+| [`modelcontextprotocol/rust-sdk`](https://github.com/modelcontextprotocol/rust-sdk) | 3k+ | P1 | `pack-bp` | done |
+| [`modelcontextprotocol/swift-sdk`](https://github.com/modelcontextprotocol/swift-sdk) | 1k+ | P1 | `pack-bp` | done |
+| [`modelcontextprotocol/kotlin-sdk`](https://github.com/modelcontextprotocol/kotlin-sdk) | 1k+ | P1 | `pack-bq` | done |
+| [`modelcontextprotocol/ruby-sdk`](https://github.com/modelcontextprotocol/ruby-sdk) | 700+ | P1 | `pack-bq` | done |
 
 ## P2 (Strategic Extensions)
 
