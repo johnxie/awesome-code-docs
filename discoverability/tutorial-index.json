@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 113,
+  "tutorial_count": 115,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -378,6 +378,35 @@
       "slug": "chroma-tutorial",
       "summary": "A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.",
       "title": "ChromaDB Tutorial: Building AI-Native Vector Databases"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md",
+      "index_path": "tutorials/cipher-tutorial/index.md",
+      "keywords": [
+        "cipher",
+        "shared",
+        "memory",
+        "layer",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "campfirein",
+        "centric",
+        "mcp",
+        "enabled",
+        "that",
+        "preserves",
+        "shares",
+        "context",
+        "across",
+        "ides"
+      ],
+      "path": "tutorials/cipher-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cipher-tutorial",
+      "slug": "cipher-tutorial",
+      "summary": "Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.",
+      "title": "Cipher Tutorial: Shared Memory Layer for Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md",
@@ -1001,6 +1030,35 @@
       "slug": "gpt-oss-tutorial",
       "summary": "A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.",
       "title": "GPT Open Source: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gptme-tutorial/index.md",
+      "index_path": "tutorials/gptme-tutorial/index.md",
+      "keywords": [
+        "gptme",
+        "open",
+        "source",
+        "terminal",
+        "agent",
+        "local",
+        "tool",
+        "driven",
+        "work",
+        "learn",
+        "use",
+        "run",
+        "first",
+        "coding",
+        "knowledge",
+        "strong",
+        "cli",
+        "ergonomics"
+      ],
+      "path": "tutorials/gptme-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gptme-tutorial",
+      "slug": "gptme-tutorial",
+      "summary": "Learn how to use `gptme/gptme` to run a local-first coding and knowledge-work agent with strong CLI ergonomics, extensible tools, and automation-friendly modes.",
+      "title": "gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hapi-tutorial/index.md",

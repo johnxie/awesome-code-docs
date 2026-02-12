@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 113
+    "root_only": 115
   },
-  "tutorial_count": 113,
+  "tutorial_count": 115,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -289,6 +289,25 @@
       "has_index": true,
       "name": "chroma-tutorial",
       "path": "tutorials/chroma-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "cipher-tutorial",
+      "path": "tutorials/cipher-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -745,6 +764,25 @@
       "has_index": true,
       "name": "gpt-oss-tutorial",
       "path": "tutorials/gpt-oss-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "gptme-tutorial",
+      "path": "tutorials/gptme-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

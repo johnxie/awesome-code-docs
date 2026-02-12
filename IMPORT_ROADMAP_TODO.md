@@ -33,8 +33,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof) | 900+ | P2 | `pack-ak` | done |
 | [`github/copilot-cli`](https://github.com/github/copilot-cli) | 8k+ | P2 | `pack-al` | done |
 | [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli) | 6k+ | P2 | `pack-al` | done |
-| [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe) | 3k+ | P2 | `pack-am` | in_progress |
-| [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad) | 5k+ | P2 | `pack-am` | in_progress |
+| [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe) | 3k+ | P2 | `pack-am` | done |
+| [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad) | 5k+ | P2 | `pack-am` | done |
+| [`gptme/gptme`](https://github.com/gptme/gptme) | 4k+ | P2 | `pack-an` | in_progress |
+| [`campfirein/cipher`](https://github.com/campfirein/cipher) | 3k+ | P2 | `pack-an` | in_progress |
 
 ## Execution Rules
 

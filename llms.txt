@@ -29,6 +29,7 @@
 - Browser Use Tutorial: AI-Powered Web Automation Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/browser-use-tutorial
 - Chatbox Tutorial: Building Modern AI Chat Interfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chatbox-tutorial
 - ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
+- Cipher Tutorial: Shared Memory Layer for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cipher-tutorial
 - Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
 - Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
 - Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-squad-tutorial
@@ -53,6 +54,7 @@
 - Fireproof Tutorial: Local-First Document Database for AI-Native Apps: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fireproof-tutorial
 - Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
 - GPT Open Source: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gpt-oss-tutorial
+- gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gptme-tutorial
 - HAPI Tutorial: Remote Control for Local AI Coding Sessions: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hapi-tutorial
 - Haystack: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/haystack-tutorial
 - HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/huggingface-tutorial
