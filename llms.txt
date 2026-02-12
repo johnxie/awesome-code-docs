@@ -43,6 +43,7 @@
 - Cipher Tutorial: Shared Memory Layer for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cipher-tutorial
 - Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-router-tutorial
 - Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
+- Claude Flow Tutorial: Multi-Agent Orchestration, MCP Tooling, and V3 Module Architecture: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-flow-tutorial
 - Claude-Mem Tutorial: Persistent Memory Compression for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-mem-tutorial
 - Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-plugins-official-tutorial
 - Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
@@ -62,6 +63,7 @@
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
 - Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crush-tutorial
+- Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/daytona-tutorial
 - Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
 - Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-platform-deep-dive
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial

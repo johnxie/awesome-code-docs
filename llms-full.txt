@@ -177,6 +177,12 @@ Main repository:
 - Summary: Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - Keywords: claude, code, agentic, coding, terminal, learn, use, anthropics, codebase, understanding, multi, file, edits, command, execution, git, workflows, mcp
 
+## Claude Flow Tutorial: Multi-Agent Orchestration, MCP Tooling, and V3 Module Architecture
+- Path: tutorials/claude-flow-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-flow-tutorial/index.md
+- Summary: Learn how to use `ruvnet/claude-flow` to orchestrate multi-agent workflows, operate MCP/CLI surfaces, and reason about V2-to-V3 architecture and migration tradeoffs.
+- Keywords: claude, flow, multi, agent, orchestration, mcp, tooling, module, architecture, learn, use, ruvnet, orchestrate, workflows, operate, cli, surfaces, reason
+
 ## Claude-Mem Tutorial: Persistent Memory Compression for Claude Code
 - Path: tutorials/claude-mem-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md
@@ -290,6 +296,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md
 - Summary: Learn how to use `charmbracelet/crush` for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.
 - Keywords: crush, multi, model, terminal, coding, agent, strong, extensibility, learn, use, charmbracelet, native, workflows, flexible, providers, lsp, mcp, integrations
+
+## Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code
+- Path: tutorials/daytona-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/index.md
+- Summary: Learn how to use `daytonaio/daytona` to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
+- Keywords: daytona, secure, sandbox, infrastructure, generated, code, learn, use, daytonaio, run, isolated, sandboxes, integrate, coding, agents, through, mcp, operate
 
 ## Deer Flow Tutorial: Distributed Workflow Orchestration Platform
 - Path: tutorials/deer-flow-tutorial

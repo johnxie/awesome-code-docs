@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 155,
+  "tutorial_count": 157,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -786,6 +786,35 @@
       "title": "Claude Code Tutorial: Agentic Coding from Your Terminal"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-flow-tutorial/index.md",
+      "index_path": "tutorials/claude-flow-tutorial/index.md",
+      "keywords": [
+        "claude",
+        "flow",
+        "multi",
+        "agent",
+        "orchestration",
+        "mcp",
+        "tooling",
+        "module",
+        "architecture",
+        "learn",
+        "use",
+        "ruvnet",
+        "orchestrate",
+        "workflows",
+        "operate",
+        "cli",
+        "surfaces",
+        "reason"
+      ],
+      "path": "tutorials/claude-flow-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-flow-tutorial",
+      "slug": "claude-flow-tutorial",
+      "summary": "Learn how to use `ruvnet/claude-flow` to orchestrate multi-agent workflows, operate MCP/CLI surfaces, and reason about V2-to-V3 architecture and migration tradeoffs.",
+      "title": "Claude Flow Tutorial: Multi-Agent Orchestration, MCP Tooling, and V3 Module Architecture"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md",
       "index_path": "tutorials/claude-mem-tutorial/index.md",
       "keywords": [
@@ -1302,6 +1331,35 @@
       "slug": "crush-tutorial",
       "summary": "Learn how to use `charmbracelet/crush` for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.",
       "title": "Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/index.md",
+      "index_path": "tutorials/daytona-tutorial/index.md",
+      "keywords": [
+        "daytona",
+        "secure",
+        "sandbox",
+        "infrastructure",
+        "generated",
+        "code",
+        "learn",
+        "use",
+        "daytonaio",
+        "run",
+        "isolated",
+        "sandboxes",
+        "integrate",
+        "coding",
+        "agents",
+        "through",
+        "mcp",
+        "operate"
+      ],
+      "path": "tutorials/daytona-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/daytona-tutorial",
+      "slug": "daytona-tutorial",
+      "summary": "Learn how to use `daytonaio/daytona` to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.",
+      "title": "Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md",
