@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 123
+    "root_only": 125
   },
-  "tutorial_count": 123,
+  "tutorial_count": 125,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -287,6 +287,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "cherry-studio-tutorial",
+      "path": "tutorials/cherry-studio-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "chroma-tutorial",
       "path": "tutorials/chroma-tutorial",
       "structure": "root_only",
@@ -479,6 +498,25 @@
       "has_index": true,
       "name": "comfyui-tutorial",
       "path": "tutorials/comfyui-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "context7-tutorial",
+      "path": "tutorials/context7-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

@@ -87,6 +87,12 @@ Main repository:
 - Summary: A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
 - Keywords: chatbox, building, modern, chat, interfaces, deep, technical, walkthrough, covering
 
+## Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams
+- Path: tutorials/cherry-studio-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cherry-studio-tutorial/index.md
+- Summary: Learn how to use `CherryHQ/cherry-studio` to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.
+- Keywords: cherry, studio, multi, provider, desktop, workspace, teams, learn, use, cherryhq, run, workflows, manage, assistants, integrate, mcp, tools, first
+
 ## ChromaDB Tutorial: Building AI-Native Vector Databases
 - Path: tutorials/chroma-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md
@@ -152,6 +158,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md
 - Summary: A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 - Keywords: comfyui, mastering, image, generation, workflows, deep, technical, walkthrough, covering
+
+## Context7 Tutorial: Live Documentation Context for Coding Agents
+- Path: tutorials/context7-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md
+- Summary: Learn how to use `upstash/context7` to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.
+- Keywords: context7, live, documentation, context, coding, agents, learn, use, upstash, inject, date, version, aware, library, into, claude, code, cursor
 
 ## Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI
 - Path: tutorials/continue-tutorial

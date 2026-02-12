@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **123**
+- Total tutorials: **125**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -39,6 +39,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Chatbox Tutorial: Building Modern AI Chat Interfaces](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/index.md)
   - A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
+- [Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cherry-studio-tutorial/index.md)
+  - Learn how to use `CherryHQ/cherry-studio` to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.
 - [ChromaDB Tutorial: Building AI-Native Vector Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md)
   - A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
 - [Cipher Tutorial: Shared Memory Layer for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md)
@@ -61,6 +63,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
   - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
+- [Context7 Tutorial: Live Documentation Context for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md)
+  - Learn how to use `upstash/context7` to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.
 - [Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md)
   - A practical guide to `continuedev/continue`, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
 - [CopilotKit Tutorial: Building AI Copilots for React Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md)

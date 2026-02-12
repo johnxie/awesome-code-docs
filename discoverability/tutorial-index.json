@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 123,
+  "tutorial_count": 125,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -359,6 +359,35 @@
       "title": "Chatbox Tutorial: Building Modern AI Chat Interfaces"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cherry-studio-tutorial/index.md",
+      "index_path": "tutorials/cherry-studio-tutorial/index.md",
+      "keywords": [
+        "cherry",
+        "studio",
+        "multi",
+        "provider",
+        "desktop",
+        "workspace",
+        "teams",
+        "learn",
+        "use",
+        "cherryhq",
+        "run",
+        "workflows",
+        "manage",
+        "assistants",
+        "integrate",
+        "mcp",
+        "tools",
+        "first"
+      ],
+      "path": "tutorials/cherry-studio-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cherry-studio-tutorial",
+      "slug": "cherry-studio-tutorial",
+      "summary": "Learn how to use `CherryHQ/cherry-studio` to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.",
+      "title": "Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md",
       "index_path": "tutorials/chroma-tutorial/index.md",
       "keywords": [
@@ -639,6 +668,35 @@
       "slug": "comfyui-tutorial",
       "summary": "A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.",
       "title": "ComfyUI Tutorial: Mastering AI Image Generation Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md",
+      "index_path": "tutorials/context7-tutorial/index.md",
+      "keywords": [
+        "context7",
+        "live",
+        "documentation",
+        "context",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "upstash",
+        "inject",
+        "date",
+        "version",
+        "aware",
+        "library",
+        "into",
+        "claude",
+        "code",
+        "cursor"
+      ],
+      "path": "tutorials/context7-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/context7-tutorial",
+      "slug": "context7-tutorial",
+      "summary": "Learn how to use `upstash/context7` to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.",
+      "title": "Context7 Tutorial: Live Documentation Context for Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md",

@@ -45,10 +45,12 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`campfirein/cipher`](https://github.com/campfirein/cipher) | 3k+ | P2 | `pack-an` | done |
 | [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode) | 15k+ | P2 | `pack-ao` | done |
 | [`superset-sh/superset`](https://github.com/superset-sh/superset) | 1.5k+ | P2 | `pack-ao` | done |
-| [`upstash/context7`](https://github.com/upstash/context7) | 45k+ | P2 | `pack-ar` | todo |
-| [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio) | 39k+ | P2 | `pack-ar` | todo |
+| [`upstash/context7`](https://github.com/upstash/context7) | 45k+ | P2 | `pack-ar` | done |
+| [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio) | 39k+ | P2 | `pack-ar` | done |
 | [`google/adk-python`](https://github.com/google/adk-python) | 17k+ | P2 | `pack-at` | todo |
 | [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python) | 5k+ | P2 | `pack-at` | todo |
+| [`SWE-agent/SWE-agent`](https://github.com/SWE-agent/SWE-agent) | 18k+ | P2 | `pack-au` | todo |
+| [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe) | 5k+ | P2 | `pack-au` | todo |
 
 ## Execution Rules
 
