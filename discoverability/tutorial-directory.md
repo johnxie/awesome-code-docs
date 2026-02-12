@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **137**
+- Total tutorials: **139**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -13,6 +13,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
 - [AgentGPT Tutorial: Building Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md)
   - A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
+- [AgenticSeek Tutorial: Local-First Autonomous Agent Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agenticseek-tutorial/index.md)
+  - Learn how to use `Fosowl/agenticSeek` to run multi-agent planning, browsing, and coding workflows with local model support, Docker-first runtime defaults, and practical operator guardrails.
 - [AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md)
   - Learn how to use `agentsmd/agents.md` to define a clear, portable instruction contract for coding agents across projects and tools.
 - [Agno Tutorial: Multi-Agent Systems That Learn Over Time](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md)
@@ -341,3 +343,5 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/index.md)
   - A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
+- [Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/wshobson-agents-tutorial/index.md)
+  - Learn how to use `wshobson/agents` to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.

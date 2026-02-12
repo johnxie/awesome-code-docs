@@ -21,6 +21,12 @@ Main repository:
 - Summary: A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
 - Keywords: agentgpt, building, autonomous, agents, deep, technical, walkthrough, covering
 
+## AgenticSeek Tutorial: Local-First Autonomous Agent Operations
+- Path: tutorials/agenticseek-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agenticseek-tutorial/index.md
+- Summary: Learn how to use `Fosowl/agenticSeek` to run multi-agent planning, browsing, and coding workflows with local model support, Docker-first runtime defaults, and practical operator guardrails.
+- Keywords: agenticseek, local, first, autonomous, agent, operations, learn, use, fosowl, run, multi, planning, browsing, coding, workflows, model, support, docker
+
 ## AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories
 - Path: tutorials/agents-md-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md
@@ -824,3 +830,9 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/index.md
 - Summary: A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
 - Keywords: whisper, cpp, high, performance, speech, recognition, deep, technical, walkthrough, covering
+
+## Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code
+- Path: tutorials/wshobson-agents-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/wshobson-agents-tutorial/index.md
+- Summary: Learn how to use `wshobson/agents` to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.
+- Keywords: wshobson, agents, pluginized, multi, agent, workflows, claude, code, learn, use, install, focused, plugins, coordinate, specialist, run, scalable, clear
