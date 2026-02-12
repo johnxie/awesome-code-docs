@@ -17,7 +17,7 @@ tutorials/<tutorial-name>/
 
 | Pattern | Count |
 |:--------|:------|
-| `root_only` | 115 |
+| `root_only` | 117 |
 | `docs_only` | 0 |
 | `index_only` | 0 |
 | `mixed` | 0 |

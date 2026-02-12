@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 115
+    "root_only": 117
   },
-  "tutorial_count": 115,
+  "tutorial_count": 117,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -897,6 +897,25 @@
       "has_index": true,
       "name": "khoj-tutorial",
       "path": "tutorials/khoj-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "kilocode-tutorial",
+      "path": "tutorials/kilocode-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -2020,6 +2039,25 @@
       "has_index": true,
       "name": "superagi-tutorial",
       "path": "tutorials/superagi-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "superset-terminal-tutorial",
+      "path": "tutorials/superset-terminal-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
