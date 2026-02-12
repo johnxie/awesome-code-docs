@@ -153,6 +153,12 @@ Main repository:
 - Summary: Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
 - Keywords: claude, mem, persistent, memory, compression, code, learn, use, thedotmack, capture, compress, retrieve, coding, session, hook, driven, automation, searchable
 
+## Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory
+- Path: tutorials/claude-plugins-official-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-plugins-official-tutorial/index.md
+- Summary: Learn how to use `anthropics/claude-plugins-official` to discover, evaluate, install, and contribute Claude Code plugins with clear directory standards and plugin safety practices.
+- Keywords: claude, plugins, official, anthropic, managed, plugin, directory, learn, use, anthropics, discover, evaluate, install, contribute, code, clear, standards, safety
+
 ## Claude Quickstarts Tutorial: Production Integration Patterns
 - Path: tutorials/claude-quickstarts-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md
@@ -206,6 +212,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md
 - Summary: A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 - Keywords: comfyui, mastering, image, generation, workflows, deep, technical, walkthrough, covering
+
+## Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains
+- Path: tutorials/compound-engineering-plugin-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md
+- Summary: Learn how to use `EveryInc/compound-engineering-plugin` to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.
+- Keywords: compound, engineering, plugin, compounding, agent, workflows, across, toolchains, learn, use, everyinc, run, claude, code, convert, assets, other, coding
 
 ## Context7 Tutorial: Live Documentation Context for Coding Agents
 - Path: tutorials/context7-tutorial

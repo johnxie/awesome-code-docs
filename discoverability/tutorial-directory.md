@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **141**
+- Total tutorials: **143**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -61,6 +61,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - [Claude-Mem Tutorial: Persistent Memory Compression for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md)
   - Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
+- [Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-plugins-official-tutorial/index.md)
+  - Learn how to use `anthropics/claude-plugins-official` to discover, evaluate, install, and contribute Claude Code plugins with clear directory standards and plugin safety practices.
 - [Claude Quickstarts Tutorial: Production Integration Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md)
   - Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
 - [Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md)
@@ -79,6 +81,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `openai/codex` to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
   - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
+- [Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md)
+  - Learn how to use `EveryInc/compound-engineering-plugin` to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.
 - [Context7 Tutorial: Live Documentation Context for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md)
   - Learn how to use `upstash/context7` to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.
 - [Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md)

@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 141,
+  "tutorial_count": 143,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -670,6 +670,35 @@
       "title": "Claude-Mem Tutorial: Persistent Memory Compression for Claude Code"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-plugins-official-tutorial/index.md",
+      "index_path": "tutorials/claude-plugins-official-tutorial/index.md",
+      "keywords": [
+        "claude",
+        "plugins",
+        "official",
+        "anthropic",
+        "managed",
+        "plugin",
+        "directory",
+        "learn",
+        "use",
+        "anthropics",
+        "discover",
+        "evaluate",
+        "install",
+        "contribute",
+        "code",
+        "clear",
+        "standards",
+        "safety"
+      ],
+      "path": "tutorials/claude-plugins-official-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-plugins-official-tutorial",
+      "slug": "claude-plugins-official-tutorial",
+      "summary": "Learn how to use `anthropics/claude-plugins-official` to discover, evaluate, install, and contribute Claude Code plugins with clear directory standards and plugin safety practices.",
+      "title": "Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md",
       "index_path": "tutorials/claude-quickstarts-tutorial/index.md",
       "keywords": [
@@ -900,6 +929,35 @@
       "slug": "comfyui-tutorial",
       "summary": "A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.",
       "title": "ComfyUI Tutorial: Mastering AI Image Generation Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md",
+      "index_path": "tutorials/compound-engineering-plugin-tutorial/index.md",
+      "keywords": [
+        "compound",
+        "engineering",
+        "plugin",
+        "compounding",
+        "agent",
+        "workflows",
+        "across",
+        "toolchains",
+        "learn",
+        "use",
+        "everyinc",
+        "run",
+        "claude",
+        "code",
+        "convert",
+        "assets",
+        "other",
+        "coding"
+      ],
+      "path": "tutorials/compound-engineering-plugin-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/compound-engineering-plugin-tutorial",
+      "slug": "compound-engineering-plugin-tutorial",
+      "summary": "Learn how to use `EveryInc/compound-engineering-plugin` to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.",
+      "title": "Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md",

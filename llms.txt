@@ -39,6 +39,7 @@
 - Cipher Tutorial: Shared Memory Layer for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cipher-tutorial
 - Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
 - Claude-Mem Tutorial: Persistent Memory Compression for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-mem-tutorial
+- Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-plugins-official-tutorial
 - Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
 - Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-squad-tutorial
 - Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
@@ -48,6 +49,7 @@
 - Codex Analysis Platform Tutorial: Build Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
 - Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-cli-tutorial
 - ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
+- Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/compound-engineering-plugin-tutorial
 - Context7 Tutorial: Live Documentation Context for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/context7-tutorial
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
 - GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial
