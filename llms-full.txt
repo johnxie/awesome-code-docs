@@ -81,6 +81,12 @@ Main repository:
 - Summary: A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 - Keywords: autogen, microsoft, building, multi, agent, systems, deep, technical, walkthrough, covering
 
+## Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation
+- Path: tutorials/awesome-claude-code-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/index.md
+- Summary: Learn how to use `hesreallyhim/awesome-claude-code` as a high-signal discovery and decision system for skills, commands, hooks, tooling, and `CLAUDE.md` patterns.
+- Keywords: awesome, claude, code, curated, resource, discovery, evaluation, learn, use, hesreallyhim, high, signal, decision, system, skills, commands, hooks, tooling
+
 ## Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents
 - Path: tutorials/beads-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md
@@ -734,6 +740,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/index.md
 - Summary: Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
 - Keywords: react, fiber, internals, deep, dive, into, reconciliation, algorithm, architecture, that, powers, modern, applications
+
+## Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code
+- Path: tutorials/refly-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/refly-tutorial/index.md
+- Summary: Learn how to use `refly-ai/refly` to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.
+- Keywords: refly, build, deterministic, agent, skills, ship, them, across, apis, claude, code, learn, use, turn, vibe, workflows, into, reusable
 
 ## Roo Code Tutorial: Run an AI Dev Team in Your Editor
 - Path: tutorials/roo-code-tutorial
