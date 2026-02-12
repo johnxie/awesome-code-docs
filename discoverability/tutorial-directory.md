@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **183**
+- Total tutorials: **185**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -142,6 +142,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `jlowin/fastmcp` to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.
 - [Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md)
   - Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
+- [Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-mcp-server-tutorial/index.md)
+  - Learn how to use `firecrawl/firecrawl-mcp-server` to add robust web scraping, crawling, search, and extraction capabilities to MCP-enabled coding and research agents.
 - [Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md)
   - Deep technical walkthrough.
 - [Fireproof Tutorial: Local-First Document Database for AI-Native Apps](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md)
@@ -232,6 +234,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 - [Mastra Tutorial: TypeScript Framework for AI Agents and Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md)
   - Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
+- [MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-chrome-tutorial/index.md)
+  - Learn how to use `hangwin/mcp-chrome` to expose browser automation, content analysis, and semantic tab search tools to MCP clients.
 - [MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md)
   - Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
 - [MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-docs-repo-tutorial/index.md)

@@ -69,6 +69,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | 23k+ | P1 | `pack-bv` | done |
 | [`sweepai/sweep`](https://github.com/sweepai/sweep) | 7k+ | P1 | `pack-bw` | done |
 | [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | 6k+ | P1 | `pack-bw` | done |
+| [`hangwin/mcp-chrome`](https://github.com/hangwin/mcp-chrome) | 10k+ | P1 | `pack-bx` | done |
+| [`firecrawl/firecrawl-mcp-server`](https://github.com/firecrawl/firecrawl-mcp-server) | 5k+ | P1 | `pack-bx` | done |
 
 ## P2 (Strategic Extensions)
 

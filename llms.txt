@@ -76,6 +76,7 @@
 - Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
 - FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fastmcp-tutorial
 - Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/figma-context-mcp-tutorial
+- Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-mcp-server-tutorial
 - Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
 - Fireproof Tutorial: Local-First Document Database for AI-Native Apps: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fireproof-tutorial
 - Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
@@ -110,6 +111,7 @@
 - LocalAI Tutorial: Self-Hosted OpenAI Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/localai-tutorial
 - Logseq: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management
 - Mastra Tutorial: TypeScript Framework for AI Agents and Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mastra-tutorial
+- MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-chrome-tutorial
 - MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-csharp-sdk-tutorial
 - MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-docs-repo-tutorial
 - MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-ext-apps-tutorial

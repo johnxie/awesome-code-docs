@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 183
+    "root_only": 185
   },
-  "tutorial_count": 183,
+  "tutorial_count": 185,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -1199,6 +1199,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "firecrawl-mcp-server-tutorial",
+      "path": "tutorials/firecrawl-mcp-server-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "firecrawl-tutorial",
       "path": "tutorials/firecrawl-tutorial",
       "structure": "root_only",
@@ -1829,6 +1848,25 @@
       "has_index": true,
       "name": "mastra-tutorial",
       "path": "tutorials/mastra-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "mcp-chrome-tutorial",
+      "path": "tutorials/mcp-chrome-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
