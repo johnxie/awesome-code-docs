@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **173**
+- Total tutorials: **175**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -260,6 +260,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `modelcontextprotocol/typescript-sdk` to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.
 - [MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md)
   - Learn how `mcp-use/mcp-use` composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.
+- [MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcpb-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/mcpb` to package local MCP servers into signed `.mcpb` bundles with manifest metadata, CLI workflows, and distribution-ready operational controls.
 - [MeiliSearch Tutorial: Lightning Fast Search Engine](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md)
   - A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
 - [Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md)
@@ -395,6 +397,11 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Master tiktoken, OpenAI's fast BPE tokenizer, to accurately count tokens, optimize prompts, and reduce API costs.
 - [Turborepo Tutorial: High-Performance Monorepo Build System](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/index.md)
   - A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
+
+## U
+
+- [use-mcp Tutorial: React Hook Patterns for MCP Client Integration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/use-mcp-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/use-mcp` to connect React apps to MCP servers with OAuth-aware flows, tool/resource/prompt access, and resilient transport lifecycle handling.
 
 ## V
 

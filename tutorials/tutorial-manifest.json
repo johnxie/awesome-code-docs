@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 173
+    "root_only": 175
   },
-  "tutorial_count": 173,
+  "tutorial_count": 175,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -2112,6 +2112,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "mcpb-tutorial",
+      "path": "tutorials/mcpb-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "meilisearch-tutorial",
       "path": "tutorials/meilisearch-tutorial",
       "structure": "root_only",
@@ -3179,6 +3198,25 @@
       "has_index": true,
       "name": "turborepo-tutorial",
       "path": "tutorials/turborepo-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "use-mcp-tutorial",
+      "path": "tutorials/use-mcp-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
