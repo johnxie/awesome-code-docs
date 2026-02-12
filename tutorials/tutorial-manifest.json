@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 109
+    "root_only": 111
   },
-  "tutorial_count": 109,
+  "tutorial_count": 111,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -477,6 +477,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "copilot-cli-tutorial",
+      "path": "tutorials/copilot-cli-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "copilotkit-tutorial",
       "path": "tutorials/copilotkit-tutorial",
       "structure": "root_only",
@@ -821,6 +840,25 @@
       "has_index": true,
       "name": "khoj-tutorial",
       "path": "tutorials/khoj-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "kimi-cli-tutorial",
+      "path": "tutorials/kimi-cli-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

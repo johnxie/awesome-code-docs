@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 109,
+  "tutorial_count": 111,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -612,6 +612,35 @@
       "title": "Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilot-cli-tutorial/index.md",
+      "index_path": "tutorials/copilot-cli-tutorial/index.md",
+      "keywords": [
+        "copilot",
+        "cli",
+        "agent",
+        "workflows",
+        "terminal",
+        "learn",
+        "use",
+        "run",
+        "coding",
+        "directly",
+        "native",
+        "context",
+        "approval",
+        "controls",
+        "extensibility",
+        "through",
+        "mcp",
+        "lsp"
+      ],
+      "path": "tutorials/copilot-cli-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial",
+      "slug": "copilot-cli-tutorial",
+      "summary": "Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.",
+      "title": "GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md",
       "index_path": "tutorials/copilotkit-tutorial/index.md",
       "keywords": [
@@ -1099,6 +1128,35 @@
       "slug": "khoj-tutorial",
       "summary": "**Project**: [Khoj](https://github.com/khoj-ai/khoj) \u2014 An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.",
       "title": "Khoj AI: Deep Dive Tutorial"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md",
+      "index_path": "tutorials/kimi-cli-tutorial/index.md",
+      "keywords": [
+        "kimi",
+        "cli",
+        "multi",
+        "mode",
+        "terminal",
+        "agent",
+        "mcp",
+        "acp",
+        "learn",
+        "use",
+        "moonshotai",
+        "run",
+        "interactive",
+        "coding",
+        "configurable",
+        "modes",
+        "integrations",
+        "based"
+      ],
+      "path": "tutorials/kimi-cli-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kimi-cli-tutorial",
+      "slug": "kimi-cli-tutorial",
+      "summary": "Learn how to use `MoonshotAI/kimi-cli` to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.",
+      "title": "Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md",

@@ -38,6 +38,7 @@
 - Codex Analysis Platform Tutorial: Build Code Intelligence Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform
 - ComfyUI Tutorial: Mastering AI Image Generation Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/comfyui-tutorial
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
+- GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
 - Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
@@ -57,6 +58,7 @@
 - HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/humanlayer-tutorial
 - Instructor Tutorial: Structured LLM Outputs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/instructor-tutorial
 - Khoj AI: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/khoj-tutorial
+- Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kimi-cli-tutorial
 - Kubernetes Operator Patterns: Building Production-Grade Controllers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-patterns
 - LanceDB Tutorial: Serverless Vector Database for AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lancedb-tutorial
 - LangChain Architecture: Internal Design Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-architecture-guide
