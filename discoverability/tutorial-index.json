@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 157,
+  "tutorial_count": 159,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -463,6 +463,35 @@
       "slug": "awesome-mcp-servers-tutorial",
       "summary": "Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.",
       "title": "Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awslabs-mcp-tutorial/index.md",
+      "index_path": "tutorials/awslabs-mcp-tutorial/index.md",
+      "keywords": [
+        "awslabs",
+        "mcp",
+        "operating",
+        "large",
+        "scale",
+        "server",
+        "ecosystem",
+        "aws",
+        "workloads",
+        "learn",
+        "use",
+        "compose",
+        "run",
+        "govern",
+        "focused",
+        "servers",
+        "across",
+        "development"
+      ],
+      "path": "tutorials/awslabs-mcp-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awslabs-mcp-tutorial",
+      "slug": "awslabs-mcp-tutorial",
+      "summary": "Learn how to use `awslabs/mcp` to compose, run, and govern AWS-focused MCP servers across development, infrastructure, data, and operations workflows.",
+      "title": "awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md",
@@ -1701,6 +1730,35 @@
       "slug": "gemini-cli-tutorial",
       "summary": "Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.",
       "title": "Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/genai-toolbox-tutorial/index.md",
+      "index_path": "tutorials/genai-toolbox-tutorial/index.md",
+      "keywords": [
+        "genai",
+        "toolbox",
+        "mcp",
+        "first",
+        "database",
+        "tooling",
+        "config",
+        "driven",
+        "control",
+        "planes",
+        "learn",
+        "use",
+        "googleapis",
+        "expose",
+        "tools",
+        "through",
+        "native",
+        "sdk"
+      ],
+      "path": "tutorials/genai-toolbox-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/genai-toolbox-tutorial",
+      "slug": "genai-toolbox-tutorial",
+      "summary": "Learn how to use `googleapis/genai-toolbox` to expose database tools through MCP and native SDK paths, with stronger configuration discipline, deployment options, and observability controls.",
+      "title": "GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/github-mcp-server-tutorial/index.md",
