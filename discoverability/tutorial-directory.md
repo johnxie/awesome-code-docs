@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **169**
+- Total tutorials: **171**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -236,10 +236,14 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
 - [MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.
+- [MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-kotlin-sdk-tutorial/index.md)
+  - Learn how to implement MCP client/server workflows with `modelcontextprotocol/kotlin-sdk`, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.
 - [MCP Python SDK Tutorial: Building AI Tool Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md)
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - [MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md)
   - Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
+- [MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ruby-sdk-tutorial/index.md)
+  - Learn how to implement MCP server/client workflows with `modelcontextprotocol/ruby-sdk`, including tool/prompt/resource registration, streamable HTTP sessions, structured logging, and release operations.
 - [MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/rust-sdk` (`rmcp`) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.
 - [MCP Servers Tutorial: Reference Implementations and Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md)
