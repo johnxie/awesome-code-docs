@@ -61,6 +61,7 @@
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
 - Dyad Tutorial: Local-First AI App Building: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
 - ElizaOS: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/elizaos-tutorial
+- Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/everything-claude-code-tutorial
 - Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
 - Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/figma-context-mcp-tutorial
 - Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
@@ -126,6 +127,7 @@
 - Phidata Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial
 - PhotoPrism Tutorial: AI-Powered Photos App: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/photoprism-tutorial
 - Plandex Tutorial: Large-Task AI Coding Agent Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/plandex-tutorial
+- Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/planning-with-files-tutorial
 - PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pocketflow-tutorial
 - PostgreSQL Query Planner Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/postgresql-query-planner
 - PostHog Tutorial: Open Source Product Analytics Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/posthog-tutorial

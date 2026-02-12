@@ -33,6 +33,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`ChromeDevTools/chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | 24k+ | P1 | `pack-av` | done |
 | [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) | 7k+ | P1 | `pack-bb` | done |
 | [`EveryInc/compound-engineering-plugin`](https://github.com/EveryInc/compound-engineering-plugin) | 8k+ | P1 | `pack-bb` | done |
+| [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) | 44k+ | P1 | `pack-bc` | done |
+| [`OthmanAdi/planning-with-files`](https://github.com/OthmanAdi/planning-with-files) | 13k+ | P1 | `pack-bc` | done |
 
 ## P2 (Strategic Extensions)
 

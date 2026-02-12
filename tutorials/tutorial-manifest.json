@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 143
+    "root_only": 145
   },
-  "tutorial_count": 143,
+  "tutorial_count": 145,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -897,6 +897,25 @@
       "has_index": true,
       "name": "elizaos-tutorial",
       "path": "tutorials/elizaos-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "everything-claude-code-tutorial",
+      "path": "tutorials/everything-claude-code-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -2134,6 +2153,25 @@
       "has_index": true,
       "name": "plandex-tutorial",
       "path": "tutorials/plandex-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "planning-with-files-tutorial",
+      "path": "tutorials/planning-with-files-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
