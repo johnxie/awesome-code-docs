@@ -105,6 +105,12 @@ Main repository:
 - Summary: Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.
 - Keywords: awesome, mcp, servers, curating, operating, high, signal, integrations, learn, use, punkpeye, practical, control, surface, discovering, vetting, model, context
 
+## awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads
+- Path: tutorials/awslabs-mcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awslabs-mcp-tutorial/index.md
+- Summary: Learn how to use `awslabs/mcp` to compose, run, and govern AWS-focused MCP servers across development, infrastructure, data, and operations workflows.
+- Keywords: awslabs, mcp, operating, large, scale, server, ecosystem, aws, workloads, learn, use, compose, run, govern, focused, servers, across, development
+
 ## Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents
 - Path: tutorials/beads-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md
@@ -380,6 +386,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md
 - Summary: Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
 - Keywords: gemini, cli, terminal, first, agent, workflows, google, learn, use, run, coding, operations, loops, strong, tooling, mcp, extensibility, headless
+
+## GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes
+- Path: tutorials/genai-toolbox-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/genai-toolbox-tutorial/index.md
+- Summary: Learn how to use `googleapis/genai-toolbox` to expose database tools through MCP and native SDK paths, with stronger configuration discipline, deployment options, and observability controls.
+- Keywords: genai, toolbox, mcp, first, database, tooling, config, driven, control, planes, learn, use, googleapis, expose, tools, through, native, sdk
 
 ## GitHub MCP Server Tutorial: Production GitHub Operations Through MCP
 - Path: tutorials/github-mcp-server-tutorial

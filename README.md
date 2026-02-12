@@ -14,7 +14,7 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-157-brightgreen.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-159-brightgreen.svg)](#-tutorial-catalog)
 [![Content Hours](https://img.shields.io/badge/content-1700%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -68,7 +68,7 @@ Use this quick-start map if you searched for a specific outcome.
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) |
 
 ---
 
@@ -222,6 +222,8 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[MCP Servers](tutorials/mcp-servers-tutorial/)** | 77.6K+ | Multi-lang | Reference MCP server implementations |
 | **[Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/)** | 80.7K+ | Curated List | MCP server discovery, evaluation, and operations |
 | **[Composio](tutorials/composio-tutorial/)** | 26.5K+ | Python/TypeScript | Agent toolkit integration, auth, providers, and MCP patterns |
+| **[GenAI Toolbox](tutorials/genai-toolbox-tutorial/)** | 12.9K+ | Go/Node/Python | MCP-first database tools, `tools.yaml` control plane, and connector operations |
+| **[awslabs/mcp](tutorials/awslabs-mcp-tutorial/)** | 8.1K+ | Python | Official AWS MCP server ecosystem, role composition, and governance controls |
 | **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
 | **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
 
@@ -349,9 +351,9 @@ Continue ──→ Aider ──→ OpenHands ──→ Claude Code ──→ Cla
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
 ```
-MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona
- (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox
-  servers)           fast)               implementations)  curation)               runtime)       infra)
+MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp
+ (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server
+  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)
 ```
 
 **Duration:** 40-50 hours | **Difficulty:** Intermediate to Advanced
@@ -401,8 +403,8 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        157                           ║
-║  📝 Numbered Chapters      1,259                         ║
+║  📦 Total Tutorials        159                           ║
+║  📝 Numbered Chapters      1,275                         ║
 ║  📏 Tutorial Markdown      466,000+ lines                ║
 ║  ⏱️  Estimated Hours        1,700+                        ║
 ║  ✅ Local Broken Links      0                             ║

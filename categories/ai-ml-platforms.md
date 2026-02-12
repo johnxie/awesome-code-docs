@@ -4,7 +4,7 @@
 
 ## Snapshot (February 12, 2026)
 
-- repository-wide tutorials: **157**
+- repository-wide tutorials: **159**
 - AI/agent + developer-tooling coverage: **largest cluster in the catalog**
 - canonical structure status: **all tracks publish full chapter sets**
 
@@ -17,7 +17,7 @@
 | Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) |
 | Build RAG systems | [LlamaIndex](../tutorials/llamaindex-tutorial/) | [Haystack](../tutorials/haystack-tutorial/) → [RAGFlow](../tutorials/ragflow-tutorial/) |
 | Run LLMs in production | [Ollama](../tutorials/ollama-tutorial/) | [vLLM](../tutorials/vllm-tutorial/) → [LiteLLM](../tutorials/litellm-tutorial/) |
-| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [FastMCP](../tutorials/fastmcp-tutorial/) → [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](../tutorials/awesome-mcp-servers-tutorial/) → [Composio](../tutorials/composio-tutorial/) → [Daytona](../tutorials/daytona-tutorial/) |
+| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [FastMCP](../tutorials/fastmcp-tutorial/) → [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](../tutorials/awesome-mcp-servers-tutorial/) → [Composio](../tutorials/composio-tutorial/) → [Daytona](../tutorials/daytona-tutorial/) → [GenAI Toolbox](../tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](../tutorials/awslabs-mcp-tutorial/) |
 
 ## Featured AI/ML Tutorial Tracks
 
@@ -30,6 +30,8 @@
 - [Activepieces](../tutorials/activepieces-tutorial/)
 - [Daytona](../tutorials/daytona-tutorial/)
 - [Claude Flow](../tutorials/claude-flow-tutorial/)
+- [GenAI Toolbox](../tutorials/genai-toolbox-tutorial/)
+- [awslabs/mcp](../tutorials/awslabs-mcp-tutorial/)
 - [OpenAI Python SDK](../tutorials/openai-python-sdk-tutorial/)
 - [OpenAI Realtime Agents](../tutorials/openai-realtime-agents-tutorial/)
 

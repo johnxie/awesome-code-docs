@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **157**
+- Total tutorials: **159**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -39,6 +39,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.
 - [Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-mcp-servers-tutorial/index.md)
   - Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.
+- [awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awslabs-mcp-tutorial/index.md)
+  - Learn how to use `awslabs/mcp` to compose, run, and govern AWS-focused MCP servers across development, infrastructure, data, and operations workflows.
 
 ## B
 
@@ -149,6 +151,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
 - [Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md)
   - Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
+- [GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/genai-toolbox-tutorial/index.md)
+  - Learn how to use `googleapis/genai-toolbox` to expose database tools through MCP and native SDK paths, with stronger configuration discipline, deployment options, and observability controls.
 - [GitHub MCP Server Tutorial: Production GitHub Operations Through MCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/github-mcp-server-tutorial/index.md)
   - Learn how to use `github/github-mcp-server` to connect coding agents directly to repositories, issues, pull requests, actions, and code security workflows with stronger control.
 - [Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md)

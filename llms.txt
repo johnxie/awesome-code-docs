@@ -31,6 +31,7 @@
 - Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-code-tutorial
 - Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial
 - Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-mcp-servers-tutorial
+- awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awslabs-mcp-tutorial
 - Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/beads-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
 - bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
@@ -77,6 +78,7 @@
 - Fireproof Tutorial: Local-First Document Database for AI-Native Apps: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fireproof-tutorial
 - Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
 - Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gemini-cli-tutorial
+- GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/genai-toolbox-tutorial
 - GitHub MCP Server Tutorial: Production GitHub Operations Through MCP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/github-mcp-server-tutorial
 - Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/goose-tutorial
 - GPT Open Source: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gpt-oss-tutorial

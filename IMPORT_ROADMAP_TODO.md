@@ -45,8 +45,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio) | 26k+ | P1 | `pack-bh` | done |
 | [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp) | 22k+ | P1 | `pack-bi` | done |
 | [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | done |
-| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | in_progress |
-| [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | in_progress |
+| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | done |
+| [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | done |
 
 ## P2 (Strategic Extensions)
 
@@ -79,8 +79,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent) | 8k+ | P2 | `pack-ay` | done |
 | [`Fosowl/agenticSeek`](https://github.com/Fosowl/agenticSeek) | 25k+ | P2 | `pack-az` | done |
 | [`wshobson/agents`](https://github.com/wshobson/agents) | 28k+ | P2 | `pack-az` | done |
-| [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox) | 12k+ | P2 | `pack-bk` | queued |
-| [`awslabs/mcp`](https://github.com/awslabs/mcp) | 8k+ | P2 | `pack-bk` | queued |
+| [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox) | 12k+ | P2 | `pack-bk` | in_progress |
+| [`awslabs/mcp`](https://github.com/awslabs/mcp) | 8k+ | P2 | `pack-bk` | in_progress |
 | [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector) | 8k+ | P2 | `pack-bl` | queued |
 | [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry) | 6k+ | P2 | `pack-bl` | queued |
 
