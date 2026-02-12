@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 165,
+  "tutorial_count": 167,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2503,6 +2503,35 @@
       "title": "Mastra Tutorial: TypeScript Framework for AI Agents and Workflows"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-csharp-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "csharp",
+        "sdk",
+        "production",
+        "net",
+        "hosting",
+        "asp",
+        "core",
+        "task",
+        "workflows",
+        "learn",
+        "build",
+        "operate",
+        "clients",
+        "servers",
+        "modelcontextprotocol",
+        "including",
+        "package"
+      ],
+      "path": "tutorials/mcp-csharp-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-csharp-sdk-tutorial",
+      "slug": "mcp-csharp-sdk-tutorial",
+      "summary": "Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.",
+      "title": "MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md",
       "index_path": "tutorials/mcp-go-sdk-tutorial/index.md",
       "keywords": [
@@ -2559,6 +2588,35 @@
       "slug": "mcp-inspector-tutorial",
       "summary": "Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.",
       "title": "MCP Inspector Tutorial: Debugging and Validating MCP Servers"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-java-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "java",
+        "sdk",
+        "building",
+        "clients",
+        "servers",
+        "reactor",
+        "servlet",
+        "spring",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "across",
+        "core",
+        "stacks",
+        "transport",
+        "setup",
+        "conformance"
+      ],
+      "path": "tutorials/mcp-java-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-java-sdk-tutorial",
+      "slug": "mcp-java-sdk-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.",
+      "title": "MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md",
