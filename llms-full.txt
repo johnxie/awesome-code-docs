@@ -177,6 +177,12 @@ Main repository:
 - Summary: **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
 - Keywords: crewai, building, collaborative, agent, teams, latest, release, has, evolved, significantly, support, gpt, gemini, pro, enhanced, knowledge, management, evaluation
 
+## Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility
+- Path: tutorials/crush-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md
+- Summary: Learn how to use `charmbracelet/crush` for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.
+- Keywords: crush, multi, model, terminal, coding, agent, strong, extensibility, learn, use, charmbracelet, native, workflows, flexible, providers, lsp, mcp, integrations
+
 ## Deer Flow Tutorial: Distributed Workflow Orchestration Platform
 - Path: tutorials/deer-flow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md
@@ -236,6 +242,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md
 - Summary: **Project**: [Flowise](https://github.com/FlowiseAI/Flowise) — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
 - Keywords: flowise, llm, orchestration, deep, dive, project, flowiseai, open, source, visual, tool, building, workflows, drag, drop, interface
+
+## Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work
+- Path: tutorials/goose-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md
+- Summary: Learn how to use `block/goose` to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.
+- Keywords: goose, extensible, open, source, agent, real, engineering, work, learn, use, block, automate, coding, workflows, controlled, tool, execution, strong
 
 ## GPT Open Source: Deep Dive Tutorial
 - Path: tutorials/gpt-oss-tutorial

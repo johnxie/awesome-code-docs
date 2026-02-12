@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 117
+    "root_only": 119
   },
-  "tutorial_count": 117,
+  "tutorial_count": 119,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -572,6 +572,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "crush-tutorial",
+      "path": "tutorials/crush-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "deer-flow-tutorial",
       "path": "tutorials/deer-flow-tutorial",
       "structure": "root_only",
@@ -745,6 +764,25 @@
       "has_index": true,
       "name": "flowise-llm-orchestration",
       "path": "tutorials/flowise-llm-orchestration",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "goose-tutorial",
+      "path": "tutorials/goose-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
