@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 121
+    "root_only": 123
   },
-  "tutorial_count": 121,
+  "tutorial_count": 123,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -1543,6 +1543,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "opcode-tutorial",
+      "path": "tutorials/opcode-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "open-webui-tutorial",
       "path": "tutorials/open-webui-tutorial",
       "structure": "root_only",
@@ -2248,6 +2267,25 @@
       "has_index": true,
       "name": "vercel-ai-tutorial",
       "path": "tutorials/vercel-ai-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "vibe-kanban-tutorial",
+      "path": "tutorials/vibe-kanban-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

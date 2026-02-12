@@ -483,6 +483,12 @@ Main repository:
 - Summary: Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.
 - Keywords: onlook, visual, first, coding, next, tailwind, learn, use, dev, design, edit, production, grade, react, apps, visually, while, keeping
 
+## Opcode Tutorial: GUI Command Center for Claude Code Workflows
+- Path: tutorials/opcode-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opcode-tutorial/index.md
+- Summary: Learn how to use `winfunc/opcode` to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.
+- Keywords: opcode, gui, command, center, claude, code, workflows, learn, use, winfunc, manage, projects, sessions, agents, mcp, servers, checkpoints, desktop
+
 ## Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface
 - Path: tutorials/open-webui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
@@ -710,6 +716,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md
 - Summary: Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
 - Keywords: vercel, sdk, production, typescript, apps, agents, build, robust, product, features, including, streaming, structured, outputs, tool, loops, framework, integration
+
+## Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows
+- Path: tutorials/vibe-kanban-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibe-kanban-tutorial/index.md
+- Summary: Learn how to use `BloopAI/vibe-kanban` to coordinate Claude Code, Codex, Gemini CLI, and other coding agents through a unified orchestration workspace.
+- Keywords: vibe, kanban, multi, agent, orchestration, board, coding, workflows, learn, use, bloopai, coordinate, claude, code, codex, gemini, cli, other
 
 ## VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare
 - Path: tutorials/vibesdk-tutorial

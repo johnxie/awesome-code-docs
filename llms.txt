@@ -94,6 +94,7 @@
 - Obsidian Outliner Plugin: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-plugin
 - Ollama Tutorial: Running and Serving LLMs Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
 - Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/onlook-tutorial
+- Opcode Tutorial: GUI Command Center for Claude Code Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opcode-tutorial
 - Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
 - OpenAI Python SDK Tutorial: Production API Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-python-sdk-tutorial
 - OpenAI Realtime Agents Tutorial: Voice-First AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-realtime-agents-tutorial
@@ -132,6 +133,7 @@
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
 - Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial
 - Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
+- Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibe-kanban-tutorial
 - VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
 - vLLM Tutorial: High-Performance LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vllm-tutorial
 - Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial

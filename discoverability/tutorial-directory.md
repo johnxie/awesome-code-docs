@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **121**
+- Total tutorials: **123**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -206,6 +206,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
 - [Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md)
   - Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.
+- [Opcode Tutorial: GUI Command Center for Claude Code Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opcode-tutorial/index.md)
+  - Learn how to use `winfunc/opcode` to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.
 - [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md)
   - Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
 - [OpenAI Python SDK Tutorial: Production API Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md)
@@ -300,6 +302,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md)
   - Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
+- [Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibe-kanban-tutorial/index.md)
+  - Learn how to use `BloopAI/vibe-kanban` to coordinate Claude Code, Codex, Gemini CLI, and other coding agents through a unified orchestration workspace.
 - [VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md)
   - Learn how to use `cloudflare/vibesdk` to run a prompt-to-app platform with agent orchestration, preview sandboxes, and production deployment on Cloudflare.
 - [vLLM Tutorial: High-Performance LLM Inference](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/index.md)
