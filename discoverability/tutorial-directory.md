@@ -2,11 +2,13 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **153**
+- Total tutorials: **155**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
 
+- [Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md)
+  - Learn how to use `activepieces/activepieces` to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.
 - [ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md)
   - Learn how to use `google/adk-python` to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
 - [AG2 Tutorial: Next-Generation Multi-Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md)
@@ -126,6 +128,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md)
   - Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.
+- [FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/index.md)
+  - Learn how to use `jlowin/fastmcp` to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.
 - [Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md)
   - Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
 - [Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md)

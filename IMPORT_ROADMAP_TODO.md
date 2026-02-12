@@ -41,10 +41,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`microsoft/playwright-mcp`](https://github.com/microsoft/playwright-mcp) | 27k+ | P1 | `pack-be` | done |
 | [`ComposioHQ/awesome-claude-skills`](https://github.com/ComposioHQ/awesome-claude-skills) | 34k+ | P1 | `pack-bf` | done |
 | [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router) | 27k+ | P1 | `pack-bf` | done |
-| [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) | 80k+ | P1 | `pack-bh` | in_progress |
-| [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio) | 26k+ | P1 | `pack-bh` | in_progress |
-| [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp) | 22k+ | P1 | `pack-bi` | queued |
-| [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | queued |
+| [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) | 80k+ | P1 | `pack-bh` | done |
+| [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio) | 26k+ | P1 | `pack-bh` | done |
+| [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp) | 22k+ | P1 | `pack-bi` | in_progress |
+| [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | in_progress |
 | [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | queued |
 | [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | queued |
 

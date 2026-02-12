@@ -1,7 +1,36 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 153,
+  "tutorial_count": 155,
   "tutorials": [
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
+      "index_path": "tutorials/activepieces-tutorial/index.md",
+      "keywords": [
+        "activepieces",
+        "open",
+        "source",
+        "automation",
+        "pieces",
+        "ready",
+        "workflow",
+        "operations",
+        "learn",
+        "use",
+        "build",
+        "run",
+        "govern",
+        "production",
+        "workflows",
+        "extensibility",
+        "piece",
+        "development"
+      ],
+      "path": "tutorials/activepieces-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/activepieces-tutorial",
+      "slug": "activepieces-tutorial",
+      "summary": "Learn how to use `activepieces/activepieces` to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.",
+      "title": "Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations"
+    },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
       "index_path": "tutorials/adk-python-tutorial/index.md",
@@ -1452,6 +1481,35 @@
       "slug": "fabric-tutorial",
       "summary": "Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.",
       "title": "Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/index.md",
+      "index_path": "tutorials/fastmcp-tutorial/index.md",
+      "keywords": [
+        "fastmcp",
+        "building",
+        "operating",
+        "mcp",
+        "servers",
+        "pythonic",
+        "control",
+        "learn",
+        "use",
+        "jlowin",
+        "design",
+        "run",
+        "test",
+        "deploy",
+        "clients",
+        "practical",
+        "transport",
+        "integration"
+      ],
+      "path": "tutorials/fastmcp-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fastmcp-tutorial",
+      "slug": "fastmcp-tutorial",
+      "summary": "Learn how to use `jlowin/fastmcp` to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.",
+      "title": "FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md",
