@@ -3,6 +3,12 @@
 Main repository:
 - https://github.com/johnxie/awesome-code-docs
 
+## Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations
+- Path: tutorials/activepieces-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md
+- Summary: Learn how to use `activepieces/activepieces` to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.
+- Keywords: activepieces, open, source, automation, pieces, ready, workflow, operations, learn, use, build, run, govern, production, workflows, extensibility, piece, development
+
 ## ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK
 - Path: tutorials/adk-python-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md
@@ -326,6 +332,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md
 - Summary: Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.
 - Keywords: fabric, open, source, framework, augmenting, humans, enhance, human, capabilities, modular, powered, cognitive, assistance, task, automation
+
+## FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control
+- Path: tutorials/fastmcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/index.md
+- Summary: Learn how to use `jlowin/fastmcp` to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.
+- Keywords: fastmcp, building, operating, mcp, servers, pythonic, control, learn, use, jlowin, design, run, test, deploy, clients, practical, transport, integration
 
 ## Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents
 - Path: tutorials/figma-context-mcp-tutorial

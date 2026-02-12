@@ -3,10 +3,29 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 153
+    "root_only": 155
   },
-  "tutorial_count": 153,
+  "tutorial_count": 155,
   "tutorials": [
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "activepieces-tutorial",
+      "path": "tutorials/activepieces-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
     {
       "chapter_numbers": [
         "01",
@@ -1030,6 +1049,25 @@
       "has_index": true,
       "name": "fabric-tutorial",
       "path": "tutorials/fabric-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "fastmcp-tutorial",
+      "path": "tutorials/fastmcp-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
