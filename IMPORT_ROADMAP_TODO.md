@@ -31,6 +31,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`winfunc/opcode`](https://github.com/winfunc/opcode) | 20k+ | P1 | `pack-as` | done |
 | [`openai/codex`](https://github.com/openai/codex) | 60k+ | P1 | `pack-av` | done |
 | [`ChromeDevTools/chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp) | 24k+ | P1 | `pack-av` | done |
+| [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) | 7k+ | P1 | `pack-bb` | done |
+| [`EveryInc/compound-engineering-plugin`](https://github.com/EveryInc/compound-engineering-plugin) | 8k+ | P1 | `pack-bb` | done |
 
 ## P2 (Strategic Extensions)
 
