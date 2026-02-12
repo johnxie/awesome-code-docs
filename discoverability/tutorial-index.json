@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 163,
+  "tutorial_count": 165,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2503,6 +2503,35 @@
       "title": "Mastra Tutorial: TypeScript Framework for AI Agents and Workflows"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-go-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "sdk",
+        "building",
+        "robust",
+        "clients",
+        "servers",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "production",
+        "workloads",
+        "across",
+        "stdio",
+        "streamable",
+        "including",
+        "auth",
+        "middleware",
+        "conformance"
+      ],
+      "path": "tutorials/mcp-go-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-go-sdk-tutorial",
+      "slug": "mcp-go-sdk-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/go-sdk` for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.",
+      "title": "MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md",
       "index_path": "tutorials/mcp-inspector-tutorial/index.md",
       "keywords": [
@@ -2613,6 +2642,35 @@
       "slug": "mcp-servers-tutorial",
       "summary": "Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.",
       "title": "MCP Servers Tutorial: Reference Implementations and Patterns"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-specification-tutorial/index.md",
+      "index_path": "tutorials/mcp-specification-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "specification",
+        "designing",
+        "production",
+        "grade",
+        "clients",
+        "servers",
+        "source",
+        "truth",
+        "learn",
+        "current",
+        "model",
+        "context",
+        "protocol",
+        "directly",
+        "modelcontextprotocol",
+        "including",
+        "lifecycle"
+      ],
+      "path": "tutorials/mcp-specification-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-specification-tutorial",
+      "slug": "mcp-specification-tutorial",
+      "summary": "Learn the current Model Context Protocol directly from `modelcontextprotocol/modelcontextprotocol`, including lifecycle, transports, security, authorization, and governance workflows.",
+      "title": "MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md",

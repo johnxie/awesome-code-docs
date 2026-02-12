@@ -108,10 +108,12 @@
 - LocalAI Tutorial: Self-Hosted OpenAI Alternative: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/localai-tutorial
 - Logseq: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management
 - Mastra Tutorial: TypeScript Framework for AI Agents and Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mastra-tutorial
+- MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-go-sdk-tutorial
 - MCP Inspector Tutorial: Debugging and Validating MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-inspector-tutorial
 - MCP Python SDK Tutorial: Building AI Tool Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-python-sdk-tutorial
 - MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-registry-tutorial
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
+- MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-specification-tutorial
 - MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-typescript-sdk-tutorial
 - MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-use-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial

@@ -47,8 +47,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | done |
 | [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | done |
 | [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | done |
-| [`modelcontextprotocol/typescript-sdk`](https://github.com/modelcontextprotocol/typescript-sdk) | 11k+ | P1 | `pack-bm` | in_progress |
-| [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use) | 9k+ | P1 | `pack-bm` | in_progress |
+| [`modelcontextprotocol/typescript-sdk`](https://github.com/modelcontextprotocol/typescript-sdk) | 11k+ | P1 | `pack-bm` | done |
+| [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use) | 9k+ | P1 | `pack-bm` | done |
+| [`modelcontextprotocol/modelcontextprotocol`](https://github.com/modelcontextprotocol/modelcontextprotocol) | 7k+ | P1 | `pack-bn` | in_progress |
+| [`modelcontextprotocol/go-sdk`](https://github.com/modelcontextprotocol/go-sdk) | 3k+ | P1 | `pack-bn` | in_progress |
 
 ## P2 (Strategic Extensions)
 

@@ -567,6 +567,12 @@ Main repository:
 - Summary: Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - Keywords: mastra, typescript, framework, agents, workflows, learn, build, production, applications, including, memory, mcp, tooling, reliability, operations
 
+## MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go
+- Path: tutorials/mcp-go-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/go-sdk` for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.
+- Keywords: mcp, sdk, building, robust, clients, servers, learn, use, modelcontextprotocol, production, workloads, across, stdio, streamable, including, auth, middleware, conformance
+
 ## MCP Inspector Tutorial: Debugging and Validating MCP Servers
 - Path: tutorials/mcp-inspector-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md
@@ -590,6 +596,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md
 - Summary: Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
 - Keywords: mcp, servers, reference, implementations, patterns, learn, use, official, implementation, blueprints, not, drop, production, services
+
+## MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth
+- Path: tutorials/mcp-specification-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-specification-tutorial/index.md
+- Summary: Learn the current Model Context Protocol directly from `modelcontextprotocol/modelcontextprotocol`, including lifecycle, transports, security, authorization, and governance workflows.
+- Keywords: mcp, specification, designing, production, grade, clients, servers, source, truth, learn, current, model, context, protocol, directly, modelcontextprotocol, including, lifecycle
 
 ## MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript
 - Path: tutorials/mcp-typescript-sdk-tutorial
