@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **161**
+- Total tutorials: **163**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -236,6 +236,10 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
 - [MCP Servers Tutorial: Reference Implementations and Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md)
   - Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
+- [MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/typescript-sdk` to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.
+- [MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md)
+  - Learn how `mcp-use/mcp-use` composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.
 - [MeiliSearch Tutorial: Lightning Fast Search Engine](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md)
   - A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
 - [Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md)

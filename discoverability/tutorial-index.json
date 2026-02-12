@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 161,
+  "tutorial_count": 163,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2613,6 +2613,64 @@
       "slug": "mcp-servers-tutorial",
       "summary": "Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.",
       "title": "MCP Servers Tutorial: Reference Implementations and Patterns"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-typescript-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "typescript",
+        "sdk",
+        "building",
+        "migrating",
+        "clients",
+        "servers",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "build",
+        "production",
+        "migrate",
+        "safely",
+        "validate",
+        "behavior",
+        "conformance",
+        "workflows"
+      ],
+      "path": "tutorials/mcp-typescript-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-typescript-sdk-tutorial",
+      "slug": "mcp-typescript-sdk-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/typescript-sdk` to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.",
+      "title": "MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md",
+      "index_path": "tutorials/mcp-use-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "use",
+        "full",
+        "stack",
+        "development",
+        "across",
+        "agents",
+        "clients",
+        "servers",
+        "inspector",
+        "learn",
+        "composes",
+        "agent",
+        "client",
+        "server",
+        "workflows",
+        "python",
+        "typescript"
+      ],
+      "path": "tutorials/mcp-use-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-use-tutorial",
+      "slug": "mcp-use-tutorial",
+      "summary": "Learn how `mcp-use/mcp-use` composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.",
+      "title": "MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md",

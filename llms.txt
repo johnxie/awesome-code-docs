@@ -112,6 +112,8 @@
 - MCP Python SDK Tutorial: Building AI Tool Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-python-sdk-tutorial
 - MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-registry-tutorial
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
+- MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-typescript-sdk-tutorial
+- MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-use-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
 - Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mini-swe-agent-tutorial

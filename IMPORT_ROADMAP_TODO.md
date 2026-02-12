@@ -47,6 +47,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`activepieces/activepieces`](https://github.com/activepieces/activepieces) | 20k+ | P1 | `pack-bi` | done |
 | [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | 55k+ | P1 | `pack-bj` | done |
 | [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow) | 13k+ | P1 | `pack-bj` | done |
+| [`modelcontextprotocol/typescript-sdk`](https://github.com/modelcontextprotocol/typescript-sdk) | 11k+ | P1 | `pack-bm` | in_progress |
+| [`mcp-use/mcp-use`](https://github.com/mcp-use/mcp-use) | 9k+ | P1 | `pack-bm` | in_progress |
 
 ## P2 (Strategic Extensions)
 
@@ -81,8 +83,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`wshobson/agents`](https://github.com/wshobson/agents) | 28k+ | P2 | `pack-az` | done |
 | [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox) | 12k+ | P2 | `pack-bk` | done |
 | [`awslabs/mcp`](https://github.com/awslabs/mcp) | 8k+ | P2 | `pack-bk` | done |
-| [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector) | 8k+ | P2 | `pack-bl` | in_progress |
-| [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry) | 6k+ | P2 | `pack-bl` | in_progress |
+| [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector) | 8k+ | P2 | `pack-bl` | done |
+| [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry) | 6k+ | P2 | `pack-bl` | done |
 
 ## Execution Rules
 

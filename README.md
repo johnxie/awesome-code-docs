@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-161-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1720%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-163-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1740%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -68,7 +68,7 @@ Use this quick-start map if you searched for a specific outcome.
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) |
 
 ---
 
@@ -97,7 +97,7 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   59+ tutorials    │   23 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   61+ tutorials    │   23 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -226,6 +226,8 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[awslabs/mcp](tutorials/awslabs-mcp-tutorial/)** | 8.1K+ | Python | Official AWS MCP server ecosystem, role composition, and governance controls |
 | **[MCP Inspector](tutorials/mcp-inspector-tutorial/)** | 8.6K+ | TypeScript/Node | MCP server debugging across UI and CLI with auth/session and transport controls |
 | **[MCP Registry](tutorials/mcp-registry-tutorial/)** | 6.4K+ | Go | Registry publication, discovery API consumption, and governance operations |
+| **[MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/)** | 11.6K+ | TypeScript | Client/server split packages, transport strategy, and v1-to-v2 migration planning |
+| **[MCP Use](tutorials/mcp-use-tutorial/)** | 9.1K+ | Python/TypeScript | Full-stack MCP agents, clients, servers, and inspector workflows across both runtimes |
 | **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
 | **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
 
@@ -353,12 +355,12 @@ Continue ──→ Aider ──→ OpenHands ──→ Claude Code ──→ Cla
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
 ```
-MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp ──→ MCP Inspector ──→ MCP Registry
- (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server          (debug +            (publish +
-  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)           transport tests)     discovery ops)
+MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp ──→ MCP Inspector ──→ MCP Registry ──→ MCP TypeScript SDK ──→ MCP Use
+ (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server          (debug +            (publish +           (client/server         (full-stack
+  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)           transport tests)     discovery ops)        sdk internals)         mcp workflows)
 ```
 
-**Duration:** 40-50 hours | **Difficulty:** Intermediate to Advanced
+**Duration:** 50-65 hours | **Difficulty:** Intermediate to Advanced
 
 ### 🟢 Path 8: Speech & Voice AI
 
@@ -405,10 +407,10 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        161                           ║
-║  📝 Numbered Chapters      1,291                         ║
-║  📏 Tutorial Markdown      467,000+ lines                ║
-║  ⏱️  Estimated Hours        1,720+                        ║
+║  📦 Total Tutorials        163                           ║
+║  📝 Numbered Chapters      1,307                         ║
+║  📏 Tutorial Markdown      469,000+ lines                ║
+║  ⏱️  Estimated Hours        1,740+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝

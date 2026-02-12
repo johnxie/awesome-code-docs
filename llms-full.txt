@@ -591,6 +591,18 @@ Main repository:
 - Summary: Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
 - Keywords: mcp, servers, reference, implementations, patterns, learn, use, official, implementation, blueprints, not, drop, production, services
 
+## MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript
+- Path: tutorials/mcp-typescript-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/typescript-sdk` to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.
+- Keywords: mcp, typescript, sdk, building, migrating, clients, servers, learn, use, modelcontextprotocol, build, production, migrate, safely, validate, behavior, conformance, workflows
+
+## MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector
+- Path: tutorials/mcp-use-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md
+- Summary: Learn how `mcp-use/mcp-use` composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.
+- Keywords: mcp, use, full, stack, development, across, agents, clients, servers, inspector, learn, composes, agent, client, server, workflows, python, typescript
+
 ## MeiliSearch Tutorial: Lightning Fast Search Engine
 - Path: tutorials/meilisearch-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md
