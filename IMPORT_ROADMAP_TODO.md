@@ -25,8 +25,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`charmbracelet/crush`](https://github.com/charmbracelet/crush) | 19k+ | P1 | `pack-ap` | done |
 | [`oraios/serena`](https://github.com/oraios/serena) | 20k+ | P1 | `pack-aq` | done |
 | [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook) | 24k+ | P1 | `pack-aq` | done |
-| [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban) | 21k+ | P1 | `pack-as` | todo |
-| [`winfunc/opcode`](https://github.com/winfunc/opcode) | 20k+ | P1 | `pack-as` | todo |
+| [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban) | 21k+ | P1 | `pack-as` | done |
+| [`winfunc/opcode`](https://github.com/winfunc/opcode) | 20k+ | P1 | `pack-as` | done |
 
 ## P2 (Strategic Extensions)
 
@@ -47,6 +47,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`superset-sh/superset`](https://github.com/superset-sh/superset) | 1.5k+ | P2 | `pack-ao` | done |
 | [`upstash/context7`](https://github.com/upstash/context7) | 45k+ | P2 | `pack-ar` | todo |
 | [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio) | 39k+ | P2 | `pack-ar` | todo |
+| [`google/adk-python`](https://github.com/google/adk-python) | 17k+ | P2 | `pack-at` | todo |
+| [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python) | 5k+ | P2 | `pack-at` | todo |
 
 ## Execution Rules
 

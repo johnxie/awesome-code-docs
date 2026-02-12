@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 121,
+  "tutorial_count": 123,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -2061,6 +2061,35 @@
       "title": "Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opcode-tutorial/index.md",
+      "index_path": "tutorials/opcode-tutorial/index.md",
+      "keywords": [
+        "opcode",
+        "gui",
+        "command",
+        "center",
+        "claude",
+        "code",
+        "workflows",
+        "learn",
+        "use",
+        "winfunc",
+        "manage",
+        "projects",
+        "sessions",
+        "agents",
+        "mcp",
+        "servers",
+        "checkpoints",
+        "desktop"
+      ],
+      "path": "tutorials/opcode-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opcode-tutorial",
+      "slug": "opcode-tutorial",
+      "summary": "Learn how to use `winfunc/opcode` to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.",
+      "title": "Opcode Tutorial: GUI Command Center for Claude Code Workflows"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md",
       "index_path": "tutorials/open-webui-tutorial/index.md",
       "keywords": [
@@ -2990,6 +3019,35 @@
       "slug": "vercel-ai-tutorial",
       "summary": "Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.",
       "title": "Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibe-kanban-tutorial/index.md",
+      "index_path": "tutorials/vibe-kanban-tutorial/index.md",
+      "keywords": [
+        "vibe",
+        "kanban",
+        "multi",
+        "agent",
+        "orchestration",
+        "board",
+        "coding",
+        "workflows",
+        "learn",
+        "use",
+        "bloopai",
+        "coordinate",
+        "claude",
+        "code",
+        "codex",
+        "gemini",
+        "cli",
+        "other"
+      ],
+      "path": "tutorials/vibe-kanban-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibe-kanban-tutorial",
+      "slug": "vibe-kanban-tutorial",
+      "summary": "Learn how to use `BloopAI/vibe-kanban` to coordinate Claude Code, Codex, Gemini CLI, and other coding agents through a unified orchestration workspace.",
+      "title": "Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md",
