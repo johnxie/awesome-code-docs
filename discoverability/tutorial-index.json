@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 127,
+  "tutorial_count": 129,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -2177,6 +2177,35 @@
       "title": "Opcode Tutorial: GUI Command Center for Claude Code Workflows"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-swe-tutorial/index.md",
+      "index_path": "tutorials/open-swe-tutorial/index.md",
+      "keywords": [
+        "open",
+        "swe",
+        "asynchronous",
+        "cloud",
+        "coding",
+        "agent",
+        "architecture",
+        "migration",
+        "playbook",
+        "learn",
+        "langchain",
+        "workflows",
+        "operational",
+        "patterns",
+        "including",
+        "maintain",
+        "migrate",
+        "deprecated"
+      ],
+      "path": "tutorials/open-swe-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-swe-tutorial",
+      "slug": "open-swe-tutorial",
+      "summary": "Learn from `langchain-ai/open-swe` architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.",
+      "title": "Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md",
       "index_path": "tutorials/open-webui-tutorial/index.md",
       "keywords": [
@@ -3011,6 +3040,35 @@
       "slug": "swarm-tutorial",
       "summary": "",
       "title": "OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md",
+      "index_path": "tutorials/swe-agent-tutorial/index.md",
+      "keywords": [
+        "swe",
+        "agent",
+        "autonomous",
+        "repository",
+        "repair",
+        "benchmark",
+        "driven",
+        "engineering",
+        "learn",
+        "use",
+        "software",
+        "workflows",
+        "single",
+        "issue",
+        "runs",
+        "research",
+        "grade",
+        "evaluation"
+      ],
+      "path": "tutorials/swe-agent-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swe-agent-tutorial",
+      "slug": "swe-agent-tutorial",
+      "summary": "Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.",
+      "title": "SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md",

@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **127**
+- Total tutorials: **129**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -214,6 +214,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.
 - [Opcode Tutorial: GUI Command Center for Claude Code Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opcode-tutorial/index.md)
   - Learn how to use `winfunc/opcode` to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.
+- [Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-swe-tutorial/index.md)
+  - Learn from `langchain-ai/open-swe` architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.
 - [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md)
   - Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
 - [OpenAI Python SDK Tutorial: Production API Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md)
@@ -294,6 +296,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.
 - [Superset Terminal Tutorial: Command Center for Parallel Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superset-terminal-tutorial/index.md)
   - Learn how to use `superset-sh/superset` to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.
+- [SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md)
+  - Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
 
 ## T
 

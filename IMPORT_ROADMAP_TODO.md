@@ -49,8 +49,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio) | 39k+ | P2 | `pack-ar` | done |
 | [`google/adk-python`](https://github.com/google/adk-python) | 17k+ | P2 | `pack-at` | done |
 | [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python) | 5k+ | P2 | `pack-at` | done |
-| [`SWE-agent/SWE-agent`](https://github.com/SWE-agent/SWE-agent) | 18k+ | P2 | `pack-au` | todo |
-| [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe) | 5k+ | P2 | `pack-au` | todo |
+| [`SWE-agent/SWE-agent`](https://github.com/SWE-agent/SWE-agent) | 18k+ | P2 | `pack-au` | done |
+| [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe) | 5k+ | P2 | `pack-au` | done |
 
 ## Execution Rules
 
