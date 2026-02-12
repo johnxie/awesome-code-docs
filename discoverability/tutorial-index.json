@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 135,
+  "tutorial_count": 137,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -270,6 +270,35 @@
       "title": "Athens Research: Deep Dive Tutorial"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/index.md",
+      "index_path": "tutorials/autoagent-tutorial/index.md",
+      "keywords": [
+        "autoagent",
+        "zero",
+        "code",
+        "agent",
+        "creation",
+        "automated",
+        "workflow",
+        "orchestration",
+        "learn",
+        "use",
+        "hkuds",
+        "create",
+        "orchestrate",
+        "llm",
+        "agents",
+        "through",
+        "natural",
+        "language"
+      ],
+      "path": "tutorials/autoagent-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial",
+      "slug": "autoagent-tutorial",
+      "summary": "Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.",
+      "title": "AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/index.md",
       "index_path": "tutorials/autogen-tutorial/index.md",
       "keywords": [
@@ -289,6 +318,35 @@
       "slug": "autogen-tutorial",
       "summary": "A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.",
       "title": "Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md",
+      "index_path": "tutorials/beads-tutorial/index.md",
+      "keywords": [
+        "beads",
+        "git",
+        "backed",
+        "task",
+        "graph",
+        "memory",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "steveyegge",
+        "give",
+        "durable",
+        "dependency",
+        "aware",
+        "structured",
+        "issue",
+        "graphs"
+      ],
+      "path": "tutorials/beads-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/beads-tutorial",
+      "slug": "beads-tutorial",
+      "summary": "Learn how to use `steveyegge/beads` to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.",
+      "title": "Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md",

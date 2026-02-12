@@ -24,7 +24,9 @@
 - Anthropic Skills Tutorial: Reusable AI Agent Capabilities: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial
 - AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anything-llm-tutorial
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph
+- AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
+- Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/beads-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
 - bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
 - Botpress Tutorial: Open Source Conversational AI Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/botpress-tutorial
