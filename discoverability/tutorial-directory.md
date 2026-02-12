@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **109**
+- Total tutorials: **111**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -95,6 +95,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 ## G
 
+- [GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilot-cli-tutorial/index.md)
+  - Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
 - [GPT Open Source: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md)
   - A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.
 
@@ -118,6 +120,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Khoj AI: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/khoj-tutorial/index.md)
   - **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
+- [Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md)
+  - Learn how to use `MoonshotAI/kimi-cli` to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.
 - [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md)
   - Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.
 

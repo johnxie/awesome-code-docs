@@ -30,7 +30,9 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`moazbuilds/CodeMachine-CLI`](https://github.com/moazbuilds/CodeMachine-CLI) | 2k+ | P2 | `pack-ai` | done |
 | [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun) | 500+ | P2 | `pack-aj` | done |
 | [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc) | 300+ | P2 | `pack-aj` | done |
-| [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof) | 900+ | P2 | `pack-ak` | in_progress |
+| [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof) | 900+ | P2 | `pack-ak` | done |
+| [`github/copilot-cli`](https://github.com/github/copilot-cli) | 8k+ | P2 | `pack-al` | in_progress |
+| [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli) | 6k+ | P2 | `pack-al` | in_progress |
 
 ## Execution Rules
 
