@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-96-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1100%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-153-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1700%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -68,11 +68,11 @@ Use this quick-start map if you searched for a specific outcome.
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [MCP Servers](tutorials/mcp-servers-tutorial/) → [Anthropic Skills](tutorials/anthropic-skills-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) |
 
 ---
 
-## 📈 Trending Vibe-Coding Repos (Verified February 11, 2026)
+## 📈 Trending Vibe-Coding Repos (Verified February 12, 2026)
 
 This section tracks high-impact open-source vibe-coding and coding-agent ecosystems with direct tutorial coverage.
 
@@ -216,6 +216,8 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[ComfyUI](tutorials/comfyui-tutorial/)** | 65K+ | Python | Node-based AI art workflows |
 | **[MCP Python SDK](tutorials/mcp-python-sdk-tutorial/)** | 21.4K+ | Python | Building MCP servers and tool integrations |
 | **[MCP Servers](tutorials/mcp-servers-tutorial/)** | 77.6K+ | Multi-lang | Reference MCP server implementations |
+| **[Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/)** | 80.7K+ | Curated List | MCP server discovery, evaluation, and operations |
+| **[Composio](tutorials/composio-tutorial/)** | 26.5K+ | Python/TypeScript | Agent toolkit integration, auth, providers, and MCP patterns |
 | **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
 | **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
 
@@ -343,9 +345,9 @@ Continue ──→ Aider ──→ OpenHands ──→ Browser Use ──→ Cla
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
 ```
-MCP Python SDK ──→ MCP Servers ──→ Anthropic Skills ──→ n8n MCP ──→ Claude Code
- (build             (reference        (reusable            (production   (use MCP
-  servers)           implementations)  capabilities)        patterns)      tools)
+MCP Python SDK ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Claude Code
+ (build             (reference        (discovery and          (tool + auth  (use MCP
+  servers)           implementations)  curation)              runtime)       tools)
 ```
 
 **Duration:** 40-50 hours | **Difficulty:** Intermediate to Advanced
@@ -395,10 +397,10 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        96                            ║
-║  📝 Numbered Chapters      771                           ║
-║  📏 Tutorial Markdown      441,000+ lines                ║
-║  ⏱️  Estimated Hours        1,100+                        ║
+║  📦 Total Tutorials        153                           ║
+║  📝 Numbered Chapters      1,227                         ║
+║  📏 Tutorial Markdown      465,000+ lines                ║
+║  ⏱️  Estimated Hours        1,700+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝
@@ -470,7 +472,7 @@ We welcome contributions! Here's how you can help:
 | | |
 |:--|:--|
 | ⭐ **[Star this repo](https://github.com/johnxie/awesome-code-docs)** | Get updates on new tutorials |
-| 💬 **[Discussions](https://github.com/johnxie/awesome-code-docs/discussions)** | Ask questions, share insights |
+| 💬 **[Issues](https://github.com/johnxie/awesome-code-docs/issues)** | Ask questions, report gaps, share suggestions |
 | 🐦 **[Twitter @johnxie](https://twitter.com/johnxie)** | Latest updates and highlights |
 
 ---

@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 151,
+  "tutorial_count": 153,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -405,6 +405,35 @@
       "slug": "awesome-claude-skills-tutorial",
       "summary": "Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.",
       "title": "Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-mcp-servers-tutorial/index.md",
+      "index_path": "tutorials/awesome-mcp-servers-tutorial/index.md",
+      "keywords": [
+        "awesome",
+        "mcp",
+        "servers",
+        "curating",
+        "operating",
+        "high",
+        "signal",
+        "integrations",
+        "learn",
+        "use",
+        "punkpeye",
+        "practical",
+        "control",
+        "surface",
+        "discovering",
+        "vetting",
+        "model",
+        "context"
+      ],
+      "path": "tutorials/awesome-mcp-servers-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-mcp-servers-tutorial",
+      "slug": "awesome-mcp-servers-tutorial",
+      "summary": "Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.",
+      "title": "Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md",
@@ -1016,6 +1045,35 @@
       "slug": "comfyui-tutorial",
       "summary": "A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.",
       "title": "ComfyUI Tutorial: Mastering AI Image Generation Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/composio-tutorial/index.md",
+      "index_path": "tutorials/composio-tutorial/index.md",
+      "keywords": [
+        "composio",
+        "production",
+        "tool",
+        "authentication",
+        "infrastructure",
+        "agents",
+        "learn",
+        "use",
+        "composiohq",
+        "connect",
+        "toolkits",
+        "session",
+        "aware",
+        "discovery",
+        "robust",
+        "flows",
+        "provider",
+        "integrations"
+      ],
+      "path": "tutorials/composio-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/composio-tutorial",
+      "slug": "composio-tutorial",
+      "summary": "Learn how to use `ComposioHQ/composio` to connect agents to 800+ toolkits with session-aware discovery, robust authentication flows, provider integrations, MCP support, and event-trigger automation.",
+      "title": "Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md",

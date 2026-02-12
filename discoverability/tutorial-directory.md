@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **151**
+- Total tutorials: **153**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -35,6 +35,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `hesreallyhim/awesome-claude-code` as a high-signal discovery and decision system for skills, commands, hooks, tooling, and `CLAUDE.md` patterns.
 - [Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md)
   - Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.
+- [Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-mcp-servers-tutorial/index.md)
+  - Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.
 
 ## B
 
@@ -87,6 +89,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `openai/codex` to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md)
   - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
+- [Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/composio-tutorial/index.md)
+  - Learn how to use `ComposioHQ/composio` to connect agents to 800+ toolkits with session-aware discovery, robust authentication flows, provider integrations, MCP support, and event-trigger automation.
 - [Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md)
   - Learn how to use `EveryInc/compound-engineering-plugin` to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.
 - [Context7 Tutorial: Live Documentation Context for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md)

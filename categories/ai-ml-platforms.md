@@ -2,9 +2,9 @@
 
 > Deep technical tutorials for AI agents, LLM frameworks, vibe-coding tools, and production AI infrastructure.
 
-## Snapshot (February 11, 2026)
+## Snapshot (February 12, 2026)
 
-- repository-wide tutorials: **96**
+- repository-wide tutorials: **153**
 - AI/agent + developer-tooling coverage: **largest cluster in the catalog**
 - canonical structure status: **all tracks publish full chapter sets**
 
@@ -17,7 +17,7 @@
 | Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) |
 | Build RAG systems | [LlamaIndex](../tutorials/llamaindex-tutorial/) | [Haystack](../tutorials/haystack-tutorial/) → [RAGFlow](../tutorials/ragflow-tutorial/) |
 | Run LLMs in production | [Ollama](../tutorials/ollama-tutorial/) | [vLLM](../tutorials/vllm-tutorial/) → [LiteLLM](../tutorials/litellm-tutorial/) |
-| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Anthropic Skills](../tutorials/anthropic-skills-tutorial/) |
+| Build MCP integrations | [MCP Python SDK](../tutorials/mcp-python-sdk-tutorial/) | [MCP Servers](../tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](../tutorials/awesome-mcp-servers-tutorial/) → [Composio](../tutorials/composio-tutorial/) |
 
 ## Featured AI/ML Tutorial Tracks
 
@@ -25,6 +25,7 @@
 - [LangGraph](../tutorials/langgraph-tutorial/)
 - [OpenHands](../tutorials/openhands-tutorial/)
 - [Vercel AI SDK](../tutorials/vercel-ai-tutorial/)
+- [Composio](../tutorials/composio-tutorial/)
 - [OpenAI Python SDK](../tutorials/openai-python-sdk-tutorial/)
 - [OpenAI Realtime Agents](../tutorials/openai-realtime-agents-tutorial/)
 

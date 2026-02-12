@@ -93,6 +93,12 @@ Main repository:
 - Summary: Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.
 - Keywords: awesome, claude, skills, high, signal, skill, discovery, reuse, workflows, learn, use, composiohq, discover, evaluate, install, contribute, coding, automation
 
+## Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations
+- Path: tutorials/awesome-mcp-servers-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-mcp-servers-tutorial/index.md
+- Summary: Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.
+- Keywords: awesome, mcp, servers, curating, operating, high, signal, integrations, learn, use, punkpeye, practical, control, surface, discovering, vetting, model, context
+
 ## Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents
 - Path: tutorials/beads-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md
@@ -230,6 +236,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md
 - Summary: A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 - Keywords: comfyui, mastering, image, generation, workflows, deep, technical, walkthrough, covering
+
+## Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents
+- Path: tutorials/composio-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/composio-tutorial/index.md
+- Summary: Learn how to use `ComposioHQ/composio` to connect agents to 800+ toolkits with session-aware discovery, robust authentication flows, provider integrations, MCP support, and event-trigger automation.
+- Keywords: composio, production, tool, authentication, infrastructure, agents, learn, use, composiohq, connect, toolkits, session, aware, discovery, robust, flows, provider, integrations
 
 ## Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains
 - Path: tutorials/compound-engineering-plugin-tutorial
