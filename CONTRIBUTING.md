@@ -81,7 +81,7 @@ For direct contributions to the repository:
 ### Standard Format Template
 
 ```markdown
-### [Documentation Title](https://link-to-documentation)
+### [Documentation Title](https://example.com)
 **Format Type | Difficulty Level | Time Investment**
 
 > One compelling sentence explaining what makes this documentation transformative.
@@ -167,7 +167,7 @@ We're especially looking for documentation in these areas:
 
 | Type | Best Place | Response Time |
 |:-----|:-----------|:--------------|
-| **General Questions** | [GitHub Discussions](https://github.com/johnxie/awesome-code-docs/discussions) | 24-48 hours |
+| **General Questions** | [GitHub Issues](https://github.com/johnxie/awesome-code-docs/issues) | 24-48 hours |
 | **Specific Issues** | [Create an Issue](https://github.com/johnxie/awesome-code-docs/issues) | 24-48 hours |
 | **Quick Questions** | [@johnxie on Twitter](https://twitter.com/johnxie) | Varies |
 | **Collaboration Ideas** | [Email](mailto:john@example.com) | 2-3 days |
@@ -208,7 +208,7 @@ We're especially looking for documentation in these areas:
 
 **🎯 Ready to make complex systems more accessible?**
 
-**[📝 Suggest Documentation](https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md) • [💬 Join Discussions](https://github.com/johnxie/awesome-code-docs/discussions) • [⭐ Star the Repo](https://github.com/johnxie/awesome-code-docs)**
+**[📝 Suggest Documentation](https://github.com/johnxie/awesome-code-docs/issues/new?template=new-entry.md) • [💬 Join the Conversation](https://github.com/johnxie/awesome-code-docs/issues) • [⭐ Star the Repo](https://github.com/johnxie/awesome-code-docs)**
 
 *Quality over quantity • Real-world focus • Community-driven • Always learning*
 

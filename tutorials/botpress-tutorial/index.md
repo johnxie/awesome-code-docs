@@ -143,10 +143,10 @@ By the end of this tutorial, you'll be able to:
 
 ## 🔗 Resources
 
-- **Official Documentation**: [docs.botpress.com](https://docs.botpress.com)
+- **Official Documentation**: [botpress.com/docs](https://botpress.com/docs)
 - **GitHub Repository**: [github.com/botpress/botpress](https://github.com/botpress/botpress)
 - **Community Forum**: [forum.botpress.com](https://forum.botpress.com)
-- **SDK Documentation**: [docs.botpress.com/developers](https://docs.botpress.com/developers/)
+- **SDK Documentation**: [botpress.com/docs/integrations/sdk](https://botpress.com/docs/for-developers/sdk/integration/getting-started)
 - **Botpress Cloud**: [botpress.com](https://botpress.com)
 
 ---

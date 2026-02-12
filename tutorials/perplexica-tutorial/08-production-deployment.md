@@ -721,4 +721,4 @@ You have completed the Perplexica tutorial. You now have the knowledge to instal
 
 ---
 
-*Built with insights from the [Perplexica](https://github.com/ItzCraworCoded/Perplexica) project.*
+*Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*

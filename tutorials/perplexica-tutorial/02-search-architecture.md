@@ -525,4 +525,4 @@ Now that you understand how the pieces fit together, the next chapter dives deep
 
 ---
 
-*Built with insights from the [Perplexica](https://github.com/ItzCraworCoded/Perplexica) project.*
+*Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*

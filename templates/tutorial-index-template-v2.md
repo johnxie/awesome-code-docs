@@ -58,9 +58,9 @@ flowchart LR
 
 ## Source References
 
-- [Official README](https://github.com/example/example-repo/blob/main/README.md)
-- [Official Docs](https://docs.example.com)
-- [Releases](https://github.com/example/example-repo/releases)
+- Official README: `https://github.com/<org>/<repo>#readme`
+- Official Docs: `https://docs.example.com`
+- Releases: `https://github.com/<org>/<repo>/releases`
 
 ## Related Tutorials
 

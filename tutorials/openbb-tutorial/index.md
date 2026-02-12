@@ -212,7 +212,7 @@ Found an issue or want to improve this tutorial? Contributions are welcome!
 - [GitHub Repository](https://github.com/OpenBB-finance/OpenBB)
 - [Community Discord](https://discord.gg/openbb)
 - [API Reference](https://docs.openbb.co/platform/reference)
-- [Extension Marketplace](https://extensions.openbb.co/)
+- [Extension Marketplace](https://github.com/OpenBB-finance/OpenBB/tree/develop/openbb_platform/extensions)
 
 ## 🙏 Acknowledgments
 

@@ -51,7 +51,7 @@ This makes multi-step workflows more resilient than simple one-shot prompting.
 
 ## Source References
 
-- [Goose Architecture](https://block.github.io/goose/docs/goose-architecture/goose-architecture)
+- [Goose Architecture](https://block.github.io/goose/docs/goose-architecture/)
 - [Extensions Design](https://block.github.io/goose/docs/goose-architecture/extensions-design)
 
 ## Summary

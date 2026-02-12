@@ -1087,7 +1087,7 @@ Congratulations! You've completed the comprehensive **Dify Platform Deep Dive** 
 
 ### **Resources for Continued Learning**
 
-- **Dify Documentation**: [dify.ai/docs](https://dify.ai/docs)
+- **Dify Documentation**: [dify.ai/docs](https://docs.dify.ai)
 - **Community Forum**: [github.com/langgenius/dify/discussions](https://github.com/langgenius/dify/discussions)
 - **Awesome Code Docs**: [github.com/johnxie/awesome-code-docs](https://github.com/johnxie/awesome-code-docs)
 

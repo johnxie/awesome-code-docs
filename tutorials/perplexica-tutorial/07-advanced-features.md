@@ -720,4 +720,4 @@ With all features explored, the final chapter covers the operational side -- how
 
 ---
 
-*Built with insights from the [Perplexica](https://github.com/ItzCraworCoded/Perplexica) project.*
+*Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*

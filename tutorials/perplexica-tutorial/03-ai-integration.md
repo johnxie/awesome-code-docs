@@ -504,4 +504,4 @@ With AI integration understood, the next chapter explores how Perplexica gathers
 
 ---
 
-*Built with insights from the [Perplexica](https://github.com/ItzCraworCoded/Perplexica) project.*
+*Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*

@@ -8,7 +8,7 @@ For full tutorial tracks that live under `tutorials/<name>/index.md`, use
 ## Basic Format
 
 ```markdown
-### [Documentation Title](https://link-to-documentation)
+### [Documentation Title](https://example.com)
 **Format | Difficulty | Time Needed**
 
 > One sentence describing what makes this documentation special.

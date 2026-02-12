@@ -100,7 +100,7 @@ By the end of this tutorial, you'll be able to:
 
 **Migration Notes:**
 - AutoGen v0.2 code requires significant changes to work with v0.4
-- Microsoft provides [migration guide](https://microsoft.github.io/autogen/docs/developer-guide/migration-guide) for upgrading
+- Microsoft provides [migration guide](https://microsoft.github.io/autogen/stable/user-guide/agentchat-user-guide/migration-guide) for upgrading
 - Consider v0.4 as a new framework rather than an update
 
 ## Learning Path

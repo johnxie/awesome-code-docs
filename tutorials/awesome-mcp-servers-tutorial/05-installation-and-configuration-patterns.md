@@ -35,7 +35,7 @@ This chapter covers repeatable setup patterns that make MCP server rollouts easi
 ## Source References
 
 - [README](https://github.com/punkpeye/awesome-mcp-servers/blob/main/README.md)
-- [MCP Inspector](https://glama.ai/mcp/inspector)
+- [MCP Inspector](https://github.com/modelcontextprotocol/inspector)
 
 ## Summary
 
