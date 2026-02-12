@@ -291,6 +291,18 @@ Main repository:
 - Summary: Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
 - Keywords: copilotkit, building, copilots, react, applications, create, app, assistants, chatbots, agentic, uis, open, source, framework
 
+## Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx
+- Path: tutorials/create-python-server-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/create-python-server` to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.
+- Keywords: create, python, server, scaffold, ship, mcp, servers, uvx, learn, use, modelcontextprotocol, minimal, setup, template, driven, primitives, publish, ready
+
+## Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates
+- Path: tutorials/create-typescript-server-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-typescript-server-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/create-typescript-server` to scaffold MCP server projects quickly, understand generated template structure, and operate build/debug workflows safely in archived-tooling environments.
+- Keywords: create, typescript, server, scaffold, mcp, servers, templates, learn, use, modelcontextprotocol, projects, quickly, understand, generated, template, structure, operate, build
+
 ## CrewAI Tutorial: Building Collaborative AI Agent Teams
 - Path: tutorials/crewai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md
@@ -573,6 +585,18 @@ Main repository:
 - Summary: Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
 - Keywords: mcp, csharp, sdk, production, net, hosting, asp, core, task, workflows, learn, build, operate, clients, servers, modelcontextprotocol, including, package
 
+## MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository
+- Path: tutorials/mcp-docs-repo-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-docs-repo-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/docs` as an archived reference, map its conceptual guides, and migrate documentation workflows to the canonical `modelcontextprotocol/modelcontextprotocol` docs location.
+- Keywords: mcp, repo, navigating, archived, documentation, repository, learn, use, modelcontextprotocol, reference, map, its, conceptual, guides, migrate, workflows, canonical, location
+
+## MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts
+- Path: tutorials/mcp-ext-apps-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/ext-apps` to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.
+- Keywords: mcp, ext, apps, building, interactive, hosts, learn, use, modelcontextprotocol, build, wire, host, bridges, secure, resources, run, reliable, testing
+
 ## MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go
 - Path: tutorials/mcp-go-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md
@@ -591,17 +615,41 @@ Main repository:
 - Summary: Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.
 - Keywords: mcp, java, sdk, building, clients, servers, reactor, servlet, spring, learn, use, modelcontextprotocol, across, core, stacks, transport, setup, conformance
 
+## MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers
+- Path: tutorials/mcp-kotlin-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-kotlin-sdk-tutorial/index.md
+- Summary: Learn how to implement MCP client/server workflows with `modelcontextprotocol/kotlin-sdk`, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.
+- Keywords: mcp, kotlin, sdk, building, multiplatform, clients, servers, learn, implement, client, server, workflows, modelcontextprotocol, including, module, boundaries, transport, choices
+
+## MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility
+- Path: tutorials/mcp-php-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-php-sdk-tutorial/index.md
+- Summary: Learn how to implement MCP server workflows with `modelcontextprotocol/php-sdk`, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.
+- Keywords: mcp, php, sdk, building, servers, discovery, transport, flexibility, learn, implement, server, workflows, modelcontextprotocol, including, attribute, manual, capability, registration
+
 ## MCP Python SDK Tutorial: Building AI Tool Servers
 - Path: tutorials/mcp-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md
 - Summary: Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - Keywords: mcp, python, sdk, building, tool, servers, master, model, context, protocol, build, custom, that, extend, claude, other, llms, powerful
 
+## MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example
+- Path: tutorials/mcp-quickstart-resources-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-quickstart-resources-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/quickstart-resources` as a practical reference for multi-language MCP server/client implementations, protocol smoke testing, and onboarding workflows.
+- Keywords: mcp, quickstart, resources, cross, language, servers, clients, example, learn, use, modelcontextprotocol, practical, reference, multi, server, client, implementations, protocol
+
 ## MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers
 - Path: tutorials/mcp-registry-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md
 - Summary: Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
 - Keywords: mcp, registry, publishing, discovery, governance, servers, learn, modelcontextprotocol, works, end, authenticated, server, metadata, consuming, api, aggregator, operating, infrastructure
+
+## MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby
+- Path: tutorials/mcp-ruby-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ruby-sdk-tutorial/index.md
+- Summary: Learn how to implement MCP server/client workflows with `modelcontextprotocol/ruby-sdk`, including tool/prompt/resource registration, streamable HTTP sessions, structured logging, and release operations.
+- Keywords: mcp, ruby, sdk, building, servers, clients, learn, implement, server, client, workflows, modelcontextprotocol, including, tool, prompt, resource, registration, streamable
 
 ## MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP
 - Path: tutorials/mcp-rust-sdk-tutorial
@@ -638,6 +686,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md
 - Summary: Learn how `mcp-use/mcp-use` composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.
 - Keywords: mcp, use, full, stack, development, across, agents, clients, servers, inspector, learn, composes, agent, client, server, workflows, python, typescript
+
+## MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles
+- Path: tutorials/mcpb-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcpb-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/mcpb` to package local MCP servers into signed `.mcpb` bundles with manifest metadata, CLI workflows, and distribution-ready operational controls.
+- Keywords: mcpb, packaging, distributing, local, mcp, servers, bundles, learn, use, modelcontextprotocol, package, into, signed, manifest, metadata, cli, workflows, distribution
 
 ## MeiliSearch Tutorial: Lightning Fast Search Engine
 - Path: tutorials/meilisearch-tutorial
@@ -980,6 +1034,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/index.md
 - Summary: A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
 - Keywords: turborepo, high, performance, monorepo, build, system, deep, technical, walkthrough, covering
+
+## use-mcp Tutorial: React Hook Patterns for MCP Client Integration
+- Path: tutorials/use-mcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/use-mcp-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/use-mcp` to connect React apps to MCP servers with OAuth-aware flows, tool/resource/prompt access, and resilient transport lifecycle handling.
+- Keywords: use, mcp, react, hook, patterns, client, integration, learn, modelcontextprotocol, connect, apps, servers, oauth, aware, flows, tool, resource, prompt
 
 ## Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents
 - Path: tutorials/vercel-ai-tutorial

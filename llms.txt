@@ -62,6 +62,8 @@
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
 - GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
+- Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/create-python-server-tutorial
+- Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/create-typescript-server-tutorial
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
 - Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crush-tutorial
 - Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/daytona-tutorial
@@ -109,17 +111,24 @@
 - Logseq: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management
 - Mastra Tutorial: TypeScript Framework for AI Agents and Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mastra-tutorial
 - MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-csharp-sdk-tutorial
+- MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-docs-repo-tutorial
+- MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-ext-apps-tutorial
 - MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-go-sdk-tutorial
 - MCP Inspector Tutorial: Debugging and Validating MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-inspector-tutorial
 - MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-java-sdk-tutorial
+- MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-kotlin-sdk-tutorial
+- MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-php-sdk-tutorial
 - MCP Python SDK Tutorial: Building AI Tool Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-python-sdk-tutorial
+- MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-quickstart-resources-tutorial
 - MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-registry-tutorial
+- MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-ruby-sdk-tutorial
 - MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-rust-sdk-tutorial
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
 - MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-specification-tutorial
 - MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-swift-sdk-tutorial
 - MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-typescript-sdk-tutorial
 - MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-use-tutorial
+- MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcpb-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
 - Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mini-swe-agent-tutorial
@@ -177,6 +186,7 @@
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
 - Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial
+- use-mcp Tutorial: React Hook Patterns for MCP Client Integration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/use-mcp-tutorial
 - Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
 - Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibe-kanban-tutorial
 - VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
