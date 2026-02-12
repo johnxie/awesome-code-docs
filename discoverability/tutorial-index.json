@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 145,
+  "tutorial_count": 147,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -347,6 +347,35 @@
       "slug": "autogen-tutorial",
       "summary": "A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.",
       "title": "Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/index.md",
+      "index_path": "tutorials/awesome-claude-code-tutorial/index.md",
+      "keywords": [
+        "awesome",
+        "claude",
+        "code",
+        "curated",
+        "resource",
+        "discovery",
+        "evaluation",
+        "learn",
+        "use",
+        "hesreallyhim",
+        "high",
+        "signal",
+        "decision",
+        "system",
+        "skills",
+        "commands",
+        "hooks",
+        "tooling"
+      ],
+      "path": "tutorials/awesome-claude-code-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-code-tutorial",
+      "slug": "awesome-claude-code-tutorial",
+      "summary": "Learn how to use `hesreallyhim/awesome-claude-code` as a high-signal discovery and decision system for skills, commands, hooks, tooling, and `CLAUDE.md` patterns.",
+      "title": "Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md",
@@ -3180,6 +3209,35 @@
       "slug": "react-fiber-internals",
       "summary": "Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.",
       "title": "React Fiber Internals"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/refly-tutorial/index.md",
+      "index_path": "tutorials/refly-tutorial/index.md",
+      "keywords": [
+        "refly",
+        "build",
+        "deterministic",
+        "agent",
+        "skills",
+        "ship",
+        "them",
+        "across",
+        "apis",
+        "claude",
+        "code",
+        "learn",
+        "use",
+        "turn",
+        "vibe",
+        "workflows",
+        "into",
+        "reusable"
+      ],
+      "path": "tutorials/refly-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/refly-tutorial",
+      "slug": "refly-tutorial",
+      "summary": "Learn how to use `refly-ai/refly` to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.",
+      "title": "Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md",

@@ -35,6 +35,8 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`EveryInc/compound-engineering-plugin`](https://github.com/EveryInc/compound-engineering-plugin) | 8k+ | P1 | `pack-bb` | done |
 | [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) | 44k+ | P1 | `pack-bc` | done |
 | [`OthmanAdi/planning-with-files`](https://github.com/OthmanAdi/planning-with-files) | 13k+ | P1 | `pack-bc` | done |
+| [`hesreallyhim/awesome-claude-code`](https://github.com/hesreallyhim/awesome-claude-code) | 23k+ | P1 | `pack-bd` | done |
+| [`refly-ai/refly`](https://github.com/refly-ai/refly) | 6k+ | P1 | `pack-bd` | done |
 
 ## P2 (Strategic Extensions)
 

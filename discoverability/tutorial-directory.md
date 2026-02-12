@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **145**
+- Total tutorials: **147**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -31,6 +31,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
 - [AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/index.md)
   - Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
+- [Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/index.md)
+  - Learn how to use `hesreallyhim/awesome-claude-code` as a high-signal discovery and decision system for skills, commands, hooks, tooling, and `CLAUDE.md` patterns.
 
 ## B
 
@@ -301,6 +303,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.
 - [React Fiber Internals](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/index.md)
   - Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
+- [Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/refly-tutorial/index.md)
+  - Learn how to use `refly-ai/refly` to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.
 - [Roo Code Tutorial: Run an AI Dev Team in Your Editor](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md)
   - A production-focused guide to `RooCodeInc/Roo-Code`: mode design, task execution, checkpoints, MCP, team profiles, and enterprise operations.
 

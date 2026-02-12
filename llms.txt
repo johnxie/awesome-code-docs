@@ -27,6 +27,7 @@
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph
 - AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
+- Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-code-tutorial
 - Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/beads-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
 - bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
@@ -136,6 +137,7 @@
 - Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/qwen-agent-tutorial
 - RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ragflow-tutorial
 - React Fiber Internals: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-internals
+- Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/refly-tutorial
 - Roo Code Tutorial: Run an AI Dev Team in Your Editor: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/roo-code-tutorial
 - Semantic Kernel Tutorial: Microsoft's AI Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/semantic-kernel-tutorial
 - Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/serena-tutorial
