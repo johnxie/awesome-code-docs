@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 171
+    "root_only": 173
   },
-  "tutorial_count": 171,
+  "tutorial_count": 173,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -1827,6 +1827,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "mcp-ext-apps-tutorial",
+      "path": "tutorials/mcp-ext-apps-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "mcp-go-sdk-tutorial",
       "path": "tutorials/mcp-go-sdk-tutorial",
       "structure": "root_only",
@@ -1886,6 +1905,25 @@
       "has_index": true,
       "name": "mcp-kotlin-sdk-tutorial",
       "path": "tutorials/mcp-kotlin-sdk-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "mcp-php-sdk-tutorial",
+      "path": "tutorials/mcp-php-sdk-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
