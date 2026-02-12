@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 131,
+  "tutorial_count": 133,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
@@ -1992,6 +1992,35 @@
       "title": "Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/index.md",
+      "index_path": "tutorials/mini-swe-agent-tutorial/index.md",
+      "keywords": [
+        "mini",
+        "swe",
+        "agent",
+        "minimal",
+        "autonomous",
+        "code",
+        "design",
+        "benchmark",
+        "scale",
+        "learn",
+        "use",
+        "run",
+        "compact",
+        "high",
+        "performing",
+        "software",
+        "engineering",
+        "workflows"
+      ],
+      "path": "tutorials/mini-swe-agent-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mini-swe-agent-tutorial",
+      "slug": "mini-swe-agent-tutorial",
+      "summary": "Learn how to use `SWE-agent/mini-swe-agent` to run compact, high-performing software-engineering agent workflows with minimal scaffolding and strong reproducibility.",
+      "title": "Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md",
       "index_path": "tutorials/mistral-vibe-tutorial/index.md",
       "keywords": [
@@ -2755,6 +2784,35 @@
       "slug": "quivr-tutorial",
       "summary": "",
       "title": "Quivr Tutorial: Open-Source RAG Framework for Document Ingestion"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/qwen-agent-tutorial/index.md",
+      "index_path": "tutorials/qwen-agent-tutorial/index.md",
+      "keywords": [
+        "qwen",
+        "agent",
+        "tool",
+        "enabled",
+        "framework",
+        "mcp",
+        "rag",
+        "multi",
+        "modal",
+        "workflows",
+        "learn",
+        "use",
+        "qwenlm",
+        "build",
+        "production",
+        "capable",
+        "agents",
+        "function"
+      ],
+      "path": "tutorials/qwen-agent-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/qwen-agent-tutorial",
+      "slug": "qwen-agent-tutorial",
+      "summary": "Learn how to use `QwenLM/Qwen-Agent` to build production-capable agents with function calling, MCP integration, memory/RAG patterns, and benchmark-aware planning workflows.",
+      "title": "Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/index.md",

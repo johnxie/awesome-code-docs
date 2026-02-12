@@ -465,6 +465,12 @@ Main repository:
 - Summary: A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
 - Keywords: mem0, building, production, ready, agents, scalable, long, term, memory, deep, technical, walkthrough, covering
 
+## Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale
+- Path: tutorials/mini-swe-agent-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/index.md
+- Summary: Learn how to use `SWE-agent/mini-swe-agent` to run compact, high-performing software-engineering agent workflows with minimal scaffolding and strong reproducibility.
+- Keywords: mini, swe, agent, minimal, autonomous, code, design, benchmark, scale, learn, use, run, compact, high, performing, software, engineering, workflows
+
 ## Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral
 - Path: tutorials/mistral-vibe-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md
@@ -644,6 +650,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/index.md
 - Summary: N/A
 - Keywords: quivr, open, source, rag, framework, document, ingestion
+
+## Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows
+- Path: tutorials/qwen-agent-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/qwen-agent-tutorial/index.md
+- Summary: Learn how to use `QwenLM/Qwen-Agent` to build production-capable agents with function calling, MCP integration, memory/RAG patterns, and benchmark-aware planning workflows.
+- Keywords: qwen, agent, tool, enabled, framework, mcp, rag, multi, modal, workflows, learn, use, qwenlm, build, production, capable, agents, function
 
 ## RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine
 - Path: tutorials/ragflow-tutorial
