@@ -105,6 +105,12 @@ Main repository:
 - Summary: Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
 - Keywords: claude, quickstarts, production, integration, patterns, learn, anthropic, official, quickstart, projects, build, deployable, applications, api, including, customer, support, data
 
+## Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration
+- Path: tutorials/claude-squad-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md
+- Summary: Learn how to use `smtg-ai/claude-squad` to run and manage multiple coding-agent sessions across isolated workspaces with tmux and git worktrees.
+- Keywords: claude, squad, multi, agent, terminal, session, orchestration, learn, use, smtg, run, manage, multiple, coding, sessions, across, isolated, workspaces
+
 ## Claude Task Master Tutorial: AI-Powered Task Management for Developers
 - Path: tutorials/claude-task-master-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md
@@ -398,6 +404,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md
 - Summary: A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
 - Keywords: mem0, building, production, ready, agents, scalable, long, term, memory, deep, technical, walkthrough, covering
+
+## Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral
+- Path: tutorials/mistral-vibe-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md
+- Summary: Learn how to use `mistralai/mistral-vibe` for terminal-native coding workflows with configurable agent profiles, skills, subagents, and ACP integrations.
+- Keywords: mistral, vibe, minimal, cli, coding, agent, learn, use, mistralai, terminal, native, workflows, configurable, profiles, skills, subagents, acp, integrations
 
 ## n8n AI Tutorial: Workflow Automation with AI
 - Path: tutorials/n8n-ai-tutorial
