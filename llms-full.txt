@@ -93,6 +93,12 @@ Main repository:
 - Summary: A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
 - Keywords: chroma, chromadb, building, native, vector, databases, deep, technical, walkthrough, covering
 
+## Cipher Tutorial: Shared Memory Layer for Coding Agents
+- Path: tutorials/cipher-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md
+- Summary: Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
+- Keywords: cipher, shared, memory, layer, coding, agents, learn, use, campfirein, centric, mcp, enabled, that, preserves, shares, context, across, ides
+
 ## Claude Code Tutorial: Agentic Coding from Your Terminal
 - Path: tutorials/claude-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md
@@ -236,6 +242,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md
 - Summary: A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.
 - Keywords: gpt, oss, open, source, deep, dive, comprehensive, understanding, building, deploying, implementations, nanogpt, neox, beyond
+
+## gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work
+- Path: tutorials/gptme-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gptme-tutorial/index.md
+- Summary: Learn how to use `gptme/gptme` to run a local-first coding and knowledge-work agent with strong CLI ergonomics, extensible tools, and automation-friendly modes.
+- Keywords: gptme, open, source, terminal, agent, local, tool, driven, work, learn, use, run, first, coding, knowledge, strong, cli, ergonomics
 
 ## HAPI Tutorial: Remote Control for Local AI Coding Sessions
 - Path: tutorials/hapi-tutorial

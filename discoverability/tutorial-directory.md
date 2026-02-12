@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **113**
+- Total tutorials: **115**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -41,6 +41,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
 - [ChromaDB Tutorial: Building AI-Native Vector Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md)
   - A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
+- [Cipher Tutorial: Shared Memory Layer for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md)
+  - Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
 - [Claude Code Tutorial: Agentic Coding from Your Terminal](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md)
   - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - [Claude Quickstarts Tutorial: Production Integration Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md)
@@ -101,6 +103,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
 - [GPT Open Source: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md)
   - A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.
+- [gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gptme-tutorial/index.md)
+  - Learn how to use `gptme/gptme` to run a local-first coding and knowledge-work agent with strong CLI ergonomics, extensible tools, and automation-friendly modes.
 
 ## H
 
