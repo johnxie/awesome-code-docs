@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 167,
+  "tutorial_count": 169,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -2677,6 +2677,35 @@
       "title": "MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-rust-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "rust",
+        "sdk",
+        "building",
+        "high",
+        "performance",
+        "services",
+        "rmcp",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "production",
+        "clients",
+        "servers",
+        "strong",
+        "transport",
+        "control",
+        "macro"
+      ],
+      "path": "tutorials/mcp-rust-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-rust-sdk-tutorial",
+      "slug": "mcp-rust-sdk-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/rust-sdk` (`rmcp`) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.",
+      "title": "MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md",
       "index_path": "tutorials/mcp-servers-tutorial/index.md",
       "keywords": [
@@ -2729,6 +2758,35 @@
       "slug": "mcp-specification-tutorial",
       "summary": "Learn the current Model Context Protocol directly from `modelcontextprotocol/modelcontextprotocol`, including lifecycle, transports, security, authorization, and governance workflows.",
       "title": "MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-swift-sdk-tutorial/index.md",
+      "index_path": "tutorials/mcp-swift-sdk-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "swift",
+        "sdk",
+        "building",
+        "clients",
+        "servers",
+        "learn",
+        "implement",
+        "client",
+        "server",
+        "workflows",
+        "modelcontextprotocol",
+        "including",
+        "transport",
+        "options",
+        "sampling",
+        "batching",
+        "graceful"
+      ],
+      "path": "tutorials/mcp-swift-sdk-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-swift-sdk-tutorial",
+      "slug": "mcp-swift-sdk-tutorial",
+      "summary": "Learn how to implement MCP client and server workflows with `modelcontextprotocol/swift-sdk`, including transport options, sampling, batching, and graceful service lifecycle control.",
+      "title": "MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md",

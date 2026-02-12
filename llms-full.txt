@@ -603,6 +603,12 @@ Main repository:
 - Summary: Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
 - Keywords: mcp, registry, publishing, discovery, governance, servers, learn, modelcontextprotocol, works, end, authenticated, server, metadata, consuming, api, aggregator, operating, infrastructure
 
+## MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP
+- Path: tutorials/mcp-rust-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/rust-sdk` (`rmcp`) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.
+- Keywords: mcp, rust, sdk, building, high, performance, services, rmcp, learn, use, modelcontextprotocol, production, clients, servers, strong, transport, control, macro
+
 ## MCP Servers Tutorial: Reference Implementations and Patterns
 - Path: tutorials/mcp-servers-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md
@@ -614,6 +620,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-specification-tutorial/index.md
 - Summary: Learn the current Model Context Protocol directly from `modelcontextprotocol/modelcontextprotocol`, including lifecycle, transports, security, authorization, and governance workflows.
 - Keywords: mcp, specification, designing, production, grade, clients, servers, source, truth, learn, current, model, context, protocol, directly, modelcontextprotocol, including, lifecycle
+
+## MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift
+- Path: tutorials/mcp-swift-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-swift-sdk-tutorial/index.md
+- Summary: Learn how to implement MCP client and server workflows with `modelcontextprotocol/swift-sdk`, including transport options, sampling, batching, and graceful service lifecycle control.
+- Keywords: mcp, swift, sdk, building, clients, servers, learn, implement, client, server, workflows, modelcontextprotocol, including, transport, options, sampling, batching, graceful
 
 ## MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript
 - Path: tutorials/mcp-typescript-sdk-tutorial

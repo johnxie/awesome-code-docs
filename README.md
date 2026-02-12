@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-167-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1780%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-169-brightgreen.svg)](#-tutorial-catalog)
+[![Content Hours](https://img.shields.io/badge/content-1820%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
 [**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
@@ -68,7 +68,7 @@ Use this quick-start map if you searched for a specific outcome.
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) |
 
 ---
 
@@ -97,7 +97,7 @@ This section tracks high-impact open-source vibe-coding and coding-agent ecosyst
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   65+ tutorials    │   27 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   67+ tutorials    │   29 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -229,8 +229,10 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[MCP Specification](tutorials/mcp-specification-tutorial/)** | 7.1K+ | Spec/MDX | Protocol lifecycle, transports, authorization, security model, and governance workflows from the canonical MCP spec |
 | **[MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/)** | 11.6K+ | TypeScript | Client/server split packages, transport strategy, and v1-to-v2 migration planning |
 | **[MCP Go SDK](tutorials/mcp-go-sdk-tutorial/)** | 3.8K+ | Go | Official Go client/server SDK patterns, auth middleware, transport operations, and conformance workflows |
+| **[MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/)** | 3.0K+ | Rust | Official rmcp SDK architecture, macro-driven tooling, OAuth support, and async task-oriented runtime patterns |
 | **[MCP Java SDK](tutorials/mcp-java-sdk-tutorial/)** | 3.2K+ | Java | Official Java SDK module architecture, reactive transport layers, Spring integrations, and conformance loops |
 | **[MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/)** | 3.9K+ | C#/.NET | Official .NET SDK package layering, ASP.NET Core transport patterns, filters, and task workflows |
+| **[MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/)** | 1.2K+ | Swift | Official Swift MCP client/server setup, sampling controls, batching, and lifecycle-focused runtime operation patterns |
 | **[MCP Use](tutorials/mcp-use-tutorial/)** | 9.1K+ | Python/TypeScript | Full-stack MCP agents, clients, servers, and inspector workflows across both runtimes |
 | **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
 | **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
@@ -359,12 +361,12 @@ Continue ──→ Aider ──→ OpenHands ──→ Claude Code ──→ Cla
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
 ```
-MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp ──→ MCP Inspector ──→ MCP Registry ──→ MCP Specification ──→ MCP TypeScript SDK ──→ MCP Go SDK ──→ MCP Java SDK ──→ MCP C# SDK ──→ MCP Use
- (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server          (debug +            (publish +           (protocol             (client/server         (go sdk +            (java sdk +          (csharp sdk +         (full-stack
-  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)           transport tests)     discovery ops)        contract deep dive)    sdk internals)         conformance)          spring modules)        aspnet filters)        mcp workflows)
+MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ Awesome MCP Servers ──→ Composio ──→ Daytona ──→ GenAI Toolbox ──→ awslabs/mcp ──→ MCP Inspector ──→ MCP Registry ──→ MCP Specification ──→ MCP TypeScript SDK ──→ MCP Go SDK ──→ MCP Rust SDK ──→ MCP Java SDK ──→ MCP C# SDK ──→ MCP Swift SDK ──→ MCP Use
+ (build             (build servers      (reference        (discovery and          (tool + auth   (sandbox        (db-focused           (aws server          (debug +            (publish +           (protocol             (client/server         (go sdk +            (rust rmcp +         (java sdk +          (csharp sdk +         (swift sdk +          (full-stack
+  servers)           fast)               implementations)  curation)               runtime)       infra)          mcp control plane)    ecosystem)           transport tests)     discovery ops)        contract deep dive)    sdk internals)         conformance)          task/oauth focus)      spring modules)        aspnet filters)        lifecycle controls)    mcp workflows)
 ```
 
-**Duration:** 60-80 hours | **Difficulty:** Intermediate to Advanced
+**Duration:** 65-90 hours | **Difficulty:** Intermediate to Advanced
 
 ### 🟢 Path 8: Speech & Voice AI
 
@@ -411,10 +413,10 @@ Dyad ──→ bolt.diy ──→ Cline ──→ Roo Code ──→ VibeSDK ─
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        167                           ║
-║  📝 Numbered Chapters      1,339                         ║
+║  📦 Total Tutorials        169                           ║
+║  📝 Numbered Chapters      1,355                         ║
 ║  📏 Tutorial Markdown      470,000+ lines                ║
-║  ⏱️  Estimated Hours        1,780+                        ║
+║  ⏱️  Estimated Hours        1,820+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝
