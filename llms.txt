@@ -98,6 +98,7 @@
 - Ollama Tutorial: Running and Serving LLMs Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
 - Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/onlook-tutorial
 - Opcode Tutorial: GUI Command Center for Claude Code Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opcode-tutorial
+- Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-swe-tutorial
 - Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
 - OpenAI Python SDK Tutorial: Production API Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-python-sdk-tutorial
 - OpenAI Realtime Agents Tutorial: Voice-First AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-realtime-agents-tutorial
@@ -132,6 +133,7 @@
 - SuperAGI Tutorial: Production-Ready Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superagi-tutorial
 - Superset Terminal Tutorial: Command Center for Parallel Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/superset-terminal-tutorial
 - OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swarm-tutorial
+- SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swe-agent-tutorial
 - Taskade Tutorial: AI-Powered Productivity Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial

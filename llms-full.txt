@@ -507,6 +507,12 @@ Main repository:
 - Summary: Learn how to use `winfunc/opcode` to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.
 - Keywords: opcode, gui, command, center, claude, code, workflows, learn, use, winfunc, manage, projects, sessions, agents, mcp, servers, checkpoints, desktop
 
+## Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook
+- Path: tutorials/open-swe-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-swe-tutorial/index.md
+- Summary: Learn from `langchain-ai/open-swe` architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.
+- Keywords: open, swe, asynchronous, cloud, coding, agent, architecture, migration, playbook, learn, langchain, workflows, operational, patterns, including, maintain, migrate, deprecated
+
 ## Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface
 - Path: tutorials/open-webui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
@@ -710,6 +716,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md
 - Summary: N/A
 - Keywords: swarm, openai, lightweight, multi, agent, orchestration
+
+## SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering
+- Path: tutorials/swe-agent-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md
+- Summary: Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
+- Keywords: swe, agent, autonomous, repository, repair, benchmark, driven, engineering, learn, use, software, workflows, single, issue, runs, research, grade, evaluation
 
 ## Taskade Tutorial: AI-Powered Productivity Platform
 - Path: tutorials/taskade-tutorial

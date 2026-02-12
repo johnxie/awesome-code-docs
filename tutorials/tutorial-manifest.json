@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 127
+    "root_only": 129
   },
-  "tutorial_count": 127,
+  "tutorial_count": 129,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -1619,6 +1619,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "open-swe-tutorial",
+      "path": "tutorials/open-swe-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "open-webui-tutorial",
       "path": "tutorials/open-webui-tutorial",
       "structure": "root_only",
@@ -2248,6 +2267,25 @@
       "has_index": true,
       "name": "swarm-tutorial",
       "path": "tutorials/swarm-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "swe-agent-tutorial",
+      "path": "tutorials/swe-agent-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
