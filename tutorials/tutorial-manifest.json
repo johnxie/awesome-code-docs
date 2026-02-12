@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 177
+    "root_only": 179
   },
-  "tutorial_count": 177,
+  "tutorial_count": 179,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -952,6 +952,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "create-typescript-server-tutorial",
+      "path": "tutorials/create-typescript-server-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "crewai-tutorial",
       "path": "tutorials/crewai-tutorial",
       "structure": "root_only",
@@ -1829,6 +1848,25 @@
       "has_index": true,
       "name": "mcp-csharp-sdk-tutorial",
       "path": "tutorials/mcp-csharp-sdk-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "mcp-docs-repo-tutorial",
+      "path": "tutorials/mcp-docs-repo-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

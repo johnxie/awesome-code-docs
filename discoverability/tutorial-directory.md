@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **177**
+- Total tutorials: **179**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -107,6 +107,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
 - [Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/create-python-server` to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.
+- [Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-typescript-server-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/create-typescript-server` to scaffold MCP server projects quickly, understand generated template structure, and operate build/debug workflows safely in archived-tooling environments.
 - [CrewAI Tutorial: Building Collaborative AI Agent Teams](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md)
   - **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
 - [Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md)
@@ -232,6 +234,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - [MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md)
   - Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
+- [MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-docs-repo-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/docs` as an archived reference, map its conceptual guides, and migrate documentation workflows to the canonical `modelcontextprotocol/modelcontextprotocol` docs location.
 - [MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/ext-apps` to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.
 - [MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md)

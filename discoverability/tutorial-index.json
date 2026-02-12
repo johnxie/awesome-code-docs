@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 177,
+  "tutorial_count": 179,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -1333,6 +1333,35 @@
       "title": "Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-typescript-server-tutorial/index.md",
+      "index_path": "tutorials/create-typescript-server-tutorial/index.md",
+      "keywords": [
+        "create",
+        "typescript",
+        "server",
+        "scaffold",
+        "mcp",
+        "servers",
+        "templates",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "projects",
+        "quickly",
+        "understand",
+        "generated",
+        "template",
+        "structure",
+        "operate",
+        "build"
+      ],
+      "path": "tutorials/create-typescript-server-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/create-typescript-server-tutorial",
+      "slug": "create-typescript-server-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/create-typescript-server` to scaffold MCP server projects quickly, understand generated template structure, and operate build/debug workflows safely in archived-tooling environments.",
+      "title": "Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md",
       "index_path": "tutorials/crewai-tutorial/index.md",
       "keywords": [
@@ -2559,6 +2588,35 @@
       "slug": "mcp-csharp-sdk-tutorial",
       "summary": "Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.",
       "title": "MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-docs-repo-tutorial/index.md",
+      "index_path": "tutorials/mcp-docs-repo-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "repo",
+        "navigating",
+        "archived",
+        "documentation",
+        "repository",
+        "learn",
+        "use",
+        "modelcontextprotocol",
+        "reference",
+        "map",
+        "its",
+        "conceptual",
+        "guides",
+        "migrate",
+        "workflows",
+        "canonical",
+        "location"
+      ],
+      "path": "tutorials/mcp-docs-repo-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-docs-repo-tutorial",
+      "slug": "mcp-docs-repo-tutorial",
+      "summary": "Learn how to use `modelcontextprotocol/docs` as an archived reference, map its conceptual guides, and migrate documentation workflows to the canonical `modelcontextprotocol/modelcontextprotocol` docs location.",
+      "title": "MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md",
