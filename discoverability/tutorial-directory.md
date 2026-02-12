@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **108**
+- Total tutorials: **109**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -88,6 +88,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
 - [Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md)
   - Deep technical walkthrough.
+- [Fireproof Tutorial: Local-First Document Database for AI-Native Apps](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md)
+  - Learn how to use `fireproof-storage/fireproof` to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.
 - [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md)
   - **Project**: [Flowise](https://github.com/FlowiseAI/Flowise) — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
 

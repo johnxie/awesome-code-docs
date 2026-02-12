@@ -48,6 +48,7 @@
 - Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
 - Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/figma-context-mcp-tutorial
 - Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-tutorial
+- Fireproof Tutorial: Local-First Document Database for AI-Native Apps: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fireproof-tutorial
 - Flowise LLM Orchestration: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration
 - GPT Open Source: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gpt-oss-tutorial
 - HAPI Tutorial: Remote Control for Local AI Coding Sessions: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hapi-tutorial
