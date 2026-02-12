@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **165**
+- Total tutorials: **167**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -228,10 +228,14 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 - [Mastra Tutorial: TypeScript Framework for AI Agents and Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md)
   - Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
+- [MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md)
+  - Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
 - [MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/go-sdk` for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.
 - [MCP Inspector Tutorial: Debugging and Validating MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md)
   - Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
+- [MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md)
+  - Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.
 - [MCP Python SDK Tutorial: Building AI Tool Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md)
   - Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
 - [MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md)

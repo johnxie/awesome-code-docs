@@ -567,6 +567,12 @@ Main repository:
 - Summary: Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - Keywords: mastra, typescript, framework, agents, workflows, learn, build, production, applications, including, memory, mcp, tooling, reliability, operations
 
+## MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows
+- Path: tutorials/mcp-csharp-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md
+- Summary: Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
+- Keywords: mcp, csharp, sdk, production, net, hosting, asp, core, task, workflows, learn, build, operate, clients, servers, modelcontextprotocol, including, package
+
 ## MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go
 - Path: tutorials/mcp-go-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md
@@ -578,6 +584,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md
 - Summary: Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
 - Keywords: mcp, inspector, debugging, validating, servers, learn, use, modelcontextprotocol, test, across, stdio, sse, streamable, safer, auth, defaults, repeatable, cli
+
+## MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring
+- Path: tutorials/mcp-java-sdk-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md
+- Summary: Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.
+- Keywords: mcp, java, sdk, building, clients, servers, reactor, servlet, spring, learn, use, modelcontextprotocol, across, core, stacks, transport, setup, conformance
 
 ## MCP Python SDK Tutorial: Building AI Tool Servers
 - Path: tutorials/mcp-python-sdk-tutorial
