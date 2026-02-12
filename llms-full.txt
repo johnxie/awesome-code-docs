@@ -105,6 +105,12 @@ Main repository:
 - Summary: A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
 - Keywords: chroma, chromadb, building, native, vector, databases, deep, technical, walkthrough, covering
 
+## Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents
+- Path: tutorials/chrome-devtools-mcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chrome-devtools-mcp-tutorial/index.md
+- Summary: Learn how to use `ChromeDevTools/chrome-devtools-mcp` to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.
+- Keywords: chrome, devtools, mcp, browser, automation, debugging, coding, agents, learn, use, chromedevtools, give, reliable, control, performance, tracing, deep, capabilities
+
 ## Cipher Tutorial: Shared Memory Layer for Coding Agents
 - Path: tutorials/cipher-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md
@@ -158,6 +164,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md
 - Summary: Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 - Keywords: codex, analysis, platform, build, code, intelligence, systems, design, operate, production, grade, parsing, symbol, resolution, features, lsp, integration, rollout
+
+## Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex
+- Path: tutorials/codex-cli-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/index.md
+- Summary: Learn how to use `openai/codex` to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
+- Keywords: codex, cli, local, terminal, agent, workflows, openai, learn, use, run, lightweight, coding, locally, strong, controls, auth, configuration, mcp
 
 ## ComfyUI Tutorial: Mastering AI Image Generation Workflows
 - Path: tutorials/comfyui-tutorial
