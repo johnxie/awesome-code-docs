@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 119,
+  "tutorial_count": 121,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -2032,6 +2032,35 @@
       "title": "Ollama Tutorial: Running and Serving LLMs Locally"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md",
+      "index_path": "tutorials/onlook-tutorial/index.md",
+      "keywords": [
+        "onlook",
+        "visual",
+        "first",
+        "coding",
+        "next",
+        "tailwind",
+        "learn",
+        "use",
+        "dev",
+        "design",
+        "edit",
+        "production",
+        "grade",
+        "react",
+        "apps",
+        "visually",
+        "while",
+        "keeping"
+      ],
+      "path": "tutorials/onlook-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/onlook-tutorial",
+      "slug": "onlook-tutorial",
+      "summary": "Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.",
+      "title": "Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md",
       "index_path": "tutorials/open-webui-tutorial/index.md",
       "keywords": [
@@ -2624,6 +2653,35 @@
       "slug": "semantic-kernel-tutorial",
       "summary": "Build enterprise AI applications with Microsoft's SDK for integrating LLMs.",
       "title": "Semantic Kernel Tutorial: Microsoft's AI Orchestration"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/serena-tutorial/index.md",
+      "index_path": "tutorials/serena-tutorial/index.md",
+      "keywords": [
+        "serena",
+        "semantic",
+        "code",
+        "retrieval",
+        "toolkit",
+        "coding",
+        "agents",
+        "learn",
+        "use",
+        "oraios",
+        "give",
+        "ide",
+        "grade",
+        "editing",
+        "tools",
+        "across",
+        "large",
+        "codebases"
+      ],
+      "path": "tutorials/serena-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/serena-tutorial",
+      "slug": "serena-tutorial",
+      "summary": "Learn how to use `oraios/serena` to give coding agents IDE-grade semantic retrieval and editing tools across large codebases.",
+      "title": "Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md",

@@ -23,8 +23,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex) | 14k+ | P1 | `pack-ah` | done |
 | [`block/goose`](https://github.com/block/goose) | 30k+ | P1 | `pack-ap` | done |
 | [`charmbracelet/crush`](https://github.com/charmbracelet/crush) | 19k+ | P1 | `pack-ap` | done |
-| [`oraios/serena`](https://github.com/oraios/serena) | 20k+ | P1 | `pack-aq` | todo |
-| [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook) | 24k+ | P1 | `pack-aq` | todo |
+| [`oraios/serena`](https://github.com/oraios/serena) | 20k+ | P1 | `pack-aq` | done |
+| [`onlook-dev/onlook`](https://github.com/onlook-dev/onlook) | 24k+ | P1 | `pack-aq` | done |
+| [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban) | 21k+ | P1 | `pack-as` | todo |
+| [`winfunc/opcode`](https://github.com/winfunc/opcode) | 20k+ | P1 | `pack-as` | todo |
 
 ## P2 (Strategic Extensions)
 

@@ -93,6 +93,7 @@
 - NocoDB: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nocodb-database-platform
 - Obsidian Outliner Plugin: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-plugin
 - Ollama Tutorial: Running and Serving LLMs Locally: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ollama-tutorial
+- Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/onlook-tutorial
 - Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
 - OpenAI Python SDK Tutorial: Production API Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-python-sdk-tutorial
 - OpenAI Realtime Agents Tutorial: Voice-First AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-realtime-agents-tutorial
@@ -117,6 +118,7 @@
 - React Fiber Internals: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-internals
 - Roo Code Tutorial: Run an AI Dev Team in Your Editor: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/roo-code-tutorial
 - Semantic Kernel Tutorial: Microsoft's AI Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/semantic-kernel-tutorial
+- Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/serena-tutorial
 - Shotgun Tutorial: Spec-Driven Development for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/shotgun-tutorial
 - SillyTavern Tutorial: Advanced LLM Frontend for Power Users: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sillytavern-tutorial
 - SiYuan Tutorial: Privacy-First Knowledge Management: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/siyuan-tutorial

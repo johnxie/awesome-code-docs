@@ -477,6 +477,12 @@ Main repository:
 - Summary: Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
 - Keywords: ollama, running, serving, llms, locally, learn, use, local, model, execution, customization, embeddings, rag, integration, production, deployment
 
+## Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind
+- Path: tutorials/onlook-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md
+- Summary: Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.
+- Keywords: onlook, visual, first, coding, next, tailwind, learn, use, dev, design, edit, production, grade, react, apps, visually, while, keeping
+
 ## Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface
 - Path: tutorials/open-webui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
@@ -620,6 +626,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md
 - Summary: Build enterprise AI applications with Microsoft's SDK for integrating LLMs.
 - Keywords: semantic, kernel, microsoft, orchestration, build, enterprise, applications, sdk, integrating, llms
+
+## Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents
+- Path: tutorials/serena-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/serena-tutorial/index.md
+- Summary: Learn how to use `oraios/serena` to give coding agents IDE-grade semantic retrieval and editing tools across large codebases.
+- Keywords: serena, semantic, code, retrieval, toolkit, coding, agents, learn, use, oraios, give, ide, grade, editing, tools, across, large, codebases
 
 ## Shotgun Tutorial: Spec-Driven Development for Coding Agents
 - Path: tutorials/shotgun-tutorial
