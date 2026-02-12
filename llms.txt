@@ -91,6 +91,7 @@
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
+- Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mini-swe-agent-tutorial
 - Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mistral-vibe-tutorial
 - n8n AI Tutorial: Workflow Automation with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-ai-tutorial
 - n8n Model Context Protocol: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-mcp-tutorial
@@ -121,6 +122,7 @@
 - PostHog Tutorial: Open Source Product Analytics Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/posthog-tutorial
 - Pydantic AI Tutorial: Type-Safe AI Agent Development: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pydantic-ai-tutorial
 - Quivr Tutorial: Open-Source RAG Framework for Document Ingestion: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/quivr-tutorial
+- Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/qwen-agent-tutorial
 - RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ragflow-tutorial
 - React Fiber Internals: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-internals
 - Roo Code Tutorial: Run an AI Dev Team in Your Editor: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/roo-code-tutorial
