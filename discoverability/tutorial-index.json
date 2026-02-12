@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 108,
+  "tutorial_count": 109,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -862,6 +862,35 @@
       "slug": "firecrawl-tutorial",
       "summary": "",
       "title": "Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md",
+      "index_path": "tutorials/fireproof-tutorial/index.md",
+      "keywords": [
+        "fireproof",
+        "local",
+        "first",
+        "document",
+        "database",
+        "native",
+        "apps",
+        "learn",
+        "use",
+        "storage",
+        "build",
+        "encrypted",
+        "sync",
+        "capable",
+        "applications",
+        "unified",
+        "browser",
+        "node"
+      ],
+      "path": "tutorials/fireproof-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fireproof-tutorial",
+      "slug": "fireproof-tutorial",
+      "summary": "Learn how to use `fireproof-storage/fireproof` to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.",
+      "title": "Fireproof Tutorial: Local-First Document Database for AI-Native Apps"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md",

@@ -207,6 +207,12 @@ Main repository:
 - Summary: N/A
 - Keywords: firecrawl, building, llm, ready, web, scraping, data, extraction, systems
 
+## Fireproof Tutorial: Local-First Document Database for AI-Native Apps
+- Path: tutorials/fireproof-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md
+- Summary: Learn how to use `fireproof-storage/fireproof` to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.
+- Keywords: fireproof, local, first, document, database, native, apps, learn, use, storage, build, encrypted, sync, capable, applications, unified, browser, node
+
 ## Flowise LLM Orchestration: Deep Dive Tutorial
 - Path: tutorials/flowise-llm-orchestration
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md
