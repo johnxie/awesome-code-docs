@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 183,
+  "tutorial_count": 185,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
@@ -1685,6 +1685,35 @@
       "title": "Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents"
     },
     {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-mcp-server-tutorial/index.md",
+      "index_path": "tutorials/firecrawl-mcp-server-tutorial/index.md",
+      "keywords": [
+        "firecrawl",
+        "mcp",
+        "server",
+        "web",
+        "scraping",
+        "search",
+        "tools",
+        "clients",
+        "learn",
+        "use",
+        "add",
+        "robust",
+        "crawling",
+        "extraction",
+        "capabilities",
+        "enabled",
+        "coding",
+        "research"
+      ],
+      "path": "tutorials/firecrawl-mcp-server-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/firecrawl-mcp-server-tutorial",
+      "slug": "firecrawl-mcp-server-tutorial",
+      "summary": "Learn how to use `firecrawl/firecrawl-mcp-server` to add robust web scraping, crawling, search, and extraction capabilities to MCP-enabled coding and research agents.",
+      "title": "Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients"
+    },
+    {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md",
       "index_path": "tutorials/firecrawl-tutorial/index.md",
       "keywords": [
@@ -2559,6 +2588,35 @@
       "slug": "mastra-tutorial",
       "summary": "Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.",
       "title": "Mastra Tutorial: TypeScript Framework for AI Agents and Workflows"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-chrome-tutorial/index.md",
+      "index_path": "tutorials/mcp-chrome-tutorial/index.md",
+      "keywords": [
+        "mcp",
+        "chrome",
+        "control",
+        "real",
+        "browser",
+        "through",
+        "learn",
+        "use",
+        "hangwin",
+        "expose",
+        "automation",
+        "content",
+        "analysis",
+        "semantic",
+        "tab",
+        "search",
+        "tools",
+        "clients"
+      ],
+      "path": "tutorials/mcp-chrome-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-chrome-tutorial",
+      "slug": "mcp-chrome-tutorial",
+      "summary": "Learn how to use `hangwin/mcp-chrome` to expose browser automation, content analysis, and semantic tab search tools to MCP clients.",
+      "title": "MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md",

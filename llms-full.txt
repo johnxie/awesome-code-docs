@@ -375,6 +375,12 @@ Main repository:
 - Summary: Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
 - Keywords: figma, context, mcp, design, code, workflows, coding, agents, learn, use, glips, framelink, give, structured, higher, fidelity, implementation
 
+## Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients
+- Path: tutorials/firecrawl-mcp-server-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-mcp-server-tutorial/index.md
+- Summary: Learn how to use `firecrawl/firecrawl-mcp-server` to add robust web scraping, crawling, search, and extraction capabilities to MCP-enabled coding and research agents.
+- Keywords: firecrawl, mcp, server, web, scraping, search, tools, clients, learn, use, add, robust, crawling, extraction, capabilities, enabled, coding, research
+
 ## Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems
 - Path: tutorials/firecrawl-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md
@@ -578,6 +584,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md
 - Summary: Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
 - Keywords: mastra, typescript, framework, agents, workflows, learn, build, production, applications, including, memory, mcp, tooling, reliability, operations
+
+## MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP
+- Path: tutorials/mcp-chrome-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-chrome-tutorial/index.md
+- Summary: Learn how to use `hangwin/mcp-chrome` to expose browser automation, content analysis, and semantic tab search tools to MCP clients.
+- Keywords: mcp, chrome, control, real, browser, through, learn, use, hangwin, expose, automation, content, analysis, semantic, tab, search, tools, clients
 
 ## MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows
 - Path: tutorials/mcp-csharp-sdk-tutorial
