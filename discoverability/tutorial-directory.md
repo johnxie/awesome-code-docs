@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **111**
+- Total tutorials: **113**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -45,6 +45,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
 - [Claude Quickstarts Tutorial: Production Integration Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md)
   - Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
+- [Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md)
+  - Learn how to use `smtg-ai/claude-squad` to run and manage multiple coding-agent sessions across isolated workspaces with tmux and git worktrees.
 - [Claude Task Master Tutorial: AI-Powered Task Management for Developers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md)
   - A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.
 - [ClickHouse Tutorial: High-Performance Analytical Database](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/index.md)
@@ -172,6 +174,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
 - [Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md)
   - A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
+- [Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md)
+  - Learn how to use `mistralai/mistral-vibe` for terminal-native coding workflows with configurable agent profiles, skills, subagents, and ACP integrations.
 
 ## N
 

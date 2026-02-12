@@ -31,8 +31,10 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 | [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun) | 500+ | P2 | `pack-aj` | done |
 | [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc) | 300+ | P2 | `pack-aj` | done |
 | [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof) | 900+ | P2 | `pack-ak` | done |
-| [`github/copilot-cli`](https://github.com/github/copilot-cli) | 8k+ | P2 | `pack-al` | in_progress |
-| [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli) | 6k+ | P2 | `pack-al` | in_progress |
+| [`github/copilot-cli`](https://github.com/github/copilot-cli) | 8k+ | P2 | `pack-al` | done |
+| [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli) | 6k+ | P2 | `pack-al` | done |
+| [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe) | 3k+ | P2 | `pack-am` | in_progress |
+| [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad) | 5k+ | P2 | `pack-am` | in_progress |
 
 ## Execution Rules
 

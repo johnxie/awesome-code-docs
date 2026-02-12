@@ -31,6 +31,7 @@
 - ChromaDB Tutorial: Building AI-Native Vector Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/chroma-tutorial
 - Claude Code Tutorial: Agentic Coding from Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-code-tutorial
 - Claude Quickstarts Tutorial: Production Integration Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-quickstarts-tutorial
+- Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-squad-tutorial
 - Claude Task Master Tutorial: AI-Powered Task Management for Developers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-task-master-tutorial
 - ClickHouse Tutorial: High-Performance Analytical Database: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/clickhouse-tutorial
 - Cline Tutorial: Agentic Coding with Human Control: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/cline-tutorial
@@ -80,6 +81,7 @@
 - MCP Servers Tutorial: Reference Implementations and Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcp-servers-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
+- Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mistral-vibe-tutorial
 - n8n AI Tutorial: Workflow Automation with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-ai-tutorial
 - n8n Model Context Protocol: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-mcp-tutorial
 - Nanocoder Tutorial: Building and Understanding AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nanocoder-tutorial

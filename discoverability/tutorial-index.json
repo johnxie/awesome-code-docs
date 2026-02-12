@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 111,
+  "tutorial_count": 113,
   "tutorials": [
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md",
@@ -436,6 +436,35 @@
       "slug": "claude-quickstarts-tutorial",
       "summary": "Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.",
       "title": "Claude Quickstarts Tutorial: Production Integration Patterns"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md",
+      "index_path": "tutorials/claude-squad-tutorial/index.md",
+      "keywords": [
+        "claude",
+        "squad",
+        "multi",
+        "agent",
+        "terminal",
+        "session",
+        "orchestration",
+        "learn",
+        "use",
+        "smtg",
+        "run",
+        "manage",
+        "multiple",
+        "coding",
+        "sessions",
+        "across",
+        "isolated",
+        "workspaces"
+      ],
+      "path": "tutorials/claude-squad-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/claude-squad-tutorial",
+      "slug": "claude-squad-tutorial",
+      "summary": "Learn how to use `smtg-ai/claude-squad` to run and manage multiple coding-agent sessions across isolated workspaces with tmux and git worktrees.",
+      "title": "Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md",
@@ -1671,6 +1700,35 @@
       "slug": "mem0-tutorial",
       "summary": "A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.",
       "title": "Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory"
+    },
+    {
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md",
+      "index_path": "tutorials/mistral-vibe-tutorial/index.md",
+      "keywords": [
+        "mistral",
+        "vibe",
+        "minimal",
+        "cli",
+        "coding",
+        "agent",
+        "learn",
+        "use",
+        "mistralai",
+        "terminal",
+        "native",
+        "workflows",
+        "configurable",
+        "profiles",
+        "skills",
+        "subagents",
+        "acp",
+        "integrations"
+      ],
+      "path": "tutorials/mistral-vibe-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mistral-vibe-tutorial",
+      "slug": "mistral-vibe-tutorial",
+      "summary": "Learn how to use `mistralai/mistral-vibe` for terminal-native coding workflows with configurable agent profiles, skills, subagents, and ACP integrations.",
+      "title": "Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral"
     },
     {
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-ai-tutorial/index.md",
