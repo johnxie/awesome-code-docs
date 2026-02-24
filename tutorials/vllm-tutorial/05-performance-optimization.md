@@ -8,6 +8,9 @@ parent: vLLM Tutorial
 
 # Chapter 5: Performance Optimization - Maximizing Throughput and Efficiency
 
+Welcome to **Chapter 5: Performance Optimization - Maximizing Throughput and Efficiency**. In this part of **vLLM Tutorial: High-Performance LLM Inference**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master advanced optimization techniques for vLLM including batching strategies, quantization, GPU optimization, and memory management.
 
 ## Overview
@@ -889,3 +892,51 @@ Next, we'll explore **distributed inference** - scaling vLLM across multiple GPU
 **Ready for the next chapter?** [Chapter 6: Distributed Inference](06-distributed-inference.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `print`, `result` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Performance Optimization - Maximizing Throughput and Efficiency` as an operating subsystem inside **vLLM Tutorial: High-Performance LLM Inference**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `time`, `results`, `sampling_params` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Performance Optimization - Maximizing Throughput and Efficiency` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `print` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `result`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/vllm-project/vllm)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `print` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Advanced Features - Streaming, Tool Calling, and Multi-Modal](04-advanced-features.md)
+- [Next Chapter: Chapter 6: Distributed Inference - Scaling Across GPUs and Nodes](06-distributed-inference.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

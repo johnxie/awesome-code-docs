@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: Result Processing and Ranking
 
+Welcome to **Chapter 5: Result Processing and Ranking**. In this part of **Perplexica Tutorial: AI-Powered Search Engine**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 How Perplexica transforms raw search results into coherent, useful answers is the heart of what makes it an AI search engine rather than just another search aggregator. This chapter covers the full result processing pipeline -- deduplication, relevance scoring, embedding-based re-ranking, answer synthesis with inline citations, and quality assurance. By the end, you will understand how to tune every stage for your specific use case.
 
 ## Result Processing Pipeline Overview
@@ -612,3 +615,49 @@ With result processing understood, the next chapter covers how these processed a
 ---
 
 *Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `result`, `score`, `results` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Result Processing and Ranking` as an operating subsystem inside **Perplexica Tutorial: AI-Powered Search Engine**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `query`, `subgraph`, `classDef` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Result Processing and Ranking` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `result`.
+2. **Input normalization**: shape incoming data so `score` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `results`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/ItzCrazyKns/Perplexica)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `result` and `score` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Web Scraping and Data Collection](04-web-scraping.md)
+- [Next Chapter: Chapter 6: User Interface Development](06-user-interface.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

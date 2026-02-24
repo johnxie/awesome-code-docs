@@ -8,6 +8,9 @@ parent: "Teable Database Platform"
 
 # Chapter 1: System Overview
 
+Welcome to **Chapter 1: System Overview**. In this part of **Teable: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Understanding Teable's multi-dimensional database platform and its approach to modern data management
 
 ## 🎯 Learning Objectives
@@ -838,3 +841,48 @@ This chapter provided the foundation for understanding Teable's multi-dimensiona
 ---
 
 **Ready to explore the database architecture?** Continue to [Chapter 2: Database Architecture](02-database-architecture.md)
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `tableId`, `field`, `name` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 1: System Overview` as an operating subsystem inside **Teable: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `records`, `fields`, `tables` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 1: System Overview` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `tableId`.
+2. **Input normalization**: shape incoming data so `field` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `name`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Teable](https://github.com/teableio/teable)
+  Why it matters: authoritative reference on `Teable` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `tableId` and `field` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Next Chapter: Chapter 2: Database Architecture](02-database-architecture.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

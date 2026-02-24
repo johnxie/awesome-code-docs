@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: Plugin Architecture
 
+Welcome to **Chapter 5: Plugin Architecture**. In this part of **SiYuan Tutorial: Privacy-First Knowledge Management**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 In [Chapter 4](04-query-system.md), we explored SiYuan's powerful query system. Now let's look at how to extend SiYuan's functionality through its plugin architecture. The plugin system allows developers to add new features, integrate with external services, and customize the user experience without modifying SiYuan's core codebase.
 
 ## Plugin System Overview
@@ -921,3 +924,49 @@ Now that you can extend SiYuan with plugins, let's explore the synchronization s
 ---
 
 *Built with insights from the [SiYuan](https://github.com/siyuan-note/siyuan) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `void`, `menu`, `Plugin` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Plugin Architecture` as an operating subsystem inside **SiYuan Tutorial: Privacy-First Knowledge Management**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `Promise`, `plugin`, `json` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Plugin Architecture` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `void`.
+2. **Input normalization**: shape incoming data so `menu` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `Plugin`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/siyuan-note/siyuan)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `void` and `menu` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Query System & Search](04-query-system.md)
+- [Next Chapter: Chapter 6: Synchronization & Backup](06-synchronization.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

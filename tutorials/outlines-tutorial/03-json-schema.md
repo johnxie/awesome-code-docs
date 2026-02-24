@@ -8,6 +8,9 @@ parent: Outlines Tutorial
 
 # Chapter 3: JSON Schema & Structured Data Generation
 
+Welcome to **Chapter 3: JSON Schema & Structured Data Generation**. In this part of **Outlines Tutorial: Structured Text Generation with LLMs**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Generate perfectly structured JSON data with guaranteed schema compliance using Outlines JSON Schema support.
 
 ## Basic JSON Schema Generation
@@ -632,3 +635,49 @@ if debug_result:
 ```
 
 This chapter demonstrates how Outlines can generate complex, schema-compliant JSON data with guaranteed structure and validation. The next chapter covers Pydantic models and type safety. 🚀
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `print`, `json`, `Generate` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: JSON Schema & Structured Data Generation` as an operating subsystem inside **Outlines Tutorial: Structured Text Generation with LLMs**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `model`, `schema`, `object` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: JSON Schema & Structured Data Generation` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `print`.
+2. **Input normalization**: shape incoming data so `json` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `Generate`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/outlines-dev/outlines)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `print` and `json` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Text Patterns & Regular Expressions](02-text-patterns.md)
+- [Next Chapter: Chapter 4: Type Safety & Pydantic Integration](04-type-safety.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -589,3 +589,53 @@ Ready to generate structured data with type safety? In [Chapter 5: Structured Ou
 5. Implement tool versioning and rollback capabilities
 
 *What powerful tools will you create for your AI assistant?* 🛠️
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `query`, `tool`, `error` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Function Calling` as an operating subsystem inside **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `className`, `tools`, `call` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Function Calling` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `query`.
+2. **Input normalization**: shape incoming data so `tool` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `error`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [AI SDK Repository](https://github.com/vercel/ai)
+  Why it matters: authoritative reference on `AI SDK Repository` (github.com).
+- [AI SDK Releases](https://github.com/vercel/ai/releases)
+  Why it matters: authoritative reference on `AI SDK Releases` (github.com).
+- [AI SDK Docs](https://ai-sdk.dev)
+  Why it matters: authoritative reference on `AI SDK Docs` (ai-sdk.dev).
+
+Suggested trace strategy:
+- search upstream code for `query` and `tool` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Streaming Responses](03-streaming-responses.md)
+- [Next Chapter: Chapter 5: Structured Outputs](05-structured-outputs.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

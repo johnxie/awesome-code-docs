@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: Remote Caching
 
+Welcome to **Chapter 5: Remote Caching**. In this part of **Turborepo Tutorial: High-Performance Monorepo Build System**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Set up team-wide caching to share build artifacts across your organization and CI/CD pipelines. While local caching eliminates redundant work on a single machine, remote caching extends that benefit across every developer workstation and every CI runner -- so a build that one teammate already completed becomes an instant cache restore for everyone else.
 
 ## Why Remote Caching Matters
@@ -577,3 +580,49 @@ With caching optimized both locally and remotely, the next challenge is managing
 ---
 
 *Built with insights from the [Turborepo](https://github.com/vercel/turborepo) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `build`, `cache`, `turbo` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Remote Caching` as an operating subsystem inside **Turborepo Tutorial: High-Performance Monorepo Build System**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `artifacts`, `your`, `classDef` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Remote Caching` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `build`.
+2. **Input normalization**: shape incoming data so `cache` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `turbo`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/vercel/turborepo)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `build` and `cache` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Caching Strategies](04-caching-strategies.md)
+- [Next Chapter: Chapter 6: Dependency Management](06-dependency-management.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

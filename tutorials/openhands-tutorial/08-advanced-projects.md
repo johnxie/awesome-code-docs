@@ -8,6 +8,9 @@ parent: OpenHands Tutorial
 
 # Chapter 8: Advanced Projects - Complete Applications and System Architectures
 
+Welcome to **Chapter 8: Advanced Projects - Complete Applications and System Architectures**. In this part of **OpenHands Tutorial: Autonomous Software Engineering Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Build production-ready applications and complex system architectures with OpenHands, from microservices to full-stack platforms.
 
 ## Overview
@@ -705,3 +708,52 @@ This concludes our comprehensive OpenHands tutorial. You've learned how to lever
 *Congratulations! You've completed the comprehensive OpenHands Tutorial. You now have the skills to build production-ready applications and complex system architectures using autonomous AI software engineering.*
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `management`, `Service`, `time` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 8: Advanced Projects - Complete Applications and System Architectures` as an operating subsystem inside **OpenHands Tutorial: Autonomous Software Engineering Workflows**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `Real`, `platform`, `Content` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 8: Advanced Projects - Complete Applications and System Architectures` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `management`.
+2. **Input normalization**: shape incoming data so `Service` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `time`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [OpenHands Repository](https://github.com/OpenHands/OpenHands)
+  Why it matters: authoritative reference on `OpenHands Repository` (github.com).
+- [OpenHands Docs](https://docs.openhands.dev/)
+  Why it matters: authoritative reference on `OpenHands Docs` (docs.openhands.dev).
+- [OpenHands Releases](https://github.com/OpenHands/OpenHands/releases)
+  Why it matters: authoritative reference on `OpenHands Releases` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `management` and `Service` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 7: Integration - Connecting Applications with External Services](07-integration.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
