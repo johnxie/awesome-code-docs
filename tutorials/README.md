@@ -13,7 +13,7 @@ This file describes the structure of `tutorials/` and points to the authoritativ
 |:-------|:------|
 | Tutorial directories | 185 |
 | Tutorial markdown files | 1678 |
-| Tutorial markdown lines | 477,603 |
+| Tutorial markdown lines | 620,705 |
 
 ## Content Structure Patterns
 
