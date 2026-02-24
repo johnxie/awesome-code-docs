@@ -6,284 +6,284 @@ Main repository:
 ## Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations
 - Path: tutorials/activepieces-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md
-- Summary: Learn how to use `activepieces/activepieces` to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.
-- Keywords: activepieces, open, source, automation, pieces, ready, workflow, operations, learn, use, build, run, govern, production, workflows, extensibility, piece, development
+- Summary: Learn how to use activepieces/activepieces to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.
+- Keywords: activepieces, open, source, automation, pieces, ready, workflow, operations, run, govern, workflows, extensibility, piece, development, api, control, self, hosted
 
 ## ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK
 - Path: tutorials/adk-python-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md
-- Summary: Learn how to use `google/adk-python` to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
-- Keywords: adk, python, production, grade, agent, engineering, google, learn, use, build, evaluate, deploy, modular, systems, strong, tooling, session, controls
+- Summary: Learn how to use google/adk-python to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
+- Keywords: adk, python, grade, agent, engineering, google, evaluate, deploy, modular, strong, tooling, session, controls, rollouts
 
 ## AG2 Tutorial: Next-Generation Multi-Agent Framework
 - Path: tutorials/ag2-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/index.md
 - Summary: Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
-- Keywords: ag2, next, generation, multi, agent, framework, build, collaborative, systems, community, driven, successor, autogen
+- Keywords: ag2, next, generation, multi, agent, framework, collaborative, community, driven, successor, autogen
 
 ## AgentGPT Tutorial: Building Autonomous AI Agents
 - Path: tutorials/agentgpt-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/index.md
 - Summary: A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents.
-- Keywords: agentgpt, building, autonomous, agents, deep, technical, walkthrough, covering
+- Keywords: agentgpt, building, autonomous, agents, technical, walkthrough
 
 ## AgenticSeek Tutorial: Local-First Autonomous Agent Operations
 - Path: tutorials/agenticseek-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agenticseek-tutorial/index.md
-- Summary: Learn how to use `Fosowl/agenticSeek` to run multi-agent planning, browsing, and coding workflows with local model support, Docker-first runtime defaults, and practical operator guardrails.
-- Keywords: agenticseek, local, first, autonomous, agent, operations, learn, use, fosowl, run, multi, planning, browsing, coding, workflows, model, support, docker
+- Summary: Learn how to use Fosowl/agenticSeek to run multi-agent planning, browsing, and coding workflows with local model support, Docker-first runtime defaults, and practical operator guardrails.
+- Keywords: agenticseek, local, first, autonomous, agent, operations, fosowl, run, multi, planning, browsing, coding, workflows, model, support, docker, runtime, defaults
 
 ## AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories
 - Path: tutorials/agents-md-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agents-md-tutorial/index.md
-- Summary: Learn how to use `agentsmd/agents.md` to define a clear, portable instruction contract for coding agents across projects and tools.
-- Keywords: agents, open, standard, coding, agent, guidance, repositories, learn, use, agentsmd, define, clear, portable, instruction, contract, across, projects, tools
+- Summary: Learn how to use agentsmd/agents.md to define a clear, portable instruction contract for coding agents across projects and tools.
+- Keywords: agents, open, standard, coding, agent, guidance, repositories, agentsmd, define, clear, portable, instruction, contract, projects, tools
 
 ## Agno Tutorial: Multi-Agent Systems That Learn Over Time
 - Path: tutorials/agno-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agno-tutorial/index.md
-- Summary: Learn how to build and operate learning multi-agent systems with `agno-agi/agno`, including memory, orchestration, AgentOS runtime, and production guardrails.
-- Keywords: agno, multi, agent, systems, that, learn, over, time, build, operate, learning, agi, including, memory, orchestration, agentos, runtime, production
+- Summary: Learn how to build and operate learning multi-agent systems with agno-agi/agno, including memory, orchestration, AgentOS runtime, and production guardrails.
+- Keywords: agno, multi, agent, over, time, operate, learning, agi, memory, orchestration, agentos, runtime, guardrails
 
 ## Aider Tutorial: AI Pair Programming in Your Terminal
 - Path: tutorials/aider-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/aider-tutorial/index.md
-- Summary: Learn to use `Aider-AI/aider` for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
-- Keywords: aider, pair, programming, terminal, learn, use, real, file, edits, git, native, workflows, model, routing, reliable, day, coding, loops
+- Summary: Learn to use Aider-AI/aider for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
+- Keywords: aider, pair, programming, terminal, real, file, edits, git, native, workflows, model, routing, reliable, day, coding, loops
 
 ## Anthropic API Tutorial: Build Production Apps with Claude
 - Path: tutorials/anthropic-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/index.md
 - Summary: A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
-- Keywords: anthropic, code, api, build, production, apps, claude, practical, building, official, sdks, including, messages, tools, vision, streaming, operations
+- Keywords: anthropic, code, api, apps, claude, building, official, sdks, messages, tools, vision, streaming, operations
 
 ## Anthropic Skills Tutorial: Reusable AI Agent Capabilities
 - Path: tutorials/anthropic-skills-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/index.md
 - Summary: Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
-- Keywords: anthropic, skills, reusable, agent, capabilities, build, operate, production, quality, claude, code, api
+- Keywords: anthropic, skills, reusable, agent, capabilities, operate, quality, claude, code, api
 
 ## AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform
 - Path: tutorials/anything-llm-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/index.md
-- Summary: Learn how to deploy and operate `Mintplex-Labs/anything-llm` for document-grounded chat, workspace management, agent workflows, and production use.
-- Keywords: anything, llm, anythingllm, self, hosted, rag, agents, platform, learn, deploy, operate, mintplex, labs, document, grounded, chat, workspace, management
+- Summary: Learn how to deploy and operate Mintplex-Labs/anything-llm for document-grounded chat, workspace management, agent workflows, and production use.
+- Keywords: anything, llm, anythingllm, self, hosted, rag, agents, deploy, operate, mintplex, labs, document, grounded, chat, workspace, management, agent, workflows
 
 ## Athens Research: Deep Dive Tutorial
 - Path: tutorials/athens-research-knowledge-graph
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/index.md
-- Summary: **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
-- Keywords: athens, research, knowledge, graph, deep, dive, project, athensresearch, open, source, roam, like, management, system, built, clojurescript, databases
+- Summary: Athens Research — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
+- Keywords: athens, research, knowledge, graph, open, source, roam, like, management, built, clojurescript, databases
 
 ## AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration
 - Path: tutorials/autoagent-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/index.md
-- Summary: Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
-- Keywords: autoagent, zero, code, agent, creation, automated, workflow, orchestration, learn, use, hkuds, create, orchestrate, llm, agents, through, natural, language
+- Summary: Learn how to use HKUDS/AutoAgent to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
+- Keywords: autoagent, zero, code, agent, creation, automated, workflow, orchestration, hkuds, create, orchestrate, llm, agents, natural, language, workflows, support, cli
 
 ## Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
 - Path: tutorials/autogen-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/index.md
 - Summary: A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
-- Keywords: autogen, microsoft, building, multi, agent, systems, deep, technical, walkthrough, covering
+- Keywords: autogen, microsoft, building, multi, agent, technical, walkthrough
 
 ## Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation
 - Path: tutorials/awesome-claude-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/index.md
-- Summary: Learn how to use `hesreallyhim/awesome-claude-code` as a high-signal discovery and decision system for skills, commands, hooks, tooling, and `CLAUDE.md` patterns.
-- Keywords: awesome, claude, code, curated, resource, discovery, evaluation, learn, use, hesreallyhim, high, signal, decision, system, skills, commands, hooks, tooling
+- Summary: Learn how to use hesreallyhim/awesome-claude-code as a high-signal discovery and decision system for skills, commands, hooks, tooling, and CLAUDE.md patterns.
+- Keywords: awesome, claude, code, curated, resource, discovery, evaluation, hesreallyhim, high, signal, decision, skills, commands, hooks, tooling, patterns
 
 ## Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows
 - Path: tutorials/awesome-claude-skills-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md
-- Summary: Learn how to use `ComposioHQ/awesome-claude-skills` to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.
-- Keywords: awesome, claude, skills, high, signal, skill, discovery, reuse, workflows, learn, use, composiohq, discover, evaluate, install, contribute, coding, automation
+- Summary: Learn how to use ComposioHQ/awesome-claude-skills to discover, evaluate, install, and contribute Claude skills for coding, automation, writing, and cross-app workflows.
+- Keywords: awesome, claude, skills, high, signal, skill, discovery, reuse, workflows, composiohq, discover, evaluate, install, contribute, coding, automation, writing, cross
 
 ## Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations
 - Path: tutorials/awesome-mcp-servers-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-mcp-servers-tutorial/index.md
-- Summary: Learn how to use `punkpeye/awesome-mcp-servers` as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.
-- Keywords: awesome, mcp, servers, curating, operating, high, signal, integrations, learn, use, punkpeye, practical, control, surface, discovering, vetting, model, context
+- Summary: Learn how to use punkpeye/awesome-mcp-servers as a practical control surface for discovering, vetting, and operating Model Context Protocol servers across coding, data, browser automation, and enterprise workflows.
+- Keywords: awesome, mcp, servers, curating, operating, high, signal, integrations, punkpeye, control, surface, discovering, vetting, model, context, protocol, coding, data
 
 ## awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads
 - Path: tutorials/awslabs-mcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awslabs-mcp-tutorial/index.md
-- Summary: Learn how to use `awslabs/mcp` to compose, run, and govern AWS-focused MCP servers across development, infrastructure, data, and operations workflows.
-- Keywords: awslabs, mcp, operating, large, scale, server, ecosystem, aws, workloads, learn, use, compose, run, govern, focused, servers, across, development
+- Summary: Learn how to use awslabs/mcp to compose, run, and govern AWS-focused MCP servers across development, infrastructure, data, and operations workflows.
+- Keywords: awslabs, mcp, operating, large, scale, server, ecosystem, aws, workloads, compose, run, govern, focused, servers, development, infrastructure, data, operations
 
 ## Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents
 - Path: tutorials/beads-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md
-- Summary: Learn how to use `steveyegge/beads` to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.
-- Keywords: beads, git, backed, task, graph, memory, coding, agents, learn, use, steveyegge, give, durable, dependency, aware, structured, issue, graphs
+- Summary: Learn how to use steveyegge/beads to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.
+- Keywords: beads, git, backed, task, graph, memory, coding, agents, steveyegge, give, durable, dependency, aware, structured, issue, graphs, instead, hoc
 
 ## BentoML Tutorial: Building Production-Ready ML Services
 - Path: tutorials/bentoml-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md
 - Summary: A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.
-- Keywords: bentoml, building, production, ready, services, deep, technical, walkthrough, covering
+- Keywords: bentoml, building, ready, services, technical, walkthrough
 
 ## bolt.diy Tutorial: Build and Operate an Open Source AI App Builder
 - Path: tutorials/bolt-diy-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md
-- Summary: A production-focused deep dive into `stackblitz-labs/bolt.diy`: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.
-- Keywords: bolt, diy, build, operate, open, source, app, builder, production, focused, deep, dive, into, stackblitz, labs, architecture, provider, routing
+- Summary: A production-focused deep dive into stackblitz-labs/bolt.diy: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.
+- Keywords: bolt, diy, operate, open, source, app, builder, focused, stackblitz, labs, architecture, provider, routing, safe, edit, loops, mcp, integrations
 
 ## Botpress Tutorial: Open Source Conversational AI Platform
 - Path: tutorials/botpress-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/index.md
-- Summary: **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
-- Keywords: botpress, open, source, conversational, platform, important, notice, v12, has, been, sunset, longer, available, new, deployments, however, existing, customers
+- Summary: This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications
+- Keywords: botpress, open, source, conversational, comprehensive, will, powerful, building, applications
 
 ## Browser Use Tutorial: AI-Powered Web Automation Agents
 - Path: tutorials/browser-use-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md
-- Summary: Learn how to use `browser-use/browser-use` to build agents that can navigate websites, execute workflows, and run reliable browser automation in production.
-- Keywords: browser, use, powered, web, automation, agents, learn, build, that, can, navigate, websites, execute, workflows, run, reliable, production
+- Summary: Learn how to use browser-use/browser-use to build agents that can navigate websites, execute workflows, and run reliable browser automation in production.
+- Keywords: browser, powered, web, automation, agents, can, navigate, websites, execute, workflows, run, reliable
 
 ## Chatbox Tutorial: Building Modern AI Chat Interfaces
 - Path: tutorials/chatbox-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/index.md
 - Summary: A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.
-- Keywords: chatbox, building, modern, chat, interfaces, deep, technical, walkthrough, covering
+- Keywords: chatbox, building, modern, chat, interfaces, technical, walkthrough
 
 ## Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams
 - Path: tutorials/cherry-studio-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cherry-studio-tutorial/index.md
-- Summary: Learn how to use `CherryHQ/cherry-studio` to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.
-- Keywords: cherry, studio, multi, provider, desktop, workspace, teams, learn, use, cherryhq, run, workflows, manage, assistants, integrate, mcp, tools, first
+- Summary: Learn how to use CherryHQ/cherry-studio to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.
+- Keywords: cherry, studio, multi, provider, desktop, workspace, teams, cherryhq, run, workflows, manage, assistants, integrate, mcp, tools, first, productivity, environment
 
 ## ChromaDB Tutorial: Building AI-Native Vector Databases
 - Path: tutorials/chroma-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md
 - Summary: A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.
-- Keywords: chroma, chromadb, building, native, vector, databases, deep, technical, walkthrough, covering
+- Keywords: chroma, chromadb, building, native, vector, databases, technical, walkthrough
 
 ## Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents
 - Path: tutorials/chrome-devtools-mcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chrome-devtools-mcp-tutorial/index.md
-- Summary: Learn how to use `ChromeDevTools/chrome-devtools-mcp` to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.
-- Keywords: chrome, devtools, mcp, browser, automation, debugging, coding, agents, learn, use, chromedevtools, give, reliable, control, performance, tracing, deep, capabilities
+- Summary: Learn how to use ChromeDevTools/chrome-devtools-mcp to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.
+- Keywords: chrome, devtools, mcp, browser, automation, debugging, coding, agents, chromedevtools, give, reliable, control, performance, tracing, capabilities
 
 ## Cipher Tutorial: Shared Memory Layer for Coding Agents
 - Path: tutorials/cipher-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md
-- Summary: Learn how to use `campfirein/cipher` as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
-- Keywords: cipher, shared, memory, layer, coding, agents, learn, use, campfirein, centric, mcp, enabled, that, preserves, shares, context, across, ides
+- Summary: Learn how to use campfirein/cipher as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.
+- Keywords: cipher, shared, memory, layer, coding, agents, campfirein, centric, mcp, enabled, preserves, shares, context, ides, teams
 
 ## Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code
 - Path: tutorials/claude-code-router-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-router-tutorial/index.md
-- Summary: Learn how to use `musistudio/claude-code-router` to route Claude Code workloads across multiple model providers with configurable routing rules, transformers, presets, and operational controls.
-- Keywords: claude, code, router, multi, provider, routing, control, plane, learn, use, musistudio, route, workloads, across, multiple, model, providers, configurable
+- Summary: Learn how to use musistudio/claude-code-router to route Claude Code workloads across multiple model providers with configurable routing rules, transformers, presets, and operational controls.
+- Keywords: claude, code, router, multi, provider, routing, control, plane, musistudio, route, workloads, multiple, model, providers, configurable, rules, transformers, presets
 
 ## Claude Code Tutorial: Agentic Coding from Your Terminal
 - Path: tutorials/claude-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md
-- Summary: Learn how to use `anthropics/claude-code` for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
-- Keywords: claude, code, agentic, coding, terminal, learn, use, anthropics, codebase, understanding, multi, file, edits, command, execution, git, workflows, mcp
+- Summary: Learn how to use anthropics/claude-code for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.
+- Keywords: claude, code, agentic, coding, terminal, anthropics, codebase, understanding, multi, file, edits, command, execution, git, workflows, mcp, based, extension
 
 ## Claude Flow Tutorial: Multi-Agent Orchestration, MCP Tooling, and V3 Module Architecture
 - Path: tutorials/claude-flow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-flow-tutorial/index.md
-- Summary: Learn how to use `ruvnet/claude-flow` to orchestrate multi-agent workflows, operate MCP/CLI surfaces, and reason about V2-to-V3 architecture and migration tradeoffs.
-- Keywords: claude, flow, multi, agent, orchestration, mcp, tooling, module, architecture, learn, use, ruvnet, orchestrate, workflows, operate, cli, surfaces, reason
+- Summary: Learn how to use ruvnet/claude-flow to orchestrate multi-agent workflows, operate MCP/CLI surfaces, and reason about V2-to-V3 architecture and migration tradeoffs.
+- Keywords: claude, flow, multi, agent, orchestration, mcp, tooling, module, architecture, ruvnet, orchestrate, workflows, operate, cli, surfaces, reason, migration, tradeoffs
 
 ## Claude-Mem Tutorial: Persistent Memory Compression for Claude Code
 - Path: tutorials/claude-mem-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md
-- Summary: Learn how to use `thedotmack/claude-mem` to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
-- Keywords: claude, mem, persistent, memory, compression, code, learn, use, thedotmack, capture, compress, retrieve, coding, session, hook, driven, automation, searchable
+- Summary: Learn how to use thedotmack/claude-mem to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.
+- Keywords: claude, mem, persistent, memory, compression, code, thedotmack, capture, compress, retrieve, coding, session, hook, driven, automation, searchable, context, layers
 
 ## Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory
 - Path: tutorials/claude-plugins-official-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-plugins-official-tutorial/index.md
-- Summary: Learn how to use `anthropics/claude-plugins-official` to discover, evaluate, install, and contribute Claude Code plugins with clear directory standards and plugin safety practices.
-- Keywords: claude, plugins, official, anthropic, managed, plugin, directory, learn, use, anthropics, discover, evaluate, install, contribute, code, clear, standards, safety
+- Summary: Learn how to use anthropics/claude-plugins-official to discover, evaluate, install, and contribute Claude Code plugins with clear directory standards and plugin safety practices.
+- Keywords: claude, plugins, official, anthropic, managed, plugin, directory, anthropics, discover, evaluate, install, contribute, code, clear, standards, safety, practices
 
 ## Claude Quickstarts Tutorial: Production Integration Patterns
 - Path: tutorials/claude-quickstarts-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md
 - Summary: Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.
-- Keywords: claude, quickstarts, production, integration, patterns, learn, anthropic, official, quickstart, projects, build, deployable, applications, api, including, customer, support, data
+- Keywords: claude, quickstarts, integration, patterns, anthropic, official, quickstart, projects, deployable, applications, api, customer, support, data, analysis, browser, automation, autonomous
 
 ## Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration
 - Path: tutorials/claude-squad-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md
-- Summary: Learn how to use `smtg-ai/claude-squad` to run and manage multiple coding-agent sessions across isolated workspaces with tmux and git worktrees.
-- Keywords: claude, squad, multi, agent, terminal, session, orchestration, learn, use, smtg, run, manage, multiple, coding, sessions, across, isolated, workspaces
+- Summary: Learn how to use smtg-ai/claude-squad to run and manage multiple coding-agent sessions across isolated workspaces with tmux and git worktrees.
+- Keywords: claude, squad, multi, agent, terminal, session, orchestration, smtg, run, manage, multiple, coding, sessions, isolated, workspaces, tmux, git, worktrees
 
 ## Claude Task Master Tutorial: AI-Powered Task Management for Developers
 - Path: tutorials/claude-task-master-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md
 - Summary: A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.
-- Keywords: claude, task, master, powered, management, developers, deep, technical, walkthrough, covering
+- Keywords: claude, task, master, powered, management, developers, technical, walkthrough
 
 ## ClickHouse Tutorial: High-Performance Analytical Database
 - Path: tutorials/clickhouse-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/index.md
 - Summary: A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.
-- Keywords: clickhouse, high, performance, analytical, database, deep, technical, walkthrough, covering
+- Keywords: clickhouse, high, performance, analytical, database, technical, walkthrough
 
 ## Cline Tutorial: Agentic Coding with Human Control
 - Path: tutorials/cline-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md
-- Summary: A practical engineering guide to `cline/cline`: install, operate, and govern Cline across local development and team environments.
-- Keywords: cline, agentic, coding, human, control, practical, engineering, install, operate, govern, across, local, development, team, environments
+- Summary: A practical engineering guide to cline/cline: install, operate, and govern Cline across local development and team environments.
+- Keywords: cline, agentic, coding, human, control, engineering, install, operate, govern, local, development, team, environments
 
 ## CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows
 - Path: tutorials/codemachine-cli-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/index.md
-- Summary: Learn how to use `moazbuilds/CodeMachine-CLI` to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.
-- Keywords: codemachine, cli, orchestrating, long, running, coding, agent, workflows, learn, use, moazbuilds, orchestrate, repeatable, multi, coordination, context, control, execution
+- Summary: Learn how to use moazbuilds/CodeMachine-CLI to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.
+- Keywords: codemachine, cli, orchestrating, long, running, coding, agent, workflows, moazbuilds, orchestrate, repeatable, multi, coordination, context, control, execution
 
 ## Codex Analysis Platform Tutorial: Build Code Intelligence Systems
 - Path: tutorials/codex-analysis-platform
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md
 - Summary: Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
-- Keywords: codex, analysis, platform, build, code, intelligence, systems, design, operate, production, grade, parsing, symbol, resolution, features, lsp, integration, rollout
+- Keywords: codex, analysis, code, intelligence, design, operate, grade, parsing, symbol, resolution, features, lsp, integration, rollout, governance
 
 ## Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex
 - Path: tutorials/codex-cli-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/index.md
-- Summary: Learn how to use `openai/codex` to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
-- Keywords: codex, cli, local, terminal, agent, workflows, openai, learn, use, run, lightweight, coding, locally, strong, controls, auth, configuration, mcp
+- Summary: Learn how to use openai/codex to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
+- Keywords: codex, cli, local, terminal, agent, workflows, openai, run, lightweight, coding, locally, strong, controls, auth, configuration, mcp, integration, sandboxed
 
 ## ComfyUI Tutorial: Mastering AI Image Generation Workflows
 - Path: tutorials/comfyui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md
 - Summary: A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
-- Keywords: comfyui, mastering, image, generation, workflows, deep, technical, walkthrough, covering
+- Keywords: comfyui, mastering, image, generation, workflows, technical, walkthrough
 
 ## Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents
 - Path: tutorials/composio-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/composio-tutorial/index.md
-- Summary: Learn how to use `ComposioHQ/composio` to connect agents to 800+ toolkits with session-aware discovery, robust authentication flows, provider integrations, MCP support, and event-trigger automation.
-- Keywords: composio, production, tool, authentication, infrastructure, agents, learn, use, composiohq, connect, toolkits, session, aware, discovery, robust, flows, provider, integrations
+- Summary: Learn how to use ComposioHQ/composio to connect agents to 800+ toolkits with session-aware discovery, robust authentication flows, provider integrations, MCP support, and event-trigger automation.
+- Keywords: composio, tool, authentication, infrastructure, agents, composiohq, connect, toolkits, session, aware, discovery, robust, flows, provider, integrations, mcp, support, event
 
 ## Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains
 - Path: tutorials/compound-engineering-plugin-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md
-- Summary: Learn how to use `EveryInc/compound-engineering-plugin` to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.
-- Keywords: compound, engineering, plugin, compounding, agent, workflows, across, toolchains, learn, use, everyinc, run, claude, code, convert, assets, other, coding
+- Summary: Learn how to use EveryInc/compound-engineering-plugin to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.
+- Keywords: compound, engineering, plugin, compounding, agent, workflows, toolchains, everyinc, run, claude, code, convert, assets, other, coding, ecosystems
 
 ## Context7 Tutorial: Live Documentation Context for Coding Agents
 - Path: tutorials/context7-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md
-- Summary: Learn how to use `upstash/context7` to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.
-- Keywords: context7, live, documentation, context, coding, agents, learn, use, upstash, inject, date, version, aware, library, into, claude, code, cursor
+- Summary: Learn how to use upstash/context7 to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.
+- Keywords: context7, live, documentation, context, coding, agents, upstash, inject, date, version, aware, library, claude, code, cursor, other, mcp, capable
 
 ## Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI
 - Path: tutorials/continue-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md
-- Summary: A practical guide to `continuedev/continue`, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
-- Keywords: continue, open, source, coding, agents, ide, cli, practical, continuedev, covering, usage, headless, workflows, model, configuration, team, collaboration, enterprise
+- Summary: A practical guide to continuedev/continue, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
+- Keywords: continue, open, source, coding, agents, ide, cli, continuedev, usage, headless, workflows, model, configuration, team, collaboration, enterprise, operations
 
 ## GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal
 - Path: tutorials/copilot-cli-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilot-cli-tutorial/index.md
-- Summary: Learn how to use `github/copilot-cli` to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
-- Keywords: copilot, cli, agent, workflows, terminal, learn, use, run, coding, directly, native, context, approval, controls, extensibility, through, mcp, lsp
+- Summary: Learn how to use github/copilot-cli to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.
+- Keywords: copilot, cli, agent, workflows, terminal, run, coding, directly, native, context, approval, controls, extensibility, mcp, lsp
 
 ## CopilotKit Tutorial: Building AI Copilots for React Applications
 - Path: tutorials/copilotkit-tutorial
@@ -294,68 +294,68 @@ Main repository:
 ## Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx
 - Path: tutorials/create-python-server-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/create-python-server` to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.
-- Keywords: create, python, server, scaffold, ship, mcp, servers, uvx, learn, use, modelcontextprotocol, minimal, setup, template, driven, primitives, publish, ready
+- Summary: Learn how to use modelcontextprotocol/create-python-server to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.
+- Keywords: create, python, server, scaffold, ship, mcp, servers, uvx, modelcontextprotocol, minimal, setup, template, driven, primitives, publish, ready, packaging, workflows
 
 ## Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates
 - Path: tutorials/create-typescript-server-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-typescript-server-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/create-typescript-server` to scaffold MCP server projects quickly, understand generated template structure, and operate build/debug workflows safely in archived-tooling environments.
-- Keywords: create, typescript, server, scaffold, mcp, servers, templates, learn, use, modelcontextprotocol, projects, quickly, understand, generated, template, structure, operate, build
+- Summary: Learn how to use modelcontextprotocol/create-typescript-server to scaffold MCP server projects quickly, understand generated template structure, and operate build/debug workflows safely in archived-tooling environments.
+- Keywords: create, typescript, server, scaffold, mcp, servers, templates, modelcontextprotocol, projects, quickly, understand, generated, template, structure, operate, debug, workflows, safely
 
 ## CrewAI Tutorial: Building Collaborative AI Agent Teams
 - Path: tutorials/crewai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md
-- Summary: **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration.
-- Keywords: crewai, building, collaborative, agent, teams, latest, release, has, evolved, significantly, support, gpt, gemini, pro, enhanced, knowledge, management, evaluation
+- Summary: CrewAI View Repo is a framework for orchestrating role-based AI agent teams that collaborate to accomplish complex tasks. It provides a structured approach to creating AI crews with specialized agents, tools, and processes, enabling sophisticated multi-agent workflows and collaborative problem-solving.
+- Keywords: crewai, building, collaborative, agent, teams, view, framework, orchestrating, role, based, collaborate, accomplish, complex, tasks, provides, structured, approach, creating
 
 ## Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility
 - Path: tutorials/crush-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md
-- Summary: Learn how to use `charmbracelet/crush` for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.
-- Keywords: crush, multi, model, terminal, coding, agent, strong, extensibility, learn, use, charmbracelet, native, workflows, flexible, providers, lsp, mcp, integrations
+- Summary: Learn how to use charmbracelet/crush for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.
+- Keywords: crush, multi, model, terminal, coding, agent, strong, extensibility, charmbracelet, native, workflows, flexible, providers, lsp, mcp, integrations, grade, controls
 
 ## Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code
 - Path: tutorials/daytona-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/index.md
-- Summary: Learn how to use `daytonaio/daytona` to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
-- Keywords: daytona, secure, sandbox, infrastructure, generated, code, learn, use, daytonaio, run, isolated, sandboxes, integrate, coding, agents, through, mcp, operate
+- Summary: Learn how to use daytonaio/daytona to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
+- Keywords: daytona, secure, sandbox, infrastructure, generated, code, daytonaio, run, isolated, sandboxes, integrate, coding, agents, mcp, operate, stronger, security, resource
 
 ## Deer Flow Tutorial: Distributed Workflow Orchestration Platform
 - Path: tutorials/deer-flow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md
 - Summary: Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
-- Keywords: deer, flow, distributed, workflow, orchestration, platform, orchestrate, complex, workflows, powerful, task, coordination, execution
+- Keywords: deer, flow, distributed, workflow, orchestration, orchestrate, complex, workflows, powerful, task, coordination, execution
 
 ## Dify Platform: Deep Dive Tutorial
 - Path: tutorials/dify-platform-deep-dive
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md
-- Summary: **Project**: [Dify](https://github.com/langgenius/dify) — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
-- Keywords: dify, platform, deep, dive, project, langgenius, open, source, llm, application, development, building, workflows, rag, pipelines, agents, visual, interface
+- Summary: Dify — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
+- Keywords: dify, open, source, llm, application, development, building, workflows, rag, pipelines, agents, visual, interface
 
 ## DSPy Tutorial: Programming Language Models
 - Path: tutorials/dspy-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/index.md
 - Summary: Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines.
-- Keywords: dspy, programming, language, models, learn, program, declaratively, stanford, nlp, framework, systematic, prompt, optimization, modular, llm, pipelines
+- Keywords: dspy, programming, language, models, program, declaratively, stanford, nlp, framework, systematic, prompt, optimization, modular, llm, pipelines
 
 ## Dyad Tutorial: Local-First AI App Building
 - Path: tutorials/dyad-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md
-- Summary: A practical guide to `dyad-sh/dyad`, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.
-- Keywords: dyad, local, first, app, building, practical, focused, generation, integration, patterns, validation, loops, deployment, readiness
+- Summary: A practical guide to dyad-sh/dyad, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.
+- Keywords: dyad, local, first, app, building, focused, generation, integration, patterns, validation, loops, deployment, readiness
 
 ## ElizaOS: Deep Dive Tutorial
 - Path: tutorials/elizaos-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/elizaos-tutorial/index.md
-- Summary: **Project**: [ElizaOS](https://github.com/elizaOS/eliza) — Autonomous agents for everyone.
-- Keywords: elizaos, deep, dive, project, eliza, autonomous, agents, everyone
+- Summary: ElizaOS — Autonomous agents for everyone.
+- Keywords: elizaos, autonomous, agents, everyone
 
 ## Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code
 - Path: tutorials/everything-claude-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/everything-claude-code-tutorial/index.md
-- Summary: Learn how to use `affaan-m/everything-claude-code` to adopt battle-tested Claude Code agents, skills, hooks, commands, rules, and MCP workflows in a structured, production-oriented way.
-- Keywords: everything, claude, code, production, configuration, patterns, learn, use, affaan, adopt, battle, tested, agents, skills, hooks, commands, rules, mcp
+- Summary: Learn how to use affaan-m/everything-claude-code to adopt battle-tested Claude Code agents, skills, hooks, commands, rules, and MCP workflows in a structured, production-oriented way.
+- Keywords: everything, claude, code, configuration, patterns, affaan, adopt, battle, tested, agents, skills, hooks, commands, rules, mcp, workflows, structured, oriented
 
 ## Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI
 - Path: tutorials/fabric-tutorial
@@ -366,98 +366,98 @@ Main repository:
 ## FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control
 - Path: tutorials/fastmcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/index.md
-- Summary: Learn how to use `jlowin/fastmcp` to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.
-- Keywords: fastmcp, building, operating, mcp, servers, pythonic, control, learn, use, jlowin, design, run, test, deploy, clients, practical, transport, integration
+- Summary: Learn how to use jlowin/fastmcp to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.
+- Keywords: fastmcp, building, operating, mcp, servers, pythonic, control, jlowin, design, run, test, deploy, clients, transport, integration, auth, operations, patterns
 
 ## Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents
 - Path: tutorials/figma-context-mcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md
-- Summary: Learn how to use `GLips/Figma-Context-MCP` (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
-- Keywords: figma, context, mcp, design, code, workflows, coding, agents, learn, use, glips, framelink, give, structured, higher, fidelity, implementation
+- Summary: Learn how to use GLips/Figma-Context-MCP (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.
+- Keywords: figma, context, mcp, design, code, workflows, coding, agents, glips, framelink, give, structured, higher, fidelity, implementation
 
 ## Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients
 - Path: tutorials/firecrawl-mcp-server-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-mcp-server-tutorial/index.md
-- Summary: Learn how to use `firecrawl/firecrawl-mcp-server` to add robust web scraping, crawling, search, and extraction capabilities to MCP-enabled coding and research agents.
-- Keywords: firecrawl, mcp, server, web, scraping, search, tools, clients, learn, use, add, robust, crawling, extraction, capabilities, enabled, coding, research
+- Summary: Learn how to use firecrawl/firecrawl-mcp-server to add robust web scraping, crawling, search, and extraction capabilities to MCP-enabled coding and research agents.
+- Keywords: firecrawl, mcp, server, web, scraping, search, tools, clients, add, robust, crawling, extraction, capabilities, enabled, coding, research, agents
 
 ## Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems
 - Path: tutorials/firecrawl-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md
-- Summary: N/A
-- Keywords: firecrawl, building, llm, ready, web, scraping, data, extraction, systems
+- Summary: Deep technical walkthrough of Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems.
+- Keywords: firecrawl, building, llm, ready, web, scraping, data, extraction, technical, walkthrough
 
 ## Fireproof Tutorial: Local-First Document Database for AI-Native Apps
 - Path: tutorials/fireproof-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md
-- Summary: Learn how to use `fireproof-storage/fireproof` to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.
-- Keywords: fireproof, local, first, document, database, native, apps, learn, use, storage, build, encrypted, sync, capable, applications, unified, browser, node
+- Summary: Learn how to use fireproof-storage/fireproof to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.
+- Keywords: fireproof, local, first, document, database, native, apps, storage, encrypted, sync, capable, applications, unified, browser, node, deno, api, react
 
 ## Flowise LLM Orchestration: Deep Dive Tutorial
 - Path: tutorials/flowise-llm-orchestration
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md
-- Summary: **Project**: [Flowise](https://github.com/FlowiseAI/Flowise) — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
-- Keywords: flowise, llm, orchestration, deep, dive, project, flowiseai, open, source, visual, tool, building, workflows, drag, drop, interface
+- Summary: Flowise — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
+- Keywords: flowise, llm, orchestration, open, source, visual, tool, building, workflows, drag, drop, interface
 
 ## Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini
 - Path: tutorials/gemini-cli-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md
-- Summary: Learn how to use `google-gemini/gemini-cli` to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
-- Keywords: gemini, cli, terminal, first, agent, workflows, google, learn, use, run, coding, operations, loops, strong, tooling, mcp, extensibility, headless
+- Summary: Learn how to use google-gemini/gemini-cli to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.
+- Keywords: gemini, cli, terminal, first, agent, workflows, google, run, coding, operations, loops, strong, tooling, mcp, extensibility, headless, automation, safety
 
 ## GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes
 - Path: tutorials/genai-toolbox-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/genai-toolbox-tutorial/index.md
-- Summary: Learn how to use `googleapis/genai-toolbox` to expose database tools through MCP and native SDK paths, with stronger configuration discipline, deployment options, and observability controls.
-- Keywords: genai, toolbox, mcp, first, database, tooling, config, driven, control, planes, learn, use, googleapis, expose, tools, through, native, sdk
+- Summary: Learn how to use googleapis/genai-toolbox to expose database tools through MCP and native SDK paths, with stronger configuration discipline, deployment options, and observability controls.
+- Keywords: genai, toolbox, mcp, first, database, tooling, config, driven, control, planes, googleapis, expose, tools, native, sdk, paths, stronger, configuration
 
 ## GitHub MCP Server Tutorial: Production GitHub Operations Through MCP
 - Path: tutorials/github-mcp-server-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/github-mcp-server-tutorial/index.md
-- Summary: Learn how to use `github/github-mcp-server` to connect coding agents directly to repositories, issues, pull requests, actions, and code security workflows with stronger control.
-- Keywords: mcp, server, production, operations, through, learn, use, connect, coding, agents, directly, repositories, issues, pull, requests, actions, code, security
+- Summary: Learn how to use github/github-mcp-server to connect coding agents directly to repositories, issues, pull requests, actions, and code security workflows with stronger control.
+- Keywords: mcp, server, operations, connect, coding, agents, directly, repositories, issues, pull, requests, actions, code, security, workflows, stronger, control
 
 ## Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work
 - Path: tutorials/goose-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md
-- Summary: Learn how to use `block/goose` to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.
-- Keywords: goose, extensible, open, source, agent, real, engineering, work, learn, use, block, automate, coding, workflows, controlled, tool, execution, strong
+- Summary: Learn how to use block/goose to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.
+- Keywords: goose, extensible, open, source, agent, real, engineering, work, block, automate, coding, workflows, controlled, tool, execution, strong, provider, flexibility
 
 ## GPT Open Source: Deep Dive Tutorial
 - Path: tutorials/gpt-oss-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md
 - Summary: A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.
-- Keywords: gpt, oss, open, source, deep, dive, comprehensive, understanding, building, deploying, implementations, nanogpt, neox, beyond
+- Keywords: gpt, oss, open, source, comprehensive, understanding, building, deploying, implementations, nanogpt, neox, beyond
 
 ## gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work
 - Path: tutorials/gptme-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gptme-tutorial/index.md
-- Summary: Learn how to use `gptme/gptme` to run a local-first coding and knowledge-work agent with strong CLI ergonomics, extensible tools, and automation-friendly modes.
-- Keywords: gptme, open, source, terminal, agent, local, tool, driven, work, learn, use, run, first, coding, knowledge, strong, cli, ergonomics
+- Summary: Learn how to use gptme/gptme to run a local-first coding and knowledge-work agent with strong CLI ergonomics, extensible tools, and automation-friendly modes.
+- Keywords: gptme, open, source, terminal, agent, local, tool, driven, work, run, first, coding, knowledge, strong, cli, ergonomics, extensible, tools
 
 ## HAPI Tutorial: Remote Control for Local AI Coding Sessions
 - Path: tutorials/hapi-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hapi-tutorial/index.md
-- Summary: Learn `tiann/hapi`, a local-first hub that lets you run Claude Code/Codex/Gemini/OpenCode sessions locally while controlling and approving them remotely.
-- Keywords: hapi, remote, control, local, coding, sessions, learn, tiann, first, hub, that, lets, run, claude, code, codex, gemini, opencode
+- Summary: Learn tiann/hapi, a local-first hub that lets you run Claude Code/Codex/Gemini/OpenCode sessions locally while controlling and approving them remotely.
+- Keywords: hapi, remote, control, local, coding, sessions, tiann, first, hub, lets, run, claude, code, codex, gemini, opencode, locally, while
 
 ## Haystack: Deep Dive Tutorial
 - Path: tutorials/haystack-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/index.md
-- Summary: **Project**: [Haystack](https://github.com/deepset-ai/haystack) — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
-- Keywords: haystack, deep, dive, project, deepset, open, source, framework, building, production, ready, llm, applications, rag, pipelines, intelligent, search, systems
+- Summary: Haystack — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
+- Keywords: haystack, open, source, framework, building, ready, llm, applications, rag, pipelines, intelligent, search
 
 ## HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models
 - Path: tutorials/huggingface-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/index.md
 - Summary: A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.
-- Keywords: huggingface, transformers, building, state, art, models, deep, technical, walkthrough, covering
+- Keywords: huggingface, transformers, building, state, art, models, technical, walkthrough
 
 ## HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents
 - Path: tutorials/humanlayer-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/humanlayer-tutorial/index.md
-- Summary: Learn how to use `humanlayer/humanlayer` patterns to orchestrate coding agents with stronger context control, human oversight, and team-scale workflows.
-- Keywords: humanlayer, context, engineering, human, governed, coding, agents, learn, use, patterns, orchestrate, stronger, control, oversight, team, scale, workflows
+- Summary: Learn how to use humanlayer/humanlayer patterns to orchestrate coding agents with stronger context control, human oversight, and team-scale workflows.
+- Keywords: humanlayer, context, engineering, human, governed, coding, agents, patterns, orchestrate, stronger, control, oversight, team, scale, workflows
 
 ## Instructor Tutorial: Structured LLM Outputs
 - Path: tutorials/instructor-tutorial
@@ -468,80 +468,80 @@ Main repository:
 ## Khoj AI: Deep Dive Tutorial
 - Path: tutorials/khoj-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/khoj-tutorial/index.md
-- Summary: **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
-- Keywords: khoj, deep, dive, project, open, source, self, hostable, personal, assistant, that, connects, notes, documents, online, data
+- Summary: Khoj — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.
+- Keywords: khoj, open, source, self, hostable, personal, assistant, connects, notes, documents, online, data
 
 ## Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces
 - Path: tutorials/kilocode-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kilocode-tutorial/index.md
-- Summary: Learn how to use `Kilo-Org/kilocode` for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.
-- Keywords: kilocode, kilo, code, agentic, engineering, ide, cli, surfaces, learn, use, org, high, throughput, coding, workflows, multi, mode, operation
+- Summary: Learn how to use Kilo-Org/kilocode for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.
+- Keywords: kilocode, kilo, code, agentic, engineering, ide, cli, surfaces, org, high, throughput, coding, workflows, multi, mode, operation, agent, loop
 
 ## Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP
 - Path: tutorials/kimi-cli-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md
-- Summary: Learn how to use `MoonshotAI/kimi-cli` to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.
-- Keywords: kimi, cli, multi, mode, terminal, agent, mcp, acp, learn, use, moonshotai, run, interactive, coding, configurable, modes, integrations, based
+- Summary: Learn how to use MoonshotAI/kimi-cli to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.
+- Keywords: kimi, cli, multi, mode, terminal, agent, mcp, acp, moonshotai, run, interactive, coding, configurable, modes, integrations, based, ide, connectivity
 
 ## Kubernetes Operator Patterns: Building Production-Grade Controllers
 - Path: tutorials/kubernetes-operator-patterns
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md
 - Summary: Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.
-- Keywords: kubernetes, operator, patterns, building, production, grade, controllers, master, operators, hands, implementation, using, sdk, controller, runtime, library, enterprise, application
+- Keywords: kubernetes, operator, patterns, building, grade, controllers, master, operators, hands, implementation, sdk, controller, runtime, library, enterprise, application, management
 
 ## LanceDB Tutorial: Serverless Vector Database for AI
 - Path: tutorials/lancedb-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lancedb-tutorial/index.md
 - Summary: Master LanceDB, the open-source serverless vector database designed for AI applications, RAG systems, and semantic search.
-- Keywords: lancedb, serverless, vector, database, master, open, source, designed, applications, rag, systems, semantic, search
+- Keywords: lancedb, serverless, vector, database, master, open, source, designed, applications, rag, semantic, search
 
 ## LangChain Architecture: Internal Design Deep Dive
 - Path: tutorials/langchain-architecture-guide
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/index.md
-- Summary: N/A
-- Keywords: langchain, architecture, internal, design, deep, dive
+- Summary: Deep technical walkthrough of LangChain Architecture: Internal Design Deep Dive.
+- Keywords: langchain, architecture, internal, design, technical, walkthrough
 
 ## LangChain Tutorial: Building AI Applications with Large Language Models
 - Path: tutorials/langchain-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/index.md
-- Summary: **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax.
-- Keywords: langchain, building, applications, large, language, models, pydantic, required, fully, migrated, code, using, core, should, updated, native, syntax
+- Summary: Pydantic 2 Required: LangChain v0.3 fully migrated to Pydantic 2. Code using langchain_core.pydantic_v1 should be updated to native Pydantic 2 syntax.
+- Keywords: langchain, building, applications, large, language, models, pydantic, required, fully, migrated, code, core, should, updated, native, syntax
 
 ## Langflow Tutorial: Visual AI Agent and Workflow Platform
 - Path: tutorials/langflow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langflow-tutorial/index.md
-- Summary: Learn how to build, deploy, and operate agent workflows with `langflow-ai/langflow`, including visual flow composition, API/MCP deployment, and production reliability controls.
-- Keywords: langflow, visual, agent, workflow, platform, learn, build, deploy, operate, workflows, including, flow, composition, api, mcp, deployment, production, reliability
+- Summary: Learn how to build, deploy, and operate agent workflows with langflow-ai/langflow, including visual flow composition, API/MCP deployment, and production reliability controls.
+- Keywords: langflow, visual, agent, workflow, deploy, operate, workflows, flow, composition, api, mcp, deployment, reliability, controls
 
 ## Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations
 - Path: tutorials/langfuse-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md
-- Summary: Learn how to use `langfuse/langfuse` to trace, evaluate, and improve production LLM systems with structured observability workflows.
-- Keywords: langfuse, llm, observability, evaluation, prompt, operations, learn, use, trace, evaluate, improve, production, systems, structured, workflows
+- Summary: Learn how to use langfuse/langfuse to trace, evaluate, and improve production LLM systems with structured observability workflows.
+- Keywords: langfuse, llm, observability, evaluation, prompt, operations, trace, evaluate, improve, structured, workflows
 
 ## LangGraph Tutorial: Building Stateful Multi-Actor Applications
 - Path: tutorials/langgraph-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/index.md
 - Summary: A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications.
-- Keywords: langgraph, building, stateful, multi, actor, applications, deep, technical, walkthrough, covering
+- Keywords: langgraph, building, stateful, multi, actor, applications, technical, walkthrough
 
 ## Letta Tutorial: Stateful LLM Agents
 - Path: tutorials/letta-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/letta-tutorial/index.md
 - Summary: Build AI agents with persistent memory using the framework formerly known as MemGPT.
-- Keywords: letta, stateful, llm, agents, build, persistent, memory, using, framework, formerly, known, memgpt
+- Keywords: letta, stateful, llm, agents, persistent, memory, framework, formerly, known, memgpt
 
 ## LiteLLM Tutorial: Unified LLM Gateway and Routing Layer
 - Path: tutorials/litellm-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md
-- Summary: Build provider-agnostic LLM applications with `BerriAI/litellm`, including routing, fallbacks, proxy deployment, and cost-aware operations.
-- Keywords: litellm, unified, llm, gateway, routing, layer, build, provider, agnostic, applications, berriai, including, fallbacks, proxy, deployment, cost, aware, operations
+- Summary: Build provider-agnostic LLM applications with BerriAI/litellm, including routing, fallbacks, proxy deployment, and cost-aware operations.
+- Keywords: litellm, unified, llm, gateway, routing, layer, provider, agnostic, applications, berriai, fallbacks, proxy, deployment, cost, aware, operations
 
 ## Liveblocks - Real-Time Collaboration Deep Dive
 - Path: tutorials/liveblocks-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/liveblocks-tutorial/index.md
-- Summary: N/A
-- Keywords: liveblocks, real, time, collaboration, deep, dive
+- Summary: Deep technical walkthrough of Liveblocks - Real-Time Collaboration Deep Dive.
+- Keywords: liveblocks, real, time, collaboration, technical, walkthrough
 
 ## llama.cpp Tutorial: Local LLM Inference
 - Path: tutorials/llama-cpp-tutorial
@@ -553,19 +553,19 @@ Main repository:
 - Path: tutorials/llama-factory-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-factory-tutorial/index.md
 - Summary: A deep technical walkthrough of LLaMA-Factory covering Unified Framework for LLM Training and Fine-tuning.
-- Keywords: llama, factory, unified, framework, llm, training, fine, tuning, deep, technical, walkthrough, covering
+- Keywords: llama, factory, unified, framework, llm, training, fine, tuning, technical, walkthrough
 
 ## LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks
 - Path: tutorials/llamaindex-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/index.md
 - Summary: A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks.
-- Keywords: llamaindex, building, advanced, rag, systems, data, frameworks, deep, technical, walkthrough, covering
+- Keywords: llamaindex, building, advanced, rag, data, frameworks, technical, walkthrough
 
 ## LobeChat AI Platform: Deep Dive Tutorial
 - Path: tutorials/lobechat-ai-platform
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/index.md
-- Summary: **Project**: [LobeChat](https://github.com/lobehub/lobe-chat) — An open-source, modern-design AI chat framework for building private LLM applications.
-- Keywords: lobechat, platform, deep, dive, project, lobehub, lobe, chat, open, source, modern, design, framework, building, private, llm, applications
+- Summary: LobeChat — An open-source, modern-design AI chat framework for building private LLM applications.
+- Keywords: lobechat, open, source, modern, design, chat, framework, building, private, llm, applications
 
 ## LocalAI Tutorial: Self-Hosted OpenAI Alternative
 - Path: tutorials/localai-tutorial
@@ -576,404 +576,404 @@ Main repository:
 ## Logseq: Deep Dive Tutorial
 - Path: tutorials/logseq-knowledge-management
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/index.md
-- Summary: **Project**: [Logseq](https://github.com/logseq/logseq) — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
-- Keywords: logseq, knowledge, management, deep, dive, project, privacy, first, local, platform, block, based, editing, graph, visualization
+- Summary: Logseq — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
+- Keywords: logseq, knowledge, management, privacy, first, local, block, based, editing, graph, visualization
 
 ## Mastra Tutorial: TypeScript Framework for AI Agents and Workflows
 - Path: tutorials/mastra-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md
-- Summary: Learn how to build production AI applications with `mastra-ai/mastra`, including agents, workflows, memory, MCP tooling, and reliability operations.
-- Keywords: mastra, typescript, framework, agents, workflows, learn, build, production, applications, including, memory, mcp, tooling, reliability, operations
+- Summary: Learn how to build production AI applications with mastra-ai/mastra, including agents, workflows, memory, MCP tooling, and reliability operations.
+- Keywords: mastra, typescript, framework, agents, workflows, applications, memory, mcp, tooling, reliability, operations
 
 ## MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP
 - Path: tutorials/mcp-chrome-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-chrome-tutorial/index.md
-- Summary: Learn how to use `hangwin/mcp-chrome` to expose browser automation, content analysis, and semantic tab search tools to MCP clients.
-- Keywords: mcp, chrome, control, real, browser, through, learn, use, hangwin, expose, automation, content, analysis, semantic, tab, search, tools, clients
+- Summary: Learn how to use hangwin/mcp-chrome to expose browser automation, content analysis, and semantic tab search tools to MCP clients.
+- Keywords: mcp, chrome, control, real, browser, hangwin, expose, automation, content, analysis, semantic, tab, search, tools, clients
 
 ## MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows
 - Path: tutorials/mcp-csharp-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md
-- Summary: Learn how to build and operate MCP clients and servers with `modelcontextprotocol/csharp-sdk`, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
-- Keywords: mcp, csharp, sdk, production, net, hosting, asp, core, task, workflows, learn, build, operate, clients, servers, modelcontextprotocol, including, package
+- Summary: Learn how to build and operate MCP clients and servers with modelcontextprotocol/csharp-sdk, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.
+- Keywords: mcp, csharp, sdk, net, hosting, asp, core, task, workflows, operate, clients, servers, modelcontextprotocol, package, choices, auth, patterns, tasks
 
 ## MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository
 - Path: tutorials/mcp-docs-repo-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-docs-repo-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/docs` as an archived reference, map its conceptual guides, and migrate documentation workflows to the canonical `modelcontextprotocol/modelcontextprotocol` docs location.
-- Keywords: mcp, repo, navigating, archived, documentation, repository, learn, use, modelcontextprotocol, reference, map, its, conceptual, guides, migrate, workflows, canonical, location
+- Summary: Learn how to use modelcontextprotocol/docs as an archived reference, map its conceptual guides, and migrate documentation workflows to the canonical modelcontextprotocol/modelcontextprotocol docs location.
+- Keywords: mcp, navigating, archived, documentation, repository, modelcontextprotocol, reference, map, conceptual, guides, migrate, workflows, canonical, location
 
 ## MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts
 - Path: tutorials/mcp-ext-apps-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/ext-apps` to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.
-- Keywords: mcp, ext, apps, building, interactive, hosts, learn, use, modelcontextprotocol, build, wire, host, bridges, secure, resources, run, reliable, testing
+- Summary: Learn how to use modelcontextprotocol/ext-apps to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.
+- Keywords: mcp, ext, apps, building, interactive, hosts, modelcontextprotocol, wire, host, bridges, secure, resources, run, reliable, testing, migration, workflows
 
 ## MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go
 - Path: tutorials/mcp-go-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/go-sdk` for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.
-- Keywords: mcp, sdk, building, robust, clients, servers, learn, use, modelcontextprotocol, production, workloads, across, stdio, streamable, including, auth, middleware, conformance
+- Summary: Learn how to use modelcontextprotocol/go-sdk for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.
+- Keywords: mcp, sdk, building, robust, clients, servers, modelcontextprotocol, workloads, stdio, streamable, auth, middleware, conformance, upgrade, planning
 
 ## MCP Inspector Tutorial: Debugging and Validating MCP Servers
 - Path: tutorials/mcp-inspector-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/inspector` to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
-- Keywords: mcp, inspector, debugging, validating, servers, learn, use, modelcontextprotocol, test, across, stdio, sse, streamable, safer, auth, defaults, repeatable, cli
+- Summary: Learn how to use modelcontextprotocol/inspector to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.
+- Keywords: mcp, inspector, debugging, validating, servers, modelcontextprotocol, test, stdio, sse, streamable, safer, auth, defaults, repeatable, cli, automation
 
 ## MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring
 - Path: tutorials/mcp-java-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/java-sdk` across core Java and Spring stacks, from transport setup to conformance and production hardening.
-- Keywords: mcp, java, sdk, building, clients, servers, reactor, servlet, spring, learn, use, modelcontextprotocol, across, core, stacks, transport, setup, conformance
+- Summary: Learn how to use modelcontextprotocol/java-sdk across core Java and Spring stacks, from transport setup to conformance and production hardening.
+- Keywords: mcp, java, sdk, building, clients, servers, reactor, servlet, spring, modelcontextprotocol, core, stacks, transport, setup, conformance, hardening
 
 ## MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers
 - Path: tutorials/mcp-kotlin-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-kotlin-sdk-tutorial/index.md
-- Summary: Learn how to implement MCP client/server workflows with `modelcontextprotocol/kotlin-sdk`, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.
-- Keywords: mcp, kotlin, sdk, building, multiplatform, clients, servers, learn, implement, client, server, workflows, modelcontextprotocol, including, module, boundaries, transport, choices
+- Summary: Learn how to implement MCP client/server workflows with modelcontextprotocol/kotlin-sdk, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.
+- Keywords: mcp, kotlin, sdk, building, multiplatform, clients, servers, implement, client, server, workflows, modelcontextprotocol, module, boundaries, transport, choices, capability, negotiation
 
 ## MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility
 - Path: tutorials/mcp-php-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-php-sdk-tutorial/index.md
-- Summary: Learn how to implement MCP server workflows with `modelcontextprotocol/php-sdk`, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.
-- Keywords: mcp, php, sdk, building, servers, discovery, transport, flexibility, learn, implement, server, workflows, modelcontextprotocol, including, attribute, manual, capability, registration
+- Summary: Learn how to implement MCP server workflows with modelcontextprotocol/php-sdk, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.
+- Keywords: mcp, php, sdk, building, servers, discovery, transport, flexibility, implement, server, workflows, modelcontextprotocol, attribute, manual, capability, registration, strategy, session
 
 ## MCP Python SDK Tutorial: Building AI Tool Servers
 - Path: tutorials/mcp-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md
 - Summary: Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.
-- Keywords: mcp, python, sdk, building, tool, servers, master, model, context, protocol, build, custom, that, extend, claude, other, llms, powerful
+- Keywords: mcp, python, sdk, building, tool, servers, master, model, context, protocol, custom, extend, claude, other, llms, powerful, capabilities
 
 ## MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example
 - Path: tutorials/mcp-quickstart-resources-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-quickstart-resources-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/quickstart-resources` as a practical reference for multi-language MCP server/client implementations, protocol smoke testing, and onboarding workflows.
-- Keywords: mcp, quickstart, resources, cross, language, servers, clients, example, learn, use, modelcontextprotocol, practical, reference, multi, server, client, implementations, protocol
+- Summary: Learn how to use modelcontextprotocol/quickstart-resources as a practical reference for multi-language MCP server/client implementations, protocol smoke testing, and onboarding workflows.
+- Keywords: mcp, quickstart, resources, cross, language, servers, clients, example, modelcontextprotocol, reference, multi, server, client, implementations, protocol, smoke, testing, onboarding
 
 ## MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers
 - Path: tutorials/mcp-registry-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md
-- Summary: Learn how `modelcontextprotocol/registry` works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
-- Keywords: mcp, registry, publishing, discovery, governance, servers, learn, modelcontextprotocol, works, end, authenticated, server, metadata, consuming, api, aggregator, operating, infrastructure
+- Summary: Learn how modelcontextprotocol/registry works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.
+- Keywords: mcp, registry, publishing, discovery, governance, servers, modelcontextprotocol, works, end, authenticated, server, metadata, consuming, api, aggregator, operating, infrastructure, safely
 
 ## MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby
 - Path: tutorials/mcp-ruby-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ruby-sdk-tutorial/index.md
-- Summary: Learn how to implement MCP server/client workflows with `modelcontextprotocol/ruby-sdk`, including tool/prompt/resource registration, streamable HTTP sessions, structured logging, and release operations.
-- Keywords: mcp, ruby, sdk, building, servers, clients, learn, implement, server, client, workflows, modelcontextprotocol, including, tool, prompt, resource, registration, streamable
+- Summary: Learn how to implement MCP server/client workflows with modelcontextprotocol/ruby-sdk, including tool/prompt/resource registration, streamable HTTP sessions, structured logging, and release operations.
+- Keywords: mcp, ruby, sdk, building, servers, clients, implement, server, client, workflows, modelcontextprotocol, tool, prompt, resource, registration, streamable, sessions, structured
 
 ## MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP
 - Path: tutorials/mcp-rust-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/rust-sdk` (`rmcp`) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.
-- Keywords: mcp, rust, sdk, building, high, performance, services, rmcp, learn, use, modelcontextprotocol, production, clients, servers, strong, transport, control, macro
+- Summary: Learn how to use modelcontextprotocol/rust-sdk (rmcp) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.
+- Keywords: mcp, rust, sdk, building, high, performance, services, rmcp, modelcontextprotocol, clients, servers, strong, transport, control, macro, driven, tooling, oauth
 
 ## MCP Servers Tutorial: Reference Implementations and Patterns
 - Path: tutorials/mcp-servers-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md
 - Summary: Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.
-- Keywords: mcp, servers, reference, implementations, patterns, learn, use, official, implementation, blueprints, not, drop, production, services
+- Keywords: mcp, servers, reference, implementations, patterns, official, implementation, blueprints, not, drop, services
 
 ## MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth
 - Path: tutorials/mcp-specification-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-specification-tutorial/index.md
-- Summary: Learn the current Model Context Protocol directly from `modelcontextprotocol/modelcontextprotocol`, including lifecycle, transports, security, authorization, and governance workflows.
-- Keywords: mcp, specification, designing, production, grade, clients, servers, source, truth, learn, current, model, context, protocol, directly, modelcontextprotocol, including, lifecycle
+- Summary: Learn the current Model Context Protocol directly from modelcontextprotocol/modelcontextprotocol, including lifecycle, transports, security, authorization, and governance workflows.
+- Keywords: mcp, specification, designing, grade, clients, servers, source, truth, current, model, context, protocol, directly, modelcontextprotocol, lifecycle, transports, security, authorization
 
 ## MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift
 - Path: tutorials/mcp-swift-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-swift-sdk-tutorial/index.md
-- Summary: Learn how to implement MCP client and server workflows with `modelcontextprotocol/swift-sdk`, including transport options, sampling, batching, and graceful service lifecycle control.
-- Keywords: mcp, swift, sdk, building, clients, servers, learn, implement, client, server, workflows, modelcontextprotocol, including, transport, options, sampling, batching, graceful
+- Summary: Learn how to implement MCP client and server workflows with modelcontextprotocol/swift-sdk, including transport options, sampling, batching, and graceful service lifecycle control.
+- Keywords: mcp, swift, sdk, building, clients, servers, implement, client, server, workflows, modelcontextprotocol, transport, options, sampling, batching, graceful, service, lifecycle
 
 ## MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript
 - Path: tutorials/mcp-typescript-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/typescript-sdk` to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.
-- Keywords: mcp, typescript, sdk, building, migrating, clients, servers, learn, use, modelcontextprotocol, build, production, migrate, safely, validate, behavior, conformance, workflows
+- Summary: Learn how to use modelcontextprotocol/typescript-sdk to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.
+- Keywords: mcp, typescript, sdk, building, migrating, clients, servers, modelcontextprotocol, migrate, safely, validate, behavior, conformance, workflows
 
 ## MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector
 - Path: tutorials/mcp-use-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md
-- Summary: Learn how `mcp-use/mcp-use` composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.
-- Keywords: mcp, use, full, stack, development, across, agents, clients, servers, inspector, learn, composes, agent, client, server, workflows, python, typescript
+- Summary: Learn how mcp-use/mcp-use composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.
+- Keywords: mcp, full, stack, development, agents, clients, servers, inspector, composes, agent, client, server, workflows, python, typescript, security, operations, patterns
 
 ## MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles
 - Path: tutorials/mcpb-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcpb-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/mcpb` to package local MCP servers into signed `.mcpb` bundles with manifest metadata, CLI workflows, and distribution-ready operational controls.
-- Keywords: mcpb, packaging, distributing, local, mcp, servers, bundles, learn, use, modelcontextprotocol, package, into, signed, manifest, metadata, cli, workflows, distribution
+- Summary: Learn how to use modelcontextprotocol/mcpb to package local MCP servers into signed .mcpb bundles with manifest metadata, CLI workflows, and distribution-ready operational controls.
+- Keywords: mcpb, packaging, distributing, local, mcp, servers, bundles, modelcontextprotocol, package, signed, manifest, metadata, cli, workflows, distribution, ready, operational, controls
 
 ## MeiliSearch Tutorial: Lightning Fast Search Engine
 - Path: tutorials/meilisearch-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md
 - Summary: A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
-- Keywords: meilisearch, lightning, fast, search, engine, deep, technical, walkthrough, covering
+- Keywords: meilisearch, lightning, fast, search, engine, technical, walkthrough
 
 ## Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory
 - Path: tutorials/mem0-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md
 - Summary: A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
-- Keywords: mem0, building, production, ready, agents, scalable, long, term, memory, deep, technical, walkthrough, covering
+- Keywords: mem0, building, ready, agents, scalable, long, term, memory, technical, walkthrough
 
 ## Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale
 - Path: tutorials/mini-swe-agent-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/index.md
-- Summary: Learn how to use `SWE-agent/mini-swe-agent` to run compact, high-performing software-engineering agent workflows with minimal scaffolding and strong reproducibility.
-- Keywords: mini, swe, agent, minimal, autonomous, code, design, benchmark, scale, learn, use, run, compact, high, performing, software, engineering, workflows
+- Summary: Learn how to use SWE-agent/mini-swe-agent to run compact, high-performing software-engineering agent workflows with minimal scaffolding and strong reproducibility.
+- Keywords: mini, swe, agent, minimal, autonomous, code, design, benchmark, scale, run, compact, high, performing, software, engineering, workflows, scaffolding, strong
 
 ## Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral
 - Path: tutorials/mistral-vibe-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md
-- Summary: Learn how to use `mistralai/mistral-vibe` for terminal-native coding workflows with configurable agent profiles, skills, subagents, and ACP integrations.
-- Keywords: mistral, vibe, minimal, cli, coding, agent, learn, use, mistralai, terminal, native, workflows, configurable, profiles, skills, subagents, acp, integrations
+- Summary: Learn how to use mistralai/mistral-vibe for terminal-native coding workflows with configurable agent profiles, skills, subagents, and ACP integrations.
+- Keywords: mistral, vibe, minimal, cli, coding, agent, mistralai, terminal, native, workflows, configurable, profiles, skills, subagents, acp, integrations
 
 ## n8n AI Tutorial: Workflow Automation with AI
 - Path: tutorials/n8n-ai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-ai-tutorial/index.md
 - Summary: Build powerful AI-powered automations with n8n's visual workflow builder.
-- Keywords: n8n, workflow, automation, build, powerful, powered, automations, visual, builder
+- Keywords: n8n, workflow, automation, powerful, powered, automations, visual, builder
 
 ## n8n Model Context Protocol: Deep Dive Tutorial
 - Path: tutorials/n8n-mcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-mcp-tutorial/index.md
-- Summary: **Project**: [n8n](https://github.com/n8n-io/n8n) — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.
-- Keywords: n8n, mcp, model, context, protocol, deep, dive, project, visual, workflow, automation, integration, powered, tool, use
+- Summary: n8n — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.
+- Keywords: n8n, mcp, model, context, protocol, visual, workflow, automation, integration, powered, tool
 
 ## Nanocoder Tutorial: Building and Understanding AI Coding Agents
 - Path: tutorials/nanocoder-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/index.md
-- Summary: Learn how `Nano-Collective/nanocoder` implements local-first coding-agent workflows, tool execution loops, and multi-provider model integration.
-- Keywords: nanocoder, building, understanding, coding, agents, learn, nano, collective, implements, local, first, agent, workflows, tool, execution, loops, multi, provider
+- Summary: Learn how Nano-Collective/nanocoder implements local-first coding-agent workflows, tool execution loops, and multi-provider model integration.
+- Keywords: nanocoder, building, understanding, coding, agents, nano, collective, implements, local, first, agent, workflows, tool, execution, loops, multi, provider, model
 
 ## NocoDB: Deep Dive Tutorial
 - Path: tutorials/nocodb-database-platform
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/index.md
-- Summary: **Project**: [NocoDB](https://github.com/nocodb/nocodb) — An open-source Airtable alternative that turns any database into a smart spreadsheet.
-- Keywords: nocodb, database, platform, deep, dive, project, open, source, airtable, alternative, that, turns, any, into, smart, spreadsheet
+- Summary: NocoDB — An open-source Airtable alternative that turns any database into a smart spreadsheet.
+- Keywords: nocodb, database, open, source, airtable, alternative, turns, any, smart, spreadsheet
 
 ## Obsidian Outliner Plugin: Deep Dive Tutorial
 - Path: tutorials/obsidian-outliner-plugin
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/index.md
-- Summary: **Project**: [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
-- Keywords: obsidian, outliner, plugin, deep, dive, project, vslinko, that, adds, style, editing, behaviors, demonstrating, advanced, architecture, patterns
+- Summary: Obsidian Outliner — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
+- Keywords: obsidian, outliner, plugin, adds, style, editing, behaviors, demonstrating, advanced, architecture, patterns
 
 ## Ollama Tutorial: Running and Serving LLMs Locally
 - Path: tutorials/ollama-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md
-- Summary: Learn how to use `ollama/ollama` for local model execution, customization, embeddings/RAG, integration, and production deployment.
-- Keywords: ollama, running, serving, llms, locally, learn, use, local, model, execution, customization, embeddings, rag, integration, production, deployment
+- Summary: Learn how to use ollama/ollama for local model execution, customization, embeddings/RAG, integration, and production deployment.
+- Keywords: ollama, running, serving, llms, locally, local, model, execution, customization, embeddings, rag, integration, deployment
 
 ## Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind
 - Path: tutorials/onlook-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md
-- Summary: Learn how to use `onlook-dev/onlook` to design and edit production-grade React apps visually while keeping generated code in your repository.
-- Keywords: onlook, visual, first, coding, next, tailwind, learn, use, dev, design, edit, production, grade, react, apps, visually, while, keeping
+- Summary: Learn how to use onlook-dev/onlook to design and edit production-grade React apps visually while keeping generated code in your repository.
+- Keywords: onlook, visual, first, coding, next, tailwind, dev, design, edit, grade, react, apps, visually, while, keeping, generated, code, repository
 
 ## Opcode Tutorial: GUI Command Center for Claude Code Workflows
 - Path: tutorials/opcode-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opcode-tutorial/index.md
-- Summary: Learn how to use `winfunc/opcode` to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.
-- Keywords: opcode, gui, command, center, claude, code, workflows, learn, use, winfunc, manage, projects, sessions, agents, mcp, servers, checkpoints, desktop
+- Summary: Learn how to use winfunc/opcode to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.
+- Keywords: opcode, gui, command, center, claude, code, workflows, winfunc, manage, projects, sessions, agents, mcp, servers, checkpoints, desktop, first, operating
 
 ## Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook
 - Path: tutorials/open-swe-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-swe-tutorial/index.md
-- Summary: Learn from `langchain-ai/open-swe` architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.
-- Keywords: open, swe, asynchronous, cloud, coding, agent, architecture, migration, playbook, learn, langchain, workflows, operational, patterns, including, maintain, migrate, deprecated
+- Summary: Learn from langchain-ai/open-swe architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.
+- Keywords: open, swe, asynchronous, cloud, coding, agent, architecture, migration, playbook, langchain, workflows, operational, patterns, maintain, migrate, deprecated, codebase
 
 ## Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface
 - Path: tutorials/open-webui-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md
-- Summary: Learn how to run and operate `open-webui/open-webui` as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
-- Keywords: open, webui, self, hosted, workspace, chat, interface, learn, run, operate, model, routing, rag, workflows, multi, user, controls, production
+- Summary: Learn how to run and operate open-webui/open-webui as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
+- Keywords: open, webui, self, hosted, workspace, chat, interface, run, operate, model, routing, rag, workflows, multi, user, controls, deployment, patterns
 
 ## OpenAI Python SDK Tutorial: Production API Patterns
 - Path: tutorials/openai-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md
-- Summary: Learn how to build reliable Python integrations with `openai/openai-python` using Responses-first architecture, migration-safe patterns, and production operations.
-- Keywords: openai, python, sdk, production, api, patterns, learn, build, reliable, integrations, using, responses, first, architecture, migration, safe, operations
+- Summary: Learn how to build reliable Python integrations with openai/openai-python using Responses-first architecture, migration-safe patterns, and production operations.
+- Keywords: openai, python, sdk, api, patterns, reliable, integrations, responses, first, architecture, migration, safe, operations
 
 ## OpenAI Realtime Agents Tutorial: Voice-First AI Systems
 - Path: tutorials/openai-realtime-agents-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/index.md
-- Summary: Learn how to build low-latency voice agents with `openai/openai-realtime-agents`, including realtime session design, tool orchestration, and production rollout patterns.
-- Keywords: openai, realtime, agents, voice, first, systems, learn, build, low, latency, including, session, design, tool, orchestration, production, rollout, patterns
+- Summary: Learn how to build low-latency voice agents with openai/openai-realtime-agents, including realtime session design, tool orchestration, and production rollout patterns.
+- Keywords: openai, realtime, agents, voice, first, low, latency, session, design, tool, orchestration, rollout, patterns
 
 ## OpenAI Whisper Tutorial: Speech Recognition and Translation
 - Path: tutorials/openai-whisper-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-whisper-tutorial/index.md
 - Summary: Build robust transcription pipelines with Whisper, from local experiments to production deployment.
-- Keywords: openai, whisper, speech, recognition, translation, build, robust, transcription, pipelines, local, experiments, production, deployment
+- Keywords: openai, whisper, speech, recognition, translation, robust, transcription, pipelines, local, experiments, deployment
 
 ## OpenBB Tutorial: Complete Guide to Investment Research Platform
 - Path: tutorials/openbb-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openbb-tutorial/index.md
 - Summary: Democratize investment research with OpenBB's comprehensive financial data and analysis platform.
-- Keywords: openbb, complete, investment, research, platform, democratize, comprehensive, financial, data, analysis
+- Keywords: openbb, complete, investment, research, democratize, comprehensive, financial, data, analysis
 
 ## OpenClaw: Deep Dive Tutorial
 - Path: tutorials/openclaw-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md
-- Summary: **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform.
-- Keywords: openclaw, deep, dive, project, own, personal, assistant, any, platform
+- Summary: OpenClaw — Your own personal AI assistant. Any OS. Any Platform.
+- Keywords: openclaw, own, personal, assistant, any
 
 ## OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush
 - Path: tutorials/opencode-ai-legacy-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-ai-legacy-tutorial/index.md
-- Summary: Learn from `opencode-ai/opencode` architecture and workflows, and migrate safely to actively maintained successors.
-- Keywords: opencode, legacy, archived, terminal, agent, workflows, migration, crush, learn, architecture, migrate, safely, actively, maintained, successors
+- Summary: Learn from opencode-ai/opencode architecture and workflows, and migrate safely to actively maintained successors.
+- Keywords: opencode, legacy, archived, terminal, agent, workflows, migration, crush, architecture, migrate, safely, actively, maintained, successors
 
 ## OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale
 - Path: tutorials/opencode-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md
-- Summary: Learn how to use `anomalyco/opencode` to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.
-- Keywords: opencode, open, source, terminal, coding, agent, scale, learn, use, anomalyco, run, native, agents, provider, flexibility, strong, tool, control
+- Summary: Learn how to use anomalyco/opencode to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.
+- Keywords: opencode, open, source, terminal, coding, agent, scale, anomalyco, run, native, agents, provider, flexibility, strong, tool, control, grade, workflows
 
 ## OpenHands Tutorial: Autonomous Software Engineering Workflows
 - Path: tutorials/openhands-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md
-- Summary: Learn how to operate `OpenHands/OpenHands` across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
-- Keywords: openhands, autonomous, software, engineering, workflows, learn, operate, across, local, gui, cli, sdk, production, minded, safety, validation, integration, patterns
+- Summary: Learn how to operate OpenHands/OpenHands across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.
+- Keywords: openhands, autonomous, software, engineering, workflows, operate, local, gui, cli, sdk, minded, safety, validation, integration, patterns
 
 ## OpenSkills Tutorial: Universal Skill Loading for Coding Agents
 - Path: tutorials/openskills-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md
-- Summary: Learn how to use `numman-ali/openskills` to install, synchronize, and operate reusable `SKILL.md` packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
-- Keywords: openskills, universal, skill, loading, coding, agents, learn, use, numman, ali, install, synchronize, operate, reusable, packs, across, claude, code
+- Summary: Learn how to use numman-ali/openskills to install, synchronize, and operate reusable SKILL.md packs across Claude Code, Cursor, Codex, Aider, and other agent environments.
+- Keywords: openskills, universal, skill, loading, coding, agents, numman, ali, install, synchronize, operate, reusable, packs, claude, code, cursor, codex, aider
 
 ## OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents
 - Path: tutorials/openspec-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openspec-tutorial/index.md
-- Summary: Learn how to use `Fission-AI/OpenSpec` to make AI-assisted software delivery more predictable with artifact-driven planning, implementation, and archival workflows.
-- Keywords: openspec, spec, driven, workflows, coding, agents, learn, use, fission, make, assisted, software, delivery, more, predictable, artifact, planning, implementation
+- Summary: Learn how to use Fission-AI/OpenSpec to make AI-assisted software delivery more predictable with artifact-driven planning, implementation, and archival workflows.
+- Keywords: openspec, spec, driven, workflows, coding, agents, fission, make, assisted, software, delivery, more, predictable, artifact, planning, implementation, archival
 
 ## OpenSrc Tutorial: Deep Source Context for Coding Agents
 - Path: tutorials/opensrc-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md
-- Summary: Learn how to use `vercel-labs/opensrc` to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.
-- Keywords: opensrc, deep, source, context, coding, agents, learn, use, vercel, labs, fetch, package, repository, code, can, reason, about, implementation
+- Summary: Learn how to use vercel-labs/opensrc to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.
+- Keywords: opensrc, source, context, coding, agents, vercel, labs, fetch, package, repository, code, can, reason, implementation, details, not, only, public
 
 ## Outlines Tutorial: Structured Text Generation with LLMs
 - Path: tutorials/outlines-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md
 - Summary: A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.
-- Keywords: outlines, structured, text, generation, llms, deep, technical, walkthrough, covering
+- Keywords: outlines, structured, text, generation, llms, technical, walkthrough
 
 ## Perplexica Tutorial: AI-Powered Search Engine
 - Path: tutorials/perplexica-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/perplexica-tutorial/index.md
 - Summary: A deep technical walkthrough of Perplexica covering AI-Powered Search Engine.
-- Keywords: perplexica, powered, search, engine, deep, technical, walkthrough, covering
+- Keywords: perplexica, powered, search, engine, technical, walkthrough
 
 ## Phidata Tutorial: Building Autonomous AI Agents
 - Path: tutorials/phidata-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/phidata-tutorial/index.md
 - Summary: A deep technical walkthrough of Phidata covering Building Autonomous AI Agents.
-- Keywords: phidata, building, autonomous, agents, deep, technical, walkthrough, covering
+- Keywords: phidata, building, autonomous, agents, technical, walkthrough
 
 ## PhotoPrism Tutorial: AI-Powered Photos App
 - Path: tutorials/photoprism-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/photoprism-tutorial/index.md
-- Summary: **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
+- Summary: AI Photo Management Revolution: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
 - Keywords: photoprism, powered, photos, app, photo, management, revolution, enhanced, facial, recognition, llm, integrations, advanced, organization, features, mark, evolution
 
 ## Plandex Tutorial: Large-Task AI Coding Agent Workflows
 - Path: tutorials/plandex-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md
-- Summary: Learn how to use `plandex-ai/plandex` for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
-- Keywords: plandex, large, task, coding, agent, workflows, learn, use, codebase, tasks, strong, context, management, cumulative, diff, review, model, packs
+- Summary: Learn how to use plandex-ai/plandex for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
+- Keywords: plandex, large, task, coding, agent, workflows, codebase, tasks, strong, context, management, cumulative, diff, review, model, packs, self, hosted
 
 ## Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents
 - Path: tutorials/planning-with-files-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/index.md
-- Summary: Learn how to use `OthmanAdi/planning-with-files` to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.
-- Keywords: planning, files, persistent, markdown, workflow, memory, coding, agents, learn, use, othmanadi, run, manus, style, file, based, workflows, across
+- Summary: Learn how to use OthmanAdi/planning-with-files to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.
+- Keywords: planning, files, persistent, markdown, workflow, memory, coding, agents, othmanadi, run, manus, style, file, based, workflows, claude, code, other
 
 ## Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP
 - Path: tutorials/playwright-mcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/playwright-mcp-tutorial/index.md
-- Summary: Learn how to use `microsoft/playwright-mcp` to give AI coding agents structured browser automation with accessibility snapshots, deterministic actions, and portable MCP host integrations.
-- Keywords: playwright, mcp, browser, automation, coding, agents, through, learn, use, microsoft, give, structured, accessibility, snapshots, deterministic, actions, portable, host
+- Summary: Learn how to use microsoft/playwright-mcp to give AI coding agents structured browser automation with accessibility snapshots, deterministic actions, and portable MCP host integrations.
+- Keywords: playwright, mcp, browser, automation, coding, agents, microsoft, give, structured, accessibility, snapshots, deterministic, actions, portable, host, integrations
 
 ## PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power
 - Path: tutorials/pocketflow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md
-- Summary: Learn how to build agentic applications with `The-Pocket/PocketFlow`, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
-- Keywords: pocketflow, minimal, llm, framework, graph, based, power, learn, build, agentic, applications, pocket, minimalist, that, still, supports, workflows, multi
+- Summary: Learn how to build agentic applications with The-Pocket/PocketFlow, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
+- Keywords: pocketflow, minimal, llm, framework, graph, based, power, agentic, applications, pocket, minimalist, still, supports, workflows, multi, agent, patterns, rag
 
 ## PostgreSQL Query Planner Deep Dive
 - Path: tutorials/postgresql-query-planner
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md
 - Summary: Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.
-- Keywords: postgresql, query, planner, deep, dive, master, execution, engine, understand, explain, output, optimize, complex, queries, maximum, performance
+- Keywords: postgresql, query, planner, master, execution, engine, understand, explain, output, optimize, complex, queries, maximum, performance
 
 ## PostHog Tutorial: Open Source Product Analytics Platform
 - Path: tutorials/posthog-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/posthog-tutorial/index.md
-- Summary: N/A
-- Keywords: posthog, open, source, product, analytics, platform
+- Summary: Deep technical walkthrough of PostHog Tutorial: Open Source Product Analytics Platform.
+- Keywords: posthog, open, source, product, analytics, technical, walkthrough
 
 ## Pydantic AI Tutorial: Type-Safe AI Agent Development
 - Path: tutorials/pydantic-ai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pydantic-ai-tutorial/index.md
 - Summary: A deep technical walkthrough of Pydantic AI covering Type-Safe AI Agent Development.
-- Keywords: pydantic, type, safe, agent, development, deep, technical, walkthrough, covering
+- Keywords: pydantic, type, safe, agent, development, technical, walkthrough
 
 ## Quivr Tutorial: Open-Source RAG Framework for Document Ingestion
 - Path: tutorials/quivr-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/index.md
-- Summary: N/A
-- Keywords: quivr, open, source, rag, framework, document, ingestion
+- Summary: Deep technical walkthrough of Quivr Tutorial: Open-Source RAG Framework for Document Ingestion.
+- Keywords: quivr, open, source, rag, framework, document, ingestion, technical, walkthrough
 
 ## Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows
 - Path: tutorials/qwen-agent-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/qwen-agent-tutorial/index.md
-- Summary: Learn how to use `QwenLM/Qwen-Agent` to build production-capable agents with function calling, MCP integration, memory/RAG patterns, and benchmark-aware planning workflows.
-- Keywords: qwen, agent, tool, enabled, framework, mcp, rag, multi, modal, workflows, learn, use, qwenlm, build, production, capable, agents, function
+- Summary: Learn how to use QwenLM/Qwen-Agent to build production-capable agents with function calling, MCP integration, memory/RAG patterns, and benchmark-aware planning workflows.
+- Keywords: qwen, agent, tool, enabled, framework, mcp, rag, multi, modal, workflows, qwenlm, capable, agents, function, calling, integration, memory, patterns
 
 ## RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine
 - Path: tutorials/ragflow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/index.md
 - Summary: Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.
-- Keywords: ragflow, complete, open, source, rag, engine, transform, documents, into, intelligent, systems, comprehensive, retrieval, augmented, generation, platform
+- Keywords: ragflow, complete, open, source, rag, engine, transform, documents, intelligent, comprehensive, retrieval, augmented, generation
 
 ## React Fiber Internals
 - Path: tutorials/react-fiber-internals
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/index.md
 - Summary: Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
-- Keywords: react, fiber, internals, deep, dive, into, reconciliation, algorithm, architecture, that, powers, modern, applications
+- Keywords: react, fiber, internals, reconciliation, algorithm, architecture, powers, modern, applications
 
 ## Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code
 - Path: tutorials/refly-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/refly-tutorial/index.md
-- Summary: Learn how to use `refly-ai/refly` to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.
-- Keywords: refly, build, deterministic, agent, skills, ship, them, across, apis, claude, code, learn, use, turn, vibe, workflows, into, reusable
+- Summary: Learn how to use refly-ai/refly to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.
+- Keywords: refly, deterministic, agent, skills, ship, them, apis, claude, code, turn, vibe, workflows, reusable, versioned, can, run, via, api
 
 ## Roo Code Tutorial: Run an AI Dev Team in Your Editor
 - Path: tutorials/roo-code-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md
-- Summary: A production-focused guide to `RooCodeInc/Roo-Code`: mode design, task execution, checkpoints, MCP, team profiles, and enterprise operations.
-- Keywords: roo, code, run, dev, team, editor, production, focused, roocodeinc, mode, design, task, execution, checkpoints, mcp, profiles, enterprise, operations
+- Summary: A production-focused guide to RooCodeInc/Roo-Code: mode design, task execution, checkpoints, MCP, team profiles, and enterprise operations.
+- Keywords: roo, code, run, dev, team, editor, focused, roocodeinc, mode, design, task, execution, checkpoints, mcp, profiles, enterprise, operations
 
 ## Semantic Kernel Tutorial: Microsoft's AI Orchestration
 - Path: tutorials/semantic-kernel-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md
 - Summary: Build enterprise AI applications with Microsoft's SDK for integrating LLMs.
-- Keywords: semantic, kernel, microsoft, orchestration, build, enterprise, applications, sdk, integrating, llms
+- Keywords: semantic, kernel, microsoft, orchestration, enterprise, applications, sdk, integrating, llms
 
 ## Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents
 - Path: tutorials/serena-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/serena-tutorial/index.md
-- Summary: Learn how to use `oraios/serena` to give coding agents IDE-grade semantic retrieval and editing tools across large codebases.
-- Keywords: serena, semantic, code, retrieval, toolkit, coding, agents, learn, use, oraios, give, ide, grade, editing, tools, across, large, codebases
+- Summary: Learn how to use oraios/serena to give coding agents IDE-grade semantic retrieval and editing tools across large codebases.
+- Keywords: serena, semantic, code, retrieval, toolkit, coding, agents, oraios, give, ide, grade, editing, tools, large, codebases
 
 ## Shotgun Tutorial: Spec-Driven Development for Coding Agents
 - Path: tutorials/shotgun-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md
-- Summary: Learn how to use `shotgun-sh/shotgun` to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.
-- Keywords: shotgun, spec, driven, development, coding, agents, learn, use, plan, specify, execute, large, code, changes, structured, agent, workflows, stronger
+- Summary: Learn how to use shotgun-sh/shotgun to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.
+- Keywords: shotgun, spec, driven, development, coding, agents, plan, specify, execute, large, code, changes, structured, agent, workflows, stronger, delivery, control
 
 ## SillyTavern Tutorial: Advanced LLM Frontend for Power Users
 - Path: tutorials/sillytavern-tutorial
@@ -985,79 +985,97 @@ Main repository:
 - Path: tutorials/siyuan-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/siyuan-tutorial/index.md
 - Summary: A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.
-- Keywords: siyuan, privacy, first, knowledge, management, deep, technical, walkthrough, covering
+- Keywords: siyuan, privacy, first, knowledge, management, technical, walkthrough
 
 ## Smolagents Tutorial: Hugging Face's Lightweight Agent Framework
 - Path: tutorials/smolagents-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/smolagents-tutorial/index.md
 - Summary: Build efficient AI agents with minimal code using Hugging Face's smolagents library.
-- Keywords: smolagents, hugging, face, lightweight, agent, framework, build, efficient, agents, minimal, code, using, library
+- Keywords: smolagents, hugging, face, lightweight, agent, framework, efficient, agents, minimal, code, library
 
 ## Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context
 - Path: tutorials/stagewise-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/index.md
-- Summary: Learn how to use `stagewise-io/stagewise` to connect browser-selected UI context with coding agents, plugin extensions, and multi-agent bridge workflows.
-- Keywords: stagewise, frontend, coding, agent, workflows, real, browser, context, learn, use, connect, selected, agents, plugin, extensions, multi, bridge
+- Summary: Learn how to use stagewise-io/stagewise to connect browser-selected UI context with coding agents, plugin extensions, and multi-agent bridge workflows.
+- Keywords: stagewise, frontend, coding, agent, workflows, real, browser, context, connect, selected, agents, plugin, extensions, multi, bridge
 
 ## Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support
 - Path: tutorials/strands-agents-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md
-- Summary: Learn how to use `strands-agents/sdk-python` to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.
-- Keywords: strands, agents, model, driven, agent, systems, native, mcp, support, learn, use, sdk, python, build, lightweight, strong, tool, abstractions
+- Summary: Learn how to use strands-agents/sdk-python to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.
+- Keywords: strands, agents, model, driven, agent, native, mcp, support, sdk, python, lightweight, strong, tool, abstractions, hooks, deployment, patterns
 
 ## Supabase Tutorial: Building Modern Backend Applications
 - Path: tutorials/supabase-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/index.md
-- Summary: N/A
-- Keywords: supabase, building, modern, backend, applications
+- Summary: Deep technical walkthrough of Supabase Tutorial: Building Modern Backend Applications.
+- Keywords: supabase, building, modern, backend, applications, technical, walkthrough
 
 ## SuperAGI Tutorial: Production-Ready Autonomous AI Agents
 - Path: tutorials/superagi-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md
 - Summary: A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.
-- Keywords: superagi, production, ready, autonomous, agents, deep, technical, walkthrough, covering
+- Keywords: superagi, ready, autonomous, agents, technical, walkthrough
 
 ## Superset Terminal Tutorial: Command Center for Parallel Coding Agents
 - Path: tutorials/superset-terminal-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superset-terminal-tutorial/index.md
-- Summary: Learn how to use `superset-sh/superset` to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.
-- Keywords: superset, terminal, command, center, parallel, coding, agents, learn, use, orchestrate, many, worktree, isolation, centralized, monitoring, fast, review, loops
+- Summary: Learn how to use superset-sh/superset to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.
+- Keywords: superset, terminal, command, center, parallel, coding, agents, orchestrate, many, worktree, isolation, centralized, monitoring, fast, review, loops
 
 ## OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
 - Path: tutorials/swarm-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md
-- Summary: N/A
-- Keywords: swarm, openai, lightweight, multi, agent, orchestration
+- Summary: Deep technical walkthrough of OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration.
+- Keywords: swarm, openai, lightweight, multi, agent, orchestration, technical, walkthrough
 
 ## SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering
 - Path: tutorials/swe-agent-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md
-- Summary: Learn how to use `SWE-agent/SWE-agent` for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
-- Keywords: swe, agent, autonomous, repository, repair, benchmark, driven, engineering, learn, use, software, workflows, single, issue, runs, research, grade, evaluation
+- Summary: Learn how to use SWE-agent/SWE-agent for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.
+- Keywords: swe, agent, autonomous, repository, repair, benchmark, driven, engineering, software, workflows, single, issue, runs, research, grade, evaluation
 
 ## Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub
 - Path: tutorials/sweep-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/index.md
-- Summary: Learn how to use `sweepai/sweep` to turn GitHub issues into pull requests, operate feedback loops, and run self-hosted or CLI workflows with clear guardrails.
-- Keywords: sweep, issue, coding, workflows, learn, use, sweepai, turn, issues, into, pull, requests, operate, feedback, loops, run, self, hosted
+- Summary: Learn how to use sweepai/sweep to turn GitHub issues into pull requests, operate feedback loops, and run self-hosted or CLI workflows with clear guardrails.
+- Keywords: sweep, issue, coding, workflows, sweepai, turn, issues, pull, requests, operate, feedback, loops, run, self, hosted, cli, clear, guardrails
 
 ## Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations
 - Path: tutorials/tabby-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md
-- Summary: Learn how to run and extend `TabbyML/tabby` for production code completion and team knowledge workflows.
-- Keywords: tabby, self, hosted, coding, assistant, architecture, operations, learn, run, extend, tabbyml, production, code, completion, team, knowledge, workflows
+- Summary: Learn how to run and extend TabbyML/tabby for production code completion and team knowledge workflows.
+- Keywords: tabby, self, hosted, coding, assistant, architecture, operations, run, extend, tabbyml, code, completion, team, knowledge, workflows
 
-## Taskade Tutorial: AI-Powered Productivity Platform
+## Taskade Awesome Vibe Coding Tutorial: Curating the 2026 AI-Building Landscape
+- Path: tutorials/taskade-awesome-vibe-coding-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-awesome-vibe-coding-tutorial/index.md
+- Summary: Learn how to use and maintain taskade/awesome-vibe-coding as a decision system for AI app builders, coding agents, MCP tooling, and Genesis-centered workflows.
+- Keywords: taskade, awesome, vibe, coding, curating, building, landscape, maintain, decision, app, builders, agents, mcp, tooling, genesis, centered, workflows
+
+## Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack
+- Path: tutorials/taskade-docs-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-docs-tutorial/index.md
+- Summary: Learn how taskade/docs structures product documentation across Genesis, API references, automations, help-center workflows, and release timelines.
+- Keywords: taskade, operating, living, dna, documentation, stack, structures, product, genesis, api, references, automations, help, center, workflows, release, timelines
+
+## Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows
+- Path: tutorials/taskade-mcp-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-mcp-tutorial/index.md
+- Summary: Learn how to run, extend, and operate taskade/mcp to connect Taskade workspaces, tasks, projects, and AI agents into MCP-compatible clients.
+- Keywords: taskade, mcp, openapi, driven, server, workflows, run, extend, operate, connect, workspaces, tasks, projects, agents, compatible, clients
+
+## Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations
 - Path: tutorials/taskade-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md
-- Summary: A deep technical walkthrough of Taskade covering AI-Powered Productivity Platform.
-- Keywords: taskade, powered, productivity, platform, deep, technical, walkthrough, covering
+- Summary: Learn how to operate Taskade as an AI-native workspace system: Genesis app generation, AI agents, automations, enterprise controls, and production rollout patterns.
+- Keywords: taskade, native, workspace, genesis, agentic, operations, operate, app, generation, agents, automations, enterprise, controls, rollout, patterns
 
 ## Teable: Deep Dive Tutorial
 - Path: tutorials/teable-database-platform
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/index.md
-- Summary: **Project**: [Teable](https://github.com/teableio/teable) — A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.
-- Keywords: teable, database, platform, deep, dive, project, teableio, high, performance, multi, dimensional, built, postgresql, real, time, collaboration
+- Summary: Teable — A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.
+- Keywords: teable, database, high, performance, multi, dimensional, built, postgresql, real, time, collaboration
 
 ## tiktoken Tutorial: OpenAI Token Encoding & Optimization
 - Path: tutorials/tiktoken-tutorial
@@ -1069,31 +1087,31 @@ Main repository:
 - Path: tutorials/turborepo-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/index.md
 - Summary: A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
-- Keywords: turborepo, high, performance, monorepo, build, system, deep, technical, walkthrough, covering
+- Keywords: turborepo, high, performance, monorepo, technical, walkthrough
 
 ## use-mcp Tutorial: React Hook Patterns for MCP Client Integration
 - Path: tutorials/use-mcp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/use-mcp-tutorial/index.md
-- Summary: Learn how to use `modelcontextprotocol/use-mcp` to connect React apps to MCP servers with OAuth-aware flows, tool/resource/prompt access, and resilient transport lifecycle handling.
-- Keywords: use, mcp, react, hook, patterns, client, integration, learn, modelcontextprotocol, connect, apps, servers, oauth, aware, flows, tool, resource, prompt
+- Summary: Learn how to use modelcontextprotocol/use-mcp to connect React apps to MCP servers with OAuth-aware flows, tool/resource/prompt access, and resilient transport lifecycle handling.
+- Keywords: mcp, react, hook, patterns, client, integration, modelcontextprotocol, connect, apps, servers, oauth, aware, flows, tool, resource, prompt, access, resilient
 
 ## Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents
 - Path: tutorials/vercel-ai-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md
-- Summary: Build robust AI product features with `vercel/ai`, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
-- Keywords: vercel, sdk, production, typescript, apps, agents, build, robust, product, features, including, streaming, structured, outputs, tool, loops, framework, integration
+- Summary: Build robust AI product features with vercel/ai, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
+- Keywords: vercel, sdk, typescript, apps, agents, robust, product, features, streaming, structured, outputs, tool, loops, framework, integration, deployment, patterns
 
 ## Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows
 - Path: tutorials/vibe-kanban-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibe-kanban-tutorial/index.md
-- Summary: Learn how to use `BloopAI/vibe-kanban` to coordinate Claude Code, Codex, Gemini CLI, and other coding agents through a unified orchestration workspace.
-- Keywords: vibe, kanban, multi, agent, orchestration, board, coding, workflows, learn, use, bloopai, coordinate, claude, code, codex, gemini, cli, other
+- Summary: Learn how to use BloopAI/vibe-kanban to coordinate Claude Code, Codex, Gemini CLI, and other coding agents through a unified orchestration workspace.
+- Keywords: vibe, kanban, multi, agent, orchestration, board, coding, workflows, bloopai, coordinate, claude, code, codex, gemini, cli, other, agents, unified
 
 ## VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare
 - Path: tutorials/vibesdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md
-- Summary: Learn how to use `cloudflare/vibesdk` to run a prompt-to-app platform with agent orchestration, preview sandboxes, and production deployment on Cloudflare.
-- Keywords: vibesdk, build, vibe, coding, platform, cloudflare, learn, use, run, prompt, app, agent, orchestration, preview, sandboxes, production, deployment
+- Summary: Learn how to use cloudflare/vibesdk to run a prompt-to-app platform with agent orchestration, preview sandboxes, and production deployment on Cloudflare.
+- Keywords: vibesdk, vibe, coding, cloudflare, run, prompt, app, agent, orchestration, preview, sandboxes, deployment
 
 ## vLLM Tutorial: High-Performance LLM Inference
 - Path: tutorials/vllm-tutorial
@@ -1105,10 +1123,10 @@ Main repository:
 - Path: tutorials/whisper-cpp-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/index.md
 - Summary: A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
-- Keywords: whisper, cpp, high, performance, speech, recognition, deep, technical, walkthrough, covering
+- Keywords: whisper, cpp, high, performance, speech, recognition, technical, walkthrough
 
 ## Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code
 - Path: tutorials/wshobson-agents-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/wshobson-agents-tutorial/index.md
-- Summary: Learn how to use `wshobson/agents` to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.
-- Keywords: wshobson, agents, pluginized, multi, agent, workflows, claude, code, learn, use, install, focused, plugins, coordinate, specialist, run, scalable, clear
+- Summary: Learn how to use wshobson/agents to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.
+- Keywords: wshobson, agents, pluginized, multi, agent, workflows, claude, code, install, focused, plugins, coordinate, specialist, run, scalable, clear, model, skill

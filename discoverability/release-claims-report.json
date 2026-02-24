@@ -1,0 +1,8 @@
+{
+  "findings": [],
+  "max_age_days": 120,
+  "stale_release_claim_count": 0,
+  "targets": [
+    "tutorials/*/index.md"
+  ]
+}

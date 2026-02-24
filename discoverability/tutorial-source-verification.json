@@ -1,0 +1,6052 @@
+{
+  "generated_at_utc": "2026-02-24T15:28:23.217103Z",
+  "generated_on": "2026-02-24",
+  "summary": {
+    "tutorial_count": 188,
+    "tutorials_with_source_repos": 188,
+    "tutorials_with_unverified_source_repos": 0,
+    "tutorials_without_source_repos": 0,
+    "unique_source_repo_count": 199,
+    "unique_unverified_repo_count": 0,
+    "unique_verified_repo_count": 199
+  },
+  "top_verified_repos_by_stars": [
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 50622,
+      "html_url": "https://github.com/facebook/react",
+      "http_status": 200,
+      "open_issues": 1128,
+      "pushed_at": "2026-02-24T15:28:00Z",
+      "reason": "",
+      "repo": "facebook/react",
+      "stars": 243332,
+      "updated_at": "2026-02-24T15:10:10Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 42870,
+      "html_url": "https://github.com/openclaw/openclaw",
+      "http_status": 200,
+      "open_issues": 7466,
+      "pushed_at": "2026-02-24T15:25:57Z",
+      "reason": "",
+      "repo": "openclaw/openclaw",
+      "stars": 224330,
+      "updated_at": "2026-02-24T15:28:12Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "master",
+      "forks": 55140,
+      "html_url": "https://github.com/n8n-io/n8n",
+      "http_status": 200,
+      "open_issues": 1392,
+      "pushed_at": "2026-02-24T15:21:49Z",
+      "reason": "",
+      "repo": "n8n-io/n8n",
+      "stars": 176131,
+      "updated_at": "2026-02-24T15:27:28Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 14652,
+      "html_url": "https://github.com/ollama/ollama",
+      "http_status": 200,
+      "open_issues": 2459,
+      "pushed_at": "2026-02-24T06:35:05Z",
+      "reason": "",
+      "repo": "ollama/ollama",
+      "stars": 163265,
+      "updated_at": "2026-02-24T15:13:15Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 32183,
+      "html_url": "https://github.com/huggingface/transformers",
+      "http_status": 200,
+      "open_issues": 2274,
+      "pushed_at": "2026-02-24T15:27:07Z",
+      "reason": "",
+      "repo": "huggingface/transformers",
+      "stars": 156902,
+      "updated_at": "2026-02-24T15:20:00Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 8487,
+      "html_url": "https://github.com/langflow-ai/langflow",
+      "http_status": 200,
+      "open_issues": 1056,
+      "pushed_at": "2026-02-24T15:25:41Z",
+      "reason": "",
+      "repo": "langflow-ai/langflow",
+      "stars": 145019,
+      "updated_at": "2026-02-24T14:50:48Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 20291,
+      "html_url": "https://github.com/langgenius/dify",
+      "http_status": 200,
+      "open_issues": 750,
+      "pushed_at": "2026-02-24T14:56:01Z",
+      "reason": "",
+      "repo": "langgenius/dify",
+      "stars": 130176,
+      "updated_at": "2026-02-24T14:56:29Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "master",
+      "forks": 20928,
+      "html_url": "https://github.com/langchain-ai/langchain",
+      "http_status": 200,
+      "open_issues": 380,
+      "pushed_at": "2026-02-24T13:54:19Z",
+      "reason": "",
+      "repo": "langchain-ai/langchain",
+      "stars": 127314,
+      "updated_at": "2026-02-24T15:25:24Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 17660,
+      "html_url": "https://github.com/open-webui/open-webui",
+      "http_status": 200,
+      "open_issues": 248,
+      "pushed_at": "2026-02-24T00:31:27Z",
+      "reason": "",
+      "repo": "open-webui/open-webui",
+      "stars": 124778,
+      "updated_at": "2026-02-24T15:27:33Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "dev",
+      "forks": 10898,
+      "html_url": "https://github.com/anomalyco/opencode",
+      "http_status": 200,
+      "open_issues": 5742,
+      "pushed_at": "2026-02-24T14:59:04Z",
+      "reason": "",
+      "repo": "anomalyco/opencode",
+      "stars": 109765,
+      "updated_at": "2026-02-24T15:27:59Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 13237,
+      "html_url": "https://github.com/microsoft/TypeScript",
+      "http_status": 200,
+      "open_issues": 5474,
+      "pushed_at": "2026-02-23T20:36:09Z",
+      "reason": "",
+      "repo": "microsoft/TypeScript",
+      "stars": 107927,
+      "updated_at": "2026-02-24T15:26:41Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "master",
+      "forks": 11895,
+      "html_url": "https://github.com/Comfy-Org/ComfyUI",
+      "http_status": 200,
+      "open_issues": 3746,
+      "pushed_at": "2026-02-24T13:06:38Z",
+      "reason": "",
+      "repo": "comfyanonymous/ComfyUI",
+      "stars": 104065,
+      "updated_at": "2026-02-24T15:27:36Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "master",
+      "forks": 11623,
+      "html_url": "https://github.com/supabase/supabase",
+      "http_status": 200,
+      "open_issues": 993,
+      "pushed_at": "2026-02-24T15:20:03Z",
+      "reason": "",
+      "repo": "supabase/supabase",
+      "stars": 98107,
+      "updated_at": "2026-02-24T15:12:53Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "master",
+      "forks": 15051,
+      "html_url": "https://github.com/ggml-org/llama.cpp",
+      "http_status": 200,
+      "open_issues": 1131,
+      "pushed_at": "2026-02-24T14:44:46Z",
+      "reason": "",
+      "repo": "ggerganov/llama.cpp",
+      "stars": 95742,
+      "updated_at": "2026-02-24T15:23:27Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 11593,
+      "html_url": "https://github.com/google-gemini/gemini-cli",
+      "http_status": 200,
+      "open_issues": 2301,
+      "pushed_at": "2026-02-24T15:28:09Z",
+      "reason": "",
+      "repo": "google-gemini/gemini-cli",
+      "stars": 95522,
+      "updated_at": "2026-02-24T15:27:47Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 11793,
+      "html_url": "https://github.com/openai/whisper",
+      "http_status": 200,
+      "open_issues": 115,
+      "pushed_at": "2025-12-15T10:18:21Z",
+      "reason": "",
+      "repo": "openai/whisper",
+      "stars": 95025,
+      "updated_at": "2026-02-24T15:26:16Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 6143,
+      "html_url": "https://github.com/firecrawl/firecrawl",
+      "http_status": 200,
+      "open_issues": 186,
+      "pushed_at": "2026-02-24T15:15:57Z",
+      "reason": "",
+      "repo": "firecrawl/firecrawl",
+      "stars": 85215,
+      "updated_at": "2026-02-24T15:27:22Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 6143,
+      "html_url": "https://github.com/firecrawl/firecrawl",
+      "http_status": 200,
+      "open_issues": 186,
+      "pushed_at": "2026-02-24T15:15:57Z",
+      "reason": "",
+      "repo": "mendableai/firecrawl",
+      "stars": 85215,
+      "updated_at": "2026-02-24T15:27:22Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 7490,
+      "html_url": "https://github.com/punkpeye/awesome-mcp-servers",
+      "http_status": 200,
+      "open_issues": 457,
+      "pushed_at": "2026-02-24T08:23:34Z",
+      "reason": "",
+      "repo": "punkpeye/awesome-mcp-servers",
+      "stars": 81477,
+      "updated_at": "2026-02-24T15:05:04Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 9636,
+      "html_url": "https://github.com/modelcontextprotocol/servers",
+      "http_status": 200,
+      "open_issues": 367,
+      "pushed_at": "2026-02-23T02:33:23Z",
+      "reason": "",
+      "repo": "modelcontextprotocol/servers",
+      "stars": 79277,
+      "updated_at": "2026-02-24T15:17:21Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 9329,
+      "html_url": "https://github.com/browser-use/browser-use",
+      "http_status": 200,
+      "open_issues": 261,
+      "pushed_at": "2026-02-24T06:13:06Z",
+      "reason": "",
+      "repo": "browser-use/browser-use",
+      "stars": 78889,
+      "updated_at": "2026-02-24T15:18:50Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 7694,
+      "html_url": "https://github.com/anthropics/skills",
+      "http_status": 200,
+      "open_issues": 335,
+      "pushed_at": "2026-02-06T21:19:34Z",
+      "reason": "",
+      "repo": "anthropics/skills",
+      "stars": 74679,
+      "updated_at": "2026-02-24T15:28:07Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 8171,
+      "html_url": "https://github.com/infiniflow/ragflow",
+      "http_status": 200,
+      "open_issues": 2998,
+      "pushed_at": "2026-02-24T13:34:26Z",
+      "reason": "",
+      "repo": "infiniflow/ragflow",
+      "stars": 73616,
+      "updated_at": "2026-02-24T15:24:22Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "canary",
+      "forks": 14664,
+      "html_url": "https://github.com/lobehub/lobehub",
+      "http_status": 200,
+      "open_issues": 818,
+      "pushed_at": "2026-02-24T12:55:49Z",
+      "reason": "",
+      "repo": "lobehub/lobe-chat",
+      "stars": 72586,
+      "updated_at": "2026-02-24T15:10:45Z",
+      "verified": true
+    },
+    {
+      "archived": false,
+      "default_branch": "main",
+      "forks": 13655,
+      "html_url": "https://github.com/vllm-project/vllm",
+      "http_status": 200,
+      "open_issues": 3432,
+      "pushed_at": "2026-02-24T15:25:47Z",
+      "reason": "",
+      "repo": "vllm-project/vllm",
+      "stars": 71070,
+      "updated_at": "2026-02-24T15:26:20Z",
+      "verified": true
+    }
+  ],
+  "tutorials": [
+    {
+      "index_path": "tutorials/activepieces-tutorial/index.md",
+      "primary_repo": "activepieces/activepieces",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3332,
+          "html_url": "https://github.com/activepieces/activepieces",
+          "http_status": 200,
+          "open_issues": 384,
+          "pushed_at": "2026-02-24T15:18:09Z",
+          "reason": "",
+          "repo": "activepieces/activepieces",
+          "stars": 20951,
+          "updated_at": "2026-02-24T15:12:42Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "activepieces/activepieces"
+      ],
+      "tutorial": "activepieces-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/adk-python-tutorial/index.md",
+      "primary_repo": "google/adk-python",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2968,
+          "html_url": "https://github.com/google/adk-python",
+          "http_status": 200,
+          "open_issues": 552,
+          "pushed_at": "2026-02-24T12:42:26Z",
+          "reason": "",
+          "repo": "google/adk-python",
+          "stars": 17946,
+          "updated_at": "2026-02-24T14:35:48Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2277,
+          "html_url": "https://github.com/google/adk-samples",
+          "http_status": 200,
+          "open_issues": 317,
+          "pushed_at": "2026-02-24T09:53:30Z",
+          "reason": "",
+          "repo": "google/adk-samples",
+          "stars": 8508,
+          "updated_at": "2026-02-24T13:54:05Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "google/adk-python",
+        "google/adk-samples"
+      ],
+      "tutorial": "adk-python-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/ag2-tutorial/index.md",
+      "primary_repo": "ag2ai/ag2",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 540,
+          "html_url": "https://github.com/ag2ai/ag2",
+          "http_status": 200,
+          "open_issues": 196,
+          "pushed_at": "2026-02-23T20:59:19Z",
+          "reason": "",
+          "repo": "ag2ai/ag2",
+          "stars": 4179,
+          "updated_at": "2026-02-24T11:53:41Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8248,
+          "html_url": "https://github.com/microsoft/autogen",
+          "http_status": 200,
+          "open_issues": 606,
+          "pushed_at": "2026-01-22T16:27:56Z",
+          "reason": "",
+          "repo": "microsoft/autogen",
+          "stars": 54780,
+          "updated_at": "2026-02-24T15:27:15Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "ag2ai/ag2",
+        "microsoft/autogen"
+      ],
+      "tutorial": "ag2-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/agentgpt-tutorial/index.md",
+      "primary_repo": "reworkd/AgentGPT",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": true,
+          "default_branch": "main",
+          "forks": 9456,
+          "html_url": "https://github.com/reworkd/AgentGPT",
+          "http_status": 200,
+          "open_issues": 219,
+          "pushed_at": "2025-04-29T01:19:32Z",
+          "reason": "",
+          "repo": "reworkd/AgentGPT",
+          "stars": 35728,
+          "updated_at": "2026-02-24T13:15:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "reworkd/AgentGPT"
+      ],
+      "tutorial": "agentgpt-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/agenticseek-tutorial/index.md",
+      "primary_repo": "Fosowl/agenticSeek",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2785,
+          "html_url": "https://github.com/Fosowl/agenticSeek",
+          "http_status": 200,
+          "open_issues": 40,
+          "pushed_at": "2025-11-15T13:56:20Z",
+          "reason": "",
+          "repo": "Fosowl/agenticSeek",
+          "stars": 25110,
+          "updated_at": "2026-02-24T13:51:56Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Fosowl/agenticSeek"
+      ],
+      "tutorial": "agenticseek-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/agents-md-tutorial/index.md",
+      "primary_repo": "agentsmd/agents.md",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1281,
+          "html_url": "https://github.com/agentsmd/agents.md",
+          "http_status": 200,
+          "open_issues": 119,
+          "pushed_at": "2025-12-19T20:06:52Z",
+          "reason": "",
+          "repo": "agentsmd/agents.md",
+          "stars": 18009,
+          "updated_at": "2026-02-24T15:20:51Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "agentsmd/agents.md"
+      ],
+      "tutorial": "agents-md-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/agno-tutorial/index.md",
+      "primary_repo": "agno-agi/agno",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5048,
+          "html_url": "https://github.com/agno-agi/agno",
+          "http_status": 200,
+          "open_issues": 590,
+          "pushed_at": "2026-02-24T15:04:17Z",
+          "reason": "",
+          "repo": "agno-agi/agno",
+          "stars": 38148,
+          "updated_at": "2026-02-24T15:10:25Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "agno-agi/agno"
+      ],
+      "tutorial": "agno-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/aider-tutorial/index.md",
+      "primary_repo": "Aider-AI/aider",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3914,
+          "html_url": "https://github.com/Aider-AI/aider",
+          "http_status": 200,
+          "open_issues": 1390,
+          "pushed_at": "2026-02-19T02:33:10Z",
+          "reason": "",
+          "repo": "Aider-AI/aider",
+          "stars": 40909,
+          "updated_at": "2026-02-24T15:00:41Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Aider-AI/aider"
+      ],
+      "tutorial": "aider-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/anthropic-code-tutorial/index.md",
+      "primary_repo": "anthropics/anthropic-sdk-python",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 466,
+          "html_url": "https://github.com/anthropics/anthropic-sdk-python",
+          "http_status": 200,
+          "open_issues": 117,
+          "pushed_at": "2026-02-24T13:37:11Z",
+          "reason": "",
+          "repo": "anthropics/anthropic-sdk-python",
+          "stars": 2804,
+          "updated_at": "2026-02-24T02:03:19Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 220,
+          "html_url": "https://github.com/anthropics/anthropic-sdk-typescript",
+          "http_status": 200,
+          "open_issues": 95,
+          "pushed_at": "2026-02-24T05:25:34Z",
+          "reason": "",
+          "repo": "anthropics/anthropic-sdk-typescript",
+          "stars": 1637,
+          "updated_at": "2026-02-23T05:18:55Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "anthropics/anthropic-sdk-python",
+        "anthropics/anthropic-sdk-typescript"
+      ],
+      "tutorial": "anthropic-code-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/anthropic-skills-tutorial/index.md",
+      "primary_repo": "anthropics/skills",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 7694,
+          "html_url": "https://github.com/anthropics/skills",
+          "http_status": 200,
+          "open_issues": 335,
+          "pushed_at": "2026-02-06T21:19:34Z",
+          "reason": "",
+          "repo": "anthropics/skills",
+          "stars": 74679,
+          "updated_at": "2026-02-24T15:28:07Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "anthropics/skills"
+      ],
+      "tutorial": "anthropic-skills-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/anything-llm-tutorial/index.md",
+      "primary_repo": "Mintplex-Labs/anything-llm",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 5928,
+          "html_url": "https://github.com/Mintplex-Labs/anything-llm",
+          "http_status": 200,
+          "open_issues": 286,
+          "pushed_at": "2026-02-24T03:08:07Z",
+          "reason": "",
+          "repo": "Mintplex-Labs/anything-llm",
+          "stars": 54956,
+          "updated_at": "2026-02-24T15:19:30Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Mintplex-Labs/anything-llm"
+      ],
+      "tutorial": "anything-llm-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/athens-research-knowledge-graph/index.md",
+      "primary_repo": "athensresearch/athens",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 398,
+          "html_url": "https://github.com/athensresearch/athens",
+          "http_status": 200,
+          "open_issues": 316,
+          "pushed_at": "2023-02-03T12:32:15Z",
+          "reason": "",
+          "repo": "athensresearch/athens",
+          "stars": 6313,
+          "updated_at": "2026-02-23T14:33:55Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "athensresearch/athens"
+      ],
+      "tutorial": "athens-research-knowledge-graph",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/autoagent-tutorial/index.md",
+      "primary_repo": "HKUDS/AutoAgent",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1213,
+          "html_url": "https://github.com/HKUDS/AutoAgent",
+          "http_status": 200,
+          "open_issues": 52,
+          "pushed_at": "2025-10-16T06:35:28Z",
+          "reason": "",
+          "repo": "HKUDS/AutoAgent",
+          "stars": 8601,
+          "updated_at": "2026-02-24T07:54:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "HKUDS/AutoAgent"
+      ],
+      "tutorial": "autoagent-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/autogen-tutorial/index.md",
+      "primary_repo": "microsoft/autogen",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8248,
+          "html_url": "https://github.com/microsoft/autogen",
+          "http_status": 200,
+          "open_issues": 606,
+          "pushed_at": "2026-01-22T16:27:56Z",
+          "reason": "",
+          "repo": "microsoft/autogen",
+          "stars": 54780,
+          "updated_at": "2026-02-24T15:27:15Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "microsoft/autogen"
+      ],
+      "tutorial": "autogen-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/awesome-claude-code-tutorial/index.md",
+      "primary_repo": "hesreallyhim/awesome-claude-code",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1509,
+          "html_url": "https://github.com/hesreallyhim/awesome-claude-code",
+          "http_status": 200,
+          "open_issues": 73,
+          "pushed_at": "2026-02-24T12:19:28Z",
+          "reason": "",
+          "repo": "hesreallyhim/awesome-claude-code",
+          "stars": 24871,
+          "updated_at": "2026-02-24T15:27:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "hesreallyhim/awesome-claude-code"
+      ],
+      "tutorial": "awesome-claude-code-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/awesome-claude-skills-tutorial/index.md",
+      "primary_repo": "ComposioHQ/awesome-claude-skills",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3657,
+          "html_url": "https://github.com/ComposioHQ/awesome-claude-skills",
+          "http_status": 200,
+          "open_issues": 198,
+          "pushed_at": "2026-02-19T06:22:06Z",
+          "reason": "",
+          "repo": "ComposioHQ/awesome-claude-skills",
+          "stars": 37272,
+          "updated_at": "2026-02-24T15:23:40Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ComposioHQ/awesome-claude-skills"
+      ],
+      "tutorial": "awesome-claude-skills-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/awesome-mcp-servers-tutorial/index.md",
+      "primary_repo": "punkpeye/awesome-mcp-servers",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 7490,
+          "html_url": "https://github.com/punkpeye/awesome-mcp-servers",
+          "http_status": 200,
+          "open_issues": 457,
+          "pushed_at": "2026-02-24T08:23:34Z",
+          "reason": "",
+          "repo": "punkpeye/awesome-mcp-servers",
+          "stars": 81477,
+          "updated_at": "2026-02-24T15:05:04Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 522,
+          "html_url": "https://github.com/punkpeye/awesome-mcp-clients",
+          "http_status": 200,
+          "open_issues": 12,
+          "pushed_at": "2026-01-23T05:02:20Z",
+          "reason": "",
+          "repo": "punkpeye/awesome-mcp-clients",
+          "stars": 6296,
+          "updated_at": "2026-02-24T15:15:30Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "punkpeye/awesome-mcp-servers",
+        "punkpeye/awesome-mcp-clients"
+      ],
+      "tutorial": "awesome-mcp-servers-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/awslabs-mcp-tutorial/index.md",
+      "primary_repo": "awslabs/mcp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1300,
+          "html_url": "https://github.com/awslabs/mcp",
+          "http_status": 200,
+          "open_issues": 204,
+          "pushed_at": "2026-02-24T12:28:50Z",
+          "reason": "",
+          "repo": "awslabs/mcp",
+          "stars": 8236,
+          "updated_at": "2026-02-24T12:13:22Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "awslabs/mcp"
+      ],
+      "tutorial": "awslabs-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/beads-tutorial/index.md",
+      "primary_repo": "steveyegge/beads",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1060,
+          "html_url": "https://github.com/steveyegge/beads",
+          "http_status": 200,
+          "open_issues": 109,
+          "pushed_at": "2026-02-24T09:09:05Z",
+          "reason": "",
+          "repo": "steveyegge/beads",
+          "stars": 17104,
+          "updated_at": "2026-02-24T15:26:35Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "steveyegge/beads"
+      ],
+      "tutorial": "beads-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/bentoml-tutorial/index.md",
+      "primary_repo": "bentoml/BentoML",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 915,
+          "html_url": "https://github.com/bentoml/BentoML",
+          "http_status": 200,
+          "open_issues": 140,
+          "pushed_at": "2026-02-23T12:06:00Z",
+          "reason": "",
+          "repo": "bentoml/BentoML",
+          "stars": 8466,
+          "updated_at": "2026-02-24T12:46:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "bentoml/BentoML"
+      ],
+      "tutorial": "bentoml-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/bolt-diy-tutorial/index.md",
+      "primary_repo": "stackblitz-labs/bolt.diy",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 10356,
+          "html_url": "https://github.com/stackblitz-labs/bolt.diy",
+          "http_status": 200,
+          "open_issues": 90,
+          "pushed_at": "2026-02-07T14:36:22Z",
+          "reason": "",
+          "repo": "stackblitz-labs/bolt.diy",
+          "stars": 19039,
+          "updated_at": "2026-02-24T07:56:13Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "stackblitz-labs/bolt.diy"
+      ],
+      "tutorial": "bolt-diy-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/botpress-tutorial/index.md",
+      "primary_repo": "botpress/botpress",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 2246,
+          "html_url": "https://github.com/botpress/botpress",
+          "http_status": 200,
+          "open_issues": 95,
+          "pushed_at": "2026-02-24T14:38:07Z",
+          "reason": "",
+          "repo": "botpress/botpress",
+          "stars": 14567,
+          "updated_at": "2026-02-24T07:17:02Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "botpress/botpress"
+      ],
+      "tutorial": "botpress-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/browser-use-tutorial/index.md",
+      "primary_repo": "browser-use/browser-use",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 9329,
+          "html_url": "https://github.com/browser-use/browser-use",
+          "http_status": 200,
+          "open_issues": 261,
+          "pushed_at": "2026-02-24T06:13:06Z",
+          "reason": "",
+          "repo": "browser-use/browser-use",
+          "stars": 78889,
+          "updated_at": "2026-02-24T15:18:50Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "browser-use/browser-use"
+      ],
+      "tutorial": "browser-use-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/chatbox-tutorial/index.md",
+      "primary_repo": "Bin-Huang/chatbox",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3909,
+          "html_url": "https://github.com/chatboxai/chatbox",
+          "http_status": 200,
+          "open_issues": 1046,
+          "pushed_at": "2026-02-13T15:51:08Z",
+          "reason": "",
+          "repo": "Bin-Huang/chatbox",
+          "stars": 38614,
+          "updated_at": "2026-02-24T14:20:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Bin-Huang/chatbox"
+      ],
+      "tutorial": "chatbox-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/cherry-studio-tutorial/index.md",
+      "primary_repo": "CherryHQ/cherry-studio",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3697,
+          "html_url": "https://github.com/CherryHQ/cherry-studio",
+          "http_status": 200,
+          "open_issues": 646,
+          "pushed_at": "2026-02-24T13:11:38Z",
+          "reason": "",
+          "repo": "CherryHQ/cherry-studio",
+          "stars": 40132,
+          "updated_at": "2026-02-24T15:27:52Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "CherryHQ/cherry-studio"
+      ],
+      "tutorial": "cherry-studio-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/chroma-tutorial/index.md",
+      "primary_repo": "chroma-core/chroma",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2071,
+          "html_url": "https://github.com/chroma-core/chroma",
+          "http_status": 200,
+          "open_issues": 520,
+          "pushed_at": "2026-02-24T00:43:14Z",
+          "reason": "",
+          "repo": "chroma-core/chroma",
+          "stars": 26275,
+          "updated_at": "2026-02-24T15:27:39Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "chroma-core/chroma"
+      ],
+      "tutorial": "chroma-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/chrome-devtools-mcp-tutorial/index.md",
+      "primary_repo": "ChromeDevTools/chrome-devtools-mcp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1554,
+          "html_url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+          "http_status": 200,
+          "open_issues": 69,
+          "pushed_at": "2026-02-24T15:23:44Z",
+          "reason": "",
+          "repo": "ChromeDevTools/chrome-devtools-mcp",
+          "stars": 26560,
+          "updated_at": "2026-02-24T15:24:00Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ChromeDevTools/chrome-devtools-mcp"
+      ],
+      "tutorial": "chrome-devtools-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/cipher-tutorial/index.md",
+      "primary_repo": "campfirein/cipher",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 361,
+          "html_url": "https://github.com/campfirein/cipher",
+          "http_status": 200,
+          "open_issues": 14,
+          "pushed_at": "2026-01-25T04:55:06Z",
+          "reason": "",
+          "repo": "campfirein/cipher",
+          "stars": 3537,
+          "updated_at": "2026-02-24T06:58:05Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "campfirein/cipher"
+      ],
+      "tutorial": "cipher-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-code-router-tutorial/index.md",
+      "primary_repo": "musistudio/claude-code-router",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2185,
+          "html_url": "https://github.com/musistudio/claude-code-router",
+          "http_status": 200,
+          "open_issues": 791,
+          "pushed_at": "2026-01-10T13:42:08Z",
+          "reason": "",
+          "repo": "musistudio/claude-code-router",
+          "stars": 28273,
+          "updated_at": "2026-02-24T15:22:23Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "musistudio/claude-code-router"
+      ],
+      "tutorial": "claude-code-router-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-code-tutorial/index.md",
+      "primary_repo": "anthropics/claude-code",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5486,
+          "html_url": "https://github.com/anthropics/claude-code",
+          "http_status": 200,
+          "open_issues": 6678,
+          "pushed_at": "2026-02-24T06:39:56Z",
+          "reason": "",
+          "repo": "anthropics/claude-code",
+          "stars": 69614,
+          "updated_at": "2026-02-24T15:26:42Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "anthropics/claude-code"
+      ],
+      "tutorial": "claude-code-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-flow-tutorial/index.md",
+      "primary_repo": "ruvnet/claude-flow",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1686,
+          "html_url": "https://github.com/ruvnet/claude-flow",
+          "http_status": 200,
+          "open_issues": 504,
+          "pushed_at": "2026-02-17T21:41:47Z",
+          "reason": "",
+          "repo": "ruvnet/claude-flow",
+          "stars": 14416,
+          "updated_at": "2026-02-24T15:28:15Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ruvnet/claude-flow"
+      ],
+      "tutorial": "claude-flow-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-mem-tutorial/index.md",
+      "primary_repo": "thedotmack/claude-mem",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2082,
+          "html_url": "https://github.com/thedotmack/claude-mem",
+          "http_status": 200,
+          "open_issues": 39,
+          "pushed_at": "2026-02-24T03:13:36Z",
+          "reason": "",
+          "repo": "thedotmack/claude-mem",
+          "stars": 30633,
+          "updated_at": "2026-02-24T15:22:01Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "thedotmack/claude-mem"
+      ],
+      "tutorial": "claude-mem-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-plugins-official-tutorial/index.md",
+      "primary_repo": "anthropics/claude-plugins-official",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 803,
+          "html_url": "https://github.com/anthropics/claude-plugins-official",
+          "http_status": 200,
+          "open_issues": 208,
+          "pushed_at": "2026-02-24T06:31:45Z",
+          "reason": "",
+          "repo": "anthropics/claude-plugins-official",
+          "stars": 8241,
+          "updated_at": "2026-02-24T15:10:40Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "anthropics/claude-plugins-official"
+      ],
+      "tutorial": "claude-plugins-official-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-quickstarts-tutorial/index.md",
+      "primary_repo": "anthropics/anthropic-quickstarts",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2469,
+          "html_url": "https://github.com/anthropics/claude-quickstarts",
+          "http_status": 200,
+          "open_issues": 144,
+          "pushed_at": "2026-02-05T20:47:09Z",
+          "reason": "",
+          "repo": "anthropics/anthropic-quickstarts",
+          "stars": 14799,
+          "updated_at": "2026-02-24T14:06:04Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "anthropics/anthropic-quickstarts"
+      ],
+      "tutorial": "claude-quickstarts-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-squad-tutorial/index.md",
+      "primary_repo": "smtg-ai/claude-squad",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 413,
+          "html_url": "https://github.com/smtg-ai/claude-squad",
+          "http_status": 200,
+          "open_issues": 42,
+          "pushed_at": "2025-12-24T21:15:01Z",
+          "reason": "",
+          "repo": "smtg-ai/claude-squad",
+          "stars": 6128,
+          "updated_at": "2026-02-24T14:43:16Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "smtg-ai/claude-squad"
+      ],
+      "tutorial": "claude-squad-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/claude-task-master-tutorial/index.md",
+      "primary_repo": "eyaltoledano/claude-task-master",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2434,
+          "html_url": "https://github.com/eyaltoledano/claude-task-master",
+          "http_status": 200,
+          "open_issues": 165,
+          "pushed_at": "2026-02-23T17:11:00Z",
+          "reason": "",
+          "repo": "eyaltoledano/claude-task-master",
+          "stars": 25616,
+          "updated_at": "2026-02-24T15:27:20Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "eyaltoledano/claude-task-master"
+      ],
+      "tutorial": "claude-task-master-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/clickhouse-tutorial/index.md",
+      "primary_repo": "ClickHouse/ClickHouse",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 8106,
+          "html_url": "https://github.com/ClickHouse/ClickHouse",
+          "http_status": 200,
+          "open_issues": 5488,
+          "pushed_at": "2026-02-24T15:14:49Z",
+          "reason": "",
+          "repo": "ClickHouse/ClickHouse",
+          "stars": 46037,
+          "updated_at": "2026-02-24T15:04:26Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ClickHouse/ClickHouse"
+      ],
+      "tutorial": "clickhouse-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/cline-tutorial/index.md",
+      "primary_repo": "cline/cline",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5843,
+          "html_url": "https://github.com/cline/cline",
+          "http_status": 200,
+          "open_issues": 736,
+          "pushed_at": "2026-02-24T06:31:07Z",
+          "reason": "",
+          "repo": "cline/cline",
+          "stars": 58318,
+          "updated_at": "2026-02-24T15:24:01Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "cline/cline"
+      ],
+      "tutorial": "cline-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/codemachine-cli-tutorial/index.md",
+      "primary_repo": "moazbuilds/CodeMachine-CLI",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 222,
+          "html_url": "https://github.com/moazbuilds/CodeMachine-CLI",
+          "http_status": 200,
+          "open_issues": 3,
+          "pushed_at": "2026-02-24T11:48:35Z",
+          "reason": "",
+          "repo": "moazbuilds/CodeMachine-CLI",
+          "stars": 2294,
+          "updated_at": "2026-02-24T14:13:18Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "moazbuilds/CodeMachine-CLI"
+      ],
+      "tutorial": "codemachine-cli-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/codex-analysis-platform/index.md",
+      "primary_repo": "microsoft/TypeScript",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 13237,
+          "html_url": "https://github.com/microsoft/TypeScript",
+          "http_status": 200,
+          "open_issues": 5474,
+          "pushed_at": "2026-02-23T20:36:09Z",
+          "reason": "",
+          "repo": "microsoft/TypeScript",
+          "stars": 107927,
+          "updated_at": "2026-02-24T15:26:41Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "microsoft/TypeScript"
+      ],
+      "tutorial": "codex-analysis-platform",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/codex-cli-tutorial/index.md",
+      "primary_repo": "openai/codex",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8196,
+          "html_url": "https://github.com/openai/codex",
+          "http_status": 200,
+          "open_issues": 1342,
+          "pushed_at": "2026-02-24T15:21:40Z",
+          "reason": "",
+          "repo": "openai/codex",
+          "stars": 61718,
+          "updated_at": "2026-02-24T15:26:11Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "openai/codex"
+      ],
+      "tutorial": "codex-cli-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/comfyui-tutorial/index.md",
+      "primary_repo": "comfyanonymous/ComfyUI",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 11895,
+          "html_url": "https://github.com/Comfy-Org/ComfyUI",
+          "http_status": 200,
+          "open_issues": 3746,
+          "pushed_at": "2026-02-24T13:06:38Z",
+          "reason": "",
+          "repo": "comfyanonymous/ComfyUI",
+          "stars": 104065,
+          "updated_at": "2026-02-24T15:27:36Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "comfyanonymous/ComfyUI"
+      ],
+      "tutorial": "comfyui-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/composio-tutorial/index.md",
+      "primary_repo": "ComposioHQ/composio",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "next",
+          "forks": 4454,
+          "html_url": "https://github.com/ComposioHQ/composio",
+          "http_status": 200,
+          "open_issues": 48,
+          "pushed_at": "2026-02-24T13:36:09Z",
+          "reason": "",
+          "repo": "ComposioHQ/composio",
+          "stars": 27156,
+          "updated_at": "2026-02-24T14:56:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ComposioHQ/composio"
+      ],
+      "tutorial": "composio-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/compound-engineering-plugin-tutorial/index.md",
+      "primary_repo": "EveryInc/compound-engineering-plugin",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 744,
+          "html_url": "https://github.com/EveryInc/compound-engineering-plugin",
+          "http_status": 200,
+          "open_issues": 41,
+          "pushed_at": "2026-02-23T21:24:12Z",
+          "reason": "",
+          "repo": "EveryInc/compound-engineering-plugin",
+          "stars": 9478,
+          "updated_at": "2026-02-24T15:15:49Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "EveryInc/compound-engineering-plugin"
+      ],
+      "tutorial": "compound-engineering-plugin-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/context7-tutorial/index.md",
+      "primary_repo": "upstash/context7",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 2218,
+          "html_url": "https://github.com/upstash/context7",
+          "http_status": 200,
+          "open_issues": 122,
+          "pushed_at": "2026-02-23T10:06:56Z",
+          "reason": "",
+          "repo": "upstash/context7",
+          "stars": 46722,
+          "updated_at": "2026-02-24T15:28:16Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "upstash/context7"
+      ],
+      "tutorial": "context7-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/continue-tutorial/index.md",
+      "primary_repo": "continuedev/continue",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4190,
+          "html_url": "https://github.com/continuedev/continue",
+          "http_status": 200,
+          "open_issues": 912,
+          "pushed_at": "2026-02-24T10:01:30Z",
+          "reason": "",
+          "repo": "continuedev/continue",
+          "stars": 31501,
+          "updated_at": "2026-02-24T12:52:46Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "continuedev/continue"
+      ],
+      "tutorial": "continue-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/copilot-cli-tutorial/index.md",
+      "primary_repo": "github/copilot-cli",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1202,
+          "html_url": "https://github.com/github/copilot-cli",
+          "http_status": 200,
+          "open_issues": 909,
+          "pushed_at": "2026-02-23T21:46:08Z",
+          "reason": "",
+          "repo": "github/copilot-cli",
+          "stars": 8705,
+          "updated_at": "2026-02-24T15:24:27Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "github/copilot-cli"
+      ],
+      "tutorial": "copilot-cli-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/copilotkit-tutorial/index.md",
+      "primary_repo": "CopilotKit/CopilotKit",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3772,
+          "html_url": "https://github.com/CopilotKit/CopilotKit",
+          "http_status": 200,
+          "open_issues": 575,
+          "pushed_at": "2026-02-24T15:23:19Z",
+          "reason": "",
+          "repo": "CopilotKit/CopilotKit",
+          "stars": 28994,
+          "updated_at": "2026-02-24T15:27:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "CopilotKit/CopilotKit"
+      ],
+      "tutorial": "copilotkit-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/create-python-server-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/create-python-server",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": true,
+          "default_branch": "main",
+          "forks": 111,
+          "html_url": "https://github.com/modelcontextprotocol/create-python-server",
+          "http_status": 200,
+          "open_issues": 7,
+          "pushed_at": "2025-01-23T10:06:10Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/create-python-server",
+          "stars": 477,
+          "updated_at": "2026-02-23T20:45:00Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/create-python-server"
+      ],
+      "tutorial": "create-python-server-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/create-typescript-server-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/create-typescript-server",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": true,
+          "default_branch": "main",
+          "forks": 66,
+          "html_url": "https://github.com/modelcontextprotocol/create-typescript-server",
+          "http_status": 200,
+          "open_issues": 4,
+          "pushed_at": "2024-11-25T18:37:30Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/create-typescript-server",
+          "stars": 172,
+          "updated_at": "2026-01-15T06:06:42Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/create-typescript-server"
+      ],
+      "tutorial": "create-typescript-server-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/crewai-tutorial/index.md",
+      "primary_repo": "crewAIInc/crewAI",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5970,
+          "html_url": "https://github.com/crewAIInc/crewAI",
+          "http_status": 200,
+          "open_issues": 322,
+          "pushed_at": "2026-02-24T14:06:02Z",
+          "reason": "",
+          "repo": "crewAIInc/crewAI",
+          "stars": 44542,
+          "updated_at": "2026-02-24T14:10:25Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "crewAIInc/crewAI"
+      ],
+      "tutorial": "crewai-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/crush-tutorial/index.md",
+      "primary_repo": "charmbracelet/crush",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1262,
+          "html_url": "https://github.com/charmbracelet/crush",
+          "http_status": 200,
+          "open_issues": 330,
+          "pushed_at": "2026-02-24T01:12:20Z",
+          "reason": "",
+          "repo": "charmbracelet/crush",
+          "stars": 20367,
+          "updated_at": "2026-02-24T15:09:12Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "charmbracelet/crush"
+      ],
+      "tutorial": "crush-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/daytona-tutorial/index.md",
+      "primary_repo": "daytonaio/daytona",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5064,
+          "html_url": "https://github.com/daytonaio/daytona",
+          "http_status": 200,
+          "open_issues": 297,
+          "pushed_at": "2026-02-24T14:46:01Z",
+          "reason": "",
+          "repo": "daytonaio/daytona",
+          "stars": 60076,
+          "updated_at": "2026-02-24T15:26:21Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "daytonaio/daytona"
+      ],
+      "tutorial": "daytona-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/deer-flow-tutorial/index.md",
+      "primary_repo": "bytedance/deer-flow",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2535,
+          "html_url": "https://github.com/bytedance/deer-flow",
+          "http_status": 200,
+          "open_issues": 205,
+          "pushed_at": "2026-02-24T15:12:09Z",
+          "reason": "",
+          "repo": "bytedance/deer-flow",
+          "stars": 20156,
+          "updated_at": "2026-02-24T15:19:16Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "bytedance/deer-flow"
+      ],
+      "tutorial": "deer-flow-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/dify-platform-deep-dive/index.md",
+      "primary_repo": "langgenius/dify",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 20291,
+          "html_url": "https://github.com/langgenius/dify",
+          "http_status": 200,
+          "open_issues": 750,
+          "pushed_at": "2026-02-24T14:56:01Z",
+          "reason": "",
+          "repo": "langgenius/dify",
+          "stars": 130176,
+          "updated_at": "2026-02-24T14:56:29Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langgenius/dify"
+      ],
+      "tutorial": "dify-platform-deep-dive",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/dspy-tutorial/index.md",
+      "primary_repo": "stanfordnlp/dspy",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2645,
+          "html_url": "https://github.com/stanfordnlp/dspy",
+          "http_status": 200,
+          "open_issues": 475,
+          "pushed_at": "2026-02-24T10:18:34Z",
+          "reason": "",
+          "repo": "stanfordnlp/dspy",
+          "stars": 32371,
+          "updated_at": "2026-02-24T15:13:31Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "stanfordnlp/dspy"
+      ],
+      "tutorial": "dspy-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/dyad-tutorial/index.md",
+      "primary_repo": "dyad-sh/dyad",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2240,
+          "html_url": "https://github.com/dyad-sh/dyad",
+          "http_status": 200,
+          "open_issues": 260,
+          "pushed_at": "2026-02-24T11:58:06Z",
+          "reason": "",
+          "repo": "dyad-sh/dyad",
+          "stars": 19693,
+          "updated_at": "2026-02-24T14:46:23Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "dyad-sh/dyad"
+      ],
+      "tutorial": "dyad-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/elizaos-tutorial/index.md",
+      "primary_repo": "elizaOS/eliza",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "develop",
+          "forks": 5431,
+          "html_url": "https://github.com/elizaOS/eliza",
+          "http_status": 200,
+          "open_issues": 131,
+          "pushed_at": "2026-02-23T09:06:26Z",
+          "reason": "",
+          "repo": "elizaOS/eliza",
+          "stars": 17607,
+          "updated_at": "2026-02-24T14:49:51Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "elizaOS/eliza"
+      ],
+      "tutorial": "elizaos-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/everything-claude-code-tutorial/index.md",
+      "primary_repo": "affaan-m/everything-claude-code",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 6326,
+          "html_url": "https://github.com/affaan-m/everything-claude-code",
+          "http_status": 200,
+          "open_issues": 27,
+          "pushed_at": "2026-02-24T06:54:09Z",
+          "reason": "",
+          "repo": "affaan-m/everything-claude-code",
+          "stars": 51104,
+          "updated_at": "2026-02-24T15:27:37Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "affaan-m/everything-claude-code"
+      ],
+      "tutorial": "everything-claude-code-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/fabric-tutorial/index.md",
+      "primary_repo": "danielmiessler/fabric",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3917,
+          "html_url": "https://github.com/danielmiessler/Fabric",
+          "http_status": 200,
+          "open_issues": 24,
+          "pushed_at": "2026-02-24T01:12:42Z",
+          "reason": "",
+          "repo": "danielmiessler/fabric",
+          "stars": 39288,
+          "updated_at": "2026-02-24T12:55:19Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3917,
+          "html_url": "https://github.com/danielmiessler/Fabric",
+          "http_status": 200,
+          "open_issues": 24,
+          "pushed_at": "2026-02-24T01:12:42Z",
+          "reason": "",
+          "repo": "danielmiessler/Fabric",
+          "stars": 39288,
+          "updated_at": "2026-02-24T12:55:19Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "danielmiessler/fabric",
+        "danielmiessler/Fabric"
+      ],
+      "tutorial": "fabric-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/fastmcp-tutorial/index.md",
+      "primary_repo": "jlowin/fastmcp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1773,
+          "html_url": "https://github.com/PrefectHQ/fastmcp",
+          "http_status": 200,
+          "open_issues": 237,
+          "pushed_at": "2026-02-23T20:08:05Z",
+          "reason": "",
+          "repo": "jlowin/fastmcp",
+          "stars": 23106,
+          "updated_at": "2026-02-24T15:17:15Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "jlowin/fastmcp"
+      ],
+      "tutorial": "fastmcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/figma-context-mcp-tutorial/index.md",
+      "primary_repo": "GLips/Figma-Context-MCP",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1055,
+          "html_url": "https://github.com/GLips/Figma-Context-MCP",
+          "http_status": 200,
+          "open_issues": 42,
+          "pushed_at": "2026-02-19T07:31:04Z",
+          "reason": "",
+          "repo": "GLips/Figma-Context-MCP",
+          "stars": 13225,
+          "updated_at": "2026-02-24T14:13:49Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "GLips/Figma-Context-MCP"
+      ],
+      "tutorial": "figma-context-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/firecrawl-mcp-server-tutorial/index.md",
+      "primary_repo": "firecrawl/firecrawl-mcp-server",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 617,
+          "html_url": "https://github.com/firecrawl/firecrawl-mcp-server",
+          "http_status": 200,
+          "open_issues": 72,
+          "pushed_at": "2026-02-20T04:09:54Z",
+          "reason": "",
+          "repo": "firecrawl/firecrawl-mcp-server",
+          "stars": 5586,
+          "updated_at": "2026-02-24T15:12:50Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "firecrawl/firecrawl-mcp-server"
+      ],
+      "tutorial": "firecrawl-mcp-server-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/firecrawl-tutorial/index.md",
+      "primary_repo": "mendableai/firecrawl",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 6143,
+          "html_url": "https://github.com/firecrawl/firecrawl",
+          "http_status": 200,
+          "open_issues": 186,
+          "pushed_at": "2026-02-24T15:15:57Z",
+          "reason": "",
+          "repo": "mendableai/firecrawl",
+          "stars": 85215,
+          "updated_at": "2026-02-24T15:27:22Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 6143,
+          "html_url": "https://github.com/firecrawl/firecrawl",
+          "http_status": 200,
+          "open_issues": 186,
+          "pushed_at": "2026-02-24T15:15:57Z",
+          "reason": "",
+          "repo": "firecrawl/firecrawl",
+          "stars": 85215,
+          "updated_at": "2026-02-24T15:27:22Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "mendableai/firecrawl",
+        "firecrawl/firecrawl"
+      ],
+      "tutorial": "firecrawl-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/fireproof-tutorial/index.md",
+      "primary_repo": "fireproof-storage/fireproof",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 56,
+          "html_url": "https://github.com/fireproof-storage/fireproof",
+          "http_status": 200,
+          "open_issues": 94,
+          "pushed_at": "2026-02-23T22:31:31Z",
+          "reason": "",
+          "repo": "fireproof-storage/fireproof",
+          "stars": 949,
+          "updated_at": "2026-02-23T12:07:54Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "fireproof-storage/fireproof"
+      ],
+      "tutorial": "fireproof-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/flowise-llm-orchestration/index.md",
+      "primary_repo": "FlowiseAI/Flowise",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 23745,
+          "html_url": "https://github.com/FlowiseAI/Flowise",
+          "http_status": 200,
+          "open_issues": 826,
+          "pushed_at": "2026-02-24T12:22:24Z",
+          "reason": "",
+          "repo": "FlowiseAI/Flowise",
+          "stars": 49318,
+          "updated_at": "2026-02-24T13:47:38Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "FlowiseAI/Flowise"
+      ],
+      "tutorial": "flowise-llm-orchestration",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/gemini-cli-tutorial/index.md",
+      "primary_repo": "google-gemini/gemini-cli",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 11593,
+          "html_url": "https://github.com/google-gemini/gemini-cli",
+          "http_status": 200,
+          "open_issues": 2301,
+          "pushed_at": "2026-02-24T15:28:09Z",
+          "reason": "",
+          "repo": "google-gemini/gemini-cli",
+          "stars": 95522,
+          "updated_at": "2026-02-24T15:27:47Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "google-gemini/gemini-cli"
+      ],
+      "tutorial": "gemini-cli-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/genai-toolbox-tutorial/index.md",
+      "primary_repo": "googleapis/genai-toolbox",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1225,
+          "html_url": "https://github.com/googleapis/genai-toolbox",
+          "http_status": 200,
+          "open_issues": 175,
+          "pushed_at": "2026-02-24T11:54:00Z",
+          "reason": "",
+          "repo": "googleapis/genai-toolbox",
+          "stars": 13165,
+          "updated_at": "2026-02-24T15:21:43Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "googleapis/genai-toolbox"
+      ],
+      "tutorial": "genai-toolbox-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/github-mcp-server-tutorial/index.md",
+      "primary_repo": "github/github-mcp-server",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3629,
+          "html_url": "https://github.com/github/github-mcp-server",
+          "http_status": 200,
+          "open_issues": 285,
+          "pushed_at": "2026-02-24T15:24:50Z",
+          "reason": "",
+          "repo": "github/github-mcp-server",
+          "stars": 27203,
+          "updated_at": "2026-02-24T15:00:10Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "github/github-mcp-server"
+      ],
+      "tutorial": "github-mcp-server-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/goose-tutorial/index.md",
+      "primary_repo": "block/goose",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2819,
+          "html_url": "https://github.com/block/goose",
+          "http_status": 200,
+          "open_issues": 341,
+          "pushed_at": "2026-02-24T14:53:06Z",
+          "reason": "",
+          "repo": "block/goose",
+          "stars": 31081,
+          "updated_at": "2026-02-24T15:13:34Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "block/goose"
+      ],
+      "tutorial": "goose-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/gpt-oss-tutorial/index.md",
+      "primary_repo": "karpathy/nanoGPT",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 9092,
+          "html_url": "https://github.com/karpathy/nanoGPT",
+          "http_status": 200,
+          "open_issues": 334,
+          "pushed_at": "2025-11-12T19:52:34Z",
+          "reason": "",
+          "repo": "karpathy/nanoGPT",
+          "stars": 53702,
+          "updated_at": "2026-02-24T15:17:30Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1096,
+          "html_url": "https://github.com/EleutherAI/gpt-neox",
+          "http_status": 200,
+          "open_issues": 92,
+          "pushed_at": "2026-02-03T00:16:14Z",
+          "reason": "",
+          "repo": "EleutherAI/gpt-neox",
+          "stars": 7393,
+          "updated_at": "2026-02-24T03:07:00Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3125,
+          "html_url": "https://github.com/karpathy/minGPT",
+          "http_status": 200,
+          "open_issues": 81,
+          "pushed_at": "2024-08-15T04:09:40Z",
+          "reason": "",
+          "repo": "karpathy/minGPT",
+          "stars": 23679,
+          "updated_at": "2026-02-24T12:50:57Z",
+          "verified": true
+        },
+        {
+          "archived": true,
+          "default_branch": "master",
+          "forks": 964,
+          "html_url": "https://github.com/EleutherAI/gpt-neo",
+          "http_status": 200,
+          "open_issues": 15,
+          "pushed_at": "2022-02-25T06:27:12Z",
+          "reason": "",
+          "repo": "EleutherAI/gpt-neo",
+          "stars": 8287,
+          "updated_at": "2026-02-22T05:07:50Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 886,
+          "html_url": "https://github.com/kingoflolz/mesh-transformer-jax",
+          "http_status": 200,
+          "open_issues": 48,
+          "pushed_at": "2023-01-21T00:09:29Z",
+          "reason": "",
+          "repo": "kingoflolz/mesh-transformer-jax",
+          "stars": 6361,
+          "updated_at": "2026-02-23T17:36:39Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 5,
+      "source_repos": [
+        "karpathy/nanoGPT",
+        "EleutherAI/gpt-neox",
+        "karpathy/minGPT",
+        "EleutherAI/gpt-neo",
+        "kingoflolz/mesh-transformer-jax"
+      ],
+      "tutorial": "gpt-oss-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 5
+    },
+    {
+      "index_path": "tutorials/gptme-tutorial/index.md",
+      "primary_repo": "gptme/gptme",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 358,
+          "html_url": "https://github.com/gptme/gptme",
+          "http_status": 200,
+          "open_issues": 48,
+          "pushed_at": "2026-02-24T15:21:14Z",
+          "reason": "",
+          "repo": "gptme/gptme",
+          "stars": 4202,
+          "updated_at": "2026-02-24T14:26:55Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "gptme/gptme"
+      ],
+      "tutorial": "gptme-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/hapi-tutorial/index.md",
+      "primary_repo": "tiann/hapi",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 171,
+          "html_url": "https://github.com/tiann/hapi",
+          "http_status": 200,
+          "open_issues": 25,
+          "pushed_at": "2026-02-19T00:08:52Z",
+          "reason": "",
+          "repo": "tiann/hapi",
+          "stars": 1634,
+          "updated_at": "2026-02-24T14:47:04Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "tiann/hapi"
+      ],
+      "tutorial": "hapi-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/haystack-tutorial/index.md",
+      "primary_repo": "deepset-ai/haystack",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2619,
+          "html_url": "https://github.com/deepset-ai/haystack",
+          "http_status": 200,
+          "open_issues": 101,
+          "pushed_at": "2026-02-24T15:04:59Z",
+          "reason": "",
+          "repo": "deepset-ai/haystack",
+          "stars": 24299,
+          "updated_at": "2026-02-24T15:11:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "deepset-ai/haystack"
+      ],
+      "tutorial": "haystack-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/huggingface-tutorial/index.md",
+      "primary_repo": "huggingface/transformers",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 32183,
+          "html_url": "https://github.com/huggingface/transformers",
+          "http_status": 200,
+          "open_issues": 2274,
+          "pushed_at": "2026-02-24T15:27:07Z",
+          "reason": "",
+          "repo": "huggingface/transformers",
+          "stars": 156902,
+          "updated_at": "2026-02-24T15:20:00Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "huggingface/transformers"
+      ],
+      "tutorial": "huggingface-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/humanlayer-tutorial/index.md",
+      "primary_repo": "humanlayer/humanlayer",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 805,
+          "html_url": "https://github.com/humanlayer/humanlayer",
+          "http_status": 200,
+          "open_issues": 75,
+          "pushed_at": "2026-02-24T14:52:47Z",
+          "reason": "",
+          "repo": "humanlayer/humanlayer",
+          "stars": 9464,
+          "updated_at": "2026-02-24T14:35:51Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "humanlayer/humanlayer"
+      ],
+      "tutorial": "humanlayer-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/instructor-tutorial/index.md",
+      "primary_repo": "instructor-ai/instructor",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 940,
+          "html_url": "https://github.com/567-labs/instructor",
+          "http_status": 200,
+          "open_issues": 42,
+          "pushed_at": "2026-02-24T06:41:10Z",
+          "reason": "",
+          "repo": "instructor-ai/instructor",
+          "stars": 12424,
+          "updated_at": "2026-02-24T14:01:58Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "instructor-ai/instructor"
+      ],
+      "tutorial": "instructor-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/khoj-tutorial/index.md",
+      "primary_repo": "khoj-ai/khoj",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 1971,
+          "html_url": "https://github.com/khoj-ai/khoj",
+          "http_status": 200,
+          "open_issues": 88,
+          "pushed_at": "2026-02-22T20:00:05Z",
+          "reason": "",
+          "repo": "khoj-ai/khoj",
+          "stars": 32600,
+          "updated_at": "2026-02-24T13:12:01Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "khoj-ai/khoj"
+      ],
+      "tutorial": "khoj-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/kilocode-tutorial/index.md",
+      "primary_repo": "Kilo-Org/kilocode",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2046,
+          "html_url": "https://github.com/Kilo-Org/kilocode",
+          "http_status": 200,
+          "open_issues": 628,
+          "pushed_at": "2026-02-24T15:19:18Z",
+          "reason": "",
+          "repo": "Kilo-Org/kilocode",
+          "stars": 15807,
+          "updated_at": "2026-02-24T15:10:41Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Kilo-Org/kilocode"
+      ],
+      "tutorial": "kilocode-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/kimi-cli-tutorial/index.md",
+      "primary_repo": "MoonshotAI/kimi-cli",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 643,
+          "html_url": "https://github.com/MoonshotAI/kimi-cli",
+          "http_status": 200,
+          "open_issues": 115,
+          "pushed_at": "2026-02-24T09:46:37Z",
+          "reason": "",
+          "repo": "MoonshotAI/kimi-cli",
+          "stars": 6709,
+          "updated_at": "2026-02-24T15:24:18Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "MoonshotAI/kimi-cli"
+      ],
+      "tutorial": "kimi-cli-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/kubernetes-operator-patterns/index.md",
+      "primary_repo": "operator-framework/operator-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 1776,
+          "html_url": "https://github.com/operator-framework/operator-sdk",
+          "http_status": 200,
+          "open_issues": 72,
+          "pushed_at": "2026-02-11T04:52:31Z",
+          "reason": "",
+          "repo": "operator-framework/operator-sdk",
+          "stars": 7609,
+          "updated_at": "2026-02-24T13:41:38Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "operator-framework/operator-sdk"
+      ],
+      "tutorial": "kubernetes-operator-patterns",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/lancedb-tutorial/index.md",
+      "primary_repo": "lancedb/lancedb",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 760,
+          "html_url": "https://github.com/lancedb/lancedb",
+          "http_status": 200,
+          "open_issues": 572,
+          "pushed_at": "2026-02-24T14:32:54Z",
+          "reason": "",
+          "repo": "lancedb/lancedb",
+          "stars": 9093,
+          "updated_at": "2026-02-24T15:04:41Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "lancedb/lancedb"
+      ],
+      "tutorial": "lancedb-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/langchain-architecture-guide/index.md",
+      "primary_repo": "langchain-ai/langchain",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 20928,
+          "html_url": "https://github.com/langchain-ai/langchain",
+          "http_status": 200,
+          "open_issues": 380,
+          "pushed_at": "2026-02-24T13:54:19Z",
+          "reason": "",
+          "repo": "langchain-ai/langchain",
+          "stars": 127314,
+          "updated_at": "2026-02-24T15:25:24Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langchain-ai/langchain"
+      ],
+      "tutorial": "langchain-architecture-guide",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/langchain-tutorial/index.md",
+      "primary_repo": "langchain-ai/langchain",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 20928,
+          "html_url": "https://github.com/langchain-ai/langchain",
+          "http_status": 200,
+          "open_issues": 380,
+          "pushed_at": "2026-02-24T13:54:19Z",
+          "reason": "",
+          "repo": "langchain-ai/langchain",
+          "stars": 127314,
+          "updated_at": "2026-02-24T15:25:24Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langchain-ai/langchain"
+      ],
+      "tutorial": "langchain-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/langflow-tutorial/index.md",
+      "primary_repo": "langflow-ai/langflow",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8487,
+          "html_url": "https://github.com/langflow-ai/langflow",
+          "http_status": 200,
+          "open_issues": 1056,
+          "pushed_at": "2026-02-24T15:25:41Z",
+          "reason": "",
+          "repo": "langflow-ai/langflow",
+          "stars": 145019,
+          "updated_at": "2026-02-24T14:50:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langflow-ai/langflow"
+      ],
+      "tutorial": "langflow-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/langfuse-tutorial/index.md",
+      "primary_repo": "langfuse/langfuse",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2210,
+          "html_url": "https://github.com/langfuse/langfuse",
+          "http_status": 200,
+          "open_issues": 546,
+          "pushed_at": "2026-02-24T14:59:41Z",
+          "reason": "",
+          "repo": "langfuse/langfuse",
+          "stars": 22218,
+          "updated_at": "2026-02-24T15:18:01Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langfuse/langfuse"
+      ],
+      "tutorial": "langfuse-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/langgraph-tutorial/index.md",
+      "primary_repo": "langchain-ai/langgraph",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4371,
+          "html_url": "https://github.com/langchain-ai/langgraph",
+          "http_status": 200,
+          "open_issues": 331,
+          "pushed_at": "2026-02-24T04:30:45Z",
+          "reason": "",
+          "repo": "langchain-ai/langgraph",
+          "stars": 25026,
+          "updated_at": "2026-02-24T15:01:44Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langchain-ai/langgraph"
+      ],
+      "tutorial": "langgraph-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/letta-tutorial/index.md",
+      "primary_repo": "letta-ai/letta",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2222,
+          "html_url": "https://github.com/letta-ai/letta",
+          "http_status": 200,
+          "open_issues": 72,
+          "pushed_at": "2026-01-29T20:50:40Z",
+          "reason": "",
+          "repo": "letta-ai/letta",
+          "stars": 21239,
+          "updated_at": "2026-02-24T14:59:23Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "letta-ai/letta"
+      ],
+      "tutorial": "letta-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/litellm-tutorial/index.md",
+      "primary_repo": "BerriAI/litellm",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5960,
+          "html_url": "https://github.com/BerriAI/litellm",
+          "http_status": 200,
+          "open_issues": 1542,
+          "pushed_at": "2026-02-24T15:21:39Z",
+          "reason": "",
+          "repo": "BerriAI/litellm",
+          "stars": 36775,
+          "updated_at": "2026-02-24T15:26:09Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "BerriAI/litellm"
+      ],
+      "tutorial": "litellm-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/liveblocks-tutorial/index.md",
+      "primary_repo": "liveblocks/liveblocks",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 409,
+          "html_url": "https://github.com/liveblocks/liveblocks",
+          "http_status": 200,
+          "open_issues": 76,
+          "pushed_at": "2026-02-24T15:20:49Z",
+          "reason": "",
+          "repo": "liveblocks/liveblocks",
+          "stars": 4458,
+          "updated_at": "2026-02-24T15:12:08Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "liveblocks/liveblocks"
+      ],
+      "tutorial": "liveblocks-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/llama-cpp-tutorial/index.md",
+      "primary_repo": "ggerganov/llama.cpp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 15051,
+          "html_url": "https://github.com/ggml-org/llama.cpp",
+          "http_status": 200,
+          "open_issues": 1131,
+          "pushed_at": "2026-02-24T14:44:46Z",
+          "reason": "",
+          "repo": "ggerganov/llama.cpp",
+          "stars": 95742,
+          "updated_at": "2026-02-24T15:23:27Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ggerganov/llama.cpp"
+      ],
+      "tutorial": "llama-cpp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/llama-factory-tutorial/index.md",
+      "primary_repo": "hiyouga/LLaMA-Factory",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8221,
+          "html_url": "https://github.com/hiyouga/LlamaFactory",
+          "http_status": 200,
+          "open_issues": 906,
+          "pushed_at": "2026-02-24T11:54:37Z",
+          "reason": "",
+          "repo": "hiyouga/LLaMA-Factory",
+          "stars": 67507,
+          "updated_at": "2026-02-24T14:29:46Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "hiyouga/LLaMA-Factory"
+      ],
+      "tutorial": "llama-factory-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/llamaindex-tutorial/index.md",
+      "primary_repo": "run-llama/llama_index",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 6862,
+          "html_url": "https://github.com/run-llama/llama_index",
+          "http_status": 200,
+          "open_issues": 282,
+          "pushed_at": "2026-02-24T14:52:56Z",
+          "reason": "",
+          "repo": "run-llama/llama_index",
+          "stars": 47148,
+          "updated_at": "2026-02-24T15:24:50Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "run-llama/llama_index"
+      ],
+      "tutorial": "llamaindex-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/lobechat-ai-platform/index.md",
+      "primary_repo": "lobehub/lobe-chat",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "canary",
+          "forks": 14664,
+          "html_url": "https://github.com/lobehub/lobehub",
+          "http_status": 200,
+          "open_issues": 818,
+          "pushed_at": "2026-02-24T12:55:49Z",
+          "reason": "",
+          "repo": "lobehub/lobe-chat",
+          "stars": 72586,
+          "updated_at": "2026-02-24T15:10:45Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "lobehub/lobe-chat"
+      ],
+      "tutorial": "lobechat-ai-platform",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/localai-tutorial/index.md",
+      "primary_repo": "mudler/LocalAI",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3592,
+          "html_url": "https://github.com/mudler/LocalAI",
+          "http_status": 200,
+          "open_issues": 170,
+          "pushed_at": "2026-02-24T07:36:25Z",
+          "reason": "",
+          "repo": "mudler/LocalAI",
+          "stars": 43032,
+          "updated_at": "2026-02-24T15:12:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "mudler/LocalAI"
+      ],
+      "tutorial": "localai-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/logseq-knowledge-management/index.md",
+      "primary_repo": "logseq/logseq",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 2461,
+          "html_url": "https://github.com/logseq/logseq",
+          "http_status": 200,
+          "open_issues": 1034,
+          "pushed_at": "2026-02-24T15:02:27Z",
+          "reason": "",
+          "repo": "logseq/logseq",
+          "stars": 41197,
+          "updated_at": "2026-02-24T15:28:04Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "logseq/logseq"
+      ],
+      "tutorial": "logseq-knowledge-management",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mastra-tutorial/index.md",
+      "primary_repo": "mastra-ai/mastra",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1592,
+          "html_url": "https://github.com/mastra-ai/mastra",
+          "http_status": 200,
+          "open_issues": 463,
+          "pushed_at": "2026-02-24T15:25:21Z",
+          "reason": "",
+          "repo": "mastra-ai/mastra",
+          "stars": 21335,
+          "updated_at": "2026-02-24T14:52:47Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "mastra-ai/mastra"
+      ],
+      "tutorial": "mastra-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-chrome-tutorial/index.md",
+      "primary_repo": "hangwin/mcp-chrome",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 925,
+          "html_url": "https://github.com/hangwin/mcp-chrome",
+          "http_status": 200,
+          "open_issues": 169,
+          "pushed_at": "2026-01-06T13:05:39Z",
+          "reason": "",
+          "repo": "hangwin/mcp-chrome",
+          "stars": 10478,
+          "updated_at": "2026-02-24T15:13:23Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "hangwin/mcp-chrome"
+      ],
+      "tutorial": "mcp-chrome-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-csharp-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/csharp-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 638,
+          "html_url": "https://github.com/modelcontextprotocol/csharp-sdk",
+          "http_status": 200,
+          "open_issues": 128,
+          "pushed_at": "2026-02-24T15:13:36Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/csharp-sdk",
+          "stars": 3926,
+          "updated_at": "2026-02-24T14:10:04Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/csharp-sdk"
+      ],
+      "tutorial": "mcp-csharp-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-docs-repo-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/docs",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": true,
+          "default_branch": "main",
+          "forks": 278,
+          "html_url": "https://github.com/modelcontextprotocol/docs",
+          "http_status": 200,
+          "open_issues": 77,
+          "pushed_at": "2025-04-08T16:42:43Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/docs",
+          "stars": 423,
+          "updated_at": "2026-02-23T09:29:30Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/docs"
+      ],
+      "tutorial": "mcp-docs-repo-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-ext-apps-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/ext-apps",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 188,
+          "html_url": "https://github.com/modelcontextprotocol/ext-apps",
+          "http_status": 200,
+          "open_issues": 114,
+          "pushed_at": "2026-02-24T15:17:30Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/ext-apps",
+          "stars": 1644,
+          "updated_at": "2026-02-24T14:16:21Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/ext-apps"
+      ],
+      "tutorial": "mcp-ext-apps-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-go-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/go-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 362,
+          "html_url": "https://github.com/modelcontextprotocol/go-sdk",
+          "http_status": 200,
+          "open_issues": 60,
+          "pushed_at": "2026-02-24T13:23:00Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/go-sdk",
+          "stars": 3922,
+          "updated_at": "2026-02-24T09:01:20Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/go-sdk"
+      ],
+      "tutorial": "mcp-go-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-inspector-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/inspector",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1173,
+          "html_url": "https://github.com/modelcontextprotocol/inspector",
+          "http_status": 200,
+          "open_issues": 184,
+          "pushed_at": "2026-02-24T03:06:44Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/inspector",
+          "stars": 8786,
+          "updated_at": "2026-02-24T13:46:59Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/inspector"
+      ],
+      "tutorial": "mcp-inspector-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-java-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/java-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 818,
+          "html_url": "https://github.com/modelcontextprotocol/java-sdk",
+          "http_status": 200,
+          "open_issues": 250,
+          "pushed_at": "2026-02-23T13:24:59Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/java-sdk",
+          "stars": 3193,
+          "updated_at": "2026-02-24T13:11:38Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/java-sdk"
+      ],
+      "tutorial": "mcp-java-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-kotlin-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/kotlin-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 198,
+          "html_url": "https://github.com/modelcontextprotocol/kotlin-sdk",
+          "http_status": 200,
+          "open_issues": 112,
+          "pushed_at": "2026-02-24T04:17:42Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/kotlin-sdk",
+          "stars": 1267,
+          "updated_at": "2026-02-23T14:30:21Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/kotlin-sdk"
+      ],
+      "tutorial": "mcp-kotlin-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-php-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/php-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 117,
+          "html_url": "https://github.com/modelcontextprotocol/php-sdk",
+          "http_status": 200,
+          "open_issues": 31,
+          "pushed_at": "2026-02-23T22:45:52Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/php-sdk",
+          "stars": 1365,
+          "updated_at": "2026-02-24T08:38:38Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/php-sdk"
+      ],
+      "tutorial": "mcp-php-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-python-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/python-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3104,
+          "html_url": "https://github.com/modelcontextprotocol/python-sdk",
+          "http_status": 200,
+          "open_issues": 368,
+          "pushed_at": "2026-02-24T14:16:43Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/python-sdk",
+          "stars": 21802,
+          "updated_at": "2026-02-24T15:08:43Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/python-sdk"
+      ],
+      "tutorial": "mcp-python-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-quickstart-resources-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/quickstart-resources",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 573,
+          "html_url": "https://github.com/modelcontextprotocol/quickstart-resources",
+          "http_status": 200,
+          "open_issues": 17,
+          "pushed_at": "2026-02-22T15:25:55Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/quickstart-resources",
+          "stars": 1000,
+          "updated_at": "2026-02-23T07:38:14Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/quickstart-resources"
+      ],
+      "tutorial": "mcp-quickstart-resources-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-registry-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/registry",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 616,
+          "html_url": "https://github.com/modelcontextprotocol/registry",
+          "http_status": 200,
+          "open_issues": 134,
+          "pushed_at": "2026-02-24T00:23:05Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/registry",
+          "stars": 6467,
+          "updated_at": "2026-02-24T11:08:19Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/registry"
+      ],
+      "tutorial": "mcp-registry-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-ruby-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/ruby-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 96,
+          "html_url": "https://github.com/modelcontextprotocol/ruby-sdk",
+          "http_status": 200,
+          "open_issues": 15,
+          "pushed_at": "2026-02-21T02:16:52Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/ruby-sdk",
+          "stars": 732,
+          "updated_at": "2026-02-23T20:55:36Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/ruby-sdk"
+      ],
+      "tutorial": "mcp-ruby-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-rust-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/rust-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 466,
+          "html_url": "https://github.com/modelcontextprotocol/rust-sdk",
+          "http_status": 200,
+          "open_issues": 75,
+          "pushed_at": "2026-02-24T03:12:13Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/rust-sdk",
+          "stars": 3051,
+          "updated_at": "2026-02-24T09:56:23Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/rust-sdk"
+      ],
+      "tutorial": "mcp-rust-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-servers-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/servers",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 9636,
+          "html_url": "https://github.com/modelcontextprotocol/servers",
+          "http_status": 200,
+          "open_issues": 367,
+          "pushed_at": "2026-02-23T02:33:23Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/servers",
+          "stars": 79277,
+          "updated_at": "2026-02-24T15:17:21Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/servers"
+      ],
+      "tutorial": "mcp-servers-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-specification-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/modelcontextprotocol",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1329,
+          "html_url": "https://github.com/modelcontextprotocol/modelcontextprotocol",
+          "http_status": 200,
+          "open_issues": 285,
+          "pushed_at": "2026-02-24T15:24:01Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/modelcontextprotocol",
+          "stars": 7282,
+          "updated_at": "2026-02-24T15:26:26Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/modelcontextprotocol"
+      ],
+      "tutorial": "mcp-specification-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-swift-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/swift-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 164,
+          "html_url": "https://github.com/modelcontextprotocol/swift-sdk",
+          "http_status": 200,
+          "open_issues": 52,
+          "pushed_at": "2026-02-23T12:59:26Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/swift-sdk",
+          "stars": 1262,
+          "updated_at": "2026-02-24T14:16:56Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/swift-sdk"
+      ],
+      "tutorial": "mcp-swift-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-typescript-sdk-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/typescript-sdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1629,
+          "html_url": "https://github.com/modelcontextprotocol/typescript-sdk",
+          "http_status": 200,
+          "open_issues": 325,
+          "pushed_at": "2026-02-24T14:54:45Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/typescript-sdk",
+          "stars": 11664,
+          "updated_at": "2026-02-24T15:12:09Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/typescript-sdk"
+      ],
+      "tutorial": "mcp-typescript-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcp-use-tutorial/index.md",
+      "primary_repo": "mcp-use/mcp-use",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1141,
+          "html_url": "https://github.com/mcp-use/mcp-use",
+          "http_status": 200,
+          "open_issues": 72,
+          "pushed_at": "2026-02-24T03:11:45Z",
+          "reason": "",
+          "repo": "mcp-use/mcp-use",
+          "stars": 9269,
+          "updated_at": "2026-02-24T12:34:36Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "mcp-use/mcp-use"
+      ],
+      "tutorial": "mcp-use-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mcpb-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/mcpb",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 164,
+          "html_url": "https://github.com/modelcontextprotocol/mcpb",
+          "http_status": 200,
+          "open_issues": 85,
+          "pushed_at": "2026-02-18T21:01:51Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/mcpb",
+          "stars": 1724,
+          "updated_at": "2026-02-24T04:58:44Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/mcpb"
+      ],
+      "tutorial": "mcpb-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/meilisearch-tutorial/index.md",
+      "primary_repo": "meilisearch/meilisearch",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2385,
+          "html_url": "https://github.com/meilisearch/meilisearch",
+          "http_status": 200,
+          "open_issues": 306,
+          "pushed_at": "2026-02-24T13:43:04Z",
+          "reason": "",
+          "repo": "meilisearch/meilisearch",
+          "stars": 56067,
+          "updated_at": "2026-02-24T14:54:48Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "meilisearch/meilisearch"
+      ],
+      "tutorial": "meilisearch-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mem0-tutorial/index.md",
+      "primary_repo": "mem0ai/mem0",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5327,
+          "html_url": "https://github.com/mem0ai/mem0",
+          "http_status": 200,
+          "open_issues": 770,
+          "pushed_at": "2026-02-23T03:57:48Z",
+          "reason": "",
+          "repo": "mem0ai/mem0",
+          "stars": 47919,
+          "updated_at": "2026-02-24T14:53:50Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "mem0ai/mem0"
+      ],
+      "tutorial": "mem0-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mini-swe-agent-tutorial/index.md",
+      "primary_repo": "SWE-agent/mini-swe-agent",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 391,
+          "html_url": "https://github.com/SWE-agent/mini-swe-agent",
+          "http_status": 200,
+          "open_issues": 11,
+          "pushed_at": "2026-02-24T02:16:35Z",
+          "reason": "",
+          "repo": "SWE-agent/mini-swe-agent",
+          "stars": 2994,
+          "updated_at": "2026-02-24T15:27:53Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "SWE-agent/mini-swe-agent"
+      ],
+      "tutorial": "mini-swe-agent-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/mistral-vibe-tutorial/index.md",
+      "primary_repo": "mistralai/mistral-vibe",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 330,
+          "html_url": "https://github.com/mistralai/mistral-vibe",
+          "http_status": 200,
+          "open_issues": 121,
+          "pushed_at": "2026-02-19T11:06:34Z",
+          "reason": "",
+          "repo": "mistralai/mistral-vibe",
+          "stars": 3202,
+          "updated_at": "2026-02-24T13:21:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "mistralai/mistral-vibe"
+      ],
+      "tutorial": "mistral-vibe-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/n8n-ai-tutorial/index.md",
+      "primary_repo": "n8n-io/n8n",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 55140,
+          "html_url": "https://github.com/n8n-io/n8n",
+          "http_status": 200,
+          "open_issues": 1392,
+          "pushed_at": "2026-02-24T15:21:49Z",
+          "reason": "",
+          "repo": "n8n-io/n8n",
+          "stars": 176131,
+          "updated_at": "2026-02-24T15:27:28Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "n8n-io/n8n"
+      ],
+      "tutorial": "n8n-ai-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/n8n-mcp-tutorial/index.md",
+      "primary_repo": "n8n-io/n8n",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 55140,
+          "html_url": "https://github.com/n8n-io/n8n",
+          "http_status": 200,
+          "open_issues": 1392,
+          "pushed_at": "2026-02-24T15:21:49Z",
+          "reason": "",
+          "repo": "n8n-io/n8n",
+          "stars": 176131,
+          "updated_at": "2026-02-24T15:27:28Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "n8n-io/n8n"
+      ],
+      "tutorial": "n8n-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/nanocoder-tutorial/index.md",
+      "primary_repo": "Nano-Collective/nanocoder",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 124,
+          "html_url": "https://github.com/Nano-Collective/nanocoder",
+          "http_status": 200,
+          "open_issues": 37,
+          "pushed_at": "2026-02-24T01:16:16Z",
+          "reason": "",
+          "repo": "Nano-Collective/nanocoder",
+          "stars": 1375,
+          "updated_at": "2026-02-24T13:31:27Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Nano-Collective/nanocoder"
+      ],
+      "tutorial": "nanocoder-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/nocodb-database-platform/index.md",
+      "primary_repo": "nocodb/nocodb",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "develop",
+          "forks": 4646,
+          "html_url": "https://github.com/nocodb/nocodb",
+          "http_status": 200,
+          "open_issues": 601,
+          "pushed_at": "2026-02-24T15:25:45Z",
+          "reason": "",
+          "repo": "nocodb/nocodb",
+          "stars": 62194,
+          "updated_at": "2026-02-24T15:14:35Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "nocodb/nocodb"
+      ],
+      "tutorial": "nocodb-database-platform",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/obsidian-outliner-plugin/index.md",
+      "primary_repo": "vslinko/obsidian-outliner",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 73,
+          "html_url": "https://github.com/vslinko/obsidian-outliner",
+          "http_status": 200,
+          "open_issues": 95,
+          "pushed_at": "2025-03-03T11:50:50Z",
+          "reason": "",
+          "repo": "vslinko/obsidian-outliner",
+          "stars": 1267,
+          "updated_at": "2026-02-19T13:55:31Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "vslinko/obsidian-outliner"
+      ],
+      "tutorial": "obsidian-outliner-plugin",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/ollama-tutorial/index.md",
+      "primary_repo": "ollama/ollama",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 14652,
+          "html_url": "https://github.com/ollama/ollama",
+          "http_status": 200,
+          "open_issues": 2459,
+          "pushed_at": "2026-02-24T06:35:05Z",
+          "reason": "",
+          "repo": "ollama/ollama",
+          "stars": 163265,
+          "updated_at": "2026-02-24T15:13:15Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ollama/ollama"
+      ],
+      "tutorial": "ollama-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/onlook-tutorial/index.md",
+      "primary_repo": "onlook-dev/onlook",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1847,
+          "html_url": "https://github.com/onlook-dev/onlook",
+          "http_status": 200,
+          "open_issues": 350,
+          "pushed_at": "2026-01-21T23:01:13Z",
+          "reason": "",
+          "repo": "onlook-dev/onlook",
+          "stars": 24741,
+          "updated_at": "2026-02-24T15:13:52Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "onlook-dev/onlook"
+      ],
+      "tutorial": "onlook-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/opcode-tutorial/index.md",
+      "primary_repo": "winfunc/opcode",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1593,
+          "html_url": "https://github.com/winfunc/opcode",
+          "http_status": 200,
+          "open_issues": 324,
+          "pushed_at": "2025-10-16T12:05:56Z",
+          "reason": "",
+          "repo": "winfunc/opcode",
+          "stars": 20666,
+          "updated_at": "2026-02-24T15:01:54Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "winfunc/opcode"
+      ],
+      "tutorial": "opcode-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/open-swe-tutorial/index.md",
+      "primary_repo": "langchain-ai/open-swe",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 726,
+          "html_url": "https://github.com/langchain-ai/open-swe",
+          "http_status": 200,
+          "open_issues": 92,
+          "pushed_at": "2026-02-24T07:52:22Z",
+          "reason": "",
+          "repo": "langchain-ai/open-swe",
+          "stars": 5268,
+          "updated_at": "2026-02-24T13:31:49Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "langchain-ai/open-swe"
+      ],
+      "tutorial": "open-swe-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/open-webui-tutorial/index.md",
+      "primary_repo": "open-webui/open-webui",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 17660,
+          "html_url": "https://github.com/open-webui/open-webui",
+          "http_status": 200,
+          "open_issues": 248,
+          "pushed_at": "2026-02-24T00:31:27Z",
+          "reason": "",
+          "repo": "open-webui/open-webui",
+          "stars": 124778,
+          "updated_at": "2026-02-24T15:27:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "open-webui/open-webui"
+      ],
+      "tutorial": "open-webui-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openai-python-sdk-tutorial/index.md",
+      "primary_repo": "openai/openai-python",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4572,
+          "html_url": "https://github.com/openai/openai-python",
+          "http_status": 200,
+          "open_issues": 272,
+          "pushed_at": "2026-02-24T03:20:02Z",
+          "reason": "",
+          "repo": "openai/openai-python",
+          "stars": 30058,
+          "updated_at": "2026-02-24T15:20:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "openai/openai-python"
+      ],
+      "tutorial": "openai-python-sdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openai-realtime-agents-tutorial/index.md",
+      "primary_repo": "openai/openai-realtime-agents",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1074,
+          "html_url": "https://github.com/openai/openai-realtime-agents",
+          "http_status": 200,
+          "open_issues": 25,
+          "pushed_at": "2026-01-07T18:38:52Z",
+          "reason": "",
+          "repo": "openai/openai-realtime-agents",
+          "stars": 6778,
+          "updated_at": "2026-02-24T11:16:21Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 615,
+          "html_url": "https://github.com/openai/openai-agents-js",
+          "http_status": 200,
+          "open_issues": 35,
+          "pushed_at": "2026-02-24T12:47:44Z",
+          "reason": "",
+          "repo": "openai/openai-agents-js",
+          "stars": 2330,
+          "updated_at": "2026-02-24T14:34:52Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "openai/openai-realtime-agents",
+        "openai/openai-agents-js"
+      ],
+      "tutorial": "openai-realtime-agents-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/openai-whisper-tutorial/index.md",
+      "primary_repo": "openai/whisper",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 11793,
+          "html_url": "https://github.com/openai/whisper",
+          "http_status": 200,
+          "open_issues": 115,
+          "pushed_at": "2025-12-15T10:18:21Z",
+          "reason": "",
+          "repo": "openai/whisper",
+          "stars": 95025,
+          "updated_at": "2026-02-24T15:26:16Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "openai/whisper"
+      ],
+      "tutorial": "openai-whisper-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openbb-tutorial/index.md",
+      "primary_repo": "OpenBB-finance/OpenBB",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "develop",
+          "forks": 6021,
+          "html_url": "https://github.com/OpenBB-finance/OpenBB",
+          "http_status": 200,
+          "open_issues": 62,
+          "pushed_at": "2026-02-24T03:20:46Z",
+          "reason": "",
+          "repo": "OpenBB-finance/OpenBB",
+          "stars": 61760,
+          "updated_at": "2026-02-24T15:26:21Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "OpenBB-finance/OpenBB"
+      ],
+      "tutorial": "openbb-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openclaw-tutorial/index.md",
+      "primary_repo": "openclaw/openclaw",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 42870,
+          "html_url": "https://github.com/openclaw/openclaw",
+          "http_status": 200,
+          "open_issues": 7466,
+          "pushed_at": "2026-02-24T15:25:57Z",
+          "reason": "",
+          "repo": "openclaw/openclaw",
+          "stars": 224330,
+          "updated_at": "2026-02-24T15:28:12Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "openclaw/openclaw"
+      ],
+      "tutorial": "openclaw-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/opencode-ai-legacy-tutorial/index.md",
+      "primary_repo": "opencode-ai/opencode",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": true,
+          "default_branch": "main",
+          "forks": 1057,
+          "html_url": "https://github.com/opencode-ai/opencode",
+          "http_status": 200,
+          "open_issues": 158,
+          "pushed_at": "2025-09-18T02:54:28Z",
+          "reason": "",
+          "repo": "opencode-ai/opencode",
+          "stars": 11064,
+          "updated_at": "2026-02-24T10:36:57Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1262,
+          "html_url": "https://github.com/charmbracelet/crush",
+          "http_status": 200,
+          "open_issues": 330,
+          "pushed_at": "2026-02-24T01:12:20Z",
+          "reason": "",
+          "repo": "charmbracelet/crush",
+          "stars": 20367,
+          "updated_at": "2026-02-24T15:09:12Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "opencode-ai/opencode",
+        "charmbracelet/crush"
+      ],
+      "tutorial": "opencode-ai-legacy-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/opencode-tutorial/index.md",
+      "primary_repo": "anomalyco/opencode",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "dev",
+          "forks": 10898,
+          "html_url": "https://github.com/anomalyco/opencode",
+          "http_status": 200,
+          "open_issues": 5742,
+          "pushed_at": "2026-02-24T14:59:04Z",
+          "reason": "",
+          "repo": "anomalyco/opencode",
+          "stars": 109765,
+          "updated_at": "2026-02-24T15:27:59Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "anomalyco/opencode"
+      ],
+      "tutorial": "opencode-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openhands-tutorial/index.md",
+      "primary_repo": "OpenHands/OpenHands",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8494,
+          "html_url": "https://github.com/OpenHands/OpenHands",
+          "http_status": 200,
+          "open_issues": 376,
+          "pushed_at": "2026-02-24T15:18:28Z",
+          "reason": "",
+          "repo": "OpenHands/OpenHands",
+          "stars": 68132,
+          "updated_at": "2026-02-24T15:17:50Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "OpenHands/OpenHands"
+      ],
+      "tutorial": "openhands-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openskills-tutorial/index.md",
+      "primary_repo": "numman-ali/openskills",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 549,
+          "html_url": "https://github.com/numman-ali/openskills",
+          "http_status": 200,
+          "open_issues": 32,
+          "pushed_at": "2026-01-18T13:09:50Z",
+          "reason": "",
+          "repo": "numman-ali/openskills",
+          "stars": 8472,
+          "updated_at": "2026-02-24T15:25:22Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "numman-ali/openskills"
+      ],
+      "tutorial": "openskills-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/openspec-tutorial/index.md",
+      "primary_repo": "Fission-AI/OpenSpec",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1686,
+          "html_url": "https://github.com/Fission-AI/OpenSpec",
+          "http_status": 200,
+          "open_issues": 239,
+          "pushed_at": "2026-02-24T02:27:25Z",
+          "reason": "",
+          "repo": "Fission-AI/OpenSpec",
+          "stars": 25435,
+          "updated_at": "2026-02-24T15:25:28Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "Fission-AI/OpenSpec"
+      ],
+      "tutorial": "openspec-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/opensrc-tutorial/index.md",
+      "primary_repo": "vercel-labs/opensrc",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 26,
+          "html_url": "https://github.com/vercel-labs/opensrc",
+          "http_status": 200,
+          "open_issues": 11,
+          "pushed_at": "2026-02-24T14:58:08Z",
+          "reason": "",
+          "repo": "vercel-labs/opensrc",
+          "stars": 866,
+          "updated_at": "2026-02-24T15:25:05Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "vercel-labs/opensrc"
+      ],
+      "tutorial": "opensrc-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/outlines-tutorial/index.md",
+      "primary_repo": "dottxt-ai/outlines",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 667,
+          "html_url": "https://github.com/dottxt-ai/outlines",
+          "http_status": 200,
+          "open_issues": 102,
+          "pushed_at": "2026-02-13T07:18:05Z",
+          "reason": "",
+          "repo": "dottxt-ai/outlines",
+          "stars": 13455,
+          "updated_at": "2026-02-24T08:07:32Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 667,
+          "html_url": "https://github.com/dottxt-ai/outlines",
+          "http_status": 200,
+          "open_issues": 102,
+          "pushed_at": "2026-02-13T07:18:05Z",
+          "reason": "",
+          "repo": "outlines-dev/outlines",
+          "stars": 13455,
+          "updated_at": "2026-02-24T08:07:32Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "dottxt-ai/outlines",
+        "outlines-dev/outlines"
+      ],
+      "tutorial": "outlines-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/perplexica-tutorial/index.md",
+      "primary_repo": "ItzCrazyKns/Perplexica",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3080,
+          "html_url": "https://github.com/ItzCrazyKns/Perplexica",
+          "http_status": 200,
+          "open_issues": 231,
+          "pushed_at": "2026-02-13T07:14:28Z",
+          "reason": "",
+          "repo": "ItzCrazyKns/Perplexica",
+          "stars": 29060,
+          "updated_at": "2026-02-24T14:03:29Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ItzCrazyKns/Perplexica"
+      ],
+      "tutorial": "perplexica-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/phidata-tutorial/index.md",
+      "primary_repo": "phidatahq/phidata",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 5048,
+          "html_url": "https://github.com/agno-agi/agno",
+          "http_status": 200,
+          "open_issues": 590,
+          "pushed_at": "2026-02-24T15:04:17Z",
+          "reason": "",
+          "repo": "phidatahq/phidata",
+          "stars": 38148,
+          "updated_at": "2026-02-24T15:10:25Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "phidatahq/phidata"
+      ],
+      "tutorial": "phidata-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/photoprism-tutorial/index.md",
+      "primary_repo": "photoprism/photoprism",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "develop",
+          "forks": 2209,
+          "html_url": "https://github.com/photoprism/photoprism",
+          "http_status": 200,
+          "open_issues": 452,
+          "pushed_at": "2026-02-24T11:17:06Z",
+          "reason": "",
+          "repo": "photoprism/photoprism",
+          "stars": 39367,
+          "updated_at": "2026-02-24T15:11:27Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "photoprism/photoprism"
+      ],
+      "tutorial": "photoprism-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/plandex-tutorial/index.md",
+      "primary_repo": "plandex-ai/plandex",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1084,
+          "html_url": "https://github.com/plandex-ai/plandex",
+          "http_status": 200,
+          "open_issues": 44,
+          "pushed_at": "2025-10-03T21:49:58Z",
+          "reason": "",
+          "repo": "plandex-ai/plandex",
+          "stars": 15021,
+          "updated_at": "2026-02-24T13:27:21Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "plandex-ai/plandex"
+      ],
+      "tutorial": "plandex-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/planning-with-files-tutorial/index.md",
+      "primary_repo": "OthmanAdi/planning-with-files",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 1336,
+          "html_url": "https://github.com/OthmanAdi/planning-with-files",
+          "http_status": 200,
+          "open_issues": 3,
+          "pushed_at": "2026-02-22T20:48:56Z",
+          "reason": "",
+          "repo": "OthmanAdi/planning-with-files",
+          "stars": 14428,
+          "updated_at": "2026-02-24T15:24:23Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "OthmanAdi/planning-with-files"
+      ],
+      "tutorial": "planning-with-files-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/playwright-mcp-tutorial/index.md",
+      "primary_repo": "microsoft/playwright-mcp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2236,
+          "html_url": "https://github.com/microsoft/playwright-mcp",
+          "http_status": 200,
+          "open_issues": 10,
+          "pushed_at": "2026-02-21T23:07:56Z",
+          "reason": "",
+          "repo": "microsoft/playwright-mcp",
+          "stars": 27601,
+          "updated_at": "2026-02-24T15:10:47Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "microsoft/playwright-mcp"
+      ],
+      "tutorial": "playwright-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/pocketflow-tutorial/index.md",
+      "primary_repo": "The-Pocket/PocketFlow",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1104,
+          "html_url": "https://github.com/The-Pocket/PocketFlow",
+          "http_status": 200,
+          "open_issues": 66,
+          "pushed_at": "2026-02-16T11:06:34Z",
+          "reason": "",
+          "repo": "The-Pocket/PocketFlow",
+          "stars": 10078,
+          "updated_at": "2026-02-24T12:16:10Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "The-Pocket/PocketFlow"
+      ],
+      "tutorial": "pocketflow-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/postgresql-query-planner/index.md",
+      "primary_repo": "postgres/postgres",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 5450,
+          "html_url": "https://github.com/postgres/postgres",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-24T10:31:59Z",
+          "reason": "",
+          "repo": "postgres/postgres",
+          "stars": 20123,
+          "updated_at": "2026-02-24T15:19:51Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "postgres/postgres"
+      ],
+      "tutorial": "postgresql-query-planner",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/posthog-tutorial/index.md",
+      "primary_repo": "PostHog/posthog",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 2324,
+          "html_url": "https://github.com/PostHog/posthog",
+          "http_status": 200,
+          "open_issues": 3117,
+          "pushed_at": "2026-02-24T15:26:40Z",
+          "reason": "",
+          "repo": "PostHog/posthog",
+          "stars": 31761,
+          "updated_at": "2026-02-24T15:11:04Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "PostHog/posthog"
+      ],
+      "tutorial": "posthog-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/pydantic-ai-tutorial/index.md",
+      "primary_repo": "pydantic/pydantic-ai",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1674,
+          "html_url": "https://github.com/pydantic/pydantic-ai",
+          "http_status": 200,
+          "open_issues": 526,
+          "pushed_at": "2026-02-24T14:58:36Z",
+          "reason": "",
+          "repo": "pydantic/pydantic-ai",
+          "stars": 15055,
+          "updated_at": "2026-02-24T14:40:02Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "pydantic/pydantic-ai"
+      ],
+      "tutorial": "pydantic-ai-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/quivr-tutorial/index.md",
+      "primary_repo": "QuivrHQ/quivr",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3716,
+          "html_url": "https://github.com/QuivrHQ/quivr",
+          "http_status": 200,
+          "open_issues": 20,
+          "pushed_at": "2025-07-09T12:55:23Z",
+          "reason": "",
+          "repo": "QuivrHQ/quivr",
+          "stars": 38951,
+          "updated_at": "2026-02-24T13:14:37Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "QuivrHQ/quivr"
+      ],
+      "tutorial": "quivr-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/qwen-agent-tutorial/index.md",
+      "primary_repo": "QwenLM/Qwen-Agent",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1261,
+          "html_url": "https://github.com/QwenLM/Qwen-Agent",
+          "http_status": 200,
+          "open_issues": 433,
+          "pushed_at": "2026-02-16T08:20:39Z",
+          "reason": "",
+          "repo": "QwenLM/Qwen-Agent",
+          "stars": 13370,
+          "updated_at": "2026-02-24T14:43:14Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "QwenLM/Qwen-Agent"
+      ],
+      "tutorial": "qwen-agent-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/ragflow-tutorial/index.md",
+      "primary_repo": "infiniflow/ragflow",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 8171,
+          "html_url": "https://github.com/infiniflow/ragflow",
+          "http_status": 200,
+          "open_issues": 2998,
+          "pushed_at": "2026-02-24T13:34:26Z",
+          "reason": "",
+          "repo": "infiniflow/ragflow",
+          "stars": 73616,
+          "updated_at": "2026-02-24T15:24:22Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "infiniflow/ragflow"
+      ],
+      "tutorial": "ragflow-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/react-fiber-internals/index.md",
+      "primary_repo": "facebook/react",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 50622,
+          "html_url": "https://github.com/facebook/react",
+          "http_status": 200,
+          "open_issues": 1128,
+          "pushed_at": "2026-02-24T15:28:00Z",
+          "reason": "",
+          "repo": "facebook/react",
+          "stars": 243332,
+          "updated_at": "2026-02-24T15:10:10Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "facebook/react"
+      ],
+      "tutorial": "react-fiber-internals",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/refly-tutorial/index.md",
+      "primary_repo": "refly-ai/refly",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 673,
+          "html_url": "https://github.com/refly-ai/refly",
+          "http_status": 200,
+          "open_issues": 94,
+          "pushed_at": "2026-02-24T14:59:28Z",
+          "reason": "",
+          "repo": "refly-ai/refly",
+          "stars": 6752,
+          "updated_at": "2026-02-24T14:56:51Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "refly-ai/refly"
+      ],
+      "tutorial": "refly-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/roo-code-tutorial/index.md",
+      "primary_repo": "RooCodeInc/Roo-Code",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3000,
+          "html_url": "https://github.com/RooCodeInc/Roo-Code",
+          "http_status": 200,
+          "open_issues": 563,
+          "pushed_at": "2026-02-24T07:20:47Z",
+          "reason": "",
+          "repo": "RooCodeInc/Roo-Code",
+          "stars": 22367,
+          "updated_at": "2026-02-24T15:07:10Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "RooCodeInc/Roo-Code"
+      ],
+      "tutorial": "roo-code-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/semantic-kernel-tutorial/index.md",
+      "primary_repo": "microsoft/semantic-kernel",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4464,
+          "html_url": "https://github.com/microsoft/semantic-kernel",
+          "http_status": 200,
+          "open_issues": 536,
+          "pushed_at": "2026-02-23T11:08:45Z",
+          "reason": "",
+          "repo": "microsoft/semantic-kernel",
+          "stars": 27301,
+          "updated_at": "2026-02-24T15:13:07Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "microsoft/semantic-kernel"
+      ],
+      "tutorial": "semantic-kernel-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/serena-tutorial/index.md",
+      "primary_repo": "oraios/serena",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1386,
+          "html_url": "https://github.com/oraios/serena",
+          "http_status": 200,
+          "open_issues": 76,
+          "pushed_at": "2026-02-24T15:05:03Z",
+          "reason": "",
+          "repo": "oraios/serena",
+          "stars": 20583,
+          "updated_at": "2026-02-24T15:17:00Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "oraios/serena"
+      ],
+      "tutorial": "serena-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/shotgun-tutorial/index.md",
+      "primary_repo": "shotgun-sh/shotgun",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 29,
+          "html_url": "https://github.com/shotgun-sh/shotgun",
+          "http_status": 200,
+          "open_issues": 4,
+          "pushed_at": "2026-02-24T09:21:31Z",
+          "reason": "",
+          "repo": "shotgun-sh/shotgun",
+          "stars": 608,
+          "updated_at": "2026-02-24T05:16:57Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "shotgun-sh/shotgun"
+      ],
+      "tutorial": "shotgun-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/sillytavern-tutorial/index.md",
+      "primary_repo": "SillyTavern/SillyTavern",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "release",
+          "forks": 4782,
+          "html_url": "https://github.com/SillyTavern/SillyTavern",
+          "http_status": 200,
+          "open_issues": 375,
+          "pushed_at": "2026-02-23T22:40:17Z",
+          "reason": "",
+          "repo": "SillyTavern/SillyTavern",
+          "stars": 23486,
+          "updated_at": "2026-02-24T15:26:17Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "SillyTavern/SillyTavern"
+      ],
+      "tutorial": "sillytavern-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/siyuan-tutorial/index.md",
+      "primary_repo": "siyuan-note/siyuan",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 2573,
+          "html_url": "https://github.com/siyuan-note/siyuan",
+          "http_status": 200,
+          "open_issues": 371,
+          "pushed_at": "2026-02-24T10:05:51Z",
+          "reason": "",
+          "repo": "siyuan-note/siyuan",
+          "stars": 41466,
+          "updated_at": "2026-02-24T15:07:42Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "siyuan-note/siyuan"
+      ],
+      "tutorial": "siyuan-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/smolagents-tutorial/index.md",
+      "primary_repo": "huggingface/smolagents",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2304,
+          "html_url": "https://github.com/huggingface/smolagents",
+          "http_status": 200,
+          "open_issues": 378,
+          "pushed_at": "2026-02-21T09:25:25Z",
+          "reason": "",
+          "repo": "huggingface/smolagents",
+          "stars": 25591,
+          "updated_at": "2026-02-24T15:03:32Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "huggingface/smolagents"
+      ],
+      "tutorial": "smolagents-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/stagewise-tutorial/index.md",
+      "primary_repo": "stagewise-io/stagewise",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 439,
+          "html_url": "https://github.com/stagewise-io/stagewise",
+          "http_status": 200,
+          "open_issues": 32,
+          "pushed_at": "2026-02-24T14:53:58Z",
+          "reason": "",
+          "repo": "stagewise-io/stagewise",
+          "stars": 6496,
+          "updated_at": "2026-02-24T09:00:02Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "stagewise-io/stagewise"
+      ],
+      "tutorial": "stagewise-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/strands-agents-tutorial/index.md",
+      "primary_repo": "strands-agents/sdk-python",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 662,
+          "html_url": "https://github.com/strands-agents/sdk-python",
+          "http_status": 200,
+          "open_issues": 380,
+          "pushed_at": "2026-02-24T07:55:22Z",
+          "reason": "",
+          "repo": "strands-agents/sdk-python",
+          "stars": 5178,
+          "updated_at": "2026-02-24T15:28:06Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "strands-agents/sdk-python"
+      ],
+      "tutorial": "strands-agents-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/supabase-tutorial/index.md",
+      "primary_repo": "supabase/supabase",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 11623,
+          "html_url": "https://github.com/supabase/supabase",
+          "http_status": 200,
+          "open_issues": 993,
+          "pushed_at": "2026-02-24T15:20:03Z",
+          "reason": "",
+          "repo": "supabase/supabase",
+          "stars": 98107,
+          "updated_at": "2026-02-24T15:12:53Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "supabase/supabase"
+      ],
+      "tutorial": "supabase-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/superagi-tutorial/index.md",
+      "primary_repo": "TransformerOptimus/SuperAGI",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2162,
+          "html_url": "https://github.com/TransformerOptimus/SuperAGI",
+          "http_status": 200,
+          "open_issues": 215,
+          "pushed_at": "2025-01-22T22:14:07Z",
+          "reason": "",
+          "repo": "TransformerOptimus/SuperAGI",
+          "stars": 17194,
+          "updated_at": "2026-02-24T14:33:10Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "TransformerOptimus/SuperAGI"
+      ],
+      "tutorial": "superagi-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/superset-terminal-tutorial/index.md",
+      "primary_repo": "superset-sh/superset",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 162,
+          "html_url": "https://github.com/superset-sh/superset",
+          "http_status": 200,
+          "open_issues": 155,
+          "pushed_at": "2026-02-24T15:02:43Z",
+          "reason": "",
+          "repo": "superset-sh/superset",
+          "stars": 1923,
+          "updated_at": "2026-02-24T13:56:11Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "superset-sh/superset"
+      ],
+      "tutorial": "superset-terminal-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/swarm-tutorial/index.md",
+      "primary_repo": "openai/swarm",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2240,
+          "html_url": "https://github.com/openai/swarm",
+          "http_status": 200,
+          "open_issues": 17,
+          "pushed_at": "2025-03-11T17:27:22Z",
+          "reason": "",
+          "repo": "openai/swarm",
+          "stars": 21009,
+          "updated_at": "2026-02-24T14:19:33Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "openai/swarm"
+      ],
+      "tutorial": "swarm-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/swe-agent-tutorial/index.md",
+      "primary_repo": "SWE-agent/SWE-agent",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1998,
+          "html_url": "https://github.com/SWE-agent/SWE-agent",
+          "http_status": 200,
+          "open_issues": 27,
+          "pushed_at": "2026-02-24T01:03:21Z",
+          "reason": "",
+          "repo": "SWE-agent/SWE-agent",
+          "stars": 18545,
+          "updated_at": "2026-02-24T09:52:06Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 391,
+          "html_url": "https://github.com/SWE-agent/mini-swe-agent",
+          "http_status": 200,
+          "open_issues": 11,
+          "pushed_at": "2026-02-24T02:16:35Z",
+          "reason": "",
+          "repo": "SWE-agent/mini-swe-agent",
+          "stars": 2994,
+          "updated_at": "2026-02-24T15:27:53Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 2,
+      "source_repos": [
+        "SWE-agent/SWE-agent",
+        "SWE-agent/mini-swe-agent"
+      ],
+      "tutorial": "swe-agent-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 2
+    },
+    {
+      "index_path": "tutorials/sweep-tutorial/index.md",
+      "primary_repo": "sweepai/sweep",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 450,
+          "html_url": "https://github.com/sweepai/sweep",
+          "http_status": 200,
+          "open_issues": 747,
+          "pushed_at": "2025-09-18T06:10:59Z",
+          "reason": "",
+          "repo": "sweepai/sweep",
+          "stars": 7638,
+          "updated_at": "2026-02-24T00:08:58Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "sweepai/sweep"
+      ],
+      "tutorial": "sweep-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/tabby-tutorial/index.md",
+      "primary_repo": "TabbyML/tabby",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1684,
+          "html_url": "https://github.com/TabbyML/tabby",
+          "http_status": 200,
+          "open_issues": 291,
+          "pushed_at": "2026-02-14T08:25:23Z",
+          "reason": "",
+          "repo": "TabbyML/tabby",
+          "stars": 32921,
+          "updated_at": "2026-02-24T15:05:26Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "TabbyML/tabby"
+      ],
+      "tutorial": "tabby-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/taskade-awesome-vibe-coding-tutorial/index.md",
+      "primary_repo": "taskade/awesome-vibe-coding",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/awesome-vibe-coding",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-11T17:32:11Z",
+          "reason": "",
+          "repo": "taskade/awesome-vibe-coding",
+          "stars": 5,
+          "updated_at": "2026-02-18T01:52:17Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 30,
+          "html_url": "https://github.com/taskade/mcp",
+          "http_status": 200,
+          "open_issues": 10,
+          "pushed_at": "2026-02-13T21:03:17Z",
+          "reason": "",
+          "repo": "taskade/mcp",
+          "stars": 108,
+          "updated_at": "2026-02-22T19:56:41Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4,
+          "html_url": "https://github.com/taskade/docs",
+          "http_status": 200,
+          "open_issues": 1,
+          "pushed_at": "2026-02-20T06:00:27Z",
+          "reason": "",
+          "repo": "taskade/docs",
+          "stars": 10,
+          "updated_at": "2026-02-20T06:00:31Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/taskade",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-19T00:35:48Z",
+          "reason": "",
+          "repo": "taskade/taskade",
+          "stars": 4,
+          "updated_at": "2026-02-19T19:21:13Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 4,
+      "source_repos": [
+        "taskade/awesome-vibe-coding",
+        "taskade/mcp",
+        "taskade/docs",
+        "taskade/taskade"
+      ],
+      "tutorial": "taskade-awesome-vibe-coding-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 4
+    },
+    {
+      "index_path": "tutorials/taskade-docs-tutorial/index.md",
+      "primary_repo": "taskade/docs",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4,
+          "html_url": "https://github.com/taskade/docs",
+          "http_status": 200,
+          "open_issues": 1,
+          "pushed_at": "2026-02-20T06:00:27Z",
+          "reason": "",
+          "repo": "taskade/docs",
+          "stars": 10,
+          "updated_at": "2026-02-20T06:00:31Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 30,
+          "html_url": "https://github.com/taskade/mcp",
+          "http_status": 200,
+          "open_issues": 10,
+          "pushed_at": "2026-02-13T21:03:17Z",
+          "reason": "",
+          "repo": "taskade/mcp",
+          "stars": 108,
+          "updated_at": "2026-02-22T19:56:41Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3,
+          "html_url": "https://github.com/taskade/actions-runner-controller",
+          "http_status": 200,
+          "open_issues": 8,
+          "pushed_at": "2026-02-24T09:15:15Z",
+          "reason": "",
+          "repo": "taskade/actions-runner-controller",
+          "stars": 6,
+          "updated_at": "2026-01-29T18:45:05Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/taskade",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-19T00:35:48Z",
+          "reason": "",
+          "repo": "taskade/taskade",
+          "stars": 4,
+          "updated_at": "2026-02-19T19:21:13Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 4,
+      "source_repos": [
+        "taskade/docs",
+        "taskade/mcp",
+        "taskade/actions-runner-controller",
+        "taskade/taskade"
+      ],
+      "tutorial": "taskade-docs-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 4
+    },
+    {
+      "index_path": "tutorials/taskade-mcp-tutorial/index.md",
+      "primary_repo": "taskade/mcp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 30,
+          "html_url": "https://github.com/taskade/mcp",
+          "http_status": 200,
+          "open_issues": 10,
+          "pushed_at": "2026-02-13T21:03:17Z",
+          "reason": "",
+          "repo": "taskade/mcp",
+          "stars": 108,
+          "updated_at": "2026-02-22T19:56:41Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4,
+          "html_url": "https://github.com/taskade/docs",
+          "http_status": 200,
+          "open_issues": 1,
+          "pushed_at": "2026-02-20T06:00:27Z",
+          "reason": "",
+          "repo": "taskade/docs",
+          "stars": 10,
+          "updated_at": "2026-02-20T06:00:31Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/taskade",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-19T00:35:48Z",
+          "reason": "",
+          "repo": "taskade/taskade",
+          "stars": 4,
+          "updated_at": "2026-02-19T19:21:13Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3,
+          "html_url": "https://github.com/taskade/actions-runner-controller",
+          "http_status": 200,
+          "open_issues": 8,
+          "pushed_at": "2026-02-24T09:15:15Z",
+          "reason": "",
+          "repo": "taskade/actions-runner-controller",
+          "stars": 6,
+          "updated_at": "2026-01-29T18:45:05Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 4,
+      "source_repos": [
+        "taskade/mcp",
+        "taskade/docs",
+        "taskade/taskade",
+        "taskade/actions-runner-controller"
+      ],
+      "tutorial": "taskade-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 4
+    },
+    {
+      "index_path": "tutorials/taskade-tutorial/index.md",
+      "primary_repo": "taskade/taskade",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/taskade",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-19T00:35:48Z",
+          "reason": "",
+          "repo": "taskade/taskade",
+          "stars": 4,
+          "updated_at": "2026-02-19T19:21:13Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 4,
+          "html_url": "https://github.com/taskade/docs",
+          "http_status": 200,
+          "open_issues": 1,
+          "pushed_at": "2026-02-20T06:00:27Z",
+          "reason": "",
+          "repo": "taskade/docs",
+          "stars": 10,
+          "updated_at": "2026-02-20T06:00:31Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 30,
+          "html_url": "https://github.com/taskade/mcp",
+          "http_status": 200,
+          "open_issues": 10,
+          "pushed_at": "2026-02-13T21:03:17Z",
+          "reason": "",
+          "repo": "taskade/mcp",
+          "stars": 108,
+          "updated_at": "2026-02-22T19:56:41Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/awesome-vibe-coding",
+          "http_status": 200,
+          "open_issues": 0,
+          "pushed_at": "2026-02-11T17:32:11Z",
+          "reason": "",
+          "repo": "taskade/awesome-vibe-coding",
+          "stars": 5,
+          "updated_at": "2026-02-18T01:52:17Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 3,
+          "html_url": "https://github.com/taskade/actions-runner-controller",
+          "http_status": 200,
+          "open_issues": 8,
+          "pushed_at": "2026-02-24T09:15:15Z",
+          "reason": "",
+          "repo": "taskade/actions-runner-controller",
+          "stars": 6,
+          "updated_at": "2026-01-29T18:45:05Z",
+          "verified": true
+        },
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1,
+          "html_url": "https://github.com/taskade/temporal-parser",
+          "http_status": 200,
+          "open_issues": 2,
+          "pushed_at": "2026-02-12T17:47:10Z",
+          "reason": "",
+          "repo": "taskade/temporal-parser",
+          "stars": 1,
+          "updated_at": "2026-02-12T17:46:43Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 6,
+      "source_repos": [
+        "taskade/taskade",
+        "taskade/docs",
+        "taskade/mcp",
+        "taskade/awesome-vibe-coding",
+        "taskade/actions-runner-controller",
+        "taskade/temporal-parser"
+      ],
+      "tutorial": "taskade-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 6
+    },
+    {
+      "index_path": "tutorials/teable-database-platform/index.md",
+      "primary_repo": "teableio/teable",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "develop",
+          "forks": 1210,
+          "html_url": "https://github.com/teableio/teable",
+          "http_status": 200,
+          "open_issues": 138,
+          "pushed_at": "2026-02-24T11:11:55Z",
+          "reason": "",
+          "repo": "teableio/teable",
+          "stars": 20917,
+          "updated_at": "2026-02-24T14:47:43Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "teableio/teable"
+      ],
+      "tutorial": "teable-database-platform",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/tiktoken-tutorial/index.md",
+      "primary_repo": "openai/tiktoken",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1387,
+          "html_url": "https://github.com/openai/tiktoken",
+          "http_status": 200,
+          "open_issues": 85,
+          "pushed_at": "2026-02-08T20:53:30Z",
+          "reason": "",
+          "repo": "openai/tiktoken",
+          "stars": 17369,
+          "updated_at": "2026-02-24T13:29:36Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "openai/tiktoken"
+      ],
+      "tutorial": "tiktoken-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/turborepo-tutorial/index.md",
+      "primary_repo": "vercel/turborepo",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2266,
+          "html_url": "https://github.com/vercel/turborepo",
+          "http_status": 200,
+          "open_issues": 153,
+          "pushed_at": "2026-02-24T15:25:25Z",
+          "reason": "",
+          "repo": "vercel/turborepo",
+          "stars": 29846,
+          "updated_at": "2026-02-24T15:24:08Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "vercel/turborepo"
+      ],
+      "tutorial": "turborepo-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/use-mcp-tutorial/index.md",
+      "primary_repo": "modelcontextprotocol/use-mcp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": true,
+          "default_branch": "main",
+          "forks": 82,
+          "html_url": "https://github.com/modelcontextprotocol/use-mcp",
+          "http_status": 200,
+          "open_issues": 20,
+          "pushed_at": "2026-01-12T22:50:06Z",
+          "reason": "",
+          "repo": "modelcontextprotocol/use-mcp",
+          "stars": 1027,
+          "updated_at": "2026-02-23T10:23:42Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "modelcontextprotocol/use-mcp"
+      ],
+      "tutorial": "use-mcp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/vercel-ai-tutorial/index.md",
+      "primary_repo": "vercel/ai",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3875,
+          "html_url": "https://github.com/vercel/ai",
+          "http_status": 200,
+          "open_issues": 1166,
+          "pushed_at": "2026-02-24T06:03:37Z",
+          "reason": "",
+          "repo": "vercel/ai",
+          "stars": 21991,
+          "updated_at": "2026-02-24T11:50:54Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "vercel/ai"
+      ],
+      "tutorial": "vercel-ai-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/vibe-kanban-tutorial/index.md",
+      "primary_repo": "BloopAI/vibe-kanban",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 2091,
+          "html_url": "https://github.com/BloopAI/vibe-kanban",
+          "http_status": 200,
+          "open_issues": 393,
+          "pushed_at": "2026-02-24T14:58:01Z",
+          "reason": "",
+          "repo": "BloopAI/vibe-kanban",
+          "stars": 21753,
+          "updated_at": "2026-02-24T15:15:57Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "BloopAI/vibe-kanban"
+      ],
+      "tutorial": "vibe-kanban-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/vibesdk-tutorial/index.md",
+      "primary_repo": "cloudflare/vibesdk",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 1125,
+          "html_url": "https://github.com/cloudflare/vibesdk",
+          "http_status": 200,
+          "open_issues": 41,
+          "pushed_at": "2026-02-20T15:34:53Z",
+          "reason": "",
+          "repo": "cloudflare/vibesdk",
+          "stars": 4803,
+          "updated_at": "2026-02-24T12:25:38Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "cloudflare/vibesdk"
+      ],
+      "tutorial": "vibesdk-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/vllm-tutorial/index.md",
+      "primary_repo": "vllm-project/vllm",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 13655,
+          "html_url": "https://github.com/vllm-project/vllm",
+          "http_status": 200,
+          "open_issues": 3432,
+          "pushed_at": "2026-02-24T15:25:47Z",
+          "reason": "",
+          "repo": "vllm-project/vllm",
+          "stars": 71070,
+          "updated_at": "2026-02-24T15:26:20Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "vllm-project/vllm"
+      ],
+      "tutorial": "vllm-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/whisper-cpp-tutorial/index.md",
+      "primary_repo": "ggml-org/whisper.cpp",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "master",
+          "forks": 5230,
+          "html_url": "https://github.com/ggml-org/whisper.cpp",
+          "http_status": 200,
+          "open_issues": 1139,
+          "pushed_at": "2026-02-19T15:18:42Z",
+          "reason": "",
+          "repo": "ggml-org/whisper.cpp",
+          "stars": 46973,
+          "updated_at": "2026-02-24T14:55:55Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "ggml-org/whisper.cpp"
+      ],
+      "tutorial": "whisper-cpp-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    },
+    {
+      "index_path": "tutorials/wshobson-agents-tutorial/index.md",
+      "primary_repo": "wshobson/agents",
+      "primary_repo_verified": true,
+      "repositories": [
+        {
+          "archived": false,
+          "default_branch": "main",
+          "forks": 3208,
+          "html_url": "https://github.com/wshobson/agents",
+          "http_status": 200,
+          "open_issues": 2,
+          "pushed_at": "2026-02-21T12:47:56Z",
+          "reason": "",
+          "repo": "wshobson/agents",
+          "stars": 29268,
+          "updated_at": "2026-02-24T15:18:16Z",
+          "verified": true
+        }
+      ],
+      "source_repo_count": 1,
+      "source_repos": [
+        "wshobson/agents"
+      ],
+      "tutorial": "wshobson-agents-tutorial",
+      "unverified_repo_count": 0,
+      "verified_repo_count": 1
+    }
+  ],
+  "unverified_repositories": []
+}

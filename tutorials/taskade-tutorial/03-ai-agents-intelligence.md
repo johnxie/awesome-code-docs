@@ -7,6 +7,9 @@ nav_order: 3
 
 # Chapter 3: AI Agents & Intelligence
 
+Welcome to **Chapter 3: AI Agents & Intelligence**. In this part of **Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Now that we understand Taskade's Living DNA architecture, let's dive into building and customizing AI agents—the intelligent heart of your workspace. AI agents in Taskade are specialized digital team members that learn from your patterns and become indispensable collaborators.
 
 ## AI Agent Fundamentals
@@ -450,6 +453,22 @@ class AgentExtender {
 }
 ```
 
+## Help Center Alignment: Intelligence Pillar (Imported)
+
+The official "Custom AI Agents" guide adds operational guardrails that complement this chapter:
+
+- create agents when a recurring workflow is frequent, repeatable, and context-heavy
+- train agents using projects, media, links, and external sources
+- use tool integrations and custom slash-command patterns for controllable execution
+- choose command behaviors deliberately (direct mode vs plan-and-execute style)
+
+This helps move from "agent demos" to reliable team-level agent operations.
+
+## Imported Sources for This Chapter
+
+- [Custom AI Agents: The Intelligence Pillar](https://help.taskade.com/en/articles/8958457-custom-ai-agents-the-intelligence-pillar)
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna)
+
 ## What We've Accomplished
 
 ✅ **Understood AI agent architecture** and core components
@@ -468,3 +487,150 @@ Ready to automate your workflows? In [Chapter 4: Smart Automations](04-smart-aut
 **Key Takeaway:** AI agents in Taskade are more than just chatbots—they're intelligent collaborators that learn from your workspace, adapt to your needs, and work together to accomplish complex tasks.
 
 *The most powerful AI agents are those that become true extensions of your team's intelligence.*
+
+## Depth Expansion Playbook
+
+<!-- depth-expansion-v2 -->
+
+This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+
+### Strategic Context
+
+- tutorial: **Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations**
+- tutorial slug: **taskade-tutorial**
+- chapter focus: **Chapter 3: AI Agents & Intelligence**
+- system context: **Taskade Tutorial**
+- objective: move from surface-level usage to repeatable engineering operation
+
+### Architecture Decomposition
+
+1. Define the runtime boundary for `Chapter 3: AI Agents & Intelligence`.
+2. Separate control-plane decisions from data-plane execution.
+3. Capture input contracts, transformation points, and output contracts.
+4. Trace state transitions across request lifecycle stages.
+5. Identify extension hooks and policy interception points.
+6. Map ownership boundaries for team and automation workflows.
+7. Specify rollback and recovery paths for unsafe changes.
+8. Track observability signals for correctness, latency, and cost.
+
+### Operator Decision Matrix
+
+| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
+|:--------------|:--------------|:------------------|:---------|
+| Runtime mode | managed defaults | explicit policy config | speed vs control |
+| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
+| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
+| Rollout method | manual change | staged + canary rollout | effort vs safety |
+| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+
+### Failure Modes and Countermeasures
+
+| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
+|:-------------|:-------------|:-------------------|:---------------|
+| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
+| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
+| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
+| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
+| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
+| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+
+### Implementation Runbook
+
+1. Establish a reproducible baseline environment.
+2. Capture chapter-specific success criteria before changes.
+3. Implement minimal viable path with explicit interfaces.
+4. Add observability before expanding feature scope.
+5. Run deterministic tests for happy-path behavior.
+6. Inject failure scenarios for negative-path validation.
+7. Compare output quality against baseline snapshots.
+8. Promote through staged environments with rollback gates.
+9. Record operational lessons in release notes.
+
+### Quality Gate Checklist
+
+- [ ] chapter-level assumptions are explicit and testable
+- [ ] API/tool boundaries are documented with input/output examples
+- [ ] failure handling includes retry, timeout, and fallback policy
+- [ ] security controls include auth scopes and secret rotation plans
+- [ ] observability includes logs, metrics, traces, and alert thresholds
+- [ ] deployment guidance includes canary and rollback paths
+- [ ] docs include links to upstream sources and related tracks
+- [ ] post-release verification confirms expected behavior under load
+
+### Source Alignment
+
+- [Taskade Platform Repo](https://github.com/taskade/taskade)
+- [Taskade Docs Repo](https://github.com/taskade/docs)
+- [Taskade MCP Repo](https://github.com/taskade/mcp)
+- [Taskade Awesome Vibe Coding](https://github.com/taskade/awesome-vibe-coding)
+- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
+- [Taskade Temporal Parser](https://github.com/taskade/temporal-parser)
+- [Taskade Product Site](https://taskade.com)
+- [Taskade Changelog](https://taskade.com/changelog)
+
+### Cross-Tutorial Connection Map
+
+- [Taskade Docs Tutorial](../taskade-docs-tutorial/)
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/)
+- [Taskade Awesome Vibe Coding Tutorial](../taskade-awesome-vibe-coding-tutorial/)
+- [MCP Servers Tutorial](../mcp-servers-tutorial/)
+- [Composio Tutorial](../composio-tutorial/)
+- [Chapter 1: Getting Started](01-getting-started.md)
+
+### Advanced Practice Exercises
+
+1. Build a minimal end-to-end implementation for `Chapter 3: AI Agents & Intelligence`.
+2. Add instrumentation and measure baseline latency and error rate.
+3. Introduce one controlled failure and confirm graceful recovery.
+4. Add policy constraints and verify they are enforced consistently.
+5. Run a staged rollout and document rollback decision criteria.
+
+### Review Questions
+
+1. Which execution boundary matters most for this chapter and why?
+2. What signal detects regressions earliest in your environment?
+3. What tradeoff did you make between delivery speed and governance?
+4. How would you recover from the highest-impact failure mode?
+5. What must be automated before scaling to team-wide adoption?
+
+## What Problem Does This Solve?
+
+Most agent programs fail not because LLMs are weak, but because teams define vague agent roles, weak memory boundaries, and no measurable quality loop.
+
+This chapter solves that by making agent design explicit:
+
+- role definition and specialization
+- tool/memory boundaries
+- evaluation and feedback signals
+
+With these constraints, agents become reliable operators instead of unpredictable chat wrappers.
+
+## How it Works Under the Hood
+
+The agent runtime is a layered loop:
+
+1. **Intent intake**: capture user/project intent and task objective.
+2. **Context assembly**: hydrate prompt context from workspace memory + role profile.
+3. **Capability routing**: select tools/actions allowed for that agent type.
+4. **Execution + reflection**: run actions, observe outcomes, and adjust follow-up steps.
+5. **Memory writeback**: persist useful outputs and behavioral signals.
+6. **Quality telemetry**: track latency, failure rate, and usefulness over time.
+
+If an agent feels inconsistent, inspect context assembly and capability routing first.
+
+## Source Walkthrough
+
+Use these references for agent-specific validation:
+
+- [Custom AI Agents: The Intelligence Pillar](https://help.taskade.com/en/articles/8958457-custom-ai-agents-the-intelligence-pillar): official behavior and tooling model.
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna): context inheritance model agents depend on.
+- [Taskade MCP Repo](https://github.com/taskade/mcp): integration surface for external clients/tools.
+- [Taskade Docs Repo](https://github.com/taskade/docs): docs-level contracts for agent and automation capabilities.
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Living DNA Architecture](02-living-dna-architecture.md)
+- [Next Chapter: Chapter 4: Smart Automations](04-smart-automations.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

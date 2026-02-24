@@ -7,6 +7,9 @@ nav_order: 2
 
 # Chapter 2: Living DNA Architecture
 
+Welcome to **Chapter 2: Living DNA Architecture**. In this part of **Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Welcome back! In Chapter 1, we explored Taskade's surface features. Now let's dive deep into what makes Taskade truly revolutionary: its **Living DNA Architecture**. This isn't just marketing speak—it's a fundamental rethinking of how productivity platforms work.
 
 ## The Living DNA Philosophy
@@ -473,6 +476,24 @@ class DNAOptimizer {
 }
 ```
 
+## Help Center Alignment: Tree of Life and Workspace DNA (Imported)
+
+Official Workspace DNA documentation reinforces the same architecture used in this chapter:
+
+- **Memory (Projects/Databases):** structured context that persists and accumulates meaning
+- **Intelligence (Agents):** reasoning layer that learns from workspace memory
+- **Execution (Automations):** workflow layer that responds to events and writes outcomes back
+
+This closed loop is the practical "living software" pattern:
+
+`memory -> intelligence -> execution -> updated memory`
+
+## Imported Sources for This Chapter
+
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna)
+- [Projects & Databases: The Memory Pillar](https://help.taskade.com/en/articles/12166149-projects-databases-the-memory-pillar)
+- [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar)
+
 ## What We've Learned
 
 ✅ **Understood Living DNA architecture** and its four strands
@@ -491,3 +512,149 @@ Ready to put Living DNA into practice? In [Chapter 3: AI Agents & Intelligence](
 **Key Takeaway:** Taskade's Living DNA isn't just a feature—it's a fundamental rethinking of how productivity platforms should work. Every interaction makes your workspace smarter, more efficient, and better adapted to your needs.
 
 *Living DNA turns your workspace from a static tool into a living, evolving intelligence that grows with you.*
+
+## Depth Expansion Playbook
+
+<!-- depth-expansion-v2 -->
+
+This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+
+### Strategic Context
+
+- tutorial: **Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations**
+- tutorial slug: **taskade-tutorial**
+- chapter focus: **Chapter 2: Living DNA Architecture**
+- system context: **Taskade Tutorial**
+- objective: move from surface-level usage to repeatable engineering operation
+
+### Architecture Decomposition
+
+1. Define the runtime boundary for `Chapter 2: Living DNA Architecture`.
+2. Separate control-plane decisions from data-plane execution.
+3. Capture input contracts, transformation points, and output contracts.
+4. Trace state transitions across request lifecycle stages.
+5. Identify extension hooks and policy interception points.
+6. Map ownership boundaries for team and automation workflows.
+7. Specify rollback and recovery paths for unsafe changes.
+8. Track observability signals for correctness, latency, and cost.
+
+### Operator Decision Matrix
+
+| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
+|:--------------|:--------------|:------------------|:---------|
+| Runtime mode | managed defaults | explicit policy config | speed vs control |
+| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
+| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
+| Rollout method | manual change | staged + canary rollout | effort vs safety |
+| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+
+### Failure Modes and Countermeasures
+
+| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
+|:-------------|:-------------|:-------------------|:---------------|
+| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
+| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
+| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
+| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
+| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
+| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+
+### Implementation Runbook
+
+1. Establish a reproducible baseline environment.
+2. Capture chapter-specific success criteria before changes.
+3. Implement minimal viable path with explicit interfaces.
+4. Add observability before expanding feature scope.
+5. Run deterministic tests for happy-path behavior.
+6. Inject failure scenarios for negative-path validation.
+7. Compare output quality against baseline snapshots.
+8. Promote through staged environments with rollback gates.
+9. Record operational lessons in release notes.
+
+### Quality Gate Checklist
+
+- [ ] chapter-level assumptions are explicit and testable
+- [ ] API/tool boundaries are documented with input/output examples
+- [ ] failure handling includes retry, timeout, and fallback policy
+- [ ] security controls include auth scopes and secret rotation plans
+- [ ] observability includes logs, metrics, traces, and alert thresholds
+- [ ] deployment guidance includes canary and rollback paths
+- [ ] docs include links to upstream sources and related tracks
+- [ ] post-release verification confirms expected behavior under load
+
+### Source Alignment
+
+- [Taskade Platform Repo](https://github.com/taskade/taskade)
+- [Taskade Docs Repo](https://github.com/taskade/docs)
+- [Taskade MCP Repo](https://github.com/taskade/mcp)
+- [Taskade Awesome Vibe Coding](https://github.com/taskade/awesome-vibe-coding)
+- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
+- [Taskade Temporal Parser](https://github.com/taskade/temporal-parser)
+- [Taskade Product Site](https://taskade.com)
+- [Taskade Changelog](https://taskade.com/changelog)
+
+### Cross-Tutorial Connection Map
+
+- [Taskade Docs Tutorial](../taskade-docs-tutorial/)
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/)
+- [Taskade Awesome Vibe Coding Tutorial](../taskade-awesome-vibe-coding-tutorial/)
+- [MCP Servers Tutorial](../mcp-servers-tutorial/)
+- [Composio Tutorial](../composio-tutorial/)
+- [Chapter 1: Getting Started](01-getting-started.md)
+
+### Advanced Practice Exercises
+
+1. Build a minimal end-to-end implementation for `Chapter 2: Living DNA Architecture`.
+2. Add instrumentation and measure baseline latency and error rate.
+3. Introduce one controlled failure and confirm graceful recovery.
+4. Add policy constraints and verify they are enforced consistently.
+5. Run a staged rollout and document rollback decision criteria.
+
+### Review Questions
+
+1. Which execution boundary matters most for this chapter and why?
+2. What signal detects regressions earliest in your environment?
+3. What tradeoff did you make between delivery speed and governance?
+4. How would you recover from the highest-impact failure mode?
+5. What must be automated before scaling to team-wide adoption?
+
+## What Problem Does This Solve?
+
+Teams often build productivity systems that fragment over time: documents in one place, workflows in another, and AI context nowhere coherent.
+
+This chapter solves that architectural drift by explaining Taskade's "Living DNA" model as a single inheritance system across:
+
+- workspace structure and taxonomy
+- project/database memory
+- agent behavior and automation logic
+
+Once this model is clear, you can design systems that scale without rewriting structure every quarter.
+
+## How it Works Under the Hood
+
+The DNA layer acts like a propagation engine:
+
+1. **Root definition**: workspace-level structures define canonical categories and intent.
+2. **Schema projection**: projects/databases inherit and specialize those structures.
+3. **Context exposure**: agents and automations read this shared model as operating context.
+4. **Mutation feedback**: edits and activity update memory nodes and influence future generation.
+5. **Consistency checks**: inheritance rules keep teams aligned instead of diverging into local conventions.
+
+When architecture feels inconsistent, inspect where inheritance broke: root model, projection, or mutation flow.
+
+## Source Walkthrough
+
+Primary references for this chapter:
+
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna): formal framing of Tree of Life / DNA concepts.
+- [Projects & Databases: The Memory Pillar](https://help.taskade.com/en/articles/12166149-projects-databases-the-memory-pillar): practical storage and structure implications.
+- [Taskade Docs Repo](https://github.com/taskade/docs): documentation-level hierarchy and narrative model.
+- [Taskade Platform Repo](https://github.com/taskade/taskade): implementation-facing signal for architecture changes.
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started with Taskade](01-getting-started.md)
+- [Next Chapter: Chapter 3: AI Agents & Intelligence](03-ai-agents-intelligence.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
