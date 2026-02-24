@@ -7,6 +7,9 @@ nav_order: 4
 
 # Chapter 4: Query Engines & Retrieval
 
+Welcome to **Chapter 4: Query Engines & Retrieval**. In this part of **LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Build sophisticated query engines and retrieval systems for advanced RAG applications.
 
 ## 🎯 Overview
@@ -777,3 +780,49 @@ With query engines and retrieval mastered, you're ready to:
 ---
 
 **Ready to explore advanced RAG patterns? Continue to [Chapter 5: Advanced RAG Patterns](05-advanced-rag.md)!** 🚀
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `query`, `self`, `results` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Query Engines & Retrieval` as an operating subsystem inside **LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `response`, `index`, `engine` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Query Engines & Retrieval` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `query`.
+2. **Input normalization**: shape incoming data so `self` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `results`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/run-llama/llama_index)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `query` and `self` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Indexing & Storage](03-indexing-storage.md)
+- [Next Chapter: Chapter 5: Advanced RAG Patterns](05-advanced-rag.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
