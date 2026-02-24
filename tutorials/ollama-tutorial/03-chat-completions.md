@@ -8,6 +8,9 @@ parent: Ollama Tutorial
 
 # Chapter 3: Chat, Completions, and Parameters
 
+Welcome to **Chapter 3: Chat, Completions, and Parameters**. In this part of **Ollama Tutorial: Running and Serving LLMs Locally**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Build chats and completions with streaming, JSON output, system prompts, conversation history, and safe parameter tuning -- all running locally on your machine.
 
 In this chapter, you will learn how requests flow through Ollama, how to use both the Chat and Completions APIs, how to stream responses in real time, and how to fine-tune generation behavior with parameters. By the end, you will be comfortable building multi-turn conversations with structured output.
@@ -857,3 +860,53 @@ Next up, you will learn how to generate embeddings and build a simple retrieval-
 ---
 
 Previous: [Chapter 2: Models & Modelfiles](02-models.md) | Next: [Chapter 4: Embeddings & RAG](04-embeddings-rag.md)
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `messages`, `content`, `role` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: Chat, Completions, and Parameters` as an operating subsystem inside **Ollama Tutorial: Running and Serving LLMs Locally**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `self`, `model`, `json` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: Chat, Completions, and Parameters` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `messages`.
+2. **Input normalization**: shape incoming data so `content` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `role`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Ollama Repository](https://github.com/ollama/ollama)
+  Why it matters: authoritative reference on `Ollama Repository` (github.com).
+- [Ollama Releases](https://github.com/ollama/ollama/releases)
+  Why it matters: authoritative reference on `Ollama Releases` (github.com).
+- [Ollama Website and Docs](https://ollama.com/)
+  Why it matters: authoritative reference on `Ollama Website and Docs` (ollama.com).
+
+Suggested trace strategy:
+- search upstream code for `messages` and `content` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Models, Pulling, and Modelfiles](02-models.md)
+- [Next Chapter: Chapter 4: Embeddings and RAG with Ollama](04-embeddings-rag.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

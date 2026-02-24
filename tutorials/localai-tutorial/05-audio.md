@@ -8,6 +8,9 @@ parent: LocalAI Tutorial
 
 # Chapter 5: Audio Processing - Whisper & TTS
 
+Welcome to **Chapter 5: Audio Processing - Whisper & TTS**. In this part of **LocalAI Tutorial: Self-Hosted OpenAI Alternative**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Transcribe speech to text with Whisper and generate speech with text-to-speech models.
 
 ## Overview
@@ -515,4 +518,52 @@ curl -X POST http://localhost:8080/models/apply \
 6. **Error Handling**: Implement retry logic for network/audio issues
 7. **Resource Management**: Monitor CPU/GPU usage during processing
 
-Next: Generate vector embeddings for semantic search and RAG applications. 
+Next: Generate vector embeddings for semantic search and RAG applications.
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `model`, `audio`, `whisper` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Audio Processing - Whisper & TTS` as an operating subsystem inside **LocalAI Tutorial: Self-Hosted OpenAI Alternative**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `file`, `client`, `create` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Audio Processing - Whisper & TTS` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `model`.
+2. **Input normalization**: shape incoming data so `audio` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `whisper`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/mudler/LocalAI)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `model` and `audio` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Image Generation with Stable Diffusion](04-image-generation.md)
+- [Next Chapter: Chapter 6: Vector Embeddings for RAG](06-embeddings.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
