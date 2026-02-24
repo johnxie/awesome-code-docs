@@ -7,6 +7,9 @@ nav_order: 8
 
 # Chapter 8: Monitoring & Optimization
 
+Welcome to **Chapter 8: Monitoring & Optimization**. In this part of **LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master advanced performance tuning, observability, and optimization techniques for production LlamaIndex applications.
 
 ## 🎯 Overview
@@ -1493,3 +1496,48 @@ You've mastered advanced monitoring and optimization for LlamaIndex RAG systems!
 🎯 **Intelligent**: Context-aware processing with advanced RAG patterns  
 
 *You've built a world-class RAG system that can handle enterprise workloads with confidence! The monitoring and optimization techniques you've implemented ensure your system will perform reliably at scale while continuously improving through intelligent caching and dynamic optimization.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `query`, `cache` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 8: Monitoring & Optimization` as an operating subsystem inside **LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `queries`, `metrics`, `model` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 8: Monitoring & Optimization` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `query` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `cache`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/run-llama/llama_index)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `query` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

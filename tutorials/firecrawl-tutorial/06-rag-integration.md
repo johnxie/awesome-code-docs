@@ -7,6 +7,9 @@ nav_order: 6
 
 # Chapter 6: Building RAG Systems
 
+Welcome to **Chapter 6: Building RAG Systems**. In this part of **Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Retrieval-Augmented Generation (RAG) is the most impactful application of web scraping for AI. Instead of relying solely on an LLM's training data, RAG retrieves relevant content from your scraped corpus and injects it into the prompt -- giving the model up-to-date, domain-specific knowledge without fine-tuning.
 
 In this chapter you will build a complete RAG pipeline: scrape websites with Firecrawl, chunk content intelligently, generate embeddings, store them in a vector database, and build a question-answering system that grounds its answers in your scraped data.
@@ -643,3 +646,49 @@ Your RAG pipeline works. Now you need to scale it. In [Chapter 7: Scaling & Perf
 ---
 
 *Built with insights from the [Firecrawl](https://github.com/mendableai/firecrawl) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `query`, `content`, `documents` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Building RAG Systems` as an operating subsystem inside **Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `print`, `chunks`, `embeddings` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Building RAG Systems` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `query`.
+2. **Input normalization**: shape incoming data so `content` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `documents`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/firecrawl/firecrawl)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `query` and `content` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Content Cleaning & Processing](05-content-cleaning.md)
+- [Next Chapter: Chapter 7: Scaling & Performance](07-scaling-performance.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

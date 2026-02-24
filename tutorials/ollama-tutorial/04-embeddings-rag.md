@@ -8,6 +8,9 @@ parent: Ollama Tutorial
 
 # Chapter 4: Embeddings and RAG with Ollama
 
+Welcome to **Chapter 4: Embeddings and RAG with Ollama**. In this part of **Ollama Tutorial: Running and Serving LLMs Locally**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Create vector embeddings locally and build retrieval-augmented generation (RAG) workflows -- all running on your own machine with no API keys required.
 
 ## The RAG Pipeline at a Glance
@@ -789,3 +792,53 @@ With these building blocks you can create powerful, private, fully local AI appl
 ---
 
 Previous: [Chapter 3: Chat & Completions](03-chat-completions.md) | Next: [Chapter 5: Custom Models](05-modelfiles-custom.md)
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `text`, `chunks`, `embed` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Embeddings and RAG with Ollama` as an operating subsystem inside **Ollama Tutorial: Running and Serving LLMs Locally**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `print`, `collection`, `model` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Embeddings and RAG with Ollama` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `text`.
+2. **Input normalization**: shape incoming data so `chunks` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `embed`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Ollama Repository](https://github.com/ollama/ollama)
+  Why it matters: authoritative reference on `Ollama Repository` (github.com).
+- [Ollama Releases](https://github.com/ollama/ollama/releases)
+  Why it matters: authoritative reference on `Ollama Releases` (github.com).
+- [Ollama Website and Docs](https://ollama.com/)
+  Why it matters: authoritative reference on `Ollama Website and Docs` (ollama.com).
+
+Suggested trace strategy:
+- search upstream code for `text` and `chunks` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Chat, Completions, and Parameters](03-chat-completions.md)
+- [Next Chapter: Chapter 5: Modelfiles, Templates, and Custom Models](05-modelfiles-custom.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

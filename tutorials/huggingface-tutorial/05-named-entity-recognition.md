@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: Named Entity Recognition
 
+Welcome to **Chapter 5: Named Entity Recognition**. In this part of **HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Extract structured information and named entities from unstructured text using NER models.
 
 ## 🎯 Overview
@@ -806,3 +809,49 @@ With NER mastered, you're ready to:
 ---
 
 **Ready to work with multilingual AI models? Continue to [Chapter 6: Translation & Multilingual Models](06-translation-multilingual.md)!** 🚀
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `entity`, `entities` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Named Entity Recognition` as an operating subsystem inside **HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `text`, `token`, `model` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Named Entity Recognition` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `entity` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `entities`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/huggingface/transformers)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `entity` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Question Answering](04-question-answering.md)
+- [Next Chapter: Chapter 6: Translation & Multilingual Models](06-translation-multilingual.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

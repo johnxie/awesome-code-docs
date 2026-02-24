@@ -7,6 +7,9 @@ nav_order: 6
 
 # Chapter 6: LoRA & Model Customization
 
+Welcome to **Chapter 6: LoRA & Model Customization**. In this part of **ComfyUI Tutorial: Mastering AI Image Generation Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 LoRA (Low-Rank Adaptation) is one of the most powerful techniques for customizing Stable Diffusion models without the enormous cost of full fine-tuning. A LoRA is a small adapter -- typically 10-200 MB compared to a multi-gigabyte base model -- that modifies the behavior of the diffusion model to produce images in a specific style, depict a particular character, or render a learned concept. ComfyUI's node-based architecture makes it exceptionally easy to load, combine, and tune LoRA models within your generation workflows. In this chapter, you will learn how LoRA works, how to integrate LoRA adapters in ComfyUI, how to train your own LoRAs, and how to stack multiple adapters for sophisticated creative control.
 
 ## How LoRA Works
@@ -618,3 +621,49 @@ With LoRA mastery under your belt, you can now customize every aspect of your mo
 ---
 
 *Built with insights from the [ComfyUI](https://github.com/comfyanonymous/ComfyUI) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `LoRA`, `safetensors`, `class_type` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: LoRA & Model Customization` as an operating subsystem inside **ComfyUI Tutorial: Mastering AI Image Generation Workflows**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `inputs`, `classDef`, `fill` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: LoRA & Model Customization` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `LoRA`.
+2. **Input normalization**: shape incoming data so `safetensors` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `class_type`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/comfyanonymous/ComfyUI)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `LoRA` and `safetensors` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: ControlNet & Pose Control](05-controlnet-integration.md)
+- [Next Chapter: Chapter 7: Advanced Workflows & Automation](07-advanced-workflows.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -8,6 +8,9 @@ parent: "GPT Open Source - Deep Dive Tutorial"
 
 # Chapter 6: Scaling & Distributed Training -- Model Parallelism, Data Parallelism, ZeRO, and FSDP
 
+Welcome to **Chapter 6: Scaling & Distributed Training -- Model Parallelism, Data Parallelism, ZeRO, and FSDP**. In this part of **GPT Open Source: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 ## Introduction
 
 Training GPT models beyond a few hundred million parameters requires distributing computation across multiple GPUs. A single GPU, even with 80GB of memory, cannot hold the model weights, optimizer states, gradients, and activations for a multi-billion parameter model.
@@ -616,3 +619,59 @@ In [Chapter 7: Fine-Tuning & Alignment](07-fine-tuning-alignment.md), we will ex
 
 ---
 *Built with insights from open-source GPT implementations.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `model`, `classDef` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Scaling & Distributed Training -- Model Parallelism, Data Parallelism, ZeRO, and FSDP` as an operating subsystem inside **GPT Open Source: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `fill`, `stroke`, `torch` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Scaling & Distributed Training -- Model Parallelism, Data Parallelism, ZeRO, and FSDP` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `model` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `classDef`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [nanoGPT](https://github.com/karpathy/nanoGPT)
+  Why it matters: authoritative reference on `nanoGPT` (github.com).
+- [minGPT](https://github.com/karpathy/minGPT)
+  Why it matters: authoritative reference on `minGPT` (github.com).
+- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
+  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
+- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
+  Why it matters: authoritative reference on `GPT-Neo` (github.com).
+- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
+  Why it matters: authoritative reference on `GPT-J` (github.com).
+- [Chapter 1: Getting Started](01-getting-started.md)
+  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+
+Suggested trace strategy:
+- search upstream code for `self` and `model` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Attention Mechanisms -- Causal Masking, KV-Cache, Multi-Query Attention, and Flash Attention](05-attention-mechanisms.md)
+- [Next Chapter: Chapter 7: Fine-Tuning & Alignment -- LoRA, QLoRA, RLHF, DPO, and Instruction Tuning](07-fine-tuning-alignment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

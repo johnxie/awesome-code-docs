@@ -448,6 +448,22 @@ class AutomationMonitor {
 }
 ```
 
+## Help Center Alignment: Execution Pillar (Imported)
+
+The official automation guide clarifies execution design details:
+
+- automations follow explicit **If This, Then That** modeling
+- triggers, actions, and variables should be designed together, not separately
+- generator modes are purpose-specific (auto, agent-tool, workflow, form)
+- EVE-assisted automation building is valid for rapid setup, but review is still required
+
+For production teams, this chapter plus the execution-pillar guide gives both architecture and day-to-day operator workflow.
+
+## Imported Sources for This Chapter
+
+- [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar)
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna)
+
 ## What We've Accomplished
 
 ✅ **Understood automation fundamentals** and smart vs traditional automation
@@ -465,3 +481,150 @@ Ready to build complete applications? In [Chapter 5: Genesis App Builder](05-gen
 **Key Takeaway:** Smart automations in Taskade are more than just workflow tools—they're intelligent systems that learn from your patterns, predict your needs, and continuously optimize your business processes.
 
 *Automation becomes truly powerful when it anticipates needs rather than just reacting to events.*
+
+## Depth Expansion Playbook
+
+<!-- depth-expansion-v2 -->
+
+This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+
+### Strategic Context
+
+- tutorial: **Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations**
+- tutorial slug: **taskade-tutorial**
+- chapter focus: **Chapter 4: Smart Automations**
+- system context: **Taskade Tutorial**
+- objective: move from surface-level usage to repeatable engineering operation
+
+### Architecture Decomposition
+
+1. Define the runtime boundary for `Chapter 4: Smart Automations`.
+2. Separate control-plane decisions from data-plane execution.
+3. Capture input contracts, transformation points, and output contracts.
+4. Trace state transitions across request lifecycle stages.
+5. Identify extension hooks and policy interception points.
+6. Map ownership boundaries for team and automation workflows.
+7. Specify rollback and recovery paths for unsafe changes.
+8. Track observability signals for correctness, latency, and cost.
+
+### Operator Decision Matrix
+
+| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
+|:--------------|:--------------|:------------------|:---------|
+| Runtime mode | managed defaults | explicit policy config | speed vs control |
+| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
+| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
+| Rollout method | manual change | staged + canary rollout | effort vs safety |
+| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+
+### Failure Modes and Countermeasures
+
+| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
+|:-------------|:-------------|:-------------------|:---------------|
+| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
+| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
+| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
+| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
+| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
+| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+
+### Implementation Runbook
+
+1. Establish a reproducible baseline environment.
+2. Capture chapter-specific success criteria before changes.
+3. Implement minimal viable path with explicit interfaces.
+4. Add observability before expanding feature scope.
+5. Run deterministic tests for happy-path behavior.
+6. Inject failure scenarios for negative-path validation.
+7. Compare output quality against baseline snapshots.
+8. Promote through staged environments with rollback gates.
+9. Record operational lessons in release notes.
+
+### Quality Gate Checklist
+
+- [ ] chapter-level assumptions are explicit and testable
+- [ ] API/tool boundaries are documented with input/output examples
+- [ ] failure handling includes retry, timeout, and fallback policy
+- [ ] security controls include auth scopes and secret rotation plans
+- [ ] observability includes logs, metrics, traces, and alert thresholds
+- [ ] deployment guidance includes canary and rollback paths
+- [ ] docs include links to upstream sources and related tracks
+- [ ] post-release verification confirms expected behavior under load
+
+### Source Alignment
+
+- [Taskade Platform Repo](https://github.com/taskade/taskade)
+- [Taskade Docs Repo](https://github.com/taskade/docs)
+- [Taskade MCP Repo](https://github.com/taskade/mcp)
+- [Taskade Awesome Vibe Coding](https://github.com/taskade/awesome-vibe-coding)
+- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
+- [Taskade Temporal Parser](https://github.com/taskade/temporal-parser)
+- [Taskade Product Site](https://taskade.com)
+- [Taskade Changelog](https://taskade.com/changelog)
+
+### Cross-Tutorial Connection Map
+
+- [Taskade Docs Tutorial](../taskade-docs-tutorial/)
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/)
+- [Taskade Awesome Vibe Coding Tutorial](../taskade-awesome-vibe-coding-tutorial/)
+- [MCP Servers Tutorial](../mcp-servers-tutorial/)
+- [Composio Tutorial](../composio-tutorial/)
+- [Chapter 1: Getting Started](01-getting-started.md)
+
+### Advanced Practice Exercises
+
+1. Build a minimal end-to-end implementation for `Chapter 4: Smart Automations`.
+2. Add instrumentation and measure baseline latency and error rate.
+3. Introduce one controlled failure and confirm graceful recovery.
+4. Add policy constraints and verify they are enforced consistently.
+5. Run a staged rollout and document rollback decision criteria.
+
+### Review Questions
+
+1. Which execution boundary matters most for this chapter and why?
+2. What signal detects regressions earliest in your environment?
+3. What tradeoff did you make between delivery speed and governance?
+4. How would you recover from the highest-impact failure mode?
+5. What must be automated before scaling to team-wide adoption?
+
+## What Problem Does This Solve?
+
+Automation is where promising systems usually break: duplicate triggers, unsafe side effects, and opaque failures.
+
+This chapter solves that operational risk by giving you a production-oriented automation model:
+
+- reliable trigger/condition/action chains
+- variable and context handling that stays deterministic
+- guardrails for retries, idempotency, and escalation paths
+
+Done well, automations become the execution engine for your workspace, not a source of silent regressions.
+
+## How it Works Under the Hood
+
+The automation runtime can be understood as a transaction pipeline:
+
+1. **Trigger capture**: ingest event signal (time, data change, user action, external webhook).
+2. **Context resolution**: load relevant project/database variables.
+3. **Condition gating**: decide if downstream actions are allowed to execute.
+4. **Action dispatch**: execute calls with sequencing and failure handling.
+5. **Result persistence**: record outputs for traceability and downstream steps.
+6. **Observability hook**: emit logs/alerts for failed or delayed runs.
+
+When troubleshooting, inspect trigger capture and context resolution before tuning actions.
+
+## Source Walkthrough
+
+Automation references to read alongside this chapter:
+
+- [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar): official trigger/action model and capabilities.
+- [Projects & Databases: The Memory Pillar](https://help.taskade.com/en/articles/12166149-projects-databases-the-memory-pillar): data layer used by automation variables.
+- [Taskade Docs Repo](https://github.com/taskade/docs): docs-level details for integration behavior and updates.
+- [Taskade Changelog](https://taskade.com/changelog): release-level changes that can affect automation behavior.
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: AI Agents & Intelligence](03-ai-agents-intelligence.md)
+- [Next Chapter: Chapter 5: Genesis App Builder](05-genesis-app-builder.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
