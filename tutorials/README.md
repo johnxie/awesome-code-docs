@@ -15,28 +15,28 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 | Metric | Value |
 |:-------|:------|
 <<<<<<< HEAD
-| Tutorial directories | 188 |
-| Tutorial markdown files | 1705 |
-| Tutorial markdown lines | 996,366 |
+| Tutorial directories | 191 |
+| Tutorial markdown files | 1732 |
+| Tutorial markdown lines | 1,004,205 |
 =======
 <<<<<<< HEAD
-| Tutorial directories | 188 |
-| Tutorial markdown files | 1705 |
-| Tutorial markdown lines | 996,366 |
+| Tutorial directories | 191 |
+| Tutorial markdown files | 1732 |
+| Tutorial markdown lines | 1,004,205 |
 =======
 <<<<<<< HEAD
-| Tutorial directories | 188 |
-| Tutorial markdown files | 1705 |
-| Tutorial markdown lines | 996,366 |
+| Tutorial directories | 191 |
+| Tutorial markdown files | 1732 |
+| Tutorial markdown lines | 1,004,205 |
 =======
 <<<<<<< HEAD
-| Tutorial directories | 188 |
-| Tutorial markdown files | 1705 |
-| Tutorial markdown lines | 996,366 |
+| Tutorial directories | 191 |
+| Tutorial markdown files | 1732 |
+| Tutorial markdown lines | 1,004,205 |
 =======
-| Tutorial directories | 188 |
-| Tutorial markdown files | 1705 |
-| Tutorial markdown lines | 996,366 |
+| Tutorial directories | 191 |
+| Tutorial markdown files | 1732 |
+| Tutorial markdown lines | 1,004,205 |
 
 ## Source Verification Snapshot
 
@@ -61,7 +61,7 @@ Repository-source verification run against tutorial index references (GitHub API
 
 | Pattern | Count | Description |
 |:--------|:------|:------------|
-| Root chapter files | 188 | `index.md` + top-level `01-...md` to `08-...md` |
+| Root chapter files | 191 | `index.md` + top-level `01-...md` to `08-...md` |
 | `docs/` chapter files | 0 | Deprecated and fully migrated |
 | Index-only roadmap | 0 | All catalog entries publish full chapter sets |
 | Mixed root + `docs/` | 0 | Legacy hybrid layout removed |

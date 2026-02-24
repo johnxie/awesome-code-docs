@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 188,
+  "tutorial_count": 191,
   "tutorials": [
     {
       "cluster": "ai-app-frameworks",
@@ -542,6 +542,35 @@
       "slug": "awslabs-mcp-tutorial",
       "summary": "Learn how to use awslabs/mcp to compose, run, and govern AWS-focused MCP servers across development, infrastructure, data, and operations workflows.",
       "title": "awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads"
+    },
+    {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/babyagi-tutorial/index.md",
+      "index_path": "tutorials/babyagi-tutorial/index.md",
+      "intent_signals": [
+        "agentic-coding"
+      ],
+      "keywords": [
+        "babyagi",
+        "original",
+        "autonomous",
+        "task",
+        "agent",
+        "framework",
+        "yoheinakajima",
+        "generation",
+        "execution",
+        "prioritization",
+        "foundational",
+        "loop",
+        "started",
+        "wave"
+      ],
+      "path": "tutorials/babyagi-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/babyagi-tutorial",
+      "slug": "babyagi-tutorial",
+      "summary": "Learn how to use yoheinakajima/babyagi for autonomous task generation, execution, and prioritization\u2014the foundational agent loop that started the autonomous AI agent wave.",
+      "title": "BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework"
     },
     {
       "cluster": "ai-coding-agents",
@@ -1630,6 +1659,40 @@
       "title": "Deer Flow Tutorial: Distributed Workflow Orchestration Platform"
     },
     {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/devika-tutorial/index.md",
+      "index_path": "tutorials/devika-tutorial/index.md",
+      "intent_signals": [
+        "production-operations",
+        "agentic-coding"
+      ],
+      "keywords": [
+        "devika",
+        "open",
+        "source",
+        "autonomous",
+        "software",
+        "engineer",
+        "deploy",
+        "operate",
+        "stitionai",
+        "multi",
+        "agent",
+        "coding",
+        "plans",
+        "researches",
+        "writes",
+        "debugs",
+        "code",
+        "end"
+      ],
+      "path": "tutorials/devika-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/devika-tutorial",
+      "slug": "devika-tutorial",
+      "summary": "Learn how to deploy and operate stitionai/devika \u2014 a multi-agent autonomous coding system that plans, researches, writes, and debugs code end-to-end.",
+      "title": "Devika Tutorial: Open-Source Autonomous AI Software Engineer"
+    },
+    {
       "cluster": "ai-app-frameworks",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md",
       "index_path": "tutorials/dify-platform-deep-dive/index.md",
@@ -2416,6 +2479,38 @@
       "slug": "kimi-cli-tutorial",
       "summary": "Learn how to use MoonshotAI/kimi-cli to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.",
       "title": "Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP"
+    },
+    {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kiro-tutorial/index.md",
+      "index_path": "tutorials/kiro-tutorial/index.md",
+      "intent_signals": [
+        "agentic-coding"
+      ],
+      "keywords": [
+        "kiro",
+        "spec",
+        "driven",
+        "agentic",
+        "ide",
+        "aws",
+        "kirodotdev",
+        "structured",
+        "powered",
+        "development",
+        "workflows",
+        "agent",
+        "steering",
+        "event",
+        "automation",
+        "native",
+        "integrations"
+      ],
+      "path": "tutorials/kiro-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kiro-tutorial",
+      "slug": "kiro-tutorial",
+      "summary": "Learn how to use kirodotdev/Kiro for structured AI-powered development with spec-driven workflows, agent steering, event-driven automation, and AWS-native integrations.",
+      "title": "Kiro Tutorial: Spec-Driven Agentic IDE from AWS"
     },
     {
       "cluster": "systems-and-internals",

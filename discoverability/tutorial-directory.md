@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **188**
+- Total tutorials: **191**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -44,6 +44,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 ## B
 
+- [BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/babyagi-tutorial/index.md)
+  - Learn how to use yoheinakajima/babyagi for autonomous task generation, execution, and prioritization—the foundational agent loop that started the autonomous AI agent wave.
 - [Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md)
   - Learn how to use steveyegge/beads to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.
 - [BentoML Tutorial: Building Production-Ready ML Services](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md)
@@ -120,6 +122,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use daytonaio/daytona to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
 - [Deer Flow Tutorial: Distributed Workflow Orchestration Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md)
   - Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
+- [Devika Tutorial: Open-Source Autonomous AI Software Engineer](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/devika-tutorial/index.md)
+  - Learn how to deploy and operate stitionai/devika — a multi-agent autonomous coding system that plans, researches, writes, and debugs code end-to-end.
 - [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md)
   - Dify — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
 - [DSPy Tutorial: Programming Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/index.md)
@@ -192,6 +196,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use Kilo-Org/kilocode for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.
 - [Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md)
   - Learn how to use MoonshotAI/kimi-cli to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.
+- [Kiro Tutorial: Spec-Driven Agentic IDE from AWS](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kiro-tutorial/index.md)
+  - Learn how to use kirodotdev/Kiro for structured AI-powered development with spec-driven workflows, agent steering, event-driven automation, and AWS-native integrations.
 - [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md)
   - Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.
 

@@ -2,7 +2,7 @@
 
 Auto-generated topical clusters to strengthen internal linking and query-to-tutorial mapping.
 
-- Total tutorials: **188**
+- Total tutorials: **191**
 - Total clusters: **9**
 - Source: `scripts/generate_discoverability_assets.py`
 
@@ -64,7 +64,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## ai-coding-agents
 
-- tutorial_count: **82**
+- tutorial_count: **85**
 
 - [ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md)
   - intents: production-operations, agentic-coding
@@ -90,6 +90,8 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: tool-selection, agentic-coding
 - [Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/index.md)
   - intents: tool-selection, agentic-coding
+- [BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/babyagi-tutorial/index.md)
+  - intents: agentic-coding
 - [Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md)
   - intents: agentic-coding
 - [Browser Use Tutorial: AI-Powered Web Automation Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md)
@@ -114,9 +116,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: agentic-coding
 - [CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/index.md)
   - intents: agentic-coding
-- [Codex Analysis Platform Tutorial: Build Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md)
-  - intents: production-operations, architecture-deep-dive, agentic-coding
-- ... plus 57 more tutorials in this cluster
+- ... plus 60 more tutorials in this cluster
 
 ## data-and-storage
 
