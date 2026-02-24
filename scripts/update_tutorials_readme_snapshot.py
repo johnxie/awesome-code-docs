@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
 
@@ -71,7 +72,39 @@ def update_readme_content(content: str, metrics: dict) -> str:
     for pattern, replacement in replacements.items():
         content = re.sub(pattern, replacement, content)
 
+    source_report = metrics.get("source_verification_summary")
+    if source_report:
+        source_replacements = {
+            r"\| Tutorials scanned \| .* \|": f"| Tutorials scanned | {source_report['tutorial_count']} |",
+            r"\| Tutorials with source repos \| .* \|": f"| Tutorials with source repos | {source_report['tutorials_with_source_repos']} |",
+            r"\| Tutorials with unverified source repos \| .* \|": f"| Tutorials with unverified source repos | {source_report['tutorials_with_unverified_source_repos']} |",
+            r"\| Unique verified source repos \| .* \|": f"| Unique verified source repos | {source_report['unique_verified_repo_count']} |",
+        }
+        for pattern, replacement in source_replacements.items():
+            content = re.sub(pattern, replacement, content)
+
     return content
+
+
+def maybe_load_source_verification(root: Path) -> dict | None:
+    report_path = root / "discoverability" / "tutorial-source-verification.json"
+    if not report_path.is_file():
+        return None
+
+    try:
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        summary = report.get("summary", {})
+        required = (
+            "tutorial_count",
+            "tutorials_with_source_repos",
+            "tutorials_with_unverified_source_repos",
+            "unique_verified_repo_count",
+        )
+        if not all(key in summary for key in required):
+            return None
+        return summary
+    except Exception:
+        return None
 
 
 def main() -> int:
@@ -89,6 +122,7 @@ def main() -> int:
 
     original = readme_path.read_text(encoding="utf-8")
     metrics = compute_metrics(root)
+    metrics["source_verification_summary"] = maybe_load_source_verification(root)
     updated = update_readme_content(original, metrics)
 
     output_path = Path(args.output).resolve() if args.output else readme_path

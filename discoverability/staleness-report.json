@@ -1,0 +1,15 @@
+{
+  "findings": [],
+  "max_age_days": 10,
+  "stale_marker_count": 0,
+  "targets": [
+    "README.md",
+    "tutorials/README.md",
+    "tutorials/*/index.md",
+    "categories/*.md",
+    "discoverability/*.md",
+    "CONTENT_GAPS_ANALYSIS.md",
+    "TUTORIAL_STRUCTURE.md",
+    "IMPORT_ROADMAP_TODO.md"
+  ]
+}

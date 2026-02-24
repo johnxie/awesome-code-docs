@@ -2,9 +2,9 @@
 
 > Deep technical tutorials for AI agents, LLM frameworks, vibe-coding tools, and production AI infrastructure.
 
-## Snapshot (February 12, 2026)
+## Snapshot (auto-updated)
 
-- repository-wide tutorials: **185**
+- repository-wide tutorials: **188**
 - AI/agent + developer-tooling coverage: **largest cluster in the catalog**
 - canonical structure status: **all tracks publish full chapter sets**
 
@@ -15,6 +15,7 @@
 | Build autonomous AI agents | [LangChain](../tutorials/langchain-tutorial/) | [LangGraph](../tutorials/langgraph-tutorial/) → [CrewAI](../tutorials/crewai-tutorial/) → [Claude Flow](../tutorials/claude-flow-tutorial/) |
 | Understand AI coding agents | [Cline](../tutorials/cline-tutorial/) | [Roo Code](../tutorials/roo-code-tutorial/) → [OpenCode](../tutorials/opencode-tutorial/) → [Sweep](../tutorials/sweep-tutorial/) → [Tabby](../tutorials/tabby-tutorial/) → [Stagewise](../tutorials/stagewise-tutorial/) → [OpenHands](../tutorials/openhands-tutorial/) |
 | Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) |
+| Build Taskade AI / Genesis workflows | [Taskade](../tutorials/taskade-tutorial/) | [Taskade Docs](../tutorials/taskade-docs-tutorial/) → [Taskade MCP](../tutorials/taskade-mcp-tutorial/) → [Taskade Awesome Vibe Coding](../tutorials/taskade-awesome-vibe-coding-tutorial/) |
 | Run spec-driven AI delivery workflows | [OpenSpec](../tutorials/openspec-tutorial/) | [Claude Task Master](../tutorials/claude-task-master-tutorial/) → [Codex CLI](../tutorials/codex-cli-tutorial/) |
 | Build RAG systems | [LlamaIndex](../tutorials/llamaindex-tutorial/) | [Haystack](../tutorials/haystack-tutorial/) → [RAGFlow](../tutorials/ragflow-tutorial/) |
 | Run LLMs in production | [Ollama](../tutorials/ollama-tutorial/) | [vLLM](../tutorials/vllm-tutorial/) → [LiteLLM](../tutorials/litellm-tutorial/) |
@@ -26,6 +27,10 @@
 - [LangGraph](../tutorials/langgraph-tutorial/)
 - [OpenHands](../tutorials/openhands-tutorial/)
 - [OpenCode](../tutorials/opencode-tutorial/)
+- [Taskade](../tutorials/taskade-tutorial/)
+- [Taskade Docs](../tutorials/taskade-docs-tutorial/)
+- [Taskade MCP](../tutorials/taskade-mcp-tutorial/)
+- [Taskade Awesome Vibe Coding](../tutorials/taskade-awesome-vibe-coding-tutorial/)
 - [Sweep](../tutorials/sweep-tutorial/)
 - [Tabby](../tutorials/tabby-tutorial/)
 - [Stagewise](../tutorials/stagewise-tutorial/)
