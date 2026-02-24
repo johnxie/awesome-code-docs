@@ -8,6 +8,9 @@ This roadmap tracks the next highest-impact tutorial imports for `awesome-code-d
 
 | Repo | Stars | Priority | Pack | Status |
 |:-----|------:|:---------|:-----|:-------|
+| [`stitionai/devika`](https://github.com/stitionai/devika) | 19.5k+ | P0 | `pack-by` | done |
+| [`yoheinakajima/babyagi`](https://github.com/yoheinakajima/babyagi) | 18k+ | P0 | `pack-by` | done |
+| [`kirodotdev/Kiro`](https://github.com/kirodotdev/Kiro) | 1.8k+ (AWS) | P0 | `pack-by` | done |
 | [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | 102k+ | P0 | `pack-ae` | done |
 | [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra) | 21k+ | P0 | `pack-ae` | done |
 | [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 144k+ | P0 | `pack-af` | done |

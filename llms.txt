@@ -32,6 +32,7 @@
 - Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial
 - Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-mcp-servers-tutorial
 - awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awslabs-mcp-tutorial
+- BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/babyagi-tutorial
 - Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/beads-tutorial
 - BentoML Tutorial: Building Production-Ready ML Services: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bentoml-tutorial
 - bolt.diy Tutorial: Build and Operate an Open Source AI App Builder: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/bolt-diy-tutorial
@@ -68,6 +69,7 @@
 - Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crush-tutorial
 - Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/daytona-tutorial
 - Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
+- Devika Tutorial: Open-Source Autonomous AI Software Engineer: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/devika-tutorial
 - Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-platform-deep-dive
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
 - Dyad Tutorial: Local-First AI App Building: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
@@ -94,6 +96,7 @@
 - Khoj AI: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/khoj-tutorial
 - Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kilocode-tutorial
 - Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kimi-cli-tutorial
+- Kiro Tutorial: Spec-Driven Agentic IDE from AWS: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kiro-tutorial
 - Kubernetes Operator Patterns: Building Production-Grade Controllers: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-patterns
 - LanceDB Tutorial: Serverless Vector Database for AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lancedb-tutorial
 - LangChain Architecture: Internal Design Deep Dive: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-architecture-guide

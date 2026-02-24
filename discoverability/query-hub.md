@@ -2,7 +2,7 @@
 
 Auto-generated high-intent query landing surface mapped to the most relevant tutorials.
 
-- Total tutorials indexed: **188**
+- Total tutorials indexed: **191**
 - Query hubs: **6**
 - Source: `scripts/generate_discoverability_assets.py`
 

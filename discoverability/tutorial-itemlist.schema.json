@@ -130,1196 +130,1217 @@
     },
     {
       "@type": "ListItem",
+      "description": "Learn how to use yoheinakajima/babyagi for autonomous task generation, execution, and prioritization\u2014the foundational agent loop that started the autonomous AI agent wave.",
+      "name": "BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework",
+      "position": 19,
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/babyagi-tutorial/index.md"
+    },
+    {
+      "@type": "ListItem",
       "description": "Learn how to use steveyegge/beads to give coding agents durable, dependency-aware task memory with structured issue graphs instead of ad-hoc markdown plans.",
       "name": "Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents",
-      "position": 19,
+      "position": 20,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/beads-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of BentoML covering Building Production-Ready ML Services.",
       "name": "BentoML Tutorial: Building Production-Ready ML Services",
-      "position": 20,
+      "position": 21,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A production-focused deep dive into stackblitz-labs/bolt.diy: architecture, provider routing, safe edit loops, MCP integrations, deployment choices, and operational governance.",
       "name": "bolt.diy Tutorial: Build and Operate an Open Source AI App Builder",
-      "position": 21,
+      "position": 22,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications",
       "name": "Botpress Tutorial: Open Source Conversational AI Platform",
-      "position": 22,
+      "position": 23,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use browser-use/browser-use to build agents that can navigate websites, execute workflows, and run reliable browser automation in production.",
       "name": "Browser Use Tutorial: AI-Powered Web Automation Agents",
-      "position": 23,
+      "position": 24,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/browser-use-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces.",
       "name": "Chatbox Tutorial: Building Modern AI Chat Interfaces",
-      "position": 24,
+      "position": 25,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use CherryHQ/cherry-studio to run multi-provider AI workflows, manage assistants, and integrate MCP tools in a desktop-first productivity environment.",
       "name": "Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams",
-      "position": 25,
+      "position": 26,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cherry-studio-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases.",
       "name": "ChromaDB Tutorial: Building AI-Native Vector Databases",
-      "position": 26,
+      "position": 27,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use ChromeDevTools/chrome-devtools-mcp to give coding agents reliable browser control, performance tracing, and deep debugging capabilities.",
       "name": "Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents",
-      "position": 27,
+      "position": 28,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chrome-devtools-mcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use campfirein/cipher as a memory-centric MCP-enabled layer that preserves and shares coding context across IDEs, agents, and teams.",
       "name": "Cipher Tutorial: Shared Memory Layer for Coding Agents",
-      "position": 28,
+      "position": 29,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cipher-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use musistudio/claude-code-router to route Claude Code workloads across multiple model providers with configurable routing rules, transformers, presets, and operational controls.",
       "name": "Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code",
-      "position": 29,
+      "position": 30,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-router-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use anthropics/claude-code for codebase understanding, multi-file edits, command execution, git workflows, and MCP-based extension.",
       "name": "Claude Code Tutorial: Agentic Coding from Your Terminal",
-      "position": 30,
+      "position": 31,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-code-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use ruvnet/claude-flow to orchestrate multi-agent workflows, operate MCP/CLI surfaces, and reason about V2-to-V3 architecture and migration tradeoffs.",
       "name": "Claude Flow Tutorial: Multi-Agent Orchestration, MCP Tooling, and V3 Module Architecture",
-      "position": 31,
+      "position": 32,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-flow-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use thedotmack/claude-mem to capture, compress, and retrieve coding-session memory with hook-driven automation, searchable context layers, and operator controls.",
       "name": "Claude-Mem Tutorial: Persistent Memory Compression for Claude Code",
-      "position": 32,
+      "position": 33,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-mem-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use anthropics/claude-plugins-official to discover, evaluate, install, and contribute Claude Code plugins with clear directory standards and plugin safety practices.",
       "name": "Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory",
-      "position": 33,
+      "position": 34,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-plugins-official-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn from Anthropic's official quickstart projects to build deployable applications with Claude API, including customer support, data analysis, browser automation, and autonomous coding.",
       "name": "Claude Quickstarts Tutorial: Production Integration Patterns",
-      "position": 34,
+      "position": 35,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-quickstarts-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use smtg-ai/claude-squad to run and manage multiple coding-agent sessions across isolated workspaces with tmux and git worktrees.",
       "name": "Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration",
-      "position": 35,
+      "position": 36,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-squad-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers.",
       "name": "Claude Task Master Tutorial: AI-Powered Task Management for Developers",
-      "position": 36,
+      "position": 37,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database.",
       "name": "ClickHouse Tutorial: High-Performance Analytical Database",
-      "position": 37,
+      "position": 38,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A practical engineering guide to cline/cline: install, operate, and govern Cline across local development and team environments.",
       "name": "Cline Tutorial: Agentic Coding with Human Control",
-      "position": 38,
+      "position": 39,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use moazbuilds/CodeMachine-CLI to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.",
       "name": "CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows",
-      "position": 39,
+      "position": 40,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.",
       "name": "Codex Analysis Platform Tutorial: Build Code Intelligence Systems",
-      "position": 40,
+      "position": 41,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use openai/codex to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.",
       "name": "Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex",
-      "position": 41,
+      "position": 42,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.",
       "name": "ComfyUI Tutorial: Mastering AI Image Generation Workflows",
-      "position": 42,
+      "position": 43,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use ComposioHQ/composio to connect agents to 800+ toolkits with session-aware discovery, robust authentication flows, provider integrations, MCP support, and event-trigger automation.",
       "name": "Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents",
-      "position": 43,
+      "position": 44,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/composio-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use EveryInc/compound-engineering-plugin to run compound engineering workflows in Claude Code and convert plugin assets for other coding-agent ecosystems.",
       "name": "Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains",
-      "position": 44,
+      "position": 45,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/compound-engineering-plugin-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use upstash/context7 to inject up-to-date, version-aware library docs into Claude Code, Cursor, and other MCP-capable coding agents.",
       "name": "Context7 Tutorial: Live Documentation Context for Coding Agents",
-      "position": 45,
+      "position": 46,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/context7-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A practical guide to continuedev/continue, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.",
       "name": "Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI",
-      "position": 46,
+      "position": 47,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use github/copilot-cli to run Copilot's coding agent directly from the terminal with GitHub-native context, approval controls, and extensibility through MCP and LSP.",
       "name": "GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal",
-      "position": 47,
+      "position": 48,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilot-cli-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.",
       "name": "CopilotKit Tutorial: Building AI Copilots for React Applications",
-      "position": 48,
+      "position": 49,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/create-python-server to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.",
       "name": "Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx",
-      "position": 49,
+      "position": 50,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/create-typescript-server to scaffold MCP server projects quickly, understand generated template structure, and operate build/debug workflows safely in archived-tooling environments.",
       "name": "Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates",
-      "position": 50,
+      "position": 51,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-typescript-server-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "CrewAI View Repo is a framework for orchestrating role-based AI agent teams that collaborate to accomplish complex tasks. It provides a structured approach to creating AI crews with specialized agents, tools, and processes, enabling sophisticated multi-agent workflows and collaborative problem-solving.",
       "name": "CrewAI Tutorial: Building Collaborative AI Agent Teams",
-      "position": 51,
+      "position": 52,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crewai-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use charmbracelet/crush for terminal-native coding workflows with flexible model providers, LSP/MCP integrations, and production-grade controls.",
       "name": "Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility",
-      "position": 52,
+      "position": 53,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crush-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use daytonaio/daytona to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.",
       "name": "Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code",
-      "position": 53,
+      "position": 54,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.",
       "name": "Deer Flow Tutorial: Distributed Workflow Orchestration Platform",
-      "position": 54,
+      "position": 55,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/index.md"
+    },
+    {
+      "@type": "ListItem",
+      "description": "Learn how to deploy and operate stitionai/devika \u2014 a multi-agent autonomous coding system that plans, researches, writes, and debugs code end-to-end.",
+      "name": "Devika Tutorial: Open-Source Autonomous AI Software Engineer",
+      "position": 56,
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/devika-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Dify \u2014 An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.",
       "name": "Dify Platform: Deep Dive Tutorial",
-      "position": 55,
+      "position": 57,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines.",
       "name": "DSPy Tutorial: Programming Language Models",
-      "position": 56,
+      "position": 58,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A practical guide to dyad-sh/dyad, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.",
       "name": "Dyad Tutorial: Local-First AI App Building",
-      "position": 57,
+      "position": 59,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "ElizaOS \u2014 Autonomous agents for everyone.",
       "name": "ElizaOS: Deep Dive Tutorial",
-      "position": 58,
+      "position": 60,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/elizaos-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use affaan-m/everything-claude-code to adopt battle-tested Claude Code agents, skills, hooks, commands, rules, and MCP workflows in a structured, production-oriented way.",
       "name": "Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code",
-      "position": 59,
+      "position": 61,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/everything-claude-code-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation.",
       "name": "Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI",
-      "position": 60,
+      "position": 62,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fabric-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use jlowin/fastmcp to design, run, test, and deploy MCP servers and clients with practical transport, integration, auth, and operations patterns.",
       "name": "FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control",
-      "position": 61,
+      "position": 63,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use GLips/Figma-Context-MCP (Framelink MCP for Figma) to give coding agents structured design context for higher-fidelity implementation.",
       "name": "Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents",
-      "position": 62,
+      "position": 64,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/figma-context-mcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use firecrawl/firecrawl-mcp-server to add robust web scraping, crawling, search, and extraction capabilities to MCP-enabled coding and research agents.",
       "name": "Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients",
-      "position": 63,
+      "position": 65,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-mcp-server-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems.",
       "name": "Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems",
-      "position": 64,
+      "position": 66,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/firecrawl-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use fireproof-storage/fireproof to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.",
       "name": "Fireproof Tutorial: Local-First Document Database for AI-Native Apps",
-      "position": 65,
+      "position": 67,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Flowise \u2014 An open-source visual tool for building LLM workflows with a drag-and-drop interface.",
       "name": "Flowise LLM Orchestration: Deep Dive Tutorial",
-      "position": 66,
+      "position": 68,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use google-gemini/gemini-cli to run coding and operations workflows in terminal-first loops with strong tooling, MCP extensibility, headless automation, and safety controls.",
       "name": "Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini",
-      "position": 67,
+      "position": 69,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gemini-cli-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use googleapis/genai-toolbox to expose database tools through MCP and native SDK paths, with stronger configuration discipline, deployment options, and observability controls.",
       "name": "GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes",
-      "position": 68,
+      "position": 70,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/genai-toolbox-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use github/github-mcp-server to connect coding agents directly to repositories, issues, pull requests, actions, and code security workflows with stronger control.",
       "name": "GitHub MCP Server Tutorial: Production GitHub Operations Through MCP",
-      "position": 69,
+      "position": 71,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/github-mcp-server-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use block/goose to automate coding workflows with controlled tool execution, strong provider flexibility, and production-ready operations.",
       "name": "Goose Tutorial: Extensible Open-Source AI Agent for Real Engineering Work",
-      "position": 70,
+      "position": 72,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/goose-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond.",
       "name": "GPT Open Source: Deep Dive Tutorial",
-      "position": 71,
+      "position": 73,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use gptme/gptme to run a local-first coding and knowledge-work agent with strong CLI ergonomics, extensible tools, and automation-friendly modes.",
       "name": "gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work",
-      "position": 72,
+      "position": 74,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gptme-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn tiann/hapi, a local-first hub that lets you run Claude Code/Codex/Gemini/OpenCode sessions locally while controlling and approving them remotely.",
       "name": "HAPI Tutorial: Remote Control for Local AI Coding Sessions",
-      "position": 73,
+      "position": 75,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hapi-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Haystack \u2014 An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.",
       "name": "Haystack: Deep Dive Tutorial",
-      "position": 74,
+      "position": 76,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.",
       "name": "HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models",
-      "position": 75,
+      "position": 77,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use humanlayer/humanlayer patterns to orchestrate coding agents with stronger context control, human oversight, and team-scale workflows.",
       "name": "HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents",
-      "position": 76,
+      "position": 78,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/humanlayer-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Get reliable, typed responses from LLMs with Pydantic validation.",
       "name": "Instructor Tutorial: Structured LLM Outputs",
-      "position": 77,
+      "position": 79,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/instructor-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Khoj \u2014 An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data.",
       "name": "Khoj AI: Deep Dive Tutorial",
-      "position": 78,
+      "position": 80,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/khoj-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use Kilo-Org/kilocode for high-throughput coding workflows with multi-mode operation, agent-loop controls, and extensible CLI/IDE integration.",
       "name": "Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces",
-      "position": 79,
+      "position": 81,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kilocode-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use MoonshotAI/kimi-cli to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.",
       "name": "Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP",
-      "position": 80,
+      "position": 82,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kimi-cli-tutorial/index.md"
+    },
+    {
+      "@type": "ListItem",
+      "description": "Learn how to use kirodotdev/Kiro for structured AI-powered development with spec-driven workflows, agent steering, event-driven automation, and AWS-native integrations.",
+      "name": "Kiro Tutorial: Spec-Driven Agentic IDE from AWS",
+      "position": 83,
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kiro-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.",
       "name": "Kubernetes Operator Patterns: Building Production-Grade Controllers",
-      "position": 81,
+      "position": 84,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Master LanceDB, the open-source serverless vector database designed for AI applications, RAG systems, and semantic search.",
       "name": "LanceDB Tutorial: Serverless Vector Database for AI",
-      "position": 82,
+      "position": 85,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lancedb-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of LangChain Architecture: Internal Design Deep Dive.",
       "name": "LangChain Architecture: Internal Design Deep Dive",
-      "position": 83,
+      "position": 86,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Pydantic 2 Required: LangChain v0.3 fully migrated to Pydantic 2. Code using langchain_core.pydantic_v1 should be updated to native Pydantic 2 syntax.",
       "name": "LangChain Tutorial: Building AI Applications with Large Language Models",
-      "position": 84,
+      "position": 87,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to build, deploy, and operate agent workflows with langflow-ai/langflow, including visual flow composition, API/MCP deployment, and production reliability controls.",
       "name": "Langflow Tutorial: Visual AI Agent and Workflow Platform",
-      "position": 85,
+      "position": 88,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langflow-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use langfuse/langfuse to trace, evaluate, and improve production LLM systems with structured observability workflows.",
       "name": "Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations",
-      "position": 86,
+      "position": 89,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langfuse-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications.",
       "name": "LangGraph Tutorial: Building Stateful Multi-Actor Applications",
-      "position": 87,
+      "position": 90,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build AI agents with persistent memory using the framework formerly known as MemGPT.",
       "name": "Letta Tutorial: Stateful LLM Agents",
-      "position": 88,
+      "position": 91,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/letta-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build provider-agnostic LLM applications with BerriAI/litellm, including routing, fallbacks, proxy deployment, and cost-aware operations.",
       "name": "LiteLLM Tutorial: Unified LLM Gateway and Routing Layer",
-      "position": 89,
+      "position": 92,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of Liveblocks - Real-Time Collaboration Deep Dive.",
       "name": "Liveblocks - Real-Time Collaboration Deep Dive",
-      "position": 90,
+      "position": 93,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/liveblocks-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Run large language models efficiently on your local machine with pure C/C++.",
       "name": "llama.cpp Tutorial: Local LLM Inference",
-      "position": 91,
+      "position": 94,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-cpp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of LLaMA-Factory covering Unified Framework for LLM Training and Fine-tuning.",
       "name": "LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning",
-      "position": 92,
+      "position": 95,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-factory-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks.",
       "name": "LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks",
-      "position": 93,
+      "position": 96,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "LobeChat \u2014 An open-source, modern-design AI chat framework for building private LLM applications.",
       "name": "LobeChat AI Platform: Deep Dive Tutorial",
-      "position": 94,
+      "position": 97,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Run LLMs, image generation, and audio models locally with an OpenAI-compatible API.",
       "name": "LocalAI Tutorial: Self-Hosted OpenAI Alternative",
-      "position": 95,
+      "position": 98,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/localai-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Logseq \u2014 A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.",
       "name": "Logseq: Deep Dive Tutorial",
-      "position": 96,
+      "position": 99,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to build production AI applications with mastra-ai/mastra, including agents, workflows, memory, MCP tooling, and reliability operations.",
       "name": "Mastra Tutorial: TypeScript Framework for AI Agents and Workflows",
-      "position": 97,
+      "position": 100,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mastra-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use hangwin/mcp-chrome to expose browser automation, content analysis, and semantic tab search tools to MCP clients.",
       "name": "MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP",
-      "position": 98,
+      "position": 101,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-chrome-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to build and operate MCP clients and servers with modelcontextprotocol/csharp-sdk, including package choices, auth patterns, tasks, diagnostics, and versioning strategy.",
       "name": "MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows",
-      "position": 99,
+      "position": 102,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/docs as an archived reference, map its conceptual guides, and migrate documentation workflows to the canonical modelcontextprotocol/modelcontextprotocol docs location.",
       "name": "MCP Docs Repo Tutorial: Navigating the Archived MCP Documentation Repository",
-      "position": 100,
+      "position": 103,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-docs-repo-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/ext-apps to build interactive MCP Apps, wire host bridges, secure UI resources, and run reliable testing and migration workflows.",
       "name": "MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts",
-      "position": 101,
+      "position": 104,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ext-apps-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/go-sdk for production MCP workloads across stdio and streamable HTTP, including auth middleware, conformance, and upgrade planning.",
       "name": "MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go",
-      "position": 102,
+      "position": 105,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/inspector to test MCP servers across stdio, SSE, and streamable HTTP, with safer auth defaults and repeatable CLI automation.",
       "name": "MCP Inspector Tutorial: Debugging and Validating MCP Servers",
-      "position": 103,
+      "position": 106,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/java-sdk across core Java and Spring stacks, from transport setup to conformance and production hardening.",
       "name": "MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring",
-      "position": 104,
+      "position": 107,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to implement MCP client/server workflows with modelcontextprotocol/kotlin-sdk, including module boundaries, transport choices, capability negotiation, and production lifecycle controls.",
       "name": "MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers",
-      "position": 105,
+      "position": 108,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-kotlin-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to implement MCP server workflows with modelcontextprotocol/php-sdk, including attribute discovery, manual capability registration, transport strategy, session storage, and framework integration patterns.",
       "name": "MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility",
-      "position": 106,
+      "position": 109,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-php-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities.",
       "name": "MCP Python SDK Tutorial: Building AI Tool Servers",
-      "position": 107,
+      "position": 110,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/quickstart-resources as a practical reference for multi-language MCP server/client implementations, protocol smoke testing, and onboarding workflows.",
       "name": "MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example",
-      "position": 108,
+      "position": 111,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-quickstart-resources-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how modelcontextprotocol/registry works end to end: publishing authenticated server metadata, consuming the API as an aggregator, and operating registry infrastructure safely.",
       "name": "MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers",
-      "position": 109,
+      "position": 112,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to implement MCP server/client workflows with modelcontextprotocol/ruby-sdk, including tool/prompt/resource registration, streamable HTTP sessions, structured logging, and release operations.",
       "name": "MCP Ruby SDK Tutorial: Building MCP Servers and Clients in Ruby",
-      "position": 110,
+      "position": 113,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-ruby-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/rust-sdk (rmcp) for production MCP clients and servers with strong transport control, macro-driven tooling, OAuth, and async task workflows.",
       "name": "MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP",
-      "position": 111,
+      "position": 114,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use the official MCP reference servers as implementation blueprints, not drop-in production services.",
       "name": "MCP Servers Tutorial: Reference Implementations and Patterns",
-      "position": 112,
+      "position": 115,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn the current Model Context Protocol directly from modelcontextprotocol/modelcontextprotocol, including lifecycle, transports, security, authorization, and governance workflows.",
       "name": "MCP Specification Tutorial: Designing Production-Grade MCP Clients and Servers From the Source of Truth",
-      "position": 113,
+      "position": 116,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-specification-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to implement MCP client and server workflows with modelcontextprotocol/swift-sdk, including transport options, sampling, batching, and graceful service lifecycle control.",
       "name": "MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift",
-      "position": 114,
+      "position": 117,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-swift-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/typescript-sdk to build production MCP clients and servers, migrate from v1 to v2 safely, and validate behavior with conformance workflows.",
       "name": "MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript",
-      "position": 115,
+      "position": 118,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how mcp-use/mcp-use composes agent, client, server, and inspector workflows across Python and TypeScript with practical security and operations patterns.",
       "name": "MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector",
-      "position": 116,
+      "position": 119,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-use-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/mcpb to package local MCP servers into signed .mcpb bundles with manifest metadata, CLI workflows, and distribution-ready operational controls.",
       "name": "MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles",
-      "position": 117,
+      "position": 120,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcpb-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.",
       "name": "MeiliSearch Tutorial: Lightning Fast Search Engine",
-      "position": 118,
+      "position": 121,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.",
       "name": "Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory",
-      "position": 119,
+      "position": 122,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use SWE-agent/mini-swe-agent to run compact, high-performing software-engineering agent workflows with minimal scaffolding and strong reproducibility.",
       "name": "Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale",
-      "position": 120,
+      "position": 123,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use mistralai/mistral-vibe for terminal-native coding workflows with configurable agent profiles, skills, subagents, and ACP integrations.",
       "name": "Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral",
-      "position": 121,
+      "position": 124,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build powerful AI-powered automations with n8n's visual workflow builder.",
       "name": "n8n AI Tutorial: Workflow Automation with AI",
-      "position": 122,
+      "position": 125,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-ai-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "n8n \u2014 Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.",
       "name": "n8n Model Context Protocol: Deep Dive Tutorial",
-      "position": 123,
+      "position": 126,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-mcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how Nano-Collective/nanocoder implements local-first coding-agent workflows, tool execution loops, and multi-provider model integration.",
       "name": "Nanocoder Tutorial: Building and Understanding AI Coding Agents",
-      "position": 124,
+      "position": 127,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "NocoDB \u2014 An open-source Airtable alternative that turns any database into a smart spreadsheet.",
       "name": "NocoDB: Deep Dive Tutorial",
-      "position": 125,
+      "position": 128,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Obsidian Outliner \u2014 A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.",
       "name": "Obsidian Outliner Plugin: Deep Dive Tutorial",
-      "position": 126,
+      "position": 129,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use ollama/ollama for local model execution, customization, embeddings/RAG, integration, and production deployment.",
       "name": "Ollama Tutorial: Running and Serving LLMs Locally",
-      "position": 127,
+      "position": 130,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use onlook-dev/onlook to design and edit production-grade React apps visually while keeping generated code in your repository.",
       "name": "Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind",
-      "position": 128,
+      "position": 131,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use winfunc/opcode to manage Claude Code projects, sessions, agents, MCP servers, and checkpoints from a desktop-first operating interface.",
       "name": "Opcode Tutorial: GUI Command Center for Claude Code Workflows",
-      "position": 129,
+      "position": 132,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opcode-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn from langchain-ai/open-swe architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.",
       "name": "Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook",
-      "position": 130,
+      "position": 133,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-swe-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to run and operate open-webui/open-webui as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.",
       "name": "Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface",
-      "position": 131,
+      "position": 134,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to build reliable Python integrations with openai/openai-python using Responses-first architecture, migration-safe patterns, and production operations.",
       "name": "OpenAI Python SDK Tutorial: Production API Patterns",
-      "position": 132,
+      "position": 135,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to build low-latency voice agents with openai/openai-realtime-agents, including realtime session design, tool orchestration, and production rollout patterns.",
       "name": "OpenAI Realtime Agents Tutorial: Voice-First AI Systems",
-      "position": 133,
+      "position": 136,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build robust transcription pipelines with Whisper, from local experiments to production deployment.",
       "name": "OpenAI Whisper Tutorial: Speech Recognition and Translation",
-      "position": 134,
+      "position": 137,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-whisper-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Democratize investment research with OpenBB's comprehensive financial data and analysis platform.",
       "name": "OpenBB Tutorial: Complete Guide to Investment Research Platform",
-      "position": 135,
+      "position": 138,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openbb-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "OpenClaw \u2014 Your own personal AI assistant. Any OS. Any Platform.",
       "name": "OpenClaw: Deep Dive Tutorial",
-      "position": 136,
+      "position": 139,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openclaw-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn from opencode-ai/opencode architecture and workflows, and migrate safely to actively maintained successors.",
       "name": "OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush",
-      "position": 137,
+      "position": 140,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-ai-legacy-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use anomalyco/opencode to run terminal-native coding agents with provider flexibility, strong tool control, and production-grade workflows.",
       "name": "OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale",
-      "position": 138,
+      "position": 141,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to operate OpenHands/OpenHands across local GUI, CLI, and SDK workflows with production-minded safety, validation, and integration patterns.",
       "name": "OpenHands Tutorial: Autonomous Software Engineering Workflows",
-      "position": 139,
+      "position": 142,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use numman-ali/openskills to install, synchronize, and operate reusable SKILL.md packs across Claude Code, Cursor, Codex, Aider, and other agent environments.",
       "name": "OpenSkills Tutorial: Universal Skill Loading for Coding Agents",
-      "position": 140,
+      "position": 143,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openskills-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use Fission-AI/OpenSpec to make AI-assisted software delivery more predictable with artifact-driven planning, implementation, and archival workflows.",
       "name": "OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents",
-      "position": 141,
+      "position": 144,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openspec-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use vercel-labs/opensrc to fetch package and repository source code so coding agents can reason about implementation details, not only public types and docs.",
       "name": "OpenSrc Tutorial: Deep Source Context for Coding Agents",
-      "position": 142,
+      "position": 145,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opensrc-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs.",
       "name": "Outlines Tutorial: Structured Text Generation with LLMs",
-      "position": 143,
+      "position": 146,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/outlines-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Perplexica covering AI-Powered Search Engine.",
       "name": "Perplexica Tutorial: AI-Powered Search Engine",
-      "position": 144,
+      "position": 147,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/perplexica-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Phidata covering Building Autonomous AI Agents.",
       "name": "Phidata Tutorial: Building Autonomous AI Agents",
-      "position": 145,
+      "position": 148,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/phidata-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "AI Photo Management Revolution: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.",
       "name": "PhotoPrism Tutorial: AI-Powered Photos App",
-      "position": 146,
+      "position": 149,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/photoprism-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use plandex-ai/plandex for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.",
       "name": "Plandex Tutorial: Large-Task AI Coding Agent Workflows",
-      "position": 147,
+      "position": 150,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use OthmanAdi/planning-with-files to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.",
       "name": "Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents",
-      "position": 148,
+      "position": 151,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use microsoft/playwright-mcp to give AI coding agents structured browser automation with accessibility snapshots, deterministic actions, and portable MCP host integrations.",
       "name": "Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP",
-      "position": 149,
+      "position": 152,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/playwright-mcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to build agentic applications with The-Pocket/PocketFlow, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.",
       "name": "PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power",
-      "position": 150,
+      "position": 153,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.",
       "name": "PostgreSQL Query Planner Deep Dive",
-      "position": 151,
+      "position": 154,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of PostHog Tutorial: Open Source Product Analytics Platform.",
       "name": "PostHog Tutorial: Open Source Product Analytics Platform",
-      "position": 152,
+      "position": 155,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/posthog-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Pydantic AI covering Type-Safe AI Agent Development.",
       "name": "Pydantic AI Tutorial: Type-Safe AI Agent Development",
-      "position": 153,
+      "position": 156,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pydantic-ai-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of Quivr Tutorial: Open-Source RAG Framework for Document Ingestion.",
       "name": "Quivr Tutorial: Open-Source RAG Framework for Document Ingestion",
-      "position": 154,
+      "position": 157,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use QwenLM/Qwen-Agent to build production-capable agents with function calling, MCP integration, memory/RAG patterns, and benchmark-aware planning workflows.",
       "name": "Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows",
-      "position": 155,
+      "position": 158,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/qwen-agent-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.",
       "name": "RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine",
-      "position": 156,
+      "position": 159,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.",
       "name": "React Fiber Internals",
-      "position": 157,
+      "position": 160,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use refly-ai/refly to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.",
       "name": "Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code",
-      "position": 158,
+      "position": 161,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/refly-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A production-focused guide to RooCodeInc/Roo-Code: mode design, task execution, checkpoints, MCP, team profiles, and enterprise operations.",
       "name": "Roo Code Tutorial: Run an AI Dev Team in Your Editor",
-      "position": 159,
+      "position": 162,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build enterprise AI applications with Microsoft's SDK for integrating LLMs.",
       "name": "Semantic Kernel Tutorial: Microsoft's AI Orchestration",
-      "position": 160,
+      "position": 163,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use oraios/serena to give coding agents IDE-grade semantic retrieval and editing tools across large codebases.",
       "name": "Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents",
-      "position": 161,
+      "position": 164,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/serena-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use shotgun-sh/shotgun to plan, specify, and execute large code changes with structured agent workflows and stronger delivery control.",
       "name": "Shotgun Tutorial: Spec-Driven Development for Coding Agents",
-      "position": 162,
+      "position": 165,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/shotgun-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Unlock the full potential of large language models with SillyTavern's comprehensive interface for role-playing, creative writing, and AI experimentation.",
       "name": "SillyTavern Tutorial: Advanced LLM Frontend for Power Users",
-      "position": 163,
+      "position": 166,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sillytavern-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management.",
       "name": "SiYuan Tutorial: Privacy-First Knowledge Management",
-      "position": 164,
+      "position": 167,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/siyuan-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build efficient AI agents with minimal code using Hugging Face's smolagents library.",
       "name": "Smolagents Tutorial: Hugging Face's Lightweight Agent Framework",
-      "position": 165,
+      "position": 168,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/smolagents-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use stagewise-io/stagewise to connect browser-selected UI context with coding agents, plugin extensions, and multi-agent bridge workflows.",
       "name": "Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context",
-      "position": 166,
+      "position": 169,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use strands-agents/sdk-python to build lightweight, model-driven agents with strong tool abstractions, hooks, and production deployment patterns.",
       "name": "Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support",
-      "position": 167,
+      "position": 170,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/strands-agents-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of Supabase Tutorial: Building Modern Backend Applications.",
       "name": "Supabase Tutorial: Building Modern Backend Applications",
-      "position": 168,
+      "position": 171,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents.",
       "name": "SuperAGI Tutorial: Production-Ready Autonomous AI Agents",
-      "position": 169,
+      "position": 172,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superagi-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use superset-sh/superset to orchestrate many coding agents in parallel with worktree isolation, centralized monitoring, and fast review loops.",
       "name": "Superset Terminal Tutorial: Command Center for Parallel Coding Agents",
-      "position": 170,
+      "position": 173,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/superset-terminal-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Deep technical walkthrough of OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration.",
       "name": "OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration",
-      "position": 171,
+      "position": 174,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swarm-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use SWE-agent/SWE-agent for autonomous software engineering workflows, from single-issue runs to benchmark and research-grade evaluation.",
       "name": "SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering",
-      "position": 172,
+      "position": 175,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/swe-agent-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use sweepai/sweep to turn GitHub issues into pull requests, operate feedback loops, and run self-hosted or CLI workflows with clear guardrails.",
       "name": "Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub",
-      "position": 173,
+      "position": 176,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to run and extend TabbyML/tabby for production code completion and team knowledge workflows.",
       "name": "Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations",
-      "position": 174,
+      "position": 177,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use and maintain taskade/awesome-vibe-coding as a decision system for AI app builders, coding agents, MCP tooling, and Genesis-centered workflows.",
       "name": "Taskade Awesome Vibe Coding Tutorial: Curating the 2026 AI-Building Landscape",
-      "position": 175,
+      "position": 178,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-awesome-vibe-coding-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how taskade/docs structures product documentation across Genesis, API references, automations, help-center workflows, and release timelines.",
       "name": "Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack",
-      "position": 176,
+      "position": 179,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-docs-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to run, extend, and operate taskade/mcp to connect Taskade workspaces, tasks, projects, and AI agents into MCP-compatible clients.",
       "name": "Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows",
-      "position": 177,
+      "position": 180,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-mcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to operate Taskade as an AI-native workspace system: Genesis app generation, AI agents, automations, enterprise controls, and production rollout patterns.",
       "name": "Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations",
-      "position": 178,
+      "position": 181,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Teable \u2014 A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.",
       "name": "Teable: Deep Dive Tutorial",
-      "position": 179,
+      "position": 182,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Master tiktoken, OpenAI's fast BPE tokenizer, to accurately count tokens, optimize prompts, and reduce API costs.",
       "name": "tiktoken Tutorial: OpenAI Token Encoding & Optimization",
-      "position": 180,
+      "position": 183,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tiktoken-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.",
       "name": "Turborepo Tutorial: High-Performance Monorepo Build System",
-      "position": 181,
+      "position": 184,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use modelcontextprotocol/use-mcp to connect React apps to MCP servers with OAuth-aware flows, tool/resource/prompt access, and resilient transport lifecycle handling.",
       "name": "use-mcp Tutorial: React Hook Patterns for MCP Client Integration",
-      "position": 182,
+      "position": 185,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/use-mcp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Build robust AI product features with vercel/ai, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.",
       "name": "Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents",
-      "position": 183,
+      "position": 186,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use BloopAI/vibe-kanban to coordinate Claude Code, Codex, Gemini CLI, and other coding agents through a unified orchestration workspace.",
       "name": "Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows",
-      "position": 184,
+      "position": 187,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibe-kanban-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use cloudflare/vibesdk to run a prompt-to-app platform with agent orchestration, preview sandboxes, and production deployment on Cloudflare.",
       "name": "VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare",
-      "position": 185,
+      "position": 188,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vibesdk-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Master vLLM for blazing-fast, cost-effective large language model inference with advanced optimization techniques.",
       "name": "vLLM Tutorial: High-Performance LLM Inference",
-      "position": 186,
+      "position": 189,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.",
       "name": "Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++",
-      "position": 187,
+      "position": 190,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/index.md"
     },
     {
       "@type": "ListItem",
       "description": "Learn how to use wshobson/agents to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.",
       "name": "Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code",
-      "position": 188,
+      "position": 191,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/wshobson-agents-tutorial/index.md"
     }
   ],
   "name": "Awesome Code Docs Tutorial Catalog",
-  "numberOfItems": 188,
+  "numberOfItems": 191,
   "url": "https://github.com/johnxie/awesome-code-docs"
 }
