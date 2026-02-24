@@ -3,6 +3,7 @@ layout: default
 title: "tiktoken Tutorial"
 nav_order: 94
 has_children: true
+format_version: v2
 ---
 
 # tiktoken Tutorial: OpenAI Token Encoding & Optimization

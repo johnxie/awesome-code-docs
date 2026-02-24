@@ -3,6 +3,7 @@ layout: default
 title: "OpenAI Whisper Tutorial"
 nav_order: 90
 has_children: true
+format_version: v2
 ---
 
 # OpenAI Whisper Tutorial: Speech Recognition and Translation

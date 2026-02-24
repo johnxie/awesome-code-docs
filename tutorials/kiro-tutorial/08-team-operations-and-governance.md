@@ -429,3 +429,159 @@ Suggested trace strategy:
 - [Tutorial Index](index.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+
+### Scenario Playbook 1: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 2: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: tool dependency latency increases under concurrency
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: enable staged retries with jitter and circuit breaker fallback
+- verification target: error budget burn rate remains below escalation threshold
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 3: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: schema updates introduce incompatible payloads
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: pin schema versions and add compatibility shims
+- verification target: throughput remains stable under target concurrency
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 4: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: environment parity drifts between staging and production
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: restore environment parity via immutable config promotion
+- verification target: retry volume stays bounded without feedback loops
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 5: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: access policy changes reduce successful execution rates
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: re-scope credentials and rotate leaked or stale keys
+- verification target: data integrity checks pass across write/read cycles
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 6: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: background jobs accumulate and exceed processing windows
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: activate degradation mode to preserve core user paths
+- verification target: audit logs capture all control-plane mutations
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 7: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 8: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: tool dependency latency increases under concurrency
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: enable staged retries with jitter and circuit breaker fallback
+- verification target: error budget burn rate remains below escalation threshold
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 9: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: schema updates introduce incompatible payloads
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: pin schema versions and add compatibility shims
+- verification target: throughput remains stable under target concurrency
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 10: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: environment parity drifts between staging and production
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: restore environment parity via immutable config promotion
+- verification target: retry volume stays bounded without feedback loops
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 11: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: access policy changes reduce successful execution rates
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: re-scope credentials and rotate leaked or stale keys
+- verification target: data integrity checks pass across write/read cycles
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 12: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: background jobs accumulate and exceed processing windows
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: activate degradation mode to preserve core user paths
+- verification target: audit logs capture all control-plane mutations
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 13: Chapter 8: Team Operations and Governance
+
+- tutorial context: **Kiro Tutorial: Spec-Driven Agentic IDE from AWS**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests

@@ -3,6 +3,7 @@ layout: default
 title: "Claude Quickstarts Tutorial"
 nav_order: 96
 has_children: true
+format_version: v2
 ---
 
 # Claude Quickstarts Tutorial: Production Integration Patterns

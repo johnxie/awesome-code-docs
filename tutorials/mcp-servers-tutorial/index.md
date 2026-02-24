@@ -3,6 +3,7 @@ layout: default
 title: "MCP Servers Tutorial"
 nav_order: 92
 has_children: true
+format_version: v2
 ---
 
 # MCP Servers Tutorial: Reference Implementations and Patterns

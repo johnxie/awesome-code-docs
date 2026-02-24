@@ -3,6 +3,7 @@ layout: default
 title: "HAPI Tutorial"
 nav_order: 100
 has_children: true
+format_version: v2
 ---
 
 # HAPI Tutorial: Remote Control for Local AI Coding Sessions

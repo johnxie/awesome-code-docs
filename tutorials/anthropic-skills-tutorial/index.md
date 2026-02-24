@@ -3,6 +3,7 @@ layout: default
 title: "Anthropic Skills Tutorial"
 nav_order: 91
 has_children: true
+format_version: v2
 ---
 
 # Anthropic Skills Tutorial: Reusable AI Agent Capabilities

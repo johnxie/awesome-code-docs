@@ -17,26 +17,26 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 <<<<<<< HEAD
 | Tutorial directories | 191 |
 | Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,004,205 |
+| Tutorial markdown lines | 1,048,512 |
 =======
 <<<<<<< HEAD
 | Tutorial directories | 191 |
 | Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,004,205 |
+| Tutorial markdown lines | 1,048,512 |
 =======
 <<<<<<< HEAD
 | Tutorial directories | 191 |
 | Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,004,205 |
+| Tutorial markdown lines | 1,048,512 |
 =======
 <<<<<<< HEAD
 | Tutorial directories | 191 |
 | Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,004,205 |
+| Tutorial markdown lines | 1,048,512 |
 =======
 | Tutorial directories | 191 |
 | Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,004,205 |
+| Tutorial markdown lines | 1,048,512 |
 
 ## Source Verification Snapshot
 

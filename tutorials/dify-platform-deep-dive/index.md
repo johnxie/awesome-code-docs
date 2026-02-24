@@ -3,6 +3,7 @@ layout: default
 title: "Dify Platform Deep Dive"
 nav_order: 3
 has_children: true
+format_version: v2
 ---
 
 # Dify Platform: Deep Dive Tutorial

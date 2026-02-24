@@ -3,6 +3,7 @@ layout: default
 title: "Teable Database Platform"
 nav_order: 42
 has_children: true
+format_version: v2
 ---
 
 # Teable: Deep Dive Tutorial

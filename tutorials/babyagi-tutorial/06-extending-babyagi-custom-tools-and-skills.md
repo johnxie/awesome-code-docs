@@ -326,3 +326,255 @@ Use the following upstream sources to verify implementation details while readin
 - [Next Chapter: Chapter 7: BabyAGI Evolution: 2o and Functionz Framework](07-babyagi-evolution-2o-and-functionz-framework.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+
+### Scenario Playbook 1: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 2: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: tool dependency latency increases under concurrency
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: enable staged retries with jitter and circuit breaker fallback
+- verification target: error budget burn rate remains below escalation threshold
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 3: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: schema updates introduce incompatible payloads
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: pin schema versions and add compatibility shims
+- verification target: throughput remains stable under target concurrency
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 4: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: environment parity drifts between staging and production
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: restore environment parity via immutable config promotion
+- verification target: retry volume stays bounded without feedback loops
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 5: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: access policy changes reduce successful execution rates
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: re-scope credentials and rotate leaked or stale keys
+- verification target: data integrity checks pass across write/read cycles
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 6: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: background jobs accumulate and exceed processing windows
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: activate degradation mode to preserve core user paths
+- verification target: audit logs capture all control-plane mutations
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 7: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 8: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: tool dependency latency increases under concurrency
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: enable staged retries with jitter and circuit breaker fallback
+- verification target: error budget burn rate remains below escalation threshold
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 9: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: schema updates introduce incompatible payloads
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: pin schema versions and add compatibility shims
+- verification target: throughput remains stable under target concurrency
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 10: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: environment parity drifts between staging and production
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: restore environment parity via immutable config promotion
+- verification target: retry volume stays bounded without feedback loops
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 11: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: access policy changes reduce successful execution rates
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: re-scope credentials and rotate leaked or stale keys
+- verification target: data integrity checks pass across write/read cycles
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 12: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: background jobs accumulate and exceed processing windows
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: activate degradation mode to preserve core user paths
+- verification target: audit logs capture all control-plane mutations
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 13: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 14: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: tool dependency latency increases under concurrency
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: enable staged retries with jitter and circuit breaker fallback
+- verification target: error budget burn rate remains below escalation threshold
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 15: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: schema updates introduce incompatible payloads
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: pin schema versions and add compatibility shims
+- verification target: throughput remains stable under target concurrency
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 16: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: environment parity drifts between staging and production
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: restore environment parity via immutable config promotion
+- verification target: retry volume stays bounded without feedback loops
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 17: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: access policy changes reduce successful execution rates
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: re-scope credentials and rotate leaked or stale keys
+- verification target: data integrity checks pass across write/read cycles
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 18: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: background jobs accumulate and exceed processing windows
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: activate degradation mode to preserve core user paths
+- verification target: audit logs capture all control-plane mutations
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 19: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: incoming request volume spikes after release
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: introduce adaptive concurrency limits and queue bounds
+- verification target: latency p95 and p99 stay within defined SLO windows
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 20: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: tool dependency latency increases under concurrency
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: enable staged retries with jitter and circuit breaker fallback
+- verification target: error budget burn rate remains below escalation threshold
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests
+
+### Scenario Playbook 21: Chapter 6: Extending BabyAGI: Custom Tools and Skills
+
+- tutorial context: **BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework**
+- trigger condition: schema updates introduce incompatible payloads
+- initial hypothesis: identify the smallest reproducible failure boundary
+- immediate action: protect user-facing stability before optimization work
+- engineering control: pin schema versions and add compatibility shims
+- verification target: throughput remains stable under target concurrency
+- rollback trigger: pre-defined quality gate fails for two consecutive checks
+- communication step: publish incident status with owner and ETA
+- learning capture: add postmortem and convert findings into automated tests

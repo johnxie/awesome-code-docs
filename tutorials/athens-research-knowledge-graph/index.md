@@ -3,6 +3,7 @@ layout: default
 title: "Athens Research Knowledge Graph"
 nav_order: 39
 has_children: true
+format_version: v2
 ---
 
 # Athens Research: Deep Dive Tutorial

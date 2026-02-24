@@ -3,6 +3,7 @@ layout: default
 title: "Logseq Knowledge Management"
 nav_order: 40
 has_children: true
+format_version: v2
 ---
 
 # Logseq: Deep Dive Tutorial

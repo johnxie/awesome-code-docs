@@ -3,6 +3,7 @@ layout: default
 title: "Obsidian Outliner Plugin"
 nav_order: 41
 has_children: true
+format_version: v2
 ---
 
 # Obsidian Outliner Plugin: Deep Dive Tutorial

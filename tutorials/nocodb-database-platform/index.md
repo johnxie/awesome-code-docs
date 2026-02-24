@@ -3,6 +3,7 @@ layout: default
 title: "NocoDB Database Platform"
 nav_order: 38
 has_children: true
+format_version: v2
 ---
 
 # NocoDB: Deep Dive Tutorial
