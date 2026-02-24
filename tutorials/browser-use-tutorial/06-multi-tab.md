@@ -8,6 +8,9 @@ parent: Browser Use Tutorial
 
 # Chapter 6: Multi-Tab Workflows - Managing Complex Multi-Tab Operations
 
+Welcome to **Chapter 6: Multi-Tab Workflows - Managing Complex Multi-Tab Operations**. In this part of **Browser Use Tutorial: AI-Powered Web Automation Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Coordinate multiple browser tabs, manage complex workflows, and handle concurrent browser operations.
 
 ## Overview
@@ -588,3 +591,55 @@ Now that you can manage complex multi-tab workflows, let's explore **custom acti
 **Ready for Chapter 7?** [Custom Actions](07-custom-actions.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `tabs`, `asyncio`, `Agent` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Multi-Tab Workflows - Managing Complex Multi-Tab Operations` as an operating subsystem inside **Browser Use Tutorial: AI-Powered Web Automation Agents**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `agent`, `result`, `ChatOpenAI` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Multi-Tab Workflows - Managing Complex Multi-Tab Operations` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `tabs`.
+2. **Input normalization**: shape incoming data so `asyncio` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `Agent`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Browser Use Repository](https://github.com/browser-use/browser-use)
+  Why it matters: authoritative reference on `Browser Use Repository` (github.com).
+- [Browser Use Releases](https://github.com/browser-use/browser-use/releases)
+  Why it matters: authoritative reference on `Browser Use Releases` (github.com).
+- [Browser Use Docs](https://docs.browser-use.com/)
+  Why it matters: authoritative reference on `Browser Use Docs` (docs.browser-use.com).
+- [Browser Use Cloud](https://cloud.browser-use.com/)
+  Why it matters: authoritative reference on `Browser Use Cloud` (cloud.browser-use.com).
+
+Suggested trace strategy:
+- search upstream code for `tabs` and `asyncio` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Data Extraction - Scraping and Extracting Structured Data](05-data-extraction.md)
+- [Next Chapter: Chapter 7: Custom Actions - Building Domain-Specific Browser Actions](07-custom-actions.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

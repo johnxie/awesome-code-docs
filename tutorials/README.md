@@ -14,9 +14,14 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 
 | Metric | Value |
 |:-------|:------|
+<<<<<<< HEAD
 | Tutorial directories | 188 |
 | Tutorial markdown files | 1705 |
-| Tutorial markdown lines | 498,948 |
+| Tutorial markdown lines | 632,794 |
+=======
+| Tutorial directories | 188 |
+| Tutorial markdown files | 1705 |
+| Tutorial markdown lines | 632,794 |
 
 ## Source Verification Snapshot
 
@@ -32,6 +37,7 @@ Repository-source verification run against tutorial index references (GitHub API
 - Report: [../discoverability/tutorial-source-verification.md](../discoverability/tutorial-source-verification.md)
 - JSON: [../discoverability/tutorial-source-verification.json](../discoverability/tutorial-source-verification.json)
 - Script: [../scripts/verify_tutorial_sources.py](../scripts/verify_tutorial_sources.py)
+>>>>>>> origin/main
 
 ## Content Structure Patterns
 

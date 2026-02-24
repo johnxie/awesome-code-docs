@@ -7,6 +7,9 @@ nav_order: 8
 
 # Chapter 8: Performance Optimization
 
+Welcome to **Chapter 8: Performance Optimization**. In this part of **ChromaDB Tutorial: Building AI-Native Vector Databases**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Master Chroma performance tuning! This final chapter covers advanced optimization techniques, benchmarking, and performance best practices for maximum efficiency.
 
 ## Performance Profiling
@@ -473,3 +476,48 @@ You've successfully completed the comprehensive Chroma tutorial! You now have th
 - Monitor and troubleshoot Chroma performance
 
 *Ready to build your next AI application with Chroma?* 🚀
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `collection`, `query_texts` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 8: Performance Optimization` as an operating subsystem inside **ChromaDB Tutorial: Building AI-Native Vector Databases**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `n_results`, `times`, `query` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 8: Performance Optimization` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `collection` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `query_texts`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/chroma-core/chroma)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `collection` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

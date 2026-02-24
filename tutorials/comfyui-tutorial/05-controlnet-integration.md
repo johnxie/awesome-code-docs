@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: ControlNet & Pose Control
 
+Welcome to **Chapter 5: ControlNet & Pose Control**. In this part of **ComfyUI Tutorial: Mastering AI Image Generation Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 ControlNet is one of the most transformative additions to Stable Diffusion, and ComfyUI provides the ideal environment for harnessing its full potential. While standard text-to-image generation gives you control over *what* appears in an image, ControlNet gives you control over *how* it appears -- the composition, structure, pose, and spatial arrangement of every element. In this chapter, you will learn to integrate ControlNet models into your ComfyUI workflows, chain multiple control signals together, and fine-tune parameters for production-quality results.
 
 ## How ControlNet Works
@@ -596,3 +599,49 @@ With ControlNet mastered, you can precisely control the structure and compositio
 ---
 
 *Built with insights from the [ComfyUI](https://github.com/comfyanonymous/ComfyUI) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `class_type`, `inputs`, `ControlNet` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: ControlNet & Pose Control` as an operating subsystem inside **ComfyUI Tutorial: Mastering AI Image Generation Workflows**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `safetensors`, `image`, `classDef` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: ControlNet & Pose Control` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `class_type`.
+2. **Input normalization**: shape incoming data so `inputs` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `ControlNet`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/comfyanonymous/ComfyUI)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `class_type` and `inputs` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Image-to-Image & Inpainting](04-image-to-image.md)
+- [Next Chapter: Chapter 6: LoRA & Model Customization](06-lora-customization.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
