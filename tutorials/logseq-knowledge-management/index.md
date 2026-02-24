@@ -14,6 +14,16 @@ format_version: v2
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![ClojureScript](https://img.shields.io/badge/ClojureScript-Electron-purple)](https://github.com/logseq/logseq)
 
+## Why This Track Matters
+
+Logseq proves that a local-first, privacy-preserving knowledge system can be as powerful as cloud-based alternatives — all notes stay as plain Markdown files you own, with a rich graph visualization layer on top.
+
+This track focuses on:
+- understanding block-based editing with bi-directional linking
+- working with Datascript and ClojureScript for local-first data management
+- building knowledge graph visualizations with D3.js
+- operating and extending Logseq with its JavaScript plugin API
+
 ## What Is Logseq?
 
 Logseq is a local-first, privacy-preserving knowledge management platform built with ClojureScript and Electron. It stores notes as plain Markdown/Org-mode files on your filesystem, provides block-based editing with bi-directional linking, and visualizes your knowledge as an interactive graph.
@@ -27,7 +37,7 @@ Logseq is a local-first, privacy-preserving knowledge management platform built 
 | **Plugin System** | JavaScript plugin API with sandboxed execution |
 | **Git Sync** | Built-in Git-based synchronization across devices |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -54,7 +64,7 @@ graph TB
     Core --> Storage
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -105,6 +115,19 @@ Ready to begin? Start with [Chapter 1: Knowledge Management Principles](01-knowl
 6. [Chapter 6: Block Editor](06-block-editor.md)
 7. [Chapter 7: Bi-Directional Links](07-bidirectional-links.md)
 8. [Chapter 8: Graph Visualization](08-graph-visualization.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [logseq/logseq](https://github.com/logseq/logseq)
+- stars: about **32K**
+- project positioning: privacy-first, local-first knowledge management platform with graph visualization
+
+## What You Will Learn
+
+- how Logseq stores notes as plain Markdown files with Datascript indexing for fast queries
+- how block identity, hierarchy, and bi-directional links are managed in the graph model
+- how ClojureScript and Re-frame power the local-first state management architecture
+- how the graph visualization renders large knowledge networks with D3.js
 
 ## Source References
 

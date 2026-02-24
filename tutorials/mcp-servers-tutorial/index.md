@@ -14,6 +14,16 @@ format_version: v2
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Registry](https://img.shields.io/badge/MCP-Registry-blue)](https://registry.modelcontextprotocol.io/)
 
+## Why This Track Matters
+
+The official MCP reference servers are the canonical blueprints for understanding how to implement safe, reliable Model Context Protocol integrations — essential reading before building your own production servers.
+
+This track focuses on:
+- understanding MCP protocol patterns through official reference implementations
+- building safe file, git, memory, and web retrieval integrations
+- applying security controls and least-privilege design to MCP servers
+- hardening reference patterns for production reliability and observability
+
 ## What this repository is for
 
 The official `modelcontextprotocol/servers` repository contains a small set of **reference implementations** maintained by the MCP steering group. These servers demonstrate protocol usage and design patterns.
@@ -35,7 +45,7 @@ Important distinction:
 | Sequential Thinking | Structured iterative reasoning tool interface |
 | Time | Timezone-aware utilities and conversion |
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You Will Learn |
 |:--------|:------|:--------------------|
@@ -99,11 +109,24 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 7. [Chapter 7: Security Considerations](07-security-considerations.md)
 8. [Chapter 8: Production Adaptation](08-production-adaptation.md)
 
+## Current Snapshot (auto-updated)
+
+- repository: [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
+- stars: about **13K**
+- project positioning: official MCP reference server implementations maintained by the MCP steering group
+
+## What You Will Learn
+
+- how each official reference server demonstrates core MCP protocol patterns
+- how to implement safe file operations with allowlisted roots and path validation
+- how to apply security threat models and least-privilege principles to MCP servers
+- how to adapt reference patterns for production reliability and operational hardening
+
 ## Source References
 
 - [MCP servers repository](https://github.com/modelcontextprotocol/servers)
 
-## Concept Flow
+## Mental Model
 
 ```mermaid
 flowchart TD

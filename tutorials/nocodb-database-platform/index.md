@@ -14,6 +14,16 @@ format_version: v2
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Node.js](https://img.shields.io/badge/Node.js-Vue.js-green)](https://github.com/nocodb/nocodb)
 
+## Why This Track Matters
+
+NocoDB lets teams build collaborative no-code applications on top of their existing databases without rewriting their data layer — turning any SQL database into an Airtable-like interface with auto-generated APIs.
+
+This track focuses on:
+- connecting NocoDB to MySQL, PostgreSQL, SQLite, and SQL Server
+- understanding automatic REST API generation from database schemas
+- implementing RBAC, authentication, and audit logging
+- deploying NocoDB with Docker for full self-hosted data ownership
+
 ## What Is NocoDB?
 
 NocoDB transforms any SQL database (MySQL, PostgreSQL, SQL Server, SQLite) into a spreadsheet-like interface with auto-generated REST APIs. It provides a no-code layer over existing databases, enabling teams to build applications without rewriting their data layer.
@@ -27,7 +37,7 @@ NocoDB transforms any SQL database (MySQL, PostgreSQL, SQL Server, SQLite) into 
 | **Plugin System** | Extensible with custom field types and integrations |
 | **Self-Hosted** | Full Docker deployment, data stays on your infrastructure |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -56,7 +66,7 @@ graph TB
     Backend --> Databases
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -105,6 +115,19 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 6. [Chapter 6: Auth System](06-auth-system.md)
 7. [Chapter 7: Vue Components](07-vue-components.md)
 8. [Chapter 8: Realtime Features](08-realtime-features.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [nocodb/nocodb](https://github.com/nocodb/nocodb)
+- stars: about **48K**
+- project positioning: open-source Airtable alternative built on top of existing SQL databases
+
+## What You Will Learn
+
+- how NocoDB abstracts multiple SQL databases behind a unified spreadsheet-like interface
+- how automatic REST API generation works from existing database schemas
+- how the query builder safely translates UI filters into parameterized SQL
+- how to implement RBAC, configure authentication, and deploy NocoDB with Docker
 
 ## Source References
 

@@ -14,6 +14,16 @@ format_version: v2
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Node.js](https://img.shields.io/badge/Node.js-React-green)](https://github.com/FlowiseAI/Flowise)
 
+## Why This Track Matters
+
+Flowise makes LLM orchestration visual and accessible — a drag-and-drop canvas for building production pipelines without boilerplate, with auto-generated APIs for every workflow you create.
+
+This track focuses on:
+- building LLM workflows visually with Flowise's node canvas
+- developing custom nodes to extend Flowise with new integrations
+- connecting LLM providers, vector stores, and tools in production pipelines
+- deploying and monitoring Flowise workflows with Docker
+
 ## What Is Flowise?
 
 Flowise is an open-source visual workflow builder for LLM applications. It provides a drag-and-drop canvas for connecting AI models, data sources, and tools into production-ready pipelines — without writing boilerplate code.
@@ -27,7 +37,7 @@ Flowise is an open-source visual workflow builder for LLM applications. It provi
 | **Custom Nodes** | Extensible architecture for building custom integrations |
 | **API Export** | Auto-generated REST APIs for every workflow |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -54,7 +64,7 @@ graph TB
     ENGINE --> Integrations
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -103,6 +113,19 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 6. [Chapter 6: Security and Governance](06-security-governance.md)
 7. [Chapter 7: Observability](07-observability.md)
 8. [Chapter 8: Extension Ecosystem](08-extension-ecosystem.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise)
+- stars: about **34K**
+- project positioning: popular open-source visual LLM workflow builder with 100+ pre-built nodes
+
+## What You Will Learn
+
+- how Flowise's node graph execution engine processes data flow and streaming responses
+- how to build custom nodes with typed inputs and outputs for new integrations
+- how to connect LLM providers, vector stores, and external tools in visual workflows
+- how to deploy Flowise with Docker and manage security, governance, and observability
 
 ## Source References
 

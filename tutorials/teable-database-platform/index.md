@@ -14,6 +14,16 @@ format_version: v2
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Next.js-blue)](https://github.com/teableio/teable)
 
+## Why This Track Matters
+
+Teable combines the power of PostgreSQL with a collaborative spreadsheet interface, offering teams a scalable no-code database that doesn't sacrifice data integrity or query performance for usability.
+
+This track focuses on:
+- building on PostgreSQL with Teable's schema management and query system
+- implementing real-time collaborative editing with WebSocket consistency
+- generating and consuming REST and GraphQL APIs from Teable tables
+- deploying and scaling Teable with Docker for production workloads
+
 ## What Is Teable?
 
 Teable is a high-performance, multi-dimensional database platform that combines the power of PostgreSQL with a spreadsheet-like UI. It supports real-time collaboration, complex data relationships, and advanced querying — offering a scalable alternative to Airtable built on proven database technology.
@@ -27,7 +37,7 @@ Teable is a high-performance, multi-dimensional database platform that combines 
 | **REST & GraphQL** | Auto-generated APIs with schema validation |
 | **Self-Hosted** | Docker deployment with horizontal scaling |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -55,7 +65,7 @@ graph TB
     Backend --> Data
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -105,6 +115,19 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 6. [Chapter 6: Query System](06-query-system.md)
 7. [Chapter 7: Frontend Architecture](07-frontend-architecture.md)
 8. [Chapter 8: Production Deployment](08-production-deployment.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [teableio/teable](https://github.com/teableio/teable)
+- stars: about **15K**
+- project positioning: high-performance PostgreSQL-native no-code database with real-time collaboration
+
+## What You Will Learn
+
+- how Teable uses PostgreSQL as its native storage layer with schema management and indexing
+- how WebSocket-based real-time collaboration handles multi-user consistency
+- how the query system translates view-driven filters into optimized PostgreSQL queries
+- how to deploy and scale Teable with Docker Compose for production environments
 
 ## Source References
 

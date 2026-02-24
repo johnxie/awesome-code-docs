@@ -14,6 +14,16 @@ format_version: v2
 [![License](https://img.shields.io/badge/License-AGPL_3.0-blue.svg)](https://opensource.org/licenses/AGPL-3.0)
 [![Docs](https://img.shields.io/badge/Docs-hapi.run-orange)](https://hapi.run)
 
+## Why This Track Matters
+
+HAPI solves the remote oversight problem for local AI coding sessions — you can run Claude Code or other agents on your laptop while monitoring, approving, and controlling them from a phone or browser anywhere.
+
+This track focuses on:
+- setting up local-first AI coding sessions with remote control capability
+- designing safe approval policies for agent tool access
+- operating HAPI across multiple machines and networks
+- hardening and monitoring HAPI for team usage
+
 ## What is HAPI?
 
 HAPI wraps existing coding agents and adds a hub/web control plane so sessions can be handed off between terminal and phone/browser without restarting context.
@@ -26,7 +36,7 @@ HAPI wraps existing coding agents and adds a hub/web control plane so sessions c
 - license: AGPL-3.0
 - key capabilities: remote approvals, PWA control, Telegram integration, multi-machine session routing
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - install HAPI, start hub, and launch first wrapped agent session
 2. **[Chapter 2: System Architecture](02-system-architecture.md)** - CLI, hub, web app, and protocol boundaries
@@ -80,7 +90,7 @@ Ready to begin? Continue to [Chapter 1: Getting Started](01-getting-started.md).
 7. [Chapter 7: Configuration and Security](07-configuration-and-security.md)
 8. [Chapter 8: Production Operations](08-production-operations.md)
 
-## Concept Flow
+## Mental Model
 
 ```mermaid
 flowchart TD

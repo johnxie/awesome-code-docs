@@ -14,6 +14,16 @@ format_version: v2
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Spec](https://img.shields.io/badge/Spec-agentskills.io-blue)](https://agentskills.io/specification)
 
+## Why This Track Matters
+
+Anthropic Skills let you package reusable, reliable behaviors for Claude agents once and deploy them across every integration point — Claude Code, Claude.ai, and the API — without re-engineering each time.
+
+This track focuses on:
+- designing skills with clear invocation boundaries and deterministic outputs
+- packaging repeatable workflows using scripts, references, and asset files
+- publishing versioned skills for team or public reuse
+- operating a skills catalog with ownership and lifecycle controls
+
 ## What are Anthropic Skills?
 
 Anthropic Skills are packaged instructions and supporting files that Claude can load for specific jobs. A skill can be lightweight (one `SKILL.md`) or operationally rich (scripts, templates, and domain references).
@@ -36,7 +46,7 @@ The official `anthropics/skills` repository demonstrates real patterns used for:
 | `references/` | Source material Claude can load on demand for better answers |
 | `assets/` | Non-text files required by the workflow |
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You Will Learn |
 |:--------|:------|:--------------------|
@@ -111,11 +121,24 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 7. [Chapter 7: Publishing and Sharing](07-publishing-sharing.md)
 8. [Chapter 8: Real-World Examples](08-real-world-examples.md)
 
+## Current Snapshot (auto-updated)
+
+- repository: [anthropics/skills](https://github.com/anthropics/skills)
+- stars: about **1.2K**
+- project positioning: official reference implementation for the Agent Skills format specification
+
+## What You Will Learn
+
+- how to design and structure a SKILL.md file with frontmatter and behavioral contracts
+- how to compose multi-file skills with scripts, references, and asset directories
+- how to integrate skills across Claude Code, Claude.ai, and the Claude API
+- how to version, publish, and maintain skills catalogs for team-wide reuse
+
 ## Source References
 
 - [anthropics/skills repository](https://github.com/anthropics/skills)
 
-## Concept Flow
+## Mental Model
 
 ```mermaid
 flowchart TD

@@ -14,6 +14,16 @@ format_version: v2
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Languages](https://img.shields.io/badge/Python-TypeScript-blue)](https://github.com/anthropics/anthropic-quickstarts)
 
+## Why This Track Matters
+
+Anthropic's official quickstart projects are the fastest path from API key to production-quality Claude integration, covering the full spectrum from support chatbots to autonomous coding agents.
+
+This track focuses on:
+- building deployable applications using Anthropic's reference architectures
+- applying best practices for error handling, monitoring, and security
+- implementing tool use and multi-agent patterns from working examples
+- deploying Claude-powered applications with Docker and cloud platforms
+
 ## 🎯 What are Claude Quickstarts?
 
 **Claude Quickstarts** is Anthropic's official collection of reference projects demonstrating production-ready patterns for building with Claude. Each quickstart is a complete, deployable application showcasing best practices for specific use cases from customer support to autonomous coding agents.
@@ -29,7 +39,7 @@ format_version: v2
 | **Claude Agent SDK** | Demonstrates multi-agent patterns and tool use |
 | **Deployment Guides** | Docker, cloud platforms, scaling strategies |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -76,7 +86,7 @@ graph TB
     class KB,VIZ,DESKTOP,WEB,CODE feature
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
@@ -251,6 +261,19 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 6. [Chapter 6: Production Patterns](06-production-patterns.md)
 7. [Chapter 7: Evaluation and Guardrails](07-evaluation-guardrails.md)
 8. [Chapter 8: Enterprise Operations](08-enterprise-operations.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [anthropics/anthropic-quickstarts](https://github.com/anthropics/anthropic-quickstarts)
+- stars: about **7.5K**
+- project positioning: official Anthropic reference projects for production Claude integrations
+
+## What You Will Learn
+
+- how to build production-ready Claude applications from Anthropic's reference architectures
+- how to implement tool use, multi-agent patterns, and browser automation with Claude
+- how to handle errors, monitor performance, and apply security best practices
+- how to deploy Claude applications with Docker and scale them for production traffic
 
 ## Source References
 
