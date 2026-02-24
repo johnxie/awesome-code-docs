@@ -77,11 +77,12 @@ flowchart LR
 
 ## Related Tutorials
 
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [SWE-agent Tutorial](../swe-agent-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [Open SWE Tutorial](../open-swe-tutorial/)
+- [OpenHands Tutorial](../openhands-tutorial/) — multi-agent AI software engineering OS
+- [SWE-agent Tutorial](../swe-agent-tutorial/) — SWE-bench autonomous software engineering agent
+- [Mini SWE-agent Tutorial](../mini-swe-agent-tutorial/) — lightweight autonomous coding agent core
+- [Aider Tutorial](../aider-tutorial/) — AI pair programming in the terminal
+- [Sweep Tutorial](../sweep-tutorial/) — issue-to-PR autonomous coding agent
+- [BabyAGI Tutorial](../babyagi-tutorial/) — foundational autonomous task-driven agent patterns
 
 ---
 

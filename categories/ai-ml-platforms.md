@@ -4,7 +4,7 @@
 
 ## Snapshot (auto-updated)
 
-- repository-wide tutorials: **188**
+- repository-wide tutorials: **191**
 - AI/agent + developer-tooling coverage: **largest cluster in the catalog**
 - canonical structure status: **all tracks publish full chapter sets**
 
@@ -12,9 +12,11 @@
 
 | Goal | Recommended Starting Tutorial | Next Tutorials |
 |:-----|:------------------------------|:---------------|
-| Build autonomous AI agents | [LangChain](../tutorials/langchain-tutorial/) | [LangGraph](../tutorials/langgraph-tutorial/) → [CrewAI](../tutorials/crewai-tutorial/) → [Claude Flow](../tutorials/claude-flow-tutorial/) |
-| Understand AI coding agents | [Cline](../tutorials/cline-tutorial/) | [Roo Code](../tutorials/roo-code-tutorial/) → [OpenCode](../tutorials/opencode-tutorial/) → [Sweep](../tutorials/sweep-tutorial/) → [Tabby](../tutorials/tabby-tutorial/) → [Stagewise](../tutorials/stagewise-tutorial/) → [OpenHands](../tutorials/openhands-tutorial/) |
-| Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) |
+| Build autonomous AI agents | [LangChain](../tutorials/langchain-tutorial/) | [LangGraph](../tutorials/langgraph-tutorial/) → [CrewAI](../tutorials/crewai-tutorial/) → [Claude Flow](../tutorials/claude-flow-tutorial/) → [Devika](../tutorials/devika-tutorial/) → [BabyAGI](../tutorials/babyagi-tutorial/) |
+| Understand AI coding agents | [Cline](../tutorials/cline-tutorial/) | [Roo Code](../tutorials/roo-code-tutorial/) → [OpenCode](../tutorials/opencode-tutorial/) → [Sweep](../tutorials/sweep-tutorial/) → [Tabby](../tutorials/tabby-tutorial/) → [Stagewise](../tutorials/stagewise-tutorial/) → [OpenHands](../tutorials/openhands-tutorial/) → [Kiro](../tutorials/kiro-tutorial/) |
+| Autonomous AI software engineers | [OpenHands](../tutorials/openhands-tutorial/) | [Devika](../tutorials/devika-tutorial/) → [SWE-agent](../tutorials/swe-agent-tutorial/) → [Mini SWE-agent](../tutorials/mini-swe-agent-tutorial/) → [Aider](../tutorials/aider-tutorial/) |
+| Task-driven autonomous agents | [BabyAGI](../tutorials/babyagi-tutorial/) | [AutoGen](../tutorials/autogen-tutorial/) → [CrewAI](../tutorials/crewai-tutorial/) → [LangGraph](../tutorials/langgraph-tutorial/) |
+| Build vibe-coding products | [Dyad](../tutorials/dyad-tutorial/) | [bolt.diy](../tutorials/bolt-diy-tutorial/) → [VibeSDK](../tutorials/vibesdk-tutorial/) → [HAPI](../tutorials/hapi-tutorial/) → [Kiro](../tutorials/kiro-tutorial/) |
 | Build Taskade AI / Genesis workflows | [Taskade](../tutorials/taskade-tutorial/) | [Taskade Docs](../tutorials/taskade-docs-tutorial/) → [Taskade MCP](../tutorials/taskade-mcp-tutorial/) → [Taskade Awesome Vibe Coding](../tutorials/taskade-awesome-vibe-coding-tutorial/) |
 | Run spec-driven AI delivery workflows | [OpenSpec](../tutorials/openspec-tutorial/) | [Claude Task Master](../tutorials/claude-task-master-tutorial/) → [Codex CLI](../tutorials/codex-cli-tutorial/) |
 | Build RAG systems | [LlamaIndex](../tutorials/llamaindex-tutorial/) | [Haystack](../tutorials/haystack-tutorial/) → [RAGFlow](../tutorials/ragflow-tutorial/) |
@@ -25,6 +27,9 @@
 
 - [LangChain](../tutorials/langchain-tutorial/)
 - [LangGraph](../tutorials/langgraph-tutorial/)
+- [Devika](../tutorials/devika-tutorial/)
+- [BabyAGI](../tutorials/babyagi-tutorial/)
+- [Kiro](../tutorials/kiro-tutorial/)
 - [OpenHands](../tutorials/openhands-tutorial/)
 - [OpenCode](../tutorials/opencode-tutorial/)
 - [Taskade](../tutorials/taskade-tutorial/)

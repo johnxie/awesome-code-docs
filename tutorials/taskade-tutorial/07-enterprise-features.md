@@ -888,7 +888,6 @@ Taskade's enterprise features transform it from a simple task manager into a com
 |:-----------|:--------------------------|:------|:------------|
 | [`taskade/mcp`](https://github.com/taskade/mcp) | connects Taskade operations to MCP clients for governed AI tooling | ~108 | 2026-02-13 |
 | [`taskade/docs`](https://github.com/taskade/docs) | canonical docs structure for policy, rollout, and onboarding alignment | ~10 | 2026-02-20 |
-| [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller) | self-hosted runner orchestration for enterprise CI environments | ~6 | 2026-02-23 |
 | [`taskade/taskade`](https://github.com/taskade/taskade) | platform-level app and workflow surface changes | ~4 | 2026-02-19 |
 
 ## Source References
@@ -903,7 +902,6 @@ Taskade's enterprise features transform it from a simple task manager into a com
 - [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar)
 - [Taskade Newsletter: Genesis 2025](https://www.taskade.com/newsletters/w/W763vDgzG2W9zRfdL3aALM3g)
 - [Taskade Newsletter: Build Apps, Dashboards, and Workflows](https://www.taskade.com/newsletters/w/mOA79zAZ3Hg9mbPpQKrRHQ)
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
 
 ## Next Steps
 
@@ -945,7 +943,6 @@ Key enterprise references:
 - [Taskade Enterprise](https://taskade.com/enterprise): capability framing for enterprise controls and deployment.
 - [Taskade Security](https://taskade.com/security): security posture and control commitments.
 - [Taskade Trust Center](https://trust.taskade.com): trust/compliance evidence entry point.
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller): infrastructure signal for enterprise CI/runtime operations.
 - [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna): architecture context for policy inheritance.
 
 ## Chapter Connections

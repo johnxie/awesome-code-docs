@@ -563,7 +563,6 @@ This chapter is expanded to v1-style depth for production-grade learning and imp
 - [Taskade Docs Repo](https://github.com/taskade/docs)
 - [Taskade MCP Repo](https://github.com/taskade/mcp)
 - [Taskade Awesome Vibe Coding](https://github.com/taskade/awesome-vibe-coding)
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
 - [Taskade Temporal Parser](https://github.com/taskade/temporal-parser)
 - [Taskade Product Site](https://taskade.com)
 - [Taskade Changelog](https://taskade.com/changelog)

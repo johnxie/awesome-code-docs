@@ -72,10 +72,13 @@ flowchart LR
 
 ## Related Tutorials
 
-- [OpenClaw Tutorial](../openclaw-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
+- [Devika Tutorial](../devika-tutorial/) — multi-agent autonomous AI software engineer
+- [SWE-agent Tutorial](../swe-agent-tutorial/) — SWE-bench benchmark autonomous agent
+- [Mini SWE-agent Tutorial](../mini-swe-agent-tutorial/) — lightweight autonomous coding agent
+- [OpenClaw Tutorial](../openclaw-tutorial/) — personal AI assistant and multi-channel agent
+- [Cline Tutorial](../cline-tutorial/) — agentic VS Code coding agent
+- [Roo Code Tutorial](../roo-code-tutorial/) — multi-mode coding agents with checkpoints
+- [Continue Tutorial](../continue-tutorial/) — IDE-native AI coding assistant
 
 ---
 
