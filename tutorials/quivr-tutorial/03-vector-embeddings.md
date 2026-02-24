@@ -7,6 +7,9 @@ nav_order: 3
 
 # Chapter 3: Vector Embeddings
 
+Welcome to **Chapter 3: Vector Embeddings**. In this part of **Quivr Tutorial: Open-Source RAG Framework for Document Ingestion**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 In [Chapter 2](02-document-processing.md), you transformed raw documents into clean, well-structured chunks. Now those chunks need to become searchable. This is where vector embeddings come in -- the mathematical representations that let Quivr find semantically similar content even when the exact words differ.
 
 Embeddings are the bridge between human language and machine understanding. When a user asks "What is the company's revenue growth strategy?", the system needs to find chunks about "fiscal expansion plans" and "year-over-year sales targets" even though none of those words appear in the query. This chapter covers everything you need to know about choosing, generating, storing, and optimizing vector embeddings in Quivr.
@@ -616,3 +619,51 @@ Your chunks are now embedded and stored in a vector database. In [Chapter 4: Que
 ---
 
 *Built with insights from the [Quivr](https://github.com/QuivrHQ/quivr) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `print`, `vectors`, `quivr` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: Vector Embeddings` as an operating subsystem inside **Quivr Tutorial: Open-Source RAG Framework for Document Ingestion**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `chunks`, `embedder`, `chunk` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: Vector Embeddings` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `print`.
+2. **Input normalization**: shape incoming data so `vectors` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `quivr`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/QuivrHQ/quivr)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `print` and `vectors` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Document Processing](02-document-processing.md)
+- [Next Chapter: Chapter 4: Query Processing](04-query-processing.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

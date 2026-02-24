@@ -8,6 +8,9 @@ parent: "Whisper.cpp Tutorial"
 
 # Chapter 6: Language & Translation
 
+Welcome to **Chapter 6: Language & Translation**. In this part of **Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Multi-language support, translation mode, language detection, and speaker diarization with Whisper.cpp
 
 ## Learning Objectives
@@ -785,3 +788,49 @@ With multilingual transcription and translation covered, let's explore how to de
 ---
 
 *Built with insights from the [whisper.cpp](https://github.com/ggerganov/whisper.cpp) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `audio`, `results`, `self` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Language & Translation` as an operating subsystem inside **Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `language`, `wparams`, `result` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Language & Translation` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `audio`.
+2. **Input normalization**: shape incoming data so `results` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `self`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/ggml-org/whisper.cpp)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `audio` and `results` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Real-Time Streaming](05-real-time-streaming.md)
+- [Next Chapter: Chapter 7: Platform Integration](07-platform-integration.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

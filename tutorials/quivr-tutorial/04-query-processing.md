@@ -7,6 +7,9 @@ nav_order: 4
 
 # Chapter 4: Query Processing
 
+Welcome to **Chapter 4: Query Processing**. In this part of **Quivr Tutorial: Open-Source RAG Framework for Document Ingestion**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 In [Chapter 3](03-vector-embeddings.md), you embedded your document chunks and stored them in a vector database. Now it is time to close the loop: take a user's question, retrieve the most relevant chunks, and generate an accurate, cited answer. This is where RAG delivers its value.
 
 Query processing is more than just running a similarity search. A well-designed query pipeline normalizes the user's input, expands it with synonyms or rephrased variants, retrieves candidate chunks, reranks them for precision, assembles a prompt with the right amount of context, and finally generates a response with proper citations. This chapter walks through each stage in detail.
@@ -600,3 +603,51 @@ You now have a complete retrieval and generation pipeline. In [Chapter 5: Knowle
 ---
 
 *Built with insights from the [Quivr](https://github.com/QuivrHQ/quivr) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `print`, `query`, `results` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Query Processing` as an operating subsystem inside **Quivr Tutorial: Open-Source RAG Framework for Document Ingestion**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `quivr`, `Quivr`, `result` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Query Processing` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `print`.
+2. **Input normalization**: shape incoming data so `query` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `results`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/QuivrHQ/quivr)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `print` and `query` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Vector Embeddings](03-vector-embeddings.md)
+- [Next Chapter: Chapter 5: Knowledge Bases](05-knowledge-bases.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

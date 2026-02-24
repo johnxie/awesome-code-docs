@@ -7,6 +7,9 @@ nav_order: 7
 
 # Chapter 7: Advanced Queries & RLS
 
+Welcome to **Chapter 7: Advanced Queries & RLS**. In this part of **Supabase Tutorial: Building Modern Backend Applications**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 In [Chapter 6](06-edge-functions.md), you built serverless backend logic with Edge Functions for payments, emails, and webhooks. Now it is time to push your database skills further. This chapter covers the advanced query patterns and security hardening techniques that separate a prototype from a production application. You will implement cursor-based pagination, full-text search with ranking, complex aggregations with database functions, multi-tenant RLS policies, query performance analysis with `EXPLAIN ANALYZE`, and materialized views for expensive computations.
 
 ## Query Architecture Overview
@@ -717,3 +720,49 @@ Your queries are fast, your search is relevant, and your RLS policies are harden
 ---
 
 *Built with insights from the [Supabase](https://github.com/supabase/supabase) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `tasks`, `SELECT`, `team_id` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: Advanced Queries & RLS` as an operating subsystem inside **Supabase Tutorial: Building Modern Backend Applications**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `projects`, `CREATE`, `WHERE` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: Advanced Queries & RLS` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `tasks`.
+2. **Input normalization**: shape incoming data so `SELECT` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `team_id`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/supabase/supabase)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `tasks` and `SELECT` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Edge Functions](06-edge-functions.md)
+- [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

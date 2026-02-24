@@ -8,6 +8,9 @@ parent: Phidata Tutorial
 
 # Chapter 6: Advanced Reasoning - Complex Decision Making and Problem Solving
 
+Welcome to **Chapter 6: Advanced Reasoning - Complex Decision Making and Problem Solving**. In this part of **Phidata Tutorial: Building Autonomous AI Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Implement sophisticated reasoning patterns, chain-of-thought processing, and multi-step problem-solving strategies in Phidata agents.
 
 ## Chain-of-Thought Reasoning
@@ -1004,3 +1007,49 @@ print(f"\nAvailable patterns: {list(pattern_library.list_patterns().keys())}")
 ```
 
 This advanced reasoning chapter demonstrates sophisticated reasoning techniques including chain-of-thought, tree-of-thought, self-reflection, and specialized reasoning patterns that enable agents to tackle complex problems systematically. 🚀
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `problem`, `reasoning` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Advanced Reasoning - Complex Decision Making and Problem Solving` as an operating subsystem inside **Phidata Tutorial: Building Autonomous AI Agents**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `confidence`, `line`, `branch` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Advanced Reasoning - Complex Decision Making and Problem Solving` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `problem` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `reasoning`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/phidatahq/phidata)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `problem` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Multi-Agent Systems - Coordinating Teams of AI Agents](05-multi-agent-systems.md)
+- [Next Chapter: Chapter 7: Integrations - Connecting Phidata Agents to External Systems](07-integrations.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

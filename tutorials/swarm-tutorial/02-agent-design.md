@@ -7,6 +7,9 @@ nav_order: 2
 
 # Chapter 2: Agent Design
 
+Welcome to **Chapter 2: Agent Design**. In this part of **OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 In this chapter, you will learn how to design Swarm agents with clear instructions, distinct personas, and well-defined behaviors. Good agent design is the foundation of every effective multi-agent system.
 
 ## What Makes a Good Agent?
@@ -498,3 +501,51 @@ In [Chapter 3: Function Calling & Tools](03-function-calling.md), you will learn
 4. Refactor a "do-everything" agent into three single-purpose agents with appropriate handoffs.
 
 *Built with insights from the [OpenAI Swarm](https://github.com/openai/swarm) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `Agent`, `name`, `instructions` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 2: Agent Design` as an operating subsystem inside **OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `agent`, `transfer`, `support` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 2: Agent Design` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `Agent`.
+2. **Input normalization**: shape incoming data so `name` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `instructions`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/openai/swarm)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `Agent` and `name` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started with OpenAI Swarm](01-getting-started.md)
+- [Next Chapter: Chapter 3: Function Calling & Tools](03-function-calling.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

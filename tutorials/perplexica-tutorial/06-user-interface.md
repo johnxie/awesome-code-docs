@@ -7,6 +7,9 @@ nav_order: 6
 
 # Chapter 6: User Interface Development
 
+Welcome to **Chapter 6: User Interface Development**. In this part of **Perplexica Tutorial: AI-Powered Search Engine**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Creating an intuitive and powerful search interface is what makes the difference between a backend search API and a product people actually want to use. This chapter covers Perplexica's frontend architecture -- the Next.js application, React component hierarchy, real-time streaming display, theme system, and responsive design. You will learn how every piece of the UI connects to the backend, how to build new components, and how to customize the look and feel.
 
 ## Frontend Architecture Overview
@@ -703,3 +706,49 @@ The UI is the user's window into Perplexica's capabilities. The next chapter exp
 ---
 
 *Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `className`, `dark`, `gray` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: User Interface Development` as an operating subsystem inside **Perplexica Tutorial: AI-Powered Search Engine**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `text`, `message`, `theme` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: User Interface Development` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `className`.
+2. **Input normalization**: shape incoming data so `dark` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `gray`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/ItzCrazyKns/Perplexica)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `className` and `dark` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Result Processing and Ranking](05-result-processing.md)
+- [Next Chapter: Chapter 7: Advanced Features](07-advanced-features.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

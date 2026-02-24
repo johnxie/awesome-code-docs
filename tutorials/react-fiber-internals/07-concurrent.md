@@ -7,6 +7,9 @@ nav_order: 7
 
 # Chapter 7: Concurrent Features
 
+Welcome to **Chapter 7: Concurrent Features**. In this part of **React Fiber Internals**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Understanding Suspense, transitions, and other concurrent rendering features in React.
 
 ## Overview
@@ -619,3 +622,49 @@ Now that you understand concurrent features, let's explore debugging and profili
 **Ready for Chapter 8?** [Debugging and Profiling](08-debugging.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `workInProgress`, `root`, `mode` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: Concurrent Features` as an operating subsystem inside **React Fiber Internals**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `lanes`, `Suspense`, `memoizedState` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: Concurrent Features` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `workInProgress`.
+2. **Input normalization**: shape incoming data so `root` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `mode`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `workInProgress` and `root` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Hooks Implementation](06-hooks.md)
+- [Next Chapter: Chapter 8: Debugging and Profiling](08-debugging.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

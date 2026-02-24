@@ -8,6 +8,9 @@ parent: Phidata Tutorial
 
 # Chapter 4: Memory Systems - Building Context-Aware Agents
 
+Welcome to **Chapter 4: Memory Systems - Building Context-Aware Agents**. In this part of **Phidata Tutorial: Building Autonomous AI Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Implement intelligent memory systems that enable agents to maintain context, learn from interactions, and provide personalized experiences.
 
 ## Basic Memory Types
@@ -891,3 +894,49 @@ print(f"Search-based response: {search_response}")
 ```
 
 This comprehensive memory systems chapter demonstrates how to build sophisticated context-aware agents with various memory architectures, from simple buffers to advanced indexed and compressed systems. The modular design allows for easy customization and extension based on specific use cases. 🚀
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `messages`, `memory` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Memory Systems - Building Context-Aware Agents` as an operating subsystem inside **Phidata Tutorial: Building Autonomous AI Agents**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `content`, `print`, `message` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Memory Systems - Building Context-Aware Agents` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `messages` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `memory`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/phidatahq/phidata)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `messages` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Tools & Functions - Extending Agent Capabilities](03-tools-functions.md)
+- [Next Chapter: Chapter 5: Multi-Agent Systems - Coordinating Teams of AI Agents](05-multi-agent-systems.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

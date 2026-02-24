@@ -8,6 +8,9 @@ parent: vLLM Tutorial
 
 # Chapter 6: Distributed Inference - Scaling Across GPUs and Nodes
 
+Welcome to **Chapter 6: Distributed Inference - Scaling Across GPUs and Nodes**. In this part of **vLLM Tutorial: High-Performance LLM Inference**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master distributed inference techniques with vLLM including multi-GPU setups, tensor parallelism, and cluster deployments.
 
 ## Overview
@@ -948,3 +951,51 @@ Next, we'll explore **production deployment** - serving vLLM with FastAPI, Docke
 **Ready for the next chapter?** [Chapter 7: Production Deployment](07-production-deployment.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `print`, `self`, `instance_id` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Distributed Inference - Scaling Across GPUs and Nodes` as an operating subsystem inside **vLLM Tutorial: High-Performance LLM Inference**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `vllm`, `instance`, `result` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Distributed Inference - Scaling Across GPUs and Nodes` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `print`.
+2. **Input normalization**: shape incoming data so `self` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `instance_id`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/vllm-project/vllm)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `print` and `self` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Performance Optimization - Maximizing Throughput and Efficiency](05-performance-optimization.md)
+- [Next Chapter: Chapter 7: Production Deployment - Serving vLLM at Scale](07-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

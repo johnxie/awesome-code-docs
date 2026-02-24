@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: Facial Recognition
 
+Welcome to **Chapter 5: Facial Recognition**. In this part of **PhotoPrism Tutorial: AI-Powered Photos App**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 This chapter covers PhotoPrism's facial recognition capabilities for identifying and organizing people in your photos.
 
 ## 👥 Setting Up Facial Recognition
@@ -308,3 +311,53 @@ const personInsights = {
 - Performance can be optimized with hardware
 - Regular maintenance improves results
 - Face data is stored locally and securely
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `photos`, `face`, `person` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Facial Recognition` as an operating subsystem inside **PhotoPrism Tutorial: AI-Powered Photos App**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `faces`, `recognition`, `entries` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Facial Recognition` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `photos`.
+2. **Input normalization**: shape incoming data so `face` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `person`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [github.com/photoprism/photoprism](https://github.com/photoprism/photoprism)
+  Why it matters: authoritative reference on `github.com/photoprism/photoprism` (github.com).
+- [github.com/photoprism/photoprism/discussions](https://github.com/photoprism/photoprism/discussions)
+  Why it matters: authoritative reference on `github.com/photoprism/photoprism/discussions` (github.com).
+- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `photos` and `face` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Search & Discovery](04-search-discovery.md)
+- [Next Chapter: Chapter 6: API Integration](06-api-integration.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

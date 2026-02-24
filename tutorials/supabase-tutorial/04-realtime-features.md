@@ -7,6 +7,9 @@ nav_order: 4
 
 # Chapter 4: Real-time Features
 
+Welcome to **Chapter 4: Real-time Features**. In this part of **Supabase Tutorial: Building Modern Backend Applications**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 In [Chapter 3](03-authentication.md), you built a complete authentication system with multiple sign-in methods and team-based RLS policies. Now it is time to make your application come alive. Supabase Realtime lets you subscribe to database changes, broadcast messages between clients, and track user presence -- all over WebSocket connections. In this chapter you will subscribe to table changes with `postgres_changes`, build a live chat application, implement collaborative presence indicators, and handle reconnection gracefully.
 
 ## How Supabase Realtime Works
@@ -971,3 +974,49 @@ Your application now has live data synchronization. In [Chapter 5: Storage & Fil
 ---
 
 *Built with insights from the [Supabase](https://github.com/supabase/supabase) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `supabase`, `payload`, `channel` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Real-time Features` as an operating subsystem inside **Supabase Tutorial: Building Modern Backend Applications**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `messages`, `status`, `prev` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Real-time Features` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `supabase`.
+2. **Input normalization**: shape incoming data so `payload` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `channel`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/supabase/supabase)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `supabase` and `payload` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Authentication & Authorization](03-authentication.md)
+- [Next Chapter: Chapter 5: Storage & File Management](05-storage-management.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

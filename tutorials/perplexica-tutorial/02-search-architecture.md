@@ -7,6 +7,9 @@ nav_order: 2
 
 # Chapter 2: Search Engine Architecture
 
+Welcome to **Chapter 2: Search Engine Architecture**. In this part of **Perplexica Tutorial: AI-Powered Search Engine**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Understanding Perplexica's architecture is key to customizing and extending the search engine. This chapter explores every layer of the system -- from the moment a user types a query to the final synthesized answer with citations. By the end, you will know how each component communicates, where data is stored, and how to extend the architecture for your own use cases.
 
 ## High-Level System Overview
@@ -526,3 +529,49 @@ Now that you understand how the pieces fit together, the next chapter dives deep
 ---
 
 *Built with insights from the [Perplexica](https://github.com/ItzCrazyKns/Perplexica) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `classDef`, `fill`, `stroke` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 2: Search Engine Architecture` as an operating subsystem inside **Perplexica Tutorial: AI-Powered Search Engine**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `config`, `Search`, `search` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 2: Search Engine Architecture` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `classDef`.
+2. **Input normalization**: shape incoming data so `fill` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `stroke`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/ItzCrazyKns/Perplexica)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `classDef` and `fill` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started with Perplexica](01-getting-started.md)
+- [Next Chapter: Chapter 3: AI Integration](03-ai-integration.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

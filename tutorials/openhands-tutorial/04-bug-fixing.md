@@ -8,6 +8,9 @@ parent: OpenHands Tutorial
 
 # Chapter 4: Bug Fixing - Autonomous Debugging and Resolution
 
+Welcome to **Chapter 4: Bug Fixing - Autonomous Debugging and Resolution**. In this part of **OpenHands Tutorial: Autonomous Software Engineering Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master OpenHands' systematic approach to identifying, diagnosing, and resolving code issues across multiple languages and frameworks.
 
 ## Overview
@@ -819,3 +822,53 @@ Next, we'll explore **testing** - OpenHands' ability to create comprehensive tes
 **Ready for the next chapter?** [Chapter 5: Testing](05-testing.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `issues`, `Issue`, `error` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Bug Fixing - Autonomous Debugging and Resolution` as an operating subsystem inside **OpenHands Tutorial: Autonomous Software Engineering Workflows**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `OpenHands`, `code`, `debugging` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Bug Fixing - Autonomous Debugging and Resolution` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `issues`.
+2. **Input normalization**: shape incoming data so `Issue` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `error`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [OpenHands Repository](https://github.com/OpenHands/OpenHands)
+  Why it matters: authoritative reference on `OpenHands Repository` (github.com).
+- [OpenHands Docs](https://docs.openhands.dev/)
+  Why it matters: authoritative reference on `OpenHands Docs` (docs.openhands.dev).
+- [OpenHands Releases](https://github.com/OpenHands/OpenHands/releases)
+  Why it matters: authoritative reference on `OpenHands Releases` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `issues` and `Issue` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Code Generation - Creating Production-Ready Code](03-code-generation.md)
+- [Next Chapter: Chapter 5: Testing - Comprehensive Test Suite Generation and Quality Assurance](05-testing.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
