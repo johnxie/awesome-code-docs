@@ -8,6 +8,9 @@ parent: llama.cpp Tutorial
 
 # Chapter 3: Command Line Interface
 
+Welcome to **Chapter 3: Command Line Interface**. In this part of **llama.cpp Tutorial: Local LLM Inference**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master llama-cli with advanced options, interactive modes, and conversation management.
 
 ## Overview
@@ -489,4 +492,52 @@ tmux attach-session -t $session_name
 ./llama-cli -m model.gguf --temp 0.8 --top-k 40 --top-p 0.9
 ```
 
-The CLI provides complete control over model behavior. Experiment with different parameters to find what works best for your specific use case and model. 
+The CLI provides complete control over model behavior. Experiment with different parameters to find what works best for your specific use case and model.
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `model`, `llama`, `gguf` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: Command Line Interface` as an operating subsystem inside **llama.cpp Tutorial: Local LLM Inference**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `prompt`, `float`, `file` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: Command Line Interface` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `model`.
+2. **Input normalization**: shape incoming data so `llama` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `gguf`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/ggerganov/llama.cpp)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `model` and `llama` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Model Formats and GGUF](02-model-formats.md)
+- [Next Chapter: Chapter 4: Server Mode](04-server.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

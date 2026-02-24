@@ -8,6 +8,9 @@ parent: "Dify Platform Deep Dive"
 
 # Chapter 4: RAG Implementation
 
+Welcome to **Chapter 4: RAG Implementation**. In this part of **Dify Platform: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Building retrieval-augmented generation systems with Dify's document processing and vector search capabilities
 
 ## 🎯 Learning Objectives
@@ -646,3 +649,49 @@ With RAG fundamentals mastered, we're ready to explore **Agent Framework** in th
 ---
 
 **Ready for autonomous agents?** Continue to [Chapter 5: Agent Framework](05-agent-framework.md)
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `query`, `context` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: RAG Implementation` as an operating subsystem inside **Dify Platform: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `documents`, `relevant`, `retrieved` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: RAG Implementation` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `query` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `context`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Dify](https://github.com/langgenius/dify)
+  Why it matters: authoritative reference on `Dify` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `query` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: Workflow Engine](03-workflow-engine.md)
+- [Next Chapter: Chapter 5: Agent Framework](05-agent-framework.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

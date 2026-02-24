@@ -8,6 +8,9 @@ parent: "Khoj AI - Personal Assistant Deep Dive"
 
 # Chapter 7: Customization & Plugins
 
+Welcome to **Chapter 7: Customization & Plugins**. In this part of **Khoj AI: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Khoj is designed to be customizable at every layer, from the embedding models and LLM backends to the data processors and response behavior. This chapter explores how to tailor Khoj to your specific needs through model configuration, custom data type processors, prompt personalization, and the extension architecture.
 
 ## Customization Overview
@@ -1043,3 +1046,49 @@ In [Chapter 8: Production Deployment](08-production-deployment.md), we will cove
 
 ---
 *Built with insights from the [Khoj](https://github.com/khoj-ai/khoj) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `model_name`, `model`, `config` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: Customization & Plugins` as an operating subsystem inside **Khoj AI: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `content`, `self`, `Custom` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: Customization & Plugins` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `model_name`.
+2. **Input normalization**: shape incoming data so `model` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `config`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Khoj](https://github.com/khoj-ai/khoj)
+  Why it matters: authoritative reference on `Khoj` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `model_name` and `model` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Automation & Agents](06-automation-and-agents.md)
+- [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

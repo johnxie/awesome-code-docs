@@ -7,6 +7,9 @@ nav_order: 7
 
 # Chapter 7: Testing and Validation
 
+Welcome to **Chapter 7: Testing and Validation**. In this part of **Dyad Tutorial: Local-First AI App Building**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 AI-generated code needs the same rigorous testing as hand-written code -- sometimes more. Because Dyad produces entire components and service layers from natural language prompts, having a comprehensive testing strategy ensures that the generated output behaves correctly, handles edge cases, and remains maintainable as your application evolves. In this chapter, we will cover unit testing, integration testing, end-to-end testing, and validation techniques specifically tailored for Dyad applications.
 
 ## The Testing Pyramid for Dyad Apps
@@ -903,3 +906,53 @@ With a solid testing foundation, your applications are ready for the real world.
 ---
 
 *Built with insights from the [Dyad](https://github.com/dyad-sh/dyad) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `expect`, `name`, `test` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: Testing and Validation` as an operating subsystem inside **Dyad Tutorial: Local-First AI App Building**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `email`, `result`, `page` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: Testing and Validation` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `expect`.
+2. **Input normalization**: shape incoming data so `name` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `test`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
+  Why it matters: authoritative reference on `Dyad README` (github.com).
+- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
+  Why it matters: authoritative reference on `Dyad Releases` (github.com).
+- [Dyad Repository](https://github.com/dyad-sh/dyad)
+  Why it matters: authoritative reference on `Dyad Repository` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `expect` and `name` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Customization and Styling](06-customization-styling.md)
+- [Next Chapter: Chapter 8: Deployment and Sharing](08-deployment-sharing.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

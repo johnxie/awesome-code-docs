@@ -8,6 +8,9 @@ parent: "Khoj AI - Personal Assistant Deep Dive"
 
 # Chapter 2: Architecture Overview
 
+Welcome to **Chapter 2: Architecture Overview**. In this part of **Khoj AI: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Understanding Khoj's architecture is essential for effectively configuring, extending, and troubleshooting the system. Khoj is built as a modular, Django-based web application that orchestrates data ingestion, semantic search, and LLM-powered chat into a unified personal assistant experience. This chapter explores each architectural layer in depth.
 
 ## High-Level System Architecture
@@ -950,3 +953,49 @@ In [Chapter 3: Data Connectors](03-data-connectors.md), we will dive deep into e
 
 ---
 *Built with insights from the [Khoj](https://github.com/khoj-ai/khoj) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `query`, `list` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 2: Architecture Overview` as an operating subsystem inside **Khoj AI: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `search`, `content`, `Engine` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 2: Architecture Overview` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `query` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `list`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Khoj](https://github.com/khoj-ai/khoj)
+  Why it matters: authoritative reference on `Khoj` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `query` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
+- [Next Chapter: Chapter 3: Data Connectors](03-data-connectors.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
