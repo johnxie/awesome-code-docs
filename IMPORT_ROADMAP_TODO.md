@@ -1,6 +1,6 @@
 # Import Roadmap TODO (Vibe Coding + Agent Ecosystem)
 
-_Last updated: February 12, 2026_
+_Last updated: auto-maintained as packs merge_
 
 This roadmap tracks the next highest-impact tutorial imports for `awesome-code-docs`, prioritized by ecosystem impact, recency, and strategic fit with AI coding agents, vibe coding, and MCP workflows.
 

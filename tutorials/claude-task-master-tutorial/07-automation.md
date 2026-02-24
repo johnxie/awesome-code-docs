@@ -8,6 +8,9 @@ parent: Claude Task Master Tutorial
 
 # Chapter 7: Automation, CI/CD, and Guardrails
 
+Welcome to **Chapter 7: Automation, CI/CD, and Guardrails**. In this part of **Claude Task Master Tutorial: AI-Powered Task Management for Developers**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Wire Claude into automated pipelines with predictable, testable outputs.
 
 Automation is where Task Master transitions from a developer tool into an infrastructure component. By integrating AI-powered task management into your Git hooks, CI/CD pipelines, PR review workflows, and scheduled jobs, you create a system that continuously analyzes, validates, and improves your project without manual intervention.
@@ -543,3 +546,49 @@ With your automation pipeline in place, it is time to harden Task Master for pro
 4. Set up a nightly scheduled job to scan for stale tasks and generate progress reports
 
 *Built with insights from the [Claude Task Master](https://github.com/eyaltoledano/claude-task-master) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `task`, `master`, `review` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: Automation, CI/CD, and Guardrails` as an operating subsystem inside **Claude Task Master Tutorial: AI-Powered Task Management for Developers**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `Task`, `Master`, `schema` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: Automation, CI/CD, and Guardrails` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `task`.
+2. **Input normalization**: shape incoming data so `master` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `review`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/eyaltoledano/claude-task-master)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `task` and `master` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Context Management & Grounding](06-context-control.md)
+- [Next Chapter: Chapter 8: Production Hardening, Cost, and Reliability](08-production.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

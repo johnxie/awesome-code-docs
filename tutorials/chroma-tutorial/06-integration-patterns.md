@@ -7,6 +7,9 @@ nav_order: 6
 
 # Chapter 6: Integration Patterns
 
+Welcome to **Chapter 6: Integration Patterns**. In this part of **ChromaDB Tutorial: Building AI-Native Vector Databases**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Learn how to integrate Chroma with popular AI frameworks and applications! This chapter covers deep integration patterns with LangChain, LlamaIndex, Haystack, and direct API usage -- giving you the flexibility to embed Chroma into any AI pipeline.
 
 ## Integration Architecture Overview
@@ -989,3 +992,49 @@ Ready for production? In [Chapter 7: Production Deployment](07-production-deploy
 4. Set up an embedding model A/B test with parallel Chroma collections
 
 *Built with insights from the [Chroma](https://github.com/chroma-core/chroma) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `documents`, `Chroma`, `query` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Integration Patterns` as an operating subsystem inside **ChromaDB Tutorial: Building AI-Native Vector Databases**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `chromadb`, `metadatas`, `self` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Integration Patterns` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `documents`.
+2. **Input normalization**: shape incoming data so `Chroma` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `query`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/chroma-core/chroma)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `documents` and `Chroma` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Metadata & Filtering](05-metadata-filtering.md)
+- [Next Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

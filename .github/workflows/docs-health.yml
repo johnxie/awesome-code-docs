@@ -36,9 +36,17 @@ jobs:
             --output-json /tmp/tutorial-index.json \
             --llms /tmp/llms.txt \
             --llms-full /tmp/llms-full.txt \
-            --directory-md /tmp/tutorial-directory.md
+            --directory-md /tmp/tutorial-directory.md \
+            --intent-md /tmp/search-intent-map.md \
+            --jsonld /tmp/tutorial-itemlist.schema.json \
+            --query-hub-md /tmp/query-hub.md \
+            --query-coverage-json /tmp/query-coverage.json
           diff -u discoverability/tutorial-index.json /tmp/tutorial-index.json
           diff -u discoverability/tutorial-directory.md /tmp/tutorial-directory.md
+          diff -u discoverability/query-hub.md /tmp/query-hub.md
+          diff -u discoverability/query-coverage.json /tmp/query-coverage.json
+          diff -u discoverability/search-intent-map.md /tmp/search-intent-map.md
+          diff -u discoverability/tutorial-itemlist.schema.json /tmp/tutorial-itemlist.schema.json
           diff -u llms.txt /tmp/llms.txt
           diff -u llms-full.txt /tmp/llms-full.txt
 
@@ -58,3 +66,11 @@ jobs:
             --gaps-output /tmp/CONTENT_GAPS_ANALYSIS.md
           diff -u TUTORIAL_STRUCTURE.md /tmp/TUTORIAL_STRUCTURE.md
           diff -u CONTENT_GAPS_ANALYSIS.md /tmp/CONTENT_GAPS_ANALYSIS.md
+
+      - name: Validate Freshness Markers
+        run: |
+          python scripts/staleness_audit.py --max-age-days 10 --fail-on-stale
+
+      - name: Report Stale Release Claims
+        run: |
+          python scripts/release_claims_audit.py --max-age-days 120

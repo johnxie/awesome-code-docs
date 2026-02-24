@@ -8,6 +8,9 @@ parent: Letta Tutorial
 
 # Chapter 7: REST API
 
+Welcome to **Chapter 7: REST API**. In this part of **Letta Tutorial: Stateful LLM Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Deploy Letta agents as REST API services for integration with applications.
 
 ## Overview
@@ -463,4 +466,52 @@ if __name__ == '__main__':
     app.run(debug=True)
 ```
 
-Next: Production deployment and scaling strategies. 
+Next: Production deployment and scaling strategies.
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `response`, `json`, `message` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: REST API` as an operating subsystem inside **Letta Tutorial: Stateful LLM Agents**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `agents`, `requests`, `messages` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: REST API` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `response`.
+2. **Input normalization**: shape incoming data so `json` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `message`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/letta-ai/letta)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `response` and `json` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Multi-Agent Systems](06-multi-agent.md)
+- [Next Chapter: Chapter 8: Production Deployment](08-production.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

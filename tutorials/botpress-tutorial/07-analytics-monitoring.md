@@ -7,6 +7,9 @@ nav_order: 7
 
 # Chapter 7: Analytics & Monitoring
 
+Welcome to **Chapter 7: Analytics & Monitoring**. In this part of **Botpress Tutorial: Open Source Conversational AI Platform**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 This chapter covers analytics, monitoring, and performance tracking for Botpress bots to ensure optimal operation and continuous improvement.
 
 ## 📊 Built-in Analytics
@@ -510,3 +513,51 @@ const logger = {
 - Alerts enable proactive issue resolution
 - A/B testing validates improvements
 - Structured logging aids debugging
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `metrics`, `message`, `length` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 7: Analytics & Monitoring` as an operating subsystem inside **Botpress Tutorial: Open Source Conversational AI Platform**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `error`, `journey`, `experiment` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 7: Analytics & Monitoring` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `metrics`.
+2. **Input normalization**: shape incoming data so `message` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `length`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [github.com/botpress/botpress](https://github.com/botpress/botpress)
+  Why it matters: authoritative reference on `github.com/botpress/botpress` (github.com).
+- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `metrics` and `message` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Advanced Features](06-advanced-features.md)
+- [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

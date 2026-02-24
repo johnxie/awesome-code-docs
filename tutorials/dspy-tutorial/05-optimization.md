@@ -8,6 +8,9 @@ parent: DSPy Tutorial
 
 # Chapter 5: Automatic Optimization - DSPy's Superpower
 
+Welcome to **Chapter 5: Automatic Optimization - DSPy's Superpower**. In this part of **DSPy Tutorial: Programming Language Models**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Discover how DSPy automatically optimizes your programs through systematic prompt engineering and model selection.
 
 ## Overview
@@ -651,3 +654,51 @@ Next, we'll explore **advanced patterns** - multi-hop reasoning, tool integratio
 **Ready for the next chapter?** [Chapter 6: Advanced Patterns](06-advanced-patterns.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `trainset`, `self`, `dspy` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Automatic Optimization - DSPy's Superpower` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `print`, `program`, `score` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Automatic Optimization - DSPy's Superpower` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `trainset`.
+2. **Input normalization**: shape incoming data so `self` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `dspy`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/stanfordnlp/dspy)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `trainset` and `self` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Retrieval-Augmented Generation (RAG) with DSPy](04-rag.md)
+- [Next Chapter: Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration](06-advanced-patterns.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

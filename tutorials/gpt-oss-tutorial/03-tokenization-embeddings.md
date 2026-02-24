@@ -8,6 +8,9 @@ parent: "GPT Open Source - Deep Dive Tutorial"
 
 # Chapter 3: Tokenization & Embeddings -- BPE, Vocabulary Construction, and Positional Encodings
 
+Welcome to **Chapter 3: Tokenization & Embeddings -- BPE, Vocabulary Construction, and Positional Encodings**. In this part of **GPT Open Source: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 ## Introduction
 
 Before any text reaches the transformer, it must be converted into a sequence of integers. This process -- tokenization -- is one of the most consequential design decisions in building a GPT model. The choice of tokenizer affects vocabulary size, sequence length, multilingual capability, and even model performance on downstream tasks.
@@ -551,3 +554,59 @@ In [Chapter 4: Training Pipeline](04-training-pipeline.md), we will examine the 
 
 ---
 *Built with insights from open-source GPT implementations.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `tokens`, `text`, `self` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: Tokenization & Embeddings -- BPE, Vocabulary Construction, and Positional Encodings` as an operating subsystem inside **GPT Open Source: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `torch`, `print`, `pair` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: Tokenization & Embeddings -- BPE, Vocabulary Construction, and Positional Encodings` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `tokens`.
+2. **Input normalization**: shape incoming data so `text` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `self`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [nanoGPT](https://github.com/karpathy/nanoGPT)
+  Why it matters: authoritative reference on `nanoGPT` (github.com).
+- [minGPT](https://github.com/karpathy/minGPT)
+  Why it matters: authoritative reference on `minGPT` (github.com).
+- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
+  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
+- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
+  Why it matters: authoritative reference on `GPT-Neo` (github.com).
+- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
+  Why it matters: authoritative reference on `GPT-J` (github.com).
+- [Chapter 1: Getting Started](01-getting-started.md)
+  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+
+Suggested trace strategy:
+- search upstream code for `tokens` and `text` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Transformer Architecture -- Self-Attention, Multi-Head Attention, and Feed-Forward Networks](02-transformer-architecture.md)
+- [Next Chapter: Chapter 4: Training Pipeline -- Data Loading, Loss Computation, Gradient Accumulation, and Mixed Precision](04-training-pipeline.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

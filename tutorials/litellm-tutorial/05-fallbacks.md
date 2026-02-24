@@ -8,6 +8,9 @@ parent: LiteLLM Tutorial
 
 # Chapter 5: Fallbacks & Retries
 
+Welcome to **Chapter 5: Fallbacks & Retries**. In this part of **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Build resilient LLM applications with automatic fallbacks, intelligent retries, and failure recovery.
 
 ## Overview
@@ -528,4 +531,153 @@ def create_resilient_client(config=RESILIENCE_CONFIG):
     return ResilientAIClient(config)
 ```
 
-These resilience patterns ensure your AI applications remain reliable and available, even when individual providers experience issues. The key is layering multiple protection mechanisms to handle different types of failures gracefully. 
+These resilience patterns ensure your AI applications remain reliable and available, even when individual providers experience issues. The key is layering multiple protection mechanisms to handle different types of failures gracefully.
+
+## Depth Expansion Playbook
+
+<!-- depth-expansion-v2 -->
+
+This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+
+### Strategic Context
+
+- tutorial: **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**
+- tutorial slug: **litellm-tutorial**
+- chapter focus: **Chapter 5: Fallbacks & Retries**
+- system context: **Litellm Tutorial**
+- objective: move from surface-level usage to repeatable engineering operation
+
+### Architecture Decomposition
+
+1. Define the runtime boundary for `Chapter 5: Fallbacks & Retries`.
+2. Separate control-plane decisions from data-plane execution.
+3. Capture input contracts, transformation points, and output contracts.
+4. Trace state transitions across request lifecycle stages.
+5. Identify extension hooks and policy interception points.
+6. Map ownership boundaries for team and automation workflows.
+7. Specify rollback and recovery paths for unsafe changes.
+8. Track observability signals for correctness, latency, and cost.
+
+### Operator Decision Matrix
+
+| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
+|:--------------|:--------------|:------------------|:---------|
+| Runtime mode | managed defaults | explicit policy config | speed vs control |
+| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
+| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
+| Rollout method | manual change | staged + canary rollout | effort vs safety |
+| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+
+### Failure Modes and Countermeasures
+
+| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
+|:-------------|:-------------|:-------------------|:---------------|
+| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
+| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
+| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
+| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
+| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
+| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+
+### Implementation Runbook
+
+1. Establish a reproducible baseline environment.
+2. Capture chapter-specific success criteria before changes.
+3. Implement minimal viable path with explicit interfaces.
+4. Add observability before expanding feature scope.
+5. Run deterministic tests for happy-path behavior.
+6. Inject failure scenarios for negative-path validation.
+7. Compare output quality against baseline snapshots.
+8. Promote through staged environments with rollback gates.
+9. Record operational lessons in release notes.
+
+### Quality Gate Checklist
+
+- [ ] chapter-level assumptions are explicit and testable
+- [ ] API/tool boundaries are documented with input/output examples
+- [ ] failure handling includes retry, timeout, and fallback policy
+- [ ] security controls include auth scopes and secret rotation plans
+- [ ] observability includes logs, metrics, traces, and alert thresholds
+- [ ] deployment guidance includes canary and rollback paths
+- [ ] docs include links to upstream sources and related tracks
+- [ ] post-release verification confirms expected behavior under load
+
+### Source Alignment
+
+- [LiteLLM Repository](https://github.com/BerriAI/litellm)
+- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
+- [LiteLLM Docs](https://docs.litellm.ai/)
+
+### Cross-Tutorial Connection Map
+
+- [Langfuse Tutorial](../langfuse-tutorial/)
+- [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
+- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
+- [Aider Tutorial](../aider-tutorial/)
+- [Chapter 1: Getting Started](01-getting-started.md)
+
+### Advanced Practice Exercises
+
+1. Build a minimal end-to-end implementation for `Chapter 5: Fallbacks & Retries`.
+2. Add instrumentation and measure baseline latency and error rate.
+3. Introduce one controlled failure and confirm graceful recovery.
+4. Add policy constraints and verify they are enforced consistently.
+5. Run a staged rollout and document rollback decision criteria.
+
+### Review Questions
+
+1. Which execution boundary matters most for this chapter and why?
+2. What signal detects regressions earliest in your environment?
+3. What tradeoff did you make between delivery speed and governance?
+4. How would you recover from the highest-impact failure mode?
+5. What must be automated before scaling to team-wide adoption?
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `model`, `messages` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Fallbacks & Retries` as an operating subsystem inside **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `models`, `response`, `claude` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Fallbacks & Retries` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `model` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `messages`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [LiteLLM Repository](https://github.com/BerriAI/litellm)
+  Why it matters: authoritative reference on `LiteLLM Repository` (github.com).
+- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
+  Why it matters: authoritative reference on `LiteLLM Releases` (github.com).
+- [LiteLLM Docs](https://docs.litellm.ai/)
+  Why it matters: authoritative reference on `LiteLLM Docs` (docs.litellm.ai).
+
+Suggested trace strategy:
+- search upstream code for `self` and `model` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Streaming & Async](04-streaming.md)
+- [Next Chapter: Chapter 6: Cost Tracking](06-cost-tracking.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -7,6 +7,9 @@ nav_order: 4
 
 # Chapter 4: Framework Integration
 
+Welcome to **Chapter 4: Framework Integration**. In this part of **BentoML Tutorial: Building Production-Ready ML Services**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 This chapter explores how to integrate BentoML with popular ML frameworks including TensorFlow, PyTorch, Scikit-learn, and others. We'll cover framework-specific optimizations, model loading, and best practices for each framework.
 
 ## TensorFlow Integration
@@ -441,3 +444,49 @@ Now that you understand framework integration, let's explore testing and validat
 4. Implement version comparison and management
 
 *Which ML framework do you use most frequently, and what optimizations would you like to implement?* 🧠
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `bentoml`, `model` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 4: Framework Integration` as an operating subsystem inside **BentoML Tutorial: Building Production-Ready ML Services**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `input_data`, `torch`, `NumpyNdarray` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 4: Framework Integration` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `bentoml` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `model`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/bentoml/BentoML)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `bentoml` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 3: API Development](03-api-development.md)
+- [Next Chapter: Chapter 5: Testing & Validation](05-testing-validation.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

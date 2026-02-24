@@ -8,6 +8,9 @@ parent: "GPT Open Source - Deep Dive Tutorial"
 
 # Chapter 1: Getting Started -- Understanding the Open-Source GPT Landscape
 
+Welcome to **Chapter 1: Getting Started -- Understanding the Open-Source GPT Landscape**. In this part of **GPT Open Source: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 ## Introduction
 
 The open-source GPT ecosystem represents one of the most significant movements in modern AI. Starting with OpenAI's release of the GPT-2 model weights in 2019, the community has built an impressive collection of implementations that range from educational single-file projects to production-grade training frameworks capable of handling models with hundreds of billions of parameters.
@@ -453,3 +456,58 @@ In [Chapter 2: Transformer Architecture](02-transformer-architecture.md), we wil
 
 ---
 *Built with insights from open-source GPT implementations.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `config`, `self`, `n_embd` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 1: Getting Started -- Understanding the Open-Source GPT Landscape` as an operating subsystem inside **GPT Open Source: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `bias`, `torch`, `n_head` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 1: Getting Started -- Understanding the Open-Source GPT Landscape` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `config`.
+2. **Input normalization**: shape incoming data so `self` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `n_embd`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [nanoGPT](https://github.com/karpathy/nanoGPT)
+  Why it matters: authoritative reference on `nanoGPT` (github.com).
+- [minGPT](https://github.com/karpathy/minGPT)
+  Why it matters: authoritative reference on `minGPT` (github.com).
+- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
+  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
+- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
+  Why it matters: authoritative reference on `GPT-Neo` (github.com).
+- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
+  Why it matters: authoritative reference on `GPT-J` (github.com).
+- [Chapter 1: Getting Started](01-getting-started.md)
+  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+
+Suggested trace strategy:
+- search upstream code for `config` and `self` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Next Chapter: Chapter 2: Transformer Architecture -- Self-Attention, Multi-Head Attention, and Feed-Forward Networks](02-transformer-architecture.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

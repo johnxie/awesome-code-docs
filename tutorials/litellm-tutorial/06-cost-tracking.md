@@ -8,6 +8,9 @@ parent: LiteLLM Tutorial
 
 # Chapter 6: Cost Tracking
 
+Welcome to **Chapter 6: Cost Tracking**. In this part of **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Monitor, analyze, and optimize your LLM spending across all providers with detailed cost insights.
 
 ## Overview
@@ -587,4 +590,54 @@ def send_cost_alerts_to_slack(webhook_url, alerts):
 # send_cost_alerts_to_slack("https://hooks.slack.com/...", alerts)
 ```
 
-Cost tracking is essential for sustainable LLM applications. With proper monitoring and optimization, you can maintain high-quality AI functionality while controlling expenses effectively. 
+Cost tracking is essential for sustainable LLM applications. With proper monitoring and optimization, you can maintain high-quality AI functionality while controlling expenses effectively.
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `model`, `cost` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Cost Tracking` as an operating subsystem inside **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `days`, `analyzer`, `response` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Cost Tracking` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `model` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `cost`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [LiteLLM Repository](https://github.com/BerriAI/litellm)
+  Why it matters: authoritative reference on `LiteLLM Repository` (github.com).
+- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
+  Why it matters: authoritative reference on `LiteLLM Releases` (github.com).
+- [LiteLLM Docs](https://docs.litellm.ai/)
+  Why it matters: authoritative reference on `LiteLLM Docs` (docs.litellm.ai).
+
+Suggested trace strategy:
+- search upstream code for `self` and `model` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Fallbacks & Retries](05-fallbacks.md)
+- [Next Chapter: Chapter 7: LiteLLM Proxy](07-proxy.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
