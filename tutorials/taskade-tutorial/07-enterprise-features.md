@@ -8,6 +8,9 @@ parent: Taskade Tutorial
 
 # Chapter 7: Enterprise Features & Advanced Workflows
 
+Welcome to **Chapter 7: Enterprise Features & Advanced Workflows**. In this part of **Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Scale Taskade for enterprise use with advanced automation, integrations, and governance features.
 
 ## Enterprise Security
@@ -862,4 +865,93 @@ class AuditLogger {
 7. **Governance**: Establish clear policies and approval workflows
 8. **Performance**: Optimize for large teams and complex project hierarchies
 
-Taskade's enterprise features transform it from a simple task manager into a comprehensive enterprise project management and automation platform. 
+Taskade's enterprise features transform it from a simple task manager into a comprehensive enterprise project management and automation platform.
+
+## What We've Accomplished
+
+✅ **Mapped enterprise security controls** including SSO, RBAC, and access boundaries
+✅ **Designed advanced automation patterns** for large-team operations
+✅ **Reviewed integration architecture** across core business systems
+✅ **Established compliance and audit practices** for enterprise reporting
+✅ **Captured operational best practices** for scalable governance
+
+## Imported Enterprise Signals (verified 2026-02-24)
+
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna) strengthens enterprise architecture guidance by treating workspace models as reusable system DNA
+- [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar) supports approval flows, routing logic, and escalations needed for controlled enterprise operations
+- [Custom AI Agents: The Intelligence Pillar](https://help.taskade.com/en/articles/8958457-custom-ai-agents-the-intelligence-pillar) aligns with role-based agent teams and specialized governance boundaries
+- [Genesis 2025: The Year Software Came Alive](https://www.taskade.com/newsletters/w/W763vDgzG2W9zRfdL3aALM3g) and [Build Apps, Dashboards, and Workflows](https://www.taskade.com/newsletters/w/mOA79zAZ3Hg9mbPpQKrRHQ) highlight roadmap direction relevant to enterprise rollout planning
+
+## Ecosystem Repo Radar (verified 2026-02-24)
+
+| Repository | Why Enterprise Teams Care | Stars | Recent Push |
+|:-----------|:--------------------------|:------|:------------|
+| [`taskade/mcp`](https://github.com/taskade/mcp) | connects Taskade operations to MCP clients for governed AI tooling | ~108 | 2026-02-13 |
+| [`taskade/docs`](https://github.com/taskade/docs) | canonical docs structure for policy, rollout, and onboarding alignment | ~10 | 2026-02-20 |
+| [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller) | self-hosted runner orchestration for enterprise CI environments | ~6 | 2026-02-23 |
+| [`taskade/taskade`](https://github.com/taskade/taskade) | platform-level app and workflow surface changes | ~4 | 2026-02-19 |
+
+## Source References
+
+- [Taskade Enterprise](https://taskade.com/enterprise)
+- [Taskade Help Center](https://help.taskade.com)
+- [Taskade Security](https://taskade.com/security)
+- [Taskade Trust Center](https://trust.taskade.com)
+- [Taskade Changelog](https://taskade.com/changelog)
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna)
+- [Custom AI Agents: The Intelligence Pillar](https://help.taskade.com/en/articles/8958457-custom-ai-agents-the-intelligence-pillar)
+- [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar)
+- [Taskade Newsletter: Genesis 2025](https://www.taskade.com/newsletters/w/W763vDgzG2W9zRfdL3aALM3g)
+- [Taskade Newsletter: Build Apps, Dashboards, and Workflows](https://www.taskade.com/newsletters/w/mOA79zAZ3Hg9mbPpQKrRHQ)
+- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
+
+## Next Steps
+
+Continue to [Chapter 8: Production Deployment](08-production-deployment.md) to implement deployment strategy, observability, backup/recovery, and long-term operations.
+
+---
+
+**Key Takeaway:** Enterprise Taskade adoption succeeds when governance, security, and automation are treated as one operating system rather than separate projects.
+
+## What Problem Does This Solve?
+
+Enterprise rollouts fail when governance is treated as an afterthought added after automation and agent systems are already running.
+
+This chapter solves that by making governance first-class:
+
+- identity and access boundaries (SSO, RBAC, team scopes)
+- auditable event trails and compliance posture
+- integration controls for large-team automation and external systems
+
+The result is an operating model where security, compliance, and delivery velocity reinforce each other instead of competing.
+
+## How it Works Under the Hood
+
+Enterprise controls are enforced through a layered pipeline:
+
+1. **Identity federation**: map corporate identity provider attributes into workspace identity.
+2. **Authorization enforcement**: apply role and resource policies at action boundaries.
+3. **Workflow policy checks**: evaluate automation/agent actions against governance constraints.
+4. **Audit event capture**: persist immutable action records for investigations and reporting.
+5. **Compliance reporting**: aggregate events into periodic control evidence and risk views.
+6. **Incident escalation**: route high-severity signals to response workflows.
+
+When auditors ask "who changed what and why," this pipeline should provide the answer without manual reconstruction.
+
+## Source Walkthrough
+
+Key enterprise references:
+
+- [Taskade Enterprise](https://taskade.com/enterprise): capability framing for enterprise controls and deployment.
+- [Taskade Security](https://taskade.com/security): security posture and control commitments.
+- [Taskade Trust Center](https://trust.taskade.com): trust/compliance evidence entry point.
+- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller): infrastructure signal for enterprise CI/runtime operations.
+- [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna): architecture context for policy inheritance.
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 6: Multi-Agent Collaboration](06-multi-agent-collaboration.md)
+- [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

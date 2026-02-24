@@ -7,6 +7,9 @@ nav_order: 2
 
 # Chapter 2: Messages API
 
+Welcome to **Chapter 2: Messages API**. In this part of **Anthropic API Tutorial: Build Production Apps with Claude**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master the core Messages API for building conversations with Claude, including multi-turn dialogues, system prompts, and message handling patterns.
 
 ## Overview
@@ -730,3 +733,53 @@ Now that you understand the Messages API, let's explore Tool Use in Chapter 3, w
 **Ready for Chapter 3?** [Tool Use](03-tool-use.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `messages`, `content`, `self` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 2: Messages API` as an operating subsystem inside **Anthropic API Tutorial: Build Production Apps with Claude**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `user`, `message`, `role` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 2: Messages API` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `messages`.
+2. **Input normalization**: shape incoming data so `content` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `self`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Anthropic Python SDK](https://github.com/anthropics/anthropic-sdk-python)
+  Why it matters: authoritative reference on `Anthropic Python SDK` (github.com).
+- [Anthropic TypeScript SDK](https://github.com/anthropics/anthropic-sdk-typescript)
+  Why it matters: authoritative reference on `Anthropic TypeScript SDK` (github.com).
+- [Anthropic Docs](https://docs.anthropic.com/)
+  Why it matters: authoritative reference on `Anthropic Docs` (docs.anthropic.com).
+
+Suggested trace strategy:
+- search upstream code for `messages` and `content` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started with the Anthropic API](01-getting-started.md)
+- [Next Chapter: Chapter 3: Tool Use](03-tool-use.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

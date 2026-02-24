@@ -188,7 +188,10 @@
 - SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/swe-agent-tutorial
 - Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/sweep-tutorial
 - Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tabby-tutorial
-- Taskade Tutorial: AI-Powered Productivity Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
+- Taskade Awesome Vibe Coding Tutorial: Curating the 2026 AI-Building Landscape: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-awesome-vibe-coding-tutorial
+- Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-docs-tutorial
+- Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-mcp-tutorial
+- Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
 - Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial

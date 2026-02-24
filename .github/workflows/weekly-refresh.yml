@@ -1,0 +1,52 @@
+name: Weekly Refresh
+
+on:
+  schedule:
+    - cron: "17 9 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate Repository Docs Assets
+        run: |
+          python scripts/generate_tutorial_manifest.py
+          python scripts/update_tutorials_readme_snapshot.py
+          python scripts/update_repo_status_docs.py
+          python scripts/generate_discoverability_assets.py
+          python scripts/refresh_market_signals.py
+          python scripts/staleness_audit.py --max-age-days 10 --json-output discoverability/staleness-report.json
+          python scripts/release_claims_audit.py --max-age-days 120 --json-output discoverability/release-claims-report.json
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: automation/weekly-refresh
+          commit-message: "chore: weekly docs/discoverability refresh"
+          title: "chore: weekly docs/discoverability refresh"
+          body: |
+            Automated weekly refresh of generated docs and discoverability assets.
+
+            Updated by workflow:
+            - tutorial manifest and structure snapshots
+            - discoverability assets (`tutorial-index.json`, directory, search intent map, `llms*.txt`)
+            - README trending market signals
+            - staleness report
+            - stale release-claim report
+          labels: |
+            automation
+            docs
