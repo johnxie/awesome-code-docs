@@ -1,81 +1,80 @@
 # SEO and Discoverability Plan
 
-Last updated: February 11, 2026
+Last updated: auto-updated by workflow refreshes and manual review.
 
-## Goals
+## Objective
 
-- increase organic discovery for "awesome code docs" and high-intent tutorial queries
-- improve crawlability and internal link clarity across README, category hubs, and tutorial indexes
-- publish machine-readable indices for search systems and LLM retrieval
+Improve discoverability for high-intent queries around open-source coding agents, MCP, RAG systems, and architecture tutorials.
 
-## Principles (aligned to primary-source guidance)
+Ranking note: no maintainer can guarantee a permanent #1 Google position. The practical goal is consistent top-tier relevance, high click quality, and compounding authority.
 
-- people-first, helpful content with clear intent and summaries
-- descriptive page titles/headings and visible contextual snippets
-- strong internal linking between related content clusters
-- crawl-friendly index/sitemap style assets with stable URLs
+## Core Principles
 
-Reference guidance:
+- people-first content with clear user intent and practical outcomes
+- accurate freshness signals (remove stale claims, automate updates)
+- strong internal linking across topic clusters and learning paths
+- machine-readable assets for search systems and LLM retrieval
 
-- Google Search Essentials: <https://developers.google.com/search/docs/fundamentals/seo-starter-guide>
+## Source Guidance
+
+- Google SEO Starter Guide: <https://developers.google.com/search/docs/fundamentals/seo-starter-guide>
 - Helpful, reliable, people-first content: <https://developers.google.com/search/docs/fundamentals/creating-helpful-content>
+- Structured data basics: <https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data>
 - Sitemaps and crawl hints: <https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap>
 - GitHub repository topics: <https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/classifying-your-repository-with-topics>
 
-## Priority Backlog
+## Active Workstreams
 
-1. README intent optimization
-- align top sections with common user intents (learn X, compare Y, build Z)
-- keep key repository stats accurate and synchronized
-- strengthen anchor text for high-value tutorial clusters
+1. README search-intent surface
+- keep "Find Tutorials by Goal" current and high-signal
+- maintain live market snapshot block from GitHub API data
+- ensure new tracks are linked from category hubs and learning paths
 
-2. Category hub modernization
-- replace stale status labels with current catalog counts
-- add "best starting points" and cross-links to learning paths
-- include trend clusters (vibe coding, MCP, agents, RAG infra)
-
-3. Tutorial index consistency
-- ensure each index includes: what it is, current snapshot, chapter map, related tutorials
-- prioritize high-traffic tracks for periodic refreshes
-
-4. Machine-readable discoverability
+2. Discoverability data assets
 - maintain `discoverability/tutorial-index.json`
+- maintain `discoverability/tutorial-directory.md`
+- maintain `discoverability/query-hub.md` + `discoverability/query-coverage.json`
+- maintain `discoverability/search-intent-map.md`
 - maintain `llms.txt` and `llms-full.txt`
-- enforce regeneration in CI
 
-5. Repository metadata hygiene
-- keep repository description, homepage, and topics aligned with current scope
-- review metadata quarterly as catalog scope evolves
+3. Freshness governance
+- run `scripts/staleness_audit.py` on high-impact docs surfaces
+- remove static date claims where automation is a better fit
+- refresh competitive market signals weekly
+- publish `release-claims-report.json` so stale snapshot lines are visible and fixable
 
-## Measurement Plan
+4. Metadata hygiene
+- keep repository description/homepage/topics aligned to scope
+- reapply metadata contract using `scripts/sync_repo_metadata.sh`
+
+## Measurement
 
 Track monthly:
 
-- repository views and unique visitors (GitHub traffic)
-- top external referrers and search terms (where available)
-- stars and forks velocity
-- issue/discussion volume from organic discovery
-- click-through patterns from README to tutorial directories
+- GitHub views and unique visitors
+- star/fork growth velocity
+- issue and discussion volume from organic discovery
+- README to tutorial click patterns (where measurable)
 
-## Editorial Cadence
+## Cadence
 
 Weekly:
 
-- verify top-level stats and latest additions in README
-- refresh stale star/release snapshots for top 20 tutorials
+- automated refresh PR for generated discoverability files
+- stale-marker audit on core docs surfaces
 
 Monthly:
 
-- refresh category hub summaries and trend clusters
-- run link and discoverability asset validation
+- review search-intent clusters and internal-link coverage
+- prune low-value copy that does not improve learning outcomes
 
 Quarterly:
 
-- prune low-value sections
-- rebalance learning paths based on current project ecosystem
+- retune topic clusters based on ecosystem shifts
+- revise metadata topics and README positioning
 
-## Execution Notes
+## Operating Rules
 
-- prefer small, focused PRs so changes are auditable
-- keep generated assets deterministic
-- avoid adding SEO content that does not improve user learning quality
+- prefer deterministic generated assets over manual snapshots
+- keep PRs focused and auditable
+- avoid SEO filler that does not improve user learning quality

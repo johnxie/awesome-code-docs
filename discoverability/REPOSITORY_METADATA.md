@@ -2,7 +2,7 @@
 
 This file tracks the canonical repository metadata used for organic discoverability on GitHub.
 
-Last verified: February 11, 2026
+Last verified: auto-updated by workflow (`scripts/sync_repo_metadata.sh`)
 
 ## Canonical Metadata
 

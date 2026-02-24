@@ -14,11 +14,12 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-185-brightgreen.svg)](#-tutorial-catalog)
-[![Content Hours](https://img.shields.io/badge/content-1980%2B%20hours-orange.svg)](#-tutorial-catalog)
+[![Tutorials](https://img.shields.io/badge/tutorials-188-brightgreen.svg)](#-tutorial-catalog)
+[![Sources](https://img.shields.io/badge/source%20repos-188%2F188%20verified-brightgreen.svg)](discoverability/tutorial-source-verification.md)
+[![Content Hours](https://img.shields.io/badge/content-2000%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
-[**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
+[**Browse Tutorials**](#-tutorial-catalog) · [**A-Z Directory**](discoverability/tutorial-directory.md) · [**Query Hub**](discoverability/query-hub.md) · [**Intent Map**](discoverability/search-intent-map.md) · [**Market Signals**](discoverability/trending-vibe-coding.md) · [**Learning Paths**](#-learning-paths) · [**Contributing**](#-contributing) · [**Community**](#-community)
 
 </div>
 
@@ -69,35 +70,87 @@ Use this quick-start map if you searched for a specific outcome.
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
+| taskade ai / genesis / mcp workflows | [Taskade](tutorials/taskade-tutorial/) | [Taskade Docs](tutorials/taskade-docs-tutorial/) → [Taskade MCP](tutorials/taskade-mcp-tutorial/) → [Taskade Awesome Vibe Coding](tutorials/taskade-awesome-vibe-coding-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) |
 | build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [MCP Quickstart Resources](tutorials/mcp-quickstart-resources-tutorial/) → [Create Python Server](tutorials/create-python-server-tutorial/) → [MCP Docs Repo](tutorials/mcp-docs-repo-tutorial/) → [Create TypeScript Server](tutorials/create-typescript-server-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](tutorials/mcp-ruby-sdk-tutorial/) → [MCP PHP SDK](tutorials/mcp-php-sdk-tutorial/) → [MCP Ext Apps](tutorials/mcp-ext-apps-tutorial/) → [MCPB](tutorials/mcpb-tutorial/) → [use-mcp](tutorials/use-mcp-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) → [MCP Chrome](tutorials/mcp-chrome-tutorial/) → [Firecrawl MCP Server](tutorials/firecrawl-mcp-server-tutorial/) |
 
 ---
 
-## 📈 Trending Vibe-Coding Repos (Verified February 12, 2026)
+## 🧭 Navigation UX Layer
 
-This section tracks high-impact open-source vibe-coding and coding-agent ecosystems with direct tutorial coverage.
+To reduce context-switching and dead ends:
 
-| Ecosystem Repo | Tutorial | Stars | Why It Matters |
-|:---------------|:---------|------:|:---------------|
-| [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad) | [Dyad Tutorial](tutorials/dyad-tutorial/) | 19,591 | local-first AI app generation workflows |
-| [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy) | [bolt.diy Tutorial](tutorials/bolt-diy-tutorial/) | 18,997 | open-source Bolt-style product builder stack |
-| [`cloudflare/vibesdk`](https://github.com/cloudflare/vibesdk) | [VibeSDK Tutorial](tutorials/vibesdk-tutorial/) | 4,762 | Cloudflare-native prompt-to-app platform architecture |
-| [`vercel/ai`](https://github.com/vercel/ai) | [Vercel AI SDK Tutorial](tutorials/vercel-ai-tutorial/) | 21,688 | production TypeScript AI app and agent SDK patterns |
-| [`cline/cline`](https://github.com/cline/cline) | [Cline Tutorial](tutorials/cline-tutorial/) | 57,809 | agentic coding with terminal/browser/MCP tools |
-| [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 22,198 | multi-mode coding agents and approval workflows |
-| [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 31,348 | IDE-native AI coding assistant architecture |
-| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | [OpenCode Tutorial](tutorials/opencode-tutorial/) | 103,218 | terminal-native coding agent with strong provider and tool controls |
-| [`sweepai/sweep`](https://github.com/sweepai/sweep) | [Sweep Tutorial](tutorials/sweep-tutorial/) | 7,636 | issue-to-PR coding agent workflows and self-hosted GitHub automation patterns |
-| [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | [Tabby Tutorial](tutorials/tabby-tutorial/) | 32,884 | self-hosted coding assistant platform for teams and enterprises |
-| [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | [Stagewise Tutorial](tutorials/stagewise-tutorial/) | 6,494 | browser-context frontend coding agent workflows with plugin and bridge architecture |
-| [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | [OpenSpec Tutorial](tutorials/openspec-tutorial/) | 23,765 | spec-driven workflow layer for predictable AI-assisted delivery |
-| [`Nano-Collective/nanocoder`](https://github.com/Nano-Collective/nanocoder) | [Nanocoder Tutorial](tutorials/nanocoder-tutorial/) | 1,318 | local-first coding-agent internals and tool loops |
-| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 78,191 | browser-native AI automation and agent execution |
-| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | [Open WebUI Tutorial](tutorials/open-webui-tutorial/) | 123,601 | self-hosted AI interface and model operations |
-| [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm) | [AnythingLLM Tutorial](tutorials/anything-llm-tutorial/) | 54,477 | self-hosted RAG workspaces and agent workflows |
+- every tutorial index now includes a **Navigation & Backlinks** block
+- each block links back to the main catalog, A-Z directory, query hub, and category hubs
+- chapter 1 entry links are pinned so readers can jump directly into each track
+
+Quick jump links:
+
+- [Tutorials Workspace Guide](tutorials/README.md)
+- [A-Z Tutorial Directory](discoverability/tutorial-directory.md)
+- [Query Hub](discoverability/query-hub.md)
+- [Search Intent Map](discoverability/search-intent-map.md)
+- [Category Hubs](#category-hubs)
 
 ---
 
+## ✅ Source Verification Status
+
+All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-02-24**:
+
+- tutorials scanned: **188**
+- tutorials with source repos: **188**
+- tutorials with unverified source repos: **0**
+- unique verified source repos: **197**
+
+Verification artifacts:
+
+- [Tutorial Source Verification Report](discoverability/tutorial-source-verification.md)
+- [Tutorial Source Verification JSON](discoverability/tutorial-source-verification.json)
+- verification script: [`scripts/verify_tutorial_sources.py`](scripts/verify_tutorial_sources.py)
+
+---
+
+## 🧬 Taskade Ecosystem Snapshot (Verified 2026-02-24)
+
+Live repository snapshot for high-intent Taskade/Genesis/AI/MCP searches.
+
+| Taskade Repo | Stars | Last Push | Tutorial Coverage |
+|:-------------|------:|:----------|:------------------|
+| [`taskade/mcp`](https://github.com/taskade/mcp) | 108+ | 2026-02-13 | [Taskade MCP Tutorial](tutorials/taskade-mcp-tutorial/) |
+| [`taskade/docs`](https://github.com/taskade/docs) | 10+ | 2026-02-20 | [Taskade Docs Tutorial](tutorials/taskade-docs-tutorial/) |
+| [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller) | 6+ | 2026-02-23 | [Taskade Tutorial](tutorials/taskade-tutorial/) (Chapter 7 repo radar) |
+| [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding) | 5+ | 2026-02-11 | [Taskade Awesome Vibe Coding Tutorial](tutorials/taskade-awesome-vibe-coding-tutorial/) |
+| [`taskade/taskade`](https://github.com/taskade/taskade) | 4+ | 2026-02-19 | [Taskade Tutorial](tutorials/taskade-tutorial/) |
+| [`taskade/temporal-parser`](https://github.com/taskade/temporal-parser) | 1+ | 2026-02-12 | [Taskade Tutorial](tutorials/taskade-tutorial/) (Ecosystem radar) |
+
+---
+
+<!-- BEGIN: TRENDING_VIBE_CODING -->
+## 📈 Trending Vibe-Coding Repos (Auto-updated 2026-02-24)
+
+Live GitHub market signals for high-impact open-source coding-agent and vibe-coding ecosystems with direct tutorial coverage.
+
+| Ecosystem Repo | Tutorial | Stars | Last Push | Why It Matters |
+|:---------------|:---------|------:|:----------|:---------------|
+| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | [Open WebUI Tutorial](tutorials/open-webui-tutorial/) | 124,777 | 2026-02-24 (0d ago) | self-hosted AI interface and model operations |
+| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | [OpenCode Tutorial](tutorials/opencode-tutorial/) | 109,764 | 2026-02-24 (0d ago) | terminal-native coding agent with strong provider and tool controls |
+| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | [Browser Use Tutorial](tutorials/browser-use-tutorial/) | 78,889 | 2026-02-24 (0d ago) | browser-native AI automation and agent execution |
+| [`daytonaio/daytona`](https://github.com/daytonaio/daytona) | [Daytona Tutorial](tutorials/daytona-tutorial/) | 60,076 | 2026-02-24 (0d ago) | sandbox infrastructure for secure AI code execution |
+| [`cline/cline`](https://github.com/cline/cline) | [Cline Tutorial](tutorials/cline-tutorial/) | 58,318 | 2026-02-24 (0d ago) | agentic coding with terminal, browser, and MCP workflows |
+| [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm) | [AnythingLLM Tutorial](tutorials/anything-llm-tutorial/) | 54,956 | 2026-02-24 (0d ago) | self-hosted RAG workspaces and agent workflows |
+| [`TabbyML/tabby`](https://github.com/TabbyML/tabby) | [Tabby Tutorial](tutorials/tabby-tutorial/) | 32,921 | 2026-02-14 (10d ago) | self-hosted coding assistant platform for teams |
+| [`continuedev/continue`](https://github.com/continuedev/continue) | [Continue Tutorial](tutorials/continue-tutorial/) | 31,501 | 2026-02-24 (0d ago) | IDE-native AI coding assistant architecture |
+| [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec) | [OpenSpec Tutorial](tutorials/openspec-tutorial/) | 25,435 | 2026-02-24 (0d ago) | spec-driven workflow layer for predictable AI-assisted delivery |
+| [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code) | [Roo Code Tutorial](tutorials/roo-code-tutorial/) | 22,367 | 2026-02-24 (0d ago) | multi-mode coding agents and approval workflows |
+| [`vercel/ai`](https://github.com/vercel/ai) | [Vercel AI SDK Tutorial](tutorials/vercel-ai-tutorial/) | 21,991 | 2026-02-24 (0d ago) | production TypeScript AI app and agent SDK patterns |
+| [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad) | [Dyad Tutorial](tutorials/dyad-tutorial/) | 19,693 | 2026-02-24 (0d ago) | local-first AI app generation workflows |
+| [`stackblitz-labs/bolt.diy`](https://github.com/stackblitz-labs/bolt.diy) | [bolt.diy Tutorial](tutorials/bolt-diy-tutorial/) | 19,039 | 2026-02-07 (17d ago) | open-source Bolt-style product builder stack |
+| [`sweepai/sweep`](https://github.com/sweepai/sweep) | [Sweep Tutorial](tutorials/sweep-tutorial/) | 7,638 | 2025-09-18 (159d ago) | issue-to-PR coding agent workflows and GitHub automation |
+| [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise) | [Stagewise Tutorial](tutorials/stagewise-tutorial/) | 6,496 | 2026-02-24 (0d ago) | browser-context frontend coding agent workflows |
+| [`cloudflare/vibesdk`](https://github.com/cloudflare/vibesdk) | [VibeSDK Tutorial](tutorials/vibesdk-tutorial/) | 4,803 | 2026-02-20 (4d ago) | Cloudflare-native prompt-to-app platform architecture |
+
+Data source: GitHub REST API (`stargazers_count`, `pushed_at`) via `scripts/refresh_market_signals.py`.
+<!-- END: TRENDING_VIBE_CODING -->
 ## 📚 Tutorial Catalog
 
 ```
@@ -225,7 +278,10 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Turborepo](tutorials/turborepo-tutorial/)** | 27K+ | Rust | High-performance monorepo builds |
 | **[n8n AI](tutorials/n8n-ai-tutorial/)** | 52K+ | Node.js | Visual AI workflow automation |
 | **[Activepieces](tutorials/activepieces-tutorial/)** | 20.8K+ | TypeScript | Open-source automation platform, custom pieces, and admin governance |
-| **[Taskade](tutorials/taskade-tutorial/)** | - | AI/Productivity | AI-powered project management |
+| **[Taskade](tutorials/taskade-tutorial/)** | 10+ | AI/Productivity | AI-native workspace workflows, Genesis app building, and production rollout patterns |
+| **[Taskade Docs](tutorials/taskade-docs-tutorial/)** | 10+ | Docs/GitBook | Documentation architecture, API coverage, release timelines, and docs governance for Taskade |
+| **[Taskade MCP](tutorials/taskade-mcp-tutorial/)** | 108+ | TypeScript/MCP | Official Taskade MCP server operations, OpenAPI codegen, and multi-client integration |
+| **[Taskade Awesome Vibe Coding](tutorials/taskade-awesome-vibe-coding-tutorial/)** | 5+ | Curated List | High-signal tool selection and governance across Genesis, coding agents, and MCP stacks |
 | **[Browser Use](tutorials/browser-use-tutorial/)** | 10K+ | Python | AI-powered browser automation |
 | **[ComfyUI](tutorials/comfyui-tutorial/)** | 65K+ | Python | Node-based AI art workflows |
 | **[MCP Python SDK](tutorials/mcp-python-sdk-tutorial/)** | 21.4K+ | Python | Building MCP servers and tool integrations |
@@ -436,10 +492,10 @@ Dyad ──→ bolt.diy ──→ Stagewise ──→ Cline ──→ Roo Code �
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        185                           ║
-║  📝 Numbered Chapters      1,483                         ║
-║  📏 Tutorial Markdown      477,000+ lines                ║
-║  ⏱️  Estimated Hours        1,980+                        ║
+║  📦 Total Tutorials        188                           ║
+║  📝 Numbered Chapters      1,507                         ║
+║  📏 Tutorial Markdown      479,000+ lines                ║
+║  ⏱️  Estimated Hours        2,000+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
 ╚══════════════════════════════════════════════════════════╝

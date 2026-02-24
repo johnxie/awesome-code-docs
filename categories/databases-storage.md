@@ -2,7 +2,7 @@
 
 > Tutorials that explain how modern data systems store, query, and scale information in production.
 
-## Snapshot (February 11, 2026)
+## Snapshot (auto-updated)
 
 - data/knowledge/analytics tracks in catalog: **14**
 - all tutorial tracks in this category follow canonical 8-chapter structure
