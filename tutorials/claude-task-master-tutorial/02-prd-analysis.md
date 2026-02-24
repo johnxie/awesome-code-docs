@@ -7,6 +7,9 @@ nav_order: 2
 
 # Chapter 2: PRD Analysis & Task Generation
 
+Welcome to **Chapter 2: PRD Analysis & Task Generation**. In this part of **Claude Task Master Tutorial: AI-Powered Task Management for Developers**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Now that you have Task Master set up, let's dive into how it analyzes Product Requirements Documents (PRDs) and generates actionable tasks. This is where Task Master truly shines - transforming high-level requirements into detailed, executable task lists.
 
 ## Understanding PRD Analysis
@@ -569,3 +572,49 @@ Now that you understand how Task Master analyzes PRDs and generates tasks, let's
 4. Try integrating with your preferred development tools
 
 *What's the most complex PRD you've written, and how could Task Master improve the process?* 📋
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `task`, `master`, `tasks` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 2: PRD Analysis & Task Generation` as an operating subsystem inside **Claude Task Master Tutorial: AI-Powered Task Management for Developers**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `Week`, `user`, `Requirements` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 2: PRD Analysis & Task Generation` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `task`.
+2. **Input normalization**: shape incoming data so `master` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `tasks`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/eyaltoledano/claude-task-master)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `task` and `master` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started with Claude Task Master](01-getting-started.md)
+- [Next Chapter: Chapter 3: Task Management & Execution](03-task-management.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

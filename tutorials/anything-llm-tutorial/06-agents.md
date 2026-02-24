@@ -8,6 +8,9 @@ parent: AnythingLLM Tutorial
 
 # Chapter 6: Agents - Intelligent Capabilities and Automation
 
+Welcome to **Chapter 6: Agents - Intelligent Capabilities and Automation**. In this part of **AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Enable AI agents with tool use, function calling, and automated workflows in AnythingLLM.
 
 ## Overview
@@ -729,3 +732,55 @@ Now that you understand agents, let's explore **API integration** and how to pro
 **Ready for Chapter 7?** [API & Integration](07-api.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `name`, `Agent`, `agent` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Agents - Intelligent Capabilities and Automation` as an operating subsystem inside **AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `tools`, `tool`, `location` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Agents - Intelligent Capabilities and Automation` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `name`.
+2. **Input normalization**: shape incoming data so `Agent` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `agent`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [AnythingLLM Repository](https://github.com/Mintplex-Labs/anything-llm)
+  Why it matters: authoritative reference on `AnythingLLM Repository` (github.com).
+- [AnythingLLM Releases](https://github.com/Mintplex-Labs/anything-llm/releases)
+  Why it matters: authoritative reference on `AnythingLLM Releases` (github.com).
+- [AnythingLLM Docs](https://docs.anythingllm.com/)
+  Why it matters: authoritative reference on `AnythingLLM Docs` (docs.anythingllm.com).
+- [AnythingLLM Website](https://anythingllm.com/)
+  Why it matters: authoritative reference on `AnythingLLM Website` (anythingllm.com).
+
+Suggested trace strategy:
+- search upstream code for `name` and `Agent` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Vector Stores - Choosing and Configuring Storage Backends](05-vector-stores.md)
+- [Next Chapter: Chapter 7: API & Integration - Programmatic Access and System Integration](07-api.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
