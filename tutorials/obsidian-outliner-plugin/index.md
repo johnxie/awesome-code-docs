@@ -3,6 +3,7 @@ layout: default
 title: "Obsidian Outliner Plugin"
 nav_order: 41
 has_children: true
+format_version: v2
 ---
 
 # Obsidian Outliner Plugin: Deep Dive Tutorial
@@ -12,6 +13,16 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/vslinko/obsidian-outliner?style=social)](https://github.com/vslinko/obsidian-outliner)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Obsidian_API-blue)](https://github.com/vslinko/obsidian-outliner)
+
+## Why This Track Matters
+
+The Obsidian Outliner plugin is an ideal case study for Obsidian plugin development — it covers the full arc from API integration and CodeMirror editor extensions to tree data structures and production maintenance.
+
+This track focuses on:
+- understanding the Obsidian plugin lifecycle and API boundaries
+- implementing custom editing behaviors with CodeMirror 6
+- managing hierarchical list structures with tree manipulation algorithms
+- packaging, releasing, and maintaining a production Obsidian plugin
 
 ## What Is This Tutorial?
 
@@ -25,7 +36,7 @@ This tutorial uses the Obsidian Outliner plugin as a case study for understandin
 | **Keyboard Shortcuts** | Custom hotkey handling and command registration |
 | **Performance** | Efficient algorithms for large documents |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -48,7 +59,7 @@ graph TB
     KEYS --> COMMANDS
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -96,6 +107,19 @@ Ready to begin? Start with [Chapter 1: Plugin Architecture](01-plugin-architectu
 6. [Chapter 6: Testing and Debugging](06-testing-debugging.md)
 7. [Chapter 7: Plugin Packaging](07-plugin-packaging.md)
 8. [Chapter 8: Production Maintenance](08-production-maintenance.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [vslinko/obsidian-outliner](https://github.com/vslinko/obsidian-outliner)
+- stars: about **2.5K**
+- project positioning: popular Obsidian plugin adding outliner-style editing to Obsidian notes
+
+## What You Will Learn
+
+- how the Obsidian Plugin API and CodeMirror 6 are used to extend editor behavior
+- how tree data structures model and manipulate hierarchical markdown lists
+- how keyboard shortcuts, commands, and hotkeys are registered and managed
+- how to package, version, and maintain an Obsidian plugin for long-term compatibility
 
 ## Source References
 

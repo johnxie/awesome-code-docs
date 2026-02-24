@@ -3,6 +3,7 @@ layout: default
 title: "Dify Platform Deep Dive"
 nav_order: 3
 has_children: true
+format_version: v2
 ---
 
 # Dify Platform: Deep Dive Tutorial
@@ -12,6 +13,16 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/langgenius/dify?style=social)](https://github.com/langgenius/dify)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-Flask-blue)](https://github.com/langgenius/dify)
+
+## Why This Track Matters
+
+Dify provides a complete open-source platform for building LLM applications with a visual workflow editor, RAG pipeline, and agent framework — reducing the time from idea to deployed AI application.
+
+This track focuses on:
+- building and deploying LLM workflows with Dify's drag-and-drop node system
+- implementing RAG pipelines with multi-stage document processing and vector search
+- orchestrating agents with tool-calling loops and reasoning chain management
+- operating Dify in production with Docker, monitoring, and security controls
 
 ## What Is Dify?
 
@@ -26,7 +37,7 @@ Dify is an open-source LLM application platform that provides a visual interface
 | **Plugin System** | Extensible architecture for custom nodes and integrations |
 | **Deployment** | One-click Docker Compose deployment |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -61,7 +72,7 @@ graph TB
     Backend --> LLM
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -111,6 +122,19 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 6. [Chapter 6: Custom Nodes](06-custom-nodes.md)
 7. [Chapter 7: Production Deployment](07-production-deployment.md)
 8. [Chapter 8: Operations Playbook](08-operations-playbook.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [langgenius/dify](https://github.com/langgenius/dify)
+- stars: about **68K**
+- project positioning: leading open-source LLM application development platform
+
+## What You Will Learn
+
+- how Dify's workflow engine executes node graphs and manages LLM pipeline state
+- how to implement multi-stage RAG with document processing, embeddings, and vector retrieval
+- how Dify's agent framework manages tool-calling loops and reasoning chains
+- how to deploy and operate Dify in production with Docker Compose and monitoring
 
 ## Source References
 

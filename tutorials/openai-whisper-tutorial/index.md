@@ -3,6 +3,7 @@ layout: default
 title: "OpenAI Whisper Tutorial"
 nav_order: 90
 has_children: true
+format_version: v2
 ---
 
 # OpenAI Whisper Tutorial: Speech Recognition and Translation
@@ -12,6 +13,16 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/openai/whisper?style=social)](https://github.com/openai/whisper)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Paper](https://img.shields.io/badge/Paper-arXiv-blue)](https://arxiv.org/abs/2212.04356)
+
+## Why This Track Matters
+
+Whisper is the most widely deployed open-source speech recognition model, and understanding how to use it effectively — from audio preprocessing to production deployment — is essential for building robust transcription pipelines.
+
+This track focuses on:
+- transcribing and translating audio with Whisper's multilingual model family
+- preprocessing audio for optimal recognition accuracy
+- optimizing Whisper for throughput with batching and hardware acceleration
+- deploying Whisper as a production service with observability and retry strategies
 
 ## What Whisper is
 
@@ -29,7 +40,7 @@ The official repository provides:
 - The `turbo` model is optimized for fast transcription but is not recommended for translation tasks.
 - Accuracy and speed vary significantly by language, audio quality, and hardware.
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You Will Learn |
 |:--------|:------|:--------------------|
@@ -84,11 +95,24 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 7. [Chapter 7: Performance Optimization](07-performance-optimization.md)
 8. [Chapter 8: Production Deployment](08-production-deployment.md)
 
+## Current Snapshot (auto-updated)
+
+- repository: [openai/whisper](https://github.com/openai/whisper)
+- stars: about **76K**
+- project positioning: open-source multilingual speech recognition model from OpenAI
+
+## What You Will Learn
+
+- how Whisper's encoder-decoder architecture and multitask token system work
+- how to preprocess audio with resampling, normalization, and segmentation
+- how to optimize Whisper performance with model sizing, batching, and quantization
+- how to deploy Whisper as a production service with proper observability and governance
+
 ## Source References
 
 - [openai/whisper repository](https://github.com/openai/whisper)
 
-## Concept Flow
+## Mental Model
 
 ```mermaid
 flowchart TD

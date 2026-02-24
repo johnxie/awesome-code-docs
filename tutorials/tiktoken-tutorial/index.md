@@ -3,6 +3,7 @@ layout: default
 title: "tiktoken Tutorial"
 nav_order: 94
 has_children: true
+format_version: v2
 ---
 
 # tiktoken Tutorial: OpenAI Token Encoding & Optimization
@@ -12,6 +13,16 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/openai/tiktoken?style=social)](https://github.com/openai/tiktoken)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-Rust-blue)](https://github.com/openai/tiktoken)
+
+## Why This Track Matters
+
+Accurate token counting is the foundation of cost control, context management, and reliable API usage with GPT models — tiktoken provides the exact same tokenization OpenAI uses, making it essential for any production OpenAI integration.
+
+This track focuses on:
+- counting tokens accurately before making API calls to control costs
+- understanding BPE tokenization and how encoding choices affect model behavior
+- optimizing prompts and chunking strategies for context window management
+- building token-aware applications for RAG, chat, and API cost governance
 
 ## 🎯 What is tiktoken?
 
@@ -28,7 +39,7 @@ has_children: true
 | **Reversible** | Lossless encoding/decoding of any text |
 | **Efficient** | ~4 bytes per token on average, excellent compression |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph LR
@@ -66,7 +77,7 @@ graph LR
     class TOKENS,COUNT,DECODED output
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
@@ -89,7 +100,7 @@ graph LR
 | **Supported Encodings** | cl100k_base, p50k_base, r50k_base, p50k_edit, gpt2 |
 | **Installation** | pip (pre-compiled wheels) |
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 
@@ -186,6 +197,12 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 6. [Chapter 6: ChatML and Tool Call Accounting](06-chatml-and-tool-calls.md)
 7. [Chapter 7: Multilingual Tokenization](07-multilingual-tokenization.md)
 8. [Chapter 8: Cost Governance](08-cost-governance.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [openai/tiktoken](https://github.com/openai/tiktoken)
+- stars: about **12K**
+- project positioning: OpenAI's official fast BPE tokenizer library used by GPT models
 
 ## Source References
 

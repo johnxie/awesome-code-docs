@@ -3,6 +3,7 @@ layout: default
 title: "Athens Research Knowledge Graph"
 nav_order: 39
 has_children: true
+format_version: v2
 ---
 
 # Athens Research: Deep Dive Tutorial
@@ -12,6 +13,16 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/athensresearch/athens?style=social)](https://github.com/athensresearch/athens)
 [![License: EPL 1.0](https://img.shields.io/badge/License-EPL_1.0-blue.svg)](https://www.eclipse.org/legal/epl-v10.html)
 [![ClojureScript](https://img.shields.io/badge/ClojureScript-Reagent-purple)](https://github.com/athensresearch/athens)
+
+## Why This Track Matters
+
+Athens Research demonstrates how a graph-first, local-first knowledge system can be built with ClojureScript and Datascript, offering a fully self-hosted alternative to cloud knowledge tools.
+
+This track focuses on:
+- understanding block-based editing with bi-directional link management
+- working with Datascript in-memory graph databases for knowledge relationships
+- building ClojureScript frontends with Re-frame state management
+- operating a local-first system with optional real-time collaboration
 
 ## What Is Athens Research?
 
@@ -26,7 +37,7 @@ Athens is an open-source knowledge management system inspired by Roam Research. 
 | **Local-First** | All data stored locally, no cloud dependency |
 | **Real-Time Collab** | Multi-user editing with conflict resolution |
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -51,7 +62,7 @@ graph TB
     State --> Data
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -100,6 +111,19 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 6. [Chapter 6: Event Handling](06-event-handling.md)
 7. [Chapter 7: Block Editor](07-block-editor.md)
 8. [Chapter 8: Rich Text](08-rich-text.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [athensresearch/athens](https://github.com/athensresearch/athens)
+- stars: about **9.5K**
+- project positioning: open-source Roam Research alternative with graph database architecture
+
+## What You Will Learn
+
+- how Athens uses Datascript as an in-memory graph database for knowledge storage
+- how bi-directional links and backlinks are managed across pages and blocks
+- how Re-frame events and subscriptions drive the ClojureScript application state
+- how the block editor handles recursive rendering and outliner-style editing
 
 ## Source References
 
