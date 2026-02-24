@@ -7,6 +7,9 @@ nav_order: 3
 
 # Chapter 3: Task Definition & Planning
 
+Welcome to **Chapter 3: Task Definition & Planning**. In this part of **CrewAI Tutorial: Building Collaborative AI Agent Teams**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Mastering task definition and planning is crucial for building effective AI crews. This chapter explores how to break down complex objectives into actionable tasks that agents can execute collaboratively.
 
 ## Task Definition Framework
@@ -450,3 +453,49 @@ Ready to equip your agents with tools? In [Chapter 4: Tool Integration](04-tool-
 ---
 
 **Key Takeaway:** Effective task planning is the foundation of successful AI crew execution. Well-planned tasks with clear dependencies, proper resource allocation, and continuous monitoring enable agents to work efficiently toward complex objectives.
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `task`, `agent` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: Task Definition & Planning` as an operating subsystem inside **CrewAI Tutorial: Building Collaborative AI Agent Teams**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `CrewTask`, `tasks`, `List` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: Task Definition & Planning` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `task` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `agent`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/crewAIInc/crewAI)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `task` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Agent Roles & Specializations](02-agent-roles.md)
+- [Next Chapter: Chapter 4: Tool Integration](04-tool-integration.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

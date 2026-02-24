@@ -8,6 +8,9 @@ parent: "Liveblocks - Real-Time Collaboration Deep Dive"
 
 # Chapter 3: Storage & Conflict Resolution
 
+Welcome to **Chapter 3: Storage & Conflict Resolution**. In this part of **Liveblocks - Real-Time Collaboration Deep Dive**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 ## Introduction
 
 Presence tells you who is here. Storage tells you what they are working on together. Liveblocks Storage is a persistent, real-time data layer that automatically resolves conflicts when multiple users edit the same data simultaneously. It is powered by CRDTs (Conflict-free Replicated Data Types), the same class of algorithms used by Figma, Apple Notes, and other world-class collaborative tools.
@@ -704,3 +707,53 @@ With shared data synchronized, it is time to add discussion capabilities. In **[
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `LiveObject`, `fill`, `todos` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 3: Storage & Conflict Resolution` as an operating subsystem inside **Liveblocks - Real-Time Collaboration Deep Dive**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `shape`, `shapes`, `todo` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 3: Storage & Conflict Resolution` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `LiveObject`.
+2. **Input normalization**: shape incoming data so `fill` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `todos`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Liveblocks GitHub Repository](https://github.com/liveblocks/liveblocks)
+  Why it matters: authoritative reference on `Liveblocks GitHub Repository` (github.com).
+- [Liveblocks Product Site](https://liveblocks.io)
+  Why it matters: authoritative reference on `Liveblocks Product Site` (liveblocks.io).
+- [Liveblocks Documentation](https://liveblocks.io/docs)
+  Why it matters: authoritative reference on `Liveblocks Documentation` (liveblocks.io).
+
+Suggested trace strategy:
+- search upstream code for `LiveObject` and `fill` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 2: Presence & Awareness](02-presence-awareness.md)
+- [Next Chapter: Chapter 4: Comments & Threads](04-comments-threads.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

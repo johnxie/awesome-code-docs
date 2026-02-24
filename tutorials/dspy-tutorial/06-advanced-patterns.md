@@ -8,6 +8,9 @@ parent: DSPy Tutorial
 
 # Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration
 
+Welcome to **Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration**. In this part of **DSPy Tutorial: Programming Language Models**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Master sophisticated DSPy patterns including multi-hop reasoning, tool integration, and complex agent workflows.
 
 ## Overview
@@ -792,3 +795,51 @@ Next, we'll explore **evaluation and metrics** - systematic evaluation and custo
 **Ready for the next chapter?** [Chapter 7: Evaluation & Metrics](07-evaluation.md)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `dspy`, `self`, `InputField` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `problem`, `task`, `OutputField` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `dspy`.
+2. **Input normalization**: shape incoming data so `self` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `InputField`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/stanfordnlp/dspy)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `dspy` and `self` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Automatic Optimization - DSPy's Superpower](05-optimization.md)
+- [Next Chapter: Chapter 7: Evaluation & Metrics - Systematic Assessment of DSPy Programs](07-evaluation.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

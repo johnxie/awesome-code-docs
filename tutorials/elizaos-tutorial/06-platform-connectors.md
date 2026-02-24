@@ -7,6 +7,9 @@ nav_order: 6
 
 # Chapter 6: Platform Connectors
 
+Welcome to **Chapter 6: Platform Connectors**. In this part of **ElizaOS: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 ## Introduction
 
 ElizaOS agents operate across multiple platforms simultaneously — Discord, Telegram, Slack, X/Twitter, and Farcaster. Each platform has its own API, message format, and interaction model. Connectors bridge the gap between platform-specific protocols and ElizaOS's unified event pipeline, allowing agents to be written once and deployed everywhere.
@@ -516,3 +519,49 @@ Configure which platforms an agent connects to:
 ---
 
 *Built with insights from the [ElizaOS repository](https://github.com/elizaOS/eliza) and community documentation.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `text`, `content`, `platform` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 6: Platform Connectors` as an operating subsystem inside **ElizaOS: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `event`, `roomId`, `client` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 6: Platform Connectors` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `text`.
+2. **Input normalization**: shape incoming data so `content` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `platform`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [ElizaOS](https://github.com/elizaOS/eliza)
+  Why it matters: authoritative reference on `ElizaOS` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `text` and `content` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 5: Memory & RAG](05-memory-rag.md)
+- [Next Chapter: Chapter 7: Multi-Agent Orchestration](07-multi-agent.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

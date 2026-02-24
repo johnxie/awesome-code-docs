@@ -7,6 +7,9 @@ nav_order: 2
 
 # Chapter 2: State Management
 
+Welcome to **Chapter 2: State Management**. In this part of **LangGraph Tutorial: Building Stateful Multi-Actor Applications**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Master state management in LangGraph! This chapter covers advanced state patterns, persistence strategies, and memory management techniques for building robust AI applications.
 
 ## Advanced State Patterns
@@ -413,3 +416,49 @@ Ready to build complex graphs? In [Chapter 3: Nodes and Edges](03-nodes-edges.md
 5. Build state synchronization for distributed agents
 
 *How will you manage state in your AI applications?* 🧠
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `state`, `Dict` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 2: State Management` as an operating subsystem inside **LangGraph Tutorial: Building Stateful Multi-Actor Applications**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `memory`, `checkpoint_id`, `List` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 2: State Management` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `self`.
+2. **Input normalization**: shape incoming data so `state` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `Dict`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/langchain-ai/langgraph)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `self` and `state` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 1: Getting Started with LangGraph](01-getting-started.md)
+- [Next Chapter: Chapter 3: Nodes and Edges](03-nodes-edges.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

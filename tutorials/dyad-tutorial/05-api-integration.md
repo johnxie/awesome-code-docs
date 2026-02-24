@@ -7,6 +7,9 @@ nav_order: 5
 
 # Chapter 5: API Integration
 
+Welcome to **Chapter 5: API Integration**. In this part of **Dyad Tutorial: Local-First AI App Building**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 APIs are the bridges that connect your Dyad applications to the broader ecosystem of services, data sources, and platforms. Whether you need to fetch weather data, process payments, send notifications, or integrate with AI services, mastering API integration is essential for building production-ready applications. In this chapter, we'll explore how Dyad simplifies connecting to external services while giving you full control over request handling, authentication, and error management.
 
 ## How API Integration Works in Dyad
@@ -786,3 +789,53 @@ With your APIs connected, your applications can now communicate with external se
 ---
 
 *Built with insights from the [Dyad](https://github.com/dyad-sh/dyad) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `response`, `Error`, `Promise` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: API Integration` as an operating subsystem inside **Dyad Tutorial: Local-First AI App Building**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `fetch`, `json`, `weather` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: API Integration` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `response`.
+2. **Input normalization**: shape incoming data so `Error` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `Promise`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Dyad README](https://github.com/dyad-sh/dyad/blob/main/README.md)
+  Why it matters: authoritative reference on `Dyad README` (github.com).
+- [Dyad Releases](https://github.com/dyad-sh/dyad/releases)
+  Why it matters: authoritative reference on `Dyad Releases` (github.com).
+- [Dyad Repository](https://github.com/dyad-sh/dyad)
+  Why it matters: authoritative reference on `Dyad Repository` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `response` and `Error` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Data Management](04-data-management.md)
+- [Next Chapter: Chapter 6: Customization and Styling](06-customization-styling.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

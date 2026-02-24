@@ -8,6 +8,9 @@ parent: Letta Tutorial
 
 # Chapter 5: Conversation Management
 
+Welcome to **Chapter 5: Conversation Management**. In this part of **Letta Tutorial: Stateful LLM Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 > Handle long-running dialogues, manage conversation state, and implement conversation patterns.
 
 ## Overview
@@ -403,4 +406,52 @@ resume_conversation("sam", "conv_123", context)
 6. **Participant Management**: Track conversation participants and their roles
 7. **Performance Monitoring**: Monitor conversation length, engagement, and outcomes
 
-Next: Coordinate multiple agents working together. 
+Next: Coordinate multiple agents working together.
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `agent_name`, `self`, `conversation` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 5: Conversation Management` as an operating subsystem inside **Letta Tutorial: Stateful LLM Agents**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `client`, `conversation_id`, `message` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 5: Conversation Management` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `agent_name`.
+2. **Input normalization**: shape incoming data so `self` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `conversation`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [View Repo](https://github.com/letta-ai/letta)
+  Why it matters: authoritative reference on `View Repo` (github.com).
+- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
+  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `agent_name` and `self` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Previous Chapter: Chapter 4: Tool Integration](04-tools.md)
+- [Next Chapter: Chapter 6: Multi-Agent Systems](06-multi-agent.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -8,6 +8,9 @@ parent: "Khoj AI - Personal Assistant Deep Dive"
 
 # Chapter 1: Getting Started
 
+Welcome to **Chapter 1: Getting Started**. In this part of **Khoj AI: Deep Dive Tutorial**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
+
+
 Khoj is an open-source AI personal assistant designed to give you natural language access to your personal knowledge base. Unlike cloud-only AI assistants, Khoj can be self-hosted, giving you full control over your data and privacy. This chapter walks you through installation, initial configuration, and connecting your first data sources.
 
 ## What is Khoj?
@@ -702,3 +705,48 @@ In [Chapter 2: Architecture Overview](02-architecture-overview.md), we will expl
 
 ---
 *Built with insights from the [Khoj](https://github.com/khoj-ai/khoj) project.*
+
+## What Problem Does This Solve?
+
+Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `print`, `khoj`, `Khoj` so behavior stays predictable as complexity grows.
+
+In practical terms, this chapter helps you avoid three common failures:
+
+- coupling core logic too tightly to one implementation path
+- missing the handoff boundaries between setup, execution, and validation
+- shipping changes without clear rollback or observability strategy
+
+After working through this chapter, you should be able to reason about `Chapter 1: Getting Started` as an operating subsystem inside **Khoj AI: Deep Dive Tutorial**, with explicit contracts for inputs, state transitions, and outputs.
+
+Use the implementation notes around `response`, `base_url`, `your` as your checklist when adapting these patterns to your own repository.
+
+## How it Works Under the Hood
+
+Under the hood, `Chapter 1: Getting Started` usually follows a repeatable control path:
+
+1. **Context bootstrap**: initialize runtime config and prerequisites for `print`.
+2. **Input normalization**: shape incoming data so `khoj` receives stable contracts.
+3. **Core execution**: run the main logic branch and propagate intermediate state through `Khoj`.
+4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
+5. **Output composition**: return canonical result payloads for downstream consumers.
+6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+
+When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Walkthrough
+
+Use the following upstream sources to verify implementation details while reading this chapter:
+
+- [Khoj](https://github.com/khoj-ai/khoj)
+  Why it matters: authoritative reference on `Khoj` (github.com).
+
+Suggested trace strategy:
+- search upstream code for `print` and `khoj` to map concrete implementation paths
+- compare docs claims against actual runtime/config code before reusing patterns in production
+
+## Chapter Connections
+
+- [Tutorial Index](index.md)
+- [Next Chapter: Chapter 2: Architecture Overview](02-architecture-overview.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)
+- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
