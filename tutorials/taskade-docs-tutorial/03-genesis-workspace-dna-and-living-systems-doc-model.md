@@ -130,7 +130,6 @@ This chapter is expanded to v1-style depth for production-grade learning and imp
 - [GitBook Config](https://github.com/taskade/docs/blob/main/.gitbook.yaml)
 - [Taskade Help Center](https://help.taskade.com)
 - [Taskade MCP](https://github.com/taskade/mcp)
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
 - [Create Your First App](https://help.taskade.com/en/articles/11957643-create-your-first-app)
 
 ### Cross-Tutorial Connection Map
@@ -632,7 +631,6 @@ Use the following upstream sources to verify implementation details while readin
   Why it matters: authoritative reference on `Taskade Help Center` (help.taskade.com).
 - [Taskade MCP](https://github.com/taskade/mcp)
   Why it matters: authoritative reference on `Taskade MCP` (github.com).
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
   Why it matters: authoritative reference on `Taskade Actions Runner Controller` (github.com).
 - [Create Your First App](https://help.taskade.com/en/articles/11957643-create-your-first-app)
   Why it matters: authoritative reference on `Create Your First App` (help.taskade.com).

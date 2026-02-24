@@ -14,8 +14,8 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-188-brightgreen.svg)](#-tutorial-catalog)
-[![Sources](https://img.shields.io/badge/source%20repos-188%2F188%20verified-brightgreen.svg)](discoverability/tutorial-source-verification.md)
+[![Tutorials](https://img.shields.io/badge/tutorials-191-brightgreen.svg)](#-tutorial-catalog)
+[![Sources](https://img.shields.io/badge/source%20repos-191%2F191%20verified-brightgreen.svg)](discoverability/tutorial-source-verification.md)
 [![Content Hours](https://img.shields.io/badge/content-2000%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -64,9 +64,11 @@ Use this quick-start map if you searched for a specific outcome.
 
 | Search Intent | Start Here | Then Go To |
 |:--------------|:-----------|:-----------|
-| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Sweep](tutorials/sweep-tutorial/) → [Tabby](tutorials/tabby-tutorial/) → [Stagewise](tutorials/stagewise-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) |
-| spec-driven AI delivery workflows | [OpenSpec](tutorials/openspec-tutorial/) | [Claude Task Master](tutorials/claude-task-master-tutorial/) → [Codex CLI](tutorials/codex-cli-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) |
-| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) |
+| open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Sweep](tutorials/sweep-tutorial/) → [Tabby](tutorials/tabby-tutorial/) → [Stagewise](tutorials/stagewise-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) → [Kiro](tutorials/kiro-tutorial/) |
+| spec-driven AI delivery workflows | [OpenSpec](tutorials/openspec-tutorial/) | [Claude Task Master](tutorials/claude-task-master-tutorial/) → [Codex CLI](tutorials/codex-cli-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Kiro](tutorials/kiro-tutorial/) |
+| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) → [Devika](tutorials/devika-tutorial/) → [BabyAGI](tutorials/babyagi-tutorial/) |
+| autonomous AI software engineers | [OpenHands](tutorials/openhands-tutorial/) | [Devika](tutorials/devika-tutorial/) → [SWE-agent](tutorials/swe-agent-tutorial/) → [Aider](tutorials/aider-tutorial/) |
+| task-driven autonomous agents | [BabyAGI](tutorials/babyagi-tutorial/) | [AutoGen](tutorials/autogen-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [LangGraph](tutorials/langgraph-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
@@ -97,10 +99,10 @@ Quick jump links:
 
 All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-02-24**:
 
-- tutorials scanned: **188**
-- tutorials with source repos: **188**
+- tutorials scanned: **191**
+- tutorials with source repos: **191**
 - tutorials with unverified source repos: **0**
-- unique verified source repos: **197**
+- unique verified source repos: **200**
 
 Verification artifacts:
 
@@ -118,7 +120,6 @@ Live repository snapshot for high-intent Taskade/Genesis/AI/MCP searches.
 |:-------------|------:|:----------|:------------------|
 | [`taskade/mcp`](https://github.com/taskade/mcp) | 108+ | 2026-02-13 | [Taskade MCP Tutorial](tutorials/taskade-mcp-tutorial/) |
 | [`taskade/docs`](https://github.com/taskade/docs) | 10+ | 2026-02-20 | [Taskade Docs Tutorial](tutorials/taskade-docs-tutorial/) |
-| [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller) | 6+ | 2026-02-23 | [Taskade Tutorial](tutorials/taskade-tutorial/) (Chapter 7 repo radar) |
 | [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding) | 5+ | 2026-02-11 | [Taskade Awesome Vibe Coding Tutorial](tutorials/taskade-awesome-vibe-coding-tutorial/) |
 | [`taskade/taskade`](https://github.com/taskade/taskade) | 4+ | 2026-02-19 | [Taskade Tutorial](tutorials/taskade-tutorial/) |
 | [`taskade/temporal-parser`](https://github.com/taskade/temporal-parser) | 1+ | 2026-02-12 | [Taskade Tutorial](tutorials/taskade-tutorial/) (Ecosystem radar) |
@@ -156,7 +157,7 @@ Data source: GitHub REST API (`stargazers_count`, `pushed_at`) via `scripts/refr
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   67+ tutorials    │   45 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   70+ tutorials    │   46 tutorials  │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -192,6 +193,8 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[Letta](tutorials/letta-tutorial/)** | 14K+ | Python | Stateful agents with long-term memory |
 | **[Anthropic Skills](tutorials/anthropic-skills-tutorial/)** | 59K+ | Python/TypeScript | Reusable AI agent capabilities, MCP integration |
 | **[Claude Flow](tutorials/claude-flow-tutorial/)** | 14.0K+ | TypeScript | Multi-agent orchestration, MCP server operations, and V2-V3 migration tradeoffs |
+| **[Devika](tutorials/devika-tutorial/)** | 19.5K+ | Python | AI software engineer agents, planning pipeline, and production governance |
+| **[BabyAGI](tutorials/babyagi-tutorial/)** | 18K+ | Python | Task-driven autonomous agent patterns, memory, and BabyAGI 2o/3 evolution |
 
 ### 🧠 LLM Frameworks & RAG
 
@@ -266,6 +269,7 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[Cloudflare VibeSDK](tutorials/vibesdk-tutorial/)** | 4.7K+ | TypeScript/Cloudflare | Build and operate a cloud-native vibe-coding platform |
 | **[HAPI](tutorials/hapi-tutorial/)** | 1.4K+ | TypeScript/CLI | Remote control and approval workflows for local coding agents |
+| **[Kiro](tutorials/kiro-tutorial/)** | - | TypeScript/AWS | Spec-driven AI IDE with steering files, hooks, and MCP-native agent workflows |
 | **[Daytona](tutorials/daytona-tutorial/)** | 55.3K+ | Go/TypeScript/Python | Secure sandbox infrastructure for AI-generated code and coding-agent execution |
 | **[OpenHands](tutorials/openhands-tutorial/)** | 67K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
@@ -430,12 +434,24 @@ llama.cpp ──→ vLLM ──→ LiteLLM ──→ BentoML ──→ K8s Opera
 > *"I want to understand how AI coding assistants work"*
 
 ```
-Continue ──→ Sweep ──→ OpenHands ──→ OpenCode ──→ Tabby ──→ Stagewise ──→ OpenSpec
- (code         (issue      (AI SWE      (terminal        (self-hosted     (frontend       (spec-driven
-  completion)   to PR)      agent)       coding agent)    assistant)       browser agent)  delivery)
+Continue ──→ Sweep ──→ OpenHands ──→ OpenCode ──→ Tabby ──→ Stagewise ──→ OpenSpec ──→ Kiro
+ (code         (issue      (AI SWE      (terminal        (self-hosted     (frontend       (spec-driven   (spec-driven
+  completion)   to PR)      agent)       coding agent)    assistant)       browser agent)  delivery)      AI IDE)
 ```
 
-### 🟡 Path 7: MCP Mastery
+### 🔴 Path 7: Autonomous AI Engineers
+
+> *"I want to build and understand autonomous software engineering agents"*
+
+```
+OpenHands ──→ Devika ──→ SWE-agent ──→ Mini SWE-agent ──→ Aider ──→ BabyAGI
+ (multi-agent   (planning    (SWE bench    (lightweight         (pair         (task-driven
+  OS layer)      pipeline)    framework)    agent core)          programming)   autonomy)
+```
+
+**Duration:** 30-45 hours | **Difficulty:** Advanced
+
+### 🟡 Path 8: MCP Mastery
 
 > *"I want to build AI tool servers and extend Claude with custom capabilities"*
 
@@ -447,7 +463,7 @@ MCP Python SDK ──→ FastMCP ──→ MCP Servers ──→ MCP Quickstart 
 
 **Duration:** 100-135 hours | **Difficulty:** Intermediate to Advanced
 
-### 🟢 Path 8: Speech & Voice AI
+### 🟢 Path 9: Speech & Voice AI
 
 > *"I want to build voice-first AI applications"*
 
@@ -459,7 +475,7 @@ OpenAI Whisper ──→ Whisper.cpp ──→ OpenAI Realtime Agents ──→ 
 
 **Duration:** 25-35 hours | **Difficulty:** Intermediate
 
-### 🟡 Path 9: OpenAI Ecosystem
+### 🟡 Path 10: OpenAI Ecosystem
 
 > *"I want to master OpenAI's tools and APIs"*
 
@@ -472,7 +488,7 @@ OpenAI Python SDK ──→ tiktoken ──→ OpenAI Whisper ──→ Realtime
 
 **Duration:** 35-45 hours | **Difficulty:** Beginner to Intermediate
 
-### 🔴 Path 10: Vibe Coding Platforms
+### 🔴 Path 11: Vibe Coding Platforms
 
 > *"I want to build and operate vibe-coding stacks end to end"*
 
@@ -492,9 +508,9 @@ Dyad ──→ bolt.diy ──→ Stagewise ──→ Cline ──→ Roo Code �
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        188                           ║
-║  📝 Numbered Chapters      1,507                         ║
-║  📏 Tutorial Markdown      479,000+ lines                ║
+║  📦 Total Tutorials        191                           ║
+║  📝 Numbered Chapters      1,528+                        ║
+║  📏 Tutorial Markdown      1,048,763 lines               ║
 ║  ⏱️  Estimated Hours        2,000+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║

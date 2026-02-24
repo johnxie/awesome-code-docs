@@ -26,7 +26,7 @@ Understanding how this repo is organized makes onboarding, integration planning,
 - stars: about **10**
 - forks: about **4**
 - recent push: **2026-02-20**
-- related active org repos: [`taskade/mcp`](https://github.com/taskade/mcp), [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller), [`taskade/taskade`](https://github.com/taskade/taskade)
+- related active org repos: [`taskade/mcp`](https://github.com/taskade/mcp), [`taskade/taskade`](https://github.com/taskade/taskade)
 - structure posture: GitBook-oriented docs tree with `README.md`, `SUMMARY.md`, `.gitbook.yaml`, and thematic folders for:
   - Genesis / living system builder
   - API documentation
@@ -72,7 +72,6 @@ flowchart LR
 - [GitBook Config](https://github.com/taskade/docs/blob/main/.gitbook.yaml)
 - [Taskade Help Center](https://help.taskade.com)
 - [Taskade MCP](https://github.com/taskade/mcp)
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
 - [Create Your First App](https://help.taskade.com/en/articles/11957643-create-your-first-app)
 - [How Genesis Works: Workspace DNA](https://help.taskade.com/en/articles/12578949-how-genesis-works-workspace-dna)
 - [Custom AI Agents: The Intelligence Pillar](https://help.taskade.com/en/articles/8958457-custom-ai-agents-the-intelligence-pillar)

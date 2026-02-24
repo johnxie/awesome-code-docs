@@ -28,7 +28,7 @@ Instead of manually wiring custom integrations, you can expose Taskade operation
 - forks: about **30**
 - default branch: `main`
 - recent push: **2026-02-13**
-- related org repos: [`taskade/docs`](https://github.com/taskade/docs), [`taskade/taskade`](https://github.com/taskade/taskade), [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller)
+- related org repos: [`taskade/docs`](https://github.com/taskade/docs), [`taskade/taskade`](https://github.com/taskade/taskade)
 - repo posture: active monorepo with two key packages:
   - `@taskade/mcp-server`
   - `@taskade/mcp-openapi-codegen`

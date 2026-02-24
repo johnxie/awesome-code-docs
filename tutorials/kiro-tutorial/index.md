@@ -82,10 +82,13 @@ flowchart LR
 
 ## Related Tutorials
 
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
+- [Cline Tutorial](../cline-tutorial/) — agentic VS Code coding agent with terminal, browser, and MCP
+- [Roo Code Tutorial](../roo-code-tutorial/) — multi-mode coding agents with checkpoints and approval flows
+- [OpenCode Tutorial](../opencode-tutorial/) — terminal-native coding agent with provider routing and tool safety
+- [OpenSpec Tutorial](../openspec-tutorial/) — spec-driven artifact workflow for planning and validation
+- [Claude Code Tutorial](../claude-code-tutorial/) — Anthropic's CLI-native AI coding agent
+- [HAPI Tutorial](../hapi-tutorial/) — remote control and approval workflows for local coding agents
+- [Continue Tutorial](../continue-tutorial/) — IDE-native AI coding assistant with deep context controls
 
 ---
 

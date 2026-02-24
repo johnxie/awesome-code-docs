@@ -5553,20 +5553,6 @@
         },
         {
           "archived": false,
-          "default_branch": "master",
-          "forks": 3,
-          "html_url": "https://github.com/taskade/actions-runner-controller",
-          "http_status": 200,
-          "open_issues": 8,
-          "pushed_at": "2026-02-24T09:15:15Z",
-          "reason": "",
-          "repo": "taskade/actions-runner-controller",
-          "stars": 6,
-          "updated_at": "2026-01-29T18:45:05Z",
-          "verified": true
-        },
-        {
-          "archived": false,
           "default_branch": "main",
           "forks": 1,
           "html_url": "https://github.com/taskade/taskade",
@@ -5584,7 +5570,6 @@
       "source_repos": [
         "taskade/docs",
         "taskade/mcp",
-        "taskade/actions-runner-controller",
         "taskade/taskade"
       ],
       "tutorial": "taskade-docs-tutorial",
@@ -5637,28 +5622,13 @@
           "stars": 4,
           "updated_at": "2026-02-19T19:21:13Z",
           "verified": true
-        },
-        {
-          "archived": false,
-          "default_branch": "master",
-          "forks": 3,
-          "html_url": "https://github.com/taskade/actions-runner-controller",
-          "http_status": 200,
-          "open_issues": 8,
-          "pushed_at": "2026-02-24T09:15:15Z",
-          "reason": "",
-          "repo": "taskade/actions-runner-controller",
-          "stars": 6,
-          "updated_at": "2026-01-29T18:45:05Z",
-          "verified": true
         }
       ],
       "source_repo_count": 4,
       "source_repos": [
         "taskade/mcp",
         "taskade/docs",
-        "taskade/taskade",
-        "taskade/actions-runner-controller"
+        "taskade/taskade"
       ],
       "tutorial": "taskade-mcp-tutorial",
       "unverified_repo_count": 0,
@@ -5727,20 +5697,6 @@
         },
         {
           "archived": false,
-          "default_branch": "master",
-          "forks": 3,
-          "html_url": "https://github.com/taskade/actions-runner-controller",
-          "http_status": 200,
-          "open_issues": 8,
-          "pushed_at": "2026-02-24T09:15:15Z",
-          "reason": "",
-          "repo": "taskade/actions-runner-controller",
-          "stars": 6,
-          "updated_at": "2026-01-29T18:45:05Z",
-          "verified": true
-        },
-        {
-          "archived": false,
           "default_branch": "main",
           "forks": 1,
           "html_url": "https://github.com/taskade/temporal-parser",
@@ -5760,7 +5716,6 @@
         "taskade/docs",
         "taskade/mcp",
         "taskade/awesome-vibe-coding",
-        "taskade/actions-runner-controller",
         "taskade/temporal-parser"
       ],
       "tutorial": "taskade-tutorial",

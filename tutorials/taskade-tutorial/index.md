@@ -27,7 +27,6 @@ This track gives you a practical operating model across those surfaces so teams 
 - documentation repository: [`taskade/docs`](https://github.com/taskade/docs) (about **10 stars**, recently pushed **2026-02-20**)
 - official MCP repository: [`taskade/mcp`](https://github.com/taskade/mcp) (about **108 stars**, recently pushed **2026-02-13**)
 - curated vibe-coding list: [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding) (about **5 stars**, recently pushed **2026-02-11**)
-- infrastructure runner controller: [`taskade/actions-runner-controller`](https://github.com/taskade/actions-runner-controller) (about **6 stars**, recently pushed **2026-02-23**)
 - parser utility used in automation/runtime tooling: [`taskade/temporal-parser`](https://github.com/taskade/temporal-parser) (about **1 star**, recently pushed **2026-02-12**)
 - product docs posture: active docs and help-center footprint with strong focus on Genesis, AI agents, automations, and workspace workflows
 
@@ -94,7 +93,6 @@ Recent newsletter pages were imported to keep this track aligned with product ev
 - [Taskade Docs Repo](https://github.com/taskade/docs)
 - [Taskade MCP Repo](https://github.com/taskade/mcp)
 - [Taskade Awesome Vibe Coding](https://github.com/taskade/awesome-vibe-coding)
-- [Taskade Actions Runner Controller](https://github.com/taskade/actions-runner-controller)
 - [Taskade Temporal Parser](https://github.com/taskade/temporal-parser)
 - [Taskade Product Site](https://taskade.com)
 - [Taskade Changelog](https://taskade.com/changelog)

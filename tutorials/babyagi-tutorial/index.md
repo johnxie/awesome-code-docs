@@ -79,11 +79,13 @@ flowchart LR
 
 ## Related Tutorials
 
-- [AutoGPT Tutorial](../autogen-tutorial/)
-- [SuperAGI Tutorial](../superagi-tutorial/)
-- [LangChain Tutorial](../langchain-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [CrewAI Tutorial](../crewai-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/) — browser-native autonomous task planning
+- [AutoGen Tutorial](../autogen-tutorial/) — conversational multi-agent orchestration
+- [SuperAGI Tutorial](../superagi-tutorial/) — production autonomous agent framework
+- [LangChain Tutorial](../langchain-tutorial/) — foundational agent chains and tool integration
+- [LangGraph Tutorial](../langgraph-tutorial/) — stateful multi-actor agent graphs
+- [CrewAI Tutorial](../crewai-tutorial/) — role-based collaborative agent teams
+- [Devika Tutorial](../devika-tutorial/) — autonomous AI software engineering agent
 
 ---
 
