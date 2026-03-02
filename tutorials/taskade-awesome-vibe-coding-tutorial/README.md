@@ -20,14 +20,10 @@ format_version: v2
 
 Teams can use it to reduce stack-selection time, avoid tool churn, and build consistent adoption playbooks.
 
-## Current Snapshot (verified 2026-02-24)
+## Current Snapshot (auto-updated)
 
 - repository: [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding)
-- stars: about **5**
-- forks: about **1**
-- recent push: **2026-02-11**
-- companion repos used in this track's decision context: [`taskade/mcp`](https://github.com/taskade/mcp), [`taskade/docs`](https://github.com/taskade/docs), [`taskade/taskade`](https://github.com/taskade/taskade)
-- current posture: actively curated thematic catalog with sections for app builders, coding editors/CLIs, MCP ecosystem, frameworks, workflows, and learning resources
+- stars: about **6**
 
 ## Mental Model
 

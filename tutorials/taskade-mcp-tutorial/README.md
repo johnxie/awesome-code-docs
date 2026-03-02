@@ -21,17 +21,11 @@ format_version: v2
 
 Instead of manually wiring custom integrations, you can expose Taskade operations as MCP tools and let clients like Claude Desktop, Cursor, and n8n orchestrate real work.
 
-## Current Snapshot (verified 2026-02-24)
+## Current Snapshot (auto-updated)
 
 - repository: [`taskade/mcp`](https://github.com/taskade/mcp)
-- stars: about **108**
-- forks: about **30**
-- default branch: `main`
-- recent push: **2026-02-13**
-- related org repos: [`taskade/docs`](https://github.com/taskade/docs), [`taskade/taskade`](https://github.com/taskade/taskade)
-- repo posture: active monorepo with two key packages:
-  - `@taskade/mcp-server`
-  - `@taskade/mcp-openapi-codegen`
+- stars: about **111**
+- latest release: [`v0.0.1`](https://github.com/taskade/mcp/releases/tag/v0.0.1) (published 2026-02-13)
 
 ## Mental Model
 

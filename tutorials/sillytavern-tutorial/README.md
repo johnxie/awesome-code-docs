@@ -34,6 +34,12 @@ has_children: true
 - 📝 **Chat Management** - Advanced conversation organization and search
 - 🎯 **Role-Playing Focus** - Specialized for creative writing and RP scenarios
 
+## Current Snapshot (auto-updated)
+
+- repository: [`SillyTavern/SillyTavern`](https://github.com/SillyTavern/SillyTavern)
+- stars: about **23.8k**
+- latest release: [`1.16.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.16.0) (published 2026-02-14)
+
 ## 🏗️ Architecture Overview
 
 ```mermaid

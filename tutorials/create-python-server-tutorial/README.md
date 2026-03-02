@@ -28,12 +28,9 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/create-python-server`](https://github.com/modelcontextprotocol/create-python-server)
-- stars: about **476**
-- repository status: **archived**
-- latest release tag: [`v1.0.5`](https://github.com/modelcontextprotocol/create-python-server/tags) (tag commit)
-- recent activity: updated on **February 4, 2026**
-- package: `uvx create-mcp-server` (recommended) or `pip install create-mcp-server`
-- license: MIT
+- stars: about **477**
+- latest release: [`v1.0.5`](https://github.com/modelcontextprotocol/create-python-server/releases/tag/v1.0.5) (published 2024-11-24)
+- status: **archived**
 
 ## Mental Model
 

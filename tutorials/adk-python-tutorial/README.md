@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`google/adk-python`](https://github.com/google/adk-python)
-- stars: about **17.6k**
-- latest release: [`v1.25.0`](https://github.com/google/adk-python/releases/tag/v1.25.0)
-- recent activity: updates on **February 12, 2026**
-- project positioning: code-first, model-agnostic framework for agent development and deployment
+- stars: about **18.1k**
+- latest release: [`v1.26.0`](https://github.com/google/adk-python/releases/tag/v1.26.0) (published 2026-02-26)
 
 ## Mental Model
 

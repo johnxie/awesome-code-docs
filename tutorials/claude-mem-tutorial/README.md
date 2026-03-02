@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`thedotmack/claude-mem`](https://github.com/thedotmack/claude-mem)
-- stars: about **27.4k**
-- latest release: [`v10.0.4`](https://github.com/thedotmack/claude-mem/releases/tag/v10.0.4)
-- recent activity: updates on **February 12, 2026**
-- project positioning: persistent context and memory compression plugin for Claude Code
+- stars: about **32.3k**
+- latest release: [`v10.5.2`](https://github.com/thedotmack/claude-mem/releases/tag/v10.5.2) (published 2026-02-26)
 
 ## Mental Model
 

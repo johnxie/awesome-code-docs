@@ -29,10 +29,6 @@ This track focuses on:
 
 - repository: [`langchain-ai/open-swe`](https://github.com/langchain-ai/open-swe)
 - stars: about **5.3k**
-- latest release: **none tagged** (rolling `main`)
-- recent activity: updates on **February 12, 2026**
-- maintenance status: repository README marks project as **deprecated**
-- project positioning: reference architecture for asynchronous coding-agent workflows
 
 ## Mental Model
 

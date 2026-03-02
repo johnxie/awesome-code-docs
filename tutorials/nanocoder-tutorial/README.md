@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Nano-Collective/nanocoder`](https://github.com/Nano-Collective/nanocoder)
-- stars: about **1.3k**
-- latest release: [`v1.22.4`](https://github.com/Nano-Collective/nanocoder/releases/tag/v1.22.4)
-- development activity: active with recent updates
-- project positioning in repo: community-built, local-first terminal coding agent with extensible tooling
+- stars: about **1.4k**
+- latest release: [`v1.23.0`](https://github.com/Nano-Collective/nanocoder/releases/tag/v1.23.0) (published 2026-02-26)
 
 ## Mental Model
 

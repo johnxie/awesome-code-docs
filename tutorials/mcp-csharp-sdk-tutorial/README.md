@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/csharp-sdk`](https://github.com/modelcontextprotocol/csharp-sdk)
-- stars: about **3.9k**
-- package posture: preview NuGet packages (no GitHub releases published)
-- recent activity: updated on **February 12, 2026**
-- runtime baseline: .NET 9+ for samples (project tooling references .NET 10 SDK for full dev workflow)
-- license: Apache-2.0
+- stars: about **4k**
+- latest release: [`v1.0.0`](https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v1.0.0) (published 2026-02-25)
 
 ## Mental Model
 

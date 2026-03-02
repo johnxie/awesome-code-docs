@@ -27,6 +27,12 @@ OpenClaw is an open-source, self-hosted personal AI assistant that connects to t
 | **Multi-Model** | Claude and GPT support with failover and key rotation |
 | **Security-First** | Pairing mode, Docker sandboxing, TCC permission management |
 
+## Current Snapshot (auto-updated)
+
+- repository: [`openclaw/openclaw`](https://github.com/openclaw/openclaw)
+- stars: about **247k**
+- latest release: [`v2026.3.1`](https://github.com/openclaw/openclaw/releases/tag/v2026.3.1) (published 2026-03-02)
+
 ## Architecture Overview
 
 ```mermaid

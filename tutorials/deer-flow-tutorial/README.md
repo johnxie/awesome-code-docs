@@ -34,6 +34,11 @@ has_children: true
 - 🔌 **Extensible Architecture** - Custom task types and integrations
 - ⏱️ **Scheduling** - Time-based and event-driven execution
 
+## Current Snapshot (auto-updated)
+
+- repository: [`bytedance/deer-flow`](https://github.com/bytedance/deer-flow)
+- stars: about **23.4k**
+
 ## 🏗️ Architecture Overview
 
 ```mermaid

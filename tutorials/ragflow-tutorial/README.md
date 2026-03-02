@@ -33,6 +33,12 @@ has_children: true
 - 🚀 **High Performance** - Optimized for production deployment
 - 🌐 **Web Interface** - User-friendly management console
 
+## Current Snapshot (auto-updated)
+
+- repository: [`infiniflow/ragflow`](https://github.com/infiniflow/ragflow)
+- stars: about **74k**
+- latest release: [`v0.24.0`](https://github.com/infiniflow/ragflow/releases/tag/v0.24.0) (published 2026-02-10)
+
 ## 🏗️ Architecture Overview
 
 ```mermaid

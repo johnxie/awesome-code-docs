@@ -27,10 +27,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`anthropics/claude-plugins-official`](https://github.com/anthropics/claude-plugins-official)
-- stars: about **7.3k**
-- latest release: **none tagged** (rolling `main`)
-- recent activity: updates on **February 11, 2026**
-- project positioning: Anthropic-managed directory for Claude Code plugins
+- stars: about **8.8k**
 
 ## Mental Model
 

@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`mistralai/mistral-vibe`](https://github.com/mistralai/mistral-vibe)
-- stars: about **3.0k**
-- latest release: [`v2.1.0`](https://github.com/mistralai/mistral-vibe/releases/tag/v2.1.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: minimal but capable CLI coding assistant by Mistral
+- stars: about **3.3k**
+- latest release: [`v2.3.0`](https://github.com/mistralai/mistral-vibe/releases/tag/v2.3.0) (published 2026-02-27)
 
 ## Mental Model
 

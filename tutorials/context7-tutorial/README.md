@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`upstash/context7`](https://github.com/upstash/context7)
-- stars: about **45.5k**
-- latest release: [`ctx7@0.2.4`](https://github.com/upstash/context7/releases/tag/ctx7%400.2.4)
-- recent activity: updates on **February 11, 2026**
-- project positioning: MCP + API service for current, version-specific code docs in AI coding workflows
+- stars: about **47.4k**
+- latest release: [`@upstash/context7-mcp@2.1.2`](https://github.com/upstash/context7/releases/tag/@upstash/context7-mcp@2.1.2) (published 2026-02-23)
 
 ## Mental Model
 

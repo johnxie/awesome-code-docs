@@ -30,11 +30,9 @@ HAPI wraps existing coding agents and adds a hub/web control plane so sessions c
 
 ## Current Snapshot (auto-updated)
 
-- repository: `tiann/hapi`
-- stars: ~1.4K
-- latest release line: `v0.15.x` (`v0.15.2` published February 11, 2026)
-- license: AGPL-3.0
-- key capabilities: remote approvals, PWA control, Telegram integration, multi-machine session routing
+- repository: [`tiann/hapi`](https://github.com/tiann/hapi)
+- stars: about **2k**
+- latest release: [`v0.15.4`](https://github.com/tiann/hapi/releases/tag/v0.15.4) (published 2026-03-01)
 
 ## Chapter Guide
 

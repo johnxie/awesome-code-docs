@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SWE-agent/mini-swe-agent`](https://github.com/SWE-agent/mini-swe-agent)
-- stars: about **2.9k**
-- latest release: [`v2.0.0`](https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.0.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: minimal, hackable SWE agent with strong benchmark orientation
+- stars: about **3.1k**
+- latest release: [`v2.2.6`](https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.2.6) (published 2026-03-02)
 
 ## Mental Model
 

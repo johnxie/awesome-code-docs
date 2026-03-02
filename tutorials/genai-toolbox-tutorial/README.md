@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox)
-- stars: about **12.9k**
-- latest release: [`v0.26.0`](https://github.com/googleapis/genai-toolbox/releases/tag/v0.26.0) (**January 23, 2026**)
-- license: Apache-2.0
-- recent activity: updates on **February 12, 2026**
-- project positioning: open-source MCP server for databases with native SDK and MCP integration surfaces
+- stars: about **13.2k**
+- latest release: [`v0.27.0`](https://github.com/googleapis/genai-toolbox/releases/tag/v0.27.0) (published 2026-02-13)
 
 ## Mental Model
 

@@ -57,6 +57,12 @@ Welcome to your journey through AI-native vector databases! This tutorial explor
 7. **[Chapter 7: Production Deployment](07-production-deployment.md)** - Scaling Chroma for production workloads
 8. **[Chapter 8: Performance Optimization](08-performance-optimization.md)** - Tuning and optimizing Chroma performance
 
+## Current Snapshot (auto-updated)
+
+- repository: [`chroma-core/chroma`](https://github.com/chroma-core/chroma)
+- stars: about **26.4k**
+- latest release: [`1.5.2`](https://github.com/chroma-core/chroma/releases/tag/1.5.2) (published 2026-02-27)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

@@ -118,9 +118,9 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 ## Current Snapshot (auto-updated)
 
-- repository: [nocodb/nocodb](https://github.com/nocodb/nocodb)
-- stars: about **48K**
-- project positioning: open-source Airtable alternative built on top of existing SQL databases
+- repository: [`nocodb/nocodb`](https://github.com/nocodb/nocodb)
+- stars: about **62.3k**
+- latest release: [`0.301.3`](https://github.com/nocodb/nocodb/releases/tag/0.301.3) (published 2026-02-27)
 
 ## What You Will Learn
 

@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`microsoft/playwright-mcp`](https://github.com/microsoft/playwright-mcp)
-- stars: about **27.0k**
-- latest release: [`v0.0.64`](https://github.com/microsoft/playwright-mcp/releases/tag/v0.0.64)
-- recent activity: updates on **February 9, 2026**
-- project positioning: official Playwright MCP server for structured browser automation in agent workflows
+- stars: about **28k**
+- latest release: [`v0.0.68`](https://github.com/microsoft/playwright-mcp/releases/tag/v0.0.68) (published 2026-02-14)
 
 ## Mental Model
 

@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow)
-- stars: about **14.0k**
-- latest release: [`v2.7.1-agentic-flow-1.7.4`](https://github.com/ruvnet/claude-flow/releases/tag/v2.7.1-agentic-flow-1.7.4)
-- license: MIT
-- recent activity: repository is actively maintained; verify latest commits for current status
-- project positioning: orchestration layer for Claude-centered multi-agent workflows with V3 modular package split
+- stars: about **17.8k**
+- latest release: [`v2.7.1-agentic-flow-1.7.4`](https://github.com/ruvnet/claude-flow/releases/tag/v2.7.1-agentic-flow-1.7.4) (published 2025-10-24)
 
 ## Mental Model
 

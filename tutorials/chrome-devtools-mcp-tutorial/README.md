@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ChromeDevTools/chrome-devtools-mcp`](https://github.com/ChromeDevTools/chrome-devtools-mcp)
-- stars: about **24.1k**
-- latest release: [`chrome-devtools-mcp-v0.17.0`](https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v0.17.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: MCP server for browser automation, debugging, and performance analysis
+- stars: about **27.2k**
+- latest release: [`chrome-devtools-mcp-v0.18.1`](https://github.com/ChromeDevTools/chrome-devtools-mcp/releases/tag/chrome-devtools-mcp-v0.18.1) (published 2026-02-25)
 
 ## Mental Model
 

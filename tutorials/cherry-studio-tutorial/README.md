@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`CherryHQ/cherry-studio`](https://github.com/CherryHQ/cherry-studio)
-- stars: about **39.7k**
-- latest release: [`v1.7.18`](https://github.com/CherryHQ/cherry-studio/releases/tag/v1.7.18)
-- recent activity: updates on **February 12, 2026**
-- project positioning: cross-platform AI productivity studio with assistant + MCP ecosystem
+- stars: about **40.5k**
+- latest release: [`v1.7.22`](https://github.com/CherryHQ/cherry-studio/releases/tag/v1.7.22) (published 2026-03-02)
 
 ## Mental Model
 

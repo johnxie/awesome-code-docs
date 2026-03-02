@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`github/copilot-cli`](https://github.com/github/copilot-cli)
-- stars: about **8.3k**
-- latest release: [`v0.0.407`](https://github.com/github/copilot-cli/releases/tag/v0.0.407)
-- recent activity: updates on **February 11, 2026**
-- project positioning: public-preview Copilot coding agent for terminal workflows
+- stars: about **8.9k**
+- latest release: [`v0.0.420`](https://github.com/github/copilot-cli/releases/tag/v0.0.420) (published 2026-02-27)
 
 ## Mental Model
 

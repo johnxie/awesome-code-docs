@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`fireproof-storage/fireproof`](https://github.com/fireproof-storage/fireproof)
-- stars: about **946**
-- latest tags: `v0.24.1-dev-react19` and `v0.23.8`
-- recent activity: updates on **February 11, 2026**
-- project positioning: local-first embedded document database with encrypted sync
+- stars: about **950**
 
 ## Mental Model
 

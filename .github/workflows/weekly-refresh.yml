@@ -21,7 +21,15 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Refresh Tutorial Snapshots
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/refresh_tutorial_snapshots.py
+
       - name: Regenerate Repository Docs Assets
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python scripts/generate_tutorial_manifest.py
           python scripts/update_tutorials_readme_snapshot.py

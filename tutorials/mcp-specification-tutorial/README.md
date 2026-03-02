@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/modelcontextprotocol`](https://github.com/modelcontextprotocol/modelcontextprotocol)
-- stars: about **7.1k**
-- latest release: [`2025-11-25`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2025-11-25) (**November 25, 2025**)
-- recent activity: updated on **February 12, 2026**
-- primary role: specification + schema + official docs
-- licensing note: project transition from MIT to Apache-2.0 (documentation non-spec content under CC-BY-4.0)
+- stars: about **7.4k**
+- latest release: [`2025-11-25`](https://github.com/modelcontextprotocol/modelcontextprotocol/releases/tag/2025-11-25) (published 2025-11-25)
 
 ## Mental Model
 

@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`superset-sh/superset`](https://github.com/superset-sh/superset)
-- stars: about **1.5k**
-- latest release: [`desktop-v0.0.70`](https://github.com/superset-sh/superset/releases/tag/desktop-v0.0.70)
-- recent activity: updates on **February 12, 2026**
-- project positioning: command center for CLI coding agents
+- stars: about **3.3k**
+- latest release: [`desktop-v1.0.4`](https://github.com/superset-sh/superset/releases/tag/desktop-v1.0.4) (published 2026-03-02)
 
 ## Mental Model
 

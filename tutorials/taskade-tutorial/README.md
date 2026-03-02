@@ -21,14 +21,10 @@ Taskade spans multiple product surfaces: workspace planning, app generation, aut
 
 This track gives you a practical operating model across those surfaces so teams can move from experimentation to repeatable production workflows.
 
-## Current Snapshot (verified 2026-02-24)
+## Current Snapshot (auto-updated)
 
-- platform repository: [`taskade/taskade`](https://github.com/taskade/taskade) (about **4 stars**, recently pushed **2026-02-19**)
-- documentation repository: [`taskade/docs`](https://github.com/taskade/docs) (about **10 stars**, recently pushed **2026-02-20**)
-- official MCP repository: [`taskade/mcp`](https://github.com/taskade/mcp) (about **108 stars**, recently pushed **2026-02-13**)
-- curated vibe-coding list: [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding) (about **5 stars**, recently pushed **2026-02-11**)
-- parser utility used in automation/runtime tooling: [`taskade/temporal-parser`](https://github.com/taskade/temporal-parser) (about **1 star**, recently pushed **2026-02-12**)
-- product docs posture: active docs and help-center footprint with strong focus on Genesis, AI agents, automations, and workspace workflows
+- repository: [`taskade/taskade`](https://github.com/taskade/taskade)
+- stars: about **6**
 
 ## Mental Model
 

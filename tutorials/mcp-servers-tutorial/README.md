@@ -111,9 +111,9 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ## Current Snapshot (auto-updated)
 
-- repository: [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers)
-- stars: about **13K**
-- project positioning: official MCP reference server implementations maintained by the MCP steering group
+- repository: [`modelcontextprotocol/servers`](https://github.com/modelcontextprotocol/servers)
+- stars: about **79.9k**
+- latest release: [`2026.1.26`](https://github.com/modelcontextprotocol/servers/releases/tag/2026.1.26) (published 2026-01-27)
 
 ## What You Will Learn
 

@@ -66,6 +66,12 @@ flowchart TD
     class I,J,K output
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`letta-ai/letta`](https://github.com/letta-ai/letta)
+- stars: about **21.4k**
+- latest release: [`0.16.5`](https://github.com/letta-ai/letta/releases/tag/0.16.5) (published 2026-02-24)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first agent

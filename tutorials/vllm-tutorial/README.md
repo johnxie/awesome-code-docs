@@ -52,6 +52,12 @@ flowchart TD
     class G,H,I perf
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`vllm-project/vllm`](https://github.com/vllm-project/vllm)
+- stars: about **71.7k**
+- latest release: [`v0.16.0`](https://github.com/vllm-project/vllm/releases/tag/v0.16.0) (published 2026-02-25)
+
 ## Core Technologies
 
 ### Continuous Batching

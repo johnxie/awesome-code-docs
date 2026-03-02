@@ -28,6 +28,12 @@ This comprehensive tutorial will guide you through PhotoPrism, a powerful AI-pow
 - **Web-Based Interface**: Access your photos from any device with a modern web browser
 - **API Integration**: RESTful API for third-party integrations and automation
 
+## Current Snapshot (auto-updated)
+
+- repository: [`photoprism/photoprism`](https://github.com/photoprism/photoprism)
+- stars: about **39.4k**
+- latest release: [`251130-b3068414c`](https://github.com/photoprism/photoprism/releases/tag/251130-b3068414c) (published 2025-12-01)
+
 ## 📚 Tutorial Chapters
 
 1. **[Getting Started with PhotoPrism](01-getting-started.md)** - Installation, setup, and first photo library

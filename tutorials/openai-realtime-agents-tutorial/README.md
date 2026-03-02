@@ -29,9 +29,6 @@ This track focuses on:
 
 - repository: [`openai/openai-realtime-agents`](https://github.com/openai/openai-realtime-agents)
 - stars: about **6.8k**
-- release status: no tagged releases at this time (main-branch reference implementation)
-- development activity: active with recent updates
-- project positioning in repo: demonstration patterns for advanced Realtime agent orchestration
 
 ## Mental Model
 

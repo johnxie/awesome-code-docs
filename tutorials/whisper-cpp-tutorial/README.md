@@ -53,6 +53,12 @@ Welcome to your journey through Whisper.cpp! This tutorial takes you from basic 
 7. **[Chapter 7: Platform Integration](07-platform-integration.md)** - iOS/Android/WebAssembly bindings, Python/Node.js wrappers
 8. **[Chapter 8: Production Deployment](08-deployment-production.md)** - Server mode, batch processing, GPU acceleration, and scaling patterns
 
+## Current Snapshot (auto-updated)
+
+- repository: [`ggml-org/whisper.cpp`](https://github.com/ggml-org/whisper.cpp)
+- stars: about **47.2k**
+- latest release: [`v1.8.3`](https://github.com/ggml-org/whisper.cpp/releases/tag/v1.8.3) (published 2026-01-15)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

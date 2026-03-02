@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`charmbracelet/crush`](https://github.com/charmbracelet/crush)
-- stars: about **19.7k**
-- latest release: [`v0.42.0`](https://github.com/charmbracelet/crush/releases/tag/v0.42.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: terminal-first coding agent with multi-provider, multi-session workflows
+- stars: about **20.7k**
+- latest release: [`v0.46.1`](https://github.com/charmbracelet/crush/releases/tag/v0.46.1) (published 2026-02-27)
 
 ## Mental Model
 

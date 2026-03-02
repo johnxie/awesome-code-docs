@@ -123,9 +123,8 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ## Current Snapshot (auto-updated)
 
-- repository: [anthropics/skills](https://github.com/anthropics/skills)
-- stars: about **1.2K**
-- project positioning: official reference implementation for the Agent Skills format specification
+- repository: [`anthropics/skills`](https://github.com/anthropics/skills)
+- stars: about **81.2k**
 
 ## What You Will Learn
 

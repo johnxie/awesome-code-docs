@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`hesreallyhim/awesome-claude-code`](https://github.com/hesreallyhim/awesome-claude-code)
-- stars: about **23.5k**
-- latest release: no tagged GitHub release published yet
-- recent activity: updates on **February 12, 2026**
-- project positioning: highly active curated index for Claude Code ecosystem resources
+- stars: about **25.8k**
 
 ## Mental Model
 

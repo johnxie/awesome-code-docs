@@ -57,6 +57,13 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 7. **[Chapter 7: Advanced Agent Patterns](07-advanced-patterns.md)** - Multi-agent systems and complex workflows
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling autonomous agents for real-world use
 
+## Current Snapshot (auto-updated)
+
+- repository: [`reworkd/AgentGPT`](https://github.com/reworkd/AgentGPT)
+- stars: about **35.8k**
+- latest release: [`v.1.0.0`](https://github.com/reworkd/AgentGPT/releases/tag/v.1.0.0) (published 2023-11-02)
+- status: **archived**
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

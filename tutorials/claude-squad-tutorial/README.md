@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`smtg-ai/claude-squad`](https://github.com/smtg-ai/claude-squad)
-- stars: about **6.0k**
-- latest release: [`v1.0.14`](https://github.com/smtg-ai/claude-squad/releases/tag/v1.0.14)
-- recent activity: updates on **December 24, 2025**
-- project positioning: terminal orchestrator for multiple agent sessions
+- stars: about **6.2k**
+- latest release: [`v1.0.16`](https://github.com/smtg-ai/claude-squad/releases/tag/v1.0.16) (published 2026-03-01)
 
 ## Mental Model
 

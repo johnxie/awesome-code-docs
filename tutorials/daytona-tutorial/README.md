@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`daytonaio/daytona`](https://github.com/daytonaio/daytona)
-- stars: about **55.3k**
-- latest release: [`v0.141.0`](https://github.com/daytonaio/daytona/releases/tag/v0.141.0) (**February 11, 2026**)
-- license: AGPL-3.0 (repository)
-- recent activity: updates on **February 12, 2026**
-- project positioning: secure and elastic infrastructure for running AI-generated code
+- stars: about **61.6k**
+- latest release: [`v0.148.0`](https://github.com/daytonaio/daytona/releases/tag/v0.148.0) (published 2026-02-27)
 
 ## Mental Model
 

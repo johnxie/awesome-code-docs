@@ -29,10 +29,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Fission-AI/OpenSpec`](https://github.com/Fission-AI/OpenSpec)
-- stars: about **23.8k**
-- latest release: [`v1.1.1`](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.1.1) (**January 30, 2026**)
-- recent activity: updated on **February 12, 2026**
-- positioning: tool-agnostic spec workflow system spanning 20+ coding assistants
+- stars: about **26.9k**
+- latest release: [`v1.2.0`](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.2.0) (published 2026-02-23)
 
 ## Mental Model
 

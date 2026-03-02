@@ -58,6 +58,12 @@ Welcome to your journey through the HuggingFace Transformers ecosystem! This tut
 7. **[Chapter 7: Fine-tuning Models](07-fine-tuning.md)** - Customizing models for specific tasks
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling Transformers applications
 
+## Current Snapshot (auto-updated)
+
+- repository: [`huggingface/transformers`](https://github.com/huggingface/transformers)
+- stars: about **157k**
+- latest release: [`v5.2.0`](https://github.com/huggingface/transformers/releases/tag/v5.2.0) (published 2026-02-16)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

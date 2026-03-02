@@ -26,10 +26,9 @@ This track focuses on:
 
 ## Current Snapshot (auto-updated)
 
-- tutorial scope: design and implementation patterns for code analysis platforms
-- primary references: TypeScript Compiler API, Babel parser/traverse, Tree-sitter, and LSP specification
-- chapter set includes architecture -> implementation -> operations
-- structure and links validated by repository docs-health checks
+- repository: [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)
+- stars: about **108k**
+- latest release: [`v5.9.3`](https://github.com/microsoft/TypeScript/releases/tag/v5.9.3) (published 2025-10-01)
 
 ## Mental Model
 

@@ -61,6 +61,12 @@ flowchart LR
     class G,H,I,J,K output
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`n8n-io/n8n`](https://github.com/n8n-io/n8n)
+- stars: about **177k**
+- latest release: [`n8n@2.9.4`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.9.4) (published 2026-02-25)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and first workflow

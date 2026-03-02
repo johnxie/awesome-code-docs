@@ -26,6 +26,12 @@ Khoj is an open-source AI personal assistant that transforms your scattered note
 | **Self-Hostable** | Full Docker deployment with PostgreSQL, data stays on your infrastructure |
 | **Client Integrations** | Obsidian plugin, Emacs package, web UI, WhatsApp, and API access |
 
+## Current Snapshot (auto-updated)
+
+- repository: [`khoj-ai/khoj`](https://github.com/khoj-ai/khoj)
+- stars: about **32.8k**
+- latest release: [`2.0.0-beta.25`](https://github.com/khoj-ai/khoj/releases/tag/2.0.0-beta.25) (published 2026-02-22)
+
 ## Architecture Overview
 
 ```mermaid

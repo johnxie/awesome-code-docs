@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`agentsmd/agents.md`](https://github.com/agentsmd/agents.md)
-- stars: about **17.3k**
-- latest release: **none tagged** (rolling `main`)
-- recent activity: updates on **December 19, 2025**
-- project positioning: open format specification and examples for coding-agent guidance
+- stars: about **18.4k**
 
 ## Mental Model
 

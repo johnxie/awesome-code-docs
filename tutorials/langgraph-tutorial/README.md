@@ -58,6 +58,12 @@ Welcome to your journey through stateful multi-actor applications! This tutorial
 7. **[Chapter 7: Persistence and Checkpoints](07-persistence-checkpoints.md)** - State persistence and recovery
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling and deploying LangGraph applications
 
+## Current Snapshot (auto-updated)
+
+- repository: [`langchain-ai/langgraph`](https://github.com/langchain-ai/langgraph)
+- stars: about **25.4k**
+- latest release: [`1.0.10`](https://github.com/langchain-ai/langgraph/releases/tag/1.0.10) (published 2026-02-27)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

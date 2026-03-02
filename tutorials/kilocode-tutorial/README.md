@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Kilo-Org/kilocode`](https://github.com/Kilo-Org/kilocode)
-- stars: about **15.2k**
-- latest release: [`v5.7.0`](https://github.com/Kilo-Org/kilocode/releases/tag/v5.7.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: all-in-one agentic engineering platform
+- stars: about **16.1k**
+- latest release: [`v7.0.33`](https://github.com/Kilo-Org/kilocode/releases/tag/v7.0.33) (published 2026-02-27)
 
 ## Mental Model
 

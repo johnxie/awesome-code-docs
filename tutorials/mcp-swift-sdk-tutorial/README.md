@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/swift-sdk`](https://github.com/modelcontextprotocol/swift-sdk)
-- stars: about **1.2k**
-- latest release: [`0.10.2`](https://github.com/modelcontextprotocol/swift-sdk/releases/tag/0.10.2)
-- recent activity: repository is actively maintained; verify latest commits before production rollout
-- runtime baseline: Swift 6.0+ (Xcode 16+)
-- docs note: README references MCP `2025-03-26` as latest, so verify against current protocol revisions before major rollouts
+- stars: about **1.3k**
+- latest release: [`0.11.0`](https://github.com/modelcontextprotocol/swift-sdk/releases/tag/0.11.0) (published 2026-02-19)
 
 ## Mental Model
 

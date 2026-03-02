@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`steveyegge/beads`](https://github.com/steveyegge/beads)
-- stars: about **16.0k**
-- latest release: [`v0.49.6`](https://github.com/steveyegge/beads/releases/tag/v0.49.6)
-- recent activity: updates on **February 12, 2026**
-- project positioning: distributed, git-backed graph issue tracker for coding agents
+- stars: about **17.9k**
+- latest release: [`v0.57.0`](https://github.com/steveyegge/beads/releases/tag/v0.57.0) (published 2026-03-01)
 
 ## Mental Model
 

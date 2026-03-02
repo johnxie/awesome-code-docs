@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`EveryInc/compound-engineering-plugin`](https://github.com/EveryInc/compound-engineering-plugin)
-- stars: about **8.5k**
-- latest release: [`v0.4.0`](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/v0.4.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: Claude Code marketplace with compound-engineering workflow system and cross-provider conversion CLI
+- stars: about **9.7k**
+- latest release: [`v0.8.0`](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/v0.8.0) (published 2026-02-17)
 
 ## Mental Model
 

@@ -33,6 +33,12 @@ has_children: true
 - 🔧 **Extensible Architecture** - Custom extensions and integrations
 - 🌐 **Web Interface** - User-friendly web-based platform
 
+## Current Snapshot (auto-updated)
+
+- repository: [`OpenBB-finance/OpenBB`](https://github.com/OpenBB-finance/OpenBB)
+- stars: about **62.4k**
+- latest release: [`ODP`](https://github.com/OpenBB-finance/OpenBB/releases/tag/ODP) (published 2026-02-09)
+
 ## 🏗️ Architecture Overview
 
 ```mermaid

@@ -20,18 +20,10 @@ format_version: v2
 
 Understanding how this repo is organized makes onboarding, integration planning, and documentation governance materially faster.
 
-## Current Snapshot (verified 2026-02-24)
+## Current Snapshot (auto-updated)
 
 - repository: [`taskade/docs`](https://github.com/taskade/docs)
-- stars: about **10**
-- forks: about **4**
-- recent push: **2026-02-20**
-- related active org repos: [`taskade/mcp`](https://github.com/taskade/mcp), [`taskade/taskade`](https://github.com/taskade/taskade)
-- structure posture: GitBook-oriented docs tree with `README.md`, `SUMMARY.md`, `.gitbook.yaml`, and thematic folders for:
-  - Genesis / living system builder
-  - API documentation
-  - automation and help-center coverage
-  - updates and changelog timelines
+- stars: about **11**
 
 ## Mental Model
 

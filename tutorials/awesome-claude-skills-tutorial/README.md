@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/awesome-claude-skills`](https://github.com/ComposioHQ/awesome-claude-skills)
-- stars: about **34.2k**
-- latest release: no tagged GitHub release published yet
-- recent activity: updates on **February 11, 2026**
-- project positioning: high-volume curated skills ecosystem for Claude workflows and app automation
+- stars: about **39.6k**
 
 ## Mental Model
 

@@ -29,11 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/mcpb`](https://github.com/modelcontextprotocol/mcpb)
 - stars: about **1.7k**
-- latest release: [`v2.1.2`](https://github.com/modelcontextprotocol/mcpb/releases/tag/v2.1.2) (**December 4, 2025**)
-- recent activity: updated on **February 12, 2026**
-- package baseline: `npm install -g @anthropic-ai/mcpb`
-- format note: `.dxt` tooling was renamed to `.mcpb`; update legacy references accordingly
-- license: MIT
+- latest release: [`v2.1.2`](https://github.com/modelcontextprotocol/mcpb/releases/tag/v2.1.2) (published 2025-12-04)
 
 ## Mental Model
 

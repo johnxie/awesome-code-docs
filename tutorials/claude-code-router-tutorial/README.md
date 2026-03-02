@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router)
-- stars: about **27.7k**
-- latest release: no tagged GitHub release published yet
-- recent activity: updates on **January 10, 2026**
-- project positioning: multi-provider Claude Code routing layer with CLI + server architecture
+- stars: about **28.8k**
 
 ## Mental Model
 

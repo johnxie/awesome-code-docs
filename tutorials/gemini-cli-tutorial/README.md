@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`google-gemini/gemini-cli`](https://github.com/google-gemini/gemini-cli)
-- stars: about **94.3k**
-- latest release: [`v0.28.2`](https://github.com/google-gemini/gemini-cli/releases/tag/v0.28.2)
-- recent activity: updates on **February 12, 2026**
-- project positioning: open-source Gemini-powered terminal AI agent with first-class docs and extension model
+- stars: about **96.2k**
+- latest release: [`v0.31.0`](https://github.com/google-gemini/gemini-cli/releases/tag/v0.31.0) (published 2026-02-27)
 
 ## Mental Model
 

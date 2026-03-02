@@ -67,6 +67,12 @@ Welcome to your journey through modern backend development! This tutorial explor
 7. **[Chapter 7: Advanced Queries & RLS](07-advanced-queries.md)** - Complex queries, Row Level Security, and performance optimization
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling, monitoring, and production best practices
 
+## Current Snapshot (auto-updated)
+
+- repository: [`supabase/supabase`](https://github.com/supabase/supabase)
+- stars: about **98.4k**
+- latest release: [`v1.26.02`](https://github.com/supabase/supabase/releases/tag/v1.26.02) (published 2026-02-05)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

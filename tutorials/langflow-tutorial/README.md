@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow)
-- stars: about **144.7k**
-- latest release: [`1.7.3`](https://github.com/langflow-ai/langflow/releases/tag/1.7.3)
-- development activity: very active with same-day updates
-- project positioning: visual + programmable platform for AI agents, flows, API endpoints, and MCP tooling
+- stars: about **145k**
+- latest release: [`1.7.3`](https://github.com/langflow-ai/langflow/releases/tag/1.7.3) (published 2026-01-23)
 
 ## Mental Model
 

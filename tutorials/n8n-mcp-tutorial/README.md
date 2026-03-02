@@ -25,6 +25,12 @@ This tutorial covers n8n's integration with the Model Context Protocol (MCP) —
 | **Workflow Integration** | Expose n8n workflows as MCP-callable tools |
 | **Data Storage** | Persistent context and state management |
 
+## Current Snapshot (auto-updated)
+
+- repository: [`n8n-io/n8n`](https://github.com/n8n-io/n8n)
+- stars: about **177k**
+- latest release: [`n8n@2.9.4`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.9.4) (published 2026-02-25)
+
 ## Architecture Overview
 
 ```mermaid

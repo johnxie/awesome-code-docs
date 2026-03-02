@@ -34,6 +34,12 @@ has_children: true
 - 📝 **Markdown Integration** - Seamless document processing
 - 🌐 **API Access** - REST API for integrations
 
+## Current Snapshot (auto-updated)
+
+- repository: [`danielmiessler/fabric`](https://github.com/danielmiessler/fabric)
+- stars: about **39.4k**
+- latest release: [`v1.4.428`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.428) (published 2026-03-02)
+
 ## 🏗️ Architecture Overview
 
 ```mermaid

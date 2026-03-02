@@ -59,6 +59,12 @@ Welcome to your journey through document-based AI interactions! This tutorial ex
 7. **[Chapter 7: Customization](07-customization.md)** - Extending Quivr with custom components
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling Quivr for enterprise use
 
+## Current Snapshot (auto-updated)
+
+- repository: [`QuivrHQ/quivr`](https://github.com/QuivrHQ/quivr)
+- stars: about **39k**
+- latest release: [`core-0.0.33`](https://github.com/QuivrHQ/quivr/releases/tag/core-0.0.33) (published 2025-02-04)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

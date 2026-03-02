@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **26.5k**
-- latest release: [`v0.11.1`](https://github.com/ComposioHQ/composio/releases/tag/v0.11.1) (**February 10, 2026**)
-- default branch: `next`
-- recent activity: updates on **February 12, 2026**
-- project positioning: unified SDK/control layer for tool-enabled agent workflows
+- stars: about **27.2k**
+- latest release: [`@composio/cli@0.1.33`](https://github.com/ComposioHQ/composio/releases/tag/@composio/cli@0.1.33) (published 2026-02-28)
 
 ## Mental Model
 

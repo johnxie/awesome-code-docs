@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/typescript-sdk`](https://github.com/modelcontextprotocol/typescript-sdk)
-- stars: about **11.6k**
-- latest release: [`v1.26.0`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v1.26.0) (**February 4, 2026**)
-- recent activity: updated on **February 12, 2026**
-- branch posture: `main` is v2 (pre-alpha), `v1.x` remains recommended for production during migration window
-- licensing note: MCP project transition from MIT to Apache-2.0 (docs under CC-BY-4.0)
+- stars: about **11.7k**
+- latest release: [`v1.27.1`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v1.27.1) (published 2026-02-24)
 
 ## Mental Model
 

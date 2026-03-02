@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`QwenLM/Qwen-Agent`](https://github.com/QwenLM/Qwen-Agent)
-- stars: about **13.3k**
-- latest release: [`v0.0.26`](https://github.com/QwenLM/Qwen-Agent/releases/tag/v0.0.26)
-- recent activity: updates on **February 3, 2026**
-- project positioning: agent framework for Qwen ecosystem with tool, MCP, and planning capabilities
+- stars: about **13.5k**
+- latest release: [`v0.0.26`](https://github.com/QwenLM/Qwen-Agent/releases/tag/v0.0.26) (published 2025-05-29)
 
 ## Mental Model
 

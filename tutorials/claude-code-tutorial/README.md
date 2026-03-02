@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`anthropics/claude-code`](https://github.com/anthropics/claude-code)
-- stars: about **66.1k**
-- latest release: [`v2.1.39`](https://github.com/anthropics/claude-code/releases/tag/v2.1.39)
-- official docs and guides: Claude Code section in Anthropic docs
-- focus areas in project docs: terminal agent workflows, approvals, and integration patterns
+- stars: about **72.7k**
+- latest release: [`v2.1.63`](https://github.com/anthropics/claude-code/releases/tag/v2.1.63) (published 2026-02-28)
 
 ## Mental Model
 

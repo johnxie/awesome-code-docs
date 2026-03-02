@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SWE-agent/SWE-agent`](https://github.com/SWE-agent/SWE-agent)
-- stars: about **18.5k**
-- latest release: [`v1.1.0`](https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0)
-- recent activity: updates on **February 10, 2026**
-- project note: maintainers indicate active investment in [`mini-swe-agent`](https://github.com/SWE-agent/mini-swe-agent/)
-- project positioning: configurable autonomous coding agent for issue resolution and benchmark research
+- stars: about **18.6k**
+- latest release: [`v1.1.0`](https://github.com/SWE-agent/SWE-agent/releases/tag/v1.1.0) (published 2025-05-22)
 
 ## Mental Model
 

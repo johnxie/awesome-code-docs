@@ -62,6 +62,12 @@ Welcome to your journey through high-performance analytical databases! This tuto
 7. **[Chapter 7: Performance Tuning](07-performance-tuning.md)** - Optimization techniques and monitoring
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling, backup, and enterprise features
 
+## Current Snapshot (auto-updated)
+
+- repository: [`ClickHouse/ClickHouse`](https://github.com/ClickHouse/ClickHouse)
+- stars: about **46.1k**
+- latest release: [`v26.2.3.2-stable`](https://github.com/ClickHouse/ClickHouse/releases/tag/v26.2.3.2-stable) (published 2026-03-02)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

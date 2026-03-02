@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code)
-- stars: about **44.7k**
-- latest release: [`v1.5.0`](https://github.com/affaan-m/everything-claude-code/releases/tag/v1.5.0)
-- recent activity: updates on **February 12, 2026**
-- project positioning: comprehensive Claude Code configuration collection with cross-platform support
+- stars: about **57k**
+- latest release: [`v1.7.0`](https://github.com/affaan-m/everything-claude-code/releases/tag/v1.7.0) (published 2026-02-27)
 
 ## Mental Model
 

@@ -29,10 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/kotlin-sdk`](https://github.com/modelcontextprotocol/kotlin-sdk)
 - stars: about **1.3k**
-- latest release: [`0.8.3`](https://github.com/modelcontextprotocol/kotlin-sdk/releases/tag/0.8.3) (**January 21, 2026**)
-- recent activity: updated on **February 12, 2026**
-- runtime baseline: Kotlin 2.2+, JVM 11+; Ktor engine deps must be added explicitly
-- licensing note: API metadata currently reports `NOASSERTION`; repository docs and license file indicate Apache 2.0 terms
+- latest release: [`0.8.4`](https://github.com/modelcontextprotocol/kotlin-sdk/releases/tag/0.8.4) (published 2026-02-17)
 
 ## Mental Model
 

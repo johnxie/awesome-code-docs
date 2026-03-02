@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`mastra-ai/mastra`](https://github.com/mastra-ai/mastra)
-- stars: about **21.0k**
-- latest release: [`mastra@1.3.0`](https://github.com/mastra-ai/mastra/releases/tag/mastra%401.3.0)
-- development activity: very active with same-day updates
-- project positioning: TypeScript AI framework for agents, workflows, memory, and production ops
+- stars: about **21.6k**
+- latest release: [`@mastra/core@1.8.0`](https://github.com/mastra-ai/mastra/releases/tag/@mastra/core@1.8.0) (published 2026-03-02)
 
 ## Mental Model
 

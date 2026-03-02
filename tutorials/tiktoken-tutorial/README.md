@@ -200,9 +200,9 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ## Current Snapshot (auto-updated)
 
-- repository: [openai/tiktoken](https://github.com/openai/tiktoken)
-- stars: about **12K**
-- project positioning: OpenAI's official fast BPE tokenizer library used by GPT models
+- repository: [`openai/tiktoken`](https://github.com/openai/tiktoken)
+- stars: about **17.4k**
+- latest release: [`0.12.0`](https://github.com/openai/tiktoken/releases/tag/0.12.0) (published 2025-10-06)
 
 ## Source References
 

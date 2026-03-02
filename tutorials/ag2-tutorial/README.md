@@ -67,6 +67,12 @@ flowchart TD
     class H,J output
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`ag2ai/ag2`](https://github.com/ag2ai/ag2)
+- stars: about **4.2k**
+- latest release: [`v0.11.2`](https://github.com/ag2ai/ag2/releases/tag/v0.11.2) (published 2026-02-27)
+
 ## Core Concepts
 
 ### Agent Types

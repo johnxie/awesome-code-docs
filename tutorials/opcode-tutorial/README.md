@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`winfunc/opcode`](https://github.com/winfunc/opcode)
-- stars: about **20.5k**
-- latest release: [`v0.2.0`](https://github.com/winfunc/opcode/releases/tag/v0.2.0)
-- recent activity: repository appears maintained; verify latest commits for current status
-- project positioning: desktop GUI toolkit and command center for Claude Code
+- stars: about **20.7k**
+- latest release: [`v0.2.0`](https://github.com/winfunc/opcode/releases/tag/v0.2.0) (published 2025-08-31)
 
 ## Mental Model
 

@@ -62,6 +62,12 @@ Welcome to your journey through unified LLM training! This tutorial explores how
 7. **[Chapter 7: Advanced Techniques](07-advanced-techniques.md)** - Multi-GPU training and optimization
 8. **[Chapter 8: Production Case Studies](08-production-case-studies.md)** - Scaling and automation patterns
 
+## Current Snapshot (auto-updated)
+
+- repository: [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory)
+- stars: about **67.8k**
+- latest release: [`v0.9.4`](https://github.com/hiyouga/LLaMA-Factory/releases/tag/v0.9.4) (published 2025-12-31)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

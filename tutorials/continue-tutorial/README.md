@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`continuedev/continue`](https://github.com/continuedev/continue)
-- stars: about **31.3k**
-- latest VS Code release tag: [`v1.3.31-vscode`](https://github.com/continuedev/continue/releases/tag/v1.3.31-vscode) (published February 4, 2026)
-- VS Code extension version in source: `1.3.31`
-- active surfaces include Mission Control, CLI headless mode, and CLI TUI mode
+- stars: about **31.6k**
+- latest release: [`v1.5.44`](https://github.com/continuedev/continue/releases/tag/v1.5.44) (published 2026-03-02)
 
 ## Mental Model
 

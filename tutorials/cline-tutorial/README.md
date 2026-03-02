@@ -28,10 +28,8 @@ This tutorial focuses on those outcomes.
 ## Current Snapshot (auto-updated)
 
 - repository: [`cline/cline`](https://github.com/cline/cline)
-- stars: about **57.8k**
-- latest release: [`v3.57.1`](https://github.com/cline/cline/releases/tag/v3.57.1)
-- extension package version in source: `3.57.1`
-- docs surface includes: CLI, MCP integration, hooks, plan/act, worktrees, tasks, enterprise controls
+- stars: about **58.6k**
+- latest release: [`v3.68.0`](https://github.com/cline/cline/releases/tag/v3.68.0) (published 2026-02-27)
 
 ## Cline Operating Model
 

@@ -28,12 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/ext-apps`](https://github.com/modelcontextprotocol/ext-apps)
-- stars: about **1.46k**
-- latest release: [`v1.0.1`](https://github.com/modelcontextprotocol/ext-apps/releases/tag/v1.0.1) (**January 26, 2026**)
-- recent activity: updated on **February 12, 2026**
-- stable spec: [`2026-01-26`](https://github.com/modelcontextprotocol/ext-apps/blob/main/specification/2026-01-26/apps.mdx)
-- package baseline: `npm install -S @modelcontextprotocol/ext-apps`
-- ecosystem note: repo provides app/host SDKs and reference examples, but no fully supported production host implementation
+- stars: about **1.7k**
+- latest release: [`v1.1.2`](https://github.com/modelcontextprotocol/ext-apps/releases/tag/v1.1.2) (published 2026-02-25)
 
 ## Mental Model
 
