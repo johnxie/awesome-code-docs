@@ -14,26 +14,6 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 
 | Metric | Value |
 |:-------|:------|
-<<<<<<< HEAD
-| Tutorial directories | 191 |
-| Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,048,772 |
-=======
-<<<<<<< HEAD
-| Tutorial directories | 191 |
-| Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,048,772 |
-=======
-<<<<<<< HEAD
-| Tutorial directories | 191 |
-| Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,048,772 |
-=======
-<<<<<<< HEAD
-| Tutorial directories | 191 |
-| Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,048,772 |
-=======
 | Tutorial directories | 191 |
 | Tutorial markdown files | 1732 |
 | Tutorial markdown lines | 1,048,772 |
@@ -44,18 +24,14 @@ Repository-source verification run against tutorial index references (GitHub API
 
 | Signal | Value |
 |:-------|------:|
-| Tutorials scanned | 188 |
-| Tutorials with source repos | 188 |
+| Tutorials scanned | 191 |
+| Tutorials with source repos | 191 |
 | Tutorials with unverified source repos | 0 |
-| Unique verified source repos | 199 |
+| Unique verified source repos | 201 |
 
 - Report: [../discoverability/tutorial-source-verification.md](../discoverability/tutorial-source-verification.md)
 - JSON: [../discoverability/tutorial-source-verification.json](../discoverability/tutorial-source-verification.json)
 - Script: [../scripts/verify_tutorial_sources.py](../scripts/verify_tutorial_sources.py)
->>>>>>> origin/main
->>>>>>> origin/main
->>>>>>> origin/main
->>>>>>> origin/main
 
 ## Content Structure Patterns
 
