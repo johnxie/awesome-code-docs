@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Release Notes, Changelog, and Timeline Operations](06-release-notes-changelog-and-timeline-operations.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Docs Operations Playbook](08-contribution-workflow-and-docs-operations-playbook.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -668,7 +668,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: LLM Integration & Configuration](05-llm-integration.md)
 - [Next Chapter: Chapter 7: Advanced Features](07-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

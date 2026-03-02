@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Server Catalog and Role Composition](02-server-catalog-and-role-composition.md)
 - [Next Chapter: Chapter 4: Infrastructure and IaC Workflows](04-infrastructure-and-iac-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

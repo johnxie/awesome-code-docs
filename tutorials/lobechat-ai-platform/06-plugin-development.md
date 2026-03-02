@@ -492,7 +492,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Production Deployment](05-production-deployment.md)
 - [Next Chapter: Chapter 7: Advanced Customization](07-advanced-customization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

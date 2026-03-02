@@ -635,7 +635,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
 - [Next Chapter: Chapter 3: Installation, Runtime, and Provider Setup](03-installation-runtime-and-provider-setup.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

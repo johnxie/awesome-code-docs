@@ -819,7 +819,7 @@ With these practices in place, you can operate Ollama safely in production, deli
 | Navigation | |
 |---|---|
 | Previous | [Chapter 7: Integrations](./07-integrations.md) |
-| Index | [Ollama Tutorial Home](./index.md) |
+| Index | [Ollama Tutorial Home](./README.md) |
 
 ## What Problem Does This Solve?
 
@@ -865,7 +865,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Integrations with OpenAI API, LangChain, and LlamaIndex](07-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -1255,7 +1255,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Advanced Patterns & Optimization](07-advanced-patterns.md)
 - [Next Chapter: Chapter 9: Enterprise Operations & Advanced Patterns](09-enterprise-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

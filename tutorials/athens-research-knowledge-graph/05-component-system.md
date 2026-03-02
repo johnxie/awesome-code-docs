@@ -89,7 +89,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Application Architecture](04-app-architecture.md)
 - [Next Chapter: Chapter 6: Event Handling](06-event-handling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

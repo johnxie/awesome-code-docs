@@ -677,7 +677,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Code Completion & Generation](02-code-completion.md)
 - [Next Chapter: Chapter 4: Documentation & Comments](04-documentation-comments.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

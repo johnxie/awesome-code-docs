@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation, Upgrade, and Runtime Environment](03-installation-upgrade-and-runtime-environment.md)
 - [Next Chapter: Chapter 5: Search Tools and Progressive Disclosure](05-search-tools-and-progressive-disclosure.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Native Bridge Setup](01-getting-started-and-native-bridge-setup.md)
 - [Next Chapter: Chapter 3: Tool Surface: Browser, Network, and Interaction](03-tool-surface-browser-network-and-interaction.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

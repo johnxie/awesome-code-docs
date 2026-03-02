@@ -719,7 +719,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Conditional Logic](04-conditional-logic.md)
 - [Next Chapter: Chapter 6: Tool Integration](06-tool-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

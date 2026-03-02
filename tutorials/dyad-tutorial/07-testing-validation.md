@@ -951,7 +951,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Customization and Styling](06-customization-styling.md)
 - [Next Chapter: Chapter 8: Deployment and Sharing](08-deployment-sharing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Authentication and Model Configuration](03-authentication-and-model-configuration.md)
 - [Next Chapter: Chapter 5: Prompts, Skills, and Workflow Orchestration](05-prompts-skills-and-workflow-orchestration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

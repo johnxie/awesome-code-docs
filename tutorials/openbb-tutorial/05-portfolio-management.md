@@ -965,7 +965,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Fundamental Analysis](04-quantitative-analysis.md)
 - [Next Chapter: Chapter 6: Custom Data Sources](06-research-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

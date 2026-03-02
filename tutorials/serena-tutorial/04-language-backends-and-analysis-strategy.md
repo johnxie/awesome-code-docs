@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: MCP Client Integrations](03-mcp-client-integrations.md)
 - [Next Chapter: Chapter 5: Project Workflow and Context Practices](05-project-workflow-and-context-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

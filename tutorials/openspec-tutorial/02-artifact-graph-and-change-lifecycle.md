@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and OPSX Basics](01-getting-started-and-opsx-basics.md)
 - [Next Chapter: Chapter 3: Command Surface and Agent Workflows](03-command-surface-and-agent-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

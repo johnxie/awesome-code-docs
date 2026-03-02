@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: MCP and Integration Patterns](06-mcp-and-integration-patterns.md)
 - [Next Chapter: Chapter 8: Production Deployment and Scaling](08-production-deployment-and-scaling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

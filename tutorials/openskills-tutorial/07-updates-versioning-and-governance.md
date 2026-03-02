@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Skill Authoring and Packaging](06-skill-authoring-and-packaging.md)
 - [Next Chapter: Chapter 8: Production Security and Operations](08-production-security-and-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -501,7 +501,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started -- Ecosystem Overview](01-getting-started.md)
 - [Next Chapter: Chapter 3: Chat Model Architecture](03-chat-model-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

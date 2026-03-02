@@ -308,7 +308,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: LLM Backend Integration and Configuration](03-llm-backend-integration-and-configuration.md)
 - [Next Chapter: Chapter 5: Memory Systems and Vector Store Integration](05-memory-systems-and-vector-store-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Streaming Responses](03-streaming-responses.md)
 - [Next Chapter: Chapter 5: Structured Outputs](05-structured-outputs.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

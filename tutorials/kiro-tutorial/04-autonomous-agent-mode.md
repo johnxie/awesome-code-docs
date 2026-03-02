@@ -381,7 +381,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agent Steering and Rules Configuration](03-agent-steering-and-rules-configuration.md)
 - [Next Chapter: Chapter 5: MCP Integration and External Tools](05-mcp-integration-and-external-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

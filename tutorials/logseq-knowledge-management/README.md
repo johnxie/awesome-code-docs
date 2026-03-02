@@ -1,38 +1,136 @@
-# Logseq Knowledge Management Platform Deep Dive
+---
+layout: default
+title: "Logseq Knowledge Management"
+nav_order: 40
+has_children: true
+format_version: v2
+---
 
-A focused architecture walkthrough of Logseq's local-first knowledge management design.
+# Logseq: Deep Dive Tutorial
 
-## Current Status
+> **Project**: [Logseq](https://github.com/logseq/logseq) — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
 
-Core chapter set is now published.
+[![Stars](https://img.shields.io/github/stars/logseq/logseq?style=social)](https://github.com/logseq/logseq)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![ClojureScript](https://img.shields.io/badge/ClojureScript-Electron-purple)](https://github.com/logseq/logseq)
 
-| Item | Status |
-|:-----|:-------|
-| Published chapter docs | 8 |
-| Canonical entry point | [index.md](index.md) |
+## Why This Track Matters
 
-## Published Chapters
+Logseq proves that a local-first, privacy-preserving knowledge system can be as powerful as cloud-based alternatives — all notes stay as plain Markdown files you own, with a rich graph visualization layer on top.
 
-| Chapter | File | Focus |
-|:--------|:-----|:------|
-| 1 | [01-knowledge-management-principles.md](01-knowledge-management-principles.md) | Local-first and block-based design principles |
-| 2 | [02-system-architecture.md](02-system-architecture.md) | Runtime layers and application boundaries |
-| 3 | [03-local-first-data.md](03-local-first-data.md) | Filesystem-first storage and indexing |
-| 4 | [04-development-setup.md](04-development-setup.md) | Development environment and tooling setup |
-| 5 | [05-block-data-model.md](05-block-data-model.md) | Block graph data model and constraints |
-| 6 | [06-block-editor.md](06-block-editor.md) | Editor behavior and command handling |
-| 7 | [07-bidirectional-links.md](07-bidirectional-links.md) | Reference lifecycle and backlinks |
-| 8 | [08-graph-visualization.md](08-graph-visualization.md) | Graph rendering and performance strategies |
+This track focuses on:
+- understanding block-based editing with bi-directional linking
+- working with Datascript and ClojureScript for local-first data management
+- building knowledge graph visualizations with D3.js
+- operating and extending Logseq with its JavaScript plugin API
 
-## Suggested Reading Order
+## What Is Logseq?
 
-1. Start with [index.md](index.md).
-2. Read chapters [1](01-knowledge-management-principles.md) through [8](08-graph-visualization.md) in order.
+Logseq is a local-first, privacy-preserving knowledge management platform built with ClojureScript and Electron. It stores notes as plain Markdown/Org-mode files on your filesystem, provides block-based editing with bi-directional linking, and visualizes your knowledge as an interactive graph.
 
-## Upstream Project
+| Feature | Description |
+|---------|-------------|
+| **Local-First** | Files stored as plain Markdown on your filesystem |
+| **Block-Based** | Atomic content units with outliner-style editing |
+| **Bi-Directional Links** | Automatic backlinks and page references |
+| **Knowledge Graph** | Interactive D3.js visualization of note connections |
+| **Plugin System** | JavaScript plugin API with sandboxed execution |
+| **Git Sync** | Built-in Git-based synchronization across devices |
 
-- Logseq repository: <https://github.com/logseq/logseq>
+## Mental Model
+
+```mermaid
+graph TB
+    subgraph Desktop["Electron App"]
+        EDITOR[Block Editor]
+        GRAPH[Graph View]
+        SEARCH[Full-Text Search]
+        PLUGINS[Plugin Runtime]
+    end
+
+    subgraph Core["ClojureScript Core"]
+        REFRAME[Re-frame State]
+        PARSER[Markdown/Org Parser]
+        INDEX[Block Index]
+    end
+
+    subgraph Storage["Local Storage"]
+        FS[File System / Markdown]
+        GIT[Git Sync]
+        DB[(Datascript)]
+    end
+
+    Desktop --> Core
+    Core --> Storage
+```
+
+## Chapter Guide
+
+| Chapter | Topic | What You'll Learn |
+|---------|-------|-------------------|
+| [1. Knowledge Management Principles](01-knowledge-management-principles.md) | Philosophy | Local-first paradigms, block-based thinking |
+| [2. System Architecture](02-system-architecture.md) | Architecture | Desktop/runtime boundaries and data flow |
+| [3. Local-First Data](03-local-first-data.md) | Data Model | Filesystem-first storage, indexing, and sync tradeoffs |
+| [4. Development Setup](04-development-setup.md) | Setup | ClojureScript + Electron development stack |
+| [5. Block Data Model](05-block-data-model.md) | Block Graph | Block identity, hierarchy, and constraints |
+| [6. Block Editor](06-block-editor.md) | Editing UX | Command handling and structural edits |
+| [7. Bi-Directional Links](07-bidirectional-links.md) | Graph Edges | Reference lifecycle and backlink generation |
+| [8. Graph Visualization](08-graph-visualization.md) | Visualization | Graph rendering and large-graph performance |
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| **Language** | ClojureScript |
+| **UI Framework** | Reagent (React wrapper) |
+| **State** | Re-frame |
+| **Database** | Datascript (in-memory) |
+| **Desktop** | Electron |
+| **Graph Viz** | D3.js |
+| **File Format** | Markdown, Org-mode |
 
 ---
 
-Part of [Awesome Code Docs](../../README.md)
+Ready to begin? Start with [Chapter 1: Knowledge Management Principles](01-knowledge-management-principles.md).
+
+---
+
+*Built with insights from the [Logseq repository](https://github.com/logseq/logseq) and community documentation.*
+
+## Navigation & Backlinks
+
+- [Start Here: Chapter 1: Knowledge Management Philosophy](01-knowledge-management-principles.md)
+- [Back to Main Catalog](../../README.md#-tutorial-catalog)
+- [Browse A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+- [Search by Intent](../../discoverability/query-hub.md)
+- [Explore Category Hubs](../../README.md#category-hubs)
+
+## Full Chapter Map
+
+1. [Chapter 1: Knowledge Management Philosophy](01-knowledge-management-principles.md)
+2. [Chapter 2: System Architecture](02-system-architecture.md)
+3. [Chapter 3: Local-First Data](03-local-first-data.md)
+4. [Logseq Development Environment Setup](04-development-setup.md)
+5. [Chapter 5: Block Data Model](05-block-data-model.md)
+6. [Chapter 6: Block Editor](06-block-editor.md)
+7. [Chapter 7: Bi-Directional Links](07-bidirectional-links.md)
+8. [Chapter 8: Graph Visualization](08-graph-visualization.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [logseq/logseq](https://github.com/logseq/logseq)
+- stars: about **32K**
+- project positioning: privacy-first, local-first knowledge management platform with graph visualization
+
+## What You Will Learn
+
+- how Logseq stores notes as plain Markdown files with Datascript indexing for fast queries
+- how block identity, hierarchy, and bi-directional links are managed in the graph model
+- how ClojureScript and Re-frame power the local-first state management architecture
+- how the graph visualization renders large knowledge networks with D3.js
+
+## Source References
+
+- [Logseq](https://github.com/logseq/logseq)
+
+*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*

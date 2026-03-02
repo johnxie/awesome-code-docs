@@ -80,7 +80,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Session Lifecycle and Handoff](03-session-lifecycle-and-handoff.md)
 - [Next Chapter: Chapter 5: Permissions and Approval Workflow](05-permissions-and-approval-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

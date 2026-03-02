@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Answer Engine and Context Indexing](04-answer-engine-and-context-indexing.md)
 - [Next Chapter: Chapter 6: Configuration, Security, and Enterprise Controls](06-configuration-security-and-enterprise-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

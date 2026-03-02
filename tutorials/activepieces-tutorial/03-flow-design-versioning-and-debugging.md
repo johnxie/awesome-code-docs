@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: System Architecture: App, Worker, Engine](02-system-architecture-app-worker-engine.md)
 - [Next Chapter: Chapter 4: Piece Development Framework](04-piece-development-framework.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

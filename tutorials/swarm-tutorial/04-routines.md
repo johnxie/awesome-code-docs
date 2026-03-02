@@ -651,7 +651,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Function Calling & Tools](03-function-calling.md)
 - [Next Chapter: Chapter 5: Agent Handoffs](05-handoffs.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

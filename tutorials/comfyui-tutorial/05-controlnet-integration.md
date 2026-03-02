@@ -640,7 +640,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Image-to-Image & Inpainting](04-image-to-image.md)
 - [Next Chapter: Chapter 6: LoRA & Model Customization](06-lora-customization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

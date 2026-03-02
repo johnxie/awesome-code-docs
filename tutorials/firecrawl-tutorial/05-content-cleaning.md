@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: JavaScript & Dynamic Content](04-javascript-handling.md)
 - [Next Chapter: Chapter 6: Building RAG Systems](06-rag-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

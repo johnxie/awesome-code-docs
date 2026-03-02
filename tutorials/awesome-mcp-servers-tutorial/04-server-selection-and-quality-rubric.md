@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Clients and Runtime Compatibility](03-clients-and-runtime-compatibility.md)
 - [Next Chapter: Chapter 5: Installation and Configuration Patterns](05-installation-and-configuration-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

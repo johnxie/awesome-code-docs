@@ -485,7 +485,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: API Development](03-api-development.md)
 - [Next Chapter: Chapter 5: Testing & Validation](05-testing-validation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

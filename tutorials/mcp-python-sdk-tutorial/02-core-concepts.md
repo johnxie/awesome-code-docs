@@ -538,7 +538,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with MCP Python SDK](01-getting-started.md)
 - [Next Chapter: Chapter 3: Server Architecture](03-server-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

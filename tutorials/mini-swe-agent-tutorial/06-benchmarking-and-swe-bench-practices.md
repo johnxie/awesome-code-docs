@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Environments, Sandboxing, and Deployment](05-environments-sandboxing-and-deployment.md)
 - [Next Chapter: Chapter 7: Cookbook Extensions and Python Bindings](07-cookbook-extensions-and-python-bindings.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -968,7 +968,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Advanced Chains](07-advanced-chains.md)
 - [Next Chapter: Chapter 9: Evaluation, Monitoring, and Observability](09-evaluation-monitoring.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

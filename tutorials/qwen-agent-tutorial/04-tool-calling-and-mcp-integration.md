@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Model Service and Runtime Strategy](03-model-service-and-runtime-strategy.md)
 - [Next Chapter: Chapter 5: Memory, RAG, and Long-Context Workflows](05-memory-rag-and-long-context-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

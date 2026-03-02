@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Legacy Architecture and Feature Model](02-legacy-architecture-and-feature-model.md)
 - [Next Chapter: Chapter 4: Model Providers and Runtime Operations](04-model-providers-and-runtime-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

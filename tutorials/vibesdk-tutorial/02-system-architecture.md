@@ -640,7 +640,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Deployment Paths](01-getting-started-and-deployment-paths.md)
 - [Next Chapter: Chapter 3: AI Pipeline and Phase Engine](03-ai-pipeline-and-phase-engine.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

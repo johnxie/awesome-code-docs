@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation Paths Across IDEs and Agents](03-installation-paths-across-ides-and-agents.md)
 - [Next Chapter: Chapter 5: Templates, Scripts, and Session Recovery](05-templates-scripts-and-session-recovery.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tools, Prompts, Resources, and Schema Discipline](03-tools-prompts-resources-and-schema-discipline.md)
 - [Next Chapter: Chapter 5: Transports: stdio, Streamable HTTP, and Session Modes](05-transports-stdio-streamable-http-and-session-modes.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

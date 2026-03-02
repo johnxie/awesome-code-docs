@@ -96,7 +96,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Security and Governance](06-security-governance.md)
 - [Next Chapter: Chapter 8: Extension Ecosystem](08-extension-ecosystem.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

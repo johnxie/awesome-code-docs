@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Installation and Configuration Patterns](05-installation-and-configuration-patterns.md)
 - [Next Chapter: Chapter 7: Operations, Security, and Risk Controls](07-operations-security-and-risk-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -718,7 +718,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Building the Analysis Engine](01-analysis-engine.md)
 - [Next Chapter: Chapter 3: Symbol Resolution](03-symbol-resolution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1117,7 +1117,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture Overview](02-architecture-overview.md)
 - [Next Chapter: Chapter 4: Search & Retrieval](04-search-and-retrieval.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

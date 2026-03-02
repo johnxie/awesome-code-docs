@@ -217,7 +217,7 @@ You now have the operational playbook for team-scale Kiro deployment: governance
 
 ---
 
-**You have completed the Kiro Tutorial.** Return to the [Tutorial Index](index.md) to explore related tutorials.
+**You have completed the Kiro Tutorial.** Return to the [Tutorial Index](README.md) to explore related tutorials.
 
 ## Depth Expansion Playbook
 
@@ -424,9 +424,9 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Multi-Model Strategy and Providers](07-multi-model-strategy-and-providers.md)
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 

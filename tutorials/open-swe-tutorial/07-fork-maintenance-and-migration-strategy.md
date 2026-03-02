@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Security, Auth, and Operational Constraints](06-security-auth-and-operational-constraints.md)
 - [Next Chapter: Chapter 8: Contribution, Legacy Support, and Next Steps](08-contribution-legacy-support-and-next-steps.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

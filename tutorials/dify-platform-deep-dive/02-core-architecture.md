@@ -470,7 +470,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Dify System Overview](01-system-overview.md)
 - [Next Chapter: Chapter 3: Workflow Engine](03-workflow-engine.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

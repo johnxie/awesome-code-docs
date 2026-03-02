@@ -1232,7 +1232,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Node Development](03-node-development.md)
 - [Next Chapter: Chapter 5: Production Deployment](05-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

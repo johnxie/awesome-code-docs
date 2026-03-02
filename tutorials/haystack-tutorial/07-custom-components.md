@@ -1189,7 +1189,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Evaluation & Optimization](06-evaluation-optimization.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

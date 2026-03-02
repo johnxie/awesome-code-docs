@@ -1033,7 +1033,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Metadata & Filtering](05-metadata-filtering.md)
 - [Next Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

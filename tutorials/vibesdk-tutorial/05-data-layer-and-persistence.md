@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Sandbox and Preview Runtime](04-sandbox-and-preview-runtime.md)
 - [Next Chapter: Chapter 6: API, SDK, and Integrations](06-api-sdk-and-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

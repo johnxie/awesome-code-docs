@@ -486,7 +486,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Fabric](01-getting-started.md)
 - [Next Chapter: Chapter 3: Basic Usage](03-basic-usage.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

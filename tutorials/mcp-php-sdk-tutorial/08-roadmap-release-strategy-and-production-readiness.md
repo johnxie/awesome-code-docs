@@ -36,7 +36,7 @@ This chapter defines a roadmap-aware operations strategy for using the PHP SDK i
 
 You now have a production rollout strategy for PHP MCP implementations under active SDK evolution.
 
-Return to the [MCP PHP SDK Tutorial index](index.md).
+Return to the [MCP PHP SDK Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Framework Integration, Session Stores, and Dependencies](07-framework-integration-session-stores-and-dependencies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

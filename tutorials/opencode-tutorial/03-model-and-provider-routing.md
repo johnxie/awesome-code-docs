@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Agent Loop](02-architecture-agent-loop.md)
 - [Next Chapter: Chapter 4: Tools, Permissions, and Execution](04-tools-permissions-and-execution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

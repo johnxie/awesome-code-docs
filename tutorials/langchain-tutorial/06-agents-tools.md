@@ -750,7 +750,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Vector Stores & Retrieval](05-vector-stores.md)
 - [Next Chapter: Chapter 7: Advanced Chains](07-advanced-chains.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

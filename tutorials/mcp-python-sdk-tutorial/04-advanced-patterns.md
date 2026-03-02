@@ -217,7 +217,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Server Architecture](03-server-architecture.md)
 - [Next Chapter: Chapter 5: Authentication & Security](05-authentication-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

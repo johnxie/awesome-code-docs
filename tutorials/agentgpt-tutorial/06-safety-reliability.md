@@ -673,7 +673,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Memory & Context Management](05-memory-management.md)
 - [Next Chapter: Chapter 7: Advanced Agent Patterns](07-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

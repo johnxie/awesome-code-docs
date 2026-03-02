@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Notifications, Logging, and Observability](04-notifications-logging-and-observability.md)
 - [Next Chapter: Chapter 6: Client Workflows, HTTP Integration, and Auth Considerations](06-client-workflows-http-integration-and-auth-considerations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

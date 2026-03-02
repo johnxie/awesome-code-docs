@@ -1224,7 +1224,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Memory Architecture & Types](02-memory-architecture.md)
 - [Next Chapter: Chapter 4: Advanced Memory Features](04-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

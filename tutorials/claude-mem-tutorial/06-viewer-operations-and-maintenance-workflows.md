@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Search Tools and Progressive Disclosure](05-search-tools-and-progressive-disclosure.md)
 - [Next Chapter: Chapter 7: Troubleshooting, Recovery, and Reliability](07-troubleshooting-recovery-and-reliability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

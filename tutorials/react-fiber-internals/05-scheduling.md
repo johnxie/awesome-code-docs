@@ -639,7 +639,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Commit Phase](04-commit-phase.md)
 - [Next Chapter: Chapter 6: Hooks Implementation](06-hooks.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

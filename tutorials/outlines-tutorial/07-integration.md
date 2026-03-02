@@ -898,7 +898,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Advanced Features & Performance Optimization](06-advanced-features.md)
 - [Next Chapter: Chapter 8: Production Deployment & Scaling](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

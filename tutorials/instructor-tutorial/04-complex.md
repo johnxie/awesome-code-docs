@@ -747,7 +747,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Validation, Errors, and Retries](03-validation.md)
 - [Next Chapter: Chapter 5: Streaming Structured Outputs](05-streaming.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

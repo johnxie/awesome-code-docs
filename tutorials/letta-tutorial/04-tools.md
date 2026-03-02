@@ -438,7 +438,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agent Configuration](03-configuration.md)
 - [Next Chapter: Chapter 5: Conversation Management](05-conversations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

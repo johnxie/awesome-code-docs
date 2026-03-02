@@ -962,7 +962,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Pipelines & Workflows](05-pipelines-workflows.md)
 - [Next Chapter: Chapter 7: Custom Components](07-custom-components.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

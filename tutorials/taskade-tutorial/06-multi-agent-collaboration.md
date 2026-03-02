@@ -661,7 +661,7 @@ Best references for this chapter:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Genesis App Builder](05-genesis-app-builder.md)
 - [Next Chapter: Chapter 7: Enterprise Features & Advanced Workflows](07-enterprise-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

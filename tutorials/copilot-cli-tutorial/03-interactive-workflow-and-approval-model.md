@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Authentication and Access Policies](02-authentication-and-access-policies.md)
 - [Next Chapter: Chapter 4: Models, Experimental Features, and Autopilot](04-models-experimental-features-and-autopilot.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

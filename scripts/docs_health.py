@@ -126,7 +126,7 @@ def classify_tutorial_structure(root: Path) -> dict:
     missing_index: list[str] = []
 
     for tutorial_dir in sorted([p for p in tutorials_dir.iterdir() if p.is_dir()]):
-        has_index = (tutorial_dir / "index.md").is_file()
+        has_index = (tutorial_dir / "README.md").is_file()
         top_level_count = len(list(tutorial_dir.glob(NUMBERED_MD_PATTERN)))
         docs_count = 0
         docs_dir = tutorial_dir / "docs"
@@ -157,7 +157,7 @@ def classify_tutorial_structure(root: Path) -> dict:
 def collect_placeholder_summaries(root: Path) -> list[str]:
     tutorials_dir = root / "tutorials"
     matches: list[str] = []
-    for index_file in sorted(tutorials_dir.glob("*/index.md")):
+    for index_file in sorted(tutorials_dir.glob("*/README.md")):
         text = index_file.read_text(encoding="utf-8", errors="ignore")
         if PLACEHOLDER_SUMMARY in text:
             matches.append(index_file.relative_to(root).as_posix())
@@ -211,7 +211,7 @@ def main() -> int:
             print(link.as_tsv())
 
     if structure_report["missing_index"]:
-        print("\nTutorial directories missing index.md:")
+        print("\nTutorial directories missing README.md:")
         for item in structure_report["missing_index"]:
             print(item)
 

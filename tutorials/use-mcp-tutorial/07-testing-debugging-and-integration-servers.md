@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: React Integration Patterns: Chat UI and Inspector](06-react-integration-patterns-chat-ui-and-inspector.md)
 - [Next Chapter: Chapter 8: Maintenance Risk, Migration, and Production Guidance](08-maintenance-risk-migration-and-production-guidance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

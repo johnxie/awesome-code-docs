@@ -921,7 +921,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Data, Knowledge Bases & RAG Implementation](05-data-knowledge.md)
 - [Next Chapter: Chapter 7: API Integrations, Webhooks & External Service Connections](07-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -965,7 +965,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Query System & Search](04-query-system.md)
 - [Next Chapter: Chapter 6: Synchronization & Backup](06-synchronization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

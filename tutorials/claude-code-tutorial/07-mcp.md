@@ -1138,7 +1138,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Git Workflows - Commits, Branches, and Version Control](06-git.md)
 - [Next Chapter: Chapter 8: Advanced Workflows - Complex Development Patterns and Automation](08-advanced.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

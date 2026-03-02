@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Model Packs and Provider Strategy](05-model-packs-and-provider-strategy.md)
 - [Next Chapter: Chapter 7: Git, Branching, and Review Workflows](07-git-branching-and-review-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

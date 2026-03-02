@@ -90,7 +90,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Transcription and Translation](04-transcription-translation.md)
 - [Next Chapter: Chapter 6: Advanced Features](06-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

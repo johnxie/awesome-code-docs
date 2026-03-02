@@ -609,7 +609,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Text Classification & Analysis](02-text-classification.md)
 - [Next Chapter: Chapter 4: Question Answering](04-question-answering.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

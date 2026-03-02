@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Integrations and MCP](06-integrations-and-mcp.md)
 - [Next Chapter: Chapter 8: Production Operations](08-production-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

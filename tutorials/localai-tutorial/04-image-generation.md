@@ -487,7 +487,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Text Generation and Chat Completions](03-text-generation.md)
 - [Next Chapter: Chapter 5: Audio Processing - Whisper & TTS](05-audio.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

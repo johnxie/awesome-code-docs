@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Timeline, Checkpoints, and Recovery](06-timeline-checkpoints-and-recovery.md)
 - [Next Chapter: Chapter 8: Production Operations and Security](08-production-operations-and-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

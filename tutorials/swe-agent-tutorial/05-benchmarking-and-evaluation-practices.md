@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Tooling, Environments, and Model Strategy](04-tooling-environments-and-model-strategy.md)
 - [Next Chapter: Chapter 6: Offensive Security Mode and Specialized Workloads](06-offensive-security-mode-and-specialized-workloads.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

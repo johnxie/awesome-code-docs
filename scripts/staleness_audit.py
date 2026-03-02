@@ -28,7 +28,7 @@ FRESHNESS_HINTS = (
 DEFAULT_TARGET_GLOBS = (
     "README.md",
     "tutorials/README.md",
-    "tutorials/*/index.md",
+    "tutorials/*/README.md",
     "categories/*.md",
     "discoverability/*.md",
     "CONTENT_GAPS_ANALYSIS.md",

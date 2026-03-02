@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Configuration, Capabilities, and Runtime Modes](04-configuration-capabilities-and-runtime-modes.md)
 - [Next Chapter: Chapter 6: Standalone and Docker Deployment](06-standalone-and-docker-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Runtime, Dependencies, and uv Packaging](04-runtime-dependencies-and-uv-packaging.md)
 - [Next Chapter: Chapter 6: Customization and Extension Patterns](06-customization-and-extension-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

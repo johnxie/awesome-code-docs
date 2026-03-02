@@ -632,7 +632,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Dyad](01-getting-started.md)
 - [Next Chapter: Chapter 3: Component Integration](03-component-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

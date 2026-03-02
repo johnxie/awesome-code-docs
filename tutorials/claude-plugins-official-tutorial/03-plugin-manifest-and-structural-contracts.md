@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Directory Architecture and Marketplace Model](02-directory-architecture-and-marketplace-model.md)
 - [Next Chapter: Chapter 4: Commands, Agents, Skills, Hooks, and MCP Composition](04-commands-agents-skills-hooks-and-mcp-composition.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

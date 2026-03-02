@@ -626,7 +626,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture Overview](02-architecture-overview.md)
 - [Next Chapter: Chapter 4: Prompt-to-App Workflow](04-prompt-to-app-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

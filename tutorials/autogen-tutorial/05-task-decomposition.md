@@ -787,7 +787,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Tool Integration](04-tool-integration.md)
 - [Next Chapter: Chapter 6: Custom Agent Development](06-custom-agents.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

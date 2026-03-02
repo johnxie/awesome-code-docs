@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Context Management at Scale](03-context-management-at-scale.md)
 - [Next Chapter: Chapter 5: Model Packs and Provider Strategy](05-model-packs-and-provider-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -380,7 +380,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Spec-Driven Development Workflow](02-spec-driven-development-workflow.md)
 - [Next Chapter: Chapter 4: Autonomous Agent Mode](04-autonomous-agent-mode.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

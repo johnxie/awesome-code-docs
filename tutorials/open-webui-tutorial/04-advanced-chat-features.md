@@ -1210,7 +1210,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Interface Customization & Personalization](03-interface-customization.md)
 - [Next Chapter: Chapter 5: Data, Knowledge Bases & RAG Implementation](05-data-knowledge.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

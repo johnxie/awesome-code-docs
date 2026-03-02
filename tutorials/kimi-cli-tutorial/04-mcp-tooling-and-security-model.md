@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agents, Subagents, and Skills](03-agents-subagents-and-skills.md)
 - [Next Chapter: Chapter 5: ACP and IDE Integrations](05-acp-and-ide-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

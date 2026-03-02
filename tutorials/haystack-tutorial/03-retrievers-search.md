@@ -721,7 +721,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Document Stores](02-document-stores.md)
 - [Next Chapter: Chapter 4: Generators & LLMs](04-generators-llms.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

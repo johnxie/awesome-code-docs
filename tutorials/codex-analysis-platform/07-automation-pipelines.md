@@ -633,7 +633,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Visualization](06-visualization.md)
 - [Next Chapter: Chapter 8: Production Rollout](08-production-rollout.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

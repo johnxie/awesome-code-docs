@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: MCP Elements: Tools, Resources, Prompts, and Schemas](03-mcp-elements-tools-resources-prompts-and-schemas.md)
 - [Next Chapter: Chapter 5: Transports: STDIO and Streamable HTTP](05-transports-stdio-and-streamable-http.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

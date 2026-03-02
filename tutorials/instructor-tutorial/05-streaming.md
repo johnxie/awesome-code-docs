@@ -605,7 +605,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Complex Structures and Nested Data](04-complex.md)
 - [Next Chapter: Chapter 6: Using Multiple Providers](06-providers.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

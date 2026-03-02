@@ -783,7 +783,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Signatures - Defining LM Input/Output Behavior](02-signatures.md)
 - [Next Chapter: Chapter 4: Retrieval-Augmented Generation (RAG) with DSPy](04-rag.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

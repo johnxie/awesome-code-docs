@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tool Surface: Browser, Network, and Interaction](03-tool-surface-browser-network-and-interaction.md)
 - [Next Chapter: Chapter 5: Transport Modes and Client Configuration](05-transport-modes-and-client-configuration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

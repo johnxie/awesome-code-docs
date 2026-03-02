@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
 - [Next Chapter: Chapter 4: Multi-Agent and Parallel Execution](04-multi-agent-and-parallel-execution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

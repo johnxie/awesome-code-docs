@@ -566,7 +566,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Custom Patterns](06-custom-patterns.md)
 - [Next Chapter: Chapter 8: Enterprise Deployment](08-enterprise-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

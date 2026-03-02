@@ -641,7 +641,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Client Integration Across Claude, Cursor, Windsurf, and n8n](05-client-integration-across-claude-cursor-windsurf-and-n8n.md)
 - [Next Chapter: Chapter 7: Security Guardrails and Governance](07-security-guardrails-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

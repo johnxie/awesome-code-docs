@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP Integrations and Browser Automation](05-mcp-integrations-and-browser-automation.md)
 - [Next Chapter: Chapter 7: Troubleshooting and Runtime Maintenance](07-troubleshooting-and-runtime-maintenance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

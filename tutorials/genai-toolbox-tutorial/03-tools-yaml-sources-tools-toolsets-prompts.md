@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Control Plane](02-architecture-and-control-plane.md)
 - [Next Chapter: Chapter 4: MCP Connectivity and Client Integration](04-mcp-connectivity-and-client-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

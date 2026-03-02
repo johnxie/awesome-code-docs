@@ -928,7 +928,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Using Multiple Providers](06-providers.md)
 - [Next Chapter: Chapter 8: Production Use and Operations](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

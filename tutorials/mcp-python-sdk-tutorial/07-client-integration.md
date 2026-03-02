@@ -226,7 +226,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Production Deployment](06-production-deployment.md)
 - [Next Chapter: Chapter 8: Real-World Examples](08-real-world-examples.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -622,7 +622,7 @@ Automation references to read alongside this chapter:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: AI Agents & Intelligence](03-ai-agents-intelligence.md)
 - [Next Chapter: Chapter 5: Genesis App Builder](05-genesis-app-builder.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Commands, Agents, Skills, Hooks, and MCP Composition](04-commands-agents-skills-hooks-and-mcp-composition.md)
 - [Next Chapter: Chapter 6: Installation, Operations, and Update Strategy](06-installation-operations-and-update-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

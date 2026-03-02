@@ -624,7 +624,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Client/Server and Remote Workflows](06-client-server-and-remote-workflows.md)
 - [Next Chapter: Chapter 8: Production Operations and Security](08-production-operations-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

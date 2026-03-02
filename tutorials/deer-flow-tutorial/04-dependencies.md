@@ -502,7 +502,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Task Management](03-task-management.md)
 - [Next Chapter: Chapter 5: Error Handling](05-error-handling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

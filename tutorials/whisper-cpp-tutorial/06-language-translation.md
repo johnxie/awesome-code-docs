@@ -829,7 +829,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Real-Time Streaming](05-real-time-streaming.md)
 - [Next Chapter: Chapter 7: Platform Integration](07-platform-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

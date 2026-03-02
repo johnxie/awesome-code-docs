@@ -697,7 +697,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Scaling & Distributed Training -- Model Parallelism, Data Parallelism, ZeRO, and FSDP](06-scaling-distributed-training.md)
 - [Next Chapter: Chapter 8: Production Inference -- Quantization, Batching, Speculative Decoding, and Deployment](08-production-inference.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

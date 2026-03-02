@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: CLI Workflows and Usage Modes](03-cli-workflows-and-usage-modes.md)
 - [Next Chapter: Chapter 5: Benchmarking and Evaluation Practices](05-benchmarking-and-evaluation-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

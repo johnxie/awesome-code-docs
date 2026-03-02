@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Tooling Model](02-architecture-and-tooling-model.md)
 - [Next Chapter: Chapter 4: Prompting Strategies and Rules](04-prompting-strategies-and-rules.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

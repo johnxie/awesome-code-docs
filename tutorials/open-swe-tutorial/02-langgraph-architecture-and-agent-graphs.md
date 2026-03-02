@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Project Status](01-getting-started-and-project-status.md)
 - [Next Chapter: Chapter 3: Development Environment and Monorepo Setup](03-development-environment-and-monorepo-setup.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

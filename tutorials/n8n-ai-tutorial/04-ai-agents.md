@@ -597,7 +597,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Document AI and Content Processing](03-document-ai.md)
 - [Next Chapter: Chapter 5: Retrieval-Augmented Generation (RAG)](05-rag.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

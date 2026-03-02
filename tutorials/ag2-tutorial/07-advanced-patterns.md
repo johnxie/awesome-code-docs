@@ -1002,7 +1002,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Group Chat & Multi-Agent Collaboration](06-group-chat.md)
 - [Next Chapter: Chapter 8: Production Deployment & Scaling](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -673,7 +673,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Multi-Model Setup](06-multi-model-setup.md)
 - [Next Chapter: Chapter 8: Custom Development](08-custom-development.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

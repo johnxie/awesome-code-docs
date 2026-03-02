@@ -895,7 +895,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Generators & LLMs](04-generators-llms.md)
 - [Next Chapter: Chapter 6: Evaluation & Optimization](06-evaluation-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

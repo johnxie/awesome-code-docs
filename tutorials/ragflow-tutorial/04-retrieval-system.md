@@ -810,7 +810,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Knowledge Base Setup](03-knowledge-base-setup.md)
 - [Next Chapter: Chapter 5: LLM Integration & Configuration](05-llm-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Modes and Task Design](02-modes-and-task-design.md)
 - [Next Chapter: Chapter 4: Context and Indexing](04-context-and-indexing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

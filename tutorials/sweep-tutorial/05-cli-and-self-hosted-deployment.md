@@ -642,7 +642,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Feedback Loops, Review Comments, and CI Repair](04-feedback-loops-review-comments-and-ci-repair.md)
 - [Next Chapter: Chapter 6: Search, Planning, and Execution Patterns](06-search-planning-and-execution-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

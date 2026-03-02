@@ -1027,7 +1027,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Structured Outputs & Pydantic Models](03-structured-outputs.md)
 - [Next Chapter: Chapter 5: Streaming Responses & Async Operations](05-streaming-async.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

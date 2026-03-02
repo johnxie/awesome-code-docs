@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Voice Input Processing](03-voice-input-processing.md)
 - [Next Chapter: Chapter 5: Function Calling](05-function-calling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

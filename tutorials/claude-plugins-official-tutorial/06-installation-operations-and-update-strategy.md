@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Trust, Security, and Risk Controls](05-trust-security-and-risk-controls.md)
 - [Next Chapter: Chapter 7: Submission and Contribution Workflow](07-submission-and-contribution-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

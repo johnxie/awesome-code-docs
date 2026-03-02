@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Sandbox, Approvals, and MCP Integration](04-sandbox-approvals-and-mcp-integration.md)
 - [Next Chapter: Chapter 6: Commands, Connectors, and Daily Operations](06-commands-connectors-and-daily-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

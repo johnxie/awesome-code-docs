@@ -11,7 +11,7 @@ NUMBERED_MD_PATTERN = "[0-9][0-9]*.md"
 
 
 def tutorial_record(root: Path, tutorial_dir: Path) -> dict:
-    has_index = (tutorial_dir / "index.md").is_file()
+    has_index = (tutorial_dir / "README.md").is_file()
     top_level_files = sorted(tutorial_dir.glob(NUMBERED_MD_PATTERN))
     docs_dir = tutorial_dir / "docs"
     docs_files = sorted(docs_dir.glob(NUMBERED_MD_PATTERN)) if docs_dir.exists() else []

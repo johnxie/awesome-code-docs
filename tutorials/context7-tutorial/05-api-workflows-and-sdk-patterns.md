@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Prompting Strategies and Rules](04-prompting-strategies-and-rules.md)
 - [Next Chapter: Chapter 6: Library Onboarding and Documentation Quality](06-library-onboarding-and-documentation-quality.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -765,7 +765,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: User Interface Development](06-user-interface.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

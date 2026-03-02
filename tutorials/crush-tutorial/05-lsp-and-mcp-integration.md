@@ -635,7 +635,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Permissions and Tool Controls](04-permissions-and-tool-controls.md)
 - [Next Chapter: Chapter 6: Skills, Commands, and Workflow Customization](06-skills-commands-and-workflow-customization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -629,7 +629,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Natural Language App Building](02-natural-language-building.md)
 - [Next Chapter: Chapter 4: Data Management](04-data-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

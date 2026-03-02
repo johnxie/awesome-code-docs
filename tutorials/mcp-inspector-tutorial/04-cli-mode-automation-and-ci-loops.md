@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: UI Debugging Workflows: Tools, Resources, Prompts](03-ui-debugging-workflows-tools-resources-prompts.md)
 - [Next Chapter: Chapter 5: Security, Auth, and Network Hardening](05-security-auth-and-network-hardening.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

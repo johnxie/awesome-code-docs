@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Multi-Agent Execution Strategies](03-multi-agent-execution-strategies.md)
 - [Next Chapter: Chapter 5: Review and Quality Gates](05-review-and-quality-gates.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

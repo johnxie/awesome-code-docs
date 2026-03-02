@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agent and Workflow Patterns](03-agent-and-workflow-patterns.md)
 - [Next Chapter: Chapter 5: Multi-Agent and Supervision](05-multi-agent-and-supervision.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

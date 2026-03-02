@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Bundle Fundamentals](01-getting-started-and-bundle-fundamentals.md)
 - [Next Chapter: Chapter 3: Server Configuration and Runtime Packaging](03-server-configuration-and-runtime-packaging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

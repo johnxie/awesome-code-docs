@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Provider Configuration and Routing](03-provider-configuration-and-routing.md)
 - [Next Chapter: Chapter 5: Documents, MCP, and Tool Integrations](05-documents-mcp-and-tool-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

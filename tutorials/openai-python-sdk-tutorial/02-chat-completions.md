@@ -629,7 +629,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
 - [Next Chapter: Chapter 3: Embeddings and Search](03-embeddings-search.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

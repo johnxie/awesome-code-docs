@@ -838,7 +838,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Comments & Threads](04-comments-threads.md)
 - [Next Chapter: Chapter 6: React Integration](06-react-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

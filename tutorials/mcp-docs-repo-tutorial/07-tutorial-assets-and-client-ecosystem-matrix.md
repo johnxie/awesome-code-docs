@@ -641,7 +641,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Tooling Docs: Inspector and Debugging](06-tooling-docs-inspector-and-debugging.md)
 - [Next Chapter: Chapter 8: Contribution Governance and Documentation Operations](08-contribution-governance-and-documentation-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

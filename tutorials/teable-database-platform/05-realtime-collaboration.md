@@ -81,7 +81,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: API Development](04-api-development.md)
 - [Next Chapter: Chapter 6: Query System](06-query-system.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

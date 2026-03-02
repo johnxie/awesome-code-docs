@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Monorepo Layout](02-architecture-and-monorepo-layout.md)
 - [Next Chapter: Chapter 4: Parallel Agent Orchestration](04-parallel-agent-orchestration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

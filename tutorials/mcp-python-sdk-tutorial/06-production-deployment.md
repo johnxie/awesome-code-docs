@@ -303,7 +303,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Authentication & Security](05-authentication-security.md)
 - [Next Chapter: Chapter 7: Client Integration](07-client-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

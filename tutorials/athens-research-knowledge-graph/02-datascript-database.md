@@ -603,7 +603,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: System Overview](01-system-overview.md)
 - [Next Chapter: Chapter 3: Schema Design](03-schema-design.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

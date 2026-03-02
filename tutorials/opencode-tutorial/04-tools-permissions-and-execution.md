@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Model and Provider Routing](03-model-and-provider-routing.md)
 - [Next Chapter: Chapter 5: Agents, Subagents, and Planning](05-agents-subagents-and-planning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

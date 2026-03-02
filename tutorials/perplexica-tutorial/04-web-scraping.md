@@ -655,7 +655,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: AI Integration](03-ai-integration.md)
 - [Next Chapter: Chapter 5: Result Processing and Ranking](05-result-processing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

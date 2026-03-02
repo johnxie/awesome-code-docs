@@ -488,7 +488,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Editor Integrations](05-editor-integrations.md)
 - [Next Chapter: Chapter 7: Automation, CI/CD, and Guardrails](07-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

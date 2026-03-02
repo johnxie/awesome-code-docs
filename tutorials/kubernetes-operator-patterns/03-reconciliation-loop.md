@@ -803,7 +803,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Custom Resource Definitions - Designing Robust APIs](02-custom-resources.md)
 - [Next Chapter: Chapter 4: Managing Owned Resources - Creating and Managing Kubernetes Objects](04-owned-resources.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

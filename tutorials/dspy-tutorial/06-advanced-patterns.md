@@ -838,7 +838,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Automatic Optimization - DSPy's Superpower](05-optimization.md)
 - [Next Chapter: Chapter 7: Evaluation & Metrics - Systematic Assessment of DSPy Programs](07-evaluation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: MCP Server Patterns and Toolkit Control](06-mcp-server-patterns-and-toolkit-control.md)
 - [Next Chapter: Chapter 8: Migration, Troubleshooting, and Production Ops](08-migration-troubleshooting-and-production-ops.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

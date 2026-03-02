@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Models, Experimental Features, and Autopilot](04-models-experimental-features-and-autopilot.md)
 - [Next Chapter: Chapter 6: GitHub-Native Context Workflows](06-github-native-context-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

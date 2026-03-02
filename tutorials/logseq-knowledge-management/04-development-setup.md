@@ -710,7 +710,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Local-First Data](03-local-first-data.md)
 - [Next Chapter: Chapter 5: Block Data Model](05-block-data-model.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

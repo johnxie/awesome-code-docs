@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Autonomy, Control, and Debugging](06-autonomy-control-and-debugging.md)
 - [Next Chapter: Chapter 8: Self-Hosting and Production Operations](08-self-hosting-and-production-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

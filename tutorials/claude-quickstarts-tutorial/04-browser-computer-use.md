@@ -106,7 +106,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Data Processing and Analysis](03-data-processing-analysis.md)
 - [Next Chapter: Chapter 5: Autonomous Coding Agents](05-autonomous-coding-agents.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

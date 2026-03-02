@@ -549,7 +549,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Audio Processing - Whisper & TTS](05-audio.md)
 - [Next Chapter: Chapter 7: Advanced Configuration and Tuning](07-configuration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

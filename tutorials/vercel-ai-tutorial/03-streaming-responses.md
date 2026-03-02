@@ -717,7 +717,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Text Generation](02-text-generation.md)
 - [Next Chapter: Chapter 4: Function Calling](04-function-calling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

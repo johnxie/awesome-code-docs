@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Configuration, Auth, and Deployment](06-configuration-auth-and-deployment.md)
 - [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

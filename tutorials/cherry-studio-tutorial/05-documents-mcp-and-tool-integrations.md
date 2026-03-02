@@ -624,7 +624,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Assistants, Topics, and Workflow Design](04-assistants-topics-and-workflow-design.md)
 - [Next Chapter: Chapter 6: Team Adoption and Enterprise Capabilities](06-team-adoption-and-enterprise-capabilities.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

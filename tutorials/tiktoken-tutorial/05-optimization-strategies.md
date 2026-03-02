@@ -104,7 +104,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Educational Module](04-educational-module.md)
 - [Next Chapter: Chapter 6: ChatML and Tool Call Accounting](06-chatml-and-tool-calls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

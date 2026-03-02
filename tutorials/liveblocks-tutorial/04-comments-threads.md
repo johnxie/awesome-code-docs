@@ -862,7 +862,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Storage & Conflict Resolution](03-storage-conflict-resolution.md)
 - [Next Chapter: Chapter 5: Notifications](05-notifications.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

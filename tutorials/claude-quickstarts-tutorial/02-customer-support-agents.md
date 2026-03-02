@@ -84,7 +84,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
 - [Next Chapter: Chapter 3: Data Processing and Analysis](03-data-processing-analysis.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

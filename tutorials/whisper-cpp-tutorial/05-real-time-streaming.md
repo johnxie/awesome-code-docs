@@ -890,7 +890,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Core API & Usage Patterns](04-core-api.md)
 - [Next Chapter: Chapter 6: Language & Translation](06-language-translation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

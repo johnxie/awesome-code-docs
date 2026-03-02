@@ -834,7 +834,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Data Management](04-data-management.md)
 - [Next Chapter: Chapter 6: Customization and Styling](06-customization-styling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

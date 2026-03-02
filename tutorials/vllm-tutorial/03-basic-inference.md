@@ -666,7 +666,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Model Loading and Management](02-model-loading.md)
 - [Next Chapter: Chapter 4: Advanced Features - Streaming, Tool Calling, and Multi-Modal](04-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

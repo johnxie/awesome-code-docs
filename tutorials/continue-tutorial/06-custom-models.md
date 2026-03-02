@@ -807,7 +807,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Debugging & Testing](05-debugging-testing.md)
 - [Next Chapter: Chapter 7: Team Collaboration & Sharing](07-team-collaboration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

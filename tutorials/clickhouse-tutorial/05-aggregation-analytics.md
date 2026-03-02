@@ -544,7 +544,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Query Optimization](04-query-optimization.md)
 - [Next Chapter: Chapter 6: Distributed ClickHouse](06-distributed-setup.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

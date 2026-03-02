@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Tool Integrations and Multi-Agent Portability](06-tool-integrations-and-multi-agent-portability.md)
 - [Next Chapter: Chapter 8: Migration, Governance, and Team Adoption](08-migration-governance-and-team-adoption.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

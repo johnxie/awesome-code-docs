@@ -632,7 +632,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Chat Completions](02-chat-completions.md)
 - [Next Chapter: Chapter 4: Agents and Assistants](04-assistants-api.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

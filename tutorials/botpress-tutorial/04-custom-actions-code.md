@@ -635,7 +635,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Natural Language Understanding](03-natural-language-understanding.md)
 - [Next Chapter: Chapter 5: Channel Integrations](05-channel-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -221,7 +221,7 @@ Devika's browser research integration solves the knowledge cutoff and documentat
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Task Planning and Code Generation](04-task-planning-and-code-generation.md)
 - [Next Chapter: Chapter 6: Project Management and Workspaces](06-project-management-and-workspaces.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

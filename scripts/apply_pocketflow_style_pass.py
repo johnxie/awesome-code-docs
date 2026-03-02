@@ -16,7 +16,7 @@ import argparse
 import re
 from pathlib import Path
 
-INDEX_NAME = "index.md"
+INDEX_NAME = "README.md"
 NUMBERED_FILE_RE = re.compile(r"^([0-9]{2,})[-_].+\.md$")
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 GEN_FOOTER = (

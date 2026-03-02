@@ -639,7 +639,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Input Parsing and Resolution Pipeline](02-input-parsing-and-resolution-pipeline.md)
 - [Next Chapter: Chapter 4: Git Repository Source Imports](04-git-repository-source-imports.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

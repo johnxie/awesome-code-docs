@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Signing, Verification, and Trust Controls](06-signing-verification-and-trust-controls.md)
 - [Next Chapter: Chapter 8: Release, Governance, and Ecosystem Operations](08-release-governance-and-ecosystem-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

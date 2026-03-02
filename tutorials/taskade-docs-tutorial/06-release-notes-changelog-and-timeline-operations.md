@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: AI Agents and Automation Documentation Patterns](05-ai-agents-and-automation-documentation-patterns.md)
 - [Next Chapter: Chapter 7: Doc Quality Governance and Link Hygiene](07-doc-quality-governance-and-link-hygiene.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

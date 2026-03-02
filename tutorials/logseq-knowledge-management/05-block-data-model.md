@@ -92,7 +92,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Logseq Development Environment Setup](04-development-setup.md)
 - [Next Chapter: Chapter 6: Block Editor](06-block-editor.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

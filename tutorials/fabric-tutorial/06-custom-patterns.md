@@ -603,7 +603,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Stitch Composition](05-stitch-composition.md)
 - [Next Chapter: Chapter 7: Integration & API](07-integration-api.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

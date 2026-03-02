@@ -658,7 +658,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tokenization & Embeddings -- BPE, Vocabulary Construction, and Positional Encodings](03-tokenization-embeddings.md)
 - [Next Chapter: Chapter 5: Attention Mechanisms -- Causal Masking, KV-Cache, Multi-Query Attention, and Flash Attention](05-attention-mechanisms.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

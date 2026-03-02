@@ -747,7 +747,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Advanced Model Configuration & Provider Setup](02-model-configuration.md)
 - [Next Chapter: Chapter 4: Dependencies, Tools & External Integrations](04-dependencies-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

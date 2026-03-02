@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Agents, Skills, and Command Orchestration](04-agents-skills-and-command-orchestration.md)
 - [Next Chapter: Chapter 6: Cross-Platform Workflows (Cursor and OpenCode)](06-cross-platform-workflows-cursor-and-opencode.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

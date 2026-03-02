@@ -88,7 +88,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Block Data Model](05-block-data-model.md)
 - [Next Chapter: Chapter 7: Bi-Directional Links](07-bidirectional-links.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

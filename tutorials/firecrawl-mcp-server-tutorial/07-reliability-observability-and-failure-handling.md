@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Batch Workflows, Deep Research, and API Evolution](06-batch-workflows-deep-research-and-api-evolution.md)
 - [Next Chapter: Chapter 8: Security, Governance, and Contribution Workflow](08-security-governance-and-contribution-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

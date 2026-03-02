@@ -221,7 +221,7 @@ Devika's multi-provider configuration model solves the vendor lock-in and cost o
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Agent Pipeline](02-architecture-and-agent-pipeline.md)
 - [Next Chapter: Chapter 4: Task Planning and Code Generation](04-task-planning-and-code-generation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

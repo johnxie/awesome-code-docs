@@ -720,7 +720,7 @@ Deploying Perplexica in production is a matter of wrapping the Docker containers
 
 You have completed the Perplexica tutorial. You now have the knowledge to install, configure, extend, and deploy an AI-powered search engine. Whether you are building a personal research assistant, a team knowledge tool, or a customer-facing search product, Perplexica's open-source architecture gives you full control over every layer of the stack.
 
-**Go back to the [Tutorial Index](index.md) to review any chapter.**
+**Go back to the [Tutorial Index](README.md) to review any chapter.**
 
 ---
 
@@ -766,7 +766,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Advanced Features](07-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

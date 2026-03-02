@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Performance and Token Optimization](06-performance-and-token-optimization.md)
 - [Next Chapter: Chapter 8: Production Security and Operations](08-production-security-and-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

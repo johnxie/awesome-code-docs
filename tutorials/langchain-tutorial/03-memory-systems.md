@@ -411,7 +411,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Prompt Templates & Chains](02-prompt-templates.md)
 - [Next Chapter: Chapter 4: Document Loading & Processing](04-document-processing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

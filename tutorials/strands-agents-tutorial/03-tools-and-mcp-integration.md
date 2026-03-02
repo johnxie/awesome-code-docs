@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Loop and Model-Driven Architecture](02-agent-loop-and-model-driven-architecture.md)
 - [Next Chapter: Chapter 4: Model Providers and Runtime Strategy](04-model-providers-and-runtime-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

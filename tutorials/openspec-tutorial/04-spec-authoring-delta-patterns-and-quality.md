@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Command Surface and Agent Workflows](03-command-surface-and-agent-workflows.md)
 - [Next Chapter: Chapter 5: Customization, Schemas, and Project Rules](05-customization-schemas-and-project-rules.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

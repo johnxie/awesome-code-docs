@@ -221,7 +221,7 @@ Devika's installation complexity stems from having three distinct runtimes (Pyth
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Next Chapter: Chapter 2: Architecture and Agent Pipeline](02-architecture-and-agent-pipeline.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Chain Composition](04-chain-composition.md)
 - [Next Chapter: Chapter 6: Vector Store Abstraction](06-vector-store-abstraction.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

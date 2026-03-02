@@ -627,7 +627,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Prompt-to-App Workflow](04-prompt-to-app-workflow.md)
 - [Next Chapter: Chapter 6: Integrations and MCP](06-integrations-and-mcp.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

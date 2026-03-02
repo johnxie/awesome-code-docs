@@ -846,7 +846,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Dependency Management](06-dependency-management.md)
 - [Next Chapter: Chapter 8: Performance Optimization](08-performance-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

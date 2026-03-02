@@ -543,7 +543,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Server Mode](04-server.md)
 - [Next Chapter: Chapter 6: Quantization](06-quantization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

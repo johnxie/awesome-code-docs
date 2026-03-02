@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Fine-Tuning](06-fine-tuning.md)
 - [Next Chapter: Chapter 8: Integration Examples](08-integration-examples.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

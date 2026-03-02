@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Parallel Agent Orchestration](04-parallel-agent-orchestration.md)
 - [Next Chapter: Chapter 6: IDE and CLI Integration Patterns](06-ide-and-cli-integration-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

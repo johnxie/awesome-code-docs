@@ -621,7 +621,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Caching Strategies](04-caching-strategies.md)
 - [Next Chapter: Chapter 6: Dependency Management](06-dependency-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

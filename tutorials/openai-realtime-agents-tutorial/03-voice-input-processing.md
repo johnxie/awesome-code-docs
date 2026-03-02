@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Realtime API Fundamentals](02-realtime-api-fundamentals.md)
 - [Next Chapter: Chapter 4: Conversational AI](04-conversational-ai.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

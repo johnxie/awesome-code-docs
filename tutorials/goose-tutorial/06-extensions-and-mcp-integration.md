@@ -643,7 +643,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Sessions and Context Management](05-sessions-and-context-management.md)
 - [Next Chapter: Chapter 7: CLI Workflows and Automation](07-cli-workflows-and-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

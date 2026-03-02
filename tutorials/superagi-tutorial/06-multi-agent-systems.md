@@ -781,7 +781,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Task Planning](05-task-planning.md)
 - [Next Chapter: Chapter 7: Deployment & Scaling](07-deployment-scaling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

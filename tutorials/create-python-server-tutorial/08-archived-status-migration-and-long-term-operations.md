@@ -38,7 +38,7 @@ This chapter covers long-term maintenance strategy for teams relying on archived
 
 You now have a long-term operating model for scaffold-derived Python MCP services in archived-tool scenarios.
 
-Return to the [Create Python Server Tutorial index](index.md).
+Return to the [Create Python Server Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Quality, Security, and Contribution Workflows](07-quality-security-and-contribution-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

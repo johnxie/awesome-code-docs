@@ -918,7 +918,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Language & Translation](06-language-translation.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-deployment-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

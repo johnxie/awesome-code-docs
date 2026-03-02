@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: `CLAUDE.md` and Project Scaffolding Patterns](05-claude-md-and-project-scaffolding-patterns.md)
 - [Next Chapter: Chapter 7: Link Health, Validation, and Drift Control](07-link-health-validation-and-drift-control.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

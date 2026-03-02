@@ -614,7 +614,7 @@ Use these Genesis-specific references:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Smart Automations](04-smart-automations.md)
 - [Next Chapter: Chapter 6: Multi-Agent Collaboration](06-multi-agent-collaboration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

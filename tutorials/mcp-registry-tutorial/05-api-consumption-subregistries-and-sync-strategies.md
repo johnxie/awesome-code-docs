@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Authentication Models and Namespace Ownership](04-authentication-models-and-namespace-ownership.md)
 - [Next Chapter: Chapter 6: Versioning, Governance, and Moderation Lifecycle](06-versioning-governance-and-moderation-lifecycle.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

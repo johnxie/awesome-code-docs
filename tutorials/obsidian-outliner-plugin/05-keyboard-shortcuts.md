@@ -77,7 +77,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Advanced Features](04-advanced-features.md)
 - [Next Chapter: Chapter 6: Testing and Debugging](06-testing-debugging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

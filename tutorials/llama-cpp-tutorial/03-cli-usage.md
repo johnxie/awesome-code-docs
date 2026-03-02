@@ -536,7 +536,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Model Formats and GGUF](02-model-formats.md)
 - [Next Chapter: Chapter 4: Server Mode](04-server.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

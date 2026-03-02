@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Plugin Manifest and Structural Contracts](03-plugin-manifest-and-structural-contracts.md)
 - [Next Chapter: Chapter 5: Trust, Security, and Risk Controls](05-trust-security-and-risk-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

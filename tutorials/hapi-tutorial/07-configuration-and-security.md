@@ -80,7 +80,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: PWA, Telegram, and Extensions](06-pwa-telegram-and-extensions.md)
 - [Next Chapter: Chapter 8: Production Operations](08-production-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

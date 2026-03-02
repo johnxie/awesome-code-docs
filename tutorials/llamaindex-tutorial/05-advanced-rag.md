@@ -867,7 +867,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Query Engines & Retrieval](04-query-engines.md)
 - [Next Chapter: Chapter 6: Custom Components](06-custom-components.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

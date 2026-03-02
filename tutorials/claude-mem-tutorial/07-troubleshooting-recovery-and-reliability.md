@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Viewer Operations and Maintenance Workflows](06-viewer-operations-and-maintenance-workflows.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Governance](08-contribution-workflow-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

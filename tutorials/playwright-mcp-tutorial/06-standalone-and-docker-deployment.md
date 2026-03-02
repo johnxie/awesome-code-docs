@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Profile State, Extension, and Auth Sessions](05-profile-state-extension-and-auth-sessions.md)
 - [Next Chapter: Chapter 7: Tooling Surface and Automation Patterns](07-tooling-surface-and-automation-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

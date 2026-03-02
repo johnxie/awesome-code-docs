@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Permissions and Tool Governance](04-permissions-and-tool-governance.md)
 - [Next Chapter: Chapter 6: Extensions and MCP Integration](06-extensions-and-mcp-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

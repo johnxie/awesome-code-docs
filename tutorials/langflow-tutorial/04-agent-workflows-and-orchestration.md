@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Visual Flow Builder](03-visual-flow-builder.md)
 - [Next Chapter: Chapter 5: API and MCP Deployment](05-api-and-mcp-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

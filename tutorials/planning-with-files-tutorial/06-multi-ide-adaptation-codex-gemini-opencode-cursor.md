@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Templates, Scripts, and Session Recovery](05-templates-scripts-and-session-recovery.md)
 - [Next Chapter: Chapter 7: Troubleshooting, Anti-Patterns, and Safety Checks](07-troubleshooting-anti-patterns-and-safety-checks.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

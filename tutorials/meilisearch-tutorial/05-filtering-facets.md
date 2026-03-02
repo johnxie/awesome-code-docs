@@ -432,7 +432,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Typo Tolerance & Relevance](04-typo-tolerance-relevance.md)
 - [Next Chapter: Chapter 6: Multi-Language Support](06-multi-language-support.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

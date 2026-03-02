@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: React Hooks and Live Local-First UX](03-react-hooks-and-live-local-first-ux.md)
 - [Next Chapter: Chapter 5: Storage Gateways and Sync Topology](05-storage-gateways-and-sync-topology.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

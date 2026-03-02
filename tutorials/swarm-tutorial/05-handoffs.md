@@ -709,7 +709,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Routines](04-routines.md)
 - [Next Chapter: Chapter 6: Context Variables](06-context-variables.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

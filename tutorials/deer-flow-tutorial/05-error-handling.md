@@ -554,7 +554,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Dependencies](04-dependencies.md)
 - [Next Chapter: Chapter 6: Scaling](06-scaling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

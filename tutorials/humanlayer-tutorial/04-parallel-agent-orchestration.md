@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Context Engineering Workflows](03-context-engineering-workflows.md)
 - [Next Chapter: Chapter 5: Human Approval and High-Stakes Actions](05-human-approval-and-high-stakes-actions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

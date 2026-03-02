@@ -626,7 +626,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Git Integration](04-git.md)
 - [Next Chapter: Chapter 6: Model Configuration](06-models.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

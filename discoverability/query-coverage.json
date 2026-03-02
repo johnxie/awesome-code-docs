@@ -12,7 +12,7 @@
       "title": "Open-Source Coding Agents",
       "tutorials": [
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/README.md",
           "intent_signals": [
             "agentic-coding"
           ],
@@ -20,7 +20,7 @@
           "title": "Cline Tutorial: Agentic Coding with Human Control"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/roo-code-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "architecture-deep-dive",
@@ -30,7 +30,7 @@
           "title": "Roo Code Tutorial: Run an AI Dev Team in Your Editor"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/opencode-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "agentic-coding"
@@ -39,7 +39,7 @@
           "title": "OpenCode Tutorial: Open-Source Terminal Coding Agent at Scale"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/README.md",
           "intent_signals": [
             "agentic-coding"
           ],
@@ -47,7 +47,7 @@
           "title": "Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/continue-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "agentic-coding"
@@ -56,7 +56,7 @@
           "title": "Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openhands-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "agentic-coding"
@@ -65,7 +65,7 @@
           "title": "OpenHands Tutorial: Autonomous Software Engineering Workflows"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/sweep-tutorial/README.md",
           "intent_signals": [
             "agentic-coding"
           ],
@@ -73,7 +73,7 @@
           "title": "Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tabby-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "architecture-deep-dive",
@@ -83,7 +83,7 @@
           "title": "Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/stagewise-tutorial/README.md",
           "intent_signals": [
             "agentic-coding"
           ],
@@ -91,7 +91,7 @@
           "title": "Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/README.md",
           "intent_signals": [
             "agentic-coding"
           ],
@@ -99,7 +99,7 @@
           "title": "Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "agentic-coding"
@@ -108,7 +108,7 @@
           "title": "ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agenticseek-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agenticseek-tutorial/README.md",
           "intent_signals": [
             "beginner-onboarding",
             "production-operations",
@@ -130,7 +130,7 @@
       "title": "MCP Servers and SDKs",
       "tutorials": [
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-python-sdk-tutorial/README.md",
           "intent_signals": [
             "mcp-integration"
           ],
@@ -138,7 +138,7 @@
           "title": "MCP Python SDK Tutorial: Building AI Tool Servers"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fastmcp-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "architecture-deep-dive",
@@ -148,7 +148,7 @@
           "title": "FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -157,7 +157,7 @@
           "title": "MCP Servers Tutorial: Reference Implementations and Patterns"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-typescript-sdk-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -166,7 +166,7 @@
           "title": "MCP TypeScript SDK Tutorial: Building and Migrating MCP Clients and Servers in TypeScript"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-go-sdk-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -175,7 +175,7 @@
           "title": "MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -184,7 +184,7 @@
           "title": "MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-java-sdk-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -193,7 +193,7 @@
           "title": "MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-csharp-sdk-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -202,7 +202,7 @@
           "title": "MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-registry-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -211,7 +211,7 @@
           "title": "MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-inspector-tutorial/README.md",
           "intent_signals": [
             "mcp-integration"
           ],
@@ -219,7 +219,7 @@
           "title": "MCP Inspector Tutorial: Debugging and Validating MCP Servers"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awslabs-mcp-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awslabs-mcp-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "mcp-integration"
@@ -228,7 +228,7 @@
           "title": "awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bolt-diy-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "architecture-deep-dive",
@@ -250,7 +250,7 @@
       "title": "RAG and Retrieval Systems",
       "tutorials": [
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/README.md",
           "intent_signals": [
             "rag-implementation"
           ],
@@ -258,7 +258,7 @@
           "title": "LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "architecture-deep-dive",
@@ -268,7 +268,7 @@
           "title": "Haystack: Deep Dive Tutorial"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/README.md",
           "intent_signals": [
             "rag-implementation"
           ],
@@ -276,7 +276,7 @@
           "title": "RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/README.md",
           "intent_signals": [
             "rag-implementation"
           ],
@@ -284,7 +284,7 @@
           "title": "ChromaDB Tutorial: Building AI-Native Vector Databases"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lancedb-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lancedb-tutorial/README.md",
           "intent_signals": [
             "architecture-deep-dive",
             "rag-implementation"
@@ -293,7 +293,7 @@
           "title": "LanceDB Tutorial: Serverless Vector Database for AI"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/README.md",
           "intent_signals": [
             "rag-implementation"
           ],
@@ -301,7 +301,7 @@
           "title": "Quivr Tutorial: Open-Source RAG Framework for Document Ingestion"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/README.md",
           "intent_signals": [
             "production-operations",
             "rag-implementation"
@@ -322,7 +322,7 @@
       "title": "LLM Infrastructure and Serving",
       "tutorials": [
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vllm-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -330,7 +330,7 @@
           "title": "vLLM Tutorial: High-Performance LLM Inference"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/litellm-tutorial/README.md",
           "intent_signals": [
             "production-operations"
           ],
@@ -338,7 +338,7 @@
           "title": "LiteLLM Tutorial: Unified LLM Gateway and Routing Layer"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-cpp-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llama-cpp-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -346,7 +346,7 @@
           "title": "llama.cpp Tutorial: Local LLM Inference"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/localai-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/localai-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -366,7 +366,7 @@
       "title": "AI App Frameworks and Product Stacks",
       "tutorials": [
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/README.md",
           "intent_signals": [
             "production-operations"
           ],
@@ -374,7 +374,7 @@
           "title": "Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -382,7 +382,7 @@
           "title": "CopilotKit Tutorial: Building AI Copilots for React Applications"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md",
           "intent_signals": [
             "architecture-deep-dive"
           ],
@@ -390,7 +390,7 @@
           "title": "LobeChat AI Platform: Deep Dive Tutorial"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md",
           "intent_signals": [
             "architecture-deep-dive"
           ],
@@ -398,7 +398,7 @@
           "title": "Flowise LLM Orchestration: Deep Dive Tutorial"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md",
           "intent_signals": [
             "architecture-deep-dive"
           ],
@@ -406,7 +406,7 @@
           "title": "Dify Platform: Deep Dive Tutorial"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/README.md",
           "intent_signals": [
             "production-operations"
           ],
@@ -414,7 +414,7 @@
           "title": "Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -422,7 +422,7 @@
           "title": "Chatbox Tutorial: Building Modern AI Chat Interfaces"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/README.md",
           "intent_signals": [
             "beginner-onboarding",
             "production-operations"
@@ -431,7 +431,7 @@
           "title": "Dyad Tutorial: Local-First AI App Building"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/README.md",
           "intent_signals": [
             "beginner-onboarding",
             "production-operations",
@@ -441,7 +441,7 @@
           "title": "Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md",
           "intent_signals": [
             "production-operations"
           ],
@@ -449,7 +449,7 @@
           "title": "Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/README.md",
           "intent_signals": [
             "beginner-onboarding"
           ],
@@ -457,7 +457,7 @@
           "title": "Fireproof Tutorial: Local-First Document Database for AI-Native Apps"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -482,7 +482,7 @@
       "title": "Taskade AI, Genesis, and MCP Workflows",
       "tutorials": [
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/README.md",
           "intent_signals": [
             "production-operations"
           ],
@@ -490,7 +490,7 @@
           "title": "Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-docs-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-docs-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -498,7 +498,7 @@
           "title": "Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-mcp-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-mcp-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
@@ -506,7 +506,7 @@
           "title": "Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-awesome-vibe-coding-tutorial/index.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-awesome-vibe-coding-tutorial/README.md",
           "intent_signals": [
             "tool-selection"
           ],

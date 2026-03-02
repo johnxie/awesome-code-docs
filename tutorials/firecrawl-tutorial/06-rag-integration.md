@@ -687,7 +687,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Content Cleaning & Processing](05-content-cleaning.md)
 - [Next Chapter: Chapter 7: Scaling & Performance](07-scaling-performance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

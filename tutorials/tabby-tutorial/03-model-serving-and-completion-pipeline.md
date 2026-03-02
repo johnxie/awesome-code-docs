@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Runtime Components](02-architecture-and-runtime-components.md)
 - [Next Chapter: Chapter 4: Answer Engine and Context Indexing](04-answer-engine-and-context-indexing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

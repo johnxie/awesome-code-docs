@@ -570,7 +570,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Perplexica](01-getting-started.md)
 - [Next Chapter: Chapter 3: AI Integration](03-ai-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

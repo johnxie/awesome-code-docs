@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Server Transports and Deployment Patterns](04-server-transports-and-deployment-patterns.md)
 - [Next Chapter: Chapter 6: Security, Authorization, and Runtime Controls](06-security-authorization-and-runtime-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

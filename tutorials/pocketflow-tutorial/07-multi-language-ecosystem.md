@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Streaming, HITL, and Interrupts](06-streaming-hitl-and-interrupts.md)
 - [Next Chapter: Chapter 8: Production Usage and Scaling](08-production-usage-and-scaling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

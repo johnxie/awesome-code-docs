@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Document API and Query Lifecycle](02-core-document-api-and-query-lifecycle.md)
 - [Next Chapter: Chapter 4: Ledger, CRDT, and Causal Consistency](04-ledger-crdt-and-causal-consistency.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

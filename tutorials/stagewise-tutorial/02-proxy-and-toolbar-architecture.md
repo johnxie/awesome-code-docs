@@ -644,7 +644,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and CLI Bootstrap](01-getting-started-and-cli-bootstrap.md)
 - [Next Chapter: Chapter 3: Bridge Mode and Multi-Agent Integrations](03-bridge-mode-and-multi-agent-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

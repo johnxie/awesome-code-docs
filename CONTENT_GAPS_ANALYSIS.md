@@ -60,7 +60,7 @@ High-impact surfaces requiring continuous maintenance:
 
 A tutorial track is considered production-ready when:
 
-- it has `index.md` with valid local links
+- it has `README.md` with valid local links
 - it has a coherent numbered chapter sequence
 - its summary and snapshot language are not stale or placeholder quality
 - it passes repository docs health checks

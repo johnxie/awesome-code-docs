@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: System Architecture](02-system-architecture.md)
 - [Next Chapter: Chapter 4: Workflows and Control Flow](04-workflows-and-control-flow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

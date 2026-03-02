@@ -80,7 +80,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Remote Access and Networking](04-remote-access-and-networking.md)
 - [Next Chapter: Chapter 6: PWA, Telegram, and Extensions](06-pwa-telegram-and-extensions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

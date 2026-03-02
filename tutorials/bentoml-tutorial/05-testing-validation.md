@@ -503,7 +503,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Framework Integration](04-framework-integration.md)
 - [Next Chapter: Chapter 6: Deployment Strategies](06-deployment-strategies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

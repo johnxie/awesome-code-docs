@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: OAuth, Security, and Auth Workflows](06-oauth-security-and-auth-workflows.md)
 - [Next Chapter: Chapter 8: Ecosystem Integration and Production Operations](08-ecosystem-integration-and-production-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

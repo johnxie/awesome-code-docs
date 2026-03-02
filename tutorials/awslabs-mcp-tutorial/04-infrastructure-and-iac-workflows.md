@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Transport and Client Integration Patterns](03-transport-and-client-integration-patterns.md)
 - [Next Chapter: Chapter 5: Data, Knowledge, and Agent Workflows](05-data-knowledge-and-agent-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

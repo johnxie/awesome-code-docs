@@ -841,7 +841,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Nodes and Edges](03-nodes-edges.md)
 - [Next Chapter: Chapter 5: Multi-Agent Systems](05-multi-agent-systems.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

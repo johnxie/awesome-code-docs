@@ -84,7 +84,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Block Editor](06-block-editor.md)
 - [Next Chapter: Chapter 8: Graph Visualization](08-graph-visualization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

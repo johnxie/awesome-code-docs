@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Authentication and Model Access Strategy](03-authentication-and-model-access-strategy.md)
 - [Next Chapter: Chapter 5: MCP, Extensions, and Skills](05-mcp-extensions-and-skills.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

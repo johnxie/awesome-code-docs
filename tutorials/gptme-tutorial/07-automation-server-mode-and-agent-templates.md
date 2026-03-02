@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: MCP, ACP, and Plugin Extensibility](06-mcp-acp-and-plugin-extensibility.md)
 - [Next Chapter: Chapter 8: Production Operations and Security](08-production-operations-and-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

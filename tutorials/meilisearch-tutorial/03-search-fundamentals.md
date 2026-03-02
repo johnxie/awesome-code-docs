@@ -366,7 +366,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Document Management](02-document-management.md)
 - [Next Chapter: Chapter 4: Typo Tolerance & Relevance](04-typo-tolerance-relevance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

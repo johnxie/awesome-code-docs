@@ -88,7 +88,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: API Generation Engine](04-api-generation.md)
 - [Next Chapter: Chapter 6: Auth System](06-auth-system.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

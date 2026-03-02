@@ -704,7 +704,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Bug Fixing - Autonomous Debugging and Resolution](04-bug-fixing.md)
 - [Next Chapter: Chapter 6: Refactoring - Code Structure Improvement and Modernization](06-refactoring.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

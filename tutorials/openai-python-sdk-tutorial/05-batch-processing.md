@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Agents and Assistants](04-assistants-api.md)
 - [Next Chapter: Chapter 6: Fine-Tuning](06-fine-tuning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

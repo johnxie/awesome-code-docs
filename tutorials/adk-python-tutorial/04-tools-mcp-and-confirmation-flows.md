@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agent Design and Multi-Agent Composition](03-agent-design-and-multi-agent-composition.md)
 - [Next Chapter: Chapter 5: Sessions, Memory, and Context Management](05-sessions-memory-and-context-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

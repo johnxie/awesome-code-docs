@@ -652,7 +652,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Character Creation](02-character-creation.md)
 - [Next Chapter: Chapter 4: Prompt Engineering](04-prompt-engineering.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Documents, MCP, and Tool Integrations](05-documents-mcp-and-tool-integrations.md)
 - [Next Chapter: Chapter 7: Development and Contribution Workflow](07-development-and-contribution-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

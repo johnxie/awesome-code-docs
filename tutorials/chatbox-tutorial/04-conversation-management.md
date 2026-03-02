@@ -650,7 +650,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: AI Provider Integration](03-ai-providers.md)
 - [Next Chapter: Chapter 5: Message Processing Pipeline](05-message-processing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

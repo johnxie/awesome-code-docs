@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP and LSP Extension Points](05-mcp-and-lsp-extension-points.md)
 - [Next Chapter: Chapter 7: Installation and Update Channels](07-installation-and-update-channels.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

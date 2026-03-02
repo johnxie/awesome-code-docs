@@ -745,7 +745,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Code Intelligence](04-code-intelligence.md)
 - [Next Chapter: Chapter 6: Visualization](06-visualization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Tools, Prompts, User Config, and Localization](04-tools-prompts-user-config-and-localization.md)
 - [Next Chapter: Chapter 6: Signing, Verification, and Trust Controls](06-signing-verification-and-trust-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Registry Architecture and Data Flow](02-registry-architecture-and-data-flow.md)
 - [Next Chapter: Chapter 4: Authentication Models and Namespace Ownership](04-authentication-models-and-namespace-ownership.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

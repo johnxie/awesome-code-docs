@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Server Configuration and Runtime Packaging](03-server-configuration-and-runtime-packaging.md)
 - [Next Chapter: Chapter 5: CLI Workflows: Init, Validate, and Pack](05-cli-workflows-init-validate-and-pack.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

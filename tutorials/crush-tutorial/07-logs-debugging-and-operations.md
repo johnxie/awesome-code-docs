@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Skills, Commands, and Workflow Customization](06-skills-commands-and-workflow-customization.md)
 - [Next Chapter: Chapter 8: Production Governance and Rollout](08-production-governance-and-rollout.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

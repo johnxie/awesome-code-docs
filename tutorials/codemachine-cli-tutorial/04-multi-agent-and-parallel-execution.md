@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Workflow Design Patterns](03-workflow-design-patterns.md)
 - [Next Chapter: Chapter 5: Context Engineering and State Control](05-context-engineering-and-state-control.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

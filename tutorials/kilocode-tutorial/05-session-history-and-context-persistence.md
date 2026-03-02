@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Authentication and Provider Routing](04-authentication-and-provider-routing.md)
 - [Next Chapter: Chapter 6: Extensions, MCP, and Custom Modes](06-extensions-mcp-and-custom-modes.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

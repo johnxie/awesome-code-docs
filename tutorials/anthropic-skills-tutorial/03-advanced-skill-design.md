@@ -129,7 +129,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Skill Categories](02-skill-categories.md)
 - [Next Chapter: Chapter 4: Integration Platforms](04-integration-platforms.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

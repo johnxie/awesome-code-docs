@@ -89,7 +89,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Practical Applications](03-practical-applications.md)
 - [Next Chapter: Chapter 5: Optimization Strategies](05-optimization-strategies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

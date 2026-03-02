@@ -541,7 +541,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Data Modeling & Schemas](02-data-modeling.md)
 - [Next Chapter: Chapter 4: Query Optimization](04-query-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

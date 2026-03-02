@@ -645,7 +645,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Issue to PR Workflow Architecture](02-issue-to-pr-workflow-architecture.md)
 - [Next Chapter: Chapter 4: Feedback Loops, Review Comments, and CI Repair](04-feedback-loops-review-comments-and-ci-repair.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

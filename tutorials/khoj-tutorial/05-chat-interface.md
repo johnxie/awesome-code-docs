@@ -1114,7 +1114,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Search & Retrieval](04-search-and-retrieval.md)
 - [Next Chapter: Chapter 6: Automation & Agents](06-automation-and-agents.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

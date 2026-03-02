@@ -776,7 +776,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Render Phase](03-render-phase.md)
 - [Next Chapter: Chapter 5: Scheduling and Lanes](05-scheduling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

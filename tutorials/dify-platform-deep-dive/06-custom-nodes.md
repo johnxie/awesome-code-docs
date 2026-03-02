@@ -835,7 +835,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Agent Framework](05-agent-framework.md)
 - [Next Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

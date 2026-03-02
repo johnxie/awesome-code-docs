@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Review, Checkout, and Push Workflow](05-review-checkout-and-push-workflow.md)
 - [Next Chapter: Chapter 7: Configuration and State Management](07-configuration-and-state-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

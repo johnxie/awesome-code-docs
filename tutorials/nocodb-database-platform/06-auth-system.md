@@ -89,7 +89,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Query Builder](05-query-builder.md)
 - [Next Chapter: Chapter 7: Vue Components](07-vue-components.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

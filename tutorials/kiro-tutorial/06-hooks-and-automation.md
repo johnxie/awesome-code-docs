@@ -414,7 +414,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP Integration and External Tools](05-mcp-integration-and-external-tools.md)
 - [Next Chapter: Chapter 7: Multi-Model Strategy and Providers](07-multi-model-strategy-and-providers.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1140,7 +1140,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Custom Nodes](06-custom-nodes.md)
 - [Next Chapter: Chapter 8: Operations Playbook](08-operations-playbook.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

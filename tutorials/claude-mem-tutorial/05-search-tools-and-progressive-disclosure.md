@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Configuration, Modes, and Context Injection](04-configuration-modes-and-context-injection.md)
 - [Next Chapter: Chapter 6: Viewer Operations and Maintenance Workflows](06-viewer-operations-and-maintenance-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: GitHub-Native Context Workflows](06-github-native-context-workflows.md)
 - [Next Chapter: Chapter 8: Production Governance and Team Rollout](08-production-governance-and-team-rollout.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

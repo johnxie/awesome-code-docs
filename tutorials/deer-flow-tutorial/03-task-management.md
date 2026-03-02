@@ -552,7 +552,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Workflow Basics](02-workflow-basics.md)
 - [Next Chapter: Chapter 4: Dependencies](04-dependencies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Infrastructure and IaC Workflows](04-infrastructure-and-iac-workflows.md)
 - [Next Chapter: Chapter 6: Security, Credentials, and Risk Controls](06-security-credentials-and-risk-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

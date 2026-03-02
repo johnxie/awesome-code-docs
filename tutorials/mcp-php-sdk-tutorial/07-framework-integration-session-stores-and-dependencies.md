@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Client Communication: Sampling, Logging, and Progress](06-client-communication-sampling-logging-and-progress.md)
 - [Next Chapter: Chapter 8: Roadmap, Release Strategy, and Production Readiness](08-roadmap-release-strategy-and-production-readiness.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

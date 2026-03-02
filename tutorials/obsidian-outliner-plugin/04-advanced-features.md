@@ -903,7 +903,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tree Data Structures](03-tree-structures.md)
 - [Next Chapter: Chapter 5: Keyboard Shortcuts](05-keyboard-shortcuts.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

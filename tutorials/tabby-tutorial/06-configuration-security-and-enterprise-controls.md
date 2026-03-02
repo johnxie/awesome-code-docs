@@ -641,7 +641,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Editor Agents and Client Integrations](05-editor-agents-and-client-integrations.md)
 - [Next Chapter: Chapter 7: Operations, Upgrades, and Observability](07-operations-upgrades-and-observability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -92,7 +92,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Audio Preprocessing](03-audio-preprocessing.md)
 - [Next Chapter: Chapter 5: Fine-Tuning and Adaptation](05-fine-tuning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

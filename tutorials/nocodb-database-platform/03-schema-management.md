@@ -893,7 +893,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Database Abstraction Layer](02-database-abstraction.md)
 - [Next Chapter: Chapter 4: API Generation Engine](04-api-generation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -716,7 +716,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: LLM Configuration - Connecting Language Models](04-llm-config.md)
 - [Next Chapter: Chapter 6: Agents - Intelligent Capabilities and Automation](06-agents.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

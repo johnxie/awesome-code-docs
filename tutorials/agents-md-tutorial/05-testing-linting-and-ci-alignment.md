@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Repository Structure and Scope Strategy](04-repository-structure-and-scope-strategy.md)
 - [Next Chapter: Chapter 6: Team Rollout and Adoption Playbook](06-team-rollout-and-adoption-playbook.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

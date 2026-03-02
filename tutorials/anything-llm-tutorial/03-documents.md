@@ -695,7 +695,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Workspaces - Organizing Your Knowledge](02-workspaces.md)
 - [Next Chapter: Chapter 4: LLM Configuration - Connecting Language Models](04-llm-config.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

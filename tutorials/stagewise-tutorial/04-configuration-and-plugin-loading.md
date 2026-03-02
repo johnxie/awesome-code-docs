@@ -642,7 +642,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Bridge Mode and Multi-Agent Integrations](03-bridge-mode-and-multi-agent-integrations.md)
 - [Next Chapter: Chapter 5: Building Plugins with Plugin SDK](05-building-plugins-with-plugin-sdk.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

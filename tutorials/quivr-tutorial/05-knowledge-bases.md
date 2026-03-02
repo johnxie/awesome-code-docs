@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Query Processing](04-query-processing.md)
 - [Next Chapter: Chapter 6: Integration APIs](06-integration-apis.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

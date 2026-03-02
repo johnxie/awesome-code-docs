@@ -562,7 +562,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Image Generation with Stable Diffusion](04-image-generation.md)
 - [Next Chapter: Chapter 6: Vector Embeddings for RAG](06-embeddings.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

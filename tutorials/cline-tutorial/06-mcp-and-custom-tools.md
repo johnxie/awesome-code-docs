@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Browser Automation](05-browser-automation.md)
 - [Next Chapter: Chapter 7: Context and Cost Control](07-context-and-cost-control.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

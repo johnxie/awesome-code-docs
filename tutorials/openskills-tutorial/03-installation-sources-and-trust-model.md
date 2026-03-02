@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Skill Format and Loader Architecture](02-skill-format-and-loader-architecture.md)
 - [Next Chapter: Chapter 4: Sync and AGENTS.md Integration](04-sync-and-agents-md-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

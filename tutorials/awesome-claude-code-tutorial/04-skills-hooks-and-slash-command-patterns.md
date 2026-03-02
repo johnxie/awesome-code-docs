@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Resource Quality Evaluation Framework](03-resource-quality-evaluation-framework.md)
 - [Next Chapter: Chapter 5: `CLAUDE.md` and Project Scaffolding Patterns](05-claude-md-and-project-scaffolding-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

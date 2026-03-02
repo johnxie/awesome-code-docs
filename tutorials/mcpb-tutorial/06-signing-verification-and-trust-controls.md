@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: CLI Workflows: Init, Validate, and Pack](05-cli-workflows-init-validate-and-pack.md)
 - [Next Chapter: Chapter 7: Examples, Language Patterns, and Distribution Readiness](07-examples-language-patterns-and-distribution-readiness.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

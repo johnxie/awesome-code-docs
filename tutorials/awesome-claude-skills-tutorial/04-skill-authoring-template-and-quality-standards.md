@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation Paths: Claude.ai, Claude Code, API](03-installation-paths-claude-ai-claude-code-api.md)
 - [Next Chapter: Chapter 5: App Automation via Composio Skill Packs](05-app-automation-via-composio-skill-packs.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

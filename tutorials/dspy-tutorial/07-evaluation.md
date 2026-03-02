@@ -765,7 +765,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration](06-advanced-patterns.md)
 - [Next Chapter: Chapter 8: Production Deployment - Scaling DSPy Systems](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

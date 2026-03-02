@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Model Serving and Completion Pipeline](03-model-serving-and-completion-pipeline.md)
 - [Next Chapter: Chapter 5: Editor Agents and Client Integrations](05-editor-agents-and-client-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

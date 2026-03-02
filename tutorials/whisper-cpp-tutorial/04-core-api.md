@@ -809,7 +809,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Model Architecture & GGML](03-model-architecture.md)
 - [Next Chapter: Chapter 5: Real-Time Streaming](05-real-time-streaming.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

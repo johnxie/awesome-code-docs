@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Agent Workflows and Orchestration](04-agent-workflows-and-orchestration.md)
 - [Next Chapter: Chapter 6: Observability and Security](06-observability-and-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: CLI Mode, Automation, and CI Loops](04-cli-mode-automation-and-ci-loops.md)
 - [Next Chapter: Chapter 6: Configuration, Timeouts, and Runtime Tuning](06-configuration-timeouts-and-runtime-tuning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

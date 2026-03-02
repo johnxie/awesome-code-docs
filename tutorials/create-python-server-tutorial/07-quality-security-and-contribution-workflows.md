@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Customization and Extension Patterns](06-customization-and-extension-patterns.md)
 - [Next Chapter: Chapter 8: Archived Status, Migration, and Long-Term Operations](08-archived-status-migration-and-long-term-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

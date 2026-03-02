@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Server Runtime and Transports](03-server-runtime-and-transports.md)
 - [Next Chapter: Chapter 5: Integrations: Claude Code, Cursor, and Tooling](05-integrations-claude-code-cursor-and-tooling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

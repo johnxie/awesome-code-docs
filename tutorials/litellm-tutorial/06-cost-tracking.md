@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Fallbacks & Retries](05-fallbacks.md)
 - [Next Chapter: Chapter 7: LiteLLM Proxy](07-proxy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

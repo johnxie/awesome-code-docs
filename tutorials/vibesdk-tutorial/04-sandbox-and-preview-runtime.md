@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: AI Pipeline and Phase Engine](03-ai-pipeline-and-phase-engine.md)
 - [Next Chapter: Chapter 5: Data Layer and Persistence](05-data-layer-and-persistence.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

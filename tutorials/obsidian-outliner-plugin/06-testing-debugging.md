@@ -88,7 +88,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Keyboard Shortcuts](05-keyboard-shortcuts.md)
 - [Next Chapter: Chapter 7: Plugin Packaging](07-plugin-packaging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

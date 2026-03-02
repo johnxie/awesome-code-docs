@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Contribution Workflow and List Hygiene](06-contribution-workflow-and-list-hygiene.md)
 - [Next Chapter: Chapter 8: Team Adoption and Maintenance](08-team-adoption-and-maintenance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

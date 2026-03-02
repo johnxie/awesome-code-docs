@@ -830,7 +830,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Basic Inference - Text Generation and Sampling](03-basic-inference.md)
 - [Next Chapter: Chapter 5: Performance Optimization - Maximizing Throughput and Efficiency](05-performance-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

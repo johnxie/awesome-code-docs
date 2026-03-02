@@ -778,7 +778,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Chat Components - Building Chat Interfaces with CopilotChat and CopilotSidebar](04-chat-components.md)
 - [Next Chapter: Chapter 6: CoAgents & LangGraph - Building Agentic Workflows](06-coagents.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

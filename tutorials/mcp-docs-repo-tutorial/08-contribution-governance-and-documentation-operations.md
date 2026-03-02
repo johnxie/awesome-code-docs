@@ -28,7 +28,7 @@ This chapter defines governance controls for teams maintaining internal MCP docs
 
 You now have a governance model for documentation operations across archived and active MCP sources.
 
-Return to the [MCP Docs Repo Tutorial index](index.md).
+Return to the [MCP Docs Repo Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -640,7 +640,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Tutorial Assets and Client Ecosystem Matrix](07-tutorial-assets-and-client-ecosystem-matrix.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

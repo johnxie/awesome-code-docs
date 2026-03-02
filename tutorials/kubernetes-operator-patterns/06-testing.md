@@ -1160,7 +1160,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Status and Conditions - Reporting Resource Status and Implementing Condition Patterns](05-status-conditions.md)
 - [Next Chapter: Chapter 7: Observability & Debugging - Metrics, Logging, Tracing, and Troubleshooting](07-observability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -529,7 +529,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Advanced Data Extraction](03-advanced-extraction.md)
 - [Next Chapter: Chapter 5: Content Cleaning & Processing](05-content-cleaning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

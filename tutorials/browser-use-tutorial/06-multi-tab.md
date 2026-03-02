@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Data Extraction - Scraping and Extracting Structured Data](05-data-extraction.md)
 - [Next Chapter: Chapter 7: Custom Actions - Building Domain-Specific Browser Actions](07-custom-actions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

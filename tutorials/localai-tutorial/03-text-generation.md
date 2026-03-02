@@ -620,7 +620,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Model Gallery and Management](02-models.md)
 - [Next Chapter: Chapter 4: Image Generation with Stable Diffusion](04-image-generation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

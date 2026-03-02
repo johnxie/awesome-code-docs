@@ -119,7 +119,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Integration Platforms](04-integration-platforms.md)
 - [Next Chapter: Chapter 6: Best Practices](06-best-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

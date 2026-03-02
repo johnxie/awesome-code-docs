@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: File Editing and Diffs](03-file-editing-and-diffs.md)
 - [Next Chapter: Chapter 5: Browser Automation](05-browser-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Piece Development Framework](04-piece-development-framework.md)
 - [Next Chapter: Chapter 6: Admin Governance and AI Provider Control](06-admin-governance-and-ai-provider-control.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

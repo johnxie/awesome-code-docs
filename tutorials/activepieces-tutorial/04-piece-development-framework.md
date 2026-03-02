@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Flow Design, Versioning, and Debugging](03-flow-design-versioning-and-debugging.md)
 - [Next Chapter: Chapter 5: Installation and Environment Configuration](05-installation-and-environment-configuration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Deployment, Configuration, and Operations](06-deployment-configuration-and-operations.md)
 - [Next Chapter: Chapter 8: Contribution, Testing, and Release Operations](08-contribution-testing-and-release-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

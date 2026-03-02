@@ -808,7 +808,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Managing Owned Resources - Creating and Managing Kubernetes Objects](04-owned-resources.md)
 - [Next Chapter: Chapter 6: Testing Operators - Unit Tests, Integration Tests, and envtest Framework](06-testing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

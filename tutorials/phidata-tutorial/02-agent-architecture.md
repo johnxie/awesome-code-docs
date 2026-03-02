@@ -914,7 +914,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Phidata Agents](01-getting-started.md)
 - [Next Chapter: Chapter 3: Tools & Functions - Extending Agent Capabilities](03-tools-functions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -41,7 +41,7 @@ Track:
 You now have full Teable coverage from architecture to production-grade deployment and operations.
 
 Related:
-- [Teable Index](index.md)
+- [Teable Index](README.md)
 
 ## What Problem Does This Solve?
 
@@ -83,7 +83,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Frontend Architecture](07-frontend-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

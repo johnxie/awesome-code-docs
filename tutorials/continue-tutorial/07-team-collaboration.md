@@ -741,7 +741,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Custom Models & Configuration](06-custom-models.md)
 - [Next Chapter: Chapter 8: Advanced Enterprise Features](08-advanced-enterprise.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

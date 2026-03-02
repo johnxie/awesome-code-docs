@@ -661,7 +661,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with n8n AI](01-getting-started.md)
 - [Next Chapter: Chapter 3: Document AI and Content Processing](03-document-ai.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

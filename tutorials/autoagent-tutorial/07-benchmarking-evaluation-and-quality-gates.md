@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: CLI Operations and Provider Strategy](06-cli-operations-and-provider-strategy.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Production Governance](08-contribution-workflow-and-production-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

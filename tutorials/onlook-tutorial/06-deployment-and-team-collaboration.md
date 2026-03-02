@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Local Development and Runtime Setup](05-local-development-and-runtime-setup.md)
 - [Next Chapter: Chapter 7: Contributing and Quality Workflow](07-contributing-and-quality-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

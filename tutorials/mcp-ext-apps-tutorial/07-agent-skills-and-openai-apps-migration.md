@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Testing, Local Hosts, and Integration Workflows](06-testing-local-hosts-and-integration-workflows.md)
 - [Next Chapter: Chapter 8: Release Strategy and Production Operations](08-release-strategy-and-production-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

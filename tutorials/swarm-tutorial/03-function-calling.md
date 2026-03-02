@@ -623,7 +623,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Design](02-agent-design.md)
 - [Next Chapter: Chapter 4: Routines](04-routines.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

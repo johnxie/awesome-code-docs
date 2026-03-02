@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Skills and Slash Command Extensions](04-skills-and-slash-command-extensions.md)
 - [Next Chapter: Chapter 6: Programmatic and Non-Interactive Modes](06-programmatic-and-non-interactive-modes.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Process and Code Execution Patterns](03-process-and-code-execution-patterns.md)
 - [Next Chapter: Chapter 5: MCP Agent Integration and Tooling](05-mcp-agent-integration-and-tooling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

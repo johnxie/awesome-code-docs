@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Multi-File Projects](03-multi-file.md)
 - [Next Chapter: Chapter 5: Advanced Prompting](05-prompting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1149,7 +1149,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Advanced Integrations](04-advanced-integrations.md)
 - [Next Chapter: Chapter 6: Security and Governance](06-security-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -837,7 +837,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Chat, Completions, and Parameters](03-chat-completions.md)
 - [Next Chapter: Chapter 5: Modelfiles, Templates, and Custom Models](05-modelfiles-custom.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

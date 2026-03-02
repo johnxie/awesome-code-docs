@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP and Context Management](05-mcp-and-context-management.md)
 - [Next Chapter: Chapter 7: Development Workflow and Build from Source](07-development-workflow-and-build-from-source.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

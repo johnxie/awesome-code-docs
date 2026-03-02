@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: IDE and CLI Integration Patterns](06-ide-and-cli-integration-patterns.md)
 - [Next Chapter: Chapter 8: Production Rollout and Adoption](08-production-rollout-and-adoption.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

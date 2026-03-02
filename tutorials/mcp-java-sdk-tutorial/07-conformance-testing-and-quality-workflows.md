@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Security, Authorization, and Runtime Controls](06-security-authorization-and-runtime-controls.md)
 - [Next Chapter: Chapter 8: Spring Integration and Upgrade Strategy](08-spring-integration-and-upgrade-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

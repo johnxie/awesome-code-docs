@@ -853,7 +853,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Generative UI - AI-Generated React Components](05-generative-ui.md)
 - [Next Chapter: Chapter 7: Human-in-the-Loop - User Approval Flows and Interrupts](07-human-in-loop.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

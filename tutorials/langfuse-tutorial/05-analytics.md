@@ -665,7 +665,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Evaluation](04-evaluation.md)
 - [Next Chapter: Chapter 6: Datasets & Testing](06-datasets.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

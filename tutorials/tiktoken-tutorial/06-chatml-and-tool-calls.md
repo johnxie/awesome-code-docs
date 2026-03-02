@@ -96,7 +96,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Optimization Strategies](05-optimization-strategies.md)
 - [Next Chapter: Chapter 7: Multilingual Tokenization](07-multilingual-tokenization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

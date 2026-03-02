@@ -656,7 +656,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Web Scraping and Data Collection](04-web-scraping.md)
 - [Next Chapter: Chapter 6: User Interface Development](06-user-interface.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

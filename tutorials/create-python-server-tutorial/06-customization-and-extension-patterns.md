@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Local Integration: Claude Desktop and Inspector](05-local-integration-claude-desktop-and-inspector.md)
 - [Next Chapter: Chapter 7: Quality, Security, and Contribution Workflows](07-quality-security-and-contribution-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

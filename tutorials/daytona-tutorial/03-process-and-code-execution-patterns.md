@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Sandbox Lifecycle, Resources, and Regions](02-sandbox-lifecycle-resources-and-regions.md)
 - [Next Chapter: Chapter 4: File, Git, and Preview Workflows](04-file-git-and-preview-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

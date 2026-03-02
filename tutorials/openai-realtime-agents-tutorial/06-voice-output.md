@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Function Calling](05-function-calling.md)
 - [Next Chapter: Chapter 7: Advanced Patterns](07-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

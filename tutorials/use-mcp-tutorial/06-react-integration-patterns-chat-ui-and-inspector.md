@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Transport, Retry, and Reconnect Strategy](05-transport-retry-and-reconnect-strategy.md)
 - [Next Chapter: Chapter 7: Testing, Debugging, and Integration Servers](07-testing-debugging-and-integration-servers.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

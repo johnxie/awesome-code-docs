@@ -650,7 +650,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with OpenHands](01-getting-started.md)
 - [Next Chapter: Chapter 3: Code Generation - Creating Production-Ready Code](03-code-generation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -966,7 +966,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Advanced RAG Patterns](05-advanced-rag.md)
 - [Next Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

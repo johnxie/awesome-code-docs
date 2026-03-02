@@ -831,7 +831,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Agents - Intelligent Capabilities and Automation](06-agents.md)
 - [Next Chapter: Chapter 8: Production Deployment - Docker, Security, and Scaling](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

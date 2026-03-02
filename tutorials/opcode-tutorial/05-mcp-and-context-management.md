@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Custom Agents and Background Runs](04-custom-agents-and-background-runs.md)
 - [Next Chapter: Chapter 6: Timeline, Checkpoints, and Recovery](06-timeline-checkpoints-and-recovery.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

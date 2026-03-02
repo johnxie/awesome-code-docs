@@ -632,7 +632,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: MCP and Custom Tools](06-mcp-and-custom-tools.md)
 - [Next Chapter: Chapter 8: Team and Enterprise Operations](08-team-and-enterprise-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

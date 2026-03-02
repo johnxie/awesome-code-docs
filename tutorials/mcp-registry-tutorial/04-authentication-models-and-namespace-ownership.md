@@ -642,7 +642,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: server.json Schema and Package Verification](03-server-json-schema-and-package-verification.md)
 - [Next Chapter: Chapter 5: API Consumption, Subregistries, and Sync Strategies](05-api-consumption-subregistries-and-sync-strategies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

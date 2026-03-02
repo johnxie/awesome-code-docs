@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agents and Tools](03-agents-and-tools.md)
 - [Next Chapter: Chapter 5: Memory, RAG, and Context](05-memory-rag-and-context.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

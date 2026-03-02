@@ -104,7 +104,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Production Skills](05-production-skills.md)
 - [Next Chapter: Chapter 7: Publishing and Sharing](07-publishing-sharing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

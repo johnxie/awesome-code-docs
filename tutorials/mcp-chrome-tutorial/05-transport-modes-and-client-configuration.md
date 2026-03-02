@@ -639,7 +639,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Semantic Search and Vector Processing](04-semantic-search-and-vector-processing.md)
 - [Next Chapter: Chapter 6: Visual Editor and Prompt Workflows](06-visual-editor-and-prompt-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

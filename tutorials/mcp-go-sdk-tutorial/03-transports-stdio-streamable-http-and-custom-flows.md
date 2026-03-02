@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Client/Server Lifecycle and Session Management](02-client-server-lifecycle-and-session-management.md)
 - [Next Chapter: Chapter 4: Building Tools, Resources, and Prompts in Go](04-building-tools-resources-and-prompts-in-go.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

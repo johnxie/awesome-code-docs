@@ -545,7 +545,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Task Definition & Planning](03-task-planning.md)
 - [Next Chapter: Chapter 5: Crew Communication](05-crew-communication.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

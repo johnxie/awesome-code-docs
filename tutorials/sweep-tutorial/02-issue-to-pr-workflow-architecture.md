@@ -646,7 +646,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Current Product Posture](01-getting-started-and-current-product-posture.md)
 - [Next Chapter: Chapter 3: Repository Configuration and Governance](03-repository-configuration-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

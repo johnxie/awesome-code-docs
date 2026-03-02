@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Multi-Agent Program Compatibility](04-multi-agent-program-compatibility.md)
 - [Next Chapter: Chapter 6: Setup/Teardown Presets and Automation](06-setup-teardown-presets-and-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

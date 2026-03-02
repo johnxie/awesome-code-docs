@@ -42,7 +42,7 @@ Use explicit conflict semantics:
 You now have complete NocoDB foundations from schema and API design through realtime multi-user consistency.
 
 Related:
-- [NocoDB Index](index.md)
+- [NocoDB Index](README.md)
 - [Setup Guide](docs/setup.md)
 
 ## What Problem Does This Solve?
@@ -85,7 +85,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Vue Components](07-vue-components.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

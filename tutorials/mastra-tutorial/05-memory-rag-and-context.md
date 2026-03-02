@@ -624,7 +624,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Workflows and Control Flow](04-workflows-and-control-flow.md)
 - [Next Chapter: Chapter 6: MCP and Integration Patterns](06-mcp-and-integration-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

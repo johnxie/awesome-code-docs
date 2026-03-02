@@ -36,7 +36,7 @@ This chapter defines long-term governance controls for operating MCPB workflows 
 
 You now have a governance model for operating MCPB packaging and distribution at scale.
 
-Return to the [MCPB Tutorial index](index.md).
+Return to the [MCPB Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Examples, Language Patterns, and Distribution Readiness](07-examples-language-patterns-and-distribution-readiness.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

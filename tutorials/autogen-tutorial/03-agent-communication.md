@@ -795,7 +795,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Architecture & Roles](02-agent-architecture.md)
 - [Next Chapter: Chapter 4: Tool Integration](04-tool-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

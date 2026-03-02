@@ -642,7 +642,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and First Publish](01-getting-started-and-first-publish.md)
 - [Next Chapter: Chapter 3: server.json Schema and Package Verification](03-server-json-schema-and-package-verification.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

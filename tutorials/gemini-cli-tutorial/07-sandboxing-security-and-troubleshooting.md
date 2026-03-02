@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Headless Mode and CI Automation](06-headless-mode-and-ci-automation.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Enterprise Operations](08-contribution-workflow-and-enterprise-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

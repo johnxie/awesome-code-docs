@@ -87,7 +87,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Knowledge Management Philosophy](01-knowledge-management-principles.md)
 - [Next Chapter: Chapter 3: Local-First Data](03-local-first-data.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

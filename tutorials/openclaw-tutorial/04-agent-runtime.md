@@ -680,7 +680,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Channel Drivers](03-channel-drivers.md)
 - [Next Chapter: Chapter 5: Memory & Sessions](05-memory-sessions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

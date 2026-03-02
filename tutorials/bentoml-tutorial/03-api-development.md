@@ -626,7 +626,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Model Packaging & Services](02-model-packaging.md)
 - [Next Chapter: Chapter 4: Framework Integration](04-framework-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

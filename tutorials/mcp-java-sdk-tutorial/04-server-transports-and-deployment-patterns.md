@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Client Transports and Connection Strategy](03-client-transports-and-connection-strategy.md)
 - [Next Chapter: Chapter 5: Tools, Resources, Prompts, and Schema Validation](05-tools-resources-prompts-and-schema-validation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

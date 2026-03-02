@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Building Plugins with Plugin SDK](05-building-plugins-with-plugin-sdk.md)
 - [Next Chapter: Chapter 7: Troubleshooting, Security, and Operations](07-troubleshooting-security-and-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

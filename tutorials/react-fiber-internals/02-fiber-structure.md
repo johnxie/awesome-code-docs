@@ -475,7 +475,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Introduction to Fiber](01-introduction.md)
 - [Next Chapter: Chapter 3: Render Phase](03-render-phase.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

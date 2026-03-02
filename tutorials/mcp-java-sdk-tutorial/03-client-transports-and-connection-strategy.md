@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: SDK Architecture: Reactive Model and JSON Layer](02-sdk-architecture-reactive-model-and-json-layer.md)
 - [Next Chapter: Chapter 4: Server Transports and Deployment Patterns](04-server-transports-and-deployment-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1106,7 +1106,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Streaming Responses & Async Operations](05-streaming-async.md)
 - [Next Chapter: Chapter 7: Advanced Patterns & Multi-Step Workflows](07-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

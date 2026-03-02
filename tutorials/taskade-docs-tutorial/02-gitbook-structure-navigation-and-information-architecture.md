@@ -642,7 +642,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Docs Entry Points](01-getting-started-and-docs-entry-points.md)
 - [Next Chapter: Chapter 3: Genesis, Workspace DNA, and Living-System Docs Model](03-genesis-workspace-dna-and-living-systems-doc-model.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

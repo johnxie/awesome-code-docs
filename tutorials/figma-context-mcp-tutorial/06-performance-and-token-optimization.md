@@ -624,7 +624,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP Client Integrations](05-mcp-client-integrations.md)
 - [Next Chapter: Chapter 7: Team Workflows and Design Governance](07-team-workflows-and-design-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

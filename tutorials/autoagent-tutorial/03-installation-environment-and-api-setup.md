@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Interaction Modes](02-architecture-and-interaction-modes.md)
 - [Next Chapter: Chapter 4: Agent and Workflow Creation Patterns](04-agent-and-workflow-creation-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -628,7 +628,7 @@ Use these references for agent-specific validation:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Living DNA Architecture](02-living-dna-architecture.md)
 - [Next Chapter: Chapter 4: Smart Automations](04-smart-automations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

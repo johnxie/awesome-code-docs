@@ -439,7 +439,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Filtering & Facets](05-filtering-facets.md)
 - [Next Chapter: Chapter 7: API Integration](07-api-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

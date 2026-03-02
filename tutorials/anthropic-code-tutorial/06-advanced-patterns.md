@@ -896,7 +896,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Streaming](05-streaming.md)
 - [Next Chapter: Chapter 7: Production Best Practices](07-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

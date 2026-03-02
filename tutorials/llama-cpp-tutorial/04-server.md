@@ -650,7 +650,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Command Line Interface](03-cli-usage.md)
 - [Next Chapter: Chapter 5: GPU Acceleration](05-gpu.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

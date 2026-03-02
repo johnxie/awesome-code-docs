@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Debugging and Local Integration](06-debugging-and-local-integration.md)
 - [Next Chapter: Chapter 8: Archived Status, Migration, and Long-Term Strategy](08-archived-status-migration-and-long-term-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

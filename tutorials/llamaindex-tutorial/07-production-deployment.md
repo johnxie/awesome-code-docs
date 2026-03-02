@@ -1403,7 +1403,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Custom Components](06-custom-components.md)
 - [Next Chapter: Chapter 8: Monitoring & Optimization](08-monitoring-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

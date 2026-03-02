@@ -717,7 +717,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Element Selection - Finding and Interacting with Web Elements](03-element-selection.md)
 - [Next Chapter: Chapter 5: Data Extraction - Scraping and Extracting Structured Data](05-data-extraction.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

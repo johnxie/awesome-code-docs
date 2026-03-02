@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Project Status](01-getting-started-and-project-status.md)
 - [Next Chapter: Chapter 3: Installation and Configuration Baseline](03-installation-and-configuration-baseline.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

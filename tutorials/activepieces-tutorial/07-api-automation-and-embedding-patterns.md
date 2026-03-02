@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Admin Governance and AI Provider Control](06-admin-governance-and-ai-provider-control.md)
 - [Next Chapter: Chapter 8: Production Operations, Security, and Contribution](08-production-operations-security-and-contribution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

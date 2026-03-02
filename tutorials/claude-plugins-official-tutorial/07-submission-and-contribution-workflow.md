@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Installation, Operations, and Update Strategy](06-installation-operations-and-update-strategy.md)
 - [Next Chapter: Chapter 8: Governance and Enterprise Plugin Portfolio Management](08-governance-and-enterprise-plugin-portfolio-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
