@@ -608,7 +608,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: State Management](02-state-management.md)
 - [Next Chapter: Chapter 4: Conditional Logic](04-conditional-logic.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

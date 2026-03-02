@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Spec Sharing and Collaboration Workflows](07-spec-sharing-and-collaboration-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

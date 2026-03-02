@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: V3 Architecture and ADRs](02-v3-architecture-and-adrs.md)
 - [Next Chapter: Chapter 4: Memory, Learning, and Intelligence Systems](04-memory-learning-and-intelligence-systems.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -822,7 +822,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with CopilotKit](01-getting-started.md)
 - [Next Chapter: Chapter 3: Copilot Actions - Enabling AI to Take Actions in Your App](03-copilot-actions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

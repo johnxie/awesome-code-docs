@@ -644,7 +644,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Artifact Graph and Change Lifecycle](02-artifact-graph-and-change-lifecycle.md)
 - [Next Chapter: Chapter 4: Spec Authoring, Delta Patterns, and Quality](04-spec-authoring-delta-patterns-and-quality.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

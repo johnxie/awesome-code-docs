@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Client Transport and Capability Negotiation](02-client-transport-and-capability-negotiation.md)
 - [Next Chapter: Chapter 4: Sampling, Human-in-the-Loop, and Error Handling](04-sampling-human-in-the-loop-and-error-handling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

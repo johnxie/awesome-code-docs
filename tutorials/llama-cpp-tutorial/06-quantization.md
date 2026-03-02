@@ -498,7 +498,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: GPU Acceleration](05-gpu.md)
 - [Next Chapter: Chapter 7: Advanced Features](07-advanced.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

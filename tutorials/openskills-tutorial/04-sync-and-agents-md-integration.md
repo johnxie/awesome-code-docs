@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation Sources and Trust Model](03-installation-sources-and-trust-model.md)
 - [Next Chapter: Chapter 5: Universal Mode and Multi-Agent Setups](05-universal-mode-and-multi-agent-setups.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

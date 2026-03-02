@@ -618,7 +618,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Multi-Agent Systems](05-multi-agent-systems.md)
 - [Next Chapter: Chapter 7: Persistence and Checkpoints](07-persistence-checkpoints.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

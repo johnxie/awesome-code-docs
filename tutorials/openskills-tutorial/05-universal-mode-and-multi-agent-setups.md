@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Sync and AGENTS.md Integration](04-sync-and-agents-md-integration.md)
 - [Next Chapter: Chapter 6: Skill Authoring and Packaging](06-skill-authoring-and-packaging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

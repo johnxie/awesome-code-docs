@@ -619,7 +619,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Conversation Patterns](03-conversation-patterns.md)
 - [Next Chapter: Chapter 5: Tool Integration & Function Calling](05-tool-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

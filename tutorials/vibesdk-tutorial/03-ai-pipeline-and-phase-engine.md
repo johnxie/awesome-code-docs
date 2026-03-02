@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: System Architecture](02-system-architecture.md)
 - [Next Chapter: Chapter 4: Sandbox and Preview Runtime](04-sandbox-and-preview-runtime.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

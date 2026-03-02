@@ -523,7 +523,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Document Loading & Processing](04-document-processing.md)
 - [Next Chapter: Chapter 6: Agents & Tools](06-agents-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

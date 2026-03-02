@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Transports: stdio, Streamable HTTP, and Session Modes](05-transports-stdio-streamable-http-and-session-modes.md)
 - [Next Chapter: Chapter 7: Quality, Security, and Release Workflows](07-quality-security-and-release-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

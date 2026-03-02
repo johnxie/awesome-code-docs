@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Performance and Debugging Workflows](05-performance-and-debugging-workflows.md)
 - [Next Chapter: Chapter 7: Development, Evaluation, and Contribution](07-development-evaluation-and-contribution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Server Selection and Quality Rubric](04-server-selection-and-quality-rubric.md)
 - [Next Chapter: Chapter 6: Contribution Workflow and List Hygiene](06-contribution-workflow-and-list-hygiene.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

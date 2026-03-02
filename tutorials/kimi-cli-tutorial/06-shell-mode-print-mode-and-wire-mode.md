@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: ACP and IDE Integrations](05-acp-and-ide-integrations.md)
 - [Next Chapter: Chapter 7: Loop Control, Retries, and Long Tasks](07-loop-control-retries-and-long-tasks.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -221,7 +221,7 @@ Devika's multi-agent architecture solves the single-agent context window and cap
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
 - [Next Chapter: Chapter 3: LLM Provider Configuration](03-llm-provider-configuration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

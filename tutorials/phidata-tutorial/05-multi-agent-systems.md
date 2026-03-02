@@ -894,7 +894,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Memory Systems - Building Context-Aware Agents](04-memory-systems.md)
 - [Next Chapter: Chapter 6: Advanced Reasoning - Complex Decision Making and Problem Solving](06-advanced-reasoning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

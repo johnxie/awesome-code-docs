@@ -510,7 +510,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Multi-Agent Systems](06-multi-agent.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

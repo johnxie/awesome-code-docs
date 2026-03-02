@@ -639,7 +639,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
 - [Next Chapter: Chapter 3: Frame Targeting and Context Scope](03-frame-targeting-and-context-scope.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

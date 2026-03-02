@@ -37,7 +37,7 @@ This chapter consolidates practical operations patterns for running Dify at scal
 You now have full Dify tutorial coverage from architecture through production operations.
 
 Related:
-- [Dify Index](index.md)
+- [Dify Index](README.md)
 - [Setup Guide](docs/setup.md)
 
 ## What Problem Does This Solve?
@@ -80,7 +80,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Production Deployment](07-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

@@ -1079,7 +1079,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Advanced Reasoning - Complex Decision Making and Problem Solving](06-advanced-reasoning.md)
 - [Next Chapter: Chapter 8: Production Deployment & Scaling Phidata Agents](08-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

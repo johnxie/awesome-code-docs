@@ -455,7 +455,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Join Strategies](04-join-strategies.md)
 - [Next Chapter: Chapter 6: Advanced Optimization](06-advanced-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

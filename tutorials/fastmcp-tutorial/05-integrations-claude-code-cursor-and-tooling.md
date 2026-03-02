@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Client Architecture and Transport Patterns](04-client-architecture-and-transport-patterns.md)
 - [Next Chapter: Chapter 6: Configuration, Auth, and Deployment](06-configuration-auth-and-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

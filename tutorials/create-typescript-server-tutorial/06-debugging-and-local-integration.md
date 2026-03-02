@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Development Workflows: Build, Watch, and Link](05-development-workflows-build-watch-and-link.md)
 - [Next Chapter: Chapter 7: Quality, Security, and Contribution Practices](07-quality-security-and-contribution-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

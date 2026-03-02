@@ -633,7 +633,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Codebase Indexing and Context Retrieval](04-codebase-indexing-and-context-retrieval.md)
 - [Next Chapter: Chapter 6: Context7 MCP and Local Models](06-context7-mcp-and-local-models.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -15,8 +15,8 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 | Metric | Value |
 |:-------|:------|
 | Tutorial directories | 191 |
-| Tutorial markdown files | 1732 |
-| Tutorial markdown lines | 1,048,772 |
+| Tutorial markdown files | 1722 |
+| Tutorial markdown lines | 1,048,086 |
 
 ## Source Verification Snapshot
 
@@ -37,7 +37,7 @@ Repository-source verification run against tutorial index references (GitHub API
 
 | Pattern | Count | Description |
 |:--------|:------|:------------|
-| Root chapter files | 191 | `index.md` + top-level `01-...md` to `08-...md` |
+| Root chapter files | 191 | `README.md` + top-level `01-...md` to `08-...md` |
 | `docs/` chapter files | 0 | Deprecated and fully migrated |
 | Index-only roadmap | 0 | All catalog entries publish full chapter sets |
 | Mixed root + `docs/` | 0 | Legacy hybrid layout removed |
@@ -55,7 +55,7 @@ Each tutorial index should provide:
 
 Each tutorial directory should contain:
 
-- `index.md`
+- `README.md`
 - `01-...md` through `08-...md` at the tutorial root (not under `docs/`)
 
 ## Maintainer Commands

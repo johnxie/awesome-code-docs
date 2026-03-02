@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Model Configuration](06-models.md)
 - [Next Chapter: Chapter 8: Best Practices](08-best-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1,69 +1,102 @@
-# Codex Code Analysis Platform Deep Dive
+---
+layout: default
+title: "Codex Analysis Platform"
+nav_order: 40
+has_children: true
+format_version: v2
+---
 
-> Master building sophisticated code analysis platforms - static analysis, AST manipulation, and developer tooling with modern web technologies
+# Codex Analysis Platform Tutorial: Build Code Intelligence Systems
 
-## 🎯 Learning Objectives
+> Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 
-- **Static Code Analysis** - Building comprehensive code analysis engines
-- **AST Processing** - Abstract syntax tree manipulation and transformation
-- **Language Server Protocol** - Implementing LSP for editor integrations
-- **Code Intelligence** - Semantic analysis, symbol resolution, and cross-references
-- **Visualization Systems** - Creating interactive code exploration interfaces
-- **Performance Optimization** - Handling large codebases efficiently
-- **Plugin Architecture** - Extensible analysis framework design
+[![Category](https://img.shields.io/badge/category-code%20intelligence-blue)](../README.md)
+[![Focus](https://img.shields.io/badge/focus-static%20analysis%20%2B%20developer%20tooling-green)](01-analysis-engine.md)
 
-## 📋 Prerequisites
+## Why This Track Matters
 
-- **Compiler Theory**: Understanding of lexers, parsers, and ASTs
-- **TypeScript/JavaScript**: Advanced knowledge for tooling development
-- **Language Processing**: Familiarity with multiple programming languages
-- **Web Technologies**: React, Node.js, and modern web development
-- **Developer Tools**: Experience with IDE/editor extension development
+Most engineering teams rely on code intelligence features but do not understand how they are built or operated.
 
-## ⏱️ Time Investment
+This track focuses on:
 
-**Total: 12-15 hours**
-- Analysis engine architecture: 3 hours
-- AST processing and manipulation: 3 hours
-- Language server implementation: 2.5 hours
-- Visualization and UI: 2.5 hours
-- Advanced features and optimization: 3 hours
+- architecture of multi-language analysis systems
+- AST and symbol pipelines that power developer tooling
+- practical LSP implementation patterns
+- production rollout, governance, and CI automation
 
-## 🔧 Quick Setup
+## Current Snapshot (auto-updated)
 
-```bash
-# Clone or create analysis platform
-mkdir codex-analysis
-cd codex-analysis
+- tutorial scope: design and implementation patterns for code analysis platforms
+- primary references: TypeScript Compiler API, Babel parser/traverse, Tree-sitter, and LSP specification
+- chapter set includes architecture -> implementation -> operations
+- structure and links validated by repository docs-health checks
 
-# Initialize project
-npm init -y
-npm install typescript @types/node
+## Mental Model
 
-# Install analysis dependencies
-npm install @babel/parser @babel/traverse
-npm install tree-sitter tree-sitter-javascript
-
-# Start development
-npm run dev
+```mermaid
+flowchart LR
+    A[Source Code Inputs] --> B[Parsing and AST Generation]
+    B --> C[Semantic Analysis]
+    C --> D[Intelligence Features]
+    D --> E[LSP and API Delivery]
+    E --> F[Automation and Production Ops]
 ```
 
-## 💡 Key Architecture Insights
+## Chapter Guide
 
-- **Multi-Language Analysis** - Unified analysis across different programming languages
-- **Incremental Processing** - Efficient analysis of code changes
-- **Symbol Resolution** - Advanced semantic understanding of code structures
-- **Cross-Reference Systems** - Finding usage patterns and dependencies
-- **Performance Patterns** - Handling enterprise-scale codebases
+| Chapter | Key Question | Outcome |
+|:--------|:-------------|:--------|
+| [01 - Analysis Engine](01-analysis-engine.md) | How should the core analysis runtime be structured? | Engine architecture baseline |
+| [02 - AST Processing](02-ast-processing.md) | How do we parse and transform code safely? | Robust AST workflow |
+| [03 - Symbol Resolution](03-symbol-resolution.md) | How do we map identifiers to meaning? | Semantic foundation |
+| [04 - Code Intelligence](04-code-intelligence.md) | How do we expose search/navigation features? | Developer-facing intelligence layer |
+| [05 - LSP Implementation](05-lsp-implementation.md) | How do we integrate with editors? | LSP-compatible service |
+| [06 - Visualization](06-visualization.md) | How do we make insights explorable? | Interactive analysis views |
+| [07 - Automation Pipelines](07-automation-pipelines.md) | How do we operationalize analysis in CI/CD? | Reliable automation patterns |
+| [08 - Production Rollout](08-production-rollout.md) | How do we govern and scale the platform? | Rollout and operations playbook |
 
-## 🎯 What You'll Build
+## What You Will Learn
 
-1. **Code Analysis Engine** - Multi-language static analysis system
-2. **AST Manipulation Tools** - Code transformation and refactoring utilities
-3. **Language Server** - LSP implementation for editor integration
-4. **Visualization Interface** - Interactive code exploration dashboard
-5. **Plugin System** - Extensible framework for custom analysis rules
+- how to design static analysis architecture for real repositories
+- how to build symbol/type/code-intelligence features incrementally
+- how to integrate analysis output into editor and CI workflows
+- how to operate analysis infrastructure with governance and reliability
+
+## Source References
+
+- [TypeScript Compiler API](https://github.com/microsoft/TypeScript/wiki/Using-the-Compiler-API)
+- [Babel Parser](https://babeljs.io/docs/babel-parser)
+- [Tree-sitter](https://tree-sitter.github.io/tree-sitter/)
+- [Language Server Protocol](https://microsoft.github.io/language-server-protocol/)
+
+## Related Tutorials
+
+- [Aider Tutorial](../aider-tutorial/)
+- [Cline Tutorial](../cline-tutorial/)
+- [Roo Code Tutorial](../roo-code-tutorial/)
+- [LangGraph Tutorial](../langgraph-tutorial/)
 
 ---
 
-*Part of the [Awesome Code Docs](../../README.md) collection*
+Start with [Chapter 1: Building the Analysis Engine](01-analysis-engine.md).
+
+## Navigation & Backlinks
+
+- [Start Here: Chapter 1: Building the Analysis Engine](01-analysis-engine.md)
+- [Back to Main Catalog](../../README.md#-tutorial-catalog)
+- [Browse A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+- [Search by Intent](../../discoverability/query-hub.md)
+- [Explore Category Hubs](../../README.md#category-hubs)
+
+## Full Chapter Map
+
+1. [Chapter 1: Building the Analysis Engine](01-analysis-engine.md)
+2. [Chapter 2: AST Processing](02-ast-processing.md)
+3. [Chapter 3: Symbol Resolution](03-symbol-resolution.md)
+4. [Chapter 4: Code Intelligence](04-code-intelligence.md)
+5. [Chapter 5: LSP Implementation](05-lsp-implementation.md)
+6. [Chapter 6: Visualization](06-visualization.md)
+7. [Chapter 7: Automation Pipelines](07-automation-pipelines.md)
+8. [Chapter 8: Production Rollout](08-production-rollout.md)
+
+*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*

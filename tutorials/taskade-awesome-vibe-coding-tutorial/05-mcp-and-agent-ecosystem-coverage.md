@@ -644,7 +644,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: AI Coding Tool Categories and Selection Framework](04-ai-coding-tool-categories-and-selection-framework.md)
 - [Next Chapter: Chapter 6: Practical Workflows and Learning Paths](06-practical-workflows-and-learning-paths.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -536,7 +536,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Advanced Patterns](04-advanced-patterns.md)
 - [Next Chapter: Chapter 6: Custom Patterns](06-custom-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

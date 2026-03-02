@@ -876,7 +876,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Copilot Actions - Enabling AI to Take Actions in Your App](03-copilot-actions.md)
 - [Next Chapter: Chapter 5: Generative UI - AI-Generated React Components](05-generative-ui.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

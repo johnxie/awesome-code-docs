@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Profiles and Trust Model](02-agent-profiles-and-trust-model.md)
 - [Next Chapter: Chapter 4: Skills and Slash Command Extensions](04-skills-and-slash-command-extensions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

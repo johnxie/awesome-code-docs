@@ -997,7 +997,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Agent Communication](03-agent-communication.md)
 - [Next Chapter: Chapter 5: Task Decomposition](05-task-decomposition.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -641,7 +641,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and First Server](01-getting-started-and-first-server.md)
 - [Next Chapter: Chapter 3: Model Serving and Completion Pipeline](03-model-serving-and-completion-pipeline.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

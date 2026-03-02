@@ -640,7 +640,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and First Client Connection](01-getting-started-and-first-client-connection.md)
 - [Next Chapter: Chapter 3: MCP Server Tools, Auth, and API Surface](03-mcp-server-tools-auth-and-api-surface.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: AI Chat, Branching, and Iteration](04-ai-chat-branching-and-iteration.md)
 - [Next Chapter: Chapter 6: Deployment and Team Collaboration](06-deployment-and-team-collaboration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -905,7 +905,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Models, Pulling, and Modelfiles](02-models.md)
 - [Next Chapter: Chapter 4: Embeddings and RAG with Ollama](04-embeddings-rag.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

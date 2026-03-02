@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Workflow](02-agent-workflow.md)
 - [Next Chapter: Chapter 4: Terminal and Runtime Tools](04-terminal-and-runtime-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

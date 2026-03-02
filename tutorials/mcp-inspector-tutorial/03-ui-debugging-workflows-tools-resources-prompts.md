@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture, Transports, and Session Model](02-architecture-transports-and-session-model.md)
 - [Next Chapter: Chapter 4: CLI Mode, Automation, and CI Loops](04-cli-mode-automation-and-ci-loops.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -426,7 +426,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Autonomous Agent Mode](04-autonomous-agent-mode.md)
 - [Next Chapter: Chapter 6: Hooks and Automation](06-hooks-and-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

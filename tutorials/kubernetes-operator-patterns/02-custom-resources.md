@@ -810,7 +810,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Kubernetes Operators](01-getting-started.md)
 - [Next Chapter: Chapter 3: The Reconciliation Loop - Core Operator Logic](03-reconciliation-loop.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

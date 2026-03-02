@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Module Selection](01-getting-started-and-module-selection.md)
 - [Next Chapter: Chapter 3: Client Transports and Connection Strategy](03-client-transports-and-connection-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

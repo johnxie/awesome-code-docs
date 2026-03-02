@@ -1152,7 +1152,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: CoAgents & LangGraph - Building Agentic Workflows](06-coagents.md)
 - [Next Chapter: Chapter 8: Production Deployment - Secure, Scalable Copilot Apps](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

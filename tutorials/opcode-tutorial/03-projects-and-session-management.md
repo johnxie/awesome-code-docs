@@ -629,7 +629,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Platform Stack](02-architecture-and-platform-stack.md)
 - [Next Chapter: Chapter 4: Custom Agents and Background Runs](04-custom-agents-and-background-runs.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -871,7 +871,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Real-time Features](04-realtime-features.md)
 - [Next Chapter: Chapter 6: Edge Functions](06-edge-functions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Files, Attachments, and Rich Data Flows](06-files-attachments-and-rich-data-flows.md)
 - [Next Chapter: Chapter 8: Production Operations, Security, and Debugging](08-production-operations-security-and-debugging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

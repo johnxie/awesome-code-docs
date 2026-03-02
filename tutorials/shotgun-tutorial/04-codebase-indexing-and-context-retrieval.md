@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Planning vs Drafting Execution Modes](03-planning-vs-drafting-execution-modes.md)
 - [Next Chapter: Chapter 5: CLI Automation and Scripting](05-cli-automation-and-scripting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

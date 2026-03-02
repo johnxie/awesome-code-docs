@@ -850,7 +850,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Question Answering](04-question-answering.md)
 - [Next Chapter: Chapter 6: Translation & Multilingual Models](06-translation-multilingual.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: RAG and Knowledge Patterns](04-rag-and-knowledge-patterns.md)
 - [Next Chapter: Chapter 6: Streaming, HITL, and Interrupts](06-streaming-hitl-and-interrupts.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1000,7 +1000,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: LobeChat System Overview](01-system-overview.md)
 - [Next Chapter: Chapter 3: Streaming Architecture](03-streaming-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

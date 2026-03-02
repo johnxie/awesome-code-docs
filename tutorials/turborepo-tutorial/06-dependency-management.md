@@ -646,7 +646,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Remote Caching](05-remote-caching.md)
 - [Next Chapter: Chapter 7: CI/CD Integration](07-cicd-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

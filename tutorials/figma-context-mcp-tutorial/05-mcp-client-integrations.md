@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Prompt Patterns for One-Shot UI Implementation](04-prompt-patterns-for-one-shot-ui-implementation.md)
 - [Next Chapter: Chapter 6: Performance and Token Optimization](06-performance-and-token-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

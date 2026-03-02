@@ -280,7 +280,7 @@ You now have a complete understanding of building production MCP servers:
 ---
 
 *Previous: [← Chapter 7: Client Integration](07-client-integration.md)*
-*Start: [↑ Back to Index](index.md)*
+*Start: [↑ Back to Index](README.md)*
 
 ## What Problem Does This Solve?
 
@@ -322,7 +322,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Client Integration](07-client-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

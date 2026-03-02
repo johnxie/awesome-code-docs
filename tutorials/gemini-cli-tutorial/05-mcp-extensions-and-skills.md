@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Settings, Context, and Custom Commands](04-settings-context-and-custom-commands.md)
 - [Next Chapter: Chapter 6: Headless Mode and CI Automation](06-headless-mode-and-ci-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

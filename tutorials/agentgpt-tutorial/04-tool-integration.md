@@ -587,7 +587,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Task Planning & Goal Setting](03-task-planning.md)
 - [Next Chapter: Chapter 5: Memory & Context Management](05-memory-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

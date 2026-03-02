@@ -104,7 +104,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Browser and Computer Use](04-browser-computer-use.md)
 - [Next Chapter: Chapter 6: Production Patterns](06-production-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

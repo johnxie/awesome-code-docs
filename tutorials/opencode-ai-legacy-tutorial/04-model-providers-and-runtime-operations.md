@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation and Configuration Baseline](03-installation-and-configuration-baseline.md)
 - [Next Chapter: Chapter 5: Interactive and Non-Interactive Workflows](05-interactive-and-non-interactive-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

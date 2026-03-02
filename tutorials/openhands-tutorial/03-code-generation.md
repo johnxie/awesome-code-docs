@@ -709,7 +709,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Basic Operations - Files, Commands, and Environments](02-basic-operations.md)
 - [Next Chapter: Chapter 4: Bug Fixing - Autonomous Debugging and Resolution](04-bug-fixing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

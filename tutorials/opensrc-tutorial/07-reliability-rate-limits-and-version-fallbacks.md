@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Update, Remove, and Clean Lifecycle](06-update-remove-and-clean-lifecycle.md)
 - [Next Chapter: Chapter 8: Team Operations and Governance](08-team-operations-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

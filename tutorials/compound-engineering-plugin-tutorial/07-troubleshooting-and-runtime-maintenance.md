@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Daily Operations and Quality Gates](06-daily-operations-and-quality-gates.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Versioning Discipline](08-contribution-workflow-and-versioning-discipline.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

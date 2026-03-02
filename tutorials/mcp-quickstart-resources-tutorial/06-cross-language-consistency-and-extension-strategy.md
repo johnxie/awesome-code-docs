@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Smoke Tests and Mock Infrastructure](05-smoke-tests-and-mock-infrastructure.md)
 - [Next Chapter: Chapter 7: CI, Toolchain Setup, and Troubleshooting](07-ci-toolchain-setup-and-troubleshooting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

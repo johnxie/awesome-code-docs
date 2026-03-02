@@ -641,7 +641,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Multi-Provider Integration](04-multi-provider-integration.md)
 - [Next Chapter: Chapter 6: Configuration & Customization](06-configuration-customization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

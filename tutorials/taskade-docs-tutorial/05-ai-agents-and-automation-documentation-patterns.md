@@ -642,7 +642,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: API Documentation Surface and Endpoint Coverage](04-api-documentation-surface-and-endpoint-coverage.md)
 - [Next Chapter: Chapter 6: Release Notes, Changelog, and Timeline Operations](06-release-notes-changelog-and-timeline-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

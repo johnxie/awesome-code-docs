@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core CLI Workflow and Prompt Patterns](02-core-cli-workflow-and-prompt-patterns.md)
 - [Next Chapter: Chapter 4: Configuration Layers and Environment Strategy](04-configuration-layers-and-environment-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -571,7 +571,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with SuperAGI](01-getting-started.md)
 - [Next Chapter: Chapter 3: Tool Integration](03-tool-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

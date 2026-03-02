@@ -852,7 +852,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Crafting Effective Pydantic Models](02-pydantic-models.md)
 - [Next Chapter: Chapter 4: Complex Structures and Nested Data](04-complex.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

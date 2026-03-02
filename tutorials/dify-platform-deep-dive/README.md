@@ -1,40 +1,143 @@
-# Dify Platform Deep Dive
+---
+layout: default
+title: "Dify Platform Deep Dive"
+nav_order: 3
+has_children: true
+format_version: v2
+---
 
-A focused architecture tutorial for Dify workflows, RAG systems, and production operations.
+# Dify Platform: Deep Dive Tutorial
 
-## Current Status
+> **Project**: [Dify](https://github.com/langgenius/dify) — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
 
-Core chapter set is now published.
+[![Stars](https://img.shields.io/github/stars/langgenius/dify?style=social)](https://github.com/langgenius/dify)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python](https://img.shields.io/badge/Python-Flask-blue)](https://github.com/langgenius/dify)
 
-| Item | Status |
-|:-----|:-------|
-| Published chapter docs | 8 + setup guide |
-| Canonical entry point | [index.md](index.md) |
+## Why This Track Matters
 
-## Published Chapters
+Dify provides a complete open-source platform for building LLM applications with a visual workflow editor, RAG pipeline, and agent framework — reducing the time from idea to deployed AI application.
 
-| Chapter | File | Focus |
-|:--------|:-----|:------|
-| 1 | [01-system-overview.md](01-system-overview.md) | Platform overview and ecosystem context |
-| 2 | [02-core-architecture.md](02-core-architecture.md) | Service boundaries and data flow |
-| 3 | [03-workflow-engine.md](03-workflow-engine.md) | Node orchestration and execution model |
-| 4 | [04-rag-implementation.md](04-rag-implementation.md) | Retrieval architecture and indexing |
-| 5 | [05-agent-framework.md](05-agent-framework.md) | Agent loops and tool invocation |
-| 6 | [06-custom-nodes.md](06-custom-nodes.md) | Extensibility and plugin authoring |
-| 7 | [07-production-deployment.md](07-production-deployment.md) | Deployment, scaling, and hardening |
-| 8 | [08-operations-playbook.md](08-operations-playbook.md) | Incident response, SLOs, and cost controls |
-| Setup | [docs/setup.md](docs/setup.md) | Environment setup for local exploration |
+This track focuses on:
+- building and deploying LLM workflows with Dify's drag-and-drop node system
+- implementing RAG pipelines with multi-stage document processing and vector search
+- orchestrating agents with tool-calling loops and reasoning chain management
+- operating Dify in production with Docker, monitoring, and security controls
 
-## Suggested Reading Order
+## What Is Dify?
 
-1. Start with [index.md](index.md).
-2. Read chapters [1](01-system-overview.md) through [8](08-operations-playbook.md) in order.
-3. Use [docs/setup.md](docs/setup.md) for environment setup.
+Dify is an open-source LLM application platform that provides a visual interface for building AI workflows, RAG systems, and agent frameworks. It supports orchestrating complex LLM pipelines with a drag-and-drop node system and offers one-click deployment via Docker.
 
-## Upstream Project
+| Feature | Description |
+|---------|-------------|
+| **Visual Workflows** | Drag-and-drop node system for chaining LLM operations |
+| **RAG Pipeline** | Multi-stage document processing with vector storage and retrieval |
+| **Agent Framework** | Tool-calling loops and reasoning chain management |
+| **Multi-Model** | OpenAI, Anthropic, Google, local models via Ollama |
+| **Plugin System** | Extensible architecture for custom nodes and integrations |
+| **Deployment** | One-click Docker Compose deployment |
 
-- Dify repository: <https://github.com/langgenius/dify>
+## Mental Model
+
+```mermaid
+graph TB
+    subgraph Frontend["React Frontend"]
+        UI[Visual Workflow Editor]
+        CHAT[Chat Interface]
+        ADMIN[Admin Console]
+    end
+
+    subgraph Backend["Flask Backend"]
+        WF[Workflow Engine]
+        RAG[RAG Pipeline]
+        AGENT[Agent Framework]
+        API[REST API]
+    end
+
+    subgraph Storage["Storage"]
+        PG[(PostgreSQL)]
+        REDIS[(Redis)]
+        VEC[(Vector Store)]
+        S3[Object Storage]
+    end
+
+    subgraph LLM["LLM Providers"]
+        OAI[OpenAI]
+        CLAUDE[Anthropic]
+        LOCAL[Ollama]
+    end
+
+    Frontend --> Backend
+    Backend --> Storage
+    Backend --> LLM
+```
+
+## Chapter Guide
+
+| Chapter | Topic | What You'll Learn |
+|---------|-------|-------------------|
+| [1. System Overview](01-system-overview.md) | Architecture | Dify's place in the LLM ecosystem, core components |
+| [2. Core Architecture](02-core-architecture.md) | Design | Components, data flow, service boundaries |
+| [3. Workflow Engine](03-workflow-engine.md) | Orchestration | Node system, visual workflows, execution pipeline |
+| [4. RAG Implementation](04-rag-implementation.md) | Retrieval | Document processing, embeddings, vector search |
+| [5. Agent Framework](05-agent-framework.md) | Agents | Tool calling, reasoning loops, agent types |
+| [6. Custom Nodes](06-custom-nodes.md) | Extensibility | Building custom workflow nodes and plugins |
+| [7. Production Deployment](07-production-deployment.md) | Operations | Docker, scaling, monitoring, security |
+| [8. Operations Playbook](08-operations-playbook.md) | Reliability | Incident response, SLOs, and cost controls |
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| **Backend** | Python, Flask |
+| **Frontend** | React, TypeScript |
+| **Database** | PostgreSQL |
+| **Cache** | Redis |
+| **Vector Store** | Weaviate, Qdrant, pgvector |
+| **Deployment** | Docker Compose |
 
 ---
 
-Part of [Awesome Code Docs](../../README.md)
+Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
+
+---
+
+*Built with insights from the [Dify repository](https://github.com/langgenius/dify) and community documentation.*
+
+## Navigation & Backlinks
+
+- [Start Here: Chapter 1: Dify System Overview](01-system-overview.md)
+- [Back to Main Catalog](../../README.md#-tutorial-catalog)
+- [Browse A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+- [Search by Intent](../../discoverability/query-hub.md)
+- [Explore Category Hubs](../../README.md#category-hubs)
+
+## Full Chapter Map
+
+1. [Chapter 1: Dify System Overview](01-system-overview.md)
+2. [Chapter 2: Core Architecture](02-core-architecture.md)
+3. [Chapter 3: Workflow Engine](03-workflow-engine.md)
+4. [Chapter 4: RAG Implementation](04-rag-implementation.md)
+5. [Chapter 5: Agent Framework](05-agent-framework.md)
+6. [Chapter 6: Custom Nodes](06-custom-nodes.md)
+7. [Chapter 7: Production Deployment](07-production-deployment.md)
+8. [Chapter 8: Operations Playbook](08-operations-playbook.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [langgenius/dify](https://github.com/langgenius/dify)
+- stars: about **68K**
+- project positioning: leading open-source LLM application development platform
+
+## What You Will Learn
+
+- how Dify's workflow engine executes node graphs and manages LLM pipeline state
+- how to implement multi-stage RAG with document processing, embeddings, and vector retrieval
+- how Dify's agent framework manages tool-calling loops and reasoning chains
+- how to deploy and operate Dify in production with Docker Compose and monitoring
+
+## Source References
+
+- [Dify](https://github.com/langgenius/dify)
+
+*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*

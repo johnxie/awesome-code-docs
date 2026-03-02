@@ -38,7 +38,7 @@ This chapter defines long-term operating practices for MCP Apps-based systems.
 
 You now have a production operations framework for MCP Apps across app and host stacks.
 
-Return to the [MCP Ext Apps Tutorial index](index.md).
+Return to the [MCP Ext Apps Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Agent Skills and OpenAI Apps Migration](07-agent-skills-and-openai-apps-migration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

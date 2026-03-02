@@ -641,7 +641,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Search, Planning, and Execution Patterns](06-search-planning-and-execution-patterns.md)
 - [Next Chapter: Chapter 8: Migration Strategy and Long-Term Operations](08-migration-strategy-and-long-term-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

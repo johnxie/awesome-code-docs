@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP, Extensions, and Skills](05-mcp-extensions-and-skills.md)
 - [Next Chapter: Chapter 7: Sandboxing, Security, and Troubleshooting](07-sandboxing-security-and-troubleshooting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

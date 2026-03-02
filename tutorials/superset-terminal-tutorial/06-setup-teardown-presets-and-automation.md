@@ -639,7 +639,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Monitoring, Diff, and Review Workflow](05-monitoring-diff-and-review-workflow.md)
 - [Next Chapter: Chapter 7: Runtime and Package Architecture](07-runtime-and-package-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

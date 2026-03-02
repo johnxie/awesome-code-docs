@@ -549,7 +549,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Search Engine Architecture](02-search-architecture.md)
 - [Next Chapter: Chapter 4: Web Scraping and Data Collection](04-web-scraping.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -690,7 +690,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Workflow Engine](03-workflow-engine.md)
 - [Next Chapter: Chapter 5: Agent Framework](05-agent-framework.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

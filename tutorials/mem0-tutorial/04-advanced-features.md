@@ -1075,7 +1075,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Core Memory Operations](03-memory-operations.md)
 - [Next Chapter: Chapter 5: Integrating with LLMs](05-llm-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

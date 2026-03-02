@@ -663,7 +663,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Integrations](05-integrations.md)
 - [Next Chapter: Chapter 7: Production Deployment](07-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

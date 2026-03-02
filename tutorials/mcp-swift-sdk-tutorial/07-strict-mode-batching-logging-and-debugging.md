@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Transports, Custom Implementations, and Shutdown](06-transports-custom-implementations-and-shutdown.md)
 - [Next Chapter: Chapter 8: Release, Versioning, and Production Guidelines](08-release-versioning-and-production-guidelines.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

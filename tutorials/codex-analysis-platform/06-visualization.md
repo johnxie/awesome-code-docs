@@ -699,7 +699,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: LSP Implementation](05-lsp-implementation.md)
 - [Next Chapter: Chapter 7: Automation Pipelines](07-automation-pipelines.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

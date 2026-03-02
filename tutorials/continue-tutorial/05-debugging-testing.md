@@ -716,7 +716,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Documentation & Comments](04-documentation-comments.md)
 - [Next Chapter: Chapter 6: Custom Models & Configuration](06-custom-models.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

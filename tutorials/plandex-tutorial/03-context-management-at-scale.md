@@ -624,7 +624,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Workflow](02-architecture-and-workflow.md)
 - [Next Chapter: Chapter 4: Planning, Execution, and Diff Sandbox](04-planning-execution-and-diff-sandbox.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

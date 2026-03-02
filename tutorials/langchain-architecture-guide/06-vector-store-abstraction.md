@@ -620,7 +620,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Document Loading & Splitting](05-document-loading-splitting.md)
 - [Next Chapter: Chapter 7: Agent Architecture](07-agent-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

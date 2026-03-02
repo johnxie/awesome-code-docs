@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Host Bridge and Context Management](04-host-bridge-and-context-management.md)
 - [Next Chapter: Chapter 6: Testing, Local Hosts, and Integration Workflows](06-testing-local-hosts-and-integration-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -776,7 +776,7 @@ Ollama embeddings work with all major vector databases:
 |---|---|
 | Previous | [Chapter 6: Performance & Hardware Tuning](./06-performance.md) |
 | Next | [Chapter 8: Production Deployment](./08-production.md) |
-| Index | [Ollama Tutorial Home](./index.md) |
+| Index | [Ollama Tutorial Home](./README.md) |
 
 ## What Problem Does This Solve?
 
@@ -822,7 +822,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Performance, GPU Tuning, and Quantization](06-performance.md)
 - [Next Chapter: Chapter 8: Production Deployment, Security, and Monitoring](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Visual Editor and Prompt Workflows](06-visual-editor-and-prompt-workflows.md)
 - [Next Chapter: Chapter 8: Contribution, Release, and Runtime Operations](08-contribution-release-and-runtime-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

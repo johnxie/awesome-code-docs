@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Providers and Model Configuration](03-providers-and-model-configuration.md)
 - [Next Chapter: Chapter 5: LSP and MCP Integration](05-lsp-and-mcp-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

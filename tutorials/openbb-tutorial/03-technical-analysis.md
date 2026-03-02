@@ -919,7 +919,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Financial Data Access](02-data-access.md)
 - [Next Chapter: Chapter 4: Fundamental Analysis](04-quantitative-analysis.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

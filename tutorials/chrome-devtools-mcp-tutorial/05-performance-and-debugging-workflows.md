@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Automation Tooling: Input and Navigation](04-automation-tooling-input-and-navigation.md)
 - [Next Chapter: Chapter 6: Troubleshooting and Reliability Hardening](06-troubleshooting-and-reliability-hardening.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

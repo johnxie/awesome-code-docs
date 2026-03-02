@@ -643,7 +643,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Datascript Deep Dive](02-datascript-database.md)
 - [Next Chapter: Chapter 4: Application Architecture](04-app-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

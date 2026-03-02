@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Framework Architecture and Core Modules](02-framework-architecture-and-core-modules.md)
 - [Next Chapter: Chapter 4: Tool Calling and MCP Integration](04-tool-calling-and-mcp-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

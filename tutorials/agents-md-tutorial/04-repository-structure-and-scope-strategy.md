@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tool-Agnostic Portability Patterns](03-tool-agnostic-portability-patterns.md)
 - [Next Chapter: Chapter 5: Testing, Linting, and CI Alignment](05-testing-linting-and-ci-alignment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

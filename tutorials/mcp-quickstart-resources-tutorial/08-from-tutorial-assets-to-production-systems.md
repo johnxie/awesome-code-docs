@@ -38,7 +38,7 @@ This chapter defines a migration path from tutorial reference code to production
 
 You now have a roadmap for evolving quickstart MCP assets into durable production systems.
 
-Return to the [MCP Quickstart Resources Tutorial index](index.md).
+Return to the [MCP Quickstart Resources Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: CI, Toolchain Setup, and Troubleshooting](07-ci-toolchain-setup-and-troubleshooting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

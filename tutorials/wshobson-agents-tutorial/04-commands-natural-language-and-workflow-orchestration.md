@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation and Plugin Selection Strategy](03-installation-and-plugin-selection-strategy.md)
 - [Next Chapter: Chapter 5: Agents, Skills, and Model Tier Strategy](05-agents-skills-and-model-tier-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

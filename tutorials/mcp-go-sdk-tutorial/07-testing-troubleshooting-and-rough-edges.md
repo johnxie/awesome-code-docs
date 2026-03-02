@@ -642,7 +642,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Auth, Security, and Runtime Hardening](06-auth-security-and-runtime-hardening.md)
 - [Next Chapter: Chapter 8: Conformance, Operations, and Upgrade Strategy](08-conformance-operations-and-upgrade-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

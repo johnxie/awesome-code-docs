@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Shell Mode, Print Mode, and Wire Mode](06-shell-mode-print-mode-and-wire-mode.md)
 - [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

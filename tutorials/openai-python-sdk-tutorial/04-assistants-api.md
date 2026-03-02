@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Embeddings and Search](03-embeddings-search.md)
 - [Next Chapter: Chapter 5: Batch Processing](05-batch-processing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -753,7 +753,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Flowise System Overview](01-system-overview.md)
 - [Next Chapter: Chapter 3: Node Development](03-node-development.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

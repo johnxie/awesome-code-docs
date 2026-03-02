@@ -221,7 +221,7 @@ Devika's multi-agent pipeline creates multiple potential failure points that are
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Project Management and Workspaces](06-project-management-and-workspaces.md)
 - [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

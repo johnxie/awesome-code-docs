@@ -356,7 +356,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Search & Discovery](04-search-discovery.md)
 - [Next Chapter: Chapter 6: API Integration](06-api-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

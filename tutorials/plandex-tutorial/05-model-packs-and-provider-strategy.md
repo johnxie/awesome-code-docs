@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Planning, Execution, and Diff Sandbox](04-planning-execution-and-diff-sandbox.md)
 - [Next Chapter: Chapter 6: Autonomy, Control, and Debugging](06-autonomy-control-and-debugging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

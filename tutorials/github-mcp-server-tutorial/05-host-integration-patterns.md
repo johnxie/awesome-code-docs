@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Toolsets, Tools, and Dynamic Discovery](04-toolsets-tools-and-dynamic-discovery.md)
 - [Next Chapter: Chapter 6: Security, Governance, and Enterprise Controls](06-security-governance-and-enterprise-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

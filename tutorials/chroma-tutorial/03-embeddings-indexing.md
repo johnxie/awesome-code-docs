@@ -464,7 +464,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Collections & Documents](02-collections-documents.md)
 - [Next Chapter: Chapter 4: Querying & Retrieval](04-querying-retrieval.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

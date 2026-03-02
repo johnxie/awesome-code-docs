@@ -561,7 +561,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Quantization](06-quantization.md)
 - [Next Chapter: Chapter 8: Integration](08-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

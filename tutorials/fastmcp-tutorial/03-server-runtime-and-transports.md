@@ -642,7 +642,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Abstractions: Components, Providers, Transforms](02-core-abstractions-components-providers-transforms.md)
 - [Next Chapter: Chapter 4: Client Architecture and Transport Patterns](04-client-architecture-and-transport-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

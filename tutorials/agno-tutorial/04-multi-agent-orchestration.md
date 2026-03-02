@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Learning, Memory, and State](03-learning-memory-and-state.md)
 - [Next Chapter: Chapter 5: Knowledge, RAG, and Tools](05-knowledge-rag-and-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

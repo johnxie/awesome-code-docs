@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: MCP Agent Integration and Tooling](05-mcp-agent-integration-and-tooling.md)
 - [Next Chapter: Chapter 7: Limits, Network Controls, and Security](07-limits-network-controls-and-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -109,7 +109,7 @@ def main() -> int:
     parser.add_argument(
         "--targets",
         nargs="*",
-        default=["tutorials/*/index.md"],
+        default=["tutorials/*/README.md"],
         help="Glob patterns (relative to repo root) to scan",
     )
     parser.add_argument("--json-output", help="Optional JSON output path")

@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Vector Store Abstraction](06-vector-store-abstraction.md)
 - [Next Chapter: Chapter 8: Production Patterns](08-production-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

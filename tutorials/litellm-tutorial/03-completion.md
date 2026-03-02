@@ -652,7 +652,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Provider Configuration](02-providers.md)
 - [Next Chapter: Chapter 4: Streaming & Async](04-streaming.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

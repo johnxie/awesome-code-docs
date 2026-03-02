@@ -80,7 +80,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Realtime Collaboration](05-realtime-collaboration.md)
 - [Next Chapter: Chapter 7: Frontend Architecture](07-frontend-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -736,7 +736,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: JSON Schema & Structured Data Generation](03-json-schema.md)
 - [Next Chapter: Chapter 5: Grammar-Based Generation & Context-Free Grammars](05-grammar-based.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Component Topology](02-architecture-and-component-topology.md)
 - [Next Chapter: Chapter 4: Agents, Skills, and Command Orchestration](04-agents-skills-and-command-orchestration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

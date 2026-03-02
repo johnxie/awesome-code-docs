@@ -689,7 +689,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Basic Commands - Essential Claude Code Operations](02-basic-commands.md)
 - [Next Chapter: Chapter 4: File Editing - Making Changes Across Your Project](04-file-editing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

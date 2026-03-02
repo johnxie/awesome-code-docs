@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Agent Integration and AGENTS.md Patterns](05-agent-integration-and-agents-md-patterns.md)
 - [Next Chapter: Chapter 7: Troubleshooting and Operations](07-troubleshooting-and-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

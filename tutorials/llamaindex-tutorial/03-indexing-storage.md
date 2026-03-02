@@ -987,7 +987,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Data Ingestion & Loading](02-data-ingestion.md)
 - [Next Chapter: Chapter 4: Query Engines & Retrieval](04-query-engines.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

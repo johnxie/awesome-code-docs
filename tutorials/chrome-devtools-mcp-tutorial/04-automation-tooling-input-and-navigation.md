@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Client Integrations and Setup Patterns](03-client-integrations-and-setup-patterns.md)
 - [Next Chapter: Chapter 5: Performance and Debugging Workflows](05-performance-and-debugging-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

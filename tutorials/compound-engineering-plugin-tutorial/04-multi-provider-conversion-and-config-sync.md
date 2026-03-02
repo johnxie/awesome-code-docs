@@ -637,7 +637,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Architecture of Agents, Commands, and Skills](03-architecture-of-agents-commands-and-skills.md)
 - [Next Chapter: Chapter 5: MCP Integrations and Browser Automation](05-mcp-integrations-and-browser-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

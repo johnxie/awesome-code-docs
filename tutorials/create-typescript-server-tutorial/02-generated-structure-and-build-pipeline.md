@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Scaffolding Flow](01-getting-started-and-scaffolding-flow.md)
 - [Next Chapter: Chapter 3: Template MCP Primitives: Resources, Tools, Prompts](03-template-mcp-primitives-resources-tools-prompts.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

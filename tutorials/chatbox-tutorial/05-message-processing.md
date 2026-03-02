@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Conversation Management](04-conversation-management.md)
 - [Next Chapter: Chapter 6: Theme & Customization System](06-theme-system.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

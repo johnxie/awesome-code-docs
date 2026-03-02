@@ -629,7 +629,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Projects and Session Management](03-projects-and-session-management.md)
 - [Next Chapter: Chapter 5: MCP and Context Management](05-mcp-and-context-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Completion API](03-completion.md)
 - [Next Chapter: Chapter 5: Fallbacks & Retries](05-fallbacks.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

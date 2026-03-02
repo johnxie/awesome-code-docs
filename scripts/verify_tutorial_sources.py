@@ -59,7 +59,7 @@ def collect_tutorial_records(root: Path) -> list[TutorialSourceRecord]:
     records: list[TutorialSourceRecord] = []
 
     for tutorial_dir in sorted(p for p in tutorials_root.iterdir() if p.is_dir()):
-        index_path = tutorial_dir / "index.md"
+        index_path = tutorial_dir / "README.md"
         if not index_path.is_file():
             continue
         text = index_path.read_text(encoding="utf-8", errors="ignore")
@@ -248,7 +248,7 @@ def render_markdown(report: dict[str, Any]) -> str:
     lines = [
         "# Tutorial Source Verification Report",
         "",
-        "Automated verification of GitHub source repositories referenced by `tutorials/*/index.md`.",
+        "Automated verification of GitHub source repositories referenced by `tutorials/*/README.md`.",
         "",
         f"- generated_on: **{report['generated_on']}**",
         f"- tutorials scanned: **{summary['tutorial_count']}**",

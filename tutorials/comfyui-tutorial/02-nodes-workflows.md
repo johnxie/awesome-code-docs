@@ -483,7 +483,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with ComfyUI](01-getting-started.md)
 - [Next Chapter: Chapter 3: Text-to-Image Generation](03-text-to-image.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

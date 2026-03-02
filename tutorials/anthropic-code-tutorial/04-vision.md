@@ -881,7 +881,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tool Use](03-tool-use.md)
 - [Next Chapter: Chapter 5: Streaming](05-streaming.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

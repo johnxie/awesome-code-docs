@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: MCP Apps Architecture and Lifecycle](02-mcp-apps-architecture-and-lifecycle.md)
 - [Next Chapter: Chapter 4: Host Bridge and Context Management](04-host-bridge-and-context-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

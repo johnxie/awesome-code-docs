@@ -766,7 +766,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Code Execution & Security](04-code-execution.md)
 - [Next Chapter: Chapter 6: Group Chat & Multi-Agent Collaboration](06-group-chat.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -302,7 +302,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Architecture: Task Queue and Agent Loop](02-core-architecture-task-queue-and-agent-loop.md)
 - [Next Chapter: Chapter 4: Task Creation and Prioritization Engine](04-task-creation-and-prioritization-engine.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

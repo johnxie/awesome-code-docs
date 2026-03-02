@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Design Principles](02-architecture-and-design-principles.md)
 - [Next Chapter: Chapter 4: Automation Tooling: Input and Navigation](04-automation-tooling-input-and-navigation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -555,7 +555,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Crew Communication](05-crew-communication.md)
 - [Next Chapter: Chapter 7: Advanced Crew Patterns](07-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -676,7 +676,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Streaming & Async](04-streaming.md)
 - [Next Chapter: Chapter 6: Cost Tracking](06-cost-tracking.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

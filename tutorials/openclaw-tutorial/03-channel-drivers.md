@@ -779,7 +779,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Gateway Architecture](02-gateway-architecture.md)
 - [Next Chapter: Chapter 4: Agent Runtime](04-agent-runtime.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

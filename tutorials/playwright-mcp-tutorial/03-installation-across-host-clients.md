@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Operating Model: Accessibility Snapshots](02-operating-model-accessibility-snapshots.md)
 - [Next Chapter: Chapter 4: Configuration, Capabilities, and Runtime Modes](04-configuration-capabilities-and-runtime-modes.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1255,7 +1255,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: AI Integration Patterns](04-ai-integration.md)
 - [Next Chapter: Chapter 6: Plugin Development](06-plugin-development.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

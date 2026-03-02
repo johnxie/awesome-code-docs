@@ -587,7 +587,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Context Management & Grounding](06-context-control.md)
 - [Next Chapter: Chapter 8: Production Hardening, Cost, and Reliability](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

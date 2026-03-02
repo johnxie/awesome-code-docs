@@ -37,7 +37,7 @@ This chapter covers rich-text parsing and rendering tradeoffs in a block-based g
 You now have complete Athens core coverage from architecture through editor and rich text internals.
 
 Related:
-- [Athens Index](index.md)
+- [Athens Index](README.md)
 - [Setup Guide](docs/setup.md)
 
 ## What Problem Does This Solve?
@@ -80,7 +80,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Block Editor](07-block-editor.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

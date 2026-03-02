@@ -467,7 +467,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Custom Actions & Code](04-custom-actions-code.md)
 - [Next Chapter: Chapter 6: Advanced Features](06-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

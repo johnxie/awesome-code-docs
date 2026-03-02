@@ -86,7 +86,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: System Architecture](02-system-architecture.md)
 - [Next Chapter: Chapter 4: Remote Access and Networking](04-remote-access-and-networking.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

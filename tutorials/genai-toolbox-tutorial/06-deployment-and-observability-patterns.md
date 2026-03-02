@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Prebuilt Connectors and Database Patterns](05-prebuilt-connectors-and-database-patterns.md)
 - [Next Chapter: Chapter 7: CLI, Testing, and Development Workflow](07-cli-testing-and-development-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

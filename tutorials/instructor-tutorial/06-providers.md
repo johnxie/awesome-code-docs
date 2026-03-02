@@ -834,7 +834,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Streaming Structured Outputs](05-streaming.md)
 - [Next Chapter: Chapter 7: Advanced Patterns and Guardrails](07-advanced.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

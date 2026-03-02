@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Semantic Toolkit and Agent Loop](02-semantic-toolkit-and-agent-loop.md)
 - [Next Chapter: Chapter 4: Language Backends and Analysis Strategy](04-language-backends-and-analysis-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

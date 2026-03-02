@@ -221,7 +221,7 @@ Devika's project and workspace management layer solves the isolation and traceab
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Web Research and Browser Integration](05-web-research-and-browser-integration.md)
 - [Next Chapter: Chapter 7: Debugging and Troubleshooting](07-debugging-and-troubleshooting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

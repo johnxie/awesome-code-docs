@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Server Architecture and Capability Negotiation](02-server-architecture-and-capability-negotiation.md)
 - [Next Chapter: Chapter 4: Notifications, Logging, and Observability](04-notifications-logging-and-observability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

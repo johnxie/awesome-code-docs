@@ -669,7 +669,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Deployment](06-deployment.md)
 - [Next Chapter: Chapter 8: Production Case Studies](08-production-case-studies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

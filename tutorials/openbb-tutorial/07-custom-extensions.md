@@ -1098,7 +1098,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Custom Data Sources](06-research-automation.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-enterprise-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

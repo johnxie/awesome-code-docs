@@ -472,7 +472,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Query Planning Fundamentals](01-fundamentals.md)
 - [Next Chapter: Chapter 3: Scan Operations](03-scan-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Session Model](02-architecture-and-session-model.md)
 - [Next Chapter: Chapter 4: Permissions and Tool Controls](04-permissions-and-tool-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

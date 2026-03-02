@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Patterns, Security, and Performance](05-patterns-security-and-performance.md)
 - [Next Chapter: Chapter 7: Agent Skills and OpenAI Apps Migration](07-agent-skills-and-openai-apps-migration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

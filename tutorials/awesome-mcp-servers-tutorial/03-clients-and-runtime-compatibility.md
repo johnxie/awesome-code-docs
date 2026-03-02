@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: List Taxonomy and Legend](02-list-taxonomy-and-legend.md)
 - [Next Chapter: Chapter 4: Server Selection and Quality Rubric](04-server-selection-and-quality-rubric.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

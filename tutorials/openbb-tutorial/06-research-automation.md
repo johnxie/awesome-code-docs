@@ -839,7 +839,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Portfolio Management](05-portfolio-management.md)
 - [Next Chapter: Chapter 7: Visualization & Dashboards](07-custom-extensions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -516,7 +516,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Data Ingestion & ETL](03-data-ingestion.md)
 - [Next Chapter: Chapter 5: Aggregation & Analytics](05-aggregation-analytics.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -981,7 +981,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Data Storage & Persistence](03-data-storage.md)
 - [Next Chapter: Chapter 5: Plugin Architecture](05-plugin-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

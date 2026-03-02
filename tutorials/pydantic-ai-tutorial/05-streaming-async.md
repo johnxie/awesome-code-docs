@@ -802,7 +802,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Dependencies, Tools & External Integrations](04-dependencies-tools.md)
 - [Next Chapter: Chapter 6: Error Handling, Retry Mechanisms & Recovery](06-error-handling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

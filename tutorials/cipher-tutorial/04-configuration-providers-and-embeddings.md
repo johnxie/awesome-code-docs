@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Memory Architecture and Data Model](03-memory-architecture-and-data-model.md)
 - [Next Chapter: Chapter 5: Vector Stores and Workspace Memory](05-vector-stores-and-workspace-memory.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

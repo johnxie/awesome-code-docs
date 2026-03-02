@@ -716,7 +716,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Prompt Management](03-prompts.md)
 - [Next Chapter: Chapter 5: Analytics & Metrics](05-analytics.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

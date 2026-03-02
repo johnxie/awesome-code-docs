@@ -306,7 +306,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Task Creation and Prioritization Engine](04-task-creation-and-prioritization-engine.md)
 - [Next Chapter: Chapter 6: Extending BabyAGI: Custom Tools and Skills](06-extending-babyagi-custom-tools-and-skills.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

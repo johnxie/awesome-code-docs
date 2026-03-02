@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Advanced Client Features: Roots, Sampling, and Elicitation](06-advanced-client-features-roots-sampling-and-elicitation.md)
 - [Next Chapter: Chapter 8: Release Strategy and Production Rollout](08-release-strategy-and-production-rollout.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

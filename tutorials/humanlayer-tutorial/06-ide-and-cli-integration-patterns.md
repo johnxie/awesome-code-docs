@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Human Approval and High-Stakes Actions](05-human-approval-and-high-stakes-actions.md)
 - [Next Chapter: Chapter 7: Telemetry, Cost, and Team Governance](07-telemetry-cost-and-team-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

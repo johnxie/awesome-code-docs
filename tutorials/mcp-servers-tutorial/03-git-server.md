@@ -107,7 +107,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Filesystem Server](02-filesystem-server.md)
 - [Next Chapter: Chapter 4: Memory Server](04-memory-server.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

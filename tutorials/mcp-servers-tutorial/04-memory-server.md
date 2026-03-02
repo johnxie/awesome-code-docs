@@ -107,7 +107,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Git Server](03-git-server.md)
 - [Next Chapter: Chapter 5: Multi-Language Servers](05-multi-language-servers.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

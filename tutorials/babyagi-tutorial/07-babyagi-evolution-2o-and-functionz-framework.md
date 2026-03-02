@@ -322,7 +322,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Extending BabyAGI: Custom Tools and Skills](06-extending-babyagi-custom-tools-and-skills.md)
 - [Next Chapter: Chapter 8: Production Patterns and Research Adaptations](08-production-patterns-and-research-adaptations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

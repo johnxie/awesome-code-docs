@@ -601,7 +601,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Architecture](02-core-architecture.md)
 - [Next Chapter: Chapter 4: RAG Implementation](04-rag-implementation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

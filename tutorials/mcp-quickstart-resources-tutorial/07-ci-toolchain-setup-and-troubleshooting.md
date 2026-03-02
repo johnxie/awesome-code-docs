@@ -640,7 +640,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Cross-Language Consistency and Extension Strategy](06-cross-language-consistency-and-extension-strategy.md)
 - [Next Chapter: Chapter 8: From Tutorial Assets to Production Systems](08-from-tutorial-assets-to-production-systems.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

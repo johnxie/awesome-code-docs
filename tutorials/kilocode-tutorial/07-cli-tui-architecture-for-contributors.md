@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Extensions, MCP, and Custom Modes](06-extensions-mcp-and-custom-modes.md)
 - [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

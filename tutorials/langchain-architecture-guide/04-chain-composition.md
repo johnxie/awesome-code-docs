@@ -583,7 +583,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Chat Model Architecture](03-chat-model-architecture.md)
 - [Next Chapter: Chapter 5: Document Loading & Splitting](05-document-loading-splitting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

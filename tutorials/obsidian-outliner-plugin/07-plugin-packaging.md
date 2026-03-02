@@ -81,7 +81,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Testing and Debugging](06-testing-debugging.md)
 - [Next Chapter: Chapter 8: Production Maintenance](08-production-maintenance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

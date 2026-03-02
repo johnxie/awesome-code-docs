@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: MCP Integration Patterns](06-mcp-integration-patterns.md)
 - [Next Chapter: Chapter 8: Security and Team Governance](08-security-and-team-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

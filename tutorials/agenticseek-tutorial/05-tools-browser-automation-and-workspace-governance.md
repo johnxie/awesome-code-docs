@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Docker Web Mode and CLI Operations](04-docker-web-mode-and-cli-operations.md)
 - [Next Chapter: Chapter 6: Model Strategy and Remote Server Mode](06-model-strategy-and-remote-server-mode.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

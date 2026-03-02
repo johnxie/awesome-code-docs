@@ -773,7 +773,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: LoRA & Model Customization](06-lora-customization.md)
 - [Next Chapter: Chapter 8: Production & Optimization](08-production-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

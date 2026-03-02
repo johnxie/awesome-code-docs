@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Modes and Session Workflow](02-core-modes-and-session-workflow.md)
 - [Next Chapter: Chapter 4: Configuration, Providers, and Embeddings](04-configuration-providers-and-embeddings.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

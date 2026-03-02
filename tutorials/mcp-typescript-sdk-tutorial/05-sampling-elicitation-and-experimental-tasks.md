@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Tool, Resource, Prompt Design and Completions](04-tool-resource-prompt-design-and-completions.md)
 - [Next Chapter: Chapter 6: Middleware, Security, and Host Validation](06-middleware-security-and-host-validation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

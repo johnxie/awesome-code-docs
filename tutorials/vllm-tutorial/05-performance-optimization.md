@@ -935,7 +935,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Advanced Features - Streaming, Tool Calling, and Multi-Modal](04-advanced-features.md)
 - [Next Chapter: Chapter 6: Distributed Inference - Scaling Across GPUs and Nodes](06-distributed-inference.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

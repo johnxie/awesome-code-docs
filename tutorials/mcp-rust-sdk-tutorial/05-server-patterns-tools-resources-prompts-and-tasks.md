@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Client Patterns, Sampling, and Batching Flows](04-client-patterns-sampling-and-batching-flows.md)
 - [Next Chapter: Chapter 6: OAuth, Security, and Auth Workflows](06-oauth-security-and-auth-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

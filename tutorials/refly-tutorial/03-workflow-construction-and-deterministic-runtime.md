@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Component Topology](02-architecture-and-component-topology.md)
 - [Next Chapter: Chapter 4: API and Webhook Integrations](04-api-and-webhook-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

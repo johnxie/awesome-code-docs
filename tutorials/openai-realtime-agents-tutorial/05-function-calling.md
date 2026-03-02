@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Conversational AI](04-conversational-ai.md)
 - [Next Chapter: Chapter 6: Voice Output](06-voice-output.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

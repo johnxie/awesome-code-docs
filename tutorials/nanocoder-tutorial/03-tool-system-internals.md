@@ -631,7 +631,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture & Agent Loop](02-architecture-agent-loop.md)
 - [Next Chapter: Chapter 4: Multi-Provider Integration](04-multi-provider-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

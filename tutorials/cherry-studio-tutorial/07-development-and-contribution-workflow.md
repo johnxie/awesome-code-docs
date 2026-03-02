@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Team Adoption and Enterprise Capabilities](06-team-adoption-and-enterprise-capabilities.md)
 - [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

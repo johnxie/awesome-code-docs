@@ -904,7 +904,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Messages API](02-messages-api.md)
 - [Next Chapter: Chapter 4: Vision](04-vision.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

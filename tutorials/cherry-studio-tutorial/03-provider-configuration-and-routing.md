@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Architecture and Product Model](02-core-architecture-and-product-model.md)
 - [Next Chapter: Chapter 4: Assistants, Topics, and Workflow Design](04-assistants-topics-and-workflow-design.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

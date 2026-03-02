@@ -635,7 +635,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Routing System](02-architecture-and-routing-system.md)
 - [Next Chapter: Chapter 4: Docker Web Mode and CLI Operations](04-docker-web-mode-and-cli-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

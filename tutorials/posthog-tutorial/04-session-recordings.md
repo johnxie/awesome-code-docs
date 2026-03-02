@@ -576,7 +576,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: User Analytics & Funnels](03-user-analytics.md)
 - [Next Chapter: Chapter 5: Feature Flags & Experiments](05-feature-flags.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

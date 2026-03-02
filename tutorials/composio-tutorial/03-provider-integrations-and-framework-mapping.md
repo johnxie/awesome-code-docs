@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Sessions, Meta Tools, and User Scoping](02-sessions-meta-tools-and-user-scoping.md)
 - [Next Chapter: Chapter 4: Authentication and Connected Accounts](04-authentication-and-connected-accounts.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

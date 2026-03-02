@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Frame Targeting and Context Scope](03-frame-targeting-and-context-scope.md)
 - [Next Chapter: Chapter 5: MCP Client Integrations](05-mcp-client-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Multi-Registry Package Fetching](03-multi-registry-package-fetching.md)
 - [Next Chapter: Chapter 5: AGENTS.md and sources.json Integration](05-agents-md-and-sources-json-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

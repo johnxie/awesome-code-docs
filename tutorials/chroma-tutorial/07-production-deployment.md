@@ -327,7 +327,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Integration Patterns](06-integration-patterns.md)
 - [Next Chapter: Chapter 8: Performance Optimization](08-performance-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

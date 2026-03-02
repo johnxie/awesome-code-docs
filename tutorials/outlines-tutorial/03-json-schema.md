@@ -676,7 +676,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Text Patterns & Regular Expressions](02-text-patterns.md)
 - [Next Chapter: Chapter 4: Type Safety & Pydantic Integration](04-type-safety.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

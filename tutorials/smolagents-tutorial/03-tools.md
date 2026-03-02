@@ -652,7 +652,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Understanding Smolagents](02-understanding-agents.md)
 - [Next Chapter: Chapter 4: Safe Code Execution](04-code-execution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

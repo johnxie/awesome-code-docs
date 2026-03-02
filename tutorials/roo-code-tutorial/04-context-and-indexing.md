@@ -632,7 +632,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: File and Command Operations](03-file-and-command-operations.md)
 - [Next Chapter: Chapter 5: Checkpoints and Recovery](05-checkpoints-and-recovery.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

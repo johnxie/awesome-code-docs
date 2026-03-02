@@ -728,7 +728,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Symbol Resolution](03-symbol-resolution.md)
 - [Next Chapter: Chapter 5: LSP Implementation](05-lsp-implementation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

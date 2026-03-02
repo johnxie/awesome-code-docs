@@ -800,7 +800,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Memory & Context](06-memory.md)
 - [Next Chapter: Chapter 8: Production Deployment & Operations](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

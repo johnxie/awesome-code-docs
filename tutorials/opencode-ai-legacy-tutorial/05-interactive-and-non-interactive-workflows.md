@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Model Providers and Runtime Operations](04-model-providers-and-runtime-operations.md)
 - [Next Chapter: Chapter 6: Session, Tooling, and Integration Practices](06-session-tooling-and-integration-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

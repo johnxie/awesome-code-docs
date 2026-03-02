@@ -789,7 +789,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: AST Processing](02-ast-processing.md)
 - [Next Chapter: Chapter 4: Code Intelligence](04-code-intelligence.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

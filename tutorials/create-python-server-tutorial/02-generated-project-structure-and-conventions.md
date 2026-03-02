@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Scaffolding Workflow](01-getting-started-and-scaffolding-workflow.md)
 - [Next Chapter: Chapter 3: Template Server Architecture: Resources, Prompts, and Tools](03-template-server-architecture-resources-prompts-and-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -1176,7 +1176,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Building Memory-Enabled Applications](06-memory-applications.md)
 - [Next Chapter: Chapter 8: Production Deployment & Scaling](08-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

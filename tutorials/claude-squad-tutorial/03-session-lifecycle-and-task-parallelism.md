@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: tmux and Worktree Architecture](02-tmux-and-worktree-architecture.md)
 - [Next Chapter: Chapter 4: Multi-Agent Program Integration](04-multi-agent-program-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

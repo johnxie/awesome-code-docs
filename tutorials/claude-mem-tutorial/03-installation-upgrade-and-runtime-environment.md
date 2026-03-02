@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture, Hooks, and Worker Flow](02-architecture-hooks-and-worker-flow.md)
 - [Next Chapter: Chapter 4: Configuration, Modes, and Context Injection](04-configuration-modes-and-context-injection.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

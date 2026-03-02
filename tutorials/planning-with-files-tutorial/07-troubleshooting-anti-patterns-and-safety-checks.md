@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Multi-IDE Adaptation (Codex, Gemini, OpenCode, Cursor)](06-multi-ide-adaptation-codex-gemini-opencode-cursor.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Team Adoption](08-contribution-workflow-and-team-adoption.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

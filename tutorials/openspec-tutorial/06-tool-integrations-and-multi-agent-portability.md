@@ -642,7 +642,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Customization, Schemas, and Project Rules](05-customization-schemas-and-project-rules.md)
 - [Next Chapter: Chapter 7: Validation, Automation, and CI Operations](07-validation-automation-and-ci-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

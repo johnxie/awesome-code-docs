@@ -829,7 +829,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: AI Services & Connectors](04-services.md)
 - [Next Chapter: Chapter 6: Planners](06-planners.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Usage Patterns: UI and GitHub Workflows](04-usage-patterns-ui-and-github-workflows.md)
 - [Next Chapter: Chapter 6: Security, Auth, and Operational Constraints](06-security-auth-and-operational-constraints.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

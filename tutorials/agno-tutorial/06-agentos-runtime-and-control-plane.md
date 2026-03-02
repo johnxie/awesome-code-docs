@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Knowledge, RAG, and Tools](05-knowledge-rag-and-tools.md)
 - [Next Chapter: Chapter 7: Guardrails, Evals, and Observability](07-guardrails-evals-and-observability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -639,7 +639,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Tool Integration & Function Calling](05-tool-integration.md)
 - [Next Chapter: Chapter 7: Advanced Patterns & Optimization](07-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

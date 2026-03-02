@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Middleware, Security, and Host Validation](06-middleware-security-and-host-validation.md)
 - [Next Chapter: Chapter 8: Conformance Testing and Contribution Workflows](08-conformance-testing-and-contribution-workflows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

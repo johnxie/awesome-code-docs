@@ -690,7 +690,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Browser Use](01-getting-started.md)
 - [Next Chapter: Chapter 3: Element Selection - Finding and Interacting with Web Elements](03-element-selection.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

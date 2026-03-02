@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tools and MCP Integration](03-tools-and-mcp-integration.md)
 - [Next Chapter: Chapter 5: Hooks, State, and Reliability Controls](05-hooks-state-and-reliability-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

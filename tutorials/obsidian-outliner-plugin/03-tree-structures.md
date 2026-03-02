@@ -897,7 +897,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Text Editing Implementation](02-text-editing.md)
 - [Next Chapter: Chapter 4: Advanced Features](04-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -677,7 +677,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Extensions Ecosystem](05-extensions-ecosystem.md)
 - [Next Chapter: Chapter 7: Advanced Features](07-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

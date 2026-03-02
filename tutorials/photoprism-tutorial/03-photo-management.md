@@ -309,7 +309,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: AI Features & Configuration](02-ai-features-configuration.md)
 - [Next Chapter: Chapter 4: Search & Discovery](04-search-discovery.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Agent Loop](02-architecture-and-agent-loop.md)
 - [Next Chapter: Chapter 4: Permissions and Tool Governance](04-permissions-and-tool-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

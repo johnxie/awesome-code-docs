@@ -583,7 +583,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Scaling](06-scaling.md)
 - [Next Chapter: Chapter 8: Advanced Patterns](08-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

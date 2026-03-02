@@ -18,7 +18,7 @@ import math
 import re
 from pathlib import Path
 
-INDEX_FILE = "index.md"
+INDEX_FILE = "README.md"
 DEPTH_MARKER = "<!-- depth-expansion-v2 -->"
 NUMBERED_FILE_RE = re.compile(r"^([0-9]{2,})[-_].+\.md$")
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")

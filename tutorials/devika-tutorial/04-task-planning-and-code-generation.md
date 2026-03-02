@@ -221,7 +221,7 @@ Devika's task planning and code generation pipeline solves the coherence problem
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: LLM Provider Configuration](03-llm-provider-configuration.md)
 - [Next Chapter: Chapter 5: Web Research and Browser Integration](05-web-research-and-browser-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

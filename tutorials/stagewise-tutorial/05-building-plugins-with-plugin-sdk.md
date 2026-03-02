@@ -646,7 +646,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Configuration and Plugin Loading](04-configuration-and-plugin-loading.md)
 - [Next Chapter: Chapter 6: Custom Agent Integrations with Agent Interface](06-custom-agent-integrations-with-agent-interface.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

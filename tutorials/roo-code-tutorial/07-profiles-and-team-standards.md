@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: MCP and Tool Extensions](06-mcp-and-tool-extensions.md)
 - [Next Chapter: Chapter 8: Enterprise Operations](08-enterprise-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

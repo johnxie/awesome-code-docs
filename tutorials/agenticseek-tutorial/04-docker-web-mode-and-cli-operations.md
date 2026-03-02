@@ -635,7 +635,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Installation, Runtime, and Provider Setup](03-installation-runtime-and-provider-setup.md)
 - [Next Chapter: Chapter 5: Tools, Browser Automation, and Workspace Governance](05-tools-browser-automation-and-workspace-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

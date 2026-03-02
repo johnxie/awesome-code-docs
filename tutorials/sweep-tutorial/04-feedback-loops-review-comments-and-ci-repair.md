@@ -641,7 +641,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Repository Configuration and Governance](03-repository-configuration-and-governance.md)
 - [Next Chapter: Chapter 5: CLI and Self-Hosted Deployment](05-cli-and-self-hosted-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

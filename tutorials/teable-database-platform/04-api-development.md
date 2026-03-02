@@ -81,7 +81,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Teable Development Environment Setup](03-setup-environment.md)
 - [Next Chapter: Chapter 5: Realtime Collaboration](05-realtime-collaboration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

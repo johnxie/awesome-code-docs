@@ -96,7 +96,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Schema Design](03-schema-design.md)
 - [Next Chapter: Chapter 5: Component System](05-component-system.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

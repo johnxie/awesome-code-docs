@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Tooling, Python API, and Custom Extensions](05-tooling-python-api-and-custom-extensions.md)
 - [Next Chapter: Chapter 7: Benchmarking, Evaluation, and Quality Gates](07-benchmarking-evaluation-and-quality-gates.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -716,7 +716,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Session Recordings](04-session-recordings.md)
 - [Next Chapter: Chapter 6: Dashboards & Insights](06-dashboards-insights.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

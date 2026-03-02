@@ -915,7 +915,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Mem0](01-getting-started.md)
 - [Next Chapter: Chapter 3: Core Memory Operations](03-memory-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

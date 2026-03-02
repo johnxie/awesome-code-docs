@@ -96,7 +96,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Memory Server](04-memory-server.md)
 - [Next Chapter: Chapter 6: Custom Server Development](06-custom-server-development.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

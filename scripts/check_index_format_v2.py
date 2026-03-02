@@ -78,7 +78,7 @@ def main() -> int:
     args = parser.parse_args()
 
     root = Path(args.root).resolve()
-    index_paths = sorted((root / "tutorials").glob("*/index.md"))
+    index_paths = sorted((root / "tutorials").glob("*/README.md"))
 
     opted_in: list[Path] = []
     failures: list[tuple[Path, list[str]]] = []

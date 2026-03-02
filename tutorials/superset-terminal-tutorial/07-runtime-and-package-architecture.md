@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Setup/Teardown Presets and Automation](06-setup-teardown-presets-and-automation.md)
 - [Next Chapter: Chapter 8: Production Team Operations](08-production-team-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

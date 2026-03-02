@@ -92,7 +92,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: ChatML and Tool Call Accounting](06-chatml-and-tool-calls.md)
 - [Next Chapter: Chapter 8: Cost Governance](08-cost-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

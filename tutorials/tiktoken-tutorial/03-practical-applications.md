@@ -98,7 +98,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Tokenization Mechanics](02-tokenization-mechanics.md)
 - [Next Chapter: Chapter 4: Educational Module](04-educational-module.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

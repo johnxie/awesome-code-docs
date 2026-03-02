@@ -867,7 +867,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Code Generation - Creating Production-Ready Code](03-code-generation.md)
 - [Next Chapter: Chapter 5: Testing - Comprehensive Test Suite Generation and Quality Assurance](05-testing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

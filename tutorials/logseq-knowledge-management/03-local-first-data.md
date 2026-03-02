@@ -88,7 +88,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: System Architecture](02-system-architecture.md)
 - [Next Chapter: Logseq Development Environment Setup](04-development-setup.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tooling and Approval Workflow](03-tooling-and-approval-workflow.md)
 - [Next Chapter: Chapter 5: Subagents and Task Delegation](05-subagents-and-task-delegation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

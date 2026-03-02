@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Multi-Agent Orchestration](04-multi-agent-orchestration.md)
 - [Next Chapter: Chapter 6: AgentOS Runtime and Control Plane](06-agentos-runtime-and-control-plane.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

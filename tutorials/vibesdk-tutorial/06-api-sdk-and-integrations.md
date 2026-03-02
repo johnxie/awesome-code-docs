@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Data Layer and Persistence](05-data-layer-and-persistence.md)
 - [Next Chapter: Chapter 7: Security, Auth, and Governance](07-security-auth-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

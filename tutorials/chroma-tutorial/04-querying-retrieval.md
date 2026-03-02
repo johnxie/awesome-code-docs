@@ -227,7 +227,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Embeddings & Indexing](03-embeddings-indexing.md)
 - [Next Chapter: Chapter 5: Metadata & Filtering](05-metadata-filtering.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

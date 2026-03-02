@@ -611,7 +611,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Types & Configuration](02-agent-types.md)
 - [Next Chapter: Chapter 4: Code Execution & Security](04-code-execution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

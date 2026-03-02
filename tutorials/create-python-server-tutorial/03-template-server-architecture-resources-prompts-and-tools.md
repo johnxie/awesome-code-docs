@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Generated Project Structure and Conventions](02-generated-project-structure-and-conventions.md)
 - [Next Chapter: Chapter 4: Runtime, Dependencies, and uv Packaging](04-runtime-dependencies-and-uv-packaging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -276,7 +276,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Concepts - Resources, Tools, and Prompts](02-core-concepts.md)
 - [Next Chapter: Chapter 4: Advanced Patterns](04-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

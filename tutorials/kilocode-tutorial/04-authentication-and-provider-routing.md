@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Modes, Prompts, and Approval Workflow](03-modes-prompts-and-approval-workflow.md)
 - [Next Chapter: Chapter 5: Session, History, and Context Persistence](05-session-history-and-context-persistence.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

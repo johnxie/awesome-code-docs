@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Server Deployment and API Integration](06-server-deployment-and-api-integration.md)
 - [Next Chapter: Chapter 8: Troubleshooting, Security, and Contribution Workflow](08-troubleshooting-security-and-contribution-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

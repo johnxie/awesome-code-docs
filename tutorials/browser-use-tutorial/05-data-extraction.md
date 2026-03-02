@@ -705,7 +705,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Form Automation - Intelligent Form Filling and Submission](04-form-automation.md)
 - [Next Chapter: Chapter 6: Multi-Tab Workflows - Managing Complex Multi-Tab Operations](06-multi-tab.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -119,7 +119,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Advanced Skill Design](03-advanced-skill-design.md)
 - [Next Chapter: Chapter 5: Production Skills](05-production-skills.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

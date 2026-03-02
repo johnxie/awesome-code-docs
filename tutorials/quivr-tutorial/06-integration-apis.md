@@ -800,7 +800,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Knowledge Bases](05-knowledge-bases.md)
 - [Next Chapter: Chapter 7: Customization](07-customization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

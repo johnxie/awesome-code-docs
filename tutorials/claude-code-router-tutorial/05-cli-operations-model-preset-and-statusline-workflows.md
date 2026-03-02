@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Routing Rules, Fallbacks, and Custom Router Logic](04-routing-rules-fallbacks-and-custom-router-logic.md)
 - [Next Chapter: Chapter 6: Server Deployment and API Integration](06-server-deployment-and-api-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

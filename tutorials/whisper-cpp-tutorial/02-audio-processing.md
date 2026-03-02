@@ -555,7 +555,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with Whisper.cpp](01-getting-started.md)
 - [Next Chapter: Chapter 3: Model Architecture & GGML](03-model-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

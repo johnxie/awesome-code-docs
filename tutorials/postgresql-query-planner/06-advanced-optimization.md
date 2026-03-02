@@ -465,7 +465,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Index Deep Dive](05-index-strategies.md)
 - [Next Chapter: Chapter 7: Performance Tuning](07-performance-tuning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Providers and Model Routing](03-providers-and-model-routing.md)
 - [Next Chapter: Chapter 5: Sessions and Context Management](05-sessions-and-context-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

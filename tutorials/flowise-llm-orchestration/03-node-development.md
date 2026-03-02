@@ -966,7 +966,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Workflow Engine](02-workflow-engine.md)
 - [Next Chapter: Chapter 4: Advanced Integrations](04-advanced-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

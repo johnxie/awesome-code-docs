@@ -906,7 +906,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Schema Management](03-schema-management.md)
 - [Next Chapter: Chapter 5: Query Builder](05-query-builder.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

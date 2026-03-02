@@ -969,7 +969,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Reading App Context - Making Your App State Visible to AI](02-app-context.md)
 - [Next Chapter: Chapter 4: Chat Components - Building Chat Interfaces with CopilotChat and CopilotSidebar](04-chat-components.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

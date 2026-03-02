@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Subagents and Task Delegation](05-subagents-and-task-delegation.md)
 - [Next Chapter: Chapter 7: ACP and Editor Integrations](07-acp-and-editor-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

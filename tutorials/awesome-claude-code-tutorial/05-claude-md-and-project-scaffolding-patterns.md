@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Skills, Hooks, and Slash Command Patterns](04-skills-hooks-and-slash-command-patterns.md)
 - [Next Chapter: Chapter 6: Automation Pipeline and README Generation](06-automation-pipeline-and-readme-generation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

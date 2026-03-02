@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Context7 MCP and Local Models](06-context7-mcp-and-local-models.md)
 - [Next Chapter: Chapter 8: Production Operations, Observability, and Security](08-production-operations-observability-and-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

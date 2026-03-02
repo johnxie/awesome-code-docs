@@ -719,7 +719,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Basic Editing Operations](02-basic-editing.md)
 - [Next Chapter: Chapter 4: Git Integration](04-git.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

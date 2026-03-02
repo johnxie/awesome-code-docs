@@ -547,7 +547,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Building AI Agents with Tools](04-ai-agents.md)
 - [Next Chapter: Chapter 6: AI-Powered Decision Making and Routing](06-decisions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

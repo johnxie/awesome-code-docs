@@ -642,7 +642,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Versioning, Governance, and Moderation Lifecycle](06-versioning-governance-and-moderation-lifecycle.md)
 - [Next Chapter: Chapter 8: Production Rollout, Automation, and Contribution](08-production-rollout-automation-and-contribution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

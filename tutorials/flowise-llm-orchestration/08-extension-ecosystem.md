@@ -47,7 +47,7 @@ A sustainable extension ecosystem determines whether Flowise remains adaptable a
 You now have a blueprint for building and maintaining a robust Flowise extension ecosystem.
 
 Related:
-- [Flowise Index](index.md)
+- [Flowise Index](README.md)
 
 ## What Problem Does This Solve?
 
@@ -89,7 +89,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Observability](07-observability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

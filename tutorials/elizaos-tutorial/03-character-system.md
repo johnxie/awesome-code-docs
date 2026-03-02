@@ -483,7 +483,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Agent Runtime](02-agent-runtime.md)
 - [Next Chapter: Chapter 4: Plugin Architecture](04-plugin-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

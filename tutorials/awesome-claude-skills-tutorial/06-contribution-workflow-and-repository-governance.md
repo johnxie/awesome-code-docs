@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: App Automation via Composio Skill Packs](05-app-automation-via-composio-skill-packs.md)
 - [Next Chapter: Chapter 7: Risk Management and Skill Selection Rubric](07-risk-management-and-skill-selection-rubric.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

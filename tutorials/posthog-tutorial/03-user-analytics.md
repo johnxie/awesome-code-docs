@@ -572,7 +572,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Event Tracking & Properties](02-event-tracking.md)
 - [Next Chapter: Chapter 4: Session Recordings](04-session-recordings.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Multi-Provider Conversion and Config Sync](04-multi-provider-conversion-and-config-sync.md)
 - [Next Chapter: Chapter 6: Daily Operations and Quality Gates](06-daily-operations-and-quality-gates.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

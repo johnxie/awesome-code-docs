@@ -658,7 +658,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: RAG Implementation](04-rag-implementation.md)
 - [Next Chapter: Chapter 6: Custom Nodes](06-custom-nodes.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

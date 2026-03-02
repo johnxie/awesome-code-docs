@@ -724,7 +724,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Modules - Reusable DSPy Components](03-modules.md)
 - [Next Chapter: Chapter 5: Automatic Optimization - DSPy's Superpower](05-optimization.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

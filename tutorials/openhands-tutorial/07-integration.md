@@ -729,7 +729,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Refactoring - Code Structure Improvement and Modernization](06-refactoring.md)
 - [Next Chapter: Chapter 8: Advanced Projects - Complete Applications and System Architectures](08-advanced-projects.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

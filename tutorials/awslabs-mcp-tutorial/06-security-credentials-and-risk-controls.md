@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Data, Knowledge, and Agent Workflows](05-data-knowledge-and-agent-workflows.md)
 - [Next Chapter: Chapter 7: Development, Testing, and Contribution Workflow](07-development-testing-and-contribution-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

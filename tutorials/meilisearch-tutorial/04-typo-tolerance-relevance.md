@@ -409,7 +409,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Search Fundamentals](03-search-fundamentals.md)
 - [Next Chapter: Chapter 5: Filtering & Facets](05-filtering-facets.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

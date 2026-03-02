@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Framework Architecture](02-framework-architecture.md)
 - [Next Chapter: Chapter 4: Multi-Agent Orchestration](04-multi-agent-orchestration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -762,7 +762,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Prompt Engineering](03-prompts.md)
 - [Next Chapter: Chapter 5: Memory & Embeddings](05-memory.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

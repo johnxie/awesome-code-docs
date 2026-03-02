@@ -510,7 +510,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: PRD Analysis & Task Generation](02-prd-analysis.md)
 - [Next Chapter: Chapter 4: Multi-Model Integration](04-multi-model-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

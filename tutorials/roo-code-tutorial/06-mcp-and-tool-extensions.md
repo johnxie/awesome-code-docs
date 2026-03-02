@@ -628,7 +628,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Checkpoints and Recovery](05-checkpoints-and-recovery.md)
 - [Next Chapter: Chapter 7: Profiles and Team Standards](07-profiles-and-team-standards.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

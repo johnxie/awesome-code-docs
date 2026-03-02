@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and Package Model](01-getting-started-and-package-model.md)
 - [Next Chapter: Chapter 3: Client Transports, OAuth, and Backwards Compatibility](03-client-transports-oauth-and-backwards-compatibility.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

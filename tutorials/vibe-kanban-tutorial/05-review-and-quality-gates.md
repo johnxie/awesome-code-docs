@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: MCP and Configuration Control](04-mcp-and-configuration-control.md)
 - [Next Chapter: Chapter 6: Remote Access and Self-Hosting](06-remote-access-and-self-hosting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

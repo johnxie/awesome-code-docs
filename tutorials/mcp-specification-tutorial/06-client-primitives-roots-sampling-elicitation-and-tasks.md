@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Server Primitives: Tools, Resources, and Prompts](05-server-primitives-tools-resources-and-prompts.md)
 - [Next Chapter: Chapter 7: Authorization and Security Best Practices](07-authorization-and-security-best-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

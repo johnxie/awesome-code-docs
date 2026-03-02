@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Planning Control and Human-in-the-Loop](05-planning-control-and-human-in-the-loop.md)
 - [Next Chapter: Chapter 7: Fork Maintenance and Migration Strategy](07-fork-maintenance-and-migration-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

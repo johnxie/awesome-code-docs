@@ -575,7 +575,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Data Modeling](02-data-modeling.md)
 - [Next Chapter: Chapter 4: Hybrid Search](04-hybrid-search.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

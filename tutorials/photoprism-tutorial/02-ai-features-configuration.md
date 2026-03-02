@@ -294,7 +294,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with PhotoPrism](01-getting-started.md)
 - [Next Chapter: Chapter 3: Photo Management](03-photo-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -593,7 +593,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Basic Web Scraping](02-basic-scraping.md)
 - [Next Chapter: Chapter 4: JavaScript & Dynamic Content](04-javascript-handling.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

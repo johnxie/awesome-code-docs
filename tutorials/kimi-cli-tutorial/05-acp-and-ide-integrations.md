@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: MCP Tooling and Security Model](04-mcp-tooling-and-security-model.md)
 - [Next Chapter: Chapter 6: Shell Mode, Print Mode, and Wire Mode](06-shell-mode-print-mode-and-wire-mode.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

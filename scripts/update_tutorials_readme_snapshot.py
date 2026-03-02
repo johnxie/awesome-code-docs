@@ -13,7 +13,7 @@ NUMBERED_MD_PATTERN = "[0-9][0-9]*.md"
 
 def compute_metrics(root: Path) -> dict:
     tutorials_root = root / "tutorials"
-    tutorial_dirs = sorted([p for p in tutorials_root.iterdir() if p.is_dir() and (p / "index.md").is_file()])
+    tutorial_dirs = sorted([p for p in tutorials_root.iterdir() if p.is_dir() and (p / "README.md").is_file()])
 
     md_files = [f for d in tutorial_dirs for f in d.glob("*.md")]
     md_lines = 0
@@ -63,7 +63,7 @@ def update_readme_content(content: str, metrics: dict) -> str:
         r"\| Tutorial directories \| .* \|": f"| Tutorial directories | {metrics['tutorial_directories']} |",
         r"\| Tutorial markdown files \| .* \|": f"| Tutorial markdown files | {metrics['tutorial_markdown_files']} |",
         r"\| Tutorial markdown lines \| .* \|": f"| Tutorial markdown lines | {metrics['tutorial_markdown_lines']:,} |",
-        r"\| Root chapter files \| .* \|": f"| Root chapter files | {metrics['structure_counts']['root_only']} | `index.md` + top-level `01-...md` to `08-...md` |",
+        r"\| Root chapter files \| .* \|": f"| Root chapter files | {metrics['structure_counts']['root_only']} | `README.md` + top-level `01-...md` to `08-...md` |",
         r"\| `docs/` chapter files \| .* \|": f"| `docs/` chapter files | {metrics['structure_counts']['docs_only']} | Deprecated and fully migrated |",
         r"\| Index-only roadmap \| .* \|": f"| Index-only roadmap | {metrics['structure_counts']['index_only']} | All catalog entries publish full chapter sets |",
         r"\| Mixed root \+ `docs/` \| .* \|": f"| Mixed root + `docs/` | {metrics['structure_counts']['mixed']} | Legacy hybrid layout removed |",

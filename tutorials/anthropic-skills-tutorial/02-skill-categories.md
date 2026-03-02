@@ -104,7 +104,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
 - [Next Chapter: Chapter 3: Advanced Skill Design](03-advanced-skill-design.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

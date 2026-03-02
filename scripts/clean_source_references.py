@@ -79,7 +79,7 @@ def main() -> int:
 
     changed_files = 0
     for tutorial_dir in sorted(p for p in tutorials.iterdir() if p.is_dir()):
-        idx = tutorial_dir / "index.md"
+        idx = tutorial_dir / "README.md"
         if not idx.is_file():
             continue
         text = read(idx)

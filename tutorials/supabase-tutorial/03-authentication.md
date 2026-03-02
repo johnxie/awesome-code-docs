@@ -841,7 +841,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Database Design & Management](02-database-design.md)
 - [Next Chapter: Chapter 4: Real-time Features](04-realtime-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

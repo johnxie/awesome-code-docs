@@ -731,7 +731,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Memory & Learning](04-memory-learning.md)
 - [Next Chapter: Chapter 6: Multi-Agent Systems](06-multi-agent-systems.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

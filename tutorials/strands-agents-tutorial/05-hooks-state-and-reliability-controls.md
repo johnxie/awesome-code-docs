@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Model Providers and Runtime Strategy](04-model-providers-and-runtime-strategy.md)
 - [Next Chapter: Chapter 6: Multi-Agent and Advanced Patterns](06-multi-agent-and-advanced-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

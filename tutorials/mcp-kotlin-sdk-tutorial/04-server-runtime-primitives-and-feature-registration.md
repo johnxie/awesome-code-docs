@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Client Runtime and Capability Negotiation](03-client-runtime-and-capability-negotiation.md)
 - [Next Chapter: Chapter 5: Transports: stdio, Streamable HTTP, SSE, and WebSocket](05-transports-stdio-streamable-http-sse-and-websocket.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

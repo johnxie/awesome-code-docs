@@ -629,7 +629,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Files, Diff, and Locking](05-files-diff-locking.md)
 - [Next Chapter: Chapter 7: Deployment and Distribution](07-deployment-distribution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

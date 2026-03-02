@@ -36,7 +36,7 @@ This chapter covers team deployment strategies, security hardening, API cost gov
 
 You now have a complete production governance framework for Devika covering security, cost controls, code review policies, and operational runbooks for safe team-scale autonomous coding.
 
-Return to: [Tutorial Index](index.md)
+Return to: [Tutorial Index](README.md)
 
 ## Depth Expansion Playbook
 
@@ -221,7 +221,7 @@ Devika's production governance framework solves the accountability and blast-rad
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Debugging and Troubleshooting](07-debugging-and-troubleshooting.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

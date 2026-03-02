@@ -86,7 +86,7 @@ Run these in CI and again for release candidates with production-like bindings.
 
 You now have an operations blueprint for running VibeSDK as a production platform with measurable reliability and governance.
 
-Next: return to the [VibeSDK Tutorial index](index.md).
+Next: return to the [VibeSDK Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -633,7 +633,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Security, Auth, and Governance](07-security-auth-and-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

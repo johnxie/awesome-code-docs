@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Development Environment and Monorepo Setup](03-development-environment-and-monorepo-setup.md)
 - [Next Chapter: Chapter 5: Planning Control and Human-in-the-Loop](05-planning-control-and-human-in-the-loop.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

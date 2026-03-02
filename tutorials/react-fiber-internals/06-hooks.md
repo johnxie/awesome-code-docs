@@ -758,7 +758,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Scheduling and Lanes](05-scheduling.md)
 - [Next Chapter: Chapter 7: Concurrent Features](07-concurrent.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

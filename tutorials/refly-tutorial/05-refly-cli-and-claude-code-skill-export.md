@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: API and Webhook Integrations](04-api-and-webhook-integrations.md)
 - [Next Chapter: Chapter 6: Observability, Deployment, and Operations](06-observability-deployment-and-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

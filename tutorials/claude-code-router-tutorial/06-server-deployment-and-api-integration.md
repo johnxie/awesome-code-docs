@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: CLI Operations: Model, Preset, and Statusline Workflows](05-cli-operations-model-preset-and-statusline-workflows.md)
 - [Next Chapter: Chapter 7: GitHub Actions, Non-Interactive Mode, and Team Ops](07-github-actions-non-interactive-mode-and-team-ops.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

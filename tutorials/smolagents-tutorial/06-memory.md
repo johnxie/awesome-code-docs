@@ -697,7 +697,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Multi-Step Reasoning](05-multi-step.md)
 - [Next Chapter: Chapter 7: Advanced Patterns](07-advanced.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

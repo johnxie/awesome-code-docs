@@ -633,7 +633,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Configuration, API, and Deployment Models](06-configuration-api-and-deployment-models.md)
 - [Next Chapter: Chapter 8: Production Operations and Contribution](08-production-operations-and-contribution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

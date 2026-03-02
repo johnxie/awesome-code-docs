@@ -663,7 +663,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Hooks Implementation](06-hooks.md)
 - [Next Chapter: Chapter 8: Debugging and Profiling](08-debugging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

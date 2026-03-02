@@ -747,7 +747,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Named Entity Recognition](05-named-entity-recognition.md)
 - [Next Chapter: Chapter 7: Fine-tuning Models](07-fine-tuning.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

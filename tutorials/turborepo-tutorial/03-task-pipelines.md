@@ -717,7 +717,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Workspace Configuration](02-workspace-configuration.md)
 - [Next Chapter: Chapter 4: Caching Strategies](04-caching-strategies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

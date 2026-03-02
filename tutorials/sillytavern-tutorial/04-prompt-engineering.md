@@ -540,7 +540,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Chat Management](03-chat-management.md)
 - [Next Chapter: Chapter 5: Extensions Ecosystem](05-extensions-ecosystem.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

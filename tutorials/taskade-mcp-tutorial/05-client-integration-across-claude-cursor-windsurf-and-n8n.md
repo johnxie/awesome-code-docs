@@ -647,7 +647,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: OpenAPI to MCP Codegen Pipeline](04-openapi-to-mcp-codegen-pipeline.md)
 - [Next Chapter: Chapter 6: Deployment, Configuration, and Operations](06-deployment-configuration-and-operations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

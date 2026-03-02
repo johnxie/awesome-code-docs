@@ -981,7 +981,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Chat Interface](05-chat-interface.md)
 - [Next Chapter: Chapter 7: Customization & Plugins](07-customization-and-plugins.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

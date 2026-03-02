@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Practical Workflows and Learning Paths](06-practical-workflows-and-learning-paths.md)
 - [Next Chapter: Chapter 8: Market Monitoring and Operations Playbook](08-market-monitoring-and-operations-playbook.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

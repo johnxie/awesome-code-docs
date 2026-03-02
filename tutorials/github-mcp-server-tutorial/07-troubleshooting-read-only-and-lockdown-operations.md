@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Security, Governance, and Enterprise Controls](06-security-governance-and-enterprise-controls.md)
 - [Next Chapter: Chapter 8: Contribution and Upgrade Workflow](08-contribution-and-upgrade-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

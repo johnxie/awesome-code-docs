@@ -76,7 +76,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Permissions and Approval Workflow](05-permissions-and-approval-workflow.md)
 - [Next Chapter: Chapter 7: Configuration and Security](07-configuration-and-security.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

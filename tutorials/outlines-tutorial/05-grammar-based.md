@@ -706,7 +706,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Type Safety & Pydantic Integration](04-type-safety.md)
 - [Next Chapter: Chapter 6: Advanced Features & Performance Optimization](06-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

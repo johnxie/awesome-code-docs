@@ -588,7 +588,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started with BentoML](01-getting-started.md)
 - [Next Chapter: Chapter 3: API Development](03-api-development.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

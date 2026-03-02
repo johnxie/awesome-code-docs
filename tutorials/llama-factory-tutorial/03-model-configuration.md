@@ -623,7 +623,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Data Preparation](02-data-preparation.md)
 - [Next Chapter: Chapter 4: Training Pipeline](04-training-pipeline.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

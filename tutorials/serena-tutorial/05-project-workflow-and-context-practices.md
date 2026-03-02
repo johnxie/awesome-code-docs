@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Language Backends and Analysis Strategy](04-language-backends-and-analysis-strategy.md)
 - [Next Chapter: Chapter 6: Configuration and Operational Controls](06-configuration-and-operational-controls.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

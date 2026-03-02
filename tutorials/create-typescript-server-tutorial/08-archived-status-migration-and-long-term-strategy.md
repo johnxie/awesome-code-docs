@@ -38,7 +38,7 @@ This chapter defines long-term maintenance strategy when relying on archived sca
 
 You now have a pragmatic long-term strategy for scaffold-based TypeScript MCP server development.
 
-Return to the [Create TypeScript Server Tutorial index](index.md).
+Return to the [Create TypeScript Server Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Quality, Security, and Contribution Practices](07-quality-security-and-contribution-practices.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

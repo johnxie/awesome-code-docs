@@ -866,7 +866,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Understanding Phidata Agent Architecture](02-agent-architecture.md)
 - [Next Chapter: Chapter 4: Memory Systems - Building Context-Aware Agents](04-memory-systems.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

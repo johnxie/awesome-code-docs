@@ -80,7 +80,7 @@ def slug_phrase(text: str) -> str:
 def chapter_files(tutorial_dir: Path) -> list[Path]:
     out: list[tuple[int, str, Path]] = []
     for path in tutorial_dir.glob("*.md"):
-        if path.name == "index.md":
+        if path.name == "README.md":
             continue
         match = NUMBERED_FILE_RE.match(path.name)
         if not match:
@@ -296,7 +296,7 @@ def main() -> int:
     chapter_changed = 0
 
     for tutorial_dir in sorted(p for p in tutorials_root.iterdir() if p.is_dir()):
-        index_path = tutorial_dir / "index.md"
+        index_path = tutorial_dir / "README.md"
         if not index_path.is_file():
             continue
         index_text = read_text(index_path)

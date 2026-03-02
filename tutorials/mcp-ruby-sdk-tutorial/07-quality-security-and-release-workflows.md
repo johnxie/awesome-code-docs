@@ -629,7 +629,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Client Workflows, HTTP Integration, and Auth Considerations](06-client-workflows-http-integration-and-auth-considerations.md)
 - [Next Chapter: Chapter 8: Production Deployment and Upgrade Strategy](08-production-deployment-and-upgrade-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

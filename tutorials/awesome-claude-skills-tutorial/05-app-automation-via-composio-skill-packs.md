@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Skill Authoring Template and Quality Standards](04-skill-authoring-template-and-quality-standards.md)
 - [Next Chapter: Chapter 6: Contribution Workflow and Repository Governance](06-contribution-workflow-and-repository-governance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

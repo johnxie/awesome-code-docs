@@ -669,7 +669,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Code Understanding - How Claude Analyzes Your Codebase](03-code-understanding.md)
 - [Next Chapter: Chapter 5: Command Execution - Running Tests, Builds, and Scripts](05-commands.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

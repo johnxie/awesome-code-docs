@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Worktree Isolation and Workspace Model](02-worktree-isolation-and-workspace-model.md)
 - [Next Chapter: Chapter 4: Multi-Agent Program Compatibility](04-multi-agent-program-compatibility.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

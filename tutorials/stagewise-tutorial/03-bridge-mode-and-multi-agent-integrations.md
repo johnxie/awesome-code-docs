@@ -640,7 +640,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Proxy and Toolbar Architecture](02-proxy-and-toolbar-architecture.md)
 - [Next Chapter: Chapter 4: Configuration and Plugin Loading](04-configuration-and-plugin-loading.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

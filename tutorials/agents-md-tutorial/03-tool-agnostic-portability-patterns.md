@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Section Design and Instruction Quality](02-section-design-and-instruction-quality.md)
 - [Next Chapter: Chapter 4: Repository Structure and Scope Strategy](04-repository-structure-and-scope-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

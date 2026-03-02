@@ -627,7 +627,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Multi-Agent and Advanced Patterns](06-multi-agent-and-advanced-patterns.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Ecosystem Extensions](08-contribution-workflow-and-ecosystem-extensions.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

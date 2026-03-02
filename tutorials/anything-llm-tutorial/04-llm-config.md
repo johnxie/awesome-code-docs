@@ -644,7 +644,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Document Upload and Processing](03-documents.md)
 - [Next Chapter: Chapter 5: Vector Stores - Choosing and Configuring Storage Backends](05-vector-stores.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

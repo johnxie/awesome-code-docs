@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Review and Quality Gates](05-review-and-quality-gates.md)
 - [Next Chapter: Chapter 7: Development and Source Build Workflow](07-development-and-source-build-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

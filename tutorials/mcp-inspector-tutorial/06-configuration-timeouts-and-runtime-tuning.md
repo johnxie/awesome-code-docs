@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Security, Auth, and Network Hardening](05-security-auth-and-network-hardening.md)
 - [Next Chapter: Chapter 7: Inspector in Server Development Lifecycle](07-inspector-in-server-development-lifecycle.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

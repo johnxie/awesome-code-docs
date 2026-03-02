@@ -722,7 +722,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Obsidian Plugin Architecture](01-plugin-architecture.md)
 - [Next Chapter: Chapter 3: Tree Data Structures](03-tree-structures.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

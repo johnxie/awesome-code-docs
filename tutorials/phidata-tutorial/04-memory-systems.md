@@ -935,7 +935,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tools & Functions - Extending Agent Capabilities](03-tools-functions.md)
 - [Next Chapter: Chapter 5: Multi-Agent Systems - Coordinating Teams of AI Agents](05-multi-agent-systems.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -641,7 +641,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: AI Nodes and LLM Integration](02-ai-nodes.md)
 - [Next Chapter: Chapter 4: Building AI Agents with Tools](04-ai-agents.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

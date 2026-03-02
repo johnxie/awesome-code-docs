@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Service Model and Macro-Based Tooling](02-service-model-and-macro-based-tooling.md)
 - [Next Chapter: Chapter 4: Client Patterns, Sampling, and Batching Flows](04-client-patterns-sampling-and-batching-flows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

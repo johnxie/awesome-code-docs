@@ -470,7 +470,7 @@ def infer_intent_signals(title: str, summary: str, cluster: str) -> list[str]:
 def tutorial_dirs(root: Path) -> Iterable[Path]:
     tutorials_root = root / TUTORIALS_DIR
     for path in sorted([p for p in tutorials_root.iterdir() if p.is_dir()], key=lambda p: p.name):
-        if (path / "index.md").is_file():
+        if (path / "README.md").is_file():
             yield path
 
 
@@ -478,7 +478,7 @@ def build_records(root: Path) -> list[dict]:
     records: list[dict] = []
 
     for tdir in tutorial_dirs(root):
-        index_path = tdir / "index.md"
+        index_path = tdir / "README.md"
         raw = index_path.read_text(encoding="utf-8", errors="ignore")
         body = strip_frontmatter(raw)
 
@@ -497,9 +497,9 @@ def build_records(root: Path) -> list[dict]:
                 "title": title,
                 "summary": summary,
                 "path": rel_dir,
-                "index_path": f"{rel_dir}/index.md",
+                "index_path": f"{rel_dir}/README.md",
                 "repo_url": f"https://github.com/johnxie/awesome-code-docs/tree/main/{rel_dir}",
-                "file_url": f"https://github.com/johnxie/awesome-code-docs/blob/main/{rel_dir}/index.md",
+                "file_url": f"https://github.com/johnxie/awesome-code-docs/blob/main/{rel_dir}/README.md",
                 "keywords": keywords,
                 "cluster": cluster,
                 "intent_signals": intent_signals,

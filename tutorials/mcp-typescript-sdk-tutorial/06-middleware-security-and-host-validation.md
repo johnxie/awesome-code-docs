@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Sampling, Elicitation, and Experimental Tasks](05-sampling-elicitation-and-experimental-tasks.md)
 - [Next Chapter: Chapter 7: v1 to v2 Migration Strategy](07-v1-to-v2-migration-strategy.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

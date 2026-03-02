@@ -644,7 +644,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Browser Control Basics](02-browser-control.md)
 - [Next Chapter: Chapter 4: Form Automation - Intelligent Form Filling and Submission](04-form-automation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

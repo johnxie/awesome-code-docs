@@ -643,7 +643,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Core Protocol Model and Module Architecture](02-core-protocol-model-and-module-architecture.md)
 - [Next Chapter: Chapter 4: Server Runtime, Primitives, and Feature Registration](04-server-runtime-primitives-and-feature-registration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

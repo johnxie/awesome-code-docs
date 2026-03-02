@@ -635,7 +635,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture, Tools, and Agent Loop](02-architecture-tools-and-agent-loop.md)
 - [Next Chapter: Chapter 4: Settings, Context, and Custom Commands](04-settings-context-and-custom-commands.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

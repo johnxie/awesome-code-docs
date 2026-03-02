@@ -641,7 +641,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Custom Agent Integrations with Agent Interface](06-custom-agent-integrations-with-agent-interface.md)
 - [Next Chapter: Chapter 8: Contribution Workflow and Ecosystem Evolution](08-contribution-workflow-and-ecosystem-evolution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

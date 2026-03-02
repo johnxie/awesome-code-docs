@@ -668,7 +668,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Message Processing Pipeline](05-message-processing.md)
 - [Next Chapter: Chapter 7: Plugin Architecture](07-plugin-system.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

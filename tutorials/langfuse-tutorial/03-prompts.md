@@ -634,7 +634,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Tracing Fundamentals](02-tracing.md)
 - [Next Chapter: Chapter 4: Evaluation](04-evaluation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: MCP Server Tools, Auth, and API Surface](03-mcp-server-tools-auth-and-api-surface.md)
 - [Next Chapter: Chapter 5: Client Integration Across Claude, Cursor, Windsurf, and n8n](05-client-integration-across-claude-cursor-windsurf-and-n8n.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -87,7 +87,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Auth System](06-auth-system.md)
 - [Next Chapter: Chapter 8: Realtime Features](08-realtime-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

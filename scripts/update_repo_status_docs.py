@@ -11,7 +11,7 @@ NUMBERED_MD_PATTERN = "[0-9][0-9]*.md"
 
 def collect_tutorial_dirs(root: Path) -> list[Path]:
     tutorials_root = root / "tutorials"
-    return sorted([p for p in tutorials_root.iterdir() if p.is_dir() and (p / "index.md").is_file()])
+    return sorted([p for p in tutorials_root.iterdir() if p.is_dir() and (p / "README.md").is_file()])
 
 
 def chapter_count(tutorial_dir: Path) -> int:
@@ -45,7 +45,7 @@ This file defines the canonical tutorial layout and current structure status.
 
 ```text
 tutorials/<tutorial-name>/
-  index.md
+  README.md
   01-*.md
   02-*.md
   ...
@@ -148,7 +148,7 @@ High-impact surfaces requiring continuous maintenance:
 
 A tutorial track is considered production-ready when:
 
-- it has `index.md` with valid local links
+- it has `README.md` with valid local links
 - it has a coherent numbered chapter sequence
 - its summary and snapshot language are not stale or placeholder quality
 - it passes repository docs health checks

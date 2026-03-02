@@ -947,7 +947,7 @@ Key enterprise references:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Multi-Agent Collaboration](06-multi-agent-collaboration.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -779,7 +779,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Vector Stores - Choosing and Configuring Storage Backends](05-vector-stores.md)
 - [Next Chapter: Chapter 7: API & Integration - Programmatic Access and System Integration](07-api.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

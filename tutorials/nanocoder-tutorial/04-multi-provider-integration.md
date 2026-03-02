@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Tool System Internals](03-tool-system-internals.md)
 - [Next Chapter: Chapter 5: Context Management](05-context-management.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

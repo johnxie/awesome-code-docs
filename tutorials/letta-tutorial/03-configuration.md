@@ -334,7 +334,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Memory Architecture in Letta](02-memory.md)
 - [Next Chapter: Chapter 4: Tool Integration](04-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

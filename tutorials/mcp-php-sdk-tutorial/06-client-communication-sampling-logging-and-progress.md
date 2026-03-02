@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Transports: STDIO and Streamable HTTP](05-transports-stdio-and-streamable-http.md)
 - [Next Chapter: Chapter 7: Framework Integration, Session Stores, and Dependencies](07-framework-integration-session-stores-and-dependencies.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

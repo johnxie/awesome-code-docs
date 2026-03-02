@@ -506,7 +506,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Understanding Nodes & Workflows](02-nodes-workflows.md)
 - [Next Chapter: Chapter 4: Image-to-Image & Inpainting](04-image-to-image.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

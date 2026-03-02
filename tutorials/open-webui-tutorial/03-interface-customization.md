@@ -1104,7 +1104,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Model Management & Backend Configuration](02-model-management.md)
 - [Next Chapter: Chapter 4: Advanced Chat Features & Multi-Modal Conversations](04-advanced-chat-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

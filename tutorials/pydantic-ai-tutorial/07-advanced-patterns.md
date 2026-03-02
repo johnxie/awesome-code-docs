@@ -1020,7 +1020,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Error Handling, Retry Mechanisms & Recovery](06-error-handling.md)
 - [Next Chapter: Chapter 8: Production Deployment & Scaling Pydantic AI Systems](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

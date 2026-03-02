@@ -38,7 +38,7 @@ This chapter covers long-term operations for teams relying on an archived upstre
 
 You now have a pragmatic operating and migration strategy for `use-mcp` deployments.
 
-Return to the [use-mcp Tutorial index](index.md).
+Return to the [use-mcp Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Testing, Debugging, and Integration Servers](07-testing-debugging-and-integration-servers.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

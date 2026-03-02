@@ -81,7 +81,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Customer Support Agents](02-customer-support-agents.md)
 - [Next Chapter: Chapter 4: Browser and Computer Use](04-browser-computer-use.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

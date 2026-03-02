@@ -634,7 +634,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Template MCP Primitives: Resources, Tools, Prompts](03-template-mcp-primitives-resources-tools-prompts.md)
 - [Next Chapter: Chapter 5: Development Workflows: Build, Watch, and Link](05-development-workflows-build-watch-and-link.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

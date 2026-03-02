@@ -704,7 +704,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Command Execution - Running Tests, Builds, and Scripts](05-commands.md)
 - [Next Chapter: Chapter 7: MCP Integration - Extending Claude Code with Custom Tools](07-mcp.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

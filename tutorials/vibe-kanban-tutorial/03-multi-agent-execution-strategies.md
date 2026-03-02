@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
 - [Next Chapter: Chapter 4: MCP and Configuration Control](04-mcp-and-configuration-control.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

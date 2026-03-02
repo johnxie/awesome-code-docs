@@ -635,7 +635,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Provider Integrations and Framework Mapping](03-provider-integrations-and-framework-mapping.md)
 - [Next Chapter: Chapter 5: Tool Execution Modes and Modifiers](05-tool-execution-modes-and-modifiers.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

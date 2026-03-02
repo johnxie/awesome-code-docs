@@ -948,7 +948,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Multi-Tab Workflows - Managing Complex Multi-Tab Operations](06-multi-tab.md)
 - [Next Chapter: Chapter 8: Production Deployment - Scaling, Reliability, and Best Practices](08-production.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

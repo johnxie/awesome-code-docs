@@ -49,7 +49,7 @@ Useful controls include:
 You now have complete Logseq coverage from architecture and local-first data to graph visualization behavior at scale.
 
 Related:
-- [Logseq Index](index.md)
+- [Logseq Index](README.md)
 
 ## What Problem Does This Solve?
 
@@ -91,7 +91,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Bi-Directional Links](07-bidirectional-links.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

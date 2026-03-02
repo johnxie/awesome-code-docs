@@ -593,7 +593,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Tool Integration & APIs](04-tool-integration.md)
 - [Next Chapter: Chapter 6: Safety & Reliability](06-safety-reliability.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

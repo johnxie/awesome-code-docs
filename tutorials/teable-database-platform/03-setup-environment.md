@@ -613,7 +613,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Database Architecture](02-database-architecture.md)
 - [Next Chapter: Chapter 4: API Development](04-api-development.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

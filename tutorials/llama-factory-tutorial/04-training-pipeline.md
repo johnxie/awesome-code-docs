@@ -734,7 +734,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Model Configuration](03-model-configuration.md)
 - [Next Chapter: Chapter 5: Model Evaluation](05-model-evaluation.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -636,7 +636,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Vector Embeddings for RAG](06-embeddings.md)
 - [Next Chapter: Chapter 8: Production Integration and Applications](08-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

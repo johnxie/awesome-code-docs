@@ -625,7 +625,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture, Transports, and Versioning](02-architecture-transports-and-versioning.md)
 - [Next Chapter: Chapter 4: Client Integrations: Cursor, Claude, Windsurf, VS Code](04-client-integrations-cursor-claude-windsurf-vscode.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

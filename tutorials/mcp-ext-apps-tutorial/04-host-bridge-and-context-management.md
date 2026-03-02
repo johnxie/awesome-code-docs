@@ -638,7 +638,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: App SDK: UI Resources and Tool Linkage](03-app-sdk-ui-resources-and-tool-linkage.md)
 - [Next Chapter: Chapter 5: Patterns, Security, and Performance](05-patterns-security-and-performance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

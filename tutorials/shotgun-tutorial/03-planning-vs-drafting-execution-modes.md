@@ -626,7 +626,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Router Architecture and Agent Lifecycle](02-router-architecture-and-agent-lifecycle.md)
 - [Next Chapter: Chapter 4: Codebase Indexing and Context Retrieval](04-codebase-indexing-and-context-retrieval.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

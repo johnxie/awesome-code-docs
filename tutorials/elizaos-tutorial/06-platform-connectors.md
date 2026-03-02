@@ -560,7 +560,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Memory & RAG](05-memory-rag.md)
 - [Next Chapter: Chapter 7: Multi-Agent Orchestration](07-multi-agent.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

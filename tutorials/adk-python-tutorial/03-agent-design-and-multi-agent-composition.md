@@ -636,7 +636,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Architecture and Runner Lifecycle](02-architecture-and-runner-lifecycle.md)
 - [Next Chapter: Chapter 4: Tools, MCP, and Confirmation Flows](04-tools-mcp-and-confirmation-flows.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

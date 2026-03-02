@@ -811,7 +811,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Plugins & Functions](02-plugins.md)
 - [Next Chapter: Chapter 4: AI Services & Connectors](04-services.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -6,7 +6,7 @@ This file defines the canonical tutorial layout and current structure status.
 
 ```text
 tutorials/<tutorial-name>/
-  index.md
+  README.md
   01-*.md
   02-*.md
   ...

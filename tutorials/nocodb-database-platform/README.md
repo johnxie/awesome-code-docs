@@ -1,40 +1,136 @@
-# NocoDB Database Platform Deep Dive
+---
+layout: default
+title: "NocoDB Database Platform"
+nav_order: 38
+has_children: true
+format_version: v2
+---
 
-A focused architecture walkthrough of NocoDB's database abstraction approach.
+# NocoDB: Deep Dive Tutorial
 
-## Current Status
+> **Project**: [NocoDB](https://github.com/nocodb/nocodb) — An open-source Airtable alternative that turns any database into a smart spreadsheet.
 
-Core chapter set is now published.
+[![Stars](https://img.shields.io/github/stars/nocodb/nocodb?style=social)](https://github.com/nocodb/nocodb)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Node.js](https://img.shields.io/badge/Node.js-Vue.js-green)](https://github.com/nocodb/nocodb)
 
-| Item | Status |
-|:-----|:-------|
-| Published chapter docs | 8 + setup guide |
-| Canonical entry point | [index.md](index.md) |
+## Why This Track Matters
 
-## Published Chapters
+NocoDB lets teams build collaborative no-code applications on top of their existing databases without rewriting their data layer — turning any SQL database into an Airtable-like interface with auto-generated APIs.
 
-| Chapter | File | Focus |
-|:--------|:-----|:------|
-| 1 | [01-system-overview.md](01-system-overview.md) | System overview and architecture |
-| 2 | [02-database-abstraction.md](02-database-abstraction.md) | Multi-database abstraction layer |
-| 3 | [03-schema-management.md](03-schema-management.md) | Dynamic schema handling |
-| 4 | [04-api-generation.md](04-api-generation.md) | API generation architecture |
-| 5 | [05-query-builder.md](05-query-builder.md) | Query builder internals |
-| 6 | [06-auth-system.md](06-auth-system.md) | Auth and permission model |
-| 7 | [07-vue-components.md](07-vue-components.md) | Frontend component architecture |
-| 8 | [08-realtime-features.md](08-realtime-features.md) | Realtime collaboration pipeline |
-| Setup | [docs/setup.md](docs/setup.md) | Environment setup for code exploration |
+This track focuses on:
+- connecting NocoDB to MySQL, PostgreSQL, SQLite, and SQL Server
+- understanding automatic REST API generation from database schemas
+- implementing RBAC, authentication, and audit logging
+- deploying NocoDB with Docker for full self-hosted data ownership
 
-## Suggested Reading Order
+## What Is NocoDB?
 
-1. Start with [index.md](index.md).
-2. Read chapters [1](01-system-overview.md) through [8](08-realtime-features.md) in order.
-3. Use [docs/setup.md](docs/setup.md) for hands-on setup.
+NocoDB transforms any SQL database (MySQL, PostgreSQL, SQL Server, SQLite) into a spreadsheet-like interface with auto-generated REST APIs. It provides a no-code layer over existing databases, enabling teams to build applications without rewriting their data layer.
 
-## Upstream Project
+| Feature | Description |
+|---------|-------------|
+| **Database Abstraction** | Connect to MySQL, PostgreSQL, SQL Server, SQLite |
+| **Spreadsheet UI** | Grid, gallery, kanban, and form views |
+| **Auto REST API** | Automatic API generation from database schema |
+| **Collaboration** | Real-time multi-user editing with roles and permissions |
+| **Plugin System** | Extensible with custom field types and integrations |
+| **Self-Hosted** | Full Docker deployment, data stays on your infrastructure |
 
-- NocoDB repository: <https://github.com/nocodb/nocodb>
+## Mental Model
+
+```mermaid
+graph TB
+    subgraph Frontend["Vue.js Frontend"]
+        GRID[Grid View]
+        GALLERY[Gallery View]
+        KANBAN[Kanban View]
+        FORM[Form Builder]
+    end
+
+    subgraph Backend["Node.js Backend"]
+        API[REST API Engine]
+        QB[Query Builder]
+        SCHEMA[Schema Manager]
+        AUTH[Auth & Roles]
+    end
+
+    subgraph Databases["Connected Databases"]
+        PG[(PostgreSQL)]
+        MYSQL[(MySQL)]
+        SQLITE[(SQLite)]
+        MSSQL[(SQL Server)]
+    end
+
+    Frontend --> Backend
+    Backend --> Databases
+```
+
+## Chapter Guide
+
+| Chapter | Topic | What You'll Learn |
+|---------|-------|-------------------|
+| [1. System Overview](01-system-overview.md) | Architecture | NocoDB's approach to database abstraction |
+| [2. Database Abstraction](02-database-abstraction.md) | Connectors | Multi-database support and schema mapping |
+| [3. Schema Management](03-schema-management.md) | Data Model | Dynamic table/field handling and migrations |
+| [4. API Generation](04-api-generation.md) | APIs | Automatic REST endpoint creation |
+| [5. Query Builder](05-query-builder.md) | Querying | Translating UI/API filters into SQL safely |
+| [6. Auth System](06-auth-system.md) | Security | Authentication, RBAC, and auditability |
+| [7. Vue Components](07-vue-components.md) | Frontend | Grid/editor component architecture |
+| [8. Realtime Features](08-realtime-features.md) | Collaboration | Event streams, optimistic updates, and conflict handling |
+
+## Tech Stack
+
+| Component | Technology |
+|-----------|-----------|
+| **Backend** | Node.js, Express, Knex.js |
+| **Frontend** | Vue.js, Nuxt |
+| **Databases** | PostgreSQL, MySQL, SQLite, SQL Server |
+| **Auth** | JWT, role-based access control |
+| **Deployment** | Docker, npm |
 
 ---
 
-Part of [Awesome Code Docs](../../README.md)
+Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
+
+---
+
+*Built with insights from the [NocoDB repository](https://github.com/nocodb/nocodb) and community documentation.*
+
+## Navigation & Backlinks
+
+- [Start Here: Chapter 1: NocoDB System Overview](01-system-overview.md)
+- [Back to Main Catalog](../../README.md#-tutorial-catalog)
+- [Browse A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+- [Search by Intent](../../discoverability/query-hub.md)
+- [Explore Category Hubs](../../README.md#category-hubs)
+
+## Full Chapter Map
+
+1. [Chapter 1: NocoDB System Overview](01-system-overview.md)
+2. [Chapter 2: Database Abstraction Layer](02-database-abstraction.md)
+3. [Chapter 3: Schema Management](03-schema-management.md)
+4. [Chapter 4: API Generation Engine](04-api-generation.md)
+5. [Chapter 5: Query Builder](05-query-builder.md)
+6. [Chapter 6: Auth System](06-auth-system.md)
+7. [Chapter 7: Vue Components](07-vue-components.md)
+8. [Chapter 8: Realtime Features](08-realtime-features.md)
+
+## Current Snapshot (auto-updated)
+
+- repository: [nocodb/nocodb](https://github.com/nocodb/nocodb)
+- stars: about **48K**
+- project positioning: open-source Airtable alternative built on top of existing SQL databases
+
+## What You Will Learn
+
+- how NocoDB abstracts multiple SQL databases behind a unified spreadsheet-like interface
+- how automatic REST API generation works from existing database schemas
+- how the query builder safely translates UI filters into parameterized SQL
+- how to implement RBAC, configure authentication, and deploy NocoDB with Docker
+
+## Source References
+
+- [NocoDB](https://github.com/nocodb/nocodb)
+
+*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*

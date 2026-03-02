@@ -503,7 +503,7 @@ Here are ready-to-use option sets for common scenarios.
 |---|---|
 | Previous | [Chapter 5: Modelfiles & Custom Models](./05-modelfiles-custom.md) |
 | Next | [Chapter 7: Integrations](./07-integrations.md) |
-| Index | [Ollama Tutorial Home](./index.md) |
+| Index | [Ollama Tutorial Home](./README.md) |
 
 ## Depth Expansion Playbook
 
@@ -648,7 +648,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Modelfiles, Templates, and Custom Models](05-modelfiles-custom.md)
 - [Next Chapter: Chapter 7: Integrations with OpenAI API, LangChain, and LlamaIndex](07-integrations.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

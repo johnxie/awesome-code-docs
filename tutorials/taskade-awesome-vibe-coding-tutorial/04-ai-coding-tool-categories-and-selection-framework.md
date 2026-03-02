@@ -639,7 +639,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Taskade Genesis Positioning and Comparison Patterns](03-taskade-genesis-positioning-and-comparison-patterns.md)
 - [Next Chapter: Chapter 5: MCP and Agent Ecosystem Coverage](05-mcp-and-agent-ecosystem-coverage.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -628,7 +628,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Standalone and Docker Deployment](06-standalone-and-docker-deployment.md)
 - [Next Chapter: Chapter 8: Troubleshooting, Security, and Contribution](08-troubleshooting-security-and-contribution.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -641,7 +641,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Repository Architecture and Package Layout](02-repository-architecture-and-package-layout.md)
 - [Next Chapter: Chapter 4: OpenAPI to MCP Codegen Pipeline](04-openapi-to-mcp-codegen-pipeline.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

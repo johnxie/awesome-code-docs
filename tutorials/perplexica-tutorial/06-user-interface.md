@@ -747,7 +747,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Result Processing and Ranking](05-result-processing.md)
 - [Next Chapter: Chapter 7: Advanced Features](07-advanced-features.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

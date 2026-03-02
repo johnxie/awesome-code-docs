@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: CLI and Self-Hosted Deployment](05-cli-and-self-hosted-deployment.md)
 - [Next Chapter: Chapter 7: Limitations, Risk Controls, and Safe Scope](07-limitations-risk-controls-and-safe-scope.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Authentication and Token Strategy](03-authentication-and-token-strategy.md)
 - [Next Chapter: Chapter 5: Host Integration Patterns](05-host-integration-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

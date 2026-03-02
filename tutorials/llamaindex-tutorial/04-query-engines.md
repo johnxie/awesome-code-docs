@@ -821,7 +821,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Indexing & Storage](03-indexing-storage.md)
 - [Next Chapter: Chapter 5: Advanced RAG Patterns](05-advanced-rag.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

@@ -631,7 +631,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: Persistence and Long-Running Jobs](06-persistence-and-long-running-jobs.md)
 - [Next Chapter: Chapter 8: Production Operations and Team Adoption](08-production-operations-and-team-adoption.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

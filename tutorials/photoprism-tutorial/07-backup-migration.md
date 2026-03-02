@@ -494,7 +494,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 6: API Integration](06-api-integration.md)
 - [Next Chapter: Chapter 8: Production Deployment](08-production-deployment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

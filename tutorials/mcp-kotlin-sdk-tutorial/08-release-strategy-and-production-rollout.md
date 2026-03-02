@@ -39,7 +39,7 @@ This chapter defines how to keep Kotlin MCP services production-ready through pr
 
 You now have a production rollout framework for operating Kotlin MCP systems with lower drift and clearer upgrade discipline.
 
-Return to the [MCP Kotlin SDK Tutorial index](index.md).
+Return to the [MCP Kotlin SDK Tutorial index](README.md).
 
 ## Depth Expansion Playbook
 
@@ -639,7 +639,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Testing, Conformance, and Operational Diagnostics](07-testing-conformance-and-operational-diagnostics.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

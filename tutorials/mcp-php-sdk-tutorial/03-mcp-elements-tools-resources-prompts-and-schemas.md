@@ -632,7 +632,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 2: Server Builder and Capability Registration](02-server-builder-and-capability-registration.md)
 - [Next Chapter: Chapter 4: Discovery, Manual Registration, and Caching](04-discovery-manual-registration-and-caching.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

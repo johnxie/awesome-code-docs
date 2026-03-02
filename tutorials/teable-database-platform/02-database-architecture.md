@@ -1010,7 +1010,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: System Overview](01-system-overview.md)
 - [Next Chapter: Teable Development Environment Setup](03-setup-environment.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

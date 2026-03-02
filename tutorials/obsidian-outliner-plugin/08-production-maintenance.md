@@ -40,7 +40,7 @@ Long-term plugin quality depends on maintenance discipline more than launch poli
 You now have end-to-end coverage for developing, shipping, and sustaining an Obsidian outliner plugin in production.
 
 Related:
-- [Obsidian Outliner Index](index.md)
+- [Obsidian Outliner Index](README.md)
 
 ## What Problem Does This Solve?
 
@@ -82,7 +82,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 7: Plugin Packaging](07-plugin-packaging.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

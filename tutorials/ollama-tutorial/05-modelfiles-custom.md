@@ -569,7 +569,7 @@ ollama push yourname/code-reviewer:v1.0
 |---|---|
 | Previous | [Chapter 4: Embeddings & RAG](./04-embeddings-rag.md) |
 | Next | [Chapter 6: Performance & Hardware Tuning](./06-performance.md) |
-| Index | [Ollama Tutorial Home](./index.md) |
+| Index | [Ollama Tutorial Home](./README.md) |
 
 ## Depth Expansion Playbook
 
@@ -714,7 +714,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Embeddings and RAG with Ollama](04-embeddings-rag.md)
 - [Next Chapter: Chapter 6: Performance, GPU Tuning, and Quantization](06-performance.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

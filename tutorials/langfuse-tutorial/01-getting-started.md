@@ -317,7 +317,7 @@ Under **Settings** you manage API keys, team members, project configuration, and
 
 ---
 
-| [Previous: Tutorial Overview](./index.md) | [Next: Chapter 2 -- Tracing Fundamentals](./02-tracing.md) |
+| [Previous: Tutorial Overview](./README.md) | [Next: Chapter 2 -- Tracing Fundamentals](./02-tracing.md) |
 
 ## Depth Expansion Playbook
 
@@ -630,7 +630,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Next Chapter: Chapter 2: Tracing Fundamentals](02-tracing.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

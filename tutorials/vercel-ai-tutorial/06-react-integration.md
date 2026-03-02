@@ -930,7 +930,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 5: Structured Outputs](05-structured-outputs.md)
 - [Next Chapter: Chapter 7: Next.js Applications](07-nextjs-applications.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

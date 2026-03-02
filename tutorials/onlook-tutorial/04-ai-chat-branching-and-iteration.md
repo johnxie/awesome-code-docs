@@ -637,7 +637,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Visual Editing and Code Mapping](03-visual-editing-and-code-mapping.md)
 - [Next Chapter: Chapter 5: Local Development and Runtime Setup](05-local-development-and-runtime-setup.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

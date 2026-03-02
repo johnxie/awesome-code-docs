@@ -723,7 +723,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Function Calling](04-function-calling.md)
 - [Next Chapter: Chapter 6: React Integration](06-react-integration.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

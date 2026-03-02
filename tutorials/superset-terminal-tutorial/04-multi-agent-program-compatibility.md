@@ -630,7 +630,7 @@ Use the following upstream sources to verify implementation details while readin
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 3: Workspace Orchestration Lifecycle](03-workspace-orchestration-lifecycle.md)
 - [Next Chapter: Chapter 5: Monitoring, Diff, and Review Workflow](05-monitoring-diff-and-review-workflow.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

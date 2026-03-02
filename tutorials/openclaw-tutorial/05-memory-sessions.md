@@ -670,7 +670,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 4: Agent Runtime](04-agent-runtime.md)
 - [Next Chapter: Chapter 6: Skills & Tools](06-skills-tools.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)

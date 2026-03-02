@@ -638,7 +638,7 @@ Suggested trace strategy:
 
 ## Chapter Connections
 
-- [Tutorial Index](index.md)
+- [Tutorial Index](README.md)
 - [Previous Chapter: Chapter 1: Getting Started and List Orientation](01-getting-started-and-list-orientation.md)
 - [Next Chapter: Chapter 3: Taskade Genesis Positioning and Comparison Patterns](03-taskade-genesis-positioning-and-comparison-patterns.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
