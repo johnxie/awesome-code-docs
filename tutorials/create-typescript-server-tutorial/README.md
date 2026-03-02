@@ -29,11 +29,8 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/create-typescript-server`](https://github.com/modelcontextprotocol/create-typescript-server)
 - stars: about **172**
-- repository status: **archived**
-- latest tag: [`0.3.1`](https://github.com/modelcontextprotocol/create-typescript-server/tags)
-- recent activity: updated on **January 15, 2026**
-- package baseline: `npx @modelcontextprotocol/create-server <project-name>`
-- license: MIT
+- latest release: [`0.3.1`](https://github.com/modelcontextprotocol/create-typescript-server/releases/tag/0.3.1) (published 2024-11-25)
+- status: **archived**
 
 ## Mental Model
 

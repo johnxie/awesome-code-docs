@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ollama/ollama`](https://github.com/ollama/ollama)
-- stars: about **162.4k**
-- latest release: [`v0.15.6`](https://github.com/ollama/ollama/releases/tag/v0.15.6)
-- development activity: active with frequent releases
-- project positioning in repo: local runtime for modern open models with CLI and API
+- stars: about **164k**
+- latest release: [`v0.17.5`](https://github.com/ollama/ollama/releases/tag/v0.17.5) (published 2026-03-02)
 
 ## Mental Model
 

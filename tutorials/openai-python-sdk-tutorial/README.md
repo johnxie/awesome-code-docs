@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/openai-python`](https://github.com/openai/openai-python)
-- stars: about **29.9k**
-- latest release: [`v2.20.0`](https://github.com/openai/openai-python/releases/tag/v2.20.0)
-- development activity: active with recent releases
-- project positioning in repo: official Python SDK for OpenAI API integrations
+- stars: about **30.1k**
+- latest release: [`v2.24.0`](https://github.com/openai/openai-python/releases/tag/v2.24.0) (published 2026-02-24)
 
 ## Mental Model
 

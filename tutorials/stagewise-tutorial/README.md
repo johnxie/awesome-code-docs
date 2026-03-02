@@ -30,9 +30,7 @@ This track focuses on:
 
 - repository: [`stagewise-io/stagewise`](https://github.com/stagewise-io/stagewise)
 - stars: about **6.5k**
-- latest release: [`stagewise-vscode-extension@0.11.4`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise-vscode-extension%400.11.4) (**November 28, 2025**)
-- recent activity: updated on **February 12, 2026**
-- positioning: frontend coding agent platform with browser context selection, CLI proxy, and open agent/plugin interfaces
+- latest release: [`stagewise-vscode-extension@0.11.4`](https://github.com/stagewise-io/stagewise/releases/tag/stagewise-vscode-extension@0.11.4) (published 2025-11-28)
 
 ## Mental Model
 

@@ -28,11 +28,9 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode)
-- stars: about **10.9k**
-- latest release: [`v0.0.55`](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55)
-- recent activity: historical activity only; rely on maintained successor for new work
-- maintenance status: repository archived and moved to [`charmbracelet/crush`](https://github.com/charmbracelet/crush)
-- project positioning: legacy terminal coding agent reference implementation
+- stars: about **11.2k**
+- latest release: [`v0.0.55`](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55) (published 2025-06-27)
+- status: **archived**
 
 ## Mental Model
 

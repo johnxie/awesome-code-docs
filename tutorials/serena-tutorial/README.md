@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`oraios/serena`](https://github.com/oraios/serena)
-- stars: about **20.1k**
-- latest release: [`v0.1.4`](https://github.com/oraios/serena/releases/tag/v0.1.4)
-- recent activity: updates on **February 11, 2026**
-- project positioning: coding-agent toolkit with semantic retrieval/editing capabilities
+- stars: about **20.9k**
+- latest release: [`v0.1.4`](https://github.com/oraios/serena/releases/tag/v0.1.4) (published 2025-08-15)
 
 ## Mental Model
 

@@ -28,12 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/use-mcp`](https://github.com/modelcontextprotocol/use-mcp)
-- stars: about **1.0k**
-- repository status: **archived**
-- latest visible tag: [`v0.0.21`](https://github.com/modelcontextprotocol/use-mcp/tags)
-- recent metadata activity: verify current archive metadata in upstream repository
-- package baseline: `npm install use-mcp`
-- license: MIT
+- stars: about **1k**
+- status: **archived**
 
 ## Mental Model
 

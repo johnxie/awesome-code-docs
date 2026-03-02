@@ -61,6 +61,12 @@ flowchart TD
     class G,J output
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`huggingface/smolagents`](https://github.com/huggingface/smolagents)
+- stars: about **25.7k**
+- latest release: [`v1.24.0`](https://github.com/huggingface/smolagents/releases/tag/v1.24.0) (published 2026-01-16)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first smolagent

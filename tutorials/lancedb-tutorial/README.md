@@ -71,6 +71,12 @@ flowchart TD
     class J,K,L storage
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`lancedb/lancedb`](https://github.com/lancedb/lancedb)
+- stars: about **9.2k**
+- latest release: [`python-v0.30.0-beta.3`](https://github.com/lancedb/lancedb/releases/tag/python-v0.30.0-beta.3) (published 2026-02-28)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first database

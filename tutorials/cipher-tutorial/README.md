@@ -29,9 +29,7 @@ This track focuses on:
 
 - repository: [`campfirein/cipher`](https://github.com/campfirein/cipher)
 - stars: about **3.5k**
-- latest release: [`v0.3.0`](https://github.com/campfirein/cipher/releases/tag/v0.3.0)
-- recent activity: updates on **January 25, 2026**
-- project positioning: MCP-compatible memory layer for coding agents
+- latest release: [`v0.3.0`](https://github.com/campfirein/cipher/releases/tag/v0.3.0) (published 2025-08-28)
 
 ## Mental Model
 

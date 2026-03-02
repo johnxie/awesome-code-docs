@@ -29,9 +29,6 @@ This track focuses on:
 
 - repository: [`stitionai/devika`](https://github.com/stitionai/devika)
 - stars: about **19.5k**
-- latest release: latest main branch
-- recent activity: updates on **2025**
-- project positioning: open-source autonomous AI software engineer, alternative to Devin by Cognition AI
 
 ## Mental Model
 

@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/inspector`](https://github.com/modelcontextprotocol/inspector)
-- stars: about **8.6k**
-- latest release: [`0.20.0`](https://github.com/modelcontextprotocol/inspector/releases/tag/0.20.0) (**February 6, 2026**)
-- recent activity: updated on **February 12, 2026**
-- runtime requirement: Node.js `^22.7.5`
-- licensing note: MCP project transition from MIT to Apache-2.0 (docs under CC-BY-4.0)
+- stars: about **8.9k**
+- latest release: [`0.21.1`](https://github.com/modelcontextprotocol/inspector/releases/tag/0.21.1) (published 2026-02-27)
 
 ## Mental Model
 

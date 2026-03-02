@@ -52,6 +52,12 @@ Welcome to your journey through LangChain! This tutorial is structured to take y
 7. **[Chapter 7: Advanced Chains](07-advanced-chains.md)** - Complex workflows and custom chain implementations
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling, monitoring, and best practices
 
+## Current Snapshot (auto-updated)
+
+- repository: [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain)
+- stars: about **128k**
+- latest release: [`langchain-core==1.2.16`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.16) (published 2026-02-25)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

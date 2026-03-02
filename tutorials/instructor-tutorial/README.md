@@ -54,6 +54,12 @@ flowchart LR
     class G output
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`instructor-ai/instructor`](https://github.com/instructor-ai/instructor)
+- stars: about **12.5k**
+- latest release: [`v1.14.5`](https://github.com/instructor-ai/instructor/releases/tag/v1.14.5) (published 2026-01-29)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first structured extraction

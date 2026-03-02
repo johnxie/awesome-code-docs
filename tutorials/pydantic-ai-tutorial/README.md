@@ -27,6 +27,12 @@ Pydantic AI<sup>[View Repo](https://github.com/pydantic/pydantic-ai)</sup> is a 
 7. **[Chapter 7: Advanced Patterns](07-advanced-patterns.md)** - Complex agent workflows and multi-step reasoning
 8. **[Chapter 8: Production](08-production.md)** - Deployment, monitoring, and scaling
 
+## Current Snapshot (auto-updated)
+
+- repository: [`pydantic/pydantic-ai`](https://github.com/pydantic/pydantic-ai)
+- stars: about **15.2k**
+- latest release: [`v1.63.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.63.0) (published 2026-02-23)
+
 ## What You'll Learn
 
 - **Type Safety**: Build AI agents with guaranteed type-safe inputs and outputs

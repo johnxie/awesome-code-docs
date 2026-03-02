@@ -57,6 +57,12 @@ Welcome to your journey through collaborative AI agent teams! This tutorial expl
 7. **[Chapter 7: Advanced Crew Patterns](07-advanced-patterns.md)** - Complex multi-crew systems and hierarchies
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling AI crews for real-world applications
 
+## Current Snapshot (auto-updated)
+
+- repository: [`crewAIInc/crewAI`](https://github.com/crewAIInc/crewAI)
+- stars: about **45k**
+- latest release: [`1.10.0`](https://github.com/crewAIInc/crewAI/releases/tag/1.10.0) (published 2026-02-27)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

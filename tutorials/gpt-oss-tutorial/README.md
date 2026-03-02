@@ -64,6 +64,11 @@ flowchart TD
     class D1,D2,D3 prod
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`karpathy/nanoGPT`](https://github.com/karpathy/nanoGPT)
+- stars: about **54k**
+
 ## Tutorial Structure
 
 This tutorial is organized into 8 chapters that progressively build your understanding:

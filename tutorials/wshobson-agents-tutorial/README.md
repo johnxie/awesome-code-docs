@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`wshobson/agents`](https://github.com/wshobson/agents)
-- stars: about **28.4k**
-- latest release: **none tagged** (rolling `main`)
-- recent push activity: **February 7, 2026**
-- project positioning: large Claude Code plugin marketplace for multi-agent automation
+- stars: about **29.9k**
 
 ## Mental Model
 

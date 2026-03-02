@@ -48,6 +48,12 @@ graph TB
     style CRDT fill:#fce4ec,stroke:#c62828
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`liveblocks/liveblocks`](https://github.com/liveblocks/liveblocks)
+- stars: about **4.5k**
+- latest release: [`v3.14.1`](https://github.com/liveblocks/liveblocks/releases/tag/v3.14.1) (published 2026-02-26)
+
 ## Core Capabilities
 
 | Feature | Description | Use Case |

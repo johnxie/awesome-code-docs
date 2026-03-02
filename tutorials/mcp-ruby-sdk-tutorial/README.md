@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/ruby-sdk`](https://github.com/modelcontextprotocol/ruby-sdk)
-- stars: about **716**
-- latest release: [`v0.6.0`](https://github.com/modelcontextprotocol/ruby-sdk/releases/tag/v0.6.0) (**January 16, 2026**)
-- recent activity: updated on **February 11, 2026**
-- runtime note: changelog documents support for Ruby 2.7-3.1 in recent releases
-- feature note: README still lists resource subscriptions, completions, and elicitation as not yet implemented
+- stars: about **739**
+- latest release: [`v0.7.1`](https://github.com/modelcontextprotocol/ruby-sdk/releases/tag/v0.7.1) (published 2026-02-21)
 
 ## Mental Model
 

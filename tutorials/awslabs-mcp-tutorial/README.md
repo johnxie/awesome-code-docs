@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`awslabs/mcp`](https://github.com/awslabs/mcp)
-- stars: about **8.1k**
-- latest release: [`2026.02.20260212091017`](https://github.com/awslabs/mcp/releases/tag/2026.02.20260212091017) (**February 12, 2026**)
-- license: Apache-2.0
-- recent activity: updates on **February 12, 2026**
-- project positioning: official AWS MCP server ecosystem spanning multiple solution domains
+- stars: about **8.3k**
+- latest release: [`2026.02.20260224185711`](https://github.com/awslabs/mcp/releases/tag/2026.02.20260224185711) (published 2026-02-24)
 
 ## Mental Model
 

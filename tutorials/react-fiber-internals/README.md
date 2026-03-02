@@ -74,6 +74,12 @@ graph TB
     LANES[Priority Lanes] --> SCHEDULER
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`facebook/react`](https://github.com/facebook/react)
+- stars: about **243k**
+- latest release: [`v19.2.4`](https://github.com/facebook/react/releases/tag/v19.2.4) (published 2026-01-26)
+
 ## Prerequisites
 
 - Solid understanding of React fundamentals

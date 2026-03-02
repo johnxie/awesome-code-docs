@@ -60,6 +60,12 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 7. **[Chapter 7: Performance Optimization](07-performance-optimization.md)** - Scaling memory systems for production workloads
 8. **[Chapter 8: Deployment & Monitoring](08-production-deployment.md)** - Deploying memory-enabled AI systems at scale
 
+## Current Snapshot (auto-updated)
+
+- repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
+- stars: about **48.4k**
+- latest release: [`v1.0.4`](https://github.com/mem0ai/mem0/releases/tag/v1.0.4) (published 2026-02-17)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

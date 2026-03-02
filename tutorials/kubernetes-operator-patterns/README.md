@@ -56,6 +56,12 @@ flowchart TD
     class C,D,E,F,G,H,I operator
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`operator-framework/operator-sdk`](https://github.com/operator-framework/operator-sdk)
+- stars: about **7.6k**
+- latest release: [`v1.42.0`](https://github.com/operator-framework/operator-sdk/releases/tag/v1.42.0) (published 2025-11-13)
+
 ## Core Operator Concepts
 
 ### Custom Resource Definitions (CRDs)

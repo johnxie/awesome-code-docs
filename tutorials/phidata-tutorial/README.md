@@ -27,6 +27,12 @@ Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framewo
 7. **[Chapter 7: Integrations](07-integrations.md)** - External APIs, databases, and services
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling and deploying agent systems
 
+## Current Snapshot (auto-updated)
+
+- repository: [`phidatahq/phidata`](https://github.com/phidatahq/phidata)
+- stars: about **38.3k**
+- latest release: [`v2.5.5`](https://github.com/phidatahq/phidata/releases/tag/v2.5.5) (published 2026-02-25)
+
 ## What You'll Learn
 
 - **Agent Creation**: Build autonomous AI agents with specialized capabilities

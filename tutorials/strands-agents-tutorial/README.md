@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
-- stars: about **5.1k**
-- latest release: [`v1.26.0`](https://github.com/strands-agents/sdk-python/releases/tag/v1.26.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: model-driven agent SDK with native MCP integration and broad provider support
+- stars: about **5.2k**
+- latest release: [`v1.28.0`](https://github.com/strands-agents/sdk-python/releases/tag/v1.28.0) (published 2026-02-25)
 
 ## Mental Model
 

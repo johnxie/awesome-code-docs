@@ -63,6 +63,12 @@ Welcome to your journey through advanced AI image generation! This tutorial expl
 7. **[Chapter 7: Advanced Workflows & Automation](07-advanced-workflows.md)** - Complex multi-step generation pipelines
 8. **[Chapter 8: Production & Optimization](08-production-optimization.md)** - Performance tuning and batch processing
 
+## Current Snapshot (auto-updated)
+
+- repository: [`comfyanonymous/ComfyUI`](https://github.com/comfyanonymous/ComfyUI)
+- stars: about **105k**
+- latest release: [`v0.15.1`](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.15.1) (published 2026-02-26)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

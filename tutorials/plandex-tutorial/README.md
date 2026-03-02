@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`plandex-ai/plandex`](https://github.com/plandex-ai/plandex)
-- stars: about **15.0k**
-- latest release: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1)
-- development activity: active with mature docs and workflows
-- project positioning: terminal coding agent for large projects with diff sandbox and autonomy controls
+- stars: about **15k**
+- latest release: [`cli/v2.2.1`](https://github.com/plandex-ai/plandex/releases/tag/cli/v2.2.1) (published 2025-07-16)
 
 ## Mental Model
 

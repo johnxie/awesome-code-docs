@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/go-sdk`](https://github.com/modelcontextprotocol/go-sdk)
-- stars: about **3.8k**
-- latest release: [`v1.3.0`](https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.3.0) (**February 9, 2026**)
-- recent activity: updated on **February 12, 2026**
-- branch posture: `main` with active protocol and conformance updates
-- licensing note: project transition from MIT to Apache-2.0 (documentation non-spec content under CC-BY-4.0)
+- stars: about **4k**
+- latest release: [`v1.4.0`](https://github.com/modelcontextprotocol/go-sdk/releases/tag/v1.4.0) (published 2026-02-27)
 
 ## Mental Model
 

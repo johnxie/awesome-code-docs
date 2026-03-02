@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OthmanAdi/planning-with-files`](https://github.com/OthmanAdi/planning-with-files)
-- stars: about **13.7k**
-- latest release: [`v2.15.0`](https://github.com/OthmanAdi/planning-with-files/releases/tag/v2.15.0)
-- recent activity: updates on **February 9, 2026**
-- project positioning: cross-IDE planning skill emphasizing persistent file-based workflow memory
+- stars: about **15k**
+- latest release: [`v2.18.3`](https://github.com/OthmanAdi/planning-with-files/releases/tag/v2.18.3) (published 2026-02-28)
 
 ## Mental Model
 

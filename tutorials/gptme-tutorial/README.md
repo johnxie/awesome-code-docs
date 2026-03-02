@@ -29,9 +29,7 @@ This track focuses on:
 
 - repository: [`gptme/gptme`](https://github.com/gptme/gptme)
 - stars: about **4.2k**
-- latest release: [`v0.31.0`](https://github.com/gptme/gptme/releases/tag/v0.31.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: unconstrained local/open alternative to managed coding agents
+- latest release: [`v0.31.0`](https://github.com/gptme/gptme/releases/tag/v0.31.0) (published 2025-12-15)
 
 ## Mental Model
 

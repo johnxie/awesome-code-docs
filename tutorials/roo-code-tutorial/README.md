@@ -28,10 +28,8 @@ This track teaches you how to:
 ## Current Snapshot (auto-updated)
 
 - repository: [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code)
-- stars: about **22.2k**
-- extension package version in repo source: `3.47.3` (`src/package.json`)
-- release streams include extension and CLI tags (latest published tag in GitHub releases includes `cli-v0.0.52`)
-- docs cover getting started, modes, MCP, profiles, providers, cloud/router features, and release notes
+- stars: about **22.5k**
+- latest release: [`v3.50.5`](https://github.com/RooCodeInc/Roo-Code/releases/tag/v3.50.5) (published 2026-02-24)
 
 ## Roo Code Mental Model
 

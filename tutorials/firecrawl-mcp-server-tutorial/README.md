@@ -29,10 +29,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`firecrawl/firecrawl-mcp-server`](https://github.com/firecrawl/firecrawl-mcp-server)
-- stars: about **5.5k**
-- latest release: [`v3.2.1`](https://github.com/firecrawl/firecrawl-mcp-server/releases/tag/v3.2.1)
-- recent activity: repository is actively updated; verify latest commits for current status
-- positioning: official Firecrawl MCP server for scraping, crawling, extraction, and search workflows
+- stars: about **5.6k**
+- latest release: [`v3.2.1`](https://github.com/firecrawl/firecrawl-mcp-server/releases/tag/v3.2.1) (published 2025-09-26)
 
 ## Mental Model
 

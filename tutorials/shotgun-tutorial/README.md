@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun)
-- stars: about **585**
-- latest release: [`0.9.0`](https://github.com/shotgun-sh/shotgun/releases/tag/0.9.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: spec-driven development system for AI coding agents
+- stars: about **625**
+- latest release: [`0.10.12`](https://github.com/shotgun-sh/shotgun/releases/tag/0.10.12) (published 2026-02-25)
 
 ## Mental Model
 

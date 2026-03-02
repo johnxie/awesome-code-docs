@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OpenHands/OpenHands`](https://github.com/OpenHands/OpenHands)
-- stars: about **67.8k**
-- latest release: [`1.3.0`](https://github.com/OpenHands/OpenHands/releases/tag/1.3.0) (published February 2, 2026)
-- Python package version in source: `1.3.0` (`pyproject.toml`)
-- docs surface includes SDK, CLI mode, local setup, and cloud/enterprise guidance
+- stars: about **68.4k**
+- latest release: [`1.4.0`](https://github.com/OpenHands/OpenHands/releases/tag/1.4.0) (published 2026-02-18)
 
 ## Mental Model
 

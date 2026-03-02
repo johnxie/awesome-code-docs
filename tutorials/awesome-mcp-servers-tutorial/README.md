@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers)
-- stars: about **80.7k**
-- latest release: no tagged GitHub release published
-- recent activity: updates on **February 11, 2026**
-- project positioning: primary high-volume discovery hub for MCP server implementations
+- stars: about **82k**
 
 ## Mental Model
 

@@ -30,9 +30,7 @@ This track focuses on:
 
 - repository: [`sweepai/sweep`](https://github.com/sweepai/sweep)
 - stars: about **7.6k**
-- latest tagged release in repository: [`sweep-sandbox-v1`](https://github.com/sweepai/sweep/releases/tag/sweep-sandbox-v1) (legacy tag)
-- recent activity: verify latest commits to confirm current maintenance status
-- posture note: repository README now points users to the Sweep JetBrains plugin while legacy docs continue to describe GitHub issue-to-PR workflows
+- latest release: [`sweep-sandbox-v1`](https://github.com/sweepai/sweep/releases/tag/sweep-sandbox-v1) (published 2023-09-11)
 
 ## Mental Model
 

@@ -65,6 +65,12 @@ Welcome to your journey through high-performance monorepo development! This tuto
 7. **[Chapter 7: CI/CD Integration](07-cicd-integration.md)** - Integrating with continuous integration
 8. **[Chapter 8: Performance Optimization](08-performance-optimization.md)** - Advanced optimization techniques
 
+## Current Snapshot (auto-updated)
+
+- repository: [`vercel/turborepo`](https://github.com/vercel/turborepo)
+- stars: about **29.9k**
+- latest release: [`v2.8.12`](https://github.com/vercel/turborepo/releases/tag/v2.8.12) (published 2026-02-27)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

@@ -59,6 +59,12 @@ flowchart TD
     class J,K,L external
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
+- stars: about **29.1k**
+- latest release: [`v1.52.1`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.52.1) (published 2026-02-27)
+
 ## What's New in 2025
 
 > **v1.10.0+**: Complete headless UI overhaul with agentic features including Generative UI, Suggestions, Agentic Generative UI, and Interrupts.

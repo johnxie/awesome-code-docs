@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/codex`](https://github.com/openai/codex)
-- stars: about **60.0k**
-- latest release: [`rust-v0.99.0`](https://github.com/openai/codex/releases/tag/rust-v0.99.0)
-- recent activity: updates on **February 12, 2026**
-- project positioning: lightweight terminal coding agent with local-first execution model
+- stars: about **62.7k**
+- latest release: [`rust-v0.106.0`](https://github.com/openai/codex/releases/tag/rust-v0.106.0) (published 2026-02-26)
 
 ## Mental Model
 

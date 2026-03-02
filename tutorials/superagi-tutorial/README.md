@@ -60,6 +60,12 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 7. **[Chapter 7: Deployment & Scaling](07-deployment-scaling.md)** - Production deployment and performance optimization
 8. **[Chapter 8: Advanced Features](08-advanced-features.md)** - Custom agents, plugins, and enterprise integrations
 
+## Current Snapshot (auto-updated)
+
+- repository: [`TransformerOptimus/SuperAGI`](https://github.com/TransformerOptimus/SuperAGI)
+- stars: about **17.2k**
+- latest release: [`v0.0.14`](https://github.com/TransformerOptimus/SuperAGI/releases/tag/v0.0.14) (published 2024-01-16)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

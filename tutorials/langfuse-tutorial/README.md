@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`langfuse/langfuse`](https://github.com/langfuse/langfuse)
-- stars: about **21.8k**
-- latest release: [`v3.152.0`](https://github.com/langfuse/langfuse/releases/tag/v3.152.0)
-- integration surface includes OpenTelemetry, LangChain, OpenAI SDK, LiteLLM, and more
-- supports cloud and self-hosted deployment models
+- stars: about **22.5k**
+- latest release: [`v3.155.1`](https://github.com/langfuse/langfuse/releases/tag/v3.155.1) (published 2026-02-23)
 
 ## Mental Model
 

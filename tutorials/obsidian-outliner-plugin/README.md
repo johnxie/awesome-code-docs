@@ -110,9 +110,9 @@ Ready to begin? Start with [Chapter 1: Plugin Architecture](01-plugin-architectu
 
 ## Current Snapshot (auto-updated)
 
-- repository: [vslinko/obsidian-outliner](https://github.com/vslinko/obsidian-outliner)
-- stars: about **2.5K**
-- project positioning: popular Obsidian plugin adding outliner-style editing to Obsidian notes
+- repository: [`vslinko/obsidian-outliner`](https://github.com/vslinko/obsidian-outliner)
+- stars: about **1.3k**
+- latest release: [`4.10.0`](https://github.com/vslinko/obsidian-outliner/releases/tag/4.10.0) (published 2026-02-24)
 
 ## What You Will Learn
 

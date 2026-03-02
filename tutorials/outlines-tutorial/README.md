@@ -27,6 +27,12 @@ Outlines<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a Py
 7. **[Chapter 7: Integration](07-integration.md)** - LangChain, CrewAI, and other frameworks
 8. **[Chapter 8: Production](08-production.md)** - Deployment, monitoring, and scaling
 
+## Current Snapshot (auto-updated)
+
+- repository: [`dottxt-ai/outlines`](https://github.com/dottxt-ai/outlines)
+- stars: about **13.5k**
+- latest release: [`1.2.11`](https://github.com/dottxt-ai/outlines/releases/tag/1.2.11) (published 2026-02-13)
+
 ## What You'll Learn
 
 - **Constrained Generation**: Force LLMs to follow specific patterns and structures

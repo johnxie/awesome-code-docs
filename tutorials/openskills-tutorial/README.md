@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`numman-ali/openskills`](https://github.com/numman-ali/openskills)
-- stars: about **8.2k**
-- latest release: [`v1.5.0`](https://github.com/numman-ali/openskills/releases/tag/v1.5.0)
-- development activity: active with recent updates
-- project positioning: universal loader for Claude-style skills across coding agents
+- stars: about **8.7k**
+- latest release: [`v1.5.0`](https://github.com/numman-ali/openskills/releases/tag/v1.5.0) (published 2026-01-17)
 
 ## Mental Model
 

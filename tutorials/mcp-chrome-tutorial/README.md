@@ -29,10 +29,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`hangwin/mcp-chrome`](https://github.com/hangwin/mcp-chrome)
-- stars: about **10.4k**
-- latest release: [`v1.0.0`](https://github.com/hangwin/mcp-chrome/releases/tag/v1.0.0) (**December 29, 2025**)
-- recent activity: updated on **January 6, 2026**
-- positioning: Chrome extension + native bridge MCP server for browser automation and semantic tab intelligence
+- stars: about **10.6k**
+- latest release: [`v1.0.0`](https://github.com/hangwin/mcp-chrome/releases/tag/v1.0.0) (published 2025-12-29)
 
 ## Mental Model
 

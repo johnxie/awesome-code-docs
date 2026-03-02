@@ -28,12 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/php-sdk`](https://github.com/modelcontextprotocol/php-sdk)
-- stars: about **1.35k**
-- latest release: [`v0.3.0`](https://github.com/modelcontextprotocol/php-sdk/releases/tag/v0.3.0) (**January 11, 2026**)
-- recent activity: updated on **February 12, 2026**
-- package: `composer require mcp/sdk`
-- stability note: README marks the SDK as actively evolving/experimental and lists client component work on the roadmap
-- licensing note: metadata reports `NOASSERTION`; repository includes a `LICENSE` file and Symfony-aligned contribution standards
+- stars: about **1.4k**
+- latest release: [`v0.4.0`](https://github.com/modelcontextprotocol/php-sdk/releases/tag/v0.4.0) (published 2026-02-23)
 
 ## Mental Model
 

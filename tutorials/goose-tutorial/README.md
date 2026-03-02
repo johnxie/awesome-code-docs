@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`block/goose`](https://github.com/block/goose)
-- stars: about **30.3k**
-- latest release: [`v1.23.2`](https://github.com/block/goose/releases/tag/v1.23.2)
-- recent activity: updates on **February 12, 2026**
-- project positioning: local, extensible AI agent for end-to-end engineering automation
+- stars: about **32.1k**
+- latest release: [`v1.26.1`](https://github.com/block/goose/releases/tag/v1.26.1) (published 2026-02-27)
 
 ## Mental Model
 

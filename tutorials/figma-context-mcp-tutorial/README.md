@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`GLips/Figma-Context-MCP`](https://github.com/GLips/Figma-Context-MCP)
-- stars: about **13.1k**
-- latest release: [`v0.6.4`](https://github.com/GLips/Figma-Context-MCP/releases/tag/v0.6.4)
-- development activity: active with recent updates
-- project positioning: MCP bridge that simplifies Figma API output for coding agents
+- stars: about **13.3k**
+- latest release: [`v0.6.4`](https://github.com/GLips/Figma-Context-MCP/releases/tag/v0.6.4) (published 2025-10-06)
 
 ## Mental Model
 

@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban)
-- stars: about **21.0k**
-- latest release: [`v0.1.11-20260211154151`](https://github.com/BloopAI/vibe-kanban/releases/tag/v0.1.11-20260211154151)
-- recent activity: updates on **February 11, 2026**
-- project positioning: command center for multi-agent coding execution and review
+- stars: about **22.2k**
+- latest release: [`remote-v0.1.18`](https://github.com/BloopAI/vibe-kanban/releases/tag/remote-v0.1.18) (published 2026-03-02)
 
 ## Mental Model
 

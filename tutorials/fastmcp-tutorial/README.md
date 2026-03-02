@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`jlowin/fastmcp`](https://github.com/jlowin/fastmcp)
-- stars: about **22.8k**
-- latest release: [`v2.14.5`](https://github.com/jlowin/fastmcp/releases/tag/v2.14.5) (**February 3, 2026**)
-- license: Apache-2.0
-- recent activity: updates on **February 12, 2026**
-- project positioning: high-signal Python framework for MCP server/client development
+- stars: about **23.3k**
+- latest release: [`v3.0.2`](https://github.com/jlowin/fastmcp/releases/tag/v3.0.2) (published 2026-02-22)
 
 ## Mental Model
 

@@ -58,6 +58,12 @@ Welcome to your journey through multi-agent AI systems! This tutorial explores h
 7. **[Chapter 7: Multi-Agent Workflows](07-multi-agent-workflows.md)** - Orchestrating complex agent interactions
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling multi-agent systems for real-world applications
 
+## Current Snapshot (auto-updated)
+
+- repository: [`microsoft/autogen`](https://github.com/microsoft/autogen)
+- stars: about **55.1k**
+- latest release: [`python-v0.7.5`](https://github.com/microsoft/autogen/releases/tag/python-v0.7.5) (published 2025-09-30)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

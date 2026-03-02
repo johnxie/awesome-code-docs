@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm)
-- stars: about **54.5k**
-- latest release: [`v1.10.0`](https://github.com/Mintplex-Labs/anything-llm/releases/tag/v1.10.0)
-- development activity: active with recent updates
-- project positioning in repo: full-stack desktop and Docker app for RAG, agents, and MCP-compatible workflows
+- stars: about **55.3k**
+- latest release: [`v1.11.0`](https://github.com/Mintplex-Labs/anything-llm/releases/tag/v1.11.0) (published 2026-02-18)
 
 ## Mental Model
 

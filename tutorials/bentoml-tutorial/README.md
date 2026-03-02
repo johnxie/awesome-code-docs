@@ -62,6 +62,12 @@ Welcome to your journey through production ML deployment! This tutorial explores
 7. **[Chapter 7: Monitoring & Observability](07-monitoring-observability.md)** - Performance monitoring and logging
 8. **[Chapter 8: Production Scaling](08-production-scaling.md)** - Scaling ML services for high traffic
 
+## Current Snapshot (auto-updated)
+
+- repository: [`bentoml/BentoML`](https://github.com/bentoml/BentoML)
+- stars: about **8.5k**
+- latest release: [`v1.4.35`](https://github.com/bentoml/BentoML/releases/tag/v1.4.35) (published 2026-02-03)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

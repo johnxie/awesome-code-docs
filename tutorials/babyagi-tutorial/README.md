@@ -28,12 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`yoheinakajima/babyagi`](https://github.com/yoheinakajima/babyagi)
-- stars: about **18k**
-- original release: **March 2023**
-- author: Yohei Nakajima
-- license: MIT
-- recent activity: ongoing evolution via babyagi-2o and babyagi3 branches
-- project positioning: foundational reference implementation for autonomous task-based AI agents
+- stars: about **22.2k**
 
 ## Mental Model
 

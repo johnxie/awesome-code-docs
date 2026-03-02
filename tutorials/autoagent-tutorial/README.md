@@ -29,9 +29,6 @@ This track focuses on:
 
 - repository: [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent)
 - stars: about **8.6k**
-- latest release: **none tagged** (rolling `main`)
-- recent activity: repository is actively maintained; verify latest commits before rollout
-- project positioning: natural-language-driven agent and workflow creation framework
 
 ## Mental Model
 

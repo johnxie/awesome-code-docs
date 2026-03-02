@@ -38,6 +38,12 @@ This comprehensive tutorial will guide you through Meilisearch, a powerful searc
 - **Multi-language Support**: 80+ languages supported
 - **Customizable Ranking**: Fine-tune search relevance
 
+## Current Snapshot (auto-updated)
+
+- repository: [`meilisearch/meilisearch`](https://github.com/meilisearch/meilisearch)
+- stars: about **56.1k**
+- latest release: [`v1.37.0`](https://github.com/meilisearch/meilisearch/releases/tag/v1.37.0) (published 2026-03-02)
+
 ## 📚 Tutorial Chapters
 
 1. **[Getting Started with Meilisearch](01-getting-started.md)** - Installation, setup, and first search

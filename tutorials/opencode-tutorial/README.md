@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`anomalyco/opencode`](https://github.com/anomalyco/opencode)
-- stars: about **102.6k**
-- latest release: [`v1.1.59`](https://github.com/anomalyco/opencode/releases/tag/v1.1.59)
-- development activity: very active with same-day updates
-- project positioning: open-source terminal coding agent with desktop and remote-oriented architecture
+- stars: about **114k**
+- latest release: [`v1.2.15`](https://github.com/anomalyco/opencode/releases/tag/v1.2.15) (published 2026-02-26)
 
 ## Mental Model
 

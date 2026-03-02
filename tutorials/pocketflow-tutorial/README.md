@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`The-Pocket/PocketFlow`](https://github.com/The-Pocket/PocketFlow)
-- stars: about **9.8k**
-- release status: no tagged GitHub releases (main branch + docs cadence)
-- development activity: stable project with active ecosystem/tutorial repos
-- project positioning: 100-line graph-centric framework with multi-language ports
+- stars: about **10.1k**
 
 ## Mental Model
 

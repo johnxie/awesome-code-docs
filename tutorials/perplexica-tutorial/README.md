@@ -59,6 +59,12 @@ Welcome to your journey through AI-powered search technology! This tutorial expl
 7. **[Chapter 7: Advanced Features](07-advanced-features.md)** - Conversation history, personalization, and analytics
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling and deploying your search engine
 
+## Current Snapshot (auto-updated)
+
+- repository: [`ItzCrazyKns/Perplexica`](https://github.com/ItzCrazyKns/Perplexica)
+- stars: about **29.2k**
+- latest release: [`v1.12.1`](https://github.com/ItzCrazyKns/Perplexica/releases/tag/v1.12.1) (published 2025-12-31)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

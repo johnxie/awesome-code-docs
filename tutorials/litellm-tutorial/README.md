@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`BerriAI/litellm`](https://github.com/BerriAI/litellm)
-- stars: about **35.8k**
-- latest published release tag: `v1.81.10-nightly`
-- latest stable-tagged line in recent releases: `1.78.5-stable-patch-1`
-- project scope includes Python SDK + proxy server + routing/guardrail/cost tooling
+- stars: about **37.5k**
+- latest release: [`v1.81.12-stable.2`](https://github.com/BerriAI/litellm/releases/tag/v1.81.12-stable.2) (published 2026-02-28)
 
 ## Mental Model
 

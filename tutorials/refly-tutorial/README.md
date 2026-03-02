@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`refly-ai/refly`](https://github.com/refly-ai/refly)
-- stars: about **6.6k**
-- latest release: [`v1.1.0`](https://github.com/refly-ai/refly/releases/tag/v1.1.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: open-source agent skills builder with workflow runtime + multi-channel export
+- stars: about **6.9k**
+- latest release: [`v1.1.0`](https://github.com/refly-ai/refly/releases/tag/v1.1.0) (published 2026-02-02)
 
 ## Mental Model
 

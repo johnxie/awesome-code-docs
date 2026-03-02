@@ -28,11 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/quickstart-resources`](https://github.com/modelcontextprotocol/quickstart-resources)
-- stars: about **984**
-- recent activity: updated on **February 12, 2026**
-- supported example stacks: Go, Python, TypeScript, Rust
-- test posture: includes smoke tests and mock MCP server/client helpers
-- license note: metadata currently reports `NOASSERTION`; verify repository license terms before redistribution
+- stars: about **1k**
 
 ## Mental Model
 

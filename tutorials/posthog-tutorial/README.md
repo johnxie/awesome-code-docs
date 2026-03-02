@@ -58,6 +58,12 @@ Welcome to your journey through modern product analytics! This tutorial explores
 7. **[Chapter 7: Advanced Analytics](07-advanced-analytics.md)** - Cohort analysis and advanced queries
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Scaling analytics for production applications
 
+## Current Snapshot (auto-updated)
+
+- repository: [`PostHog/posthog`](https://github.com/PostHog/posthog)
+- stars: about **31.8k**
+- latest release: [`posthog-cli-v0.6.1`](https://github.com/PostHog/posthog/releases/tag/posthog-cli-v0.6.1) (published 2026-02-19)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

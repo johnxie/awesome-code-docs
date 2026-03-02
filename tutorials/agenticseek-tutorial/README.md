@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Fosowl/agenticSeek`](https://github.com/Fosowl/agenticSeek)
-- stars: about **25.0k**
-- latest release: **none tagged** (rolling `main`)
-- recent push activity: **November 15, 2025**
-- project positioning: fully local Manus-style autonomous assistant with multi-agent routing
+- stars: about **25.4k**
 
 ## Mental Model
 

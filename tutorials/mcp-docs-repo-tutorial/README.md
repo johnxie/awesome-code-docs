@@ -29,10 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/docs`](https://github.com/modelcontextprotocol/docs)
 - stars: about **424**
-- repository status: **archived**
-- recent activity: updated on **February 11, 2026**
-- active-docs pointer: repository README redirects to `modelcontextprotocol/modelcontextprotocol/tree/main/docs`
-- license: MIT
+- status: **archived**
 
 ## Mental Model
 

@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`activepieces/activepieces`](https://github.com/activepieces/activepieces)
-- stars: about **20.8k**
-- latest release: [`0.78.1`](https://github.com/activepieces/activepieces/releases/tag/0.78.1) (**February 9, 2026**)
-- recent activity: updates on **February 12, 2026**
-- licensing model: MIT for Community Edition plus commercial license for enterprise package areas
-- project positioning: open-source automation platform with no-code builder + TypeScript extension framework
+- stars: about **21k**
+- latest release: [`0.78.2`](https://github.com/activepieces/activepieces/releases/tag/0.78.2) (published 2026-02-22)
 
 ## Mental Model
 

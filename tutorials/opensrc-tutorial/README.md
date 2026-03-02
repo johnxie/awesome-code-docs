@@ -28,10 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc)
-- stars: about **361**
-- npm package version: [`0.6.0`](https://www.npmjs.com/package/opensrc)
-- recent activity: updates on **January 26, 2026**
-- project positioning: source-fetch utility for AI coding agent context
+- stars: about **1k**
 
 ## Mental Model
 

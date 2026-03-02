@@ -97,9 +97,9 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 
 ## Current Snapshot (auto-updated)
 
-- repository: [openai/whisper](https://github.com/openai/whisper)
-- stars: about **76K**
-- project positioning: open-source multilingual speech recognition model from OpenAI
+- repository: [`openai/whisper`](https://github.com/openai/whisper)
+- stars: about **95.3k**
+- latest release: [`v20250625`](https://github.com/openai/whisper/releases/tag/v20250625) (published 2025-06-26)
 
 ## What You Will Learn
 

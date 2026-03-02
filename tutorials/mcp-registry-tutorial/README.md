@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/registry`](https://github.com/modelcontextprotocol/registry)
-- stars: about **6.4k**
-- latest release: [`v1.4.1`](https://github.com/modelcontextprotocol/registry/releases/tag/v1.4.1) (**February 10, 2026**)
-- recent activity: updated on **February 12, 2026**
-- implementation stack: Go API + PostgreSQL + deployment automation
-- licensing note: MCP project transition from MIT to Apache-2.0 (docs under CC-BY-4.0)
+- stars: about **6.5k**
+- latest release: [`v1.4.1`](https://github.com/modelcontextprotocol/registry/releases/tag/v1.4.1) (published 2026-02-10)
 
 ## Mental Model
 

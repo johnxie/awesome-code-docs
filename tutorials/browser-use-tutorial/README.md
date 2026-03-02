@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`browser-use/browser-use`](https://github.com/browser-use/browser-use)
-- stars: about **78.2k**
-- latest release: [`0.11.9`](https://github.com/browser-use/browser-use/releases/tag/0.11.9)
-- development activity: active with frequent updates
-- project positioning in repo: framework for autonomous browser agents with cloud and local workflows
+- stars: about **79.4k**
+- latest release: [`0.12.0`](https://github.com/browser-use/browser-use/releases/tag/0.12.0) (published 2026-02-26)
 
 ## Mental Model
 

@@ -61,6 +61,11 @@ flowchart LR
     class H output
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`openai/swarm`](https://github.com/openai/swarm)
+- stars: about **21.1k**
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first Swarm agent

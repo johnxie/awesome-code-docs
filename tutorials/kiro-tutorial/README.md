@@ -30,9 +30,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`kirodotdev/Kiro`](https://github.com/kirodotdev/Kiro)
-- stars: about **1.8k**
-- launched: **July 2025** by AWS
-- project positioning: AWS-backed spec-driven agentic IDE for structured AI engineering
+- stars: about **3.1k**
 
 ## Mental Model
 

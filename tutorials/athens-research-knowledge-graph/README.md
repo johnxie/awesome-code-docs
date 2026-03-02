@@ -114,9 +114,9 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 ## Current Snapshot (auto-updated)
 
-- repository: [athensresearch/athens](https://github.com/athensresearch/athens)
-- stars: about **9.5K**
-- project positioning: open-source Roam Research alternative with graph database architecture
+- repository: [`athensresearch/athens`](https://github.com/athensresearch/athens)
+- stars: about **6.3k**
+- latest release: [`v2.0.0`](https://github.com/athensresearch/athens/releases/tag/v2.0.0) (published 2022-08-22)
 
 ## What You Will Learn
 

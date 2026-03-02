@@ -29,10 +29,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`TabbyML/tabby`](https://github.com/TabbyML/tabby)
-- stars: about **32.9k**
-- latest release: [`v0.32.0`](https://github.com/TabbyML/tabby/releases/tag/v0.32.0) (**January 25, 2026**)
-- recent activity: updated on **February 12, 2026**
-- positioning: self-hosted AI coding assistant with completion, chat, repository context, and editor agents
+- stars: about **33k**
+- latest release: [`v0.32.0`](https://github.com/TabbyML/tabby/releases/tag/v0.32.0) (published 2026-01-25)
 
 ## Mental Model
 

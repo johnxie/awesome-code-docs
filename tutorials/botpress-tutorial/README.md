@@ -29,6 +29,12 @@ This comprehensive tutorial will guide you through Botpress, a powerful open sou
 - **Analytics & Insights**: Monitor bot performance and user interactions
 - **Enterprise Features**: Scale bots for production use with advanced security
 
+## Current Snapshot (auto-updated)
+
+- repository: [`botpress/botpress`](https://github.com/botpress/botpress)
+- stars: about **14.6k**
+- latest release: [`v12.30.9`](https://github.com/botpress/botpress/releases/tag/v12.30.9) (published 2023-06-22)
+
 ## 📚 Tutorial Chapters
 
 1. **[Getting Started with Botpress](01-getting-started.md)** - Installation, setup, and first chatbot

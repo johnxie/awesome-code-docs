@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`agno-agi/agno`](https://github.com/agno-agi/agno)
-- stars: about **37.8k**
-- latest release: [`v2.4.8`](https://github.com/agno-agi/agno/releases/tag/v2.4.8)
-- development activity: active with frequent updates
-- project positioning: multi-agent framework with learning, memory, and production runtime support
+- stars: about **38.3k**
+- latest release: [`v2.5.5`](https://github.com/agno-agi/agno/releases/tag/v2.5.5) (published 2026-02-25)
 
 ## Mental Model
 

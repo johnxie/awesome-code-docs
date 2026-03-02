@@ -28,11 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/rust-sdk`](https://github.com/modelcontextprotocol/rust-sdk)
-- stars: about **3.0k**
-- latest release: [`rmcp-v0.15.0`](https://github.com/modelcontextprotocol/rust-sdk/releases/tag/rmcp-v0.15.0) (**February 10, 2026**)
-- recent activity: updated on **February 12, 2026**
-- runtime posture: tokio async runtime, feature-gated transports/capabilities
-- licensing note: license metadata is transitioning; see repository license file for current terms
+- stars: about **3.1k**
+- latest release: [`rmcp-v0.17.0`](https://github.com/modelcontextprotocol/rust-sdk/releases/tag/rmcp-v0.17.0) (published 2026-02-27)
 
 ## Mental Model
 

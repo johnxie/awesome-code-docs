@@ -62,6 +62,12 @@ Welcome to your journey through advanced RAG systems and data frameworks! This t
 7. **[Chapter 7: Production Deployment](07-production-deployment.md)** - Scaling LlamaIndex applications for production
 8. **[Chapter 8: Monitoring & Optimization](08-monitoring-optimization.md)** - Performance tuning and observability
 
+## Current Snapshot (auto-updated)
+
+- repository: [`run-llama/llama_index`](https://github.com/run-llama/llama_index)
+- stars: about **47.3k**
+- latest release: [`v0.14.15`](https://github.com/run-llama/llama_index/releases/tag/v0.14.15) (published 2026-02-18)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

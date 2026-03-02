@@ -55,6 +55,12 @@ Welcome to your journey through SiYuan's architecture! This tutorial explores ho
 7. **[Chapter 7: Advanced Features](07-advanced-features.md)** - SQL queries, API integration, and automation
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Self-hosting and enterprise deployment
 
+## Current Snapshot (auto-updated)
+
+- repository: [`siyuan-note/siyuan`](https://github.com/siyuan-note/siyuan)
+- stars: about **41.6k**
+- latest release: [`v3.5.8`](https://github.com/siyuan-note/siyuan/releases/tag/v3.5.8) (published 2026-02-24)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

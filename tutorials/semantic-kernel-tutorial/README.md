@@ -67,6 +67,12 @@ flowchart TD
     class F,G,H,I,J,K,L,N,O service
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`microsoft/semantic-kernel`](https://github.com/microsoft/semantic-kernel)
+- stars: about **27.3k**
+- latest release: [`dotnet-1.72.0`](https://github.com/microsoft/semantic-kernel/releases/tag/dotnet-1.72.0) (published 2026-02-19)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first kernel

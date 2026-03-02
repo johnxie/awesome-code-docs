@@ -56,6 +56,12 @@ Welcome to your journey through modern AI chat interface development! This tutor
 7. **[Chapter 7: Plugin Architecture](07-plugin-system.md)** - Extending functionality
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Building and distributing chat applications
 
+## Current Snapshot (auto-updated)
+
+- repository: [`Bin-Huang/chatbox`](https://github.com/Bin-Huang/chatbox)
+- stars: about **38.7k**
+- latest release: [`v1.19.0`](https://github.com/Bin-Huang/chatbox/releases/tag/v1.19.0) (published 2026-02-13)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:

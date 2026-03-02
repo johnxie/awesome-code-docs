@@ -28,10 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`MoonshotAI/kimi-cli`](https://github.com/MoonshotAI/kimi-cli)
-- stars: about **6.3k**
-- latest release: [`1.12.0`](https://github.com/MoonshotAI/kimi-cli/releases/tag/1.12.0)
-- recent activity: updates on **February 11, 2026**
-- project positioning: terminal AI coding agent with MCP + ACP support
+- stars: about **6.9k**
+- latest release: [`1.16.0`](https://github.com/MoonshotAI/kimi-cli/releases/tag/1.16.0) (published 2026-02-27)
 
 ## Mental Model
 

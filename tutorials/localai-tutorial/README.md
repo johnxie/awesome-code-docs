@@ -65,6 +65,12 @@ flowchart TD
     class G,H,I,J,K,L,M model
 ```
 
+## Current Snapshot (auto-updated)
+
+- repository: [`mudler/LocalAI`](https://github.com/mudler/LocalAI)
+- stars: about **43.2k**
+- latest release: [`v3.12.1`](https://github.com/mudler/LocalAI/releases/tag/v3.12.1) (published 2026-02-21)
+
 ## Tutorial Chapters
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and first model

@@ -54,6 +54,12 @@ Welcome to your journey through web scraping and data extraction for AI applicat
 7. **[Chapter 7: Scaling & Performance](07-scaling-performance.md)** - Handling large-scale scraping operations
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - Deploying scraping systems at scale
 
+## Current Snapshot (auto-updated)
+
+- repository: [`mendableai/firecrawl`](https://github.com/mendableai/firecrawl)
+- stars: about **87.4k**
+- latest release: [`v2.8.0`](https://github.com/mendableai/firecrawl/releases/tag/v2.8.0) (published 2026-02-03)
+
 ## What You'll Learn
 
 By the end of this tutorial, you'll be able to:
