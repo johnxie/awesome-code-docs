@@ -62,8 +62,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
-- stars: about **29.1k**
-- latest release: [`v1.52.1`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.52.1) (published 2026-02-27)
+- stars: about **29.2k**
+- latest release: [`v1.53.0`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.53.0) (published 2026-03-06)
 
 ## What's New in 2025
 

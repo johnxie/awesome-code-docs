@@ -36,7 +36,7 @@ has_children: true
 ## Current Snapshot (auto-updated)
 
 - repository: [`infiniflow/ragflow`](https://github.com/infiniflow/ragflow)
-- stars: about **74k**
+- stars: about **74.5k**
 - latest release: [`v0.24.0`](https://github.com/infiniflow/ragflow/releases/tag/v0.24.0) (published 2026-02-10)
 
 ## 🏗️ Architecture Overview

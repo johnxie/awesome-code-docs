@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ruvnet/claude-flow`](https://github.com/ruvnet/claude-flow)
-- stars: about **17.8k**
-- latest release: [`v2.7.1-agentic-flow-1.7.4`](https://github.com/ruvnet/claude-flow/releases/tag/v2.7.1-agentic-flow-1.7.4) (published 2025-10-24)
+- stars: about **20.1k**
+- latest release: [`v3.5.14`](https://github.com/ruvnet/claude-flow/releases/tag/v3.5.14) (published 2026-03-06)
 
 ## Mental Model
 

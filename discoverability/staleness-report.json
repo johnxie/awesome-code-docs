@@ -1,11 +1,33 @@
 {
-  "findings": [],
+  "findings": [
+    {
+      "age_days": 13,
+      "file": "README.md",
+      "line": "## \ud83e\uddec Taskade Ecosystem Snapshot (Verified 2026-02-24)",
+      "line_number": 115,
+      "parsed_date": "2026-02-24"
+    },
+    {
+      "age_days": 13,
+      "file": "tutorials/taskade-tutorial/README.md",
+      "line": "## Imported Help-Center Knowledge Base (verified 2026-02-24)",
+      "line_number": 63,
+      "parsed_date": "2026-02-24"
+    },
+    {
+      "age_days": 13,
+      "file": "tutorials/taskade-tutorial/README.md",
+      "line": "## Imported Newsletter Signals (verified 2026-02-24)",
+      "line_number": 73,
+      "parsed_date": "2026-02-24"
+    }
+  ],
   "max_age_days": 10,
-  "stale_marker_count": 0,
+  "stale_marker_count": 3,
   "targets": [
     "README.md",
     "tutorials/README.md",
-    "tutorials/*/index.md",
+    "tutorials/*/README.md",
     "categories/*.md",
     "discoverability/*.md",
     "CONTENT_GAPS_ANALYSIS.md",

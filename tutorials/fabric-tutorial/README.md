@@ -37,8 +37,8 @@ has_children: true
 ## Current Snapshot (auto-updated)
 
 - repository: [`danielmiessler/fabric`](https://github.com/danielmiessler/fabric)
-- stars: about **39.4k**
-- latest release: [`v1.4.428`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.428) (published 2026-03-02)
+- stars: about **39.6k**
+- latest release: [`v1.4.433`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.433) (published 2026-03-07)
 
 ## 🏗️ Architecture Overview
 

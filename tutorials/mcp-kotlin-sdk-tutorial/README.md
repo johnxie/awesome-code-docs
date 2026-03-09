@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`modelcontextprotocol/kotlin-sdk`](https://github.com/modelcontextprotocol/kotlin-sdk)
 - stars: about **1.3k**
-- latest release: [`0.8.4`](https://github.com/modelcontextprotocol/kotlin-sdk/releases/tag/0.8.4) (published 2026-02-17)
+- latest release: [`0.9.0`](https://github.com/modelcontextprotocol/kotlin-sdk/releases/tag/0.9.0) (published 2026-03-05)
 
 ## Mental Model
 

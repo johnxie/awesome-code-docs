@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`continuedev/continue`](https://github.com/continuedev/continue)
-- stars: about **31.6k**
-- latest release: [`v1.5.44`](https://github.com/continuedev/continue/releases/tag/v1.5.44) (published 2026-03-02)
+- stars: about **31.7k**
+- latest release: [`v1.5.45`](https://github.com/continuedev/continue/releases/tag/v1.5.45) (published 2026-03-04)
 
 ## Mental Model
 

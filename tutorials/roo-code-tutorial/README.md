@@ -28,8 +28,8 @@ This track teaches you how to:
 ## Current Snapshot (auto-updated)
 
 - repository: [`RooCodeInc/Roo-Code`](https://github.com/RooCodeInc/Roo-Code)
-- stars: about **22.5k**
-- latest release: [`v3.50.5`](https://github.com/RooCodeInc/Roo-Code/releases/tag/v3.50.5) (published 2026-02-24)
+- stars: about **22.6k**
+- latest release: [`v3.51.1`](https://github.com/RooCodeInc/Roo-Code/releases/tag/v3.51.1) (published 2026-03-08)
 
 ## Roo Code Mental Model
 

@@ -27,7 +27,7 @@ Dyad is one of the fastest-moving local-first vibe-coding tools. To use it effec
 
 - repository: [`dyad-sh/dyad`](https://github.com/dyad-sh/dyad)
 - stars: about **19.8k**
-- latest release: [`v0.37.0`](https://github.com/dyad-sh/dyad/releases/tag/v0.37.0) (published 2026-02-23)
+- latest release: [`v0.38.0`](https://github.com/dyad-sh/dyad/releases/tag/v0.38.0) (published 2026-03-02)
 
 ## Mental Model
 

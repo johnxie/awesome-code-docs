@@ -61,8 +61,8 @@ Welcome to your journey through stateful multi-actor applications! This tutorial
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/langgraph`](https://github.com/langchain-ai/langgraph)
-- stars: about **25.4k**
-- latest release: [`1.0.10`](https://github.com/langchain-ai/langgraph/releases/tag/1.0.10) (published 2026-02-27)
+- stars: about **25.9k**
+- latest release: [`cli==0.4.14`](https://github.com/langchain-ai/langgraph/releases/tag/cli==0.4.14) (published 2026-03-02)
 
 ## What You'll Learn
 

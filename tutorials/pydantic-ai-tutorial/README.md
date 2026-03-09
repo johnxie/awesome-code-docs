@@ -30,8 +30,8 @@ Pydantic AI<sup>[View Repo](https://github.com/pydantic/pydantic-ai)</sup> is a 
 ## Current Snapshot (auto-updated)
 
 - repository: [`pydantic/pydantic-ai`](https://github.com/pydantic/pydantic-ai)
-- stars: about **15.2k**
-- latest release: [`v1.63.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.63.0) (published 2026-02-23)
+- stars: about **15.3k**
+- latest release: [`v1.67.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.67.0) (published 2026-03-06)
 
 ## What You'll Learn
 
