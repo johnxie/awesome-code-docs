@@ -30,8 +30,8 @@ Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framewo
 ## Current Snapshot (auto-updated)
 
 - repository: [`phidatahq/phidata`](https://github.com/phidatahq/phidata)
-- stars: about **38.5k**
-- latest release: [`v2.5.8`](https://github.com/phidatahq/phidata/releases/tag/v2.5.8) (published 2026-03-06)
+- stars: about **38.7k**
+- latest release: [`v2.5.9`](https://github.com/phidatahq/phidata/releases/tag/v2.5.9) (published 2026-03-10)
 
 ## What You'll Learn
 

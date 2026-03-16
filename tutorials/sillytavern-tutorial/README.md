@@ -37,7 +37,7 @@ has_children: true
 ## Current Snapshot (auto-updated)
 
 - repository: [`SillyTavern/SillyTavern`](https://github.com/SillyTavern/SillyTavern)
-- stars: about **24.1k**
+- stars: about **24.4k**
 - latest release: [`1.16.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.16.0) (published 2026-02-14)
 
 ## 🏗️ Architecture Overview

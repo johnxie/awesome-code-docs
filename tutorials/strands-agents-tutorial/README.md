@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`strands-agents/sdk-python`](https://github.com/strands-agents/sdk-python)
 - stars: about **5.3k**
-- latest release: [`v1.29.0`](https://github.com/strands-agents/sdk-python/releases/tag/v1.29.0) (published 2026-03-04)
+- latest release: [`v1.30.0`](https://github.com/strands-agents/sdk-python/releases/tag/v1.30.0) (published 2026-03-11)
 
 ## Mental Model
 

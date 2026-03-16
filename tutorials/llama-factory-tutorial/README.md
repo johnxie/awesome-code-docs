@@ -65,7 +65,7 @@ Welcome to your journey through unified LLM training! This tutorial explores how
 ## Current Snapshot (auto-updated)
 
 - repository: [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory)
-- stars: about **68.1k**
+- stars: about **68.5k**
 - latest release: [`v0.9.4`](https://github.com/hiyouga/LLaMA-Factory/releases/tag/v0.9.4) (published 2025-12-31)
 
 ## What You'll Learn

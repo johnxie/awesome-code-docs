@@ -30,7 +30,7 @@ ElizaOS is an open-source framework for building, deploying, and managing autono
 ## Current Snapshot (auto-updated)
 
 - repository: [`elizaOS/eliza`](https://github.com/elizaOS/eliza)
-- stars: about **17.7k**
+- stars: about **17.8k**
 - latest release: [`v1.7.2`](https://github.com/elizaOS/eliza/releases/tag/v1.7.2) (published 2026-01-19)
 
 ## Architecture Overview

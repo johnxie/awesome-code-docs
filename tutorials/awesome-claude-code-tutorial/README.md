@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`hesreallyhim/awesome-claude-code`](https://github.com/hesreallyhim/awesome-claude-code)
-- stars: about **27k**
+- stars: about **28.5k**
 
 ## Mental Model
 

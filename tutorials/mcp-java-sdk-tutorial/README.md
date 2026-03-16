@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/java-sdk`](https://github.com/modelcontextprotocol/java-sdk)
-- stars: about **3.2k**
-- latest release: [`v1.0.0`](https://github.com/modelcontextprotocol/java-sdk/releases/tag/v1.0.0) (published 2026-02-23)
+- stars: about **3.3k**
+- latest release: [`v1.1.0`](https://github.com/modelcontextprotocol/java-sdk/releases/tag/v1.1.0) (published 2026-03-13)
 
 ## Mental Model
 

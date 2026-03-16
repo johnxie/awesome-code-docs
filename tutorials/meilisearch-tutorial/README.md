@@ -41,8 +41,8 @@ This comprehensive tutorial will guide you through Meilisearch, a powerful searc
 ## Current Snapshot (auto-updated)
 
 - repository: [`meilisearch/meilisearch`](https://github.com/meilisearch/meilisearch)
-- stars: about **56.2k**
-- latest release: [`v1.38.0`](https://github.com/meilisearch/meilisearch/releases/tag/v1.38.0) (published 2026-03-09)
+- stars: about **56.4k**
+- latest release: [`v1.38.2`](https://github.com/meilisearch/meilisearch/releases/tag/v1.38.2) (published 2026-03-11)
 
 ## 📚 Tutorial Chapters
 

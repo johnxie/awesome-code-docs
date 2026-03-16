@@ -36,7 +36,7 @@ has_children: true
 ## Current Snapshot (auto-updated)
 
 - repository: [`OpenBB-finance/OpenBB`](https://github.com/OpenBB-finance/OpenBB)
-- stars: about **62.7k**
+- stars: about **63.2k**
 - latest release: [`ODP`](https://github.com/OpenBB-finance/OpenBB/releases/tag/ODP) (published 2026-02-09)
 
 ## 🏗️ Architecture Overview

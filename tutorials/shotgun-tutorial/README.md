@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`shotgun-sh/shotgun`](https://github.com/shotgun-sh/shotgun)
-- stars: about **635**
-- latest release: [`0.10.13`](https://github.com/shotgun-sh/shotgun/releases/tag/0.10.13) (published 2026-03-03)
+- stars: about **695**
+- latest release: [`0.11.0`](https://github.com/shotgun-sh/shotgun/releases/tag/0.11.0) (published 2026-03-13)
 
 ## Mental Model
 

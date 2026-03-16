@@ -30,7 +30,7 @@ Outlines<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a Py
 ## Current Snapshot (auto-updated)
 
 - repository: [`dottxt-ai/outlines`](https://github.com/dottxt-ai/outlines)
-- stars: about **13.5k**
+- stars: about **13.6k**
 - latest release: [`1.2.12`](https://github.com/dottxt-ai/outlines/releases/tag/1.2.12) (published 2026-03-03)
 
 ## What You'll Learn

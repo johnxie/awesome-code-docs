@@ -37,7 +37,7 @@ has_children: true
 ## Current Snapshot (auto-updated)
 
 - repository: [`bytedance/deer-flow`](https://github.com/bytedance/deer-flow)
-- stars: about **26.3k**
+- stars: about **31k**
 
 ## 🏗️ Architecture Overview
 

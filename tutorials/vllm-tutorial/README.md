@@ -55,8 +55,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`vllm-project/vllm`](https://github.com/vllm-project/vllm)
-- stars: about **72.5k**
-- latest release: [`v0.17.0`](https://github.com/vllm-project/vllm/releases/tag/v0.17.0) (published 2026-03-07)
+- stars: about **73.3k**
+- latest release: [`v0.17.1`](https://github.com/vllm-project/vllm/releases/tag/v0.17.1) (published 2026-03-11)
 
 ## Core Technologies
 
