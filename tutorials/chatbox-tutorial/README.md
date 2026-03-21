@@ -3,6 +3,7 @@ layout: default
 title: "Chatbox Tutorial"
 nav_order: 13
 has_children: true
+format_version: v2
 ---
 
 # Chatbox Tutorial: Building Modern AI Chat Interfaces
@@ -17,6 +18,9 @@ has_children: true
 Chatbox<sup>[View Repo](https://github.com/Bin-Huang/chatbox)</sup> is a modern, cross-platform AI chat interface that supports multiple AI providers and offers a polished user experience. It demonstrates best practices for building conversational AI applications with clean interfaces, multi-provider support, and excellent user experience design.
 
 Chatbox combines the best of modern web technologies with native desktop capabilities, showing how to build AI applications that users actually enjoy using.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -43,7 +47,18 @@ flowchart TD
     class J,K,L extensions
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Chatbox is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Chatbox covering Building Modern AI Chat Interfaces, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with chatbox
+- understanding ui architecture & components
+- understanding ai provider integration
+- understanding conversation management
+
+## Chapter Guide
 
 Welcome to your journey through modern AI chat interface development! This tutorial explores how to build polished, user-friendly conversational AI applications.
 
@@ -62,7 +77,7 @@ Welcome to your journey through modern AI chat interface development! This tutor
 - stars: about **39k**
 - latest release: [`v1.19.0`](https://github.com/Bin-Huang/chatbox/releases/tag/v1.19.0) (published 2026-02-13)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

@@ -3,6 +3,7 @@ layout: default
 title: "OpenAI Swarm Tutorial"
 nav_order: 71
 has_children: true
+format_version: v2
 ---
 
 # OpenAI Swarm Tutorial: Lightweight Multi-Agent Orchestration
@@ -20,6 +21,20 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+OpenAI Swarm matters for developers building production systems. This track covers chapter 1: getting started with openai swarm, chapter 2: agent design, chapter 3: function calling & tools and helps you understand how the components fit together for real-world use.
+
+This track focuses on:
+
+- **Design Specialized Agents** with distinct roles and capabilities
+- **Implement Smooth Handoffs** between agents based on context
+- **Build Complex Workflows** with multi-agent collaboration
+- **Manage Shared State** using context variables
+- **Integrate External Tools** through function calling
+- **Create Resilient Systems** with proper error handling
+- **Scale Agent Systems** for production use cases
+
 ## 🎯 What is Swarm?
 
 **Swarm**<sup>[View Repo](https://github.com/openai/swarm)</sup> is an educational framework from OpenAI designed for lightweight multi-agent orchestration. It provides a simple, ergonomic way to coordinate multiple AI agents, enabling seamless handoffs and collaborative problem-solving.
@@ -33,6 +48,9 @@ has_children: true
 | **Handoffs** | Seamless transfer of control between agents |
 | **Context Variables** | Shared state passed between agents during handoffs |
 | **Function Calling** | Tool integration for agent capabilities |
+
+
+## Mental Model
 
 ```mermaid
 flowchart LR
@@ -66,7 +84,7 @@ flowchart LR
 - repository: [`openai/swarm`](https://github.com/openai/swarm)
 - stars: about **21.2k**
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first Swarm agent
 2. **[Chapter 2: Agent Design](02-agent-design.md)** - Creating agents with instructions and personalities
@@ -77,7 +95,7 @@ flowchart LR
 7. **[Chapter 7: Multi-Agent Patterns](07-multi-agent-patterns.md)** - Complex orchestration strategies
 8. **[Chapter 8: Production Considerations](08-production.md)** - Scaling, monitoring, and best practices
 
-## What You'll Learn
+## What You Will Learn
 
 - **Design Specialized Agents** with distinct roles and capabilities
 - **Implement Smooth Handoffs** between agents based on context

@@ -3,6 +3,7 @@ layout: default
 title: "PostgreSQL Query Planner"
 nav_order: 1
 has_children: true
+format_version: v2
 ---
 
 # PostgreSQL Query Planner Deep Dive
@@ -14,7 +15,18 @@ has_children: true
 [![C](https://img.shields.io/badge/C-blue)](https://github.com/postgres/postgres)
 
 
-## What You'll Learn
+## Why This Track Matters
+
+PostgreSQL Query Planner Deep Dive is increasingly relevant for developers working with modern AI/ML infrastructure. Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding query planning fundamentals
+- understanding statistics and cost estimation
+- understanding scan operations
+- understanding join strategies
+
+## What You Will Learn
 
 This tutorial provides an in-depth exploration of PostgreSQL's query planner and executor, teaching you how to analyze, understand, and optimize query performance at the database level.
 
@@ -45,6 +57,9 @@ This tutorial provides an in-depth exploration of PostgreSQL's query planner and
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+
+## Mental Model
+
 ```mermaid
 graph LR
     SQL[SQL Query] --> PARSER[Parser]
@@ -69,7 +84,7 @@ graph LR
 - PostgreSQL installed (14+ recommended)
 - Familiarity with database concepts (tables, indexes, joins)
 
-## Tutorial Chapters
+## Chapter Guide
 
 ### [Chapter 1: Query Planning Fundamentals](01-fundamentals.md)
 Understanding how PostgreSQL transforms SQL into execution plans, the role of the planner, and reading basic EXPLAIN output.

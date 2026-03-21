@@ -3,6 +3,7 @@ layout: default
 title: "Mem0 Tutorial"
 nav_order: 15
 has_children: true
+format_version: v2
 ---
 
 # Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory
@@ -17,6 +18,9 @@ has_children: true
 Mem0<sup>[View Repo](https://github.com/mem0ai/mem0)</sup> is a universal memory layer for AI agents that enables personalized AI interactions with intelligent memory management. It provides an intelligent memory layer that remembers user preferences, adapts to individual needs, and continuously learns over time - ideal for customer support chatbots, AI assistants, and autonomous systems.
 
 Mem0 enhances AI assistants and agents with a production-ready memory system that delivers +26% accuracy improvements, 91% faster responses, and 90% lower token usage compared to traditional memory approaches.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -47,7 +51,18 @@ flowchart TD
     class E,F output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Mem0 is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with mem0
+- understanding memory architecture & types
+- understanding core memory operations
+- understanding advanced memory features
+
+## Chapter Guide
 
 Welcome to your journey through scalable AI memory systems! This tutorial explores how to build production-ready AI agents with intelligent long-term memory.
 
@@ -66,7 +81,7 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 - stars: about **50k**
 - latest release: [`v1.0.5`](https://github.com/mem0ai/mem0/releases/tag/v1.0.5) (published 2026-03-03)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

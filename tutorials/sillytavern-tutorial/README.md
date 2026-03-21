@@ -3,6 +3,7 @@ layout: default
 title: "SillyTavern Tutorial"
 nav_order: 34
 has_children: true
+format_version: v2
 ---
 
 # SillyTavern Tutorial: Advanced LLM Frontend for Power Users
@@ -19,6 +20,17 @@ has_children: true
 </div>
 
 ---
+
+## Why This Track Matters
+
+SillyTavern is increasingly relevant for developers working with modern AI/ML infrastructure. Unlock the full potential of large language models with SillyTavern's comprehensive interface for role-playing, creative writing, and AI experimentation, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with sillytavern
+- understanding character creation
+- understanding chat management
+- understanding prompt engineering
 
 ## 🎯 What is SillyTavern?
 
@@ -41,6 +53,9 @@ has_children: true
 - latest release: [`1.16.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.16.0) (published 2026-02-14)
 
 ## 🏗️ Architecture Overview
+
+
+## Mental Model
 
 ```mermaid
 graph TB
@@ -99,7 +114,7 @@ graph TB
     V --> F
 ```
 
-## 📋 Tutorial Chapters
+## Chapter Guide
 
 | Chapter | Topic | Time | Difficulty |
 |:--------|:------|:-----|:-----------|
@@ -112,7 +127,7 @@ graph TB
 | **[07-advanced-features](07-advanced-features.md)** | Power User Features | 45 min | 🔴 Expert |
 | **[08-custom-development](08-custom-development.md)** | Extension Development | 50 min | 🔴 Expert |
 
-## 🎯 Learning Outcomes
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

@@ -3,6 +3,7 @@ layout: default
 title: "Liveblocks - Real-Time Collaboration Deep Dive"
 nav_order: 85
 has_children: true
+format_version: v2
 ---
 
 # Liveblocks - Real-Time Collaboration Deep Dive
@@ -13,6 +14,17 @@ has_children: true
 
 
 A comprehensive guide to building collaborative applications with Liveblocks, the real-time collaboration infrastructure used by companies building the next generation of multiplayer experiences.
+
+## Why This Track Matters
+
+Liveblocks - Real-Time Collaboration Deep Dive matters for developers building production systems. This track covers chapter 1: getting started, chapter 2: presence & awarene, chapter 3: storage & and helps you understand how the components fit together for real-world use.
+
+This track focuses on:
+
+- understanding getting started
+- understanding presence & awarene
+- understanding storage &
+- understanding comments & threads
 
 ## What is Liveblocks?
 
@@ -65,7 +77,7 @@ graph TB
 | **Text Editor** | Collaborative text editing (Yjs/Tiptap) | Rich text documents, notes |
 | **AI** | AI-powered collaboration features | Copilots within collaborative contexts |
 
-## Tutorial Structure
+## Chapter Guide
 
 This tutorial is organized into eight chapters that progressively build your understanding of Liveblocks:
 
@@ -107,7 +119,7 @@ Before starting, you should be comfortable with:
 - **Next.js** basics (recommended but not required)
 - **REST APIs** and WebSocket concepts
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph LR
@@ -187,6 +199,12 @@ Ready to get started? Head to **[Chapter 1: Getting Started](./01-getting-starte
 
 ---
 *Built with insights from the [Liveblocks](https://liveblocks.io) platform.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

@@ -3,6 +3,7 @@ layout: default
 title: "Semantic Kernel Tutorial"
 nav_order: 89
 has_children: true
+format_version: v2
 ---
 
 # Semantic Kernel Tutorial: Microsoft's AI Orchestration
@@ -19,6 +20,20 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+Semantic Kernel is increasingly relevant for developers working with modern AI/ML infrastructure. Build enterprise AI applications with Microsoft's SDK for integrating LLMs, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Build AI Applications** with Microsoft's enterprise SDK
+- **Create Plugins** with native and semantic functions
+- **Engineer Prompts** with templates and variables
+- **Connect AI Services** from multiple providers
+- **Implement Memory** with vector stores
+- **Use Planners** for complex task automation
+- **Deploy at Scale** with enterprise patterns
+
 ## 🎯 What is Semantic Kernel?
 
 **Semantic Kernel**<sup>[View Repo](https://github.com/microsoft/semantic-kernel)</sup> is Microsoft's open-source SDK for integrating LLMs into applications. It provides a unified way to orchestrate AI services, plugins, and memory, making it easy to build sophisticated AI applications.
@@ -33,6 +48,9 @@ has_children: true
 | **Memory** | Vector store integrations |
 | **Connectors** | OpenAI, Azure, Hugging Face |
 | **Enterprise Ready** | Built for production at scale |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -73,7 +91,7 @@ flowchart TD
 - stars: about **27.5k**
 - latest release: [`python-1.41.0`](https://github.com/microsoft/semantic-kernel/releases/tag/python-1.41.0) (published 2026-03-13)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first kernel
 2. **[Chapter 2: Plugins & Functions](02-plugins.md)** - Native and semantic functions
@@ -84,7 +102,7 @@ flowchart TD
 7. **[Chapter 7: Agents](07-agents.md)** - Building autonomous AI agents
 8. **[Chapter 8: Production Deployment](08-production.md)** - Enterprise patterns and scaling
 
-## What You'll Learn
+## What You Will Learn
 
 - **Build AI Applications** with Microsoft's enterprise SDK
 - **Create Plugins** with native and semantic functions

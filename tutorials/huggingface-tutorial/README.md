@@ -3,6 +3,7 @@ layout: default
 title: "HuggingFace Transformers Tutorial"
 nav_order: 20
 has_children: true
+format_version: v2
 ---
 
 # HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models
@@ -17,6 +18,9 @@ has_children: true
 HuggingFace Transformers<sup>[View Repo](https://github.com/huggingface/transformers)</sup> is the leading open-source library for natural language processing and multimodal AI. It provides thousands of pre-trained models for tasks like text classification, question answering, text generation, translation, and more, making state-of-the-art AI accessible to everyone.
 
 Transformers has become the foundation of modern AI development, with over 100,000 models and 10,000+ datasets available through the HuggingFace Hub.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -45,7 +49,18 @@ flowchart TD
     class F output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+HuggingFace Transformers is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with huggingface transf
+- understanding text classification & analysis
+- understanding text generation
+- understanding question answering
+
+## Chapter Guide
 
 Welcome to your journey through the HuggingFace Transformers ecosystem! This tutorial explores how to leverage state-of-the-art AI models for your applications.
 
@@ -64,7 +79,7 @@ Welcome to your journey through the HuggingFace Transformers ecosystem! This tut
 - stars: about **158k**
 - latest release: [`v5.3.0`](https://github.com/huggingface/transformers/releases/tag/v5.3.0) (published 2026-03-04)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

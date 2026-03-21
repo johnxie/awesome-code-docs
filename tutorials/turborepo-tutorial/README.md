@@ -3,6 +3,7 @@ layout: default
 title: "Turborepo Tutorial"
 nav_order: 21
 has_children: true
+format_version: v2
 ---
 
 # Turborepo Tutorial: High-Performance Monorepo Build System
@@ -17,6 +18,9 @@ has_children: true
 Turborepo<sup>[View Repo](https://github.com/vercel/turborepo)</sup> is a high-performance build system for JavaScript and TypeScript codebases, written in Rust. It optimizes your monorepo by intelligently caching build outputs and running tasks in parallel, dramatically speeding up your development workflow.
 
 Turborepo enables developers to build scalable monorepos with efficient caching, parallel execution, and smart dependency management, making large codebases feel as fast as small ones.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -52,7 +56,18 @@ flowchart TD
     class J,K,L,M,N,O,P,Q optimization
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Turborepo is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with turborepo
+- understanding workspace configuration
+- understanding task pipelines
+- understanding caching strategies
+
+## Chapter Guide
 
 Welcome to your journey through high-performance monorepo development! This tutorial explores building and optimizing large-scale JavaScript/TypeScript codebases with Turborepo.
 
@@ -71,7 +86,7 @@ Welcome to your journey through high-performance monorepo development! This tuto
 - stars: about **30k**
 - latest release: [`v2.8.17`](https://github.com/vercel/turborepo/releases/tag/v2.8.17) (published 2026-03-13)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

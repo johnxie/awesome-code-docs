@@ -3,6 +3,7 @@ layout: default
 title: "Botpress Tutorial"
 nav_order: 24
 has_children: true
+format_version: v2
 ---
 
 # Botpress Tutorial: Open Source Conversational AI Platform
@@ -17,7 +18,18 @@ has_children: true
 
 ---
 
-## 🎯 What You'll Learn
+## Why This Track Matters
+
+Botpress is increasingly relevant for developers working with modern AI/ML infrastructure. **Important Notice (2025)**: Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with botpress
+- understanding visual flow builder
+- understanding natural language understanding
+- understanding custom actions & code
+
+## What You Will Learn
 
 This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications:
 
@@ -35,7 +47,7 @@ This comprehensive tutorial will guide you through Botpress, a powerful open sou
 - stars: about **14.6k**
 - latest release: [`v12.30.9`](https://github.com/botpress/botpress/releases/tag/v12.30.9) (published 2023-06-22)
 
-## 📚 Tutorial Chapters
+## Chapter Guide
 
 1. **[Getting Started with Botpress](01-getting-started.md)** - Installation, setup, and first chatbot
 2. **[Visual Flow Builder](02-visual-flow-builder.md)** - Designing conversation flows
@@ -61,6 +73,9 @@ bp dev
 ```
 
 ## 🏗️ Architecture Overview
+
+
+## Mental Model
 
 ```mermaid
 graph TB

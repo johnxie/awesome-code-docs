@@ -3,6 +3,7 @@ layout: default
 title: "Perplexica Tutorial"
 nav_order: 23
 has_children: true
+format_version: v2
 ---
 
 # Perplexica Tutorial: AI-Powered Search Engine
@@ -17,6 +18,9 @@ has_children: true
 Perplexica<sup>[View Repo](https://github.com/ItzCrazyKns/Perplexica)</sup> is an AI-powered search engine and open-source alternative to Perplexity AI. It provides intelligent search capabilities with natural language processing, web scraping, and AI-driven result analysis.
 
 Perplexica combines the power of large language models with web search capabilities to provide comprehensive, contextual answers to complex queries, making it an excellent tool for research and information discovery.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -46,7 +50,18 @@ flowchart TD
     class F,G,H,I,J synthesis
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Perplexica is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Perplexica covering AI-Powered Search Engine, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with perplexica
+- understanding search engine architecture
+- understanding ai integration
+- understanding web scraping and data collection
+
+## Chapter Guide
 
 Welcome to your journey through AI-powered search technology! This tutorial explores building intelligent search engines with Perplexica.
 
@@ -65,7 +80,7 @@ Welcome to your journey through AI-powered search technology! This tutorial expl
 - stars: about **33k**
 - latest release: [`v1.12.1`](https://github.com/ItzCrazyKns/Perplexica/releases/tag/v1.12.1) (published 2025-12-31)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

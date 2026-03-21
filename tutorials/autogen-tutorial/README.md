@@ -3,6 +3,7 @@ layout: default
 title: "Microsoft AutoGen Tutorial"
 nav_order: 21
 has_children: true
+format_version: v2
 ---
 
 # Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
@@ -17,6 +18,9 @@ has_children: true
 Microsoft AutoGen<sup>[View Repo](https://github.com/microsoft/autogen)</sup> is a framework for building multi-agent AI systems that can collaborate, communicate, and solve complex tasks autonomously. It enables the creation of customizable agents with specialized roles, tools, and communication patterns, making it easy to build sophisticated AI workflows and applications.
 
 AutoGen provides a flexible architecture for creating agent-based systems that can work together to accomplish tasks that would be difficult or impossible for a single AI model.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -45,7 +49,18 @@ flowchart TD
     class F output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Microsoft AutoGen is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with microsoft autogen
+- understanding agent architecture & roles
+- understanding agent communication
+- understanding tool integration
+
+## Chapter Guide
 
 Welcome to your journey through multi-agent AI systems! This tutorial explores how to build collaborative AI agents that can work together to solve complex problems.
 
@@ -64,7 +79,7 @@ Welcome to your journey through multi-agent AI systems! This tutorial explores h
 - stars: about **55.7k**
 - latest release: [`python-v0.7.5`](https://github.com/microsoft/autogen/releases/tag/python-v0.7.5) (published 2025-09-30)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

@@ -2,6 +2,7 @@
 title: "LobeChat AI Platform"
 nav_order: 96
 has_children: true
+format_version: v2
 ---
 
 # LobeChat AI Platform: Deep Dive Tutorial
@@ -11,6 +12,17 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/lobehub/lobe-chat?style=social)](https://github.com/lobehub/lobe-chat)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Next.js-blue)](https://github.com/lobehub/lobe-chat)
+
+## Why This Track Matters
+
+LobeChat AI Platform is increasingly relevant for developers working with modern AI/ML infrastructure. **Project**: [LobeChat](https://github.com/lobehub/lobe-chat) — An open-source, modern-design AI chat framework for building private LLM applications, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding lobechat system overview
+- understanding chat interface implementation
+- understanding streaming architecture
+- understanding ai integration patterns
 
 ## What Is LobeChat?
 
@@ -31,7 +43,7 @@ LobeChat is an open-source AI chat framework that enables you to build and deplo
 - stars: about **73.7k**
 - latest release: [`v2.1.42`](https://github.com/lobehub/lobe-chat/releases/tag/v2.1.42) (published 2026-03-14)
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -66,7 +78,7 @@ graph TB
     Backend --> Extensions
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -98,6 +110,12 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ---
 
 *Built with insights from the [LobeChat repository](https://github.com/lobehub/lobe-chat) and community documentation.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

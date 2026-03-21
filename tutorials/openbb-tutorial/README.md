@@ -3,6 +3,7 @@ layout: default
 title: "OpenBB Tutorial"
 nav_order: 33
 has_children: true
+format_version: v2
 ---
 
 # OpenBB Tutorial: Complete Guide to Investment Research Platform
@@ -19,6 +20,17 @@ has_children: true
 </div>
 
 ---
+
+## Why This Track Matters
+
+OpenBB is increasingly relevant for developers working with modern AI/ML infrastructure. Democratize investment research with OpenBB's comprehensive financial data and analysis platform, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with openbb
+- understanding financial data access
+- understanding technical analysis
+- understanding fundamental analysis
 
 ## 🎯 What is OpenBB?
 
@@ -40,6 +52,9 @@ has_children: true
 - latest release: [`ODP`](https://github.com/OpenBB-finance/OpenBB/releases/tag/ODP) (published 2026-02-09)
 
 ## 🏗️ Architecture Overview
+
+
+## Mental Model
 
 ```mermaid
 graph TB
@@ -84,7 +99,7 @@ graph TB
     O --> F
 ```
 
-## 📋 Tutorial Chapters
+## Chapter Guide
 
 | Chapter | Topic | Time | Difficulty |
 |:--------|:------|:-----|:-----------|
@@ -97,7 +112,7 @@ graph TB
 | **[07-custom-extensions](07-custom-extensions.md)** | Building Custom Extensions | 45 min | 🔴 Expert |
 | **[08-enterprise-deployment](08-enterprise-deployment.md)** | Enterprise Setup & Scaling | 50 min | 🔴 Expert |
 
-## 🎯 Learning Outcomes
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

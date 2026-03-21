@@ -3,6 +3,7 @@ layout: default
 title: "Claude Task Master Tutorial"
 nav_order: 24
 has_children: true
+format_version: v2
 ---
 
 # Claude Task Master Tutorial: AI-Powered Task Management for Developers
@@ -17,6 +18,9 @@ has_children: true
 Claude Task Master<sup>[View Repo](https://github.com/eyaltoledano/claude-task-master)</sup> is an AI-powered task-management system designed specifically for developers. It integrates seamlessly with popular editors like Cursor, Windsurf, and Roo Code, providing intelligent project planning, task breakdown, and progress tracking powered by advanced AI models.
 
 Task Master transforms how developers approach complex projects by using AI to analyze requirements, create detailed task plans, and maintain focus throughout the development process.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -45,7 +49,18 @@ flowchart TD
     class F,I execution
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Claude Task Master is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Claude Task Master covering AI-Powered Task Management for Developers, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with claude task master
+- understanding prd analysis & task generation
+- understanding task management & execution
+- understanding multi-model integration
+
+## Chapter Guide
 
 Welcome to your journey through AI-powered task management! This tutorial explores how to leverage Claude Task Master for intelligent project planning and execution.
 
@@ -64,7 +79,7 @@ Welcome to your journey through AI-powered task management! This tutorial explor
 - stars: about **25.9k**
 - latest release: [`task-master-ai@0.43.0`](https://github.com/eyaltoledano/claude-task-master/releases/tag/task-master-ai@0.43.0) (published 2026-02-04)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

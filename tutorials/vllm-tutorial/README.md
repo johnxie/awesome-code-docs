@@ -3,6 +3,7 @@ layout: default
 title: "vLLM Tutorial"
 nav_order: 75
 has_children: true
+format_version: v2
 ---
 
 # vLLM Tutorial: High-Performance LLM Inference
@@ -19,6 +20,18 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+vLLM is increasingly relevant for developers working with modern AI/ML infrastructure. Master vLLM for blazing-fast, cost-effective large language model inference with advanced optimization techniques, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **High-Performance Inference** - Achieve maximum throughput with minimal latency
+- **Memory Optimization** - Efficiently serve large models with limited resources
+- **Production Deployment** - Scale vLLM for enterprise applications
+- **Advanced Features** - Streaming, tool calling, and multi-modal capabilities
+- **Distributed Systems** - Multi-GPU and multi-node inference architectures
+
 ## 🎯 What is vLLM?
 
 **vLLM**<sup>[View Repo](https://github.com/vllm-project/vllm)</sup> is a high-performance, memory-efficient inference engine for large language models. It achieves state-of-the-art serving throughput while maintaining low latency, making it ideal for production LLM deployments.
@@ -32,6 +45,9 @@ has_children: true
 | **Memory Usage** | 50% less | Higher memory overhead |
 | **Scalability** | Excellent | Limited |
 | **Cost Efficiency** | Superior | Higher operational costs |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -72,7 +88,7 @@ Custom GPU kernels for attention, normalization, and matrix operations that outp
 ### Advanced Scheduling
 Intelligent request scheduling that minimizes latency while maximizing throughput.
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, basic setup, and your first vLLM inference
 2. **[Chapter 2: Model Loading](02-model-loading.md)** - Loading different model formats (HuggingFace, quantized, etc.)
@@ -83,7 +99,7 @@ Intelligent request scheduling that minimizes latency while maximizing throughpu
 7. **[Chapter 7: Production Deployment](07-production-deployment.md)** - Serving with FastAPI, Docker, and Kubernetes
 8. **[Chapter 8: Monitoring & Scaling](08-monitoring-scaling.md)** - Performance monitoring and auto-scaling
 
-## What You'll Learn
+## What You Will Learn
 
 - **High-Performance Inference** - Achieve maximum throughput with minimal latency
 - **Memory Optimization** - Efficiently serve large models with limited resources

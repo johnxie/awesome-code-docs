@@ -3,6 +3,7 @@ layout: default
 title: "Deer Flow Tutorial"
 nav_order: 36
 has_children: true
+format_version: v2
 ---
 
 # Deer Flow Tutorial: Distributed Workflow Orchestration Platform
@@ -19,6 +20,17 @@ has_children: true
 </div>
 
 ---
+
+## Why This Track Matters
+
+Deer Flow is increasingly relevant for developers working with modern AI/ML infrastructure. Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with deer flow
+- understanding workflow basics
+- understanding task management
+- understanding dependencies
 
 ## 🎯 What is Deer Flow?
 
@@ -40,6 +52,9 @@ has_children: true
 - stars: about **31k**
 
 ## 🏗️ Architecture Overview
+
+
+## Mental Model
 
 ```mermaid
 graph TB
@@ -99,7 +114,7 @@ graph TB
     F --> T
 ```
 
-## 📋 Tutorial Chapters
+## Chapter Guide
 
 | Chapter | Topic | Time | Difficulty |
 |:--------|:------|:-----|:-----------|
@@ -112,7 +127,7 @@ graph TB
 | **[07-monitoring](07-monitoring.md)** | Monitoring & Observability | 30 min | 🔴 Expert |
 | **[08-advanced-patterns](08-advanced-patterns.md)** | Advanced Orchestration Patterns | 50 min | 🔴 Expert |
 
-## 🎯 Learning Outcomes
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

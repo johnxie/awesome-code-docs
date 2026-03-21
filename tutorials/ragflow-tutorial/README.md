@@ -3,6 +3,7 @@ layout: default
 title: "RAGFlow Tutorial"
 nav_order: 32
 has_children: true
+format_version: v2
 ---
 
 # RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine
@@ -19,6 +20,17 @@ has_children: true
 </div>
 
 ---
+
+## Why This Track Matters
+
+RAGFlow is increasingly relevant for developers working with modern AI/ML infrastructure. Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with ragflow
+- understanding document processing
+- understanding knowledge base setup
+- understanding retrieval system
 
 ## 🎯 What is RAGFlow?
 
@@ -41,6 +53,9 @@ has_children: true
 
 ## 🏗️ Architecture Overview
 
+
+## Mental Model
+
 ```mermaid
 graph TB
     A[Document Upload] --> B[Document Parsing]
@@ -54,7 +69,7 @@ graph TB
     I --> J[Answer Synthesis]
 ```
 
-## 📋 Tutorial Chapters
+## Chapter Guide
 
 | Chapter | Topic | Time | Difficulty |
 |:--------|:------|:-----|:-----------|
@@ -67,7 +82,7 @@ graph TB
 | **[07-advanced-features](07-advanced-features.md)** | Advanced Features & Customization | 45 min | 🔴 Expert |
 | **[08-production-deployment](08-production-deployment.md)** | Production Deployment & Scaling | 50 min | 🔴 Expert |
 
-## 🎯 Learning Outcomes
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

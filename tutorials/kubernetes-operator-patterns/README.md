@@ -3,6 +3,7 @@ layout: default
 title: "Kubernetes Operator Patterns"
 nav_order: 76
 has_children: true
+format_version: v2
 ---
 
 # Kubernetes Operator Patterns: Building Production-Grade Controllers
@@ -19,6 +20,18 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+Kubernetes Operator Patterns is increasingly relevant for developers working with modern AI/ML infrastructure. Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Operator Development**: Build controllers that extend Kubernetes functionality
+- **Go Programming**: Advanced Go patterns for concurrent, distributed systems
+- **Kubernetes Deep Dive**: Internal workings of controllers, admission webhooks, and API extensions
+- **Production Patterns**: Enterprise-grade operator development with testing and observability
+- **Domain-Specific Languages**: Create declarative APIs for complex applications
+
 ## 🎯 What are Kubernetes Operators?
 
 **Kubernetes Operators** extend the Kubernetes API to create, configure, and manage instances of complex applications. They encode operational knowledge—the kind typically held by human operators—into software that can automate Day 1 (installation, configuration) and Day 2 (upgrades, backups, failover) operations.
@@ -32,6 +45,9 @@ has_children: true
 | **Inconsistent** | Standardized patterns |
 | **Scalability Issues** | Native K8s scaling |
 | **Documentation Heavy** | Self-documenting APIs |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -130,7 +146,7 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 - **Backup & Recovery**: Automated backup and disaster recovery
 - **Monitoring & Observability**: Integrated monitoring and alerting
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Operator SDK setup, project scaffolding, and core concepts
 2. **[Chapter 2: Custom Resource Definitions](02-custom-resources.md)** - Designing and implementing CRDs with OpenAPI validation
@@ -141,7 +157,7 @@ func (r *MyAppReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl
 7. **[Chapter 7: Observability & Debugging](07-observability.md)** - Metrics, logging, tracing, and troubleshooting
 8. **[Chapter 8: Production Deployment](08-production-deployment.md)** - OLM, Helm charts, security, and scaling patterns
 
-## What You'll Learn
+## What You Will Learn
 
 - **Operator Development**: Build controllers that extend Kubernetes functionality
 - **Go Programming**: Advanced Go patterns for concurrent, distributed systems

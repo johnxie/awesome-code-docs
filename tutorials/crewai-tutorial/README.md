@@ -3,6 +3,7 @@ layout: default
 title: "CrewAI Tutorial"
 nav_order: 23
 has_children: true
+format_version: v2
 ---
 
 # CrewAI Tutorial: Building Collaborative AI Agent Teams
@@ -10,6 +11,9 @@ has_children: true
 CrewAI<sup>[View Repo](https://github.com/crewAIInc/crewAI)</sup> is a framework for orchestrating role-based AI agent teams that collaborate to accomplish complex tasks. It provides a structured approach to creating AI crews with specialized agents, tools, and processes, enabling sophisticated multi-agent workflows and collaborative problem-solving.
 
 CrewAI focuses on creating purposeful AI teams where each agent has a specific role, expertise, and set of tools, working together toward shared objectives with clear communication and coordination.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -44,7 +48,18 @@ flowchart TD
     class G output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+CrewAI is increasingly relevant for developers working with modern AI/ML infrastructure. **Latest Release (v0.193.0+)**: CrewAI has evolved significantly with support for GPT-4.1, Gemini-2.0/2.5 Pro, enhanced knowledge management, agent evaluation functionality, and improved Mem0 memory integration, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with crewai
+- understanding agent roles & specializations
+- understanding task definition & planning
+- understanding tool integration
+
+## Chapter Guide
 
 Welcome to your journey through collaborative AI agent teams! This tutorial explores how to build and orchestrate AI crews that work together to solve complex problems.
 
@@ -63,7 +78,7 @@ Welcome to your journey through collaborative AI agent teams! This tutorial expl
 - stars: about **46.2k**
 - latest release: [`1.10.1`](https://github.com/crewAIInc/crewAI/releases/tag/1.10.1) (published 2026-03-04)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

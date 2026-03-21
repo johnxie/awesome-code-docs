@@ -3,6 +3,7 @@ layout: default
 title: "PhotoPrism Tutorial"
 nav_order: 25
 has_children: true
+format_version: v2
 ---
 
 # PhotoPrism Tutorial: AI-Powered Photos App
@@ -17,7 +18,18 @@ has_children: true
 
 ---
 
-## 🎯 What You'll Learn
+## Why This Track Matters
+
+PhotoPrism is increasingly relevant for developers working with modern AI/ML infrastructure. **AI Photo Management Revolution**: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with photoprism
+- understanding ai features & configuration
+- understanding photo management
+- understanding search & discovery
+
+## What You Will Learn
 
 This comprehensive tutorial will guide you through PhotoPrism, a powerful AI-powered photo management application that brings professional photo organization to your personal server:
 
@@ -34,7 +46,7 @@ This comprehensive tutorial will guide you through PhotoPrism, a powerful AI-pow
 - stars: about **39.5k**
 - latest release: [`260305-fad9d5395`](https://github.com/photoprism/photoprism/releases/tag/260305-fad9d5395) (published 2026-03-05)
 
-## 📚 Tutorial Chapters
+## Chapter Guide
 
 1. **[Getting Started with PhotoPrism](01-getting-started.md)** - Installation, setup, and first photo library
 2. **[AI Features & Configuration](02-ai-features-configuration.md)** - TensorFlow integration and AI model setup
@@ -61,6 +73,9 @@ docker run -d \
 ```
 
 ## 🏗️ Architecture Overview
+
+
+## Mental Model
 
 ```mermaid
 graph TB

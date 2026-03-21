@@ -3,6 +3,7 @@ layout: default
 title: "BentoML Tutorial"
 nav_order: 22
 has_children: true
+format_version: v2
 ---
 
 # BentoML Tutorial: Building Production-Ready ML Services
@@ -17,6 +18,9 @@ has_children: true
 BentoML<sup>[View Repo](https://github.com/bentoml/BentoML)</sup> is the unified MLOps platform for building, deploying, and managing machine learning models in production. It provides a complete framework for serving ML models with high performance, scalability, and reliability, supporting any ML framework and deployment target.
 
 BentoML simplifies the ML deployment process by providing tools for model packaging, API serving, monitoring, and scaling, making it easy to take models from development to production.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -49,7 +53,18 @@ flowchart TD
     class F output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+BentoML is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of BentoML covering Building Production-Ready ML Services, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with bentoml
+- understanding model packaging & services
+- understanding api development
+- understanding framework integration
+
+## Chapter Guide
 
 Welcome to your journey through production ML deployment! This tutorial explores how to build, deploy, and manage machine learning models at scale with BentoML.
 
@@ -68,7 +83,7 @@ Welcome to your journey through production ML deployment! This tutorial explores
 - stars: about **8.5k**
 - latest release: [`v1.4.36`](https://github.com/bentoml/BentoML/releases/tag/v1.4.36) (published 2026-03-06)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

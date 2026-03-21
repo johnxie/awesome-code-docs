@@ -8,14 +8,12 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## ai-app-frameworks
 
-- tutorial_count: **27**
+- tutorial_count: **26**
 
 - [Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md)
   - intents: production-operations
 - [BentoML Tutorial: Building Production-Ready ML Services](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/bentoml-tutorial/README.md)
   - intents: production-operations
-- [Botpress Tutorial: Open Source Conversational AI Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md)
-  - intents: general-learning
 - [Chatbox Tutorial: Building Modern AI Chat Interfaces](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chatbox-tutorial/README.md)
   - intents: general-learning
 - [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/README.md)
@@ -60,7 +58,9 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: general-learning
 - [Turborepo Tutorial: High-Performance Monorepo Build System](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/README.md)
   - intents: general-learning
-- ... plus 2 more tutorials in this cluster
+- [Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/README.md)
+  - intents: production-operations
+- ... plus 1 more tutorials in this cluster
 
 ## ai-coding-agents
 
@@ -141,8 +141,10 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## general-software
 
-- tutorial_count: **16**
+- tutorial_count: **17**
 
+- [Botpress Tutorial: Open Source Conversational AI Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md)
+  - intents: production-operations
 - [Claude Task Master Tutorial: AI-Powered Task Management for Developers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/claude-task-master-tutorial/README.md)
   - intents: general-learning
 - [DSPy Tutorial: Programming Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/README.md)

@@ -3,6 +3,7 @@ layout: default
 title: "Letta Tutorial"
 nav_order: 87
 has_children: true
+format_version: v2
 ---
 
 # Letta Tutorial: Stateful LLM Agents
@@ -19,6 +20,20 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+Letta is increasingly relevant for developers working with modern AI/ML infrastructure. Build AI agents with persistent memory using the framework formerly known as MemGPT, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Build Stateful Agents** that remember everything
+- **Manage Memory Hierarchies** for infinite context
+- **Create Custom Tools** for agent capabilities
+- **Deploy Agent APIs** for production use
+- **Coordinate Multi-Agent** systems
+- **Persist Conversations** across sessions
+- **Scale Agent Systems** for enterprise use
+
 ## 🎯 What is Letta?
 
 **Letta**<sup>[View Repo](https://github.com/letta-ai/letta)</sup> (formerly MemGPT) is a framework for building stateful LLM agents with persistent memory. Unlike traditional chatbots that forget context, Letta agents maintain long-term memory across conversations.
@@ -33,6 +48,9 @@ has_children: true
 | **Tool Use** | Agents can call external tools |
 | **Multi-Agent** | Coordinate multiple agents |
 | **REST API** | Deploy agents as services |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -72,7 +90,7 @@ flowchart TD
 - stars: about **21.6k**
 - latest release: [`0.16.6`](https://github.com/letta-ai/letta/releases/tag/0.16.6) (published 2026-03-04)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first agent
 2. **[Chapter 2: Memory Architecture](02-memory.md)** - Core, archival, and recall memory
@@ -83,7 +101,7 @@ flowchart TD
 7. **[Chapter 7: REST API](07-api.md)** - Deploying agents as services
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling and best practices
 
-## What You'll Learn
+## What You Will Learn
 
 - **Build Stateful Agents** that remember everything
 - **Manage Memory Hierarchies** for infinite context

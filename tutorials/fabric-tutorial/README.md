@@ -3,6 +3,7 @@ layout: default
 title: "Fabric Tutorial"
 nav_order: 35
 has_children: true
+format_version: v2
 ---
 
 # Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI
@@ -19,6 +20,17 @@ has_children: true
 </div>
 
 ---
+
+## Why This Track Matters
+
+Fabric is increasingly relevant for developers working with modern AI/ML infrastructure. Enhance human capabilities with Fabric's modular framework for AI-powered cognitive assistance and task automation, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with fabric
+- understanding pattern system
+- understanding basic usage
+- understanding advanced patterns
 
 ## 🎯 What is Fabric?
 
@@ -41,6 +53,9 @@ has_children: true
 - latest release: [`v1.4.436`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.436) (published 2026-03-15)
 
 ## 🏗️ Architecture Overview
+
+
+## Mental Model
 
 ```mermaid
 graph TB
@@ -107,7 +122,7 @@ graph TB
     D --> X
 ```
 
-## 📋 Tutorial Chapters
+## Chapter Guide
 
 | Chapter | Topic | Time | Difficulty |
 |:--------|:------|:-----|:-----------|
@@ -120,7 +135,7 @@ graph TB
 | **[07-integration-api](07-integration-api.md)** | API Integration & Automation | 30 min | 🔴 Expert |
 | **[08-enterprise-deployment](08-enterprise-deployment.md)** | Enterprise Setup & Scaling | 45 min | 🔴 Expert |
 
-## 🎯 Learning Outcomes
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

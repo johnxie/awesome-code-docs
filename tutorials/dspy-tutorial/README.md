@@ -3,6 +3,7 @@ layout: default
 title: "DSPy Tutorial"
 nav_order: 74
 has_children: true
+format_version: v2
 ---
 
 # DSPy Tutorial: Programming Language Models
@@ -19,6 +20,18 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+DSPy is increasingly relevant for developers working with modern AI/ML infrastructure. Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Declarative Programming** - Specify what you want, let DSPy optimize how
+- **Automatic Optimization** - Self-improving prompts and model configurations
+- **Modular Design** - Build complex systems from reusable components
+- **Systematic Evaluation** - Rigorous testing and validation frameworks
+- **Production Deployment** - Scale DSPy systems for real-world applications
+
 ## 🎯 What is DSPy?
 
 **DSPy**<sup>[View Repo](https://github.com/stanfordnlp/dspy)</sup> is a framework for algorithmically optimizing LM prompts and weights, developed by researchers at Stanford NLP. Unlike traditional prompt engineering, DSPy allows you to program LMs declaratively - you specify what you want to accomplish, and DSPy figures out how to optimize the prompts and model configurations.
@@ -32,6 +45,9 @@ has_children: true
 | **Composition** | Hard-coded pipelines | Modular, reusable components |
 | **Evaluation** | Manual testing | Systematic validation |
 | **Maintenance** | Brittle, manual updates | Self-improving systems |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -117,7 +133,7 @@ mipro_optimizer = dspy.MIPROv2(metric=my_metric, num_candidates=10)
 optimized_program = mipro_optimizer.compile(program, trainset=trainset)
 ```
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, basic concepts, and your first DSPy program
 2. **[Chapter 2: Signatures](02-signatures.md)** - Defining input/output specifications for LM calls
@@ -128,7 +144,7 @@ optimized_program = mipro_optimizer.compile(program, trainset=trainset)
 7. **[Chapter 7: Evaluation & Metrics](07-evaluation.md)** - Systematic evaluation and custom metrics
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling, monitoring, and production best practices
 
-## What You'll Learn
+## What You Will Learn
 
 - **Declarative Programming** - Specify what you want, let DSPy optimize how
 - **Automatic Optimization** - Self-improving prompts and model configurations

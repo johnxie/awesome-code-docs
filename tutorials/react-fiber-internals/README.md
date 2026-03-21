@@ -3,6 +3,7 @@ layout: default
 title: "React Fiber Internals"
 nav_order: 1
 has_children: true
+format_version: v2
 ---
 
 # React Fiber Internals
@@ -14,7 +15,18 @@ has_children: true
 [![JavaScript](https://img.shields.io/badge/JavaScript-blue)](https://github.com/facebook/react)
 
 
-## What You'll Learn
+## Why This Track Matters
+
+React Fiber Internals is increasingly relevant for developers working with modern AI/ML infrastructure. Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding introduction to fiber
+- understanding fiber data structure
+- understanding render phase
+- understanding commit phase
+
+## What You Will Learn
 
 This tutorial provides a comprehensive exploration of React Fiber, the reimplementation of React's core algorithm introduced in React 16. Understanding Fiber helps you write more performant React applications and debug complex rendering issues.
 
@@ -59,6 +71,9 @@ This tutorial provides a comprehensive exploration of React Fiber, the reimpleme
 └─────────────────────────────────────────────────────────────────┘
 ```
 
+
+## Mental Model
+
 ```mermaid
 graph TB
     JSX[JSX / createElement] --> ELEMENTS[React Elements]
@@ -86,7 +101,7 @@ graph TB
 - Familiarity with JavaScript and the DOM
 - Basic understanding of data structures (trees, linked lists)
 
-## Tutorial Chapters
+## Chapter Guide
 
 ### [Chapter 1: Introduction to Fiber](01-introduction.md)
 Why React needed Fiber, the problems it solves, and how it differs from the Stack reconciler.

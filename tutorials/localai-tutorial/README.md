@@ -3,6 +3,7 @@ layout: default
 title: "LocalAI Tutorial"
 nav_order: 92
 has_children: true
+format_version: v2
 ---
 
 # LocalAI Tutorial: Self-Hosted OpenAI Alternative
@@ -19,6 +20,20 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+LocalAI is increasingly relevant for developers working with modern AI/ML infrastructure. Run LLMs, image generation, and audio models locally with an OpenAI-compatible API, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Deploy LocalAI** with Docker or from source
+- **Install Models** from the gallery
+- **Use OpenAI SDK** with local models
+- **Generate Images** with Stable Diffusion
+- **Transcribe Audio** with Whisper
+- **Create Embeddings** for RAG applications
+- **Scale for Production** use
+
 ## 🎯 What is LocalAI?
 
 **LocalAI**<sup>[View Repo](https://github.com/mudler/LocalAI)</sup> is a free, open-source alternative to OpenAI that runs locally. It provides an OpenAI-compatible API for LLMs, image generation, audio transcription, and text-to-speech—all running on consumer hardware.
@@ -33,6 +48,9 @@ has_children: true
 | **Model Gallery** | Easy model installation |
 | **Docker Ready** | Simple deployment |
 | **Privacy** | 100% local, no data leaves |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -71,7 +89,7 @@ flowchart TD
 - stars: about **43.7k**
 - latest release: [`v4.0.0`](https://github.com/mudler/LocalAI/releases/tag/v4.0.0) (published 2026-03-14)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and first model
 2. **[Chapter 2: Model Gallery](02-models.md)** - Installing and managing models
@@ -82,7 +100,7 @@ flowchart TD
 7. **[Chapter 7: Configuration](07-configuration.md)** - Advanced settings and tuning
 8. **[Chapter 8: Integrations](08-integration.md)** - Production integrations and optimization
 
-## What You'll Learn
+## What You Will Learn
 
 - **Deploy LocalAI** with Docker or from source
 - **Install Models** from the gallery

@@ -2,6 +2,7 @@
 title: "OpenClaw Deep Dive"
 nav_order: 94
 has_children: true
+format_version: v2
 ---
 
 # OpenClaw: Deep Dive Tutorial
@@ -11,6 +12,17 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/openclaw/openclaw?style=social)](https://github.com/openclaw/openclaw)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-82%25-blue)](https://github.com/openclaw/openclaw)
+
+## Why This Track Matters
+
+OpenClaw is increasingly relevant for developers working with modern AI/ML infrastructure. **Project**: [OpenClaw](https://github.com/openclaw/openclaw) — Your own personal AI assistant. Any OS. Any Platform, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with openclaw
+- understanding gateway architecture
+- understanding channel drivers
+- understanding agent runtime
 
 ## What Is OpenClaw?
 
@@ -33,7 +45,7 @@ OpenClaw is an open-source, self-hosted personal AI assistant that connects to t
 - stars: about **316k**
 - latest release: [`v2026.3.13-1`](https://github.com/openclaw/openclaw/releases/tag/v2026.3.13-1) (published 2026-03-14)
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -73,7 +85,7 @@ graph TB
     Runtime --> Execution
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -117,6 +129,12 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ---
 
 *Built with insights from the [OpenClaw repository](https://github.com/openclaw/openclaw) and community documentation.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

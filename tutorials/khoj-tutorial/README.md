@@ -3,6 +3,7 @@ layout: default
 title: "Khoj AI - Personal Assistant Deep Dive"
 nav_order: 84
 has_children: true
+format_version: v2
 ---
 
 # Khoj AI: Deep Dive Tutorial
@@ -12,6 +13,17 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/khoj-ai/khoj?style=social)](https://github.com/khoj-ai/khoj)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Python](https://img.shields.io/badge/Python-Django-green)](https://github.com/khoj-ai/khoj)
+
+## Why This Track Matters
+
+Khoj AI is increasingly relevant for developers working with modern AI/ML infrastructure. **Project**: [Khoj](https://github.com/khoj-ai/khoj) — An open-source, self-hostable AI personal assistant that connects to your notes, documents, and online data, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started
+- understanding architecture overview
+- understanding data connectors
+- understanding search & retrieval
 
 ## What Is Khoj?
 
@@ -32,7 +44,7 @@ Khoj is an open-source AI personal assistant that transforms your scattered note
 - stars: about **33.4k**
 - latest release: [`2.0.0-beta.25`](https://github.com/khoj-ai/khoj/releases/tag/2.0.0-beta.25) (published 2026-02-22)
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -82,7 +94,7 @@ graph TB
     SERVER --> Storage
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -115,6 +127,12 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ---
 
 *Built with insights from the [Khoj repository](https://github.com/khoj-ai/khoj) and community documentation.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

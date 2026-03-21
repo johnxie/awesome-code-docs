@@ -3,6 +3,7 @@ layout: default
 title: "LanceDB Tutorial"
 nav_order: 45
 has_children: true
+format_version: v2
 ---
 
 # LanceDB Tutorial: Serverless Vector Database for AI
@@ -22,6 +23,21 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+LanceDB is increasingly relevant for developers working with modern AI/ML infrastructure. Master LanceDB, the open-source serverless vector database designed for AI applications, RAG systems, and semantic search, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Store Vectors** efficiently with the Lance format
+- **Search Semantically** using approximate nearest neighbors
+- **Filter Results** with SQL-like predicates
+- **Build RAG Systems** with vector + full-text search
+- **Integrate** with LangChain, LlamaIndex, and more
+- **Optimize Performance** with proper indexing
+- **Deploy to Production** with cloud storage backends
+- **Scale Applications** for real-world workloads
+
 ## What is LanceDB?
 
 **LanceDB** is an open-source, serverless vector database built on the Lance data format. It's designed from the ground up for AI applications, offering fast vector similarity search, filtering, and full-text search without the operational overhead of traditional databases.
@@ -37,6 +53,9 @@ has_children: true
 | **Full-Text Search** | BM25-based full-text search built-in |
 | **Python/JS Native** | First-class Python and JavaScript SDKs |
 | **Zero-Copy** | Memory-mapped access for efficiency |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -77,7 +96,7 @@ flowchart TD
 - stars: about **9.5k**
 - latest release: [`v0.27.0-beta.5`](https://github.com/lancedb/lancedb/releases/tag/v0.27.0-beta.5) (published 2026-03-09)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first database
 2. **[Chapter 2: Data Modeling](02-data-modeling.md)** - Schemas, tables, and data types
@@ -88,7 +107,7 @@ flowchart TD
 7. **[Chapter 7: Production Deployment](07-production.md)** - Cloud storage, scaling, and monitoring
 8. **[Chapter 8: Advanced Patterns](08-advanced-patterns.md)** - Multi-tenancy, versioning, and RAG systems
 
-## What You'll Learn
+## What You Will Learn
 
 - **Store Vectors** efficiently with the Lance format
 - **Search Semantically** using approximate nearest neighbors

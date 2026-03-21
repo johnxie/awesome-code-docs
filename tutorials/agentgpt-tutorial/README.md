@@ -3,6 +3,7 @@ layout: default
 title: "AgentGPT Tutorial"
 nav_order: 14
 has_children: true
+format_version: v2
 ---
 
 # AgentGPT Tutorial: Building Autonomous AI Agents
@@ -17,6 +18,9 @@ has_children: true
 AgentGPT<sup>[View Repo](https://github.com/reworkd/AgentGPT)</sup> is a platform for creating and deploying autonomous AI agents that can perform complex tasks, make decisions, and execute actions independently. It demonstrates advanced patterns in AI agent development, including goal-oriented planning, tool integration, and autonomous execution.
 
 AgentGPT shows how to build AI systems that can break down complex objectives into manageable tasks, use various tools and APIs, and execute plans autonomously while maintaining safety and reliability.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -44,7 +48,18 @@ flowchart TD
     class K,L learning
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+AgentGPT is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of AgentGPT covering Building Autonomous AI Agents, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with agentgpt
+- understanding agent architecture & design
+- understanding task planning & goal setting
+- understanding tool integration & apis
+
+## Chapter Guide
 
 Welcome to your journey through autonomous AI agent development! This tutorial explores how to build intelligent agents that can plan, execute, and learn autonomously.
 
@@ -64,7 +79,7 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 - latest release: [`v.1.0.0`](https://github.com/reworkd/AgentGPT/releases/tag/v.1.0.0) (published 2023-11-02)
 - status: **archived**
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 
