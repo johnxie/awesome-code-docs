@@ -2,13 +2,13 @@
 
 Auto-generated topical clusters to strengthen internal linking and query-to-tutorial mapping.
 
-- Total tutorials: **191**
+- Total tutorials: **195**
 - Total clusters: **9**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## ai-app-frameworks
 
-- tutorial_count: **25**
+- tutorial_count: **26**
 
 - [Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md)
   - intents: production-operations
@@ -50,6 +50,8 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: production-operations
 - [OpenBB Tutorial: Complete Guide to Investment Research Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openbb-tutorial/README.md)
   - intents: general-learning
+- [Plane Tutorial: AI-Native Project Management](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plane-tutorial/README.md)
+  - intents: general-learning
 - [Semantic Kernel Tutorial: Microsoft's AI Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/semantic-kernel-tutorial/README.md)
   - intents: general-learning
 - [Supabase Tutorial: Building Modern Backend Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/supabase-tutorial/README.md)
@@ -58,13 +60,14 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: general-learning
 - [Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/README.md)
   - intents: production-operations
-- [n8n AI Tutorial: Workflow Automation with AI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-ai-tutorial/README.md)
-  - intents: general-learning
+- ... plus 1 more tutorials in this cluster
 
 ## ai-coding-agents
 
-- tutorial_count: **85**
+- tutorial_count: **87**
 
+- [A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/a2a-protocol-tutorial/README.md)
+  - intents: agentic-coding
 - [ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/README.md)
   - intents: production-operations, agentic-coding
 - [AG2 Tutorial: Next-Generation Multi-Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/README.md)
@@ -113,14 +116,14 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: agentic-coding
 - [Cline Tutorial: Agentic Coding with Human Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/README.md)
   - intents: agentic-coding
-- [CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/README.md)
-  - intents: agentic-coding
-- ... plus 60 more tutorials in this cluster
+- ... plus 62 more tutorials in this cluster
 
 ## data-and-storage
 
-- tutorial_count: **8**
+- tutorial_count: **9**
 
+- [AFFiNE Tutorial: Open-Source AI Workspace with Docs, Whiteboards, and Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/affine-tutorial/README.md)
+  - intents: general-learning
 - [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
   - intents: architecture-deep-dive
 - [ClickHouse Tutorial: High-Performance Analytical Database](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/README.md)

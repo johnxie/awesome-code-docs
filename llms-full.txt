@@ -3,6 +3,12 @@
 Main repository:
 - https://github.com/johnxie/awesome-code-docs
 
+## A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard
+- Path: tutorials/a2a-protocol-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/a2a-protocol-tutorial/README.md
+- Summary: Learn how agents discover, communicate, and delegate tasks to each other using the A2A protocol — the open standard (now Linux Foundation) for agent-to-agent interoperability.
+- Keywords: a2a, protocol, building, interoperable, agent, google, standard, agents, discover, communicate, delegate, tasks, each, other, open, now, linux, foundation
+
 ## Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations
 - Path: tutorials/activepieces-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md
@@ -14,6 +20,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/README.md
 - Summary: Learn how to use google/adk-python to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
 - Keywords: adk, python, grade, agent, engineering, google, evaluate, deploy, modular, strong, tooling, session, controls, rollouts
+
+## AFFiNE Tutorial: Open-Source AI Workspace with Docs, Whiteboards, and Databases
+- Path: tutorials/affine-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/affine-tutorial/README.md
+- Summary: Learn how to use toeverything/AFFiNE to build, extend, and self-host a modern knowledge workspace combining documents, whiteboards, and databases — powered by BlockSuite, CRDT-based collaboration, and integrated AI copilot features.
+- Keywords: affine, open, source, workspace, whiteboards, databases, toeverything, extend, self, host, modern, knowledge, combining, documents, powered, blocksuite, crdt, based
 
 ## AG2 Tutorial: Next-Generation Multi-Agent Framework
 - Path: tutorials/ag2-tutorial
@@ -735,6 +747,12 @@ Main repository:
 - Summary: A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
 - Keywords: mem0, building, ready, agents, scalable, long, term, memory, technical, walkthrough
 
+## MetaGPT Tutorial: Multi-Agent Software Development with Role-Based Collaboration
+- Path: tutorials/metagpt-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/metagpt-tutorial/README.md
+- Summary: In one sentence: Give MetaGPT a product idea, and a virtual software company of AI agents designs, architects, codes, and tests it for you.
+- Keywords: metagpt, multi, agent, software, development, role, based, collaboration, one, sentence, give, product, idea, virtual, company, agents, designs, architects
+
 ## Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale
 - Path: tutorials/mini-swe-agent-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/README.md
@@ -902,6 +920,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/README.md
 - Summary: Learn how to use plandex-ai/plandex for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
 - Keywords: plandex, large, task, coding, agent, workflows, codebase, tasks, strong, context, management, cumulative, diff, review, model, packs, self, hosted
+
+## Plane Tutorial: AI-Native Project Management
+- Path: tutorials/plane-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plane-tutorial/README.md
+- Summary: Open-source AI-native project management that rivals Jira and Linear — with issues, cycles, modules, and wiki built in.
+- Keywords: plane, native, management, open, source, rivals, jira, linear, issues, cycles, modules, wiki, built
 
 ## Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents
 - Path: tutorials/planning-with-files-tutorial

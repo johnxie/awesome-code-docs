@@ -208,6 +208,8 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[Open SWE](tutorials/open-swe-tutorial/)** | 5.3K+ | Python | Async cloud coding agent architecture and migration playbook |
 | **[HumanLayer](tutorials/humanlayer-tutorial/)** | 9.6K+ | Python | Context engineering and human-governed coding-agent workflows |
 | **[Wshobson Agents](tutorials/wshobson-agents-tutorial/)** | 29.9K+ | TypeScript | Pluginized multi-agent workflows with specialist Claude Code agents |
+| **[MetaGPT](tutorials/metagpt-tutorial/)** | 66K+ | Python | Multi-agent framework with role-based collaboration (PM, Architect, Engineer) for software generation |
+| **[A2A Protocol](tutorials/a2a-protocol-tutorial/)** | 23K+ | Python/TypeScript | Google's Agent-to-Agent protocol for cross-platform agent interoperability and discovery |
 
 ### 🧠 LLM Frameworks & RAG
 
@@ -266,6 +268,8 @@ Full-stack AI chat platforms and copilots.
 | **[GPT-OSS](tutorials/gpt-oss-tutorial/)** | 6.4K+ | TypeScript | Open-source GPT implementation |
 | **[Claude Quickstarts](tutorials/claude-quickstarts-tutorial/)** | 13.7K+ | Python/TypeScript | Production Claude integration patterns |
 | **[Cherry Studio](tutorials/cherry-studio-tutorial/)** | 40.5K+ | TypeScript | Multi-provider AI desktop workspace with assistants, documents, and MCP tools |
+| **[AFFiNE](tutorials/affine-tutorial/)** | 66K+ | TypeScript | Open-source Notion + Miro alternative with docs, whiteboards, databases, and AI copilot |
+| **[Plane](tutorials/plane-tutorial/)** | 47K+ | Python/TypeScript | AI-native project management with issues, cycles, modules, wiki, and AI features |
 
 ### 🔧 Developer Tools & Productivity
 

@@ -14,8 +14,10 @@
 - Infrastructure: Ollama, vLLM, LiteLLM, llama.cpp
 
 ## Tutorial Directory
+- A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/a2a-protocol-tutorial
 - Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/activepieces-tutorial
 - ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/adk-python-tutorial
+- AFFiNE Tutorial: Open-Source AI Workspace with Docs, Whiteboards, and Databases: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/affine-tutorial
 - AG2 Tutorial: Next-Generation Multi-Agent Framework: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/ag2-tutorial
 - AgentGPT Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agentgpt-tutorial
 - AgenticSeek Tutorial: Local-First Autonomous Agent Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agenticseek-tutorial
@@ -136,6 +138,7 @@
 - MCPB Tutorial: Packaging and Distributing Local MCP Servers as Bundles: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mcpb-tutorial
 - MeiliSearch Tutorial: Lightning Fast Search Engine: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/meilisearch-tutorial
 - Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mem0-tutorial
+- MetaGPT Tutorial: Multi-Agent Software Development with Role-Based Collaboration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/metagpt-tutorial
 - Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mini-swe-agent-tutorial
 - Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/mistral-vibe-tutorial
 - n8n AI Tutorial: Workflow Automation with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/n8n-ai-tutorial
@@ -164,6 +167,7 @@
 - Phidata Tutorial: Building Autonomous AI Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/phidata-tutorial
 - PhotoPrism Tutorial: AI-Powered Photos App: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/photoprism-tutorial
 - Plandex Tutorial: Large-Task AI Coding Agent Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/plandex-tutorial
+- Plane Tutorial: AI-Native Project Management: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/plane-tutorial
 - Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/planning-with-files-tutorial
 - Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/playwright-mcp-tutorial
 - PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/pocketflow-tutorial
