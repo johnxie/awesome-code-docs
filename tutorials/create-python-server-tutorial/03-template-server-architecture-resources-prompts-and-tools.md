@@ -37,8 +37,6 @@ You now have a concrete mental model for generated MCP primitive handlers.
 
 Next: [Chapter 4: Runtime, Dependencies, and uv Packaging](04-runtime-dependencies-and-uv-packaging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

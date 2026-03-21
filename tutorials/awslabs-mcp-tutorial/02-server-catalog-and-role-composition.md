@@ -36,46 +36,44 @@ You now have a strategy for selecting servers without overwhelming client contex
 
 Next: [Chapter 3: Transport and Client Integration Patterns](03-transport-and-client-integration-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/verify_package_name.py`
+### `scripts/verify_tool_names.py`
 
-The `extract_dependencies` function in [`scripts/verify_package_name.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_package_name.py) handles a key part of this chapter's functionality:
+The `convert_package_name_to_server_format` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def extract_dependencies(pyproject_path: Path) -> List[str]:
-    """Extract dependency names from pyproject.toml file."""
-    try:
-        with open(pyproject_path, 'rb') as f:
-            data = tomllib.load(f)
-        dependencies = data.get('project', {}).get('dependencies', [])
-        # Extract just the package names (remove version constraints)
-        dep_names = []
-        for dep in dependencies:
-            # Remove version constraints (>=, ==, etc.) and extract just the package name
-            dep_name = re.split(r'[>=<!=]', dep)[0].strip()
-            dep_names.append(dep_name)
-        return dep_names
-    except (FileNotFoundError, KeyError):
-        # If we can't extract dependencies, return empty list
-        return []
-    except Exception:
-        # If we can't parse dependencies, return empty list
-        return []
+def convert_package_name_to_server_format(package_name: str) -> str:
+    """Convert package name to the format used in fully qualified tool names.
+
+    Examples:
+        awslabs.git-repo-research-mcp-server -> git_repo_research_mcp_server
+        awslabs.nova-canvas-mcp-server -> nova_canvas_mcp_server
+    """
+    # Remove 'awslabs.' prefix if present
+    if package_name.startswith('awslabs.'):
+        package_name = package_name[8:]
+
+    # Replace hyphens with underscores
+    return package_name.replace('-', '_')
 
 
-def extract_package_from_base64_config(config_b64: str) -> List[str]:
-    """Extract package names from Base64 encoded or URL-encoded JSON config."""
-    try:
-        # First, try to URL decode in case it's URL-encoded
-        try:
-            config_b64 = urllib.parse.unquote(config_b64)
-        except (ValueError, UnicodeDecodeError):
-            pass  # If URL decoding fails, use original string
+def calculate_fully_qualified_name(server_name: str, tool_name: str) -> str:
+    """Calculate the fully qualified tool name as used by MCP clients.
+
+    Format: awslabs<server_name>___<tool_name>
+
+    Examples:
+        awslabs + git_repo_research_mcp_server + ___ + search_repos_on_github
+        = awslabsgit_repo_research_mcp_server___search_repos_on_github
+    """
+    return f'awslabs{server_name}___{tool_name}'
+
+
+def find_tool_decorators(file_path: Path) -> List[Tuple[str, int]]:
+    """Find all tool definitions in a Python file and extract tool names.
 
 ```
 
@@ -86,5 +84,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[extract_dependencies]
+    A[convert_package_name_to_server_format]
 ```

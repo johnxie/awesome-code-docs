@@ -37,8 +37,6 @@ You now have a migration-aware perspective on batch and advanced Firecrawl MCP u
 
 Next: [Chapter 7: Reliability, Observability, and Failure Handling](07-reliability-observability-and-failure-handling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

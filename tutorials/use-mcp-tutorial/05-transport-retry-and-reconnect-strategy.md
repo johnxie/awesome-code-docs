@@ -38,8 +38,6 @@ You now have a practical resilience model for browser-based MCP client sessions.
 
 Next: [Chapter 6: React Integration Patterns: Chat UI and Inspector](06-react-integration-patterns-chat-ui-and-inspector.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `examples/chat-ui/api/index.ts`

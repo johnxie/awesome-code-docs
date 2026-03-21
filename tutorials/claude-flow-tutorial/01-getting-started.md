@@ -40,8 +40,6 @@ You now have a practical bootstrap path and a clearer operating model for early 
 
 Next: [Chapter 2: V3 Architecture and ADRs](02-v3-architecture-and-adrs.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/index.ts`

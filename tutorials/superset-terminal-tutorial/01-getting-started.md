@@ -35,8 +35,6 @@ You now have a running Superset baseline for workspace-based agent orchestration
 
 Next: [Chapter 2: Worktree Isolation and Workspace Model](02-worktree-isolation-and-workspace-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `apps/desktop/runtime-dependencies.ts`

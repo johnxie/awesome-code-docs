@@ -64,8 +64,6 @@ You now have a concrete security checklist for moving Tabby into shared environm
 
 Next: [Chapter 7: Operations, Upgrades, and Observability](07-operations-upgrades-and-observability.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `python/tabby/trainer.py`

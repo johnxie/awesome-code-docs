@@ -37,8 +37,6 @@ You now have a reliability checklist for sustained Firecrawl MCP operations.
 
 Next: [Chapter 8: Security, Governance, and Contribution Workflow](08-security-governance-and-contribution-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

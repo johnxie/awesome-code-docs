@@ -41,8 +41,6 @@ You now have a pragmatic operating and migration strategy for `use-mcp` deployme
 
 Return to the [use-mcp Tutorial index](README.md).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `examples/chat-ui/scripts/update-models.ts`

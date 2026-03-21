@@ -36,8 +36,6 @@ You can now design swarm coordination with clearer topology and consensus tradeo
 
 Next: [Chapter 4: Memory, Learning, and Intelligence Systems](04-memory-learning-and-intelligence-systems.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/swarm.config.ts`

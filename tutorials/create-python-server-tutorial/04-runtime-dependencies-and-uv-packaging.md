@@ -37,8 +37,6 @@ You now have a consistent runtime and packaging model for generated MCP servers.
 
 Next: [Chapter 5: Local Integration: Claude Desktop and Inspector](05-local-integration-claude-desktop-and-inspector.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

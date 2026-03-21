@@ -36,8 +36,6 @@ You now have a clearer mental model for running MCP/CLI surfaces without operati
 
 Next: [Chapter 6: Plugin SDK and Extensibility Patterns](06-plugin-sdk-and-extensibility-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/swarm.config.ts`

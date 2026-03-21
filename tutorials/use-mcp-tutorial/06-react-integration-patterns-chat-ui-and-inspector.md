@@ -39,8 +39,6 @@ You now have an example-driven component architecture model for MCP-enabled Reac
 
 Next: [Chapter 7: Testing, Debugging, and Integration Servers](07-testing-debugging-and-integration-servers.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `examples/chat-ui/scripts/update-models.ts`

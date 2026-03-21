@@ -39,8 +39,6 @@ You now have a working baseline for expanding Activepieces usage safely.
 
 Next: [Chapter 2: System Architecture: App, Worker, Engine](02-system-architecture-app-worker-engine.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `deploy/pulumi/taggable.ts`

@@ -31,8 +31,6 @@ You now have structural and build-level orientation for generated projects.
 
 Next: [Chapter 3: Template MCP Primitives: Resources, Tools, Prompts](03-template-mcp-primitives-resources-tools-prompts.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

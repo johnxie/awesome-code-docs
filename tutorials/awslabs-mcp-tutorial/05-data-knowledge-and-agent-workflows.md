@@ -36,47 +36,45 @@ You now have a context-first approach for data and knowledge enriched MCP workfl
 
 Next: [Chapter 6: Security, Credentials, and Risk Controls](06-security-credentials-and-risk-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/verify_package_name.py`
+### `scripts/verify_tool_names.py`
 
-The `verify_package_name_consistency` function in [`scripts/verify_package_name.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_package_name.py) handles a key part of this chapter's functionality:
+The `find_all_tools_in_package` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def verify_package_name_consistency(
-    package_name: str, references: List[Tuple[str, int]]
-) -> Tuple[bool, List[str]]:
-    """Verify that package references match the actual package name."""
-    # Extract just the package name part (without version)
-    base_package_name = package_name.split('@')[0] if '@' in package_name else package_name
+def find_all_tools_in_package(package_dir: Path) -> List[Tuple[str, Path, int]]:
+    """Find all tool definitions in a package directory.
 
-    issues = []
+    Returns:
+        List of tuples: (tool_name, file_path, line_number)
+    """
+    all_tools = []
 
-    for ref, line_num in references:
-        # Extract package name from reference (remove version if present)
-        ref_package = ref.split('@')[0] if '@' in ref else ref
+    # Search for Python files in the package
+    for python_file in package_dir.rglob('*.py'):
+        # Skip test files and virtual environments
+        if (
+            'test' in str(python_file)
+            or '.venv' in str(python_file)
+            or '__pycache__' in str(python_file)
+        ):
+            continue
 
-        if ref_package != base_package_name:
-            issues.append(
-                f"Package name mismatch: found '{ref_package}' but expected '{base_package_name}' (line {line_num})"
-            )
+        tools = find_tool_decorators(python_file)
+        for tool_name, line_number in tools:
+            all_tools.append((tool_name, python_file, line_number))
 
-    return len(issues) == 0, issues
+    return all_tools
 
 
-def main():
-    """Main function to verify package name consistency."""
-    parser = argparse.ArgumentParser(
-        description='Verify that README files correctly reference package names from pyproject.toml'
-    )
-    parser.add_argument(
-        'package_dir', help='Path to the package directory (e.g., src/amazon-neptune-mcp-server)'
-    )
-    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output')
+def validate_tool_name(tool_name: str) -> Tuple[List[str], List[str]]:
+    """Validate a tool name against naming conventions.
+
+    Returns:
+        Tuple of (errors, warnings)
 ```
 
 This function is important because it defines how awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads implements the patterns covered in this chapter.
@@ -86,5 +84,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[verify_package_name_consistency]
+    A[find_all_tools_in_package]
 ```

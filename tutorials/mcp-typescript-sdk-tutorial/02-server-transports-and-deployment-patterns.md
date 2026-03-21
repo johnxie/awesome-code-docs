@@ -46,8 +46,6 @@ You now have a transport-first architecture model for server implementation.
 
 Next: [Chapter 3: Client Transports, OAuth, and Backwards Compatibility](03-client-transports-oauth-and-backwards-compatibility.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/cli.ts`

@@ -31,8 +31,6 @@ You now have a governance model for secure and maintainable scaffold-derived pro
 
 Next: [Chapter 8: Archived Status, Migration, and Long-Term Operations](08-archived-status-migration-and-long-term-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

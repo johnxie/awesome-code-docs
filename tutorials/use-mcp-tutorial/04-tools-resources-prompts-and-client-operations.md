@@ -39,8 +39,6 @@ You now have an operations model for integrating MCP capabilities into React wor
 
 Next: [Chapter 5: Transport, Retry, and Reconnect Strategy](05-transport-retry-and-reconnect-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/auth/types.ts`

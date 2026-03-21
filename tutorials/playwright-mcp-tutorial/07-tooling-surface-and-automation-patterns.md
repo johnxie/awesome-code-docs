@@ -40,50 +40,7 @@ You now have a repeatable pattern for stable browser automation loops in agent w
 
 Next: [Chapter 8: Troubleshooting, Security, and Contribution](08-troubleshooting-security-and-contribution.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `packages/extension/src/background.ts`
-
-The `TabShareExtension` class in [`packages/extension/src/background.ts`](https://github.com/microsoft/playwright-mcp/blob/HEAD/packages/extension/src/background.ts) handles a key part of this chapter's functionality:
-
-```ts
-};
-
-class TabShareExtension {
-  private _activeConnection: RelayConnection | undefined;
-  private _connectedTabId: number | null = null;
-  private _pendingTabSelection = new Map<number, { connection: RelayConnection, timerId?: number }>();
-
-  constructor() {
-    chrome.tabs.onRemoved.addListener(this._onTabRemoved.bind(this));
-    chrome.tabs.onUpdated.addListener(this._onTabUpdated.bind(this));
-    chrome.tabs.onActivated.addListener(this._onTabActivated.bind(this));
-    chrome.runtime.onMessage.addListener(this._onMessage.bind(this));
-    chrome.action.onClicked.addListener(this._onActionClicked.bind(this));
-  }
-
-  // Promise-based message handling is not supported in Chrome: https://issues.chromium.org/issues/40753031
-  private _onMessage(message: PageMessage, sender: chrome.runtime.MessageSender, sendResponse: (response: any) => void) {
-    switch (message.type) {
-      case 'connectToMCPRelay':
-        this._connectToRelay(sender.tab!.id!, message.mcpRelayUrl).then(
-            () => sendResponse({ success: true }),
-            (error: any) => sendResponse({ success: false, error: error.message }));
-        return true;
-      case 'getTabs':
-        this._getTabs().then(
-            tabs => sendResponse({ success: true, tabs, currentTabId: sender.tab?.id }),
-            (error: any) => sendResponse({ success: false, error: error.message }));
-        return true;
-      case 'connectToTab':
-        const tabId = message.tabId || sender.tab?.id!;
-        const windowId = message.windowId || sender.tab?.windowId!;
-        this._connectTab(sender.tab!.id!, tabId, windowId, message.mcpRelayUrl!).then(
-```
-
-This class is important because it defines how Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP implements the patterns covered in this chapter.
 
 ### `packages/extension/src/ui/tabItem.tsx`
 
@@ -126,12 +83,52 @@ export const TabItem: React.FC<TabItemProps> = ({
 
 This interface is important because it defines how Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP implements the patterns covered in this chapter.
 
+### `packages/extension/src/ui/tabItem.tsx`
+
+The `TabItemProps` interface in [`packages/extension/src/ui/tabItem.tsx`](https://github.com/microsoft/playwright-mcp/blob/HEAD/packages/extension/src/ui/tabItem.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+
+
+export interface TabItemProps {
+  tab: TabInfo;
+  onClick?: () => void;
+  button?: React.ReactNode;
+}
+
+export const TabItem: React.FC<TabItemProps> = ({
+  tab,
+  onClick,
+  button
+}) => {
+  return (
+    <div className='tab-item' onClick={onClick} style={onClick ? { cursor: 'pointer' } : undefined}>
+      <img
+        src={tab.favIconUrl || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"><rect width="16" height="16" fill="%23f6f8fa"/></svg>'}
+        alt=''
+        className='tab-favicon'
+      />
+      <div className='tab-content'>
+        <div className='tab-title'>
+          {tab.title || 'Untitled'}
+        </div>
+        <div className='tab-url'>{tab.url}</div>
+      </div>
+      {button}
+    </div>
+  );
+};
+
+```
+
+This interface is important because it defines how Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[TabShareExtension]
-    B[TabInfo]
+    A[TabInfo]
+    B[TabItemProps]
     A --> B
 ```

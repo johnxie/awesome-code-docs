@@ -31,8 +31,6 @@ You now have a governance model for documentation operations across archived and
 
 Return to the [MCP Docs Repo Tutorial index](README.md).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

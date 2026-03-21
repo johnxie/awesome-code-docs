@@ -61,8 +61,6 @@ You now know how to integrate Tabby clients beyond default setup paths and keep 
 
 Next: [Chapter 6: Configuration, Security, and Enterprise Controls](06-configuration-security-and-enterprise-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `python/tabby/trainer.py`

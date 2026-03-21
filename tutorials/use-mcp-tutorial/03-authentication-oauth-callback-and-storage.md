@@ -38,8 +38,6 @@ You now have a safer OAuth and auth-state handling model for React MCP clients.
 
 Next: [Chapter 4: Tools, Resources, Prompts, and Client Operations](04-tools-resources-prompts-and-client-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/auth/callback.ts`

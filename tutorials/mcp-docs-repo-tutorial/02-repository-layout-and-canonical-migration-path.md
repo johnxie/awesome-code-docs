@@ -41,8 +41,6 @@ You now have a migration-aware map of archived docs content.
 
 Next: [Chapter 3: Quickstart Flows: User, Server, and Client](03-quickstart-flows-user-server-and-client.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

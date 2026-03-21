@@ -31,8 +31,6 @@ You now have a primitive-level model for evolving generated TypeScript server co
 
 Next: [Chapter 4: Configuration, Metadata, and Packaging](04-configuration-metadata-and-packaging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

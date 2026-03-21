@@ -38,8 +38,6 @@ You now have a working local integration and debugging strategy for scaffolded s
 
 Next: [Chapter 6: Customization and Extension Patterns](06-customization-and-extension-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

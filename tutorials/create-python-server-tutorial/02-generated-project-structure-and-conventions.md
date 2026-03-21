@@ -39,8 +39,6 @@ You now have a structural map for generated MCP Python server projects.
 
 Next: [Chapter 3: Template Server Architecture: Resources, Prompts, and Tools](03-template-server-architecture-resources-prompts-and-tools.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

@@ -32,8 +32,6 @@ You now have a quickstart-oriented onboarding map for archived MCP docs.
 
 Next: [Chapter 4: Core Concepts: Architecture, Tools, Resources, Prompts](04-core-concepts-architecture-tools-resources-prompts.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

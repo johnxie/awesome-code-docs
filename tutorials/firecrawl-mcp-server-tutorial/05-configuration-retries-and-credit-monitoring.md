@@ -39,8 +39,6 @@ You now know which controls matter most for resilient Firecrawl MCP operations.
 
 Next: [Chapter 6: Batch Workflows, Deep Research, and API Evolution](06-batch-workflows-deep-research-and-api-evolution.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

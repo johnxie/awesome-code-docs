@@ -40,8 +40,6 @@ You now have a decision framework for tool selection that balances depth, cost, 
 
 Next: [Chapter 4: Client Integrations: Cursor, Claude, Windsurf, VS Code](04-client-integrations-cursor-claude-windsurf-vscode.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/types/fastmcp.d.ts`

@@ -39,8 +39,6 @@ You now have a setup and risk baseline for evaluating `use-mcp` usage.
 
 Next: [Chapter 2: Hook Architecture and Connection Lifecycle](02-hook-architecture-and-connection-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/auth/browser-provider.ts`

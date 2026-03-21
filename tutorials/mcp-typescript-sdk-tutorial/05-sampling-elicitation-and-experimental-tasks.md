@@ -39,8 +39,6 @@ You now understand when and how to use advanced capability flows without overexp
 
 Next: [Chapter 6: Middleware, Security, and Host Validation](06-middleware-security-and-host-validation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`

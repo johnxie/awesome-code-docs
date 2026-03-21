@@ -40,8 +40,6 @@ You now have clearer interface design standards for MCP server surfaces.
 
 Next: [Chapter 5: Sampling, Elicitation, and Experimental Tasks](05-sampling-elicitation-and-experimental-tasks.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`

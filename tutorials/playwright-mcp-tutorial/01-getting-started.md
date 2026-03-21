@@ -50,88 +50,86 @@ You now have Playwright MCP connected and executing basic browser tasks.
 
 Next: [Chapter 2: Operating Model: Accessibility Snapshots](02-operating-model-accessibility-snapshots.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `roll.js`
+### `packages/playwright-mcp/update-readme.js`
 
-The `copyConfig` function in [`roll.js`](https://github.com/microsoft/playwright-mcp/blob/HEAD/roll.js) handles a key part of this chapter's functionality:
+The `capabilityTitle` function in [`packages/playwright-mcp/update-readme.js`](https://github.com/microsoft/playwright-mcp/blob/HEAD/packages/playwright-mcp/update-readme.js) handles a key part of this chapter's functionality:
 
 ```js
-const { execSync } = require('child_process');
+const toolsByCapability = {};
+for (const capability of Object.keys(capabilities)) {
+  const title = capabilityTitle(capability);
+  let tools = browserTools.filter(tool => tool.capability === capability && !tool.skillOnly);
+  tools = (toolsByCapability[title] || []).concat(tools);
+  toolsByCapability[title] = tools;
+}
+for (const [, tools] of Object.entries(toolsByCapability))
+  tools.sort((a, b) => a.schema.name.localeCompare(b.schema.name));
 
-function copyConfig() {
-  const src = path.join(__dirname, '..', 'playwright', 'packages', 'playwright-core', 'src', 'tools', 'mcp', 'config.d.ts');
-  const dst = path.join(__dirname, 'packages', 'playwright-mcp', 'config.d.ts');
-  let content = fs.readFileSync(src, 'utf-8');
-  content = content.replace(
-    "import type * as playwright from 'playwright-core';",
-    "import type * as playwright from 'playwright';"
-  );
-  fs.writeFileSync(dst, content);
-  console.log(`Copied config.d.ts from ${src} to ${dst}`);
+/**
+ * @param {string} capability
+ * @returns {string}
+ */
+function capabilityTitle(capability) {
+  const title = capabilities[capability];
+  return capability.startsWith('core') ? title : `${title} (opt-in via --caps=${capability})`;
 }
 
-function updatePlaywrightVersion(version) {
-  const packagesDir = path.join(__dirname, 'packages');
-  const files = [path.join(__dirname, 'package.json')];
-  for (const entry of fs.readdirSync(packagesDir, { withFileTypes: true })) {
-    const pkgJson = path.join(packagesDir, entry.name, 'package.json');
-    if (fs.existsSync(pkgJson))
-      files.push(pkgJson);
-  }
+/**
+ * @param {any} tool
+ * @returns {string[]}
+ */
+function formatToolForReadme(tool) {
+  const lines = /** @type {string[]} */ ([]);
+  lines.push(`<!-- NOTE: This has been generated via ${path.basename(__filename)} -->`);
+  lines.push(``);
+  lines.push(`- **${tool.name}**`);
+  lines.push(`  - Title: ${tool.title}`);
+  lines.push(`  - Description: ${tool.description}`);
 
-  for (const file of files) {
-    const json = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    let updated = false;
-    for (const section of ['dependencies', 'devDependencies']) {
-      for (const pkg of ['@playwright/test', 'playwright', 'playwright-core']) {
-        if (json[section]?.[pkg]) {
-          json[section][pkg] = version;
-          updated = true;
-        }
+  const inputSchema = /** @type {any} */ (tool.inputSchema ? tool.inputSchema.toJSONSchema() : {});
 ```
 
 This function is important because it defines how Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP implements the patterns covered in this chapter.
 
-### `roll.js`
+### `packages/playwright-mcp/update-readme.js`
 
-The `updatePlaywrightVersion` function in [`roll.js`](https://github.com/microsoft/playwright-mcp/blob/HEAD/roll.js) handles a key part of this chapter's functionality:
+The `formatToolForReadme` function in [`packages/playwright-mcp/update-readme.js`](https://github.com/microsoft/playwright-mcp/blob/HEAD/packages/playwright-mcp/update-readme.js) handles a key part of this chapter's functionality:
 
 ```js
+ * @returns {string[]}
+ */
+function formatToolForReadme(tool) {
+  const lines = /** @type {string[]} */ ([]);
+  lines.push(`<!-- NOTE: This has been generated via ${path.basename(__filename)} -->`);
+  lines.push(``);
+  lines.push(`- **${tool.name}**`);
+  lines.push(`  - Title: ${tool.title}`);
+  lines.push(`  - Description: ${tool.description}`);
+
+  const inputSchema = /** @type {any} */ (tool.inputSchema ? tool.inputSchema.toJSONSchema() : {});
+  const requiredParams = inputSchema.required || [];
+  if (inputSchema.properties && Object.keys(inputSchema.properties).length) {
+    lines.push(`  - Parameters:`);
+    Object.entries(inputSchema.properties).forEach(([name, param]) => {
+      const optional = !requiredParams.includes(name);
+      const meta = /** @type {string[]} */ ([]);
+      if (param.type)
+        meta.push(param.type);
+      if (optional)
+        meta.push('optional');
+      lines.push(`    - \`${name}\` ${meta.length ? `(${meta.join(', ')})` : ''}: ${param.description}`);
+    });
+  } else {
+    lines.push(`  - Parameters: None`);
+  }
+  lines.push(`  - Read-only: **${tool.type === 'readOnly'}**`);
+  lines.push('');
+  return lines;
 }
 
-function updatePlaywrightVersion(version) {
-  const packagesDir = path.join(__dirname, 'packages');
-  const files = [path.join(__dirname, 'package.json')];
-  for (const entry of fs.readdirSync(packagesDir, { withFileTypes: true })) {
-    const pkgJson = path.join(packagesDir, entry.name, 'package.json');
-    if (fs.existsSync(pkgJson))
-      files.push(pkgJson);
-  }
-
-  for (const file of files) {
-    const json = JSON.parse(fs.readFileSync(file, 'utf-8'));
-    let updated = false;
-    for (const section of ['dependencies', 'devDependencies']) {
-      for (const pkg of ['@playwright/test', 'playwright', 'playwright-core']) {
-        if (json[section]?.[pkg]) {
-          json[section][pkg] = version;
-          updated = true;
-        }
-      }
-    }
-    if (updated) {
-      fs.writeFileSync(file, JSON.stringify(json, null, 2) + '\n');
-      console.log(`Updated ${file}`);
-    }
-  }
-
-  execSync('npm install', { cwd: __dirname, stdio: 'inherit' });
-}
-
-function doRoll(version) {
+/**
 ```
 
 This function is important because it defines how Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP implements the patterns covered in this chapter.
@@ -141,7 +139,7 @@ This function is important because it defines how Playwright MCP Tutorial: Brows
 
 ```mermaid
 flowchart TD
-    A[copyConfig]
-    B[updatePlaywrightVersion]
+    A[capabilityTitle]
+    B[formatToolForReadme]
     A --> B
 ```

@@ -31,8 +31,6 @@ You now have a tooling-oriented debugging model grounded in MCP documentation gu
 
 Next: [Chapter 7: Tutorial Assets and Client Ecosystem Matrix](07-tutorial-assets-and-client-ecosystem-matrix.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`
