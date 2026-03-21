@@ -89,6 +89,7 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ---
 
 *Built with references from the official [MCP servers repository](https://github.com/modelcontextprotocol/servers), server-specific READMEs, and MCP documentation links embedded in those references.*
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/) — Taskade's MCP server for AI workspace integration
 
 ## Navigation & Backlinks
 

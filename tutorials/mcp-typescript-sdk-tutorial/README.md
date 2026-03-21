@@ -84,6 +84,7 @@ flowchart LR
 ---
 
 Start with [Chapter 1: Getting Started and Package Model](01-getting-started-and-package-model.md).
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/) — Production MCP server built with the TypeScript SDK
 
 ## Navigation & Backlinks
 

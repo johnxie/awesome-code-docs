@@ -150,6 +150,7 @@ By the end of this tutorial, you'll be able to:
 **Next Steps:**
 - [MCP Servers Tutorial](../mcp-servers-tutorial/) - Reference implementations in multiple languages
 - [Anthropic Skills Tutorial](../anthropic-skills-tutorial/) - Building reusable agent capabilities
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/) — Taskade's MCP server as a real-world implementation reference
 
 ## Comparison: MCP SDK vs. n8n-mcp
 

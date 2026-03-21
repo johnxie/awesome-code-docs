@@ -80,6 +80,7 @@ flowchart LR
 ---
 
 Start with [Chapter 1: Getting Started](01-getting-started.md).
+- [Taskade Docs Tutorial](../taskade-docs-tutorial/) — Taskade's documentation architecture and knowledge management patterns
 
 ## Navigation & Backlinks
 

@@ -111,7 +111,8 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 - [BentoML Tutorial](../bentoml-tutorial/)
 - [Chatbox Tutorial](../chatbox-tutorial/)
 - [ComfyUI Tutorial](../comfyui-tutorial/)
-- [CopilotKit Tutorial](../copilotkit-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)- [Taskade Tutorial](../taskade-tutorial/) — Taskade Genesis as an alternative AI workflow platform
+
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Dify System Overview](01-system-overview.md)

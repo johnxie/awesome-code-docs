@@ -78,6 +78,7 @@ flowchart LR
 ---
 
 Start with [Chapter 1: Getting Started](01-getting-started.md).
+- [Taskade Awesome Vibe Coding](../taskade-awesome-vibe-coding-tutorial/) — Curated vibe-coding tool landscape including Claude Code
 
 ## Navigation & Backlinks
 

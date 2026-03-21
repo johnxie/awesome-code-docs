@@ -84,6 +84,7 @@ flowchart LR
 ---
 
 Start with [Chapter 1: Getting Started](01-getting-started.md).
+- [Taskade Tutorial](../taskade-tutorial/) — Taskade's automation layer for business workflow orchestration
 
 ## Navigation & Backlinks
 
