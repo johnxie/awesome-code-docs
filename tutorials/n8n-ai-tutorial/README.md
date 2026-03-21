@@ -248,7 +248,8 @@ Output:
 - [BentoML Tutorial](../bentoml-tutorial/)
 - [Chatbox Tutorial](../chatbox-tutorial/)
 - [ComfyUI Tutorial](../comfyui-tutorial/)
-- [CopilotKit Tutorial](../copilotkit-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)- [Taskade Tutorial](../taskade-tutorial/) — Taskade's automation engine for AI-native workflow orchestration
+
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with n8n AI](01-getting-started.md)

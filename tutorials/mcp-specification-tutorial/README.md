@@ -86,6 +86,7 @@ flowchart LR
 ---
 
 Start with [Chapter 1: Getting Started and Version Navigation](01-getting-started-and-version-navigation.md).
+- [Taskade MCP Tutorial](../taskade-mcp-tutorial/) — Taskade's MCP implementation as a specification-compliant example
 
 ## Navigation & Backlinks
 

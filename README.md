@@ -112,17 +112,17 @@ Verification artifacts:
 
 ---
 
-## 🧬 Taskade Ecosystem Snapshot (Verified 2026-03-20)
+## 🧬 Taskade Ecosystem Snapshot (Verified 2026-03-21)
 
 Live repository snapshot for high-intent Taskade/Genesis/AI/MCP searches.
 
 | Taskade Repo | Stars | Last Push | Tutorial Coverage |
 |:-------------|------:|:----------|:------------------|
-| [`taskade/mcp`](https://github.com/taskade/mcp) | 108+ | 2026-02-13 | [Taskade MCP Tutorial](tutorials/taskade-mcp-tutorial/) |
-| [`taskade/docs`](https://github.com/taskade/docs) | 10+ | 2026-02-20 | [Taskade Docs Tutorial](tutorials/taskade-docs-tutorial/) |
-| [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding) | 5+ | 2026-02-11 | [Taskade Awesome Vibe Coding Tutorial](tutorials/taskade-awesome-vibe-coding-tutorial/) |
-| [`taskade/taskade`](https://github.com/taskade/taskade) | 4+ | 2026-02-19 | [Taskade Tutorial](tutorials/taskade-tutorial/) |
-| [`taskade/temporal-parser`](https://github.com/taskade/temporal-parser) | 1+ | 2026-02-12 | [Taskade Tutorial](tutorials/taskade-tutorial/) (Ecosystem radar) |
+| [`taskade/mcp`](https://github.com/taskade/mcp) | 116+ | 2026-02-13 | [Taskade MCP Tutorial](tutorials/taskade-mcp-tutorial/) |
+| [`taskade/docs`](https://github.com/taskade/docs) | 11+ | 2026-03-16 | [Taskade Docs Tutorial](tutorials/taskade-docs-tutorial/) |
+| [`taskade/awesome-vibe-coding`](https://github.com/taskade/awesome-vibe-coding) | 8+ | 2026-03-21 | [Taskade Awesome Vibe Coding Tutorial](tutorials/taskade-awesome-vibe-coding-tutorial/) |
+| [`taskade/taskade`](https://github.com/taskade/taskade) | 9+ | 2026-02-25 | [Taskade Tutorial](tutorials/taskade-tutorial/) |
+| [`taskade/temporal-parser`](https://github.com/taskade/temporal-parser) | 2+ | 2026-02-12 | [Taskade Tutorial (Ecosystem radar)](tutorials/taskade-tutorial/) |
 
 ---
 
