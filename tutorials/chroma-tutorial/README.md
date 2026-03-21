@@ -155,6 +155,14 @@ For production AI system development:
 
 **Ready to build AI applications with Chroma? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Haystack](../haystack-tutorial/)
+- [LanceDB Tutorial](../lancedb-tutorial/)
+- [LlamaIndex Tutorial](../llamaindex-tutorial/)
+- [Ollama Tutorial](../ollama-tutorial/)
+- [Quivr Tutorial](../quivr-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Chroma](01-getting-started.md)

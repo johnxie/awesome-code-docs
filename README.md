@@ -189,7 +189,7 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[SuperAGI](tutorials/superagi-tutorial/)** | 16K+ | Python | Production autonomous agent framework |
 | **[ElizaOS](tutorials/elizaos-tutorial/)** | 17K+ | TypeScript | Multi-agent AI with character system |
 | **[OpenClaw](tutorials/openclaw-tutorial/)** | 119K+ | TypeScript | Personal AI assistant, multi-channel |
-| **[Deer Flow](tutorials/deer-flow-tutorial/)** | - | Python | Research agent workflows |
+| **[Deer Flow](tutorials/deer-flow-tutorial/)** | 32.1K+ | Python | Research agent workflows |
 | **[Letta](tutorials/letta-tutorial/)** | 14K+ | Python | Stateful agents with long-term memory |
 | **[Anthropic Skills](tutorials/anthropic-skills-tutorial/)** | 59K+ | Python/TypeScript | Reusable AI agent capabilities, MCP integration |
 | **[Claude Flow](tutorials/claude-flow-tutorial/)** | 14.0K+ | TypeScript | Multi-agent orchestration, MCP server operations, and V2-V3 migration tradeoffs |
@@ -263,7 +263,7 @@ Full-stack AI chat platforms and copilots.
 | **[Khoj](tutorials/khoj-tutorial/)** | 18K+ | Python/Django | Self-hosted AI personal assistant |
 | **[Botpress](tutorials/botpress-tutorial/)** | 13K+ | Node.js | Enterprise chatbot platform |
 | **[AnythingLLM](tutorials/anything-llm-tutorial/)** | 30K+ | Node.js | All-in-one AI desktop app |
-| **[GPT-OSS](tutorials/gpt-oss-tutorial/)** | - | TypeScript | Open-source GPT implementation |
+| **[GPT-OSS](tutorials/gpt-oss-tutorial/)** | 6.4K+ | TypeScript | Open-source GPT implementation |
 | **[Claude Quickstarts](tutorials/claude-quickstarts-tutorial/)** | 13.7K+ | Python/TypeScript | Production Claude integration patterns |
 | **[Cherry Studio](tutorials/cherry-studio-tutorial/)** | 40.5K+ | TypeScript | Multi-provider AI desktop workspace with assistants, documents, and MCP tools |
 
@@ -284,16 +284,16 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[bolt.diy](tutorials/bolt-diy-tutorial/)** | 19K+ | TypeScript/Remix | Open-source Bolt-style AI app builder |
 | **[Cloudflare VibeSDK](tutorials/vibesdk-tutorial/)** | 4.7K+ | TypeScript/Cloudflare | Build and operate a cloud-native vibe-coding platform |
 | **[HAPI](tutorials/hapi-tutorial/)** | 1.4K+ | TypeScript/CLI | Remote control and approval workflows for local coding agents |
-| **[Kiro](tutorials/kiro-tutorial/)** | - | TypeScript/AWS | Spec-driven AI IDE with steering files, hooks, and MCP-native agent workflows |
+| **[Kiro](tutorials/kiro-tutorial/)** | 3.2K+ | TypeScript/AWS | Spec-driven AI IDE with steering files, hooks, and MCP-native agent workflows |
 | **[Daytona](tutorials/daytona-tutorial/)** | 55.3K+ | Go/TypeScript/Python | Secure sandbox infrastructure for AI-generated code and coding-agent execution |
 | **[OpenHands](tutorials/openhands-tutorial/)** | 67K+ | Python | AI software engineering agent |
 | **[Aider](tutorials/aider-tutorial/)** | 25K+ | Python | AI pair programming in terminal |
-| **[Claude Code](tutorials/claude-code-tutorial/)** | - | TypeScript | Anthropic's AI coding CLI |
-| **[Anthropic API](tutorials/anthropic-code-tutorial/)** | - | Python/TypeScript | Claude API integration, tool use, streaming |
-| **[Claude Task Master](tutorials/claude-task-master-tutorial/)** | - | TypeScript | AI-powered task management |
+| **[Claude Code](tutorials/claude-code-tutorial/)** | 80.7K+ | TypeScript | Anthropic's AI coding CLI |
+| **[Anthropic API](tutorials/anthropic-code-tutorial/)** | 1.7K+ | Python/TypeScript | Claude API integration, tool use, streaming |
+| **[Claude Task Master](tutorials/claude-task-master-tutorial/)** | 26K+ | TypeScript | AI-powered task management |
 | **[CopilotKit](tutorials/copilotkit-tutorial/)** | 15K+ | React | In-app AI assistants |
-| **[Nanocoder](tutorials/nanocoder-tutorial/)** | - | TypeScript | AI coding agent internals |
-| **[Codex Analysis](tutorials/codex-analysis-tutorial/)** | - | TypeScript | Static analysis platform and LSP architecture |
+| **[Nanocoder](tutorials/nanocoder-tutorial/)** | 1.5K+ | TypeScript | AI coding agent internals |
+| **[Codex Analysis](tutorials/codex-analysis-tutorial/)** | 108.2K+ | TypeScript | Static analysis platform and LSP architecture |
 | **[Turborepo](tutorials/turborepo-tutorial/)** | 27K+ | Rust | High-performance monorepo builds |
 | **[n8n AI](tutorials/n8n-ai-tutorial/)** | 52K+ | Node.js | Visual AI workflow automation |
 | **[Activepieces](tutorials/activepieces-tutorial/)** | 20.8K+ | TypeScript | Open-source automation platform, custom pieces, and admin governance |
@@ -416,10 +416,10 @@ Data platforms, knowledge management, and observability.
 | **[SiYuan](tutorials/siyuan-tutorial/)** | 25K+ | Go/TypeScript | Privacy-first knowledge management |
 | **[Logseq](tutorials/logseq-tutorial/)** | 34K+ | ClojureScript | Local-first knowledge graph |
 | **[OpenBB](tutorials/openbb-tutorial/)** | 35K+ | Python | Open-source financial terminal |
-| **[Athens Research](tutorials/athens-research-tutorial/)** | - | ClojureScript | Graph-based knowledge system |
-| **[Obsidian Outliner](tutorials/obsidian-outliner-tutorial/)** | - | TypeScript | Obsidian plugin architecture |
+| **[Athens Research](tutorials/athens-research-tutorial/)** | 6.3K+ | ClojureScript | Graph-based knowledge system |
+| **[Obsidian Outliner](tutorials/obsidian-outliner-tutorial/)** | 1.3K+ | TypeScript | Obsidian plugin architecture |
 | **[ClickHouse](tutorials/clickhouse-tutorial/)** | 39K+ | C++ | Column-oriented analytics DB |
-| **[PostgreSQL Planner](tutorials/postgresql-tutorial/)** | - | C | Query planning internals |
+| **[PostgreSQL Planner](tutorials/postgresql-tutorial/)** | 20.4K+ | C | Query planning internals |
 | **[MeiliSearch](tutorials/meilisearch-tutorial/)** | 48K+ | Rust | Lightning-fast search engine |
 | **[PhotoPrism](tutorials/photoprism-tutorial/)** | 36K+ | Go | AI-powered photo management |
 | **[Liveblocks](tutorials/liveblocks-tutorial/)** | 4K+ | TypeScript | Real-time collaboration infra |
@@ -431,11 +431,11 @@ Low-level systems, cloud native, and infrastructure patterns.
 
 | Tutorial | Stars | Stack | What You'll Learn |
 |:---------|:-----:|:------|:------------------|
-| **[Kubernetes Operators](tutorials/kubernetes-operator-tutorial/)** | - | Go | Production-grade K8s operator patterns |
-| **[React Fiber](tutorials/react-fiber-tutorial/)** | - | JavaScript | React reconciler internals |
+| **[Kubernetes Operators](tutorials/kubernetes-operator-tutorial/)** | 7.6K+ | Go | Production-grade K8s operator patterns |
+| **[React Fiber](tutorials/react-fiber-tutorial/)** | 244.1K+ | JavaScript | React reconciler internals |
 | **[Dyad](tutorials/dyad-tutorial/)** | 19K+ | TypeScript | Local AI app development |
-| **[LangChain Architecture](tutorials/langchain-architecture-tutorial/)** | - | Python | LangChain deep architecture guide |
-| **[n8n MCP](tutorials/n8n-mcp-tutorial/)** | - | TypeScript | Model Context Protocol with n8n |
+| **[LangChain Architecture](tutorials/langchain-architecture-tutorial/)** | 130.4K+ | Python | LangChain deep architecture guide |
+| **[n8n MCP](tutorials/n8n-mcp-tutorial/)** | 180.2K+ | TypeScript | Model Context Protocol with n8n |
 | **[Firecrawl](tutorials/firecrawl-tutorial/)** | 22K+ | Python | LLM-ready web data extraction |
 
 ### 🎤 Speech & Multimodal AI

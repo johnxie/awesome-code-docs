@@ -83,7 +83,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`mudler/LocalAI`](https://github.com/mudler/LocalAI)
-- stars: about **43.7k**
+- stars: about **44.1k**
 - latest release: [`v4.0.0`](https://github.com/mudler/LocalAI/releases/tag/v4.0.0) (published 2026-03-14)
 
 ## Chapter Guide
@@ -282,6 +282,14 @@ print(f"Embedding dimension: {len(embedding)}")
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [LiteLLM Tutorial](../litellm-tutorial/)
+- [llama.cpp Tutorial](../llama-cpp-tutorial/)
+- [vLLM Tutorial](../vllm-tutorial/)
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [Tabby Tutorial](../tabby-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with LocalAI](01-getting-started.md)

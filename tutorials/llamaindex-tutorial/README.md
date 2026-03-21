@@ -80,8 +80,8 @@ Welcome to your journey through advanced RAG systems and data frameworks! This t
 ## Current Snapshot (auto-updated)
 
 - repository: [`run-llama/llama_index`](https://github.com/run-llama/llama_index)
-- stars: about **47.7k**
-- latest release: [`v0.14.16`](https://github.com/run-llama/llama_index/releases/tag/v0.14.16) (published 2026-03-10)
+- stars: about **47.8k**
+- latest release: [`v0.14.18`](https://github.com/run-llama/llama_index/releases/tag/v0.14.18) (published 2026-03-16)
 
 ## What You Will Learn
 
@@ -124,6 +124,14 @@ For production AI system development:
 
 **Ready to build advanced RAG systems with LlamaIndex? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [ChromaDB Tutorial](../chroma-tutorial/)
+- [Haystack](../haystack-tutorial/)
+- [LanceDB Tutorial](../lancedb-tutorial/)
+- [Ollama Tutorial](../ollama-tutorial/)
+- [Quivr Tutorial](../quivr-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with LlamaIndex](01-getting-started.md)

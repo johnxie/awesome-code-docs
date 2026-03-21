@@ -97,6 +97,14 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 *Built with insights from the [Teable repository](https://github.com/teableio/teable) and community documentation.*
 
+
+## Related Tutorials
+
+- [Athens Research](../athens-research-tutorial/)
+- [ClickHouse Tutorial](../clickhouse-tutorial/)
+- [Logseq](../logseq-tutorial/)
+- [MeiliSearch Tutorial](../meilisearch-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: System Overview](01-system-overview.md)

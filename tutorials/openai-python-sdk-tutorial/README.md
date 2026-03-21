@@ -29,7 +29,7 @@ This track focuses on:
 
 - repository: [`openai/openai-python`](https://github.com/openai/openai-python)
 - stars: about **30.3k**
-- latest release: [`v2.28.0`](https://github.com/openai/openai-python/releases/tag/v2.28.0) (published 2026-03-13)
+- latest release: [`v2.29.0`](https://github.com/openai/openai-python/releases/tag/v2.29.0) (published 2026-03-17)
 
 ## Mental Model
 

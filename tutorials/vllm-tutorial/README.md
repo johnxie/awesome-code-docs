@@ -70,8 +70,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`vllm-project/vllm`](https://github.com/vllm-project/vllm)
-- stars: about **73.3k**
-- latest release: [`v0.17.1`](https://github.com/vllm-project/vllm/releases/tag/v0.17.1) (published 2026-03-11)
+- stars: about **73.8k**
+- latest release: [`v0.18.0`](https://github.com/vllm-project/vllm/releases/tag/v0.18.0) (published 2026-03-20)
 
 ## Core Technologies
 
@@ -197,6 +197,14 @@ print(f"Speedup: {hf_time/vllm_time:.1f}x faster")
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [LiteLLM Tutorial](../litellm-tutorial/)
+- [llama.cpp Tutorial](../llama-cpp-tutorial/)
+- [LocalAI Tutorial](../localai-tutorial/)
+- [SillyTavern Tutorial](../sillytavern-tutorial/)
+- [tiktoken Tutorial](../tiktoken-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with vLLM](01-getting-started.md)

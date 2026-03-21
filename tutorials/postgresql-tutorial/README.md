@@ -76,7 +76,7 @@ graph LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`postgres/postgres`](https://github.com/postgres/postgres)
-- stars: about **20.3k**
+- stars: about **20.4k**
 
 ## Prerequisites
 
@@ -142,6 +142,14 @@ Understanding this output is what this tutorial is all about.
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Athens Research](../athens-research-tutorial/)
+- [ClickHouse Tutorial](../clickhouse-tutorial/)
+- [Logseq](../logseq-tutorial/)
+- [MeiliSearch Tutorial](../meilisearch-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Query Planning Fundamentals](01-fundamentals.md)

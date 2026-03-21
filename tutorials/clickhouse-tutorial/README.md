@@ -81,7 +81,7 @@ Welcome to your journey through high-performance analytical databases! This tuto
 
 - repository: [`ClickHouse/ClickHouse`](https://github.com/ClickHouse/ClickHouse)
 - stars: about **46.4k**
-- latest release: [`v26.2.4.23-stable`](https://github.com/ClickHouse/ClickHouse/releases/tag/v26.2.4.23-stable) (published 2026-03-05)
+- latest release: [`v26.1.6.6-stable`](https://github.com/ClickHouse/ClickHouse/releases/tag/v26.1.6.6-stable) (published 2026-03-20)
 
 ## What You Will Learn
 
@@ -158,6 +158,14 @@ For production analytical system development:
 
 **Ready to unlock the power of high-performance analytics with ClickHouse? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Athens Research](../athens-research-tutorial/)
+- [Logseq](../logseq-tutorial/)
+- [MeiliSearch Tutorial](../meilisearch-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
+- [PostgreSQL Query Planner Deep Dive](../postgresql-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with ClickHouse](01-getting-started.md)

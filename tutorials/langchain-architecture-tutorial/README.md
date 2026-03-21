@@ -91,7 +91,7 @@ This guide is designed for developers who already have working experience with L
 
 - repository: [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain)
 - stars: about **130k**
-- latest release: [`langchain-core==1.2.19`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.19) (published 2026-03-13)
+- latest release: [`langchain-core==1.2.20`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.20) (published 2026-03-18)
 
 ## Chapter Guide
 
@@ -140,6 +140,12 @@ Let's begin with [Chapter 1: Getting Started -- Ecosystem Overview](01-getting-s
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [Kubernetes Operator Patterns](../kubernetes-operator-tutorial/)
+- [Obsidian Outliner Plugin](../obsidian-outliner-tutorial/)
+- [React Fiber Internals](../react-fiber-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started -- Ecosystem Overview](01-getting-started.md)

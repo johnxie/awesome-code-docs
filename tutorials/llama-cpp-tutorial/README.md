@@ -80,8 +80,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp)
-- stars: about **98.1k**
-- latest release: [`b8370`](https://github.com/ggerganov/llama.cpp/releases/tag/b8370) (published 2026-03-16)
+- stars: about **98.8k**
+- latest release: [`b8461`](https://github.com/ggerganov/llama.cpp/releases/tag/b8461) (published 2026-03-21)
 
 ## Chapter Guide
 
@@ -254,6 +254,14 @@ print(output["choices"][0]["text"])
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [LiteLLM Tutorial](../litellm-tutorial/)
+- [LocalAI Tutorial](../localai-tutorial/)
+- [vLLM Tutorial](../vllm-tutorial/)
+- [SillyTavern Tutorial](../sillytavern-tutorial/)
+- [LangChain Tutorial](../langchain-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with llama.cpp](01-getting-started.md)

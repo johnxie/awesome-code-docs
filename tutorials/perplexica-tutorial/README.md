@@ -77,7 +77,7 @@ Welcome to your journey through AI-powered search technology! This tutorial expl
 ## Current Snapshot (auto-updated)
 
 - repository: [`ItzCrazyKns/Perplexica`](https://github.com/ItzCrazyKns/Perplexica)
-- stars: about **33k**
+- stars: about **33.2k**
 - latest release: [`v1.12.1`](https://github.com/ItzCrazyKns/Perplexica/releases/tag/v1.12.1) (published 2025-12-31)
 
 ## What You Will Learn
@@ -153,6 +153,14 @@ For production search engine development:
 
 **Ready to build an AI search engine? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Perplexica](01-getting-started.md)

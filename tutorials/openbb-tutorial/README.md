@@ -48,7 +48,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`OpenBB-finance/OpenBB`](https://github.com/OpenBB-finance/OpenBB)
-- stars: about **63.2k**
+- stars: about **63.4k**
 - latest release: [`ODP`](https://github.com/OpenBB-finance/OpenBB/releases/tag/ODP) (published 2026-02-09)
 
 ## Mental Model
@@ -240,6 +240,14 @@ Special thanks to the OpenBB development team and the open-source community for 
 
 **Ready to democratize investment research?** Let's dive into [Chapter 1: Getting Started](01-getting-started.md)! 🚀
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with OpenBB](01-getting-started.md)

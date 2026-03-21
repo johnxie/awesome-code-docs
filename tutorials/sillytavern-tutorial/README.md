@@ -49,7 +49,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SillyTavern/SillyTavern`](https://github.com/SillyTavern/SillyTavern)
-- stars: about **24.4k**
+- stars: about **24.6k**
 - latest release: [`1.16.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.16.0) (published 2026-02-14)
 
 ## Mental Model
@@ -265,6 +265,14 @@ Special thanks to the SillyTavern development team and the vibrant community for
 
 **Ready to unlock advanced AI interactions?** Let's dive into [Chapter 1: Getting Started](01-getting-started.md)! 🚀
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with SillyTavern](01-getting-started.md)

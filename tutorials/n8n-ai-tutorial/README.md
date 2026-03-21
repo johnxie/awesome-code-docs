@@ -79,8 +79,8 @@ flowchart LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`n8n-io/n8n`](https://github.com/n8n-io/n8n)
-- stars: about **179k**
-- latest release: [`n8n@2.11.4`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.11.4) (published 2026-03-13)
+- stars: about **180k**
+- latest release: [`stable`](https://github.com/n8n-io/n8n/releases/tag/stable) (published 2026-03-18)
 
 ## Chapter Guide
 
@@ -241,6 +241,14 @@ Output:
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with n8n AI](01-getting-started.md)

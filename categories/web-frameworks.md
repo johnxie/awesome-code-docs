@@ -29,6 +29,10 @@
 
 - [Chat and AI Applications in README](../README.md#-chat--ai-applications)
 - [Learning Paths](../README.md#-learning-paths)
+- [Cherry Studio](../tutorials/cherry-studio-tutorial/)
+- [Khoj](../tutorials/khoj-tutorial/)
+- [Quivr](../tutorials/quivr-tutorial/)
+- [Sillytavern](../tutorials/sillytavern-tutorial/)
 
 ## Suggest Additions
 

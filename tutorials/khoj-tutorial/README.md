@@ -41,7 +41,7 @@ Khoj is an open-source AI personal assistant that transforms your scattered note
 ## Current Snapshot (auto-updated)
 
 - repository: [`khoj-ai/khoj`](https://github.com/khoj-ai/khoj)
-- stars: about **33.4k**
+- stars: about **33.5k**
 - latest release: [`2.0.0-beta.25`](https://github.com/khoj-ai/khoj/releases/tag/2.0.0-beta.25) (published 2026-02-22)
 
 ## Mental Model
@@ -134,6 +134,14 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started](01-getting-started.md)

@@ -72,7 +72,7 @@ flowchart LR
 ## Current Snapshot (auto-updated)
 
 - repository: [`instructor-ai/instructor`](https://github.com/instructor-ai/instructor)
-- stars: about **12.5k**
+- stars: about **12.6k**
 - latest release: [`v1.14.5`](https://github.com/instructor-ai/instructor/releases/tag/v1.14.5) (published 2026-01-29)
 
 ## Chapter Guide
@@ -301,6 +301,14 @@ def extract_user(client, text: str) -> User:
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Instructor](01-getting-started.md)

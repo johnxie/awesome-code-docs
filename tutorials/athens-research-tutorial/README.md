@@ -93,6 +93,14 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 *Built with insights from the [Athens Research repository](https://github.com/athensresearch/athens) and community documentation.*
 
+
+## Related Tutorials
+
+- [ClickHouse Tutorial](../clickhouse-tutorial/)
+- [Logseq](../logseq-tutorial/)
+- [MeiliSearch Tutorial](../meilisearch-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
+- [PostgreSQL Query Planner Deep Dive](../postgresql-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: System Overview](01-system-overview.md)

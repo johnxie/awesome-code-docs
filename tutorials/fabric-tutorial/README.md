@@ -49,8 +49,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`danielmiessler/fabric`](https://github.com/danielmiessler/fabric)
-- stars: about **39.9k**
-- latest release: [`v1.4.436`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.436) (published 2026-03-15)
+- stars: about **40.1k**
+- latest release: [`v1.4.440`](https://github.com/danielmiessler/fabric/releases/tag/v1.4.440) (published 2026-03-19)
 
 ## Mental Model
 
@@ -273,6 +273,14 @@ Special thanks to Daniel Miessler and the Fabric community for creating this pow
 
 **Ready to augment your cognitive capabilities?** Let's dive into [Chapter 1: Getting Started](01-getting-started.md)! 🚀
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Instructor Tutorial](../instructor-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Fabric](01-getting-started.md)

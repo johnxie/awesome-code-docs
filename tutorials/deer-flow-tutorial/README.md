@@ -49,7 +49,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`bytedance/deer-flow`](https://github.com/bytedance/deer-flow)
-- stars: about **31k**
+- stars: about **32.1k**
 
 ## Mental Model
 
@@ -274,6 +274,14 @@ Special thanks to the ByteDance team for creating this powerful distributed work
 
 **Ready to orchestrate distributed workflows?** Let's dive into [Chapter 1: Getting Started](01-getting-started.md)! 🚀
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
+- [Instructor Tutorial](../instructor-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Deer Flow](01-getting-started.md)

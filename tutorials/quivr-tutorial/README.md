@@ -121,6 +121,14 @@ For production document AI deployment:
 
 **Ready to build intelligent document-based AI applications? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [ChromaDB Tutorial](../chroma-tutorial/)
+- [Haystack](../haystack-tutorial/)
+- [LanceDB Tutorial](../lancedb-tutorial/)
+- [LlamaIndex Tutorial](../llamaindex-tutorial/)
+- [Ollama Tutorial](../ollama-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Quivr](01-getting-started.md)

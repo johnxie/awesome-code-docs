@@ -42,8 +42,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`phidatahq/phidata`](https://github.com/phidatahq/phidata)
-- stars: about **38.7k**
-- latest release: [`v2.5.9`](https://github.com/phidatahq/phidata/releases/tag/v2.5.9) (published 2026-03-10)
+- stars: about **38.8k**
+- latest release: [`v2.5.10`](https://github.com/phidatahq/phidata/releases/tag/v2.5.10) (published 2026-03-17)
 
 ## What You Will Learn
 
@@ -144,6 +144,14 @@ response = agent.run("Hello, how can you help me?")
 print(response)
 ```
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Phidata Agents](01-getting-started.md)

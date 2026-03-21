@@ -86,7 +86,7 @@ flowchart TD
 
 - repository: [`microsoft/semantic-kernel`](https://github.com/microsoft/semantic-kernel)
 - stars: about **27.5k**
-- latest release: [`python-1.41.0`](https://github.com/microsoft/semantic-kernel/releases/tag/python-1.41.0) (published 2026-03-13)
+- latest release: [`dotnet-1.74.0`](https://github.com/microsoft/semantic-kernel/releases/tag/dotnet-1.74.0) (published 2026-03-20)
 
 ## Chapter Guide
 
@@ -305,6 +305,14 @@ Console.WriteLine(result);
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Semantic Kernel](01-getting-started.md)

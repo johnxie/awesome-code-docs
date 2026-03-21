@@ -72,7 +72,7 @@ Welcome to your journey through web scraping and data extraction for AI applicat
 ## Current Snapshot (auto-updated)
 
 - repository: [`mendableai/firecrawl`](https://github.com/mendableai/firecrawl)
-- stars: about **93.7k**
+- stars: about **95.8k**
 - latest release: [`v2.8.0`](https://github.com/mendableai/firecrawl/releases/tag/v2.8.0) (published 2026-02-03)
 
 ## What You Will Learn
@@ -116,6 +116,14 @@ For production web scraping systems:
 
 **Ready to build AI-ready web scraping systems? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Firecrawl](01-getting-started.md)

@@ -75,8 +75,8 @@ Welcome to your journey through collaborative AI agent teams! This tutorial expl
 ## Current Snapshot (auto-updated)
 
 - repository: [`crewAIInc/crewAI`](https://github.com/crewAIInc/crewAI)
-- stars: about **46.2k**
-- latest release: [`1.10.1`](https://github.com/crewAIInc/crewAI/releases/tag/1.10.1) (published 2026-03-04)
+- stars: about **46.7k**
+- latest release: [`1.11.0`](https://github.com/crewAIInc/crewAI/releases/tag/1.11.0) (published 2026-03-18)
 
 ## What You Will Learn
 
@@ -135,6 +135,14 @@ For production multi-agent system development:
 
 **Ready to build collaborative AI teams with CrewAI? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with CrewAI](01-getting-started.md)

@@ -42,7 +42,7 @@ OpenClaw is an open-source, self-hosted personal AI assistant that connects to t
 ## Current Snapshot (auto-updated)
 
 - repository: [`openclaw/openclaw`](https://github.com/openclaw/openclaw)
-- stars: about **316k**
+- stars: about **328k**
 - latest release: [`v2026.3.13-1`](https://github.com/openclaw/openclaw/releases/tag/v2026.3.13-1) (published 2026-03-14)
 
 ## Mental Model
@@ -136,6 +136,14 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with OpenClaw](01-getting-started.md)

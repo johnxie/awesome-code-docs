@@ -42,8 +42,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`pydantic/pydantic-ai`](https://github.com/pydantic/pydantic-ai)
-- stars: about **15.5k**
-- latest release: [`v1.68.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.68.0) (published 2026-03-13)
+- stars: about **15.6k**
+- latest release: [`v1.70.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.70.0) (published 2026-03-18)
 
 ## What You Will Learn
 
@@ -141,6 +141,14 @@ print(f"Answer: {result.data.answer}")
 print(f"Confidence: {result.data.confidence}")
 ```
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Pydantic AI](01-getting-started.md)

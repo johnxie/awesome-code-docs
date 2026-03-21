@@ -75,7 +75,7 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 ## Current Snapshot (auto-updated)
 
 - repository: [`reworkd/AgentGPT`](https://github.com/reworkd/AgentGPT)
-- stars: about **35.8k**
+- stars: about **35.9k**
 - latest release: [`v.1.0.0`](https://github.com/reworkd/AgentGPT/releases/tag/v.1.0.0) (published 2023-11-02)
 - status: **archived**
 
@@ -142,6 +142,14 @@ For building production autonomous systems:
 
 **Ready to build autonomous AI agents? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
+- [Agno Tutorial](../agno-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with AgentGPT](01-getting-started.md)

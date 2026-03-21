@@ -71,7 +71,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`stanfordnlp/dspy`](https://github.com/stanfordnlp/dspy)
-- stars: about **32.8k**
+- stars: about **33k**
 - latest release: [`3.1.3`](https://github.com/stanfordnlp/dspy/releases/tag/3.1.3) (published 2026-02-05)
 
 ## Core Concepts
@@ -242,6 +242,14 @@ print(result.answer)
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
+- [Instructor Tutorial](../instructor-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with DSPy](01-getting-started.md)

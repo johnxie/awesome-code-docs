@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`continuedev/continue`](https://github.com/continuedev/continue)
-- stars: about **31.9k**
+- stars: about **32k**
 - latest release: [`v1.2.17-vscode`](https://github.com/continuedev/continue/releases/tag/v1.2.17-vscode) (published 2026-03-13)
 
 ## Mental Model

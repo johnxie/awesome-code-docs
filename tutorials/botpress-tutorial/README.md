@@ -169,6 +169,14 @@ By the end of this tutorial, you'll be able to:
 
 ---
 
+
+## Related Tutorials
+
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
+- [Instructor Tutorial](../instructor-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Botpress](01-getting-started.md)

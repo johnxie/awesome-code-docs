@@ -84,7 +84,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`letta-ai/letta`](https://github.com/letta-ai/letta)
-- stars: about **21.6k**
+- stars: about **21.7k**
 - latest release: [`0.16.6`](https://github.com/letta-ai/letta/releases/tag/0.16.6) (published 2026-03-04)
 
 ## Chapter Guide
@@ -296,6 +296,14 @@ curl -X POST http://localhost:8283/v1/agents/{agent_id}/messages \
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Letta](01-getting-started.md)

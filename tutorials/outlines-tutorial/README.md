@@ -118,6 +118,14 @@ Outlines sits between your application and the LLM, intercepting the generation 
 
 Ready to add structure to your LLM outputs? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Outlines](01-getting-started.md)

@@ -71,8 +71,8 @@ Welcome to your journey through Whisper.cpp! This tutorial takes you from basic 
 ## Current Snapshot (auto-updated)
 
 - repository: [`ggml-org/whisper.cpp`](https://github.com/ggml-org/whisper.cpp)
-- stars: about **47.6k**
-- latest release: [`v1.8.3`](https://github.com/ggml-org/whisper.cpp/releases/tag/v1.8.3) (published 2026-01-15)
+- stars: about **47.8k**
+- latest release: [`v1.8.4`](https://github.com/ggml-org/whisper.cpp/releases/tag/v1.8.4) (published 2026-03-19)
 
 ## What You Will Learn
 
@@ -114,6 +114,14 @@ For high-performance and production deployments:
 
 **Ready to start building speech recognition applications? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Whisper.cpp](01-getting-started.md)

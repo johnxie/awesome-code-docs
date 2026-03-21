@@ -40,8 +40,8 @@ LobeChat is an open-source AI chat framework that enables you to build and deplo
 ## Current Snapshot (auto-updated)
 
 - repository: [`lobehub/lobe-chat`](https://github.com/lobehub/lobe-chat)
-- stars: about **73.7k**
-- latest release: [`v2.1.42`](https://github.com/lobehub/lobe-chat/releases/tag/v2.1.42) (published 2026-03-14)
+- stars: about **74k**
+- latest release: [`v2.1.44`](https://github.com/lobehub/lobe-chat/releases/tag/v2.1.44) (published 2026-03-20)
 
 ## Mental Model
 
@@ -117,6 +117,14 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: LobeChat System Overview](01-system-overview.md)

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`thedotmack/claude-mem`](https://github.com/thedotmack/claude-mem)
-- stars: about **35.9k**
-- latest release: [`v10.5.5`](https://github.com/thedotmack/claude-mem/releases/tag/v10.5.5) (published 2026-03-09)
+- stars: about **38.8k**
+- latest release: [`v10.6.1`](https://github.com/thedotmack/claude-mem/releases/tag/v10.6.1) (published 2026-03-18)
 
 ## Mental Model
 

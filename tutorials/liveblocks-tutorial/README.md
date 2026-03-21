@@ -64,7 +64,7 @@ graph TB
 
 - repository: [`liveblocks/liveblocks`](https://github.com/liveblocks/liveblocks)
 - stars: about **4.5k**
-- latest release: [`v3.15.2`](https://github.com/liveblocks/liveblocks/releases/tag/v3.15.2) (published 2026-03-13)
+- latest release: [`v3.15.4`](https://github.com/liveblocks/liveblocks/releases/tag/v3.15.4) (published 2026-03-19)
 
 ## Core Capabilities
 
@@ -206,6 +206,14 @@ Ready to get started? Head to **[Chapter 1: Getting Started](./01-getting-starte
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started](01-getting-started.md)

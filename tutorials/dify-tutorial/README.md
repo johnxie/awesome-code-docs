@@ -104,6 +104,14 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 *Built with insights from the [Dify repository](https://github.com/langgenius/dify) and community documentation.*
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Dify System Overview](01-system-overview.md)
@@ -126,8 +134,8 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`langgenius/dify`](https://github.com/langgenius/dify)
-- stars: about **133k**
-- latest release: [`1.13.0`](https://github.com/langgenius/dify/releases/tag/1.13.0) (published 2026-02-11)
+- stars: about **134k**
+- latest release: [`1.13.2`](https://github.com/langgenius/dify/releases/tag/1.13.2) (published 2026-03-18)
 
 ## What You Will Learn
 
