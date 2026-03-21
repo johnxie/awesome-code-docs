@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`BloopAI/vibe-kanban`](https://github.com/BloopAI/vibe-kanban)
-- stars: about **23.3k**
-- latest release: [`v0.1.30-20260313160158`](https://github.com/BloopAI/vibe-kanban/releases/tag/v0.1.30-20260313160158) (published 2026-03-13)
+- stars: about **23.5k**
+- latest release: [`remote-v0.1.25`](https://github.com/BloopAI/vibe-kanban/releases/tag/remote-v0.1.25) (published 2026-03-20)
 
 ## Mental Model
 

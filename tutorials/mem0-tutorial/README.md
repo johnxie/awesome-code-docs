@@ -78,8 +78,8 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
-- stars: about **50k**
-- latest release: [`v1.0.5`](https://github.com/mem0ai/mem0/releases/tag/v1.0.5) (published 2026-03-03)
+- stars: about **50.6k**
+- latest release: [`v1.0.7`](https://github.com/mem0ai/mem0/releases/tag/v1.0.7) (published 2026-03-20)
 
 ## What You Will Learn
 
@@ -122,6 +122,14 @@ For production AI system development:
 
 **Ready to build AI agents with intelligent memory? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Mem0](01-getting-started.md)

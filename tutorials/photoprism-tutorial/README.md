@@ -170,6 +170,14 @@ By the end of this tutorial, you'll be able to:
 
 ---
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with PhotoPrism](01-getting-started.md)

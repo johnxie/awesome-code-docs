@@ -152,6 +152,14 @@ For production ML system development:
 
 **Ready to deploy ML models to production with BentoML? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
+- [Dify Platform](../dify-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with BentoML](01-getting-started.md)

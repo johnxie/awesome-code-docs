@@ -77,7 +77,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`CopilotKit/CopilotKit`](https://github.com/CopilotKit/CopilotKit)
-- stars: about **29.4k**
+- stars: about **29.6k**
 - latest release: [`v1.54.0`](https://github.com/CopilotKit/CopilotKit/releases/tag/v1.54.0) (published 2026-03-12)
 
 ## What's New in 2025
@@ -204,6 +204,14 @@ export default function Page() {
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [Dify Platform](../dify-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with CopilotKit](01-getting-started.md)

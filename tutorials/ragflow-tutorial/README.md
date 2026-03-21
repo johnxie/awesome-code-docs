@@ -48,7 +48,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`infiniflow/ragflow`](https://github.com/infiniflow/ragflow)
-- stars: about **75.1k**
+- stars: about **75.6k**
 - latest release: [`v0.24.0`](https://github.com/infiniflow/ragflow/releases/tag/v0.24.0) (published 2026-02-10)
 
 ## Mental Model
@@ -207,6 +207,14 @@ Special thanks to the RAGFlow development team for creating this amazing open-so
 
 **Ready to transform your documents into intelligent conversational systems?** Let's dive into [Chapter 1: Getting Started](01-getting-started.md)! 🚀
 
+
+## Related Tutorials
+
+- [ChromaDB Tutorial](../chroma-tutorial/)
+- [Haystack](../haystack-tutorial/)
+- [LanceDB Tutorial](../lancedb-tutorial/)
+- [LlamaIndex Tutorial](../llamaindex-tutorial/)
+- [Ollama Tutorial](../ollama-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with RAGFlow](01-getting-started.md)

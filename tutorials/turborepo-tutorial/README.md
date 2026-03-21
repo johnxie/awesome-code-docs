@@ -84,7 +84,7 @@ Welcome to your journey through high-performance monorepo development! This tuto
 
 - repository: [`vercel/turborepo`](https://github.com/vercel/turborepo)
 - stars: about **30k**
-- latest release: [`v2.8.17`](https://github.com/vercel/turborepo/releases/tag/v2.8.17) (published 2026-03-13)
+- latest release: [`v2.8.20`](https://github.com/vercel/turborepo/releases/tag/v2.8.20) (published 2026-03-19)
 
 ## What You Will Learn
 
@@ -154,6 +154,14 @@ For enterprise-scale monorepo development:
 
 **Ready to supercharge your monorepo? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Turborepo](01-getting-started.md)

@@ -76,8 +76,8 @@ Welcome to your journey through stateful multi-actor applications! This tutorial
 ## Current Snapshot (auto-updated)
 
 - repository: [`langchain-ai/langgraph`](https://github.com/langchain-ai/langgraph)
-- stars: about **26.5k**
-- latest release: [`cli==0.4.18`](https://github.com/langchain-ai/langgraph/releases/tag/cli==0.4.18) (published 2026-03-15)
+- stars: about **27k**
+- latest release: [`cli==0.4.19`](https://github.com/langchain-ai/langgraph/releases/tag/cli==0.4.19) (published 2026-03-20)
 
 ## What You Will Learn
 
@@ -126,6 +126,14 @@ For production AI system development:
 
 **Ready to build stateful AI applications? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with LangGraph](01-getting-started.md)

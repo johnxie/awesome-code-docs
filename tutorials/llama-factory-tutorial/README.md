@@ -80,7 +80,7 @@ Welcome to your journey through unified LLM training! This tutorial explores how
 ## Current Snapshot (auto-updated)
 
 - repository: [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory)
-- stars: about **68.5k**
+- stars: about **68.8k**
 - latest release: [`v0.9.4`](https://github.com/hiyouga/LLaMA-Factory/releases/tag/v0.9.4) (published 2025-12-31)
 
 ## What You Will Learn
@@ -146,6 +146,14 @@ For production LLM development:
 
 **Ready to master LLM training with LLaMA-Factory? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with LLaMA-Factory](01-getting-started.md)

@@ -73,8 +73,8 @@ Welcome to your journey through SiYuan's architecture! This tutorial explores ho
 ## Current Snapshot (auto-updated)
 
 - repository: [`siyuan-note/siyuan`](https://github.com/siyuan-note/siyuan)
-- stars: about **41.9k**
-- latest release: [`v3.6.0`](https://github.com/siyuan-note/siyuan/releases/tag/v3.6.0) (published 2026-03-13)
+- stars: about **42k**
+- latest release: [`v3.6.1`](https://github.com/siyuan-note/siyuan/releases/tag/v3.6.1) (published 2026-03-17)
 
 ## What You Will Learn
 
@@ -117,6 +117,14 @@ For enterprise deployment and customization:
 
 **Ready to explore privacy-first knowledge management? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Athens Research](../athens-research-tutorial/)
+- [ClickHouse Tutorial](../clickhouse-tutorial/)
+- [Logseq](../logseq-tutorial/)
+- [MeiliSearch Tutorial](../meilisearch-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with SiYuan](01-getting-started.md)

@@ -89,8 +89,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`lancedb/lancedb`](https://github.com/lancedb/lancedb)
-- stars: about **9.5k**
-- latest release: [`v0.27.0-beta.5`](https://github.com/lancedb/lancedb/releases/tag/v0.27.0-beta.5) (published 2026-03-09)
+- stars: about **9.6k**
+- latest release: [`v0.27.1`](https://github.com/lancedb/lancedb/releases/tag/v0.27.1) (published 2026-03-20)
 
 ## Chapter Guide
 
@@ -221,6 +221,14 @@ similar_images = images_table.search(image_embedding).limit(10).to_list()
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [ChromaDB Tutorial](../chroma-tutorial/)
+- [Haystack](../haystack-tutorial/)
+- [LlamaIndex Tutorial](../llamaindex-tutorial/)
+- [Ollama Tutorial](../ollama-tutorial/)
+- [Quivr Tutorial](../quivr-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with LanceDB](01-getting-started.md)

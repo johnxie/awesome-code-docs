@@ -53,8 +53,8 @@ This comprehensive tutorial will guide you through Meilisearch, a powerful searc
 ## Current Snapshot (auto-updated)
 
 - repository: [`meilisearch/meilisearch`](https://github.com/meilisearch/meilisearch)
-- stars: about **56.4k**
-- latest release: [`v1.38.2`](https://github.com/meilisearch/meilisearch/releases/tag/v1.38.2) (published 2026-03-11)
+- stars: about **56.6k**
+- latest release: [`v1.39.0`](https://github.com/meilisearch/meilisearch/releases/tag/v1.39.0) (published 2026-03-16)
 
 ## 📚 Tutorial Chapters
 
@@ -181,6 +181,14 @@ By the end of this tutorial, you'll be able to:
 
 ---
 
+
+## Related Tutorials
+
+- [Athens Research](../athens-research-tutorial/)
+- [ClickHouse Tutorial](../clickhouse-tutorial/)
+- [Logseq](../logseq-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
+- [PostgreSQL Query Planner Deep Dive](../postgresql-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Meilisearch](01-getting-started.md)

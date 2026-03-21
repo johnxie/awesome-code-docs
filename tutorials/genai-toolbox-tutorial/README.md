@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`googleapis/genai-toolbox`](https://github.com/googleapis/genai-toolbox)
-- stars: about **13.4k**
-- latest release: [`v0.29.0`](https://github.com/googleapis/genai-toolbox/releases/tag/v0.29.0) (published 2026-03-13)
+- stars: about **13.5k**
+- latest release: [`v0.30.0`](https://github.com/googleapis/genai-toolbox/releases/tag/v0.30.0) (published 2026-03-20)
 
 ## Mental Model
 

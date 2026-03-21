@@ -76,7 +76,7 @@ Welcome to your journey through AI-powered task management! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`eyaltoledano/claude-task-master`](https://github.com/eyaltoledano/claude-task-master)
-- stars: about **25.9k**
+- stars: about **26k**
 - latest release: [`task-master-ai@0.43.0`](https://github.com/eyaltoledano/claude-task-master/releases/tag/task-master-ai@0.43.0) (published 2026-02-04)
 
 ## What You Will Learn
@@ -121,6 +121,14 @@ For teams and large-scale project management:
 
 **Ready to revolutionize your project management with AI? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
+- [Instructor Tutorial](../instructor-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Claude Task Master](01-getting-started.md)

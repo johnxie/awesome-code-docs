@@ -71,7 +71,7 @@ Welcome to your journey through LangChain! This tutorial is structured to take y
 
 - repository: [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain)
 - stars: about **130k**
-- latest release: [`langchain-core==1.2.19`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.19) (published 2026-03-13)
+- latest release: [`langchain-core==1.2.20`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.20) (published 2026-03-18)
 
 ## What You Will Learn
 
@@ -131,6 +131,14 @@ For experienced developers building production systems:
 
 **Ready to start building with LangChain? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with LangChain](01-getting-started.md)

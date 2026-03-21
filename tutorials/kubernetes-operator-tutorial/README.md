@@ -75,7 +75,7 @@ flowchart TD
 
 - repository: [`operator-framework/operator-sdk`](https://github.com/operator-framework/operator-sdk)
 - stars: about **7.6k**
-- latest release: [`v1.42.1`](https://github.com/operator-framework/operator-sdk/releases/tag/v1.42.1) (published 2026-03-09)
+- latest release: [`v1.42.2`](https://github.com/operator-framework/operator-sdk/releases/tag/v1.42.2) (published 2026-03-19)
 
 ## Core Operator Concepts
 
@@ -363,6 +363,13 @@ func (r *MyAppReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [LangChain Architecture](../langchain-architecture-tutorial/)
+- [Obsidian Outliner Plugin](../obsidian-outliner-tutorial/)
+- [React Fiber Internals](../react-fiber-tutorial/)
+- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Kubernetes Operators](01-getting-started.md)

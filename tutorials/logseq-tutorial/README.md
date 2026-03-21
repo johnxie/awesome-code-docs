@@ -97,6 +97,14 @@ Ready to begin? Start with [Chapter 1: Knowledge Management Principles](01-knowl
 
 *Built with insights from the [Logseq repository](https://github.com/logseq/logseq) and community documentation.*
 
+
+## Related Tutorials
+
+- [Athens Research](../athens-research-tutorial/)
+- [ClickHouse Tutorial](../clickhouse-tutorial/)
+- [MeiliSearch Tutorial](../meilisearch-tutorial/)
+- [NocoDB](../nocodb-tutorial/)
+- [PostgreSQL Query Planner Deep Dive](../postgresql-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Knowledge Management Philosophy](01-knowledge-management-principles.md)

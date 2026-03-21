@@ -79,7 +79,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`huggingface/smolagents`](https://github.com/huggingface/smolagents)
-- stars: about **26.1k**
+- stars: about **26.2k**
 - latest release: [`v1.24.0`](https://github.com/huggingface/smolagents/releases/tag/v1.24.0) (published 2026-01-16)
 
 ## Chapter Guide
@@ -320,6 +320,14 @@ then recommend one for a new project and explain why.
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Smolagents](01-getting-started.md)

@@ -82,7 +82,7 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`karpathy/nanoGPT`](https://github.com/karpathy/nanoGPT)
-- stars: about **55k**
+- stars: about **55.3k**
 
 ## Chapter Guide
 
@@ -154,6 +154,14 @@ python train.py config/train_shakespeare_char.py
 ---
 *Built with insights from open-source GPT implementations.*
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started -- Understanding the Open-Source GPT Landscape](01-getting-started.md)

@@ -89,6 +89,12 @@ Ready to begin? Start with [Chapter 1: Plugin Architecture](01-plugin-architectu
 
 *Built with insights from the [Obsidian Outliner](https://github.com/vslinko/obsidian-outliner) plugin and Obsidian developer documentation.*
 
+
+## Related Tutorials
+
+- [Kubernetes Operator Patterns](../kubernetes-operator-tutorial/)
+- [LangChain Architecture](../langchain-architecture-tutorial/)
+- [React Fiber Internals](../react-fiber-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Obsidian Plugin Architecture](01-plugin-architecture.md)

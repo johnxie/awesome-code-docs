@@ -82,7 +82,7 @@ Welcome to your journey through advanced AI image generation! This tutorial expl
 
 - repository: [`comfyanonymous/ComfyUI`](https://github.com/comfyanonymous/ComfyUI)
 - stars: about **106k**
-- latest release: [`v0.17.2`](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.17.2) (published 2026-03-15)
+- latest release: [`v0.18.0`](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.18.0) (published 2026-03-21)
 
 ## What You Will Learn
 
@@ -154,6 +154,14 @@ For professional artists and researchers:
 
 **Ready to unlock the full potential of AI image generation? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
+- [Dify Platform](../dify-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with ComfyUI](01-getting-started.md)

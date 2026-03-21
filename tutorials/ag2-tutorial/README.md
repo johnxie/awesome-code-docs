@@ -86,7 +86,7 @@ flowchart TD
 
 - repository: [`ag2ai/ag2`](https://github.com/ag2ai/ag2)
 - stars: about **4.3k**
-- latest release: [`v0.11.3`](https://github.com/ag2ai/ag2/releases/tag/v0.11.3) (published 2026-03-16)
+- latest release: [`v0.11.4`](https://github.com/ag2ai/ag2/releases/tag/v0.11.4) (published 2026-03-17)
 
 ## Core Concepts
 
@@ -240,6 +240,14 @@ user_proxy.initiate_chat(
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
+- [Agno Tutorial](../agno-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with AG2](01-getting-started.md)

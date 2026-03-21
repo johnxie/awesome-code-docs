@@ -42,7 +42,7 @@ ElizaOS is an open-source framework for building, deploying, and managing autono
 ## Current Snapshot (auto-updated)
 
 - repository: [`elizaOS/eliza`](https://github.com/elizaOS/eliza)
-- stars: about **17.8k**
+- stars: about **17.9k**
 - latest release: [`v1.7.2`](https://github.com/elizaOS/eliza/releases/tag/v1.7.2) (published 2026-01-19)
 
 ## Mental Model
@@ -129,6 +129,14 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with ElizaOS](01-getting-started.md)

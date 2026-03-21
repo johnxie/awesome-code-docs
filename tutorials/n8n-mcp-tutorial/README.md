@@ -40,8 +40,8 @@ This tutorial covers n8n's integration with the Model Context Protocol (MCP) —
 ## Current Snapshot (auto-updated)
 
 - repository: [`n8n-io/n8n`](https://github.com/n8n-io/n8n)
-- stars: about **179k**
-- latest release: [`n8n@2.11.4`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.11.4) (published 2026-03-13)
+- stars: about **180k**
+- latest release: [`stable`](https://github.com/n8n-io/n8n/releases/tag/stable) (published 2026-03-18)
 
 ## Mental Model
 
@@ -110,6 +110,14 @@ Ready to begin? Start with [Chapter 1: MCP Protocol](01_mcp_protocol.md).
 - Practical patterns for production use
 - Integration and extensibility approaches
 
+
+## Related Tutorials
+
+- [Anthropic API Tutorial](../anthropic-code-tutorial/)
+- [Awesome MCP Servers Tutorial](../awesome-mcp-servers-tutorial/)
+- [awslabs/mcp Tutorial](../awslabs-mcp-tutorial/)
+- [bolt.diy Tutorial](../bolt-diy-tutorial/)
+- [Cherry Studio Tutorial](../cherry-studio-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Understanding MCP Protocol and n8n Integration](01_mcp_protocol.md)

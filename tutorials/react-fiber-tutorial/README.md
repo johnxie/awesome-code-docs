@@ -152,6 +152,12 @@ Tools and techniques for debugging Fiber, React DevTools, and performance profil
 
 *Generated for [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)*
 
+
+## Related Tutorials
+
+- [Kubernetes Operator Patterns](../kubernetes-operator-tutorial/)
+- [LangChain Architecture](../langchain-architecture-tutorial/)
+- [Obsidian Outliner Plugin](../obsidian-outliner-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Introduction to Fiber](01-introduction.md)

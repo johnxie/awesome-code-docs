@@ -95,6 +95,14 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 
 *Built with insights from the [Flowise repository](https://github.com/FlowiseAI/Flowise) and community documentation.*
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [Chatbox Tutorial](../chatbox-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Flowise System Overview](01-system-overview.md)
@@ -117,8 +125,8 @@ Ready to begin? Start with [Chapter 1: System Overview](01-system-overview.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`FlowiseAI/Flowise`](https://github.com/FlowiseAI/Flowise)
-- stars: about **50.8k**
-- latest release: [`flowise@3.0.13`](https://github.com/FlowiseAI/Flowise/releases/tag/flowise@3.0.13) (published 2026-02-03)
+- stars: about **50.9k**
+- latest release: [`flowise@3.1.0`](https://github.com/FlowiseAI/Flowise/releases/tag/flowise@3.1.0) (published 2026-03-16)
 
 ## What You Will Learn
 

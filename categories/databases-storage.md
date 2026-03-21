@@ -31,6 +31,10 @@
 
 - [Databases, Knowledge and Analytics in README](../README.md#-databases-knowledge--analytics)
 - [Learning Paths](../README.md#-learning-paths)
+- [Mem0](../tutorials/mem0-tutorial/)
+- [Obsidian Outliner](../tutorials/obsidian-outliner-tutorial/)
+- [Photoprism](../tutorials/photoprism-tutorial/)
+- [Siyuan](../tutorials/siyuan-tutorial/)
 
 ## Suggest Additions
 

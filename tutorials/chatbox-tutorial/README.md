@@ -74,7 +74,7 @@ Welcome to your journey through modern AI chat interface development! This tutor
 ## Current Snapshot (auto-updated)
 
 - repository: [`Bin-Huang/chatbox`](https://github.com/Bin-Huang/chatbox)
-- stars: about **39k**
+- stars: about **39.1k**
 - latest release: [`v1.19.0`](https://github.com/Bin-Huang/chatbox/releases/tag/v1.19.0) (published 2026-02-13)
 
 ## What You Will Learn
@@ -152,6 +152,14 @@ For building production chat platforms:
 
 **Ready to build modern AI chat interfaces? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Activepieces Tutorial](../activepieces-tutorial/)
+- [BentoML Tutorial](../bentoml-tutorial/)
+- [ComfyUI Tutorial](../comfyui-tutorial/)
+- [CopilotKit Tutorial](../copilotkit-tutorial/)
+- [Dify Platform](../dify-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Chatbox](01-getting-started.md)

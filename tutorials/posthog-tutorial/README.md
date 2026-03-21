@@ -76,8 +76,8 @@ Welcome to your journey through modern product analytics! This tutorial explores
 ## Current Snapshot (auto-updated)
 
 - repository: [`PostHog/posthog`](https://github.com/PostHog/posthog)
-- stars: about **32k**
-- latest release: [`posthog-cli-v0.7.1`](https://github.com/PostHog/posthog/releases/tag/posthog-cli-v0.7.1) (published 2026-03-05)
+- stars: about **32.2k**
+- latest release: [`posthog-cli/v0.7.3`](https://github.com/PostHog/posthog/releases/tag/posthog-cli/v0.7.3) (published 2026-03-20)
 
 ## What You Will Learn
 
@@ -120,6 +120,14 @@ For analytics engineers and data teams:
 
 **Ready to build data-driven products with PostHog? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [Botpress Tutorial](../botpress-tutorial/)
+- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
+- [Deer Flow Tutorial](../deer-flow-tutorial/)
+- [DSPy Tutorial](../dspy-tutorial/)
+- [Fabric Tutorial](../fabric-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with PostHog](01-getting-started.md)

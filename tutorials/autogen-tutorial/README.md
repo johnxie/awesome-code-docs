@@ -76,7 +76,7 @@ Welcome to your journey through multi-agent AI systems! This tutorial explores h
 ## Current Snapshot (auto-updated)
 
 - repository: [`microsoft/autogen`](https://github.com/microsoft/autogen)
-- stars: about **55.7k**
+- stars: about **56k**
 - latest release: [`python-v0.7.5`](https://github.com/microsoft/autogen/releases/tag/python-v0.7.5) (published 2025-09-30)
 
 ## What You Will Learn
@@ -145,6 +145,14 @@ For production multi-agent system development:
 
 **Ready to build collaborative AI systems with AutoGen? Let's begin with [Chapter 1: Getting Started](01-getting-started.md)!**
 
+
+## Related Tutorials
+
+- [ADK Python Tutorial](../adk-python-tutorial/)
+- [AG2 Tutorial](../ag2-tutorial/)
+- [AgentGPT Tutorial](../agentgpt-tutorial/)
+- [AgenticSeek Tutorial](../agenticseek-tutorial/)
+- [AGENTS.md Tutorial](../agents-md-tutorial/)
 ## Navigation & Backlinks
 
 - [Start Here: Chapter 1: Getting Started with Microsoft AutoGen](01-getting-started.md)
