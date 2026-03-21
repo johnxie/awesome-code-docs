@@ -3,6 +3,7 @@ layout: default
 title: "LLaMA-Factory Tutorial"
 nav_order: 28
 has_children: true
+format_version: v2
 ---
 
 # LLaMA-Factory Tutorial: Unified Framework for LLM Training and Fine-tuning
@@ -17,6 +18,9 @@ has_children: true
 LLaMA-Factory<sup>[View Repo](https://github.com/hiyouga/LLaMA-Factory)</sup> is a unified framework designed to streamline the entire lifecycle of large language model (LLM) development. It provides an easy-to-use interface for training, fine-tuning, evaluation, and deployment of LLMs, supporting multiple model architectures and training methodologies.
 
 LLaMA-Factory democratizes access to advanced LLM capabilities by providing a unified, user-friendly interface that works across different model architectures and training scenarios.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -49,7 +53,18 @@ flowchart TD
     class G,N,O deployment
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+LLaMA-Factory is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of LLaMA-Factory covering Unified Framework for LLM Training and Fine-tuning, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with llama-factory
+- understanding data preparation
+- understanding model configuration
+- understanding training pipeline
+
+## Chapter Guide
 
 Welcome to your journey through unified LLM training! This tutorial explores how to master LLaMA-Factory for building and fine-tuning large language models.
 
@@ -68,7 +83,7 @@ Welcome to your journey through unified LLM training! This tutorial explores how
 - stars: about **68.5k**
 - latest release: [`v0.9.4`](https://github.com/hiyouga/LLaMA-Factory/releases/tag/v0.9.4) (published 2025-12-31)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

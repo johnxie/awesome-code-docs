@@ -3,6 +3,7 @@ layout: default
 title: "ClickHouse Tutorial"
 nav_order: 27
 has_children: true
+format_version: v2
 ---
 
 # ClickHouse Tutorial: High-Performance Analytical Database
@@ -17,6 +18,9 @@ has_children: true
 ClickHouse<sup>[View Repo](https://github.com/ClickHouse/ClickHouse)</sup> is an open-source column-oriented database management system designed for online analytical processing (OLAP) workloads. It excels at processing massive amounts of data with lightning-fast query performance, making it ideal for real-time analytics, log analysis, and time-series data.
 
 ClickHouse provides unparalleled performance for analytical queries while maintaining simplicity in deployment and management, making it a go-to solution for modern data analytics platforms.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -49,7 +53,18 @@ flowchart TD
     class J,K,L analytics
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+ClickHouse is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of ClickHouse covering High-Performance Analytical Database, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with clickhouse
+- understanding data modeling & schemas
+- understanding data ingestion & etl
+- understanding query optimization
+
+## Chapter Guide
 
 Welcome to your journey through high-performance analytical databases! This tutorial explores how to master ClickHouse for building fast, scalable analytics systems.
 
@@ -68,7 +83,7 @@ Welcome to your journey through high-performance analytical databases! This tuto
 - stars: about **46.4k**
 - latest release: [`v26.2.4.23-stable`](https://github.com/ClickHouse/ClickHouse/releases/tag/v26.2.4.23-stable) (published 2026-03-05)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

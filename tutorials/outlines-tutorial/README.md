@@ -3,6 +3,7 @@ layout: default
 title: "Outlines Tutorial"
 nav_order: 15
 has_children: true
+format_version: v2
 ---
 
 # Outlines Tutorial: Structured Text Generation with LLMs
@@ -16,7 +17,18 @@ has_children: true
 
 Outlines<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a Python library that allows you to control Large Language Model outputs with structural constraints. Use JSON Schema, regular expressions, context-free grammars, and more to guide model generation.
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Outlines is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Outlines covering Structured Text Generation with LLMs, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Constrained Generation**: Force LLMs to follow specific patterns and structures
+- **JSON Schema Validation**: Generate perfectly structured JSON data
+- **Type Safety**: Use Pydantic models for runtime type checking
+- **Grammar Control**: Implement context-free grammars for complex structures
+
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and basic constrained generation
 2. **[Chapter 2: Text Patterns](02-text-patterns.md)** - Regular expressions and string constraints
@@ -33,7 +45,7 @@ Outlines<sup>[View Repo](https://github.com/outlines-dev/outlines)</sup> is a Py
 - stars: about **13.6k**
 - latest release: [`1.2.12`](https://github.com/dottxt-ai/outlines/releases/tag/1.2.12) (published 2026-03-03)
 
-## What You'll Learn
+## What You Will Learn
 
 - **Constrained Generation**: Force LLMs to follow specific patterns and structures
 - **JSON Schema Validation**: Generate perfectly structured JSON data
@@ -68,7 +80,7 @@ By the end of this tutorial, you'll be able to:
 - 📊 **FastAPI Ready**: Type-safe API responses
 - 🏗️ **Framework Agnostic**: Works with any Python application
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TD

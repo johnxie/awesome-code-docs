@@ -3,6 +3,7 @@ layout: default
 title: "Supabase Tutorial"
 nav_order: 26
 has_children: true
+format_version: v2
 ---
 
 # Supabase Tutorial: Building Modern Backend Applications
@@ -15,6 +16,9 @@ has_children: true
 Supabase<sup>[View Repo](https://github.com/supabase/supabase)</sup> is an open-source Firebase alternative that provides a complete backend-as-a-service platform with PostgreSQL database, real-time subscriptions, authentication, storage, and edge functions. It combines the power of enterprise-grade databases with the simplicity of modern development workflows.
 
 Supabase transforms how developers build applications by providing a complete backend infrastructure that scales automatically while maintaining full control and customization capabilities.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -54,7 +58,18 @@ flowchart TD
     class I,J,K,L,M,N,O,P,Q,R,S,T advanced
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Supabase matters for developers building production systems. This track covers chapter 1: getting started with supabase, chapter 2: database design & management, chapter 3: authentication & authorization and helps you understand how the components fit together for real-world use.
+
+This track focuses on:
+
+- understanding getting started with supabase
+- understanding database design & management
+- understanding authentication & authorization
+- understanding real-time features
+
+## Chapter Guide
 
 Welcome to your journey through modern backend development! This tutorial explores how to build scalable, secure applications with Supabase's comprehensive platform.
 
@@ -73,7 +88,7 @@ Welcome to your journey through modern backend development! This tutorial explor
 - stars: about **99.1k**
 - latest release: [`v1.26.03`](https://github.com/supabase/supabase/releases/tag/v1.26.03) (published 2026-03-05)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

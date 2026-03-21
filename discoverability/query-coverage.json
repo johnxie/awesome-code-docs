@@ -457,12 +457,12 @@
           "title": "Fireproof Tutorial: Local-First Document Database for AI-Native Apps"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/README.md",
           "intent_signals": [
             "general-learning"
           ],
-          "slug": "botpress-tutorial",
-          "title": "Botpress Tutorial: Open Source Conversational AI Platform"
+          "slug": "comfyui-tutorial",
+          "title": "ComfyUI Tutorial: Mastering AI Image Generation Workflows"
         }
       ]
     },

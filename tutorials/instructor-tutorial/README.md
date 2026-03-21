@@ -3,6 +3,7 @@ layout: default
 title: "Instructor Tutorial"
 nav_order: 84
 has_children: true
+format_version: v2
 ---
 
 # Instructor Tutorial: Structured LLM Outputs
@@ -19,6 +20,17 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+Instructor is increasingly relevant for developers working with modern AI/ML infrastructure. Get reliable, typed responses from LLMs with Pydantic validation, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Extract Structured Data** reliably from any LLM
+- **Define Schemas** with Pydantic for type safety
+- **Handle Validation Errors** with automatic retries
+- **Work with Complex Data** including nested objects
+
 ## 🎯 What is Instructor?
 
 **Instructor**<sup>[View Repo](https://github.com/instructor-ai/instructor)</sup> is a library that makes it easy to get structured, validated outputs from LLMs. Instead of parsing free-form text, define a Pydantic model and Instructor ensures the LLM returns data that matches your schema.
@@ -33,6 +45,9 @@ has_children: true
 | **Streaming** | Stream partial objects as they're generated |
 | **Simple API** | Just patch your existing client |
 | **Extensible** | Custom validators and complex nested structures |
+
+
+## Mental Model
 
 ```mermaid
 flowchart LR
@@ -60,7 +75,7 @@ flowchart LR
 - stars: about **12.5k**
 - latest release: [`v1.14.5`](https://github.com/instructor-ai/instructor/releases/tag/v1.14.5) (published 2026-01-29)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and first structured extraction
 2. **[Chapter 2: Pydantic Models](02-pydantic-models.md)** - Designing effective schemas
@@ -71,7 +86,7 @@ flowchart LR
 7. **[Chapter 7: Advanced Patterns](07-advanced.md)** - Validators, hooks, and optimization
 8. **[Chapter 8: Production Use](08-production.md)** - Best practices and scaling
 
-## What You'll Learn
+## What You Will Learn
 
 - **Extract Structured Data** reliably from any LLM
 - **Define Schemas** with Pydantic for type safety

@@ -3,6 +3,7 @@ layout: default
 title: "LangChain Tutorial"
 nav_order: 10
 has_children: true
+format_version: v2
 ---
 
 # LangChain Tutorial: Building AI Applications with Large Language Models
@@ -10,6 +11,9 @@ has_children: true
 LangChain<sup>[View Repo](https://github.com/langchain-ai/langchain)</sup> is a powerful framework for building applications powered by large language models. Whether you're creating chatbots, question-answering systems, or complex AI workflows, LangChain provides the building blocks to chain together different components seamlessly.
 
 Imagine you're building a smart assistant that can not only answer questions but also remember previous conversations, search through documents, and even take actions on your behalf. LangChain makes this possible by providing a standardized way to connect language models with other sources of data and functionality.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -39,7 +43,18 @@ flowchart TD
     class G,H external
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+LangChain is increasingly relevant for developers working with modern AI/ML infrastructure. **Pydantic 2 Required**: LangChain v0.3 fully migrated to Pydantic 2. Code using `langchain_core.pydantic_v1` should be updated to native Pydantic 2 syntax, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with langchain
+- understanding prompt templates & chains
+- understanding memory systems
+- understanding document loading & processing
+
+## Chapter Guide
 
 Welcome to your journey through LangChain! This tutorial is structured to take you from basic concepts to advanced implementations:
 
@@ -58,7 +73,7 @@ Welcome to your journey through LangChain! This tutorial is structured to take y
 - stars: about **130k**
 - latest release: [`langchain-core==1.2.19`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.19) (published 2026-03-13)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

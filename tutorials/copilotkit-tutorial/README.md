@@ -3,6 +3,7 @@ layout: default
 title: "CopilotKit Tutorial"
 nav_order: 72
 has_children: true
+format_version: v2
 ---
 
 # CopilotKit Tutorial: Building AI Copilots for React Applications
@@ -19,6 +20,17 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+CopilotKit is increasingly relevant for developers working with modern AI/ML infrastructure. Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Create In-App AI Assistants** that understand your application context
+- **Implement AI Actions** that can modify your app state
+- **Build Generative UIs** with AI-created React components
+- **Integrate LangGraph Agents** for complex agentic workflows
+
 ## 🎯 What is CopilotKit?
 
 **CopilotKit**<sup>[View Repo](https://github.com/CopilotKit/CopilotKit)</sup> is an open-source framework for building AI copilots, chatbots, and in-app AI agents in React applications. It provides a complete toolkit for creating user-facing agentic applications with features like:
@@ -28,6 +40,9 @@ has_children: true
 - **CoAgents** - LangGraph-powered agentic workflows
 - **Human-in-the-Loop** - User approval for AI actions
 - **Shared State** - Real-time sync between UI and AI agents
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -73,7 +88,7 @@ flowchart TD
 
 > **LangGraph Execution**: Configurable LangGraph execution with user-defined configurations.
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first AI copilot
 2. **[Chapter 2: Reading App Context](02-app-context.md)** - Making your app state visible to AI with useCopilotReadable
@@ -84,7 +99,7 @@ flowchart TD
 7. **[Chapter 7: Human-in-the-Loop](07-human-in-loop.md)** - User approval flows and interrupts
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling, security, and best practices
 
-## What You'll Learn
+## What You Will Learn
 
 - **Create In-App AI Assistants** that understand your application context
 - **Implement AI Actions** that can modify your app state

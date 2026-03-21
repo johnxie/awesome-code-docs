@@ -3,6 +3,7 @@ layout: default
 title: "LangGraph Tutorial"
 nav_order: 19
 has_children: true
+format_version: v2
 ---
 
 # LangGraph Tutorial: Building Stateful Multi-Actor Applications
@@ -17,6 +18,9 @@ has_children: true
 LangGraph<sup>[View Repo](https://github.com/langchain-ai/langgraph)</sup> is a library for building stateful, multi-actor applications with large language models (LLMs). It extends LangChain to provide fine-grained control over both the flow and state of your applications, making it ideal for building complex AI workflows and agent systems.
 
 LangGraph enables developers to create sophisticated applications with multiple interacting components, persistent state management, and complex control flows that go beyond simple sequential chains.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -45,7 +49,18 @@ flowchart TD
     class H,J decision
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+LangGraph is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of LangGraph covering Building Stateful Multi-Actor Applications, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with langgraph
+- understanding state management
+- understanding nodes and edges
+- understanding conditional logic
+
+## Chapter Guide
 
 Welcome to your journey through stateful multi-actor applications! This tutorial explores how to build complex AI systems with LangGraph.
 
@@ -64,7 +79,7 @@ Welcome to your journey through stateful multi-actor applications! This tutorial
 - stars: about **26.5k**
 - latest release: [`cli==0.4.18`](https://github.com/langchain-ai/langgraph/releases/tag/cli==0.4.18) (published 2026-03-15)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

@@ -3,6 +3,7 @@ layout: default
 title: "PostHog Tutorial"
 nav_order: 29
 has_children: true
+format_version: v2
 ---
 
 # PostHog Tutorial: Open Source Product Analytics Platform
@@ -15,6 +16,9 @@ has_children: true
 PostHog<sup>[View Repo](https://github.com/PostHog/posthog)</sup> is a comprehensive open-source product analytics platform that provides everything you need to understand user behavior, track conversions, and make data-driven product decisions. It combines web analytics, session recordings, feature flags, and A/B testing in a single, privacy-focused platform.
 
 PostHog empowers product teams to build better products by providing deep insights into user behavior without compromising on privacy or data ownership.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -45,7 +49,18 @@ flowchart TD
     class output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+PostHog matters for developers building production systems. This track covers chapter 1: getting started with posthog, chapter 2: event tracking & properties, chapter 3: user analytics & funnels and helps you understand how the components fit together for real-world use.
+
+This track focuses on:
+
+- understanding getting started with posthog
+- understanding event tracking & properties
+- understanding user analytics & funnels
+- understanding session recordings
+
+## Chapter Guide
 
 Welcome to your journey through modern product analytics! This tutorial explores how to master PostHog for building data-driven products.
 
@@ -64,7 +79,7 @@ Welcome to your journey through modern product analytics! This tutorial explores
 - stars: about **32k**
 - latest release: [`posthog-cli-v0.7.1`](https://github.com/PostHog/posthog/releases/tag/posthog-cli-v0.7.1) (published 2026-03-05)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

@@ -3,6 +3,7 @@ layout: default
 title: "LlamaIndex Tutorial"
 nav_order: 17
 has_children: true
+format_version: v2
 ---
 
 # LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks
@@ -17,6 +18,9 @@ has_children: true
 LlamaIndex<sup>[View Repo](https://github.com/run-llama/llama_index)</sup> (formerly GPT Index) is a comprehensive data framework for connecting Large Language Models (LLMs) with external data sources. It provides powerful tools for ingestion, indexing, querying, and deployment of RAG (Retrieval-Augmented Generation) systems with enterprise-grade performance and reliability.
 
 LlamaIndex enables you to build sophisticated AI applications that can reason over private data, maintain context across conversations, and provide accurate, up-to-date responses based on your specific knowledge base.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -49,7 +53,18 @@ flowchart TD
     class E,N,O output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+LlamaIndex is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with llamaindex
+- understanding data ingestion & loading
+- understanding indexing & storage
+- understanding query engines & retrieval
+
+## Chapter Guide
 
 Welcome to your journey through advanced RAG systems and data frameworks! This tutorial explores how to build powerful AI applications with LlamaIndex's comprehensive toolkit.
 
@@ -68,7 +83,7 @@ Welcome to your journey through advanced RAG systems and data frameworks! This t
 - stars: about **47.7k**
 - latest release: [`v0.14.16`](https://github.com/run-llama/llama_index/releases/tag/v0.14.16) (published 2026-03-10)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

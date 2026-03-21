@@ -3,6 +3,7 @@ layout: default
 title: "llama.cpp Tutorial"
 nav_order: 86
 has_children: true
+format_version: v2
 ---
 
 # llama.cpp Tutorial: Local LLM Inference
@@ -19,6 +20,17 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+llama.cpp is increasingly relevant for developers working with modern AI/ML infrastructure. Run large language models efficiently on your local machine with pure C/C++, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Build llama.cpp** for your platform
+- **Run Models Locally** without cloud dependencies
+- **Quantize Models** for memory efficiency
+- **Use GPU Acceleration** for faster inference
+
 ## 🎯 What is llama.cpp?
 
 **llama.cpp**<sup>[View Repo](https://github.com/ggerganov/llama.cpp)</sup> is a pure C/C++ implementation for running LLMs locally. It supports a wide range of models and hardware, from MacBooks to servers, with impressive performance through quantization and optimization.
@@ -33,6 +45,9 @@ has_children: true
 | **CUDA Support** | GPU acceleration on NVIDIA cards |
 | **CPU Optimized** | AVX, AVX2, AVX-512 acceleration |
 | **Model Support** | LLaMA, Mistral, Phi, Qwen, and more |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -68,7 +83,7 @@ flowchart TD
 - stars: about **98.1k**
 - latest release: [`b8370`](https://github.com/ggerganov/llama.cpp/releases/tag/b8370) (published 2026-03-16)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Building llama.cpp and running your first model
 2. **[Chapter 2: Model Formats](02-model-formats.md)** - Understanding GGUF and quantization
@@ -79,7 +94,7 @@ flowchart TD
 7. **[Chapter 7: Advanced Features](07-advanced.md)** - Grammar, embedding, and multimodal
 8. **[Chapter 8: Integration](08-integration.md)** - Python bindings and production use
 
-## What You'll Learn
+## What You Will Learn
 
 - **Build llama.cpp** for your platform
 - **Run Models Locally** without cloud dependencies

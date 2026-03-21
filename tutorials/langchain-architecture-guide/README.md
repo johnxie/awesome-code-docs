@@ -3,6 +3,7 @@ layout: default
 title: "LangChain Architecture - Internal Design Deep Dive"
 nav_order: 86
 has_children: true
+format_version: v2
 ---
 
 # LangChain Architecture: Internal Design Deep Dive
@@ -15,6 +16,9 @@ has_children: true
 This guide explores LangChain<sup>[View Repo](https://github.com/langchain-ai/langchain)</sup> from the inside out. Rather than teaching you how to use LangChain (see the [LangChain Tutorial](../langchain-tutorial/) for that), this deep dive examines **how LangChain is built**, the design patterns it employs, and why its architects made specific decisions. If you have ever wondered what happens behind the scenes when you pipe a prompt through a chain, bind tools to an agent, or stream tokens from a chat model, this is the guide for you.
 
 Think of this as the difference between learning to drive a car and studying how the engine works. Both forms of knowledge are valuable, but understanding the internals gives you the power to extend, debug, and optimize the framework at a level that surface-level usage never can.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TB
@@ -63,6 +67,17 @@ flowchart TB
     class LS,LG,LE eco
 ```
 
+## Why This Track Matters
+
+LangChain Architecture matters for developers building production systems. This track covers chapter 1: gett, chap, chapter 3: and helps you understand how the components fit together for real-world use.
+
+This track focuses on:
+
+- understanding gett
+- understanding chap
+- understanding 
+- understanding chain
+
 ## Who This Guide Is For
 
 This guide is designed for developers who already have working experience with LangChain and want to go deeper. You should be comfortable with:
@@ -78,7 +93,7 @@ This guide is designed for developers who already have working experience with L
 - stars: about **130k**
 - latest release: [`langchain-core==1.2.19`](https://github.com/langchain-ai/langchain/releases/tag/langchain-core==1.2.19) (published 2026-03-13)
 
-## Tutorial Chapters
+## Chapter Guide
 
 Each chapter dissects a major subsystem of the LangChain codebase:
 
@@ -118,6 +133,12 @@ Let's begin with [Chapter 1: Getting Started -- Ecosystem Overview](01-getting-s
 
 ---
 *Built with insights from the [LangChain](https://github.com/langchain-ai/langchain) project.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

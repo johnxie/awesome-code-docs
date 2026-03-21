@@ -3,6 +3,7 @@ layout: default
 title: "GPT Open Source - Deep Dive Tutorial"
 nav_order: 83
 has_children: true
+format_version: v2
 ---
 
 # GPT Open Source: Deep Dive Tutorial
@@ -21,7 +22,18 @@ has_children: true
 
 ---
 
-## What This Tutorial Covers
+## Why This Track Matters
+
+GPT Open Source is increasingly relevant for developers working with modern AI/ML infrastructure. A comprehensive guide to understanding, building, and deploying open-source GPT implementations -- from nanoGPT to GPT-NeoX and beyond, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started -- understan
+- understanding transformer archite
+- understanding tokenization & emb
+- understanding training pipeline -- data
+
+## What You Will Learn
 
 This tutorial provides a deep dive into the open-source GPT ecosystem. You will learn how GPT models work at every level -- from raw transformer math to production-scale inference optimization. Whether you are training a small character-level model with nanoGPT or deploying a billion-parameter model with GPT-NeoX, this guide has you covered.
 
@@ -36,6 +48,9 @@ This tutorial provides a deep dive into the open-source GPT ecosystem. You will 
 | **GPT-Neo** | 1.3B-2.7B | First open GPT-3 replication effort | Python/TensorFlow |
 | **Cerebras-GPT** | 111M-13B | Compute-optimal GPT models | Python/PyTorch |
 | **OpenLLaMA** | 3B-13B | Open reproduction of LLaMA | Python/PyTorch |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -69,7 +84,7 @@ flowchart TD
 - repository: [`karpathy/nanoGPT`](https://github.com/karpathy/nanoGPT)
 - stars: about **55k**
 
-## Tutorial Structure
+## Chapter Guide
 
 This tutorial is organized into 8 chapters that progressively build your understanding:
 

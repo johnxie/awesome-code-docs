@@ -3,6 +3,7 @@ layout: default
 title: "Quivr Tutorial"
 nav_order: 31
 has_children: true
+format_version: v2
 ---
 
 # Quivr Tutorial: Open-Source RAG Framework for Document Ingestion
@@ -15,6 +16,9 @@ has_children: true
 Quivr<sup>[View Repo](https://github.com/QuivrHQ/quivr)</sup> is an open-source RAG (Retrieval-Augmented Generation) framework designed for seamless document ingestion and intelligent question answering. It provides a user-friendly interface for uploading documents, processing them with advanced AI models, and generating accurate responses based on the document content.
 
 Quivr combines the power of vector databases, large language models, and modern web technologies to create a comprehensive platform for document-based AI interactions.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -46,7 +50,18 @@ flowchart TD
     class G,H,I,J output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Quivr matters for developers building production systems. This track covers chapter 1: getting started with quivr, chapter 2: document processing, chapter 3: vector embeddings and helps you understand how the components fit together for real-world use.
+
+This track focuses on:
+
+- understanding getting started with quivr
+- understanding document processing
+- understanding vector embeddings
+- understanding query processing
+
+## Chapter Guide
 
 Welcome to your journey through document-based AI interactions! This tutorial explores how to build intelligent RAG applications with Quivr.
 
@@ -65,7 +80,7 @@ Welcome to your journey through document-based AI interactions! This tutorial ex
 - stars: about **39k**
 - latest release: [`core-0.0.33`](https://github.com/QuivrHQ/quivr/releases/tag/core-0.0.33) (published 2025-02-04)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

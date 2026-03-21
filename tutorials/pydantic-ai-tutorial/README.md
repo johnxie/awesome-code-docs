@@ -3,6 +3,7 @@ layout: default
 title: "Pydantic AI Tutorial"
 nav_order: 17
 has_children: true
+format_version: v2
 ---
 
 # Pydantic AI Tutorial: Type-Safe AI Agent Development
@@ -16,7 +17,18 @@ has_children: true
 
 Pydantic AI<sup>[View Repo](https://github.com/pydantic/pydantic-ai)</sup> is a Python library for building type-safe AI agents using Pydantic models. It provides structured outputs, runtime validation, and seamless integration with popular AI providers.
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Pydantic AI is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Pydantic AI covering Type-Safe AI Agent Development, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Type Safety**: Build AI agents with guaranteed type-safe inputs and outputs
+- **Structured Data**: Generate perfectly structured responses using Pydantic models
+- **Provider Integration**: Connect with OpenAI, Anthropic, Google, and other providers
+- **Tool Integration**: Extend agent capabilities with custom tools and functions
+
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and basic agent creation with type safety
 2. **[Chapter 2: Model Configuration](02-model-configuration.md)** - Setting up different AI providers and models
@@ -33,7 +45,7 @@ Pydantic AI<sup>[View Repo](https://github.com/pydantic/pydantic-ai)</sup> is a 
 - stars: about **15.5k**
 - latest release: [`v1.68.0`](https://github.com/pydantic/pydantic-ai/releases/tag/v1.68.0) (published 2026-03-13)
 
-## What You'll Learn
+## What You Will Learn
 
 - **Type Safety**: Build AI agents with guaranteed type-safe inputs and outputs
 - **Structured Data**: Generate perfectly structured responses using Pydantic models
@@ -67,7 +79,7 @@ By the end of this tutorial, you'll be able to:
 - 🔄 **Async Operations**: Non-blocking operations for high performance
 - 📈 **Scalability**: Built for production workloads and monitoring
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TD
