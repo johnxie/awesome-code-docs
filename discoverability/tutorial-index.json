@@ -1,6 +1,6 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 195,
+  "tutorial_count": 201,
   "tutorials": [
     {
       "cluster": "ai-coding-agents",
@@ -391,6 +391,37 @@
       "slug": "anything-llm-tutorial",
       "summary": "Learn how to deploy and operate Mintplex-Labs/anything-llm for document-grounded chat, workspace management, agent workflows, and production use.",
       "title": "AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform"
+    },
+    {
+      "cluster": "mcp-ecosystem",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/appsmith-tutorial/README.md",
+      "index_path": "tutorials/appsmith-tutorial/README.md",
+      "intent_signals": [
+        "mcp-integration"
+      ],
+      "keywords": [
+        "appsmith",
+        "low",
+        "code",
+        "internal",
+        "tools",
+        "open",
+        "source",
+        "building",
+        "drag",
+        "drop",
+        "database",
+        "integrations",
+        "javascript",
+        "logic",
+        "git",
+        "sync"
+      ],
+      "path": "tutorials/appsmith-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/appsmith-tutorial",
+      "slug": "appsmith-tutorial",
+      "summary": "Open-source low-code platform for building internal tools with drag-and-drop UI, 25+ database integrations, JavaScript logic, and Git sync.",
+      "title": "Appsmith Tutorial: Low-Code Internal Tools"
     },
     {
       "cluster": "data-and-storage",
@@ -1541,6 +1572,30 @@
       "title": "CopilotKit Tutorial: Building AI Copilots for React Applications"
     },
     {
+      "cluster": "rag-and-retrieval",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crawl4ai-tutorial/README.md",
+      "index_path": "tutorials/crawl4ai-tutorial/README.md",
+      "intent_signals": [
+        "rag-implementation"
+      ],
+      "keywords": [
+        "crawl4ai",
+        "llm",
+        "friendly",
+        "web",
+        "crawling",
+        "rag",
+        "pipelines",
+        "technical",
+        "walkthrough"
+      ],
+      "path": "tutorials/crawl4ai-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crawl4ai-tutorial",
+      "slug": "crawl4ai-tutorial",
+      "summary": "Deep technical walkthrough of Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines.",
+      "title": "Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines"
+    },
+    {
       "cluster": "mcp-ecosystem",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/README.md",
       "index_path": "tutorials/create-python-server-tutorial/README.md",
@@ -1853,6 +1908,37 @@
       "slug": "dyad-tutorial",
       "summary": "A practical guide to dyad-sh/dyad, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.",
       "title": "Dyad Tutorial: Local-First AI App Building"
+    },
+    {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/e2b-tutorial/README.md",
+      "index_path": "tutorials/e2b-tutorial/README.md",
+      "intent_signals": [
+        "agentic-coding"
+      ],
+      "keywords": [
+        "e2b",
+        "secure",
+        "cloud",
+        "sandboxes",
+        "agent",
+        "code",
+        "execution",
+        "dev",
+        "give",
+        "agents",
+        "sandboxed",
+        "environments",
+        "sub",
+        "200ms",
+        "cold",
+        "starts"
+      ],
+      "path": "tutorials/e2b-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/e2b-tutorial",
+      "slug": "e2b-tutorial",
+      "summary": "Learn how to use e2b-dev/E2B to give AI agents secure, sandboxed cloud environments for code execution with sub-200ms cold starts.",
+      "title": "E2B Tutorial: Secure Cloud Sandboxes for AI Agent Code Execution"
     },
     {
       "cluster": "ai-coding-agents",
@@ -4131,6 +4217,40 @@
       "title": "Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface"
     },
     {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-agents-tutorial/README.md",
+      "index_path": "tutorials/openai-agents-tutorial/README.md",
+      "intent_signals": [
+        "production-operations",
+        "agentic-coding"
+      ],
+      "keywords": [
+        "openai",
+        "agents",
+        "building",
+        "multi",
+        "agent",
+        "successor",
+        "swarm",
+        "sdk",
+        "brings",
+        "lightweight",
+        "handoff",
+        "philosophy",
+        "grade",
+        "framework",
+        "built",
+        "tracing",
+        "guardrails",
+        "streaming"
+      ],
+      "path": "tutorials/openai-agents-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-agents-tutorial",
+      "slug": "openai-agents-tutorial",
+      "summary": "Production Successor to Swarm: The OpenAI Agents SDK brings Swarm's lightweight agent-handoff philosophy into a production-grade framework with built-in tracing, guardrails, and streaming.",
+      "title": "OpenAI Agents Tutorial: Building Production Multi-Agent Systems"
+    },
+    {
       "cluster": "ai-app-frameworks",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/README.md",
       "index_path": "tutorials/openai-python-sdk-tutorial/README.md",
@@ -5568,6 +5688,39 @@
       "title": "tiktoken Tutorial: OpenAI Token Encoding & Optimization"
     },
     {
+      "cluster": "rag-and-retrieval",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tldraw-tutorial/README.md",
+      "index_path": "tutorials/tldraw-tutorial/README.md",
+      "intent_signals": [
+        "rag-implementation"
+      ],
+      "keywords": [
+        "tldraw",
+        "infinite",
+        "canvas",
+        "sdk",
+        "powered",
+        "make",
+        "real",
+        "app",
+        "generation",
+        "customize",
+        "extend",
+        "embedding",
+        "editor",
+        "creating",
+        "custom",
+        "shapes",
+        "integrating",
+        "feature"
+      ],
+      "path": "tutorials/tldraw-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tldraw-tutorial",
+      "slug": "tldraw-tutorial",
+      "summary": "Learn how to use tldraw/tldraw to build, customize, and extend an infinite canvas \u2014 from embedding the editor and creating custom shapes to integrating the \"make-real\" AI feature that generates working applications from whiteboard sketches.",
+      "title": "tldraw Tutorial: Infinite Canvas SDK with AI-Powered \"Make Real\" App Generation"
+    },
+    {
       "cluster": "ai-app-frameworks",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/README.md",
       "index_path": "tutorials/turborepo-tutorial/README.md",
@@ -5767,6 +5920,36 @@
       "slug": "whisper-cpp-tutorial",
       "summary": "A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.",
       "title": "Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++"
+    },
+    {
+      "cluster": "mcp-ecosystem",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/windmill-tutorial/README.md",
+      "index_path": "tutorials/windmill-tutorial/README.md",
+      "intent_signals": [
+        "production-operations",
+        "mcp-integration"
+      ],
+      "keywords": [
+        "windmill",
+        "scripts",
+        "webhooks",
+        "workflows",
+        "uis",
+        "turn",
+        "ready",
+        "internal",
+        "tools",
+        "open",
+        "source",
+        "alternative",
+        "retool",
+        "temporal"
+      ],
+      "path": "tutorials/windmill-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/windmill-tutorial",
+      "slug": "windmill-tutorial",
+      "summary": "Turn scripts into production-ready webhooks, workflows, and internal tools with Windmill -- the open-source alternative to Retool + Temporal.",
+      "title": "Windmill Tutorial: Scripts to Webhooks, Workflows, and UIs"
     },
     {
       "cluster": "ai-coding-agents",

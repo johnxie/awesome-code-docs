@@ -210,6 +210,7 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[Wshobson Agents](tutorials/wshobson-agents-tutorial/)** | 29.9K+ | TypeScript | Pluginized multi-agent workflows with specialist Claude Code agents |
 | **[MetaGPT](tutorials/metagpt-tutorial/)** | 66K+ | Python | Multi-agent framework with role-based collaboration (PM, Architect, Engineer) for software generation |
 | **[A2A Protocol](tutorials/a2a-protocol-tutorial/)** | 23K+ | Python/TypeScript | Google's Agent-to-Agent protocol for cross-platform agent interoperability and discovery |
+| **[OpenAI Agents](tutorials/openai-agents-tutorial/)** | 20K+ | Python | Official OpenAI multi-agent SDK with handoffs, guardrails, and streaming |
 
 ### 🧠 LLM Frameworks & RAG
 
@@ -231,6 +232,7 @@ Retrieval-augmented generation, model serving, and LLM tooling.
 | **[Semantic Kernel](tutorials/semantic-kernel-tutorial/)** | 23K+ | C#/Python | Microsoft's AI orchestration SDK |
 | **[Fabric](tutorials/fabric-tutorial/)** | 26K+ | Go/Python | AI prompt pattern framework |
 | **[Langflow](tutorials/langflow-tutorial/)** | 145K+ | Python/React | Visual AI agent and workflow platform with flow composition, APIs, and MCP deployment |
+| **[Crawl4AI](tutorials/crawl4ai-tutorial/)** | 62K+ | Python | LLM-friendly web crawler for RAG pipelines with markdown generation and structured extraction |
 
 ### 🖥️ LLM Infrastructure & Serving
 
@@ -370,6 +372,10 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Onlook](tutorials/onlook-tutorial/)** | 24.8K+ | TypeScript/React | Visual-first AI coding for Next.js and Tailwind with repo-backed edits |
 | **[Opcode](tutorials/opcode-tutorial/)** | 20.7K+ | TypeScript/Electron | GUI command center for Claude Code sessions, agents, and MCP servers |
 | **[Shotgun](tutorials/shotgun-tutorial/)** | 625+ | TypeScript | Spec-driven development workflows for large coding changes |
+| **[tldraw](tutorials/tldraw-tutorial/)** | 46K+ | TypeScript | Infinite canvas SDK with AI "make-real" feature for generating apps from whiteboard sketches |
+| **[Appsmith](tutorials/appsmith-tutorial/)** | 39K+ | TypeScript/Java | Low-code internal tool builder with drag-and-drop UI, 25+ data connectors, and Git sync |
+| **[Windmill](tutorials/windmill-tutorial/)** | 16K+ | TypeScript/Rust | Scripts to webhooks, workflows, and UIs — open-source Retool + Temporal alternative |
+| **[E2B](tutorials/e2b-tutorial/)** | 11K+ | Python/TypeScript | Secure cloud sandboxes for AI agent code execution with sub-200ms cold start |
 
 #### Memory, Skills & Context
 

@@ -3,9 +3,9 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 195
+    "root_only": 201
   },
-  "tutorial_count": 195,
+  "tutorial_count": 201,
   "tutorials": [
     {
       "chapter_numbers": [
@@ -251,6 +251,25 @@
       "has_index": true,
       "name": "anything-llm-tutorial",
       "path": "tutorials/anything-llm-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "appsmith-tutorial",
+      "path": "tutorials/appsmith-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -990,6 +1009,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "crawl4ai-tutorial",
+      "path": "tutorials/crawl4ai-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "create-python-server-tutorial",
       "path": "tutorials/create-python-server-tutorial",
       "structure": "root_only",
@@ -1163,6 +1201,25 @@
       "has_index": true,
       "name": "dyad-tutorial",
       "path": "tutorials/dyad-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "e2b-tutorial",
+      "path": "tutorials/e2b-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -2626,6 +2683,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "openai-agents-tutorial",
+      "path": "tutorials/openai-agents-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "openai-python-sdk-tutorial",
       "path": "tutorials/openai-python-sdk-tutorial",
       "structure": "root_only",
@@ -3576,6 +3652,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "tldraw-tutorial",
+      "path": "tutorials/tldraw-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "turborepo-tutorial",
       "path": "tutorials/turborepo-tutorial",
       "structure": "root_only",
@@ -3692,6 +3787,25 @@
       "has_index": true,
       "name": "whisper-cpp-tutorial",
       "path": "tutorials/whisper-cpp-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "windmill-tutorial",
+      "path": "tutorials/windmill-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

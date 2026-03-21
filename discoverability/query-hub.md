@@ -2,7 +2,7 @@
 
 Auto-generated high-intent query landing surface mapped to the most relevant tutorials.
 
-- Total tutorials indexed: **195**
+- Total tutorials indexed: **201**
 - Query hubs: **6**
 - Source: `scripts/generate_discoverability_assets.py`
 
@@ -103,6 +103,10 @@ Recommended tutorials:
   - Deep technical walkthrough of Quivr Tutorial: Open-Source RAG Framework for Document Ingestion.
 - [Ollama Tutorial: Running and Serving LLMs Locally](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/README.md)
   - Learn how to use ollama/ollama for local model execution, customization, embeddings/RAG, integration, and production deployment.
+- [Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crawl4ai-tutorial/README.md)
+  - Deep technical walkthrough of Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines.
+- [tldraw Tutorial: Infinite Canvas SDK with AI-Powered "Make Real" App Generation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tldraw-tutorial/README.md)
+  - Learn how to use tldraw/tldraw to build, customize, and extend an infinite canvas — from embedding the editor and creating custom shapes to integrating the "make-real" AI feature that generates working applications from whiteboard sketches.
 
 ## LLM Infrastructure and Serving
 

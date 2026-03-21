@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **195**
+- Total tutorials: **201**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -33,6 +33,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
 - [AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/README.md)
   - Learn how to deploy and operate Mintplex-Labs/anything-llm for document-grounded chat, workspace management, agent workflows, and production use.
+- [Appsmith Tutorial: Low-Code Internal Tools](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/appsmith-tutorial/README.md)
+  - Open-source low-code platform for building internal tools with drag-and-drop UI, 25+ database integrations, JavaScript logic, and Git sync.
 - [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
   - Athens Research — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
 - [AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md)
@@ -111,6 +113,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A practical guide to continuedev/continue, covering IDE usage, headless/CLI workflows, model configuration, team collaboration, and enterprise operations.
 - [CopilotKit Tutorial: Building AI Copilots for React Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/README.md)
   - Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
+- [Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crawl4ai-tutorial/README.md)
+  - Deep technical walkthrough of Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines.
 - [Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/README.md)
   - Learn how to use modelcontextprotocol/create-python-server to scaffold Python MCP servers with minimal setup, template-driven primitives, and publish-ready packaging workflows.
 - [Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-typescript-server-tutorial/README.md)
@@ -137,6 +141,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 ## E
 
+- [E2B Tutorial: Secure Cloud Sandboxes for AI Agent Code Execution](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/e2b-tutorial/README.md)
+  - Learn how to use e2b-dev/E2B to give AI agents secure, sandboxed cloud environments for code execution with sub-200ms cold starts.
 - [ElizaOS: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/elizaos-tutorial/README.md)
   - ElizaOS — Autonomous agents for everyone.
 - [Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/everything-claude-code-tutorial/README.md)
@@ -320,6 +326,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn from langchain-ai/open-swe architecture, workflows, and operational patterns, including how to maintain or migrate from a deprecated codebase.
 - [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/README.md)
   - Learn how to run and operate open-webui/open-webui as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
+- [OpenAI Agents Tutorial: Building Production Multi-Agent Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-agents-tutorial/README.md)
+  - Production Successor to Swarm: The OpenAI Agents SDK brings Swarm's lightweight agent-handoff philosophy into a production-grade framework with built-in tracing, guardrails, and streaming.
 - [OpenAI Python SDK Tutorial: Production API Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/README.md)
   - Learn how to build reliable Python integrations with openai/openai-python using Responses-first architecture, migration-safe patterns, and production operations.
 - [OpenAI Realtime Agents Tutorial: Voice-First AI Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-realtime-agents-tutorial/README.md)
@@ -435,6 +443,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Teable — A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.
 - [tiktoken Tutorial: OpenAI Token Encoding & Optimization](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tiktoken-tutorial/README.md)
   - Master tiktoken, OpenAI's fast BPE tokenizer, to accurately count tokens, optimize prompts, and reduce API costs.
+- [tldraw Tutorial: Infinite Canvas SDK with AI-Powered "Make Real" App Generation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tldraw-tutorial/README.md)
+  - Learn how to use tldraw/tldraw to build, customize, and extend an infinite canvas — from embedding the editor and creating custom shapes to integrating the "make-real" AI feature that generates working applications from whiteboard sketches.
 - [Turborepo Tutorial: High-Performance Monorepo Build System](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/README.md)
   - A deep technical walkthrough of Turborepo covering High-Performance Monorepo Build System.
 
@@ -458,5 +468,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/README.md)
   - A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
+- [Windmill Tutorial: Scripts to Webhooks, Workflows, and UIs](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/windmill-tutorial/README.md)
+  - Turn scripts into production-ready webhooks, workflows, and internal tools with Windmill -- the open-source alternative to Retool + Temporal.
 - [Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/wshobson-agents-tutorial/README.md)
   - Learn how to use wshobson/agents to install focused Claude Code plugins, coordinate specialist agents, and run scalable multi-agent workflows with clear model and skill boundaries.

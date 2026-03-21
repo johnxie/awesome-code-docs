@@ -81,6 +81,12 @@ Main repository:
 - Summary: Learn how to deploy and operate Mintplex-Labs/anything-llm for document-grounded chat, workspace management, agent workflows, and production use.
 - Keywords: anything, llm, anythingllm, self, hosted, rag, agents, deploy, operate, mintplex, labs, document, grounded, chat, workspace, management, agent, workflows
 
+## Appsmith Tutorial: Low-Code Internal Tools
+- Path: tutorials/appsmith-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/appsmith-tutorial/README.md
+- Summary: Open-source low-code platform for building internal tools with drag-and-drop UI, 25+ database integrations, JavaScript logic, and Git sync.
+- Keywords: appsmith, low, code, internal, tools, open, source, building, drag, drop, database, integrations, javascript, logic, git, sync
+
 ## Athens Research: Deep Dive Tutorial
 - Path: tutorials/athens-research-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md
@@ -309,6 +315,12 @@ Main repository:
 - Summary: Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
 - Keywords: copilotkit, building, copilots, react, applications, create, app, assistants, chatbots, agentic, uis, open, source, framework
 
+## Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines
+- Path: tutorials/crawl4ai-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crawl4ai-tutorial/README.md
+- Summary: Deep technical walkthrough of Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines.
+- Keywords: crawl4ai, llm, friendly, web, crawling, rag, pipelines, technical, walkthrough
+
 ## Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx
 - Path: tutorials/create-python-server-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/create-python-server-tutorial/README.md
@@ -368,6 +380,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/README.md
 - Summary: A practical guide to dyad-sh/dyad, focused on local-first app generation, integration patterns, validation loops, and deployment readiness.
 - Keywords: dyad, local, first, app, building, focused, generation, integration, patterns, validation, loops, deployment, readiness
+
+## E2B Tutorial: Secure Cloud Sandboxes for AI Agent Code Execution
+- Path: tutorials/e2b-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/e2b-tutorial/README.md
+- Summary: Learn how to use e2b-dev/E2B to give AI agents secure, sandboxed cloud environments for code execution with sub-200ms cold starts.
+- Keywords: e2b, secure, cloud, sandboxes, agent, code, execution, dev, give, agents, sandboxed, environments, sub, 200ms, cold, starts
 
 ## ElizaOS: Deep Dive Tutorial
 - Path: tutorials/elizaos-tutorial
@@ -825,6 +843,12 @@ Main repository:
 - Summary: Learn how to run and operate open-webui/open-webui as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.
 - Keywords: open, webui, self, hosted, workspace, chat, interface, run, operate, model, routing, rag, workflows, multi, user, controls, deployment, patterns
 
+## OpenAI Agents Tutorial: Building Production Multi-Agent Systems
+- Path: tutorials/openai-agents-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-agents-tutorial/README.md
+- Summary: Production Successor to Swarm: The OpenAI Agents SDK brings Swarm's lightweight agent-handoff philosophy into a production-grade framework with built-in tracing, guardrails, and streaming.
+- Keywords: openai, agents, building, multi, agent, successor, swarm, sdk, brings, lightweight, handoff, philosophy, grade, framework, built, tracing, guardrails, streaming
+
 ## OpenAI Python SDK Tutorial: Production API Patterns
 - Path: tutorials/openai-python-sdk-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/openai-python-sdk-tutorial/README.md
@@ -1125,6 +1149,12 @@ Main repository:
 - Summary: Master tiktoken, OpenAI's fast BPE tokenizer, to accurately count tokens, optimize prompts, and reduce API costs.
 - Keywords: tiktoken, openai, token, encoding, optimization, master, fast, bpe, tokenizer, accurately, count, tokens, optimize, prompts, reduce, api, costs
 
+## tldraw Tutorial: Infinite Canvas SDK with AI-Powered "Make Real" App Generation
+- Path: tutorials/tldraw-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tldraw-tutorial/README.md
+- Summary: Learn how to use tldraw/tldraw to build, customize, and extend an infinite canvas — from embedding the editor and creating custom shapes to integrating the "make-real" AI feature that generates working applications from whiteboard sketches.
+- Keywords: tldraw, infinite, canvas, sdk, powered, make, real, app, generation, customize, extend, embedding, editor, creating, custom, shapes, integrating, feature
+
 ## Turborepo Tutorial: High-Performance Monorepo Build System
 - Path: tutorials/turborepo-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/turborepo-tutorial/README.md
@@ -1166,6 +1196,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/whisper-cpp-tutorial/README.md
 - Summary: A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++.
 - Keywords: whisper, cpp, high, performance, speech, recognition, technical, walkthrough
+
+## Windmill Tutorial: Scripts to Webhooks, Workflows, and UIs
+- Path: tutorials/windmill-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/windmill-tutorial/README.md
+- Summary: Turn scripts into production-ready webhooks, workflows, and internal tools with Windmill -- the open-source alternative to Retool + Temporal.
+- Keywords: windmill, scripts, webhooks, workflows, uis, turn, ready, internal, tools, open, source, alternative, retool, temporal
 
 ## Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code
 - Path: tutorials/wshobson-agents-tutorial

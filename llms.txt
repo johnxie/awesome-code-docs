@@ -27,6 +27,7 @@
 - Anthropic API Tutorial: Build Production Apps with Claude: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-code-tutorial
 - Anthropic Skills Tutorial: Reusable AI Agent Capabilities: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial
 - AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anything-llm-tutorial
+- Appsmith Tutorial: Low-Code Internal Tools: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/appsmith-tutorial
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-tutorial
 - AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
@@ -65,6 +66,7 @@
 - Continue Tutorial: Open-Source AI Coding Agents for IDE and CLI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/continue-tutorial
 - GitHub Copilot CLI Tutorial: Copilot Agent Workflows in the Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilot-cli-tutorial
 - CopilotKit Tutorial: Building AI Copilots for React Applications: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/copilotkit-tutorial
+- Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crawl4ai-tutorial
 - Create Python Server Tutorial: Scaffold and Ship MCP Servers with uvx: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/create-python-server-tutorial
 - Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/create-typescript-server-tutorial
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
@@ -75,6 +77,7 @@
 - Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-tutorial
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
 - Dyad Tutorial: Local-First AI App Building: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dyad-tutorial
+- E2B Tutorial: Secure Cloud Sandboxes for AI Agent Code Execution: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/e2b-tutorial
 - ElizaOS: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/elizaos-tutorial
 - Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/everything-claude-code-tutorial
 - Fabric Tutorial: Open-Source Framework for Augmenting Humans with AI: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/fabric-tutorial
@@ -151,6 +154,7 @@
 - Opcode Tutorial: GUI Command Center for Claude Code Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/opcode-tutorial
 - Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-swe-tutorial
 - Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/open-webui-tutorial
+- OpenAI Agents Tutorial: Building Production Multi-Agent Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-agents-tutorial
 - OpenAI Python SDK Tutorial: Production API Patterns: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-python-sdk-tutorial
 - OpenAI Realtime Agents Tutorial: Voice-First AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-realtime-agents-tutorial
 - OpenAI Whisper Tutorial: Speech Recognition and Translation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/openai-whisper-tutorial
@@ -201,6 +205,7 @@
 - Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/taskade-tutorial
 - Teable: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-tutorial
 - tiktoken Tutorial: OpenAI Token Encoding & Optimization: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tiktoken-tutorial
+- tldraw Tutorial: Infinite Canvas SDK with AI-Powered "Make Real" App Generation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/tldraw-tutorial
 - Turborepo Tutorial: High-Performance Monorepo Build System: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/turborepo-tutorial
 - use-mcp Tutorial: React Hook Patterns for MCP Client Integration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/use-mcp-tutorial
 - Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vercel-ai-tutorial
@@ -208,4 +213,5 @@
 - VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vibesdk-tutorial
 - vLLM Tutorial: High-Performance LLM Inference: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/vllm-tutorial
 - Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/whisper-cpp-tutorial
+- Windmill Tutorial: Scripts to Webhooks, Workflows, and UIs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/windmill-tutorial
 - Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/wshobson-agents-tutorial
