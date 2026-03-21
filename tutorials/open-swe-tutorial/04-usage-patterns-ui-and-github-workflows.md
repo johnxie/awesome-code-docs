@@ -5,6 +5,7 @@ nav_order: 4
 parent: Open SWE Tutorial
 ---
 
+
 # Chapter 4: Usage Patterns: UI and GitHub Workflows
 
 Welcome to **Chapter 4: Usage Patterns: UI and GitHub Workflows**. In this part of **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -39,595 +40,184 @@ Next: [Chapter 5: Planning Control and Human-in-the-Loop](05-planning-control-an
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- tutorial slug: **open-swe-tutorial**
-- chapter focus: **Chapter 4: Usage Patterns: UI and GitHub Workflows**
-- system context: **Open Swe Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 4: Usage Patterns: UI and GitHub Workflows`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Open SWE Repository](https://github.com/langchain-ai/open-swe)
-- [Open SWE README](https://github.com/langchain-ai/open-swe/blob/main/README.md)
-- [Open SWE Docs Directory](https://github.com/langchain-ai/open-swe/tree/main/apps/docs)
-- [Open SWE AGENTS Context](https://github.com/langchain-ai/open-swe/blob/main/AGENTS.md)
-- [Open SWE Announcement Blog](https://blog.langchain.com/introducing-open-swe-an-open-source-asynchronous-coding-agent/)
-
-### Cross-Tutorial Connection Map
-
-- [SWE-agent Tutorial](../swe-agent-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [Mastra Tutorial](../mastra-tutorial/)
-- [Chapter 1: Getting Started and Project Status](01-getting-started-and-project-status.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 4: Usage Patterns: UI and GitHub Workflows`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 4: Usage Patterns: UI and GitHub Workflows
-
-- tutorial context: **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 4: Usage Patterns: UI and GitHub Workflows` as an operating subsystem inside **Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: Usage Patterns: UI and GitHub Workflows` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Open SWE Repository](https://github.com/langchain-ai/open-swe)
-  Why it matters: authoritative reference on `Open SWE Repository` (github.com).
-- [Open SWE README](https://github.com/langchain-ai/open-swe/blob/main/README.md)
-  Why it matters: authoritative reference on `Open SWE README` (github.com).
-- [Open SWE Docs Directory](https://github.com/langchain-ai/open-swe/tree/main/apps/docs)
-  Why it matters: authoritative reference on `Open SWE Docs Directory` (github.com).
-- [Open SWE AGENTS Context](https://github.com/langchain-ai/open-swe/blob/main/AGENTS.md)
-  Why it matters: authoritative reference on `Open SWE AGENTS Context` (github.com).
-- [Open SWE Announcement Blog](https://blog.langchain.com/introducing-open-swe-an-open-source-asynchronous-coding-agent/)
-  Why it matters: authoritative reference on `Open SWE Announcement Blog` (blog.langchain.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Development Environment and Monorepo Setup](03-development-environment-and-monorepo-setup.md)
-- [Next Chapter: Chapter 5: Planning Control and Human-in-the-Loop](05-planning-control-and-human-in-the-loop.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `agent/utils/auth.py`
+
+The `get_secret_key_for_user` function in [`agent/utils/auth.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/auth.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_secret_key_for_user(
+    user_id: str, tenant_id: str, expiration_seconds: int = 300
+) -> tuple[str, Literal["service", "api_key"]]:
+    """Create a short-lived service JWT for authenticating as a specific user."""
+    if not X_SERVICE_AUTH_JWT_SECRET:
+        msg = "X_SERVICE_AUTH_JWT_SECRET is not configured. Cannot generate service keys."
+        raise ValueError(msg)
+
+    payload = {
+        "sub": "unspecified",
+        "exp": datetime.now(UTC) + timedelta(seconds=expiration_seconds),
+        "user_id": user_id,
+        "tenant_id": tenant_id,
+    }
+    return jwt.encode(payload, X_SERVICE_AUTH_JWT_SECRET, algorithm="HS256"), "service"
+
+
+async def get_ls_user_id_from_email(email: str) -> dict[str, str | None]:
+    """Get the LangSmith user ID and tenant ID from a user's email."""
+    if not LANGSMITH_API_KEY:
+        logger.warning("LangSmith API key not configured; cannot resolve LS user for %s", email)
+        return {"ls_user_id": None, "tenant_id": None}
+
+    url = f"{LANGSMITH_API_URL}/api/v1/workspaces/current/members/active"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                url,
+                headers={"X-API-Key": LANGSMITH_API_KEY},
+```
+
+This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
+
+### `agent/utils/auth.py`
+
+The `get_ls_user_id_from_email` function in [`agent/utils/auth.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/auth.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+async def get_ls_user_id_from_email(email: str) -> dict[str, str | None]:
+    """Get the LangSmith user ID and tenant ID from a user's email."""
+    if not LANGSMITH_API_KEY:
+        logger.warning("LangSmith API key not configured; cannot resolve LS user for %s", email)
+        return {"ls_user_id": None, "tenant_id": None}
+
+    url = f"{LANGSMITH_API_URL}/api/v1/workspaces/current/members/active"
+
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(
+                url,
+                headers={"X-API-Key": LANGSMITH_API_KEY},
+                params={"emails": [email]},
+            )
+            response.raise_for_status()
+            members = response.json()
+
+            if members and len(members) > 0:
+                member = members[0]
+                return {
+                    "ls_user_id": member.get("ls_user_id"),
+                    "tenant_id": member.get("tenant_id"),
+                }
+        except Exception as e:
+            logger.exception("Error getting LangSmith user info for email: %s", e)
+        return {"ls_user_id": None, "tenant_id": None}
+
+
+async def get_github_token_for_user(ls_user_id: str, tenant_id: str) -> dict[str, Any]:
+```
+
+This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
+
+### `agent/utils/auth.py`
+
+The `get_github_token_for_user` function in [`agent/utils/auth.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/auth.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+async def get_github_token_for_user(ls_user_id: str, tenant_id: str) -> dict[str, Any]:
+    """Get GitHub OAuth token for a user via LangSmith agent auth."""
+    if not GITHUB_OAUTH_PROVIDER_ID:
+        logger.error("GitHub auth failed: GITHUB_OAUTH_PROVIDER_ID is not configured")
+        return {"error": "GITHUB_OAUTH_PROVIDER_ID not configured"}
+
+    try:
+        headers = {
+            "X-Tenant-Id": tenant_id,
+            "X-User-Id": ls_user_id,
+        }
+        secret_key, secret_type = get_secret_key_for_user(ls_user_id, tenant_id)
+        if secret_type == "api_key":
+            headers["X-API-Key"] = secret_key
+        else:
+            headers["X-Service-Key"] = secret_key
+
+        payload = {
+            "provider": GITHUB_OAUTH_PROVIDER_ID,
+            "scopes": ["repo"],
+            "user_id": ls_user_id,
+            "ls_user_id": ls_user_id,
+        }
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                f"{LANGSMITH_HOST_API_URL}/v2/auth/authenticate",
+                json=payload,
+                headers=headers,
+            )
+```
+
+This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
+
+### `agent/utils/auth.py`
+
+The `resolve_github_token_from_email` function in [`agent/utils/auth.py`](https://github.com/langchain-ai/open-swe/blob/HEAD/agent/utils/auth.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+async def resolve_github_token_from_email(email: str) -> dict[str, Any]:
+    """Resolve a GitHub token for a user identified by email.
+
+    Chains get_ls_user_id_from_email -> get_github_token_for_user.
+
+    Returns:
+        Dict with one of:
+        - {"token": str} on success
+        - {"auth_url": str} if user needs to authenticate via OAuth
+        - {"error": str} on failure; error="no_ls_user" if email not in LangSmith
+    """
+    user_info = await get_ls_user_id_from_email(email)
+    ls_user_id = user_info.get("ls_user_id")
+    tenant_id = user_info.get("tenant_id")
+
+    if not ls_user_id or not tenant_id:
+        logger.warning(
+            "No LangSmith user found for email %s (ls_user_id=%s, tenant_id=%s)",
+            email,
+            ls_user_id,
+            tenant_id,
+        )
+        return {"error": "no_ls_user", "email": email}
+
+    auth_result = await get_github_token_for_user(ls_user_id, tenant_id)
+    return auth_result
+
+
+async def leave_failure_comment(
+    source: str,
+```
+
+This function is important because it defines how Open SWE Tutorial: Asynchronous Cloud Coding Agent Architecture and Migration Playbook implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[get_secret_key_for_user]
+    B[get_ls_user_id_from_email]
+    C[get_github_token_for_user]
+    D[resolve_github_token_from_email]
+    E[leave_failure_comment]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

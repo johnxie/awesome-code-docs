@@ -5,6 +5,7 @@ nav_order: 8
 parent: HumanLayer Tutorial
 ---
 
+
 # Chapter 8: Production Rollout and Adoption
 
 Welcome to **Chapter 8: Production Rollout and Adoption**. In this part of **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -31,603 +32,179 @@ You now have a phased adoption strategy for scaling coding-agent workflows with 
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- tutorial slug: **humanlayer-tutorial**
-- chapter focus: **Chapter 8: Production Rollout and Adoption**
-- system context: **Humanlayer Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 8: Production Rollout and Adoption`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [HumanLayer Repository](https://github.com/humanlayer/humanlayer)
-- [HumanLayer Releases](https://github.com/humanlayer/humanlayer/releases)
-- [HumanLayer README](https://github.com/humanlayer/humanlayer/blob/main/README.md)
-- [Legacy HumanLayer SDK Docs](https://github.com/humanlayer/humanlayer/blob/main/humanlayer.md)
-
-### Cross-Tutorial Connection Map
-
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 8: Production Rollout and Adoption`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 8: Production Rollout and Adoption
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 8: Production Rollout and Adoption` as an operating subsystem inside **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 8: Production Rollout and Adoption` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HumanLayer Repository](https://github.com/humanlayer/humanlayer)
-  Why it matters: authoritative reference on `HumanLayer Repository` (github.com).
-- [HumanLayer Releases](https://github.com/humanlayer/humanlayer/releases)
-  Why it matters: authoritative reference on `HumanLayer Releases` (github.com).
-- [HumanLayer README](https://github.com/humanlayer/humanlayer/blob/main/README.md)
-  Why it matters: authoritative reference on `HumanLayer README` (github.com).
-- [Legacy HumanLayer SDK Docs](https://github.com/humanlayer/humanlayer/blob/main/humanlayer.md)
-  Why it matters: authoritative reference on `Legacy HumanLayer SDK Docs` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 7: Telemetry, Cost, and Team Governance](07-telemetry-cost-and-team-governance.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `hack/rotate_icon_colors.py`
+
+The `rotate_hue` function in [`hack/rotate_icon_colors.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/rotate_icon_colors.py) handles a key part of this chapter's functionality:
+
+```py
+    return (rgb * 255).astype('uint8')
+
+def rotate_hue(image_path, output_path, hue_shift=0.3):
+    """Rotate hue of an image by specified amount (0.3 = 108 degrees)"""
+    img = Image.open(image_path).convert('RGBA')
+    rgb = np.array(img)
+    
+    # Separate alpha channel
+    alpha = rgb[:,:,3]
+    rgb_only = rgb[:,:,:3]
+    
+    # Convert to HSV, rotate hue, convert back
+    hsv = rgb_to_hsv(rgb_only)
+    hsv[:,:,0] = (hsv[:,:,0] + hue_shift) % 1.0
+    rgb_rotated = hsv_to_rgb(hsv)
+    
+    # Recombine with alpha
+    result = np.dstack([rgb_rotated, alpha])
+    
+    Image.fromarray(result, 'RGBA').save(output_path)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 3:
+        print("Usage: python rotate_icon_colors.py input.png output.png")
+        sys.exit(1)
+    
+    rotate_hue(sys.argv[1], sys.argv[2], hue_shift=0.3)
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `hack/generate_rounded_icons.py`
+
+The `create_rounded_corners_mask` function in [`hack/generate_rounded_icons.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/generate_rounded_icons.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def create_rounded_corners_mask(size, radius):
+    """Create a mask for rounded corners"""
+    mask = Image.new("L", (size, size), 0)
+    draw = ImageDraw.Draw(mask)
+
+    # Draw a rounded rectangle
+    draw.rounded_rectangle([(0, 0), (size - 1, size - 1)], radius=radius, fill=255)
+
+    return mask
+
+
+def create_rounded_icon(source_path, output_path, size):
+    """Create a rounded corner icon at the specified size"""
+    # Open and resize the source image
+    img = Image.open(source_path)
+    img = img.convert("RGBA")
+    img = img.resize((size, size), Image.Resampling.LANCZOS)
+
+    # Create a rounded corners mask
+    radius = size // 5  # 20% corner radius
+    mask = create_rounded_corners_mask(size, radius)
+
+    # Create output image with transparent background
+    output = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    output.paste(img, (0, 0))
+
+    # Apply the mask to the alpha channel
+    output.putalpha(mask)
+
+    # Save the result
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `hack/generate_rounded_icons.py`
+
+The `create_rounded_icon` function in [`hack/generate_rounded_icons.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/generate_rounded_icons.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def create_rounded_icon(source_path, output_path, size):
+    """Create a rounded corner icon at the specified size"""
+    # Open and resize the source image
+    img = Image.open(source_path)
+    img = img.convert("RGBA")
+    img = img.resize((size, size), Image.Resampling.LANCZOS)
+
+    # Create a rounded corners mask
+    radius = size // 5  # 20% corner radius
+    mask = create_rounded_corners_mask(size, radius)
+
+    # Create output image with transparent background
+    output = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    output.paste(img, (0, 0))
+
+    # Apply the mask to the alpha channel
+    output.putalpha(mask)
+
+    # Save the result
+    output.save(output_path, "PNG")
+    print(f"Created: {output_path} ({size}x{size})")
+
+
+def main():
+    print("Generating rounded corner icons...")
+
+    # Ensure icon directory exists
+    os.makedirs(ICON_DIR, exist_ok=True)
+
+    # Generate main icons
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `hack/generate_rounded_icons.py`
+
+The `main` function in [`hack/generate_rounded_icons.py`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/generate_rounded_icons.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main():
+    print("Generating rounded corner icons...")
+
+    # Ensure icon directory exists
+    os.makedirs(ICON_DIR, exist_ok=True)
+
+    # Generate main icons
+    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/icon.png", 512)
+    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/32x32.png", 32)
+    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/128x128.png", 128)
+    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/128x128@2x.png", 256)
+
+    # Generate Windows Store icons
+    for size in [30, 44, 71, 89, 107, 142, 150, 284, 310]:
+        create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/Square{size}x{size}Logo.png", size)
+
+    create_rounded_icon(SOURCE_ICON, f"{ICON_DIR}/StoreLogo.png", 50)
+
+    # Generate iconset for macOS
+    print("\nCreating macOS iconset...")
+    iconset_dir = "/tmp/icon.iconset"
+    os.makedirs(iconset_dir, exist_ok=True)
+
+    # Standard macOS icon sizes
+    icon_sizes = [
+        (16, "icon_16x16.png"),
+        (32, "icon_16x16@2x.png"),
+        (32, "icon_32x32.png"),
+        (64, "icon_32x32@2x.png"),
+        (128, "icon_128x128.png"),
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[rotate_hue]
+    B[create_rounded_corners_mask]
+    C[create_rounded_icon]
+    D[main]
+    E[create_rounded_icon]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

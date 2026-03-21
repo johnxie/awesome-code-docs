@@ -5,6 +5,7 @@ nav_order: 3
 parent: Kilo Code Tutorial
 ---
 
+
 # Chapter 3: Modes, Prompts, and Approval Workflow
 
 Welcome to **Chapter 3: Modes, Prompts, and Approval Workflow**. In this part of **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -31,607 +32,182 @@ Next: [Chapter 4: Authentication and Provider Routing](04-authentication-and-pro
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- tutorial slug: **kilocode-tutorial**
-- chapter focus: **Chapter 3: Modes, Prompts, and Approval Workflow**
-- system context: **Kilocode Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Modes, Prompts, and Approval Workflow`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Kilo Repository](https://github.com/Kilo-Org/kilocode)
-- [Kilo README](https://github.com/Kilo-Org/kilocode/blob/main/README.md)
-- [CLI agent loop docs](https://github.com/Kilo-Org/kilocode/blob/main/apps/cli/docs/AGENT_LOOP.md)
-- [CLI auth login flow](https://github.com/Kilo-Org/kilocode/blob/main/apps/cli/src/commands/auth/login.ts)
-- [Extension host](https://github.com/Kilo-Org/kilocode/blob/main/apps/cli/src/agent/extension-host.ts)
-
-### Cross-Tutorial Connection Map
-
-- [Kimi CLI Tutorial](../kimi-cli-tutorial/)
-- [Mistral Vibe Tutorial](../mistral-vibe-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Superset Terminal Tutorial](../superset-terminal-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Modes, Prompts, and Approval Workflow`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 3: Modes, Prompts, and Approval Workflow
-
-- tutorial context: **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Modes, Prompts, and Approval Workflow` as an operating subsystem inside **Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Modes, Prompts, and Approval Workflow` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Kilo Repository](https://github.com/Kilo-Org/kilocode)
-  Why it matters: authoritative reference on `Kilo Repository` (github.com).
-- [Kilo README](https://github.com/Kilo-Org/kilocode/blob/main/README.md)
-  Why it matters: authoritative reference on `Kilo README` (github.com).
-- [CLI agent loop docs](https://github.com/Kilo-Org/kilocode/blob/main/apps/cli/docs/AGENT_LOOP.md)
-  Why it matters: authoritative reference on `CLI agent loop docs` (github.com).
-- [CLI auth login flow](https://github.com/Kilo-Org/kilocode/blob/main/apps/cli/src/commands/auth/login.ts)
-  Why it matters: authoritative reference on `CLI auth login flow` (github.com).
-- [Extension host](https://github.com/Kilo-Org/kilocode/blob/main/apps/cli/src/agent/extension-host.ts)
-  Why it matters: authoritative reference on `Extension host` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Agent Loop and State Model](02-agent-loop-and-state-model.md)
-- [Next Chapter: Chapter 4: Authentication and Provider Routing](04-authentication-and-provider-routing.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `script/changelog.ts`
+
+The `buildNotes` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export async function buildNotes(from: string, to: string) {
+  const commits = await getCommits(from, to)
+
+  if (commits.length === 0) {
+    return []
+  }
+
+  console.log("generating changelog since " + from)
+
+  const opencode = await createKilo({ port: 0 })
+  const notes: string[] = []
+
+  try {
+    const lines = await generateChangelog(commits, opencode)
+    notes.push(...lines)
+    console.log("---- Generated Changelog ----")
+    console.log(notes.join("\n"))
+    console.log("-----------------------------")
+  } catch (error) {
+    if (error instanceof Error && error.name === "TimeoutError") {
+      console.log("Changelog generation timed out, using raw commits")
+      for (const commit of commits) {
+        const attribution = commit.author && !Script.team.includes(commit.author) ? ` (@${commit.author})` : ""
+        notes.push(`- ${commit.message}${attribution}`)
+      }
+    } else {
+      throw error
+    }
+  } finally {
+    await opencode.server.close()
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/stats.ts`
+
+The `sendToPostHog` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+#!/usr/bin/env bun
+
+async function sendToPostHog(event: string, properties: Record<string, any>) {
+  const key = process.env["POSTHOG_KEY"]
+
+  if (!key) {
+    console.warn("POSTHOG_API_KEY not set, skipping PostHog event")
+    return
+  }
+
+  const response = await fetch("https://us.i.posthog.com/i/v0/e/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      distinct_id: "download",
+      api_key: key,
+      event,
+      properties: {
+        ...properties,
+      },
+    }),
+  }).catch(() => null)
+
+  if (response && !response.ok) {
+    console.warn(`PostHog API error: ${response.status}`)
+  }
+}
+
+interface Asset {
+  name: string
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/stats.ts`
+
+The `fetchNpmDownloads` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function fetchNpmDownloads(packageName: string): Promise<number> {
+  try {
+    // Use a range from 2020 to current year + 5 years to ensure it works forever
+    const currentYear = new Date().getFullYear()
+    const endYear = currentYear + 5
+    const response = await fetch(`https://api.npmjs.org/downloads/range/2020-01-01:${endYear}-12-31/${packageName}`)
+    if (!response.ok) {
+      console.warn(`Failed to fetch npm downloads for ${packageName}: ${response.status}`)
+      return 0
+    }
+    const data: NpmDownloadsRange = await response.json()
+    return data.downloads.reduce((total, day) => total + day.downloads, 0)
+  } catch (error) {
+    console.warn(`Error fetching npm downloads for ${packageName}:`, error)
+    return 0
+  }
+}
+
+async function fetchReleases(): Promise<Release[]> {
+  const releases: Release[] = []
+  let page = 1
+  const per = 100
+
+  while (true) {
+    const url = `https://api.github.com/repos/Kilo-Org/kilocode/releases?page=${page}&per_page=${per}`
+
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status} ${response.statusText}`)
+    }
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/stats.ts`
+
+The `fetchReleases` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function fetchReleases(): Promise<Release[]> {
+  const releases: Release[] = []
+  let page = 1
+  const per = 100
+
+  while (true) {
+    const url = `https://api.github.com/repos/Kilo-Org/kilocode/releases?page=${page}&per_page=${per}`
+
+    const response = await fetch(url)
+    if (!response.ok) {
+      throw new Error(`GitHub API error: ${response.status} ${response.statusText}`)
+    }
+
+    const batch: Release[] = await response.json()
+    if (batch.length === 0) break
+
+    releases.push(...batch)
+    console.log(`Fetched page ${page} with ${batch.length} releases`)
+
+    if (batch.length < per) break
+    page++
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+  }
+
+  return releases
+}
+
+function calculate(releases: Release[]) {
+  let total = 0
+  const stats = []
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[buildNotes]
+    B[sendToPostHog]
+    C[fetchNpmDownloads]
+    D[fetchReleases]
+    A --> B
+    B --> C
+    C --> D
+```

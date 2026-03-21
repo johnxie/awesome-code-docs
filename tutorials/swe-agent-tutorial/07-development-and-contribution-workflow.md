@@ -5,6 +5,7 @@ nav_order: 7
 parent: SWE-agent Tutorial
 ---
 
+
 # Chapter 7: Development and Contribution Workflow
 
 Welcome to **Chapter 7: Development and Contribution Workflow**. In this part of **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -40,598 +41,184 @@ Next: [Chapter 8: Production Operations and Governance](08-production-operations
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- tutorial slug: **swe-agent-tutorial**
-- chapter focus: **Chapter 7: Development and Contribution Workflow**
-- system context: **Swe Agent Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Development and Contribution Workflow`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [SWE-agent Repository](https://github.com/SWE-agent/SWE-agent)
-- [SWE-agent README](https://github.com/SWE-agent/SWE-agent/blob/main/README.md)
-- [SWE-agent Docs](https://swe-agent.com/latest/)
-- [Hello World Usage](https://swe-agent.com/latest/usage/hello_world/)
-- [Batch Mode Usage](https://swe-agent.com/latest/usage/batch_mode/)
-- [Development Contribution Docs](https://swe-agent.com/latest/dev/contribute/)
-
-### Cross-Tutorial Connection Map
-
-- [Open SWE Tutorial](../open-swe-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Development and Contribution Workflow`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: Development and Contribution Workflow
-
-- tutorial context: **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Development and Contribution Workflow` as an operating subsystem inside **SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Development and Contribution Workflow` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [SWE-agent Repository](https://github.com/SWE-agent/SWE-agent)
-  Why it matters: authoritative reference on `SWE-agent Repository` (github.com).
-- [SWE-agent README](https://github.com/SWE-agent/SWE-agent/blob/main/README.md)
-  Why it matters: authoritative reference on `SWE-agent README` (github.com).
-- [SWE-agent Docs](https://swe-agent.com/latest/)
-  Why it matters: authoritative reference on `SWE-agent Docs` (swe-agent.com).
-- [Hello World Usage](https://swe-agent.com/latest/usage/hello_world/)
-  Why it matters: authoritative reference on `Hello World Usage` (swe-agent.com).
-- [Batch Mode Usage](https://swe-agent.com/latest/usage/batch_mode/)
-  Why it matters: authoritative reference on `Batch Mode Usage` (swe-agent.com).
-- [Development Contribution Docs](https://swe-agent.com/latest/dev/contribute/)
-  Why it matters: authoritative reference on `Development Contribution Docs` (swe-agent.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Offensive Security Mode and Specialized Workloads](06-offensive-security-mode-and-specialized-workloads.md)
-- [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `sweagent/agent/models.py`
+
+The `LiteLLMModel` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class LiteLLMModel(AbstractModel):
+    def __init__(self, args: GenericAPIModelConfig, tools: ToolConfig):
+        """Model served by the `litellm` library."""
+        # Always copy config to avoid shared state between different instances
+        self.config: GenericAPIModelConfig = args.model_copy(deep=True)
+        self.stats = InstanceStats()
+        self.tools = tools
+        self.logger = get_logger("swea-lm", emoji="🤖")
+
+        if tools.use_function_calling:
+            if not litellm.utils.supports_function_calling(model=self.config.name):
+                msg = (
+                    f"Model {self.config.name} does not support function calling. If your model"
+                    " does not support function calling, you can use `parse_function='thought_action'` instead. "
+                    "See https://swe-agent.com/latest/faq/ for more information."
+                )
+                self.logger.warning(msg)
+        if self.config.litellm_model_registry is not None:
+            with open(self.config.litellm_model_registry) as f:
+                model_costs = json.load(f)
+                litellm.register_model(model_costs)
+        if self.config.max_input_tokens is not None:
+            self.model_max_input_tokens = self.config.max_input_tokens
+        else:
+            self.model_max_input_tokens = litellm.model_cost.get(self.config.name, {}).get("max_input_tokens")
+
+        if self.config.max_output_tokens is not None:
+            self.model_max_output_tokens = self.config.max_output_tokens
+        else:
+            self.model_max_output_tokens = litellm.model_cost.get(self.config.name, {}).get("max_output_tokens")
+```
+
+This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
+
+### `sweagent/agent/models.py`
+
+The `get_model` function in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_model(args: ModelConfig, tools: ToolConfig) -> AbstractModel:
+    """Returns correct model object given arguments and commands"""
+    # Convert GenericAPIModelConfig to specific model config if needed
+    if isinstance(args, GenericAPIModelConfig) and not isinstance(
+        args, HumanModelConfig | HumanThoughtModelConfig | ReplayModelConfig | InstantEmptySubmitModelConfig
+    ):
+        if args.name == "human":
+            args = HumanModelConfig(**args.model_dump())
+        elif args.name == "human_thought":
+            args = HumanThoughtModelConfig(**args.model_dump())
+        elif args.name == "replay":
+            args = ReplayModelConfig(**args.model_dump())
+        elif args.name == "instant_empty_submit":
+            args = InstantEmptySubmitModelConfig(**args.model_dump())
+
+    if args.name == "human":
+        assert isinstance(args, HumanModelConfig), f"Expected {HumanModelConfig}, got {args}"
+        return HumanModel(args, tools)
+    if args.name == "human_thought":
+        assert isinstance(args, HumanThoughtModelConfig), f"Expected {HumanThoughtModelConfig}, got {args}"
+        return HumanThoughtModel(args, tools)
+    if args.name == "replay":
+        assert isinstance(args, ReplayModelConfig), f"Expected {ReplayModelConfig}, got {args}"
+        return ReplayModel(args, tools)
+    elif args.name == "instant_empty_submit":
+        assert isinstance(args, InstantEmptySubmitModelConfig), f"Expected {InstantEmptySubmitModelConfig}, got {args}"
+        return InstantEmptySubmitTestModel(args, tools)
+    assert isinstance(args, GenericAPIModelConfig), f"Expected {GenericAPIModelConfig}, got {args}"
+    return LiteLLMModel(args, tools)
+
+```
+
+This function is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
+
+### `sweagent/agent/history_processors.py`
+
+The `AbstractHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class AbstractHistoryProcessor(Protocol):
+    @abstractmethod
+    def __call__(self, history: History) -> History:
+        raise NotImplementedError
+
+
+# Utility functions
+# -----------------
+
+
+def _get_content_stats(entry: HistoryItem) -> tuple[int, int]:
+    if isinstance(entry["content"], str):
+        return len(entry["content"].splitlines()), 0
+    n_text_lines = sum(len(item["text"].splitlines()) for item in entry["content"] if item.get("type") == "text")
+    n_images = sum(1 for item in entry["content"] if item.get("type") == "image_url")
+    return n_text_lines, n_images
+
+
+def _get_content_text(entry: HistoryItem) -> str:
+    if isinstance(entry["content"], str):
+        return entry["content"]
+    assert len(entry["content"]) == 1, "Expected single message in content"
+    return entry["content"][0]["text"]
+
+
+def _set_content_text(entry: HistoryItem, text: str) -> None:
+    if isinstance(entry["content"], str):
+        entry["content"] = text
+    else:
+        assert len(entry["content"]) == 1, "Expected single message in content"
+```
+
+This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
+
+### `sweagent/agent/history_processors.py`
+
+The `DefaultHistoryProcessor` class in [`sweagent/agent/history_processors.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/history_processors.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class DefaultHistoryProcessor(BaseModel):
+    type: Literal["default"] = "default"
+    """Do not change. Used for (de)serialization."""
+
+    # pydantic config
+    model_config = ConfigDict(extra="forbid")
+
+    def __call__(self, history: History) -> History:
+        return history
+
+
+class LastNObservations(BaseModel):
+    """Elide all but the last n observations or remove tagged observations.
+
+    This is our most classic history processor, used in the original paper
+    to elide but the last 5 observations.
+    Elided observations are replaced by "Old environment output: (n lines omitted)".
+
+    Typical configuration:
+
+    ```yaml
+    agent:
+      history_processors:
+        - type: last_n_observations
+          n: 5
+    ```
+
+    as for example in use in the SWE-agent 0.7 config at
+    https://github.com/SWE-agent/SWE-agent/blob/main/config/sweagent_0_7/07.yaml
+
+```
+
+This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[LiteLLMModel]
+    B[get_model]
+    C[AbstractHistoryProcessor]
+    D[DefaultHistoryProcessor]
+    E[LastNObservations]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

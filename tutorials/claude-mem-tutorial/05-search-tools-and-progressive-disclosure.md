@@ -5,6 +5,7 @@ nav_order: 5
 parent: Claude-Mem Tutorial
 ---
 
+
 # Chapter 5: Search Tools and Progressive Disclosure
 
 Welcome to **Chapter 5: Search Tools and Progressive Disclosure**. In this part of **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -47,595 +48,184 @@ Next: [Chapter 6: Viewer Operations and Maintenance Workflows](06-viewer-operati
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- tutorial slug: **claude-mem-tutorial**
-- chapter focus: **Chapter 5: Search Tools and Progressive Disclosure**
-- system context: **Claude Mem Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 5: Search Tools and Progressive Disclosure`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Claude-Mem Repository](https://github.com/thedotmack/claude-mem)
-- [Claude-Mem README](https://github.com/thedotmack/claude-mem/blob/main/README.md)
-- [Official Documentation](https://docs.claude-mem.ai/)
-- [Configuration Guide](https://docs.claude-mem.ai/configuration)
-- [Troubleshooting Guide](https://docs.claude-mem.ai/troubleshooting)
-
-### Cross-Tutorial Connection Map
-
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Agents.md Tutorial](../agents-md-tutorial/)
-- [Beads Tutorial](../beads-tutorial/)
-- [Context7 Tutorial](../context7-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 5: Search Tools and Progressive Disclosure`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 5: Search Tools and Progressive Disclosure
-
-- tutorial context: **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 5: Search Tools and Progressive Disclosure` as an operating subsystem inside **Claude-Mem Tutorial: Persistent Memory Compression for Claude Code**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 5: Search Tools and Progressive Disclosure` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Claude-Mem Repository](https://github.com/thedotmack/claude-mem)
-  Why it matters: authoritative reference on `Claude-Mem Repository` (github.com).
-- [Claude-Mem README](https://github.com/thedotmack/claude-mem/blob/main/README.md)
-  Why it matters: authoritative reference on `Claude-Mem README` (github.com).
-- [Official Documentation](https://docs.claude-mem.ai/)
-  Why it matters: authoritative reference on `Official Documentation` (docs.claude-mem.ai).
-- [Configuration Guide](https://docs.claude-mem.ai/configuration)
-  Why it matters: authoritative reference on `Configuration Guide` (docs.claude-mem.ai).
-- [Troubleshooting Guide](https://docs.claude-mem.ai/troubleshooting)
-  Why it matters: authoritative reference on `Troubleshooting Guide` (docs.claude-mem.ai).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 4: Configuration, Modes, and Context Injection](04-configuration-modes-and-context-injection.md)
-- [Next Chapter: Chapter 6: Viewer Operations and Maintenance Workflows](06-viewer-operations-and-maintenance-workflows.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/analyze-transformations-smart.js`
+
+The `loadOriginalContent` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+
+```js
+// Parse transcript to get BOTH tool_use (inputs) and tool_result (outputs) content
+// Returns true if transcript is clean, false if contaminated (already transformed)
+async function loadOriginalContentFromFile(filePath, fileLabel) {
+  const fileStream = fs.createReadStream(filePath);
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity
+  });
+
+  let count = 0;
+  let isContaminated = false;
+  const toolUseIdsFromThisFile = new Set();
+
+  for await (const line of rl) {
+    if (!line.includes('toolu_')) continue;
+
+    try {
+      const obj = JSON.parse(line);
+
+      if (obj.message?.content) {
+        for (const item of obj.message.content) {
+          // Capture tool_use (inputs)
+          if (item.type === 'tool_use' && item.id) {
+            const existing = originalContent.get(item.id) || { input: '', output: '', name: '' };
+            existing.input = JSON.stringify(item.input || {});
+            existing.name = item.name;
+            originalContent.set(item.id, existing);
+            toolUseIdsFromThisFile.add(item.id);
+            count++;
+          }
+
+          // Capture tool_result (outputs)
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/analyze-transformations-smart.js`
+
+The `getBaseToolUseId` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+
+```js
+
+// Strip __N suffix from tool_use_id to get base ID
+function getBaseToolUseId(id) {
+  return id ? id.replace(/__\d+$/, '') : id;
+}
+
+// Query observations from database using tool_use_ids found in transcripts
+// Handles suffixed IDs like toolu_abc__1, toolu_abc__2 matching transcript's toolu_abc
+function queryObservations() {
+  // Get tool_use_ids from the loaded transcript content
+  const toolUseIds = Array.from(originalContent.keys());
+
+  if (toolUseIds.length === 0) {
+    console.log('No tool use IDs found in transcripts\n');
+    return [];
+  }
+
+  console.log(`Querying observations for ${toolUseIds.length} tool use IDs from transcripts...`);
+
+  const db = new Database(DB_PATH, { readonly: true });
+
+  // Build LIKE clauses to match both exact IDs and suffixed variants (toolu_abc, toolu_abc__1, etc)
+  const likeConditions = toolUseIds.map(() => 'tool_use_id LIKE ?').join(' OR ');
+  const likeParams = toolUseIds.map(id => `${id}%`);
+
+  const query = `
+    SELECT
+      id,
+      tool_use_id,
+      type,
+      narrative,
+      title,
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/analyze-transformations-smart.js`
+
+The `queryObservations` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+
+```js
+// Query observations from database using tool_use_ids found in transcripts
+// Handles suffixed IDs like toolu_abc__1, toolu_abc__2 matching transcript's toolu_abc
+function queryObservations() {
+  // Get tool_use_ids from the loaded transcript content
+  const toolUseIds = Array.from(originalContent.keys());
+
+  if (toolUseIds.length === 0) {
+    console.log('No tool use IDs found in transcripts\n');
+    return [];
+  }
+
+  console.log(`Querying observations for ${toolUseIds.length} tool use IDs from transcripts...`);
+
+  const db = new Database(DB_PATH, { readonly: true });
+
+  // Build LIKE clauses to match both exact IDs and suffixed variants (toolu_abc, toolu_abc__1, etc)
+  const likeConditions = toolUseIds.map(() => 'tool_use_id LIKE ?').join(' OR ');
+  const likeParams = toolUseIds.map(id => `${id}%`);
+
+  const query = `
+    SELECT
+      id,
+      tool_use_id,
+      type,
+      narrative,
+      title,
+      facts,
+      concepts,
+      LENGTH(COALESCE(facts,'')) as facts_len,
+      LENGTH(COALESCE(title,'')) + LENGTH(COALESCE(facts,'')) as title_facts_len,
+      LENGTH(COALESCE(title,'')) + LENGTH(COALESCE(facts,'')) + LENGTH(COALESCE(concepts,'')) as compact_len,
+      LENGTH(COALESCE(narrative,'')) as narrative_len,
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/analyze-transformations-smart.js`
+
+The `analyzeTransformations` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+
+```js
+
+// Analyze OUTPUT-only replacement for eligible tools
+function analyzeTransformations(observations) {
+  console.log('='.repeat(110));
+  console.log('OUTPUT REPLACEMENT ANALYSIS (Eligible Tools Only)');
+  console.log('='.repeat(110));
+  console.log();
+  console.log('Eligible tools:', Array.from(REPLACEABLE_TOOLS).join(', '));
+  console.log();
+
+  // Group observations by BASE tool_use_id (strip __N suffix)
+  // This groups toolu_abc, toolu_abc__1, toolu_abc__2 together
+  const obsByToolId = new Map();
+  observations.forEach(obs => {
+    const baseId = getBaseToolUseId(obs.tool_use_id);
+    if (!obsByToolId.has(baseId)) {
+      obsByToolId.set(baseId, []);
+    }
+    obsByToolId.get(baseId).push(obs);
+  });
+
+  // Define strategies to test
+  const strategies = [
+    { name: 'facts_only', field: 'facts_len', desc: 'Facts only (~400 chars)' },
+    { name: 'title_facts', field: 'title_facts_len', desc: 'Title + Facts (~450 chars)' },
+    { name: 'compact', field: 'compact_len', desc: 'Title + Facts + Concepts (~500 chars)' },
+    { name: 'narrative', field: 'narrative_len', desc: 'Narrative only (~700 chars)' },
+    { name: 'full', field: 'full_obs_len', desc: 'Full observation (~1200 chars)' }
+  ];
+
+  // Track results per strategy
+  const results = {};
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[loadOriginalContent]
+    B[getBaseToolUseId]
+    C[queryObservations]
+    D[analyzeTransformations]
+    E[main]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

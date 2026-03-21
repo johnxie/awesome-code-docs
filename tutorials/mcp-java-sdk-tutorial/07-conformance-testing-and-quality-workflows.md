@@ -5,6 +5,7 @@ nav_order: 7
 parent: MCP Java SDK Tutorial
 ---
 
+
 # Chapter 7: Conformance Testing and Quality Workflows
 
 Welcome to **Chapter 7: Conformance Testing and Quality Workflows**. In this part of **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -40,604 +41,184 @@ Next: [Chapter 8: Spring Integration and Upgrade Strategy](08-spring-integration
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- tutorial slug: **mcp-java-sdk-tutorial**
-- chapter focus: **Chapter 7: Conformance Testing and Quality Workflows**
-- system context: **Mcp Java Sdk Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Conformance Testing and Quality Workflows`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Java SDK README](https://github.com/modelcontextprotocol/java-sdk/blob/main/README.md)
-- [Core Bundle README](https://github.com/modelcontextprotocol/java-sdk/blob/main/mcp/README.md)
-- [Spring WebFlux README](https://github.com/modelcontextprotocol/java-sdk/blob/main/mcp-spring/mcp-spring-webflux/README.md)
-- [Spring WebMVC README](https://github.com/modelcontextprotocol/java-sdk/blob/main/mcp-spring/mcp-spring-webmvc/README.md)
-- [Conformance Client README](https://github.com/modelcontextprotocol/java-sdk/blob/main/conformance-tests/client-jdk-http-client/README.md)
-- [Conformance Server README](https://github.com/modelcontextprotocol/java-sdk/blob/main/conformance-tests/server-servlet/README.md)
-- [Security Policy](https://github.com/modelcontextprotocol/java-sdk/blob/main/SECURITY.md)
-- [Contributing Guide](https://github.com/modelcontextprotocol/java-sdk/blob/main/CONTRIBUTING.md)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Specification Tutorial](../mcp-specification-tutorial/)
-- [MCP TypeScript SDK Tutorial](../mcp-typescript-sdk-tutorial/)
-- [MCP Go SDK Tutorial](../mcp-go-sdk-tutorial/)
-- [MCP C# SDK Tutorial](../mcp-csharp-sdk-tutorial/)
-- [Chapter 1: Getting Started and Module Selection](01-getting-started-and-module-selection.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Conformance Testing and Quality Workflows`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: Conformance Testing and Quality Workflows
-
-- tutorial context: **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Conformance Testing and Quality Workflows` as an operating subsystem inside **MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Conformance Testing and Quality Workflows` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Java SDK README](https://github.com/modelcontextprotocol/java-sdk/blob/main/README.md)
-  Why it matters: authoritative reference on `Java SDK README` (github.com).
-- [Core Bundle README](https://github.com/modelcontextprotocol/java-sdk/blob/main/mcp/README.md)
-  Why it matters: authoritative reference on `Core Bundle README` (github.com).
-- [Spring WebFlux README](https://github.com/modelcontextprotocol/java-sdk/blob/main/mcp-spring/mcp-spring-webflux/README.md)
-  Why it matters: authoritative reference on `Spring WebFlux README` (github.com).
-- [Spring WebMVC README](https://github.com/modelcontextprotocol/java-sdk/blob/main/mcp-spring/mcp-spring-webmvc/README.md)
-  Why it matters: authoritative reference on `Spring WebMVC README` (github.com).
-- [Conformance Client README](https://github.com/modelcontextprotocol/java-sdk/blob/main/conformance-tests/client-jdk-http-client/README.md)
-  Why it matters: authoritative reference on `Conformance Client README` (github.com).
-- [Conformance Server README](https://github.com/modelcontextprotocol/java-sdk/blob/main/conformance-tests/server-servlet/README.md)
-  Why it matters: authoritative reference on `Conformance Server README` (github.com).
-- [Security Policy](https://github.com/modelcontextprotocol/java-sdk/blob/main/SECURITY.md)
-  Why it matters: authoritative reference on `Security Policy` (github.com).
-- [Contributing Guide](https://github.com/modelcontextprotocol/java-sdk/blob/main/CONTRIBUTING.md)
-  Why it matters: authoritative reference on `Contributing Guide` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Security, Authorization, and Runtime Controls](06-security-authorization-and-runtime-controls.md)
-- [Next Chapter: Chapter 8: Spring Integration and Upgrade Strategy](08-spring-integration-and-upgrade-strategy.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java`
+
+The `McpStatelessSyncServer` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java) handles a key part of this chapter's functionality:
+
+```java
+ * @author Dariusz Jędrzejczyk
+ */
+public class McpStatelessSyncServer {
+
+	private static final Logger logger = LoggerFactory.getLogger(McpStatelessSyncServer.class);
+
+	private final McpStatelessAsyncServer asyncServer;
+
+	private final boolean immediateExecution;
+
+	McpStatelessSyncServer(McpStatelessAsyncServer asyncServer, boolean immediateExecution) {
+		this.asyncServer = asyncServer;
+		this.immediateExecution = immediateExecution;
+	}
+
+	/**
+	 * Get the server capabilities that define the supported features and functionality.
+	 * @return The server capabilities
+	 */
+	public McpSchema.ServerCapabilities getServerCapabilities() {
+		return this.asyncServer.getServerCapabilities();
+	}
+
+	/**
+	 * Get the server implementation information.
+	 * @return The server implementation details
+	 */
+	public McpSchema.Implementation getServerInfo() {
+		return this.asyncServer.getServerInfo();
+	}
+
+	/**
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java`
+
+The `McpSyncServerExchange` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java) handles a key part of this chapter's functionality:
+
+```java
+ * @author Christian Tzolov
+ */
+public class McpSyncServerExchange {
+
+	private final McpAsyncServerExchange exchange;
+
+	/**
+	 * Create a new synchronous exchange with the client using the provided asynchronous
+	 * implementation as a delegate.
+	 * @param exchange The asynchronous exchange to delegate to.
+	 */
+	public McpSyncServerExchange(McpAsyncServerExchange exchange) {
+		this.exchange = exchange;
+	}
+
+	/**
+	 * Provides the Session ID
+	 * @return session ID
+	 */
+	public String sessionId() {
+		return this.exchange.sessionId();
+	}
+
+	/**
+	 * Get the client capabilities that define the supported features and functionality.
+	 * @return The client capabilities
+	 */
+	public McpSchema.ClientCapabilities getClientCapabilities() {
+		return this.exchange.getClientCapabilities();
+	}
+
+	/**
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java`
+
+The `Utils` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java) handles a key part of this chapter's functionality:
+
+```java
+ */
+
+public final class Utils {
+
+	/**
+	 * Check whether the given {@code String} contains actual <em>text</em>.
+	 * <p>
+	 * More specifically, this method returns {@code true} if the {@code String} is not
+	 * {@code null}, its length is greater than 0, and it contains at least one
+	 * non-whitespace character.
+	 * @param str the {@code String} to check (may be {@code null})
+	 * @return {@code true} if the {@code String} is not {@code null}, its length is
+	 * greater than 0, and it does not contain whitespace only
+	 * @see Character#isWhitespace
+	 */
+	public static boolean hasText(@Nullable String str) {
+		return (str != null && !str.isBlank());
+	}
+
+	/**
+	 * Return {@code true} if the supplied Collection is {@code null} or empty. Otherwise,
+	 * return {@code false}.
+	 * @param collection the Collection to check
+	 * @return whether the given Collection is empty
+	 */
+	public static boolean isEmpty(@Nullable Collection<?> collection) {
+		return (collection == null || collection.isEmpty());
+	}
+
+	/**
+	 * Return {@code true} if the supplied Map is {@code null} or empty. Otherwise, return
+	 * {@code false}.
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+### `mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonDefaults.java`
+
+The `is` class in [`mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonDefaults.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/json/McpJsonDefaults.java) handles a key part of this chapter's functionality:
+
+```java
+
+/**
+ * This class is to be used to provide access to the default {@link McpJsonMapper} and to
+ * the default {@link JsonSchemaValidator} instances via the static methods:
+ * {@link #getMapper()} and {@link #getSchemaValidator()}.
+ * <p>
+ * The initialization of (singleton) instances of this class is different in non-OSGi
+ * environments and OSGi environments. Specifically, in non-OSGi environments the
+ * {@code McpJsonDefaults} class will be loaded by whatever classloader is used to call
+ * one of the existing static get methods for the first time. For servers, this will
+ * usually be in response to the creation of the first {@code McpServer} instance. At that
+ * first time, the {@code mcpMapperServiceLoader} and {@code mcpValidatorServiceLoader}
+ * will be null, and the {@code McpJsonDefaults} constructor will be called,
+ * creating/initializing the {@code mcpMapperServiceLoader} and the
+ * {@code mcpValidatorServiceLoader}...which will then be used to call the
+ * {@code ServiceLoader.load} method.
+ * <p>
+ * In OSGi environments, upon bundle activation SCR will create a new (singleton) instance
+ * of {@code McpJsonDefaults} (via the constructor), and then inject suppliers via the
+ * {@code setMcpJsonMapperSupplier} and {@code setJsonSchemaValidatorSupplier} methods
+ * with the SCR-discovered instances of those services. This does depend upon the
+ * jars/bundles providing those suppliers to be started/activated. This SCR behavior is
+ * dictated by xml files in {@code OSGi-INF} directory of {@code mcp-core} (this
+ * project/jar/bundle), and the jsonmapper and jsonschemavalidator provider jars/bundles
+ * (e.g. {@code mcp-json-jackson2}, {@code mcp-json-jackson3}, or others).
+ */
+public class McpJsonDefaults {
+
+	protected static McpServiceLoader<McpJsonMapperSupplier, McpJsonMapper> mcpMapperServiceLoader;
+
+	protected static McpServiceLoader<JsonSchemaValidatorSupplier, JsonSchemaValidator> mcpValidatorServiceLoader;
+
+```
+
+This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[McpStatelessSyncServer]
+    B[McpSyncServerExchange]
+    C[Utils]
+    D[is]
+    E[is]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

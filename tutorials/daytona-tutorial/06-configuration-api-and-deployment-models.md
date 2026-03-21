@@ -5,6 +5,7 @@ nav_order: 6
 parent: Daytona Tutorial
 ---
 
+
 # Chapter 6: Configuration, API, and Deployment Models
 
 Welcome to **Chapter 6: Configuration, API, and Deployment Models**. In this part of **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -37,604 +38,184 @@ Next: [Chapter 7: Limits, Network Controls, and Security](07-limits-network-cont
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- tutorial slug: **daytona-tutorial**
-- chapter focus: **Chapter 6: Configuration, API, and Deployment Models**
-- system context: **Daytona Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 6: Configuration, API, and Deployment Models`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Daytona Repository](https://github.com/daytonaio/daytona)
-- [README](https://github.com/daytonaio/daytona/blob/main/README.md)
-- [Getting Started](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/getting-started.mdx)
-- [Sandboxes](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/sandboxes.mdx)
-- [Process and Code Execution](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/process-code-execution.mdx)
-- [Daytona MCP Server](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/mcp.mdx)
-- [CLI MCP README](https://github.com/daytonaio/daytona/blob/main/apps/cli/mcp/README.md)
-- [Environment Configuration](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/configuration.mdx)
-
-### Cross-Tutorial Connection Map
-
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [HAPI Tutorial](../hapi-tutorial/)
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/)
-- [Claude Flow Tutorial](../claude-flow-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 6: Configuration, API, and Deployment Models`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 6: Configuration, API, and Deployment Models
-
-- tutorial context: **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 6: Configuration, API, and Deployment Models` as an operating subsystem inside **Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 6: Configuration, API, and Deployment Models` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Daytona Repository](https://github.com/daytonaio/daytona)
-  Why it matters: authoritative reference on `Daytona Repository` (github.com).
-- [README](https://github.com/daytonaio/daytona/blob/main/README.md)
-  Why it matters: authoritative reference on `README` (github.com).
-- [Getting Started](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/getting-started.mdx)
-  Why it matters: authoritative reference on `Getting Started` (github.com).
-- [Sandboxes](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/sandboxes.mdx)
-  Why it matters: authoritative reference on `Sandboxes` (github.com).
-- [Process and Code Execution](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/process-code-execution.mdx)
-  Why it matters: authoritative reference on `Process and Code Execution` (github.com).
-- [Daytona MCP Server](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/mcp.mdx)
-  Why it matters: authoritative reference on `Daytona MCP Server` (github.com).
-- [CLI MCP README](https://github.com/daytonaio/daytona/blob/main/apps/cli/mcp/README.md)
-  Why it matters: authoritative reference on `CLI MCP README` (github.com).
-- [Environment Configuration](https://github.com/daytonaio/daytona/blob/main/apps/docs/src/content/docs/en/configuration.mdx)
-  Why it matters: authoritative reference on `Environment Configuration` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 5: MCP Agent Integration and Tooling](05-mcp-agent-integration-and-tooling.md)
-- [Next Chapter: Chapter 7: Limits, Network Controls, and Security](07-limits-network-controls-and-security.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `libs/toolbox-api-client-go/api_git.go`
+
+The `CommitChangesExecute` function in [`libs/toolbox-api-client-go/api_git.go`](https://github.com/daytonaio/daytona/blob/HEAD/libs/toolbox-api-client-go/api_git.go) handles a key part of this chapter's functionality:
+
+```go
+	CommitChanges(ctx context.Context) GitAPICommitChangesRequest
+
+	// CommitChangesExecute executes the request
+	//  @return GitCommitResponse
+	CommitChangesExecute(r GitAPICommitChangesRequest) (*GitCommitResponse, *http.Response, error)
+
+	/*
+	CreateBranch Create a new branch
+
+	Create a new branch in the Git repository
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPICreateBranchRequest
+	*/
+	CreateBranch(ctx context.Context) GitAPICreateBranchRequest
+
+	// CreateBranchExecute executes the request
+	CreateBranchExecute(r GitAPICreateBranchRequest) (*http.Response, error)
+
+	/*
+	DeleteBranch Delete a branch
+
+	Delete a branch from the Git repository
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPIDeleteBranchRequest
+	*/
+	DeleteBranch(ctx context.Context) GitAPIDeleteBranchRequest
+
+	// DeleteBranchExecute executes the request
+	DeleteBranchExecute(r GitAPIDeleteBranchRequest) (*http.Response, error)
+
+```
+
+This function is important because it defines how Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code implements the patterns covered in this chapter.
+
+### `libs/toolbox-api-client-go/api_git.go`
+
+The `Request` function in [`libs/toolbox-api-client-go/api_git.go`](https://github.com/daytonaio/daytona/blob/HEAD/libs/toolbox-api-client-go/api_git.go) handles a key part of this chapter's functionality:
+
+```go
+	Add files to the Git staging area
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPIAddFilesRequest
+	*/
+	AddFiles(ctx context.Context) GitAPIAddFilesRequest
+
+	// AddFilesExecute executes the request
+	AddFilesExecute(r GitAPIAddFilesRequest) (*http.Response, error)
+
+	/*
+	CheckoutBranch Checkout branch or commit
+
+	Switch to a different branch or commit in the Git repository
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPICheckoutBranchRequest
+	*/
+	CheckoutBranch(ctx context.Context) GitAPICheckoutBranchRequest
+
+	// CheckoutBranchExecute executes the request
+	CheckoutBranchExecute(r GitAPICheckoutBranchRequest) (*http.Response, error)
+
+	/*
+	CloneRepository Clone a Git repository
+
+	Clone a Git repository to the specified path
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPICloneRepositoryRequest
+	*/
+	CloneRepository(ctx context.Context) GitAPICloneRepositoryRequest
+```
+
+This function is important because it defines how Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code implements the patterns covered in this chapter.
+
+### `libs/toolbox-api-client-go/api_git.go`
+
+The `Execute` function in [`libs/toolbox-api-client-go/api_git.go`](https://github.com/daytonaio/daytona/blob/HEAD/libs/toolbox-api-client-go/api_git.go) handles a key part of this chapter's functionality:
+
+```go
+	AddFiles(ctx context.Context) GitAPIAddFilesRequest
+
+	// AddFilesExecute executes the request
+	AddFilesExecute(r GitAPIAddFilesRequest) (*http.Response, error)
+
+	/*
+	CheckoutBranch Checkout branch or commit
+
+	Switch to a different branch or commit in the Git repository
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPICheckoutBranchRequest
+	*/
+	CheckoutBranch(ctx context.Context) GitAPICheckoutBranchRequest
+
+	// CheckoutBranchExecute executes the request
+	CheckoutBranchExecute(r GitAPICheckoutBranchRequest) (*http.Response, error)
+
+	/*
+	CloneRepository Clone a Git repository
+
+	Clone a Git repository to the specified path
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPICloneRepositoryRequest
+	*/
+	CloneRepository(ctx context.Context) GitAPICloneRepositoryRequest
+
+	// CloneRepositoryExecute executes the request
+	CloneRepositoryExecute(r GitAPICloneRepositoryRequest) (*http.Response, error)
+
+	/*
+```
+
+This function is important because it defines how Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code implements the patterns covered in this chapter.
+
+### `libs/toolbox-api-client-go/api_git.go`
+
+The `CreateBranch` function in [`libs/toolbox-api-client-go/api_git.go`](https://github.com/daytonaio/daytona/blob/HEAD/libs/toolbox-api-client-go/api_git.go) handles a key part of this chapter's functionality:
+
+```go
+
+	/*
+	CreateBranch Create a new branch
+
+	Create a new branch in the Git repository
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPICreateBranchRequest
+	*/
+	CreateBranch(ctx context.Context) GitAPICreateBranchRequest
+
+	// CreateBranchExecute executes the request
+	CreateBranchExecute(r GitAPICreateBranchRequest) (*http.Response, error)
+
+	/*
+	DeleteBranch Delete a branch
+
+	Delete a branch from the Git repository
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return GitAPIDeleteBranchRequest
+	*/
+	DeleteBranch(ctx context.Context) GitAPIDeleteBranchRequest
+
+	// DeleteBranchExecute executes the request
+	DeleteBranchExecute(r GitAPIDeleteBranchRequest) (*http.Response, error)
+
+	/*
+	GetCommitHistory Get commit history
+
+	Get the commit history of the Git repository
+
+```
+
+This function is important because it defines how Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[CommitChangesExecute]
+    B[Request]
+    C[Execute]
+    D[CreateBranch]
+    E[CreateBranchExecute]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

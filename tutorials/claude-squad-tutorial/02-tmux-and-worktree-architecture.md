@@ -5,6 +5,7 @@ nav_order: 2
 parent: Claude Squad Tutorial
 ---
 
+
 # Chapter 2: tmux and Worktree Architecture
 
 Welcome to **Chapter 2: tmux and Worktree Architecture**. In this part of **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -39,595 +40,184 @@ Next: [Chapter 3: Session Lifecycle and Task Parallelism](03-session-lifecycle-a
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- tutorial slug: **claude-squad-tutorial**
-- chapter focus: **Chapter 2: tmux and Worktree Architecture**
-- system context: **Claude Squad Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 2: tmux and Worktree Architecture`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Claude Squad Repository](https://github.com/smtg-ai/claude-squad)
-- [Claude Squad README](https://github.com/smtg-ai/claude-squad/blob/main/README.md)
-- [tmux session implementation](https://github.com/smtg-ai/claude-squad/blob/main/session/tmux/tmux.go)
-- [git worktree implementation](https://github.com/smtg-ai/claude-squad/blob/main/session/git/worktree.go)
-- [config implementation](https://github.com/smtg-ai/claude-squad/blob/main/config/config.go)
-
-### Cross-Tutorial Connection Map
-
-- [Mistral Vibe Tutorial](../mistral-vibe-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Plandex Tutorial](../plandex-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 2: tmux and Worktree Architecture`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 2: tmux and Worktree Architecture
-
-- tutorial context: **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 2: tmux and Worktree Architecture` as an operating subsystem inside **Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 2: tmux and Worktree Architecture` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Claude Squad Repository](https://github.com/smtg-ai/claude-squad)
-  Why it matters: authoritative reference on `Claude Squad Repository` (github.com).
-- [Claude Squad README](https://github.com/smtg-ai/claude-squad/blob/main/README.md)
-  Why it matters: authoritative reference on `Claude Squad README` (github.com).
-- [tmux session implementation](https://github.com/smtg-ai/claude-squad/blob/main/session/tmux/tmux.go)
-  Why it matters: authoritative reference on `tmux session implementation` (github.com).
-- [git worktree implementation](https://github.com/smtg-ai/claude-squad/blob/main/session/git/worktree.go)
-  Why it matters: authoritative reference on `git worktree implementation` (github.com).
-- [config implementation](https://github.com/smtg-ai/claude-squad/blob/main/config/config.go)
-  Why it matters: authoritative reference on `config implementation` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
-- [Next Chapter: Chapter 3: Session Lifecycle and Task Parallelism](03-session-lifecycle-and-task-parallelism.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `app/app.go`
+
+The `handleMenuHighlighting` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (m *home) handleMenuHighlighting(msg tea.KeyMsg) (cmd tea.Cmd, returnEarly bool) {
+	// Handle menu highlighting when you press a button. We intercept it here and immediately return to
+	// update the ui while re-sending the keypress. Then, on the next call to this, we actually handle the keypress.
+	if m.keySent {
+		m.keySent = false
+		return nil, false
+	}
+	if m.state == statePrompt || m.state == stateHelp || m.state == stateConfirm {
+		return nil, false
+	}
+	// If it's in the global keymap, we should try to highlight it.
+	name, ok := keys.GlobalKeyStringsMap[msg.String()]
+	if !ok {
+		return nil, false
+	}
+
+	if m.list.GetSelectedInstance() != nil && m.list.GetSelectedInstance().Paused() && name == keys.KeyEnter {
+		return nil, false
+	}
+	if name == keys.KeyShiftDown || name == keys.KeyShiftUp {
+		return nil, false
+	}
+
+	// Skip the menu highlighting if the key is not in the map or we are using the shift up and down keys.
+	// TODO: cleanup: when you press enter on stateNew, we use keys.KeySubmitName. We should unify the keymap.
+	if name == keys.KeyEnter && m.state == stateNew {
+		name = keys.KeySubmitName
+	}
+	m.keySent = true
+	return tea.Batch(
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `app/app.go`
+
+The `handleKeyPress` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
+
+```go
+		return m, nil
+	case tea.KeyMsg:
+		return m.handleKeyPress(msg)
+	case tea.WindowSizeMsg:
+		m.updateHandleWindowSizeEvent(msg)
+		return m, nil
+	case error:
+		// Handle errors from confirmation actions
+		return m, m.handleError(msg)
+	case instanceChangedMsg:
+		// Handle instance changed after confirmation action
+		return m, m.instanceChanged()
+	case instanceStartedMsg:
+		// Select the instance that just started (or failed)
+		m.list.SelectInstance(msg.instance)
+
+		if msg.err != nil {
+			m.list.Kill()
+			return m, tea.Batch(m.handleError(msg.err), m.instanceChanged())
+		}
+
+		// Save after successful start
+		if err := m.storage.SaveInstances(m.list.GetInstances()); err != nil {
+			return m, m.handleError(err)
+		}
+		if m.autoYes {
+			msg.instance.AutoYes = true
+		}
+
+		if msg.promptAfterName {
+			m.state = statePrompt
+			m.menu.SetState(ui.StatePrompt)
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `app/app.go`
+
+The `instanceChanged` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
+
+```go
+		m.errBox.Clear()
+	case previewTickMsg:
+		cmd := m.instanceChanged()
+		return m, tea.Batch(
+			cmd,
+			func() tea.Msg {
+				time.Sleep(100 * time.Millisecond)
+				return previewTickMsg{}
+			},
+		)
+	case keyupMsg:
+		m.menu.ClearKeydown()
+		return m, nil
+	case tickUpdateMetadataMessage:
+		for _, instance := range m.list.GetInstances() {
+			if !instance.Started() || instance.Paused() {
+				continue
+			}
+			instance.CheckAndHandleTrustPrompt()
+			updated, prompt := instance.HasUpdated()
+			if updated {
+				instance.SetStatus(session.Running)
+			} else {
+				if prompt {
+					instance.TapEnter()
+				} else {
+					instance.SetStatus(session.Ready)
+				}
+			}
+			if err := instance.UpdateDiffStats(); err != nil {
+				log.WarningLog.Printf("could not update diff stats: %v", err)
+			}
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `app/app.go`
+
+The `keydownCallback` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
+
+```go
+	return tea.Batch(
+		func() tea.Msg { return msg },
+		m.keydownCallback(name)), true
+}
+
+func (m *home) handleKeyPress(msg tea.KeyMsg) (mod tea.Model, cmd tea.Cmd) {
+	cmd, returnEarly := m.handleMenuHighlighting(msg)
+	if returnEarly {
+		return m, cmd
+	}
+
+	if m.state == stateHelp {
+		return m.handleHelpState(msg)
+	}
+
+	if m.state == stateNew {
+		// Handle quit commands first. Don't handle q because the user might want to type that.
+		if msg.String() == "ctrl+c" {
+			m.state = stateDefault
+			m.promptAfterName = false
+			m.list.Kill()
+			return m, tea.Sequence(
+				tea.WindowSize(),
+				func() tea.Msg {
+					m.menu.SetState(ui.StateDefault)
+					return nil
+				},
+			)
+		}
+
+		instance := m.list.GetInstances()[m.list.NumInstances()-1]
+		switch msg.Type {
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[handleMenuHighlighting]
+    B[handleKeyPress]
+    C[instanceChanged]
+    D[keydownCallback]
+    E[scheduleBranchSearch]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

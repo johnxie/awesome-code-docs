@@ -5,6 +5,7 @@ nav_order: 5
 parent: tiktoken Tutorial
 ---
 
+
 # Chapter 5: Optimization Strategies
 
 Welcome to **Chapter 5: Optimization Strategies**. In this part of **tiktoken Tutorial: OpenAI Token Encoding & Optimization**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -112,480 +113,182 @@ Suggested trace strategy:
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- tutorial slug: **tiktoken-tutorial**
-- chapter focus: **Chapter 5: Optimization Strategies**
-- system context: **Tiktoken Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 5: Optimization Strategies`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [tiktoken repository](https://github.com/openai/tiktoken)
-- [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)
-
-### Cross-Tutorial Connection Map
-
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
-- [LangChain Tutorial](../langchain-tutorial/)
-- [LlamaIndex Tutorial](../llamaindex-tutorial/)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 5: Optimization Strategies`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 5: Optimization Strategies
-
-- tutorial context: **tiktoken Tutorial: OpenAI Token Encoding & Optimization**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+## Source Code Walkthrough
+
+### `src/lib.rs`
+
+The `CoreBPE` interface in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
+
+```rs
+#[cfg_attr(feature = "python", pyclass(frozen))]
+#[derive(Clone)]
+pub struct CoreBPE {
+    encoder: HashMap<Vec<u8>, Rank>,
+    special_tokens_encoder: HashMap<String, Rank>,
+    decoder: HashMap<Rank, Vec<u8>>,
+    special_tokens_decoder: HashMap<Rank, Vec<u8>>,
+    regex_tls: Vec<Regex>,
+    special_regex_tls: Vec<Regex>,
+    sorted_token_bytes: Vec<Vec<u8>>,
+}
+
+impl CoreBPE {
+    fn _get_tl_regex(&self) -> &Regex {
+        // See performance notes above for what this is about
+        // It's also a little janky, please make a better version of it!
+        // However, it's nice that this doesn't leak memory to short-lived threads
+        &self.regex_tls[hash_current_thread() % MAX_NUM_THREADS]
+    }
+
+    fn _get_tl_special_regex(&self) -> &Regex {
+        &self.special_regex_tls[hash_current_thread() % MAX_NUM_THREADS]
+    }
+
+    /// Decodes tokens into a list of bytes.
+    ///
+    /// The bytes are not gauranteed to be a valid utf-8 string.
+    fn decode_bytes(&self, tokens: &[Rank]) -> Result<Vec<u8>, DecodeKeyError> {
+        let mut ret = Vec::with_capacity(tokens.len() * 2);
+        for &token in tokens {
+            let token_bytes = match self.decoder.get(&token) {
+                Some(bytes) => bytes,
+```
+
+This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+
+### `tiktoken/core.py`
+
+The `Encoding` class in [`tiktoken/core.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/core.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class Encoding:
+    def __init__(
+        self,
+        name: str,
+        *,
+        pat_str: str,
+        mergeable_ranks: dict[bytes, int],
+        special_tokens: dict[str, int],
+        explicit_n_vocab: int | None = None,
+    ):
+        """Creates an Encoding object.
+
+        See openai_public.py for examples of how to construct an Encoding object.
+
+        Args:
+            name: The name of the encoding. It should be clear from the name of the encoding
+                what behaviour to expect, in particular, encodings with different special tokens
+                should have different names.
+            pat_str: A regex pattern string that is used to split the input text.
+            mergeable_ranks: A dictionary mapping mergeable token bytes to their ranks. The ranks
+                must correspond to merge priority.
+            special_tokens: A dictionary mapping special token strings to their token values.
+            explicit_n_vocab: The number of tokens in the vocabulary. If provided, it is checked
+                that the number of mergeable tokens and special tokens is equal to this number.
+        """
+        self.name = name
+
+        self._pat_str = pat_str
+        self._mergeable_ranks = mergeable_ranks
+        self._special_tokens = special_tokens
+```
+
+This class is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+
+### `tiktoken/core.py`
+
+The `raise_disallowed_special_token` function in [`tiktoken/core.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/core.py) handles a key part of this chapter's functionality:
+
+```py
+                disallowed_special = frozenset(disallowed_special)
+            if match := _special_token_regex(disallowed_special).search(text):
+                raise_disallowed_special_token(match.group())
+
+        try:
+            return self._core_bpe.encode(text, allowed_special)
+        except UnicodeEncodeError:
+            # BPE operates on bytes, but the regex operates on unicode. If we pass a str that is
+            # invalid UTF-8 to Rust, it will rightfully complain. Here we do a quick and dirty
+            # fixup for any surrogate pairs that may have sneaked their way into the text.
+            # Technically, this introduces a place where encode + decode doesn't roundtrip a Python
+            # string, but given that this is input we want to support, maybe that's okay.
+            # Also we use errors="replace" to handle weird things like lone surrogates.
+            text = text.encode("utf-16", "surrogatepass").decode("utf-16", "replace")
+            return self._core_bpe.encode(text, allowed_special)
+
+    def encode_to_numpy(
+        self,
+        text: str,
+        *,
+        allowed_special: Literal["all"] | AbstractSet[str] = set(),  # noqa: B006
+        disallowed_special: Literal["all"] | Collection[str] = "all",
+    ) -> npt.NDArray[np.uint32]:
+        """Encodes a string into tokens, returning a numpy array.
+
+        Avoids the overhead of copying the token buffer into a Python list.
+        """
+        if allowed_special == "all":
+            allowed_special = self.special_tokens_set
+        if disallowed_special == "all":
+            disallowed_special = self.special_tokens_set - allowed_special
+        if disallowed_special:
+```
+
+This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+
+### `tiktoken/core.py`
+
+The `an` interface in [`tiktoken/core.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/core.py) handles a key part of this chapter's functionality:
+
+```py
+from __future__ import annotations
+
+import functools
+from concurrent.futures import ThreadPoolExecutor
+from typing import TYPE_CHECKING, AbstractSet, Collection, Literal, NoReturn, Sequence
+
+from tiktoken import _tiktoken
+
+if TYPE_CHECKING:
+    import re
+
+    import numpy as np
+    import numpy.typing as npt
+
+
+class Encoding:
+    def __init__(
+        self,
+        name: str,
+        *,
+        pat_str: str,
+        mergeable_ranks: dict[bytes, int],
+        special_tokens: dict[str, int],
+        explicit_n_vocab: int | None = None,
+    ):
+        """Creates an Encoding object.
+
+        See openai_public.py for examples of how to construct an Encoding object.
+
+        Args:
+```
+
+This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[CoreBPE]
+    B[Encoding]
+    C[raise_disallowed_special_token]
+    D[an]
+    E[encoding_name_for_model]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

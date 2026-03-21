@@ -5,6 +5,7 @@ nav_order: 3
 parent: FastMCP Tutorial
 ---
 
+
 # Chapter 3: Server Runtime and Transports
 
 Welcome to **Chapter 3: Server Runtime and Transports**. In this part of **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -46,604 +47,184 @@ Next: [Chapter 4: Client Architecture and Transport Patterns](04-client-architec
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- tutorial slug: **fastmcp-tutorial**
-- chapter focus: **Chapter 3: Server Runtime and Transports**
-- system context: **Fastmcp Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Server Runtime and Transports`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [FastMCP Repository](https://github.com/jlowin/fastmcp)
-- [README](https://github.com/jlowin/fastmcp/blob/main/README.md)
-- [Installation Guide](https://github.com/jlowin/fastmcp/blob/main/docs/getting-started/installation.mdx)
-- [Quickstart](https://github.com/jlowin/fastmcp/blob/main/docs/getting-started/quickstart.mdx)
-- [Running Your Server](https://github.com/jlowin/fastmcp/blob/main/docs/deployment/running-server.mdx)
-- [Client Guide](https://github.com/jlowin/fastmcp/blob/main/docs/clients/client.mdx)
-- [Project Configuration](https://github.com/jlowin/fastmcp/blob/main/docs/deployment/server-configuration.mdx)
-- [Contributing](https://github.com/jlowin/fastmcp/blob/main/docs/development/contributing.mdx)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Awesome MCP Servers Tutorial](../awesome-mcp-servers-tutorial/)
-- [Composio Tutorial](../composio-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Server Runtime and Transports`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Server Runtime and Transports
-
-- tutorial context: **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Server Runtime and Transports` as an operating subsystem inside **FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Server Runtime and Transports` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [FastMCP Repository](https://github.com/jlowin/fastmcp)
-  Why it matters: authoritative reference on `FastMCP Repository` (github.com).
-- [README](https://github.com/jlowin/fastmcp/blob/main/README.md)
-  Why it matters: authoritative reference on `README` (github.com).
-- [Installation Guide](https://github.com/jlowin/fastmcp/blob/main/docs/getting-started/installation.mdx)
-  Why it matters: authoritative reference on `Installation Guide` (github.com).
-- [Quickstart](https://github.com/jlowin/fastmcp/blob/main/docs/getting-started/quickstart.mdx)
-  Why it matters: authoritative reference on `Quickstart` (github.com).
-- [Running Your Server](https://github.com/jlowin/fastmcp/blob/main/docs/deployment/running-server.mdx)
-  Why it matters: authoritative reference on `Running Your Server` (github.com).
-- [Client Guide](https://github.com/jlowin/fastmcp/blob/main/docs/clients/client.mdx)
-  Why it matters: authoritative reference on `Client Guide` (github.com).
-- [Project Configuration](https://github.com/jlowin/fastmcp/blob/main/docs/deployment/server-configuration.mdx)
-  Why it matters: authoritative reference on `Project Configuration` (github.com).
-- [Contributing](https://github.com/jlowin/fastmcp/blob/main/docs/development/contributing.mdx)
-  Why it matters: authoritative reference on `Contributing` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Core Abstractions: Components, Providers, Transforms](02-core-abstractions-components-providers-transforms.md)
-- [Next Chapter: Chapter 4: Client Architecture and Transport Patterns](04-client-architecture-and-transport-patterns.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `examples/mount_example.py`
+
+The `weather_data` function in [`examples/mount_example.py`](https://github.com/jlowin/fastmcp/blob/HEAD/examples/mount_example.py) handles a key part of this chapter's functionality:
+
+```py
+
+@weather_app.resource(uri="weather://forecast")
+async def weather_data():
+    """Return current weather data."""
+    return {"temperature": 72, "conditions": "sunny", "humidity": 45, "wind_speed": 5}
+
+
+# News sub-application
+news_app = FastMCP("News App")
+
+
+@news_app.tool
+def get_news_headlines() -> list[str]:
+    """Get the latest news headlines."""
+    return [
+        "Tech company launches new product",
+        "Local team wins championship",
+        "Scientists make breakthrough discovery",
+    ]
+
+
+@news_app.resource(uri="news://headlines")
+async def news_data():
+    """Return latest news data."""
+    return {
+        "top_story": "Breaking news: Important event happened",
+        "categories": ["politics", "sports", "technology"],
+        "sources": ["AP", "Reuters", "Local Sources"],
+    }
+
+
+# Main application
+```
+
+This function is important because it defines how FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control implements the patterns covered in this chapter.
+
+### `examples/mount_example.py`
+
+The `get_news_headlines` function in [`examples/mount_example.py`](https://github.com/jlowin/fastmcp/blob/HEAD/examples/mount_example.py) handles a key part of this chapter's functionality:
+
+```py
+
+@news_app.tool
+def get_news_headlines() -> list[str]:
+    """Get the latest news headlines."""
+    return [
+        "Tech company launches new product",
+        "Local team wins championship",
+        "Scientists make breakthrough discovery",
+    ]
+
+
+@news_app.resource(uri="news://headlines")
+async def news_data():
+    """Return latest news data."""
+    return {
+        "top_story": "Breaking news: Important event happened",
+        "categories": ["politics", "sports", "technology"],
+        "sources": ["AP", "Reuters", "Local Sources"],
+    }
+
+
+# Main application
+app = FastMCP("Main App")
+
+
+@app.tool
+def check_app_status() -> dict[str, str]:
+    """Check the status of the main application."""
+    return {"status": "running", "version": "1.0.0", "uptime": "3h 24m"}
+
+
+# Mount sub-applications
+```
+
+This function is important because it defines how FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control implements the patterns covered in this chapter.
+
+### `examples/mount_example.py`
+
+The `news_data` function in [`examples/mount_example.py`](https://github.com/jlowin/fastmcp/blob/HEAD/examples/mount_example.py) handles a key part of this chapter's functionality:
+
+```py
+
+@news_app.resource(uri="news://headlines")
+async def news_data():
+    """Return latest news data."""
+    return {
+        "top_story": "Breaking news: Important event happened",
+        "categories": ["politics", "sports", "technology"],
+        "sources": ["AP", "Reuters", "Local Sources"],
+    }
+
+
+# Main application
+app = FastMCP("Main App")
+
+
+@app.tool
+def check_app_status() -> dict[str, str]:
+    """Check the status of the main application."""
+    return {"status": "running", "version": "1.0.0", "uptime": "3h 24m"}
+
+
+# Mount sub-applications
+app.mount(server=weather_app, prefix="weather")
+
+app.mount(server=news_app, prefix="news")
+
+
+async def get_server_details():
+    """Print information about mounted resources."""
+    # Print available tools
+    tools = await app.list_tools()
+    print(f"\nAvailable tools ({len(tools)}):")
+```
+
+This function is important because it defines how FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control implements the patterns covered in this chapter.
+
+### `examples/mount_example.py`
+
+The `check_app_status` function in [`examples/mount_example.py`](https://github.com/jlowin/fastmcp/blob/HEAD/examples/mount_example.py) handles a key part of this chapter's functionality:
+
+```py
+
+@app.tool
+def check_app_status() -> dict[str, str]:
+    """Check the status of the main application."""
+    return {"status": "running", "version": "1.0.0", "uptime": "3h 24m"}
+
+
+# Mount sub-applications
+app.mount(server=weather_app, prefix="weather")
+
+app.mount(server=news_app, prefix="news")
+
+
+async def get_server_details():
+    """Print information about mounted resources."""
+    # Print available tools
+    tools = await app.list_tools()
+    print(f"\nAvailable tools ({len(tools)}):")
+    for tool in tools:
+        print(f"  - {tool.name}: {tool.description}")
+
+    # Print available resources
+    print("\nAvailable resources:")
+
+    # Distinguish between native and imported resources
+    # Native resources would be those directly in the main app (not prefixed)
+
+    resources = await app.list_resources()
+
+    native_resources = [
+        str(r.uri)
+        for r in resources
+```
+
+This function is important because it defines how FastMCP Tutorial: Building and Operating MCP Servers with Pythonic Control implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[weather_data]
+    B[get_news_headlines]
+    C[news_data]
+    D[check_app_status]
+    E[get_server_details]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

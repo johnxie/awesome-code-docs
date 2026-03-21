@@ -5,6 +5,7 @@ nav_order: 3
 parent: Vibe Kanban Tutorial
 ---
 
+
 # Chapter 3: Multi-Agent Execution Strategies
 
 Welcome to **Chapter 3: Multi-Agent Execution Strategies**. In this part of **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -46,592 +47,184 @@ Next: [Chapter 4: MCP and Configuration Control](04-mcp-and-configuration-contro
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- tutorial slug: **vibe-kanban-tutorial**
-- chapter focus: **Chapter 3: Multi-Agent Execution Strategies**
-- system context: **Vibe Kanban Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Multi-Agent Execution Strategies`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Vibe Kanban Repository](https://github.com/BloopAI/vibe-kanban)
-- [Vibe Kanban Docs](https://vibekanban.com/docs)
-- [Vibe Kanban Self-Hosting](https://vibekanban.com/docs/self-hosting)
-- [Vibe Kanban README](https://github.com/BloopAI/vibe-kanban/blob/main/README.md)
-
-### Cross-Tutorial Connection Map
-
-- [Superset Terminal Tutorial](../superset-terminal-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Goose Tutorial](../goose-tutorial/)
-- [Opcode Tutorial](../opcode-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Multi-Agent Execution Strategies`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Multi-Agent Execution Strategies
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Multi-Agent Execution Strategies` as an operating subsystem inside **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Multi-Agent Execution Strategies` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Vibe Kanban Repository](https://github.com/BloopAI/vibe-kanban)
-  Why it matters: authoritative reference on `Vibe Kanban Repository` (github.com).
-- [Vibe Kanban Docs](https://vibekanban.com/docs)
-  Why it matters: authoritative reference on `Vibe Kanban Docs` (vibekanban.com).
-- [Vibe Kanban Self-Hosting](https://vibekanban.com/docs/self-hosting)
-  Why it matters: authoritative reference on `Vibe Kanban Self-Hosting` (vibekanban.com).
-- [Vibe Kanban README](https://github.com/BloopAI/vibe-kanban/blob/main/README.md)
-  Why it matters: authoritative reference on `Vibe Kanban README` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
-- [Next Chapter: Chapter 4: MCP and Configuration Control](04-mcp-and-configuration-control.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/generate-desktop-manifest.js`
+
+The `findBundleArtifact` function in [`scripts/generate-desktop-manifest.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/generate-desktop-manifest.js) handles a key part of this chapter's functionality:
+
+```js
+
+// Find the main bundle artifact for a platform (skip .sig and installer-only files)
+function findBundleArtifact(dir) {
+  if (!fs.existsSync(dir)) return null;
+
+  const files = fs.readdirSync(dir);
+
+  // Look for updater artifacts in priority order
+  // macOS: .app.tar.gz, Linux: .AppImage.tar.gz, Windows: *-setup.exe
+  const tarGz = files.find(
+    (f) =>
+      (f.endsWith('.app.tar.gz') || f.endsWith('.AppImage.tar.gz')) &&
+      !f.endsWith('.sig')
+  );
+  if (tarGz) {
+    const type = tarGz.endsWith('.app.tar.gz')
+      ? 'app-tar-gz'
+      : 'appimage-tar-gz';
+    return { file: tarGz, type };
+  }
+
+  // Windows NSIS installer
+  const nsis = files.find(
+    (f) => f.endsWith('-setup.exe') && !f.endsWith('.sig')
+  );
+  if (nsis) {
+    return { file: nsis, type: 'nsis-exe' };
+  }
+
+  return null;
+}
+
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `scripts/generate-tauri-update-json.js`
+
+The `parseArgs` function in [`scripts/generate-tauri-update-json.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/generate-tauri-update-json.js) handles a key part of this chapter's functionality:
+
+```js
+const path = require('path');
+
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const parsed = {};
+  for (let i = 0; i < args.length; i += 2) {
+    const key = args[i].replace(/^--/, '');
+    parsed[key] = args[i + 1];
+  }
+  return parsed;
+}
+
+function findArtifact(dir) {
+  if (!fs.existsSync(dir)) return null;
+
+  const files = fs.readdirSync(dir);
+  // Look for .sig files to find the updater artifacts
+  const sigFiles = files.filter(f => f.endsWith('.sig'));
+
+  if (sigFiles.length === 0) return null;
+
+  // Prefer .tar.gz (macOS/Linux) over .exe (Windows)
+  // Tauri generates: .app.tar.gz + .sig on macOS, .AppImage.tar.gz + .sig on Linux, .exe + .sig on Windows
+  const sigFile = sigFiles[0];
+  const artifactFile = sigFile.replace(/\.sig$/, '');
+
+  if (!files.includes(artifactFile)) {
+    console.error(`Warning: Found ${sigFile} but missing ${artifactFile} in ${dir}`);
+    return null;
+  }
+
+  return {
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `scripts/generate-tauri-update-json.js`
+
+The `findArtifact` function in [`scripts/generate-tauri-update-json.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/generate-tauri-update-json.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function findArtifact(dir) {
+  if (!fs.existsSync(dir)) return null;
+
+  const files = fs.readdirSync(dir);
+  // Look for .sig files to find the updater artifacts
+  const sigFiles = files.filter(f => f.endsWith('.sig'));
+
+  if (sigFiles.length === 0) return null;
+
+  // Prefer .tar.gz (macOS/Linux) over .exe (Windows)
+  // Tauri generates: .app.tar.gz + .sig on macOS, .AppImage.tar.gz + .sig on Linux, .exe + .sig on Windows
+  const sigFile = sigFiles[0];
+  const artifactFile = sigFile.replace(/\.sig$/, '');
+
+  if (!files.includes(artifactFile)) {
+    console.error(`Warning: Found ${sigFile} but missing ${artifactFile} in ${dir}`);
+    return null;
+  }
+
+  return {
+    file: artifactFile,
+    signature: fs.readFileSync(path.join(dir, sigFile), 'utf-8').trim(),
+  };
+}
+
+const args = parseArgs();
+const version = args.version;
+const notes = args.notes || '';
+const artifactsDir = args['artifacts-dir'];
+const downloadBase = args['download-base'];
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/types.ts`
+
+The `ScratchType` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+export type ScratchPayload = { "type": "DRAFT_TASK", "data": string } | { "type": "DRAFT_FOLLOW_UP", "data": DraftFollowUpData } | { "type": "DRAFT_WORKSPACE", "data": DraftWorkspaceData } | { "type": "DRAFT_ISSUE", "data": DraftIssueData } | { "type": "PREVIEW_SETTINGS", "data": PreviewSettingsData } | { "type": "WORKSPACE_NOTES", "data": WorkspaceNotesData } | { "type": "UI_PREFERENCES", "data": UiPreferencesData } | { "type": "PROJECT_REPO_DEFAULTS", "data": ProjectRepoDefaultsData };
+
+export enum ScratchType { DRAFT_TASK = "DRAFT_TASK", DRAFT_FOLLOW_UP = "DRAFT_FOLLOW_UP", DRAFT_WORKSPACE = "DRAFT_WORKSPACE", DRAFT_ISSUE = "DRAFT_ISSUE", PREVIEW_SETTINGS = "PREVIEW_SETTINGS", WORKSPACE_NOTES = "WORKSPACE_NOTES", UI_PREFERENCES = "UI_PREFERENCES", PROJECT_REPO_DEFAULTS = "PROJECT_REPO_DEFAULTS" }
+
+export type Scratch = { id: string, payload: ScratchPayload, created_at: string, updated_at: string, };
+
+export type CreateScratch = { payload: ScratchPayload, };
+
+export type UpdateScratch = { payload: ScratchPayload, };
+
+export type Workspace = { id: string, task_id: string | null, container_ref: string | null, branch: string, setup_completed_at: string | null, created_at: string, updated_at: string, archived: boolean, pinned: boolean, name: string | null, worktree_deleted: boolean, };
+
+export type WorkspaceWithStatus = { is_running: boolean, is_errored: boolean, id: string, task_id: string | null, container_ref: string | null, branch: string, setup_completed_at: string | null, created_at: string, updated_at: string, archived: boolean, pinned: boolean, name: string | null, worktree_deleted: boolean, };
+
+export type Session = { id: string, workspace_id: string, name: string | null, executor: string | null, agent_working_dir: string | null, created_at: string, updated_at: string, };
+
+export type ExecutionProcess = { id: string, session_id: string, run_reason: ExecutionProcessRunReason, executor_action: ExecutorAction, status: ExecutionProcessStatus, exit_code: bigint | null, 
+/**
+ * dropped: true if this process is excluded from the current
+ * history view (due to restore/trimming). Hidden from logs/timeline;
+ * still listed in the Processes tab.
+ */
+dropped: boolean, started_at: string, completed_at: string | null, created_at: string, updated_at: string, };
+
+export enum ExecutionProcessStatus { running = "running", completed = "completed", failed = "failed", killed = "killed" }
+
+export type ExecutionProcessRunReason = "setupscript" | "cleanupscript" | "archivescript" | "codingagent" | "devserver";
+
+export type ExecutionProcessRepoState = { id: string, execution_process_id: string, repo_id: string, before_head_commit: string | null, after_head_commit: string | null, merge_commit: string | null, created_at: Date, updated_at: Date, };
+
+export type Merge = { "type": "direct" } & DirectMerge | { "type": "pr" } & PrMerge;
+
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[findBundleArtifact]
+    B[parseArgs]
+    C[findArtifact]
+    D[ScratchType]
+    E[ExecutionProcessStatus]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

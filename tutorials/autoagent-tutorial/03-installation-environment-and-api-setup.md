@@ -5,6 +5,7 @@ nav_order: 3
 parent: AutoAgent Tutorial
 ---
 
+
 # Chapter 3: Installation, Environment, and API Setup
 
 Welcome to **Chapter 3: Installation, Environment, and API Setup**. In this part of **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -38,607 +39,184 @@ Next: [Chapter 4: Agent and Workflow Creation Patterns](04-agent-and-workflow-cr
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- tutorial slug: **autoagent-tutorial**
-- chapter focus: **Chapter 3: Installation, Environment, and API Setup**
-- system context: **Autoagent Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Installation, Environment, and API Setup`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [AutoAgent Repository](https://github.com/HKUDS/AutoAgent)
-- [AutoAgent README](https://github.com/HKUDS/AutoAgent/blob/main/README.md)
-- [AutoAgent Documentation](https://autoagent-ai.github.io/docs)
-- [Quickstart Docs](https://autoagent-ai.github.io/docs/get-started-quickstart)
-- [Create Tools Docs](https://autoagent-ai.github.io/docs/dev-guide-create-tools)
-
-### Cross-Tutorial Connection Map
-
-- [Mini-SWE-Agent Tutorial](../mini-swe-agent-tutorial/)
-- [Qwen-Agent Tutorial](../qwen-agent-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Installation, Environment, and API Setup`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 3: Installation, Environment, and API Setup
-
-- tutorial context: **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Installation, Environment, and API Setup` as an operating subsystem inside **AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Installation, Environment, and API Setup` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [AutoAgent Repository](https://github.com/HKUDS/AutoAgent)
-  Why it matters: authoritative reference on `AutoAgent Repository` (github.com).
-- [AutoAgent README](https://github.com/HKUDS/AutoAgent/blob/main/README.md)
-  Why it matters: authoritative reference on `AutoAgent README` (github.com).
-- [AutoAgent Documentation](https://autoagent-ai.github.io/docs)
-  Why it matters: authoritative reference on `AutoAgent Documentation` (autoagent-ai.github.io).
-- [Quickstart Docs](https://autoagent-ai.github.io/docs/get-started-quickstart)
-  Why it matters: authoritative reference on `Quickstart Docs` (autoagent-ai.github.io).
-- [Create Tools Docs](https://autoagent-ai.github.io/docs/dev-guide-create-tools)
-  Why it matters: authoritative reference on `Create Tools Docs` (autoagent-ai.github.io).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Architecture and Interaction Modes](02-architecture-and-interaction-modes.md)
-- [Next Chapter: Chapter 4: Agent and Workflow Creation Patterns](04-agent-and-workflow-creation-patterns.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `autoagent/core.py`
+
+The `adapt_tools_for_gemini` function in [`autoagent/core.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/autoagent/core.py) handles a key part of this chapter's functionality:
+
+```py
+logger = LoggerManager.get_logger()
+
+def adapt_tools_for_gemini(tools):
+    """为 Gemini 模型适配工具定义，确保所有 OBJECT 类型参数都有非空的 properties"""
+    if tools is None:
+        return None
+        
+    adapted_tools = []
+    for tool in tools:
+        adapted_tool = copy.deepcopy(tool)
+        
+        # 检查参数
+        if "parameters" in adapted_tool["function"]:
+            params = adapted_tool["function"]["parameters"]
+            
+            # 处理顶层参数
+            if params.get("type") == "object":
+                if "properties" not in params or not params["properties"]:
+                    params["properties"] = {
+                        "dummy": {
+                            "type": "string",
+                            "description": "Dummy property for Gemini compatibility"
+                        }
+                    }
+            
+            # 处理嵌套参数
+            if "properties" in params:
+                for prop_name, prop in params["properties"].items():
+                    if isinstance(prop, dict) and prop.get("type") == "object":
+                        if "properties" not in prop or not prop["properties"]:
+                            prop["properties"] = {
+                                "dummy": {
+```
+
+This function is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+
+### `autoagent/fn_call_converter.py`
+
+The `FunctionCallConversionError` class in [`autoagent/fn_call_converter.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/autoagent/fn_call_converter.py) handles a key part of this chapter's functionality:
+
+```py
+from litellm import ChatCompletionToolParam
+
+class FunctionCallConversionError(Exception):
+    """Exception raised when FunctionCallingConverter failed to convert a non-function call message to a function call message.
+
+    This typically happens when there's a malformed message (e.g., missing <function=...> tags). But not due to LLM output.
+    """
+
+    def __init__(self, message):
+        super().__init__(message)
+
+class FunctionCallValidationError(Exception):
+    """Exception raised when FunctionCallingConverter failed to validate a function call message.
+
+    This typically happens when the LLM outputs unrecognized function call / parameter names / values.
+    """
+
+    def __init__(self, message):
+        super().__init__(message)
+
+# Inspired by: https://docs.together.ai/docs/llama-3-function-calling#function-calling-w-llama-31-70b
+SYSTEM_PROMPT_SUFFIX_TEMPLATE = """
+You have access to the following functions:
+
+{description}
+
+If you choose to call a function ONLY reply in the following format with NO suffix:
+
+<function=example_function_name>
+<parameter=example_parameter_1>value_1</parameter>
+<parameter=example_parameter_2>
+This is the value for the second parameter
+```
+
+This class is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+
+### `autoagent/fn_call_converter.py`
+
+The `FunctionCallValidationError` class in [`autoagent/fn_call_converter.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/autoagent/fn_call_converter.py) handles a key part of this chapter's functionality:
+
+```py
+        super().__init__(message)
+
+class FunctionCallValidationError(Exception):
+    """Exception raised when FunctionCallingConverter failed to validate a function call message.
+
+    This typically happens when the LLM outputs unrecognized function call / parameter names / values.
+    """
+
+    def __init__(self, message):
+        super().__init__(message)
+
+# Inspired by: https://docs.together.ai/docs/llama-3-function-calling#function-calling-w-llama-31-70b
+SYSTEM_PROMPT_SUFFIX_TEMPLATE = """
+You have access to the following functions:
+
+{description}
+
+If you choose to call a function ONLY reply in the following format with NO suffix:
+
+<function=example_function_name>
+<parameter=example_parameter_1>value_1</parameter>
+<parameter=example_parameter_2>
+This is the value for the second parameter
+that can span
+multiple lines
+</parameter>
+</function>
+
+<IMPORTANT>
+Reminder:
+- Function calls MUST follow the specified format, start with <function= and end with </function>
+- Required parameters MUST be specified
+```
+
+This class is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+
+### `autoagent/fn_call_converter.py`
+
+The `index` function in [`autoagent/fn_call_converter.py`](https://github.com/HKUDS/AutoAgent/blob/HEAD/autoagent/fn_call_converter.py) handles a key part of this chapter's functionality:
+
+```py
+
+@app.route('/')
+def index():
+    numbers = list(range(1, 11))
+    return str(numbers)
+
+if __name__ == '__main__':
+    app.run(port=5000)
+</parameter>
+</function>
+
+USER: EXECUTION RESULT of [str_replace_editor]:
+File created successfully at: /workspace/app.py
+
+ASSISTANT: I have created a Python file `app.py` that will display a list of numbers from 1 to 10 when you run it. Let me run the Python file for you:
+<function=execute_bash>
+<parameter=command>
+python3 app.py > server.log 2>&1 &
+</parameter>
+</function>
+
+USER: EXECUTION RESULT of [execute_bash]:
+[1] 121
+[1]+  Exit 1                  python3 app.py > server.log 2>&1
+
+ASSISTANT: Looks like the server is running with PID 121 then crashed. Let me check the server log:
+<function=execute_bash>
+<parameter=command>
+cat server.log
+</parameter>
+</function>
+
+```
+
+This function is important because it defines how AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[adapt_tools_for_gemini]
+    B[FunctionCallConversionError]
+    C[FunctionCallValidationError]
+    D[index]
+    E[convert_tool_call_to_string]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

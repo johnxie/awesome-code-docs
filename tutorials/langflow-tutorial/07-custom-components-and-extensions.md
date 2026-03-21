@@ -5,6 +5,7 @@ nav_order: 7
 parent: Langflow Tutorial
 ---
 
+
 # Chapter 7: Custom Components and Extensions
 
 Welcome to **Chapter 7: Custom Components and Extensions**. In this part of **Langflow Tutorial: Visual AI Agent and Workflow Platform**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -40,592 +41,182 @@ Next: [Chapter 8: Production Operations](08-production-operations.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- tutorial slug: **langflow-tutorial**
-- chapter focus: **Chapter 7: Custom Components and Extensions**
-- system context: **Langflow Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Custom Components and Extensions`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Langflow Repository](https://github.com/langflow-ai/langflow)
-- [Langflow Releases](https://github.com/langflow-ai/langflow/releases)
-- [Langflow Docs](https://docs.langflow.org/)
-- [Langflow Deployment Docs](https://docs.langflow.org/deployment-overview)
-
-### Cross-Tutorial Connection Map
-
-- [Flowise Tutorial](../flowise-tutorial/)
-- [LangChain Tutorial](../langchain-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Custom Components and Extensions`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: Custom Components and Extensions
-
-- tutorial context: **Langflow Tutorial: Visual AI Agent and Workflow Platform**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Custom Components and Extensions` as an operating subsystem inside **Langflow Tutorial: Visual AI Agent and Workflow Platform**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Custom Components and Extensions` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Langflow Repository](https://github.com/langflow-ai/langflow)
-  Why it matters: authoritative reference on `Langflow Repository` (github.com).
-- [Langflow Releases](https://github.com/langflow-ai/langflow/releases)
-  Why it matters: authoritative reference on `Langflow Releases` (github.com).
-- [Langflow Docs](https://docs.langflow.org/)
-  Why it matters: authoritative reference on `Langflow Docs` (docs.langflow.org).
-- [Langflow Deployment Docs](https://docs.langflow.org/deployment-overview)
-  Why it matters: authoritative reference on `Langflow Deployment Docs` (docs.langflow.org).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Observability and Security](06-observability-and-security.md)
-- [Next Chapter: Chapter 8: Production Operations](08-production-operations.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/check_changes_filter.py`
+
+The `get_changed_files_from_stdin` function in [`scripts/check_changes_filter.py`](https://github.com/langflow-ai/langflow/blob/HEAD/scripts/check_changes_filter.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_changed_files_from_stdin() -> list[str]:
+    """Get list of changed files from stdin (one per line), filtered to src/frontend only."""
+    files = []
+    for line in sys.stdin:
+        stripped = line.strip()
+        if stripped and stripped.startswith("src/frontend/"):
+            files.append(stripped)
+    return files
+
+
+def matches_pattern(file_path: str, pattern: str) -> bool:
+    """Check if a file matches a glob pattern using pathlib semantics.
+
+    Supports ** and a simple one-level {a,b} brace expansion.
+    """
+    import re
+    from pathlib import PurePosixPath
+
+    # Normalize
+    file_path = file_path.lstrip("./").replace("\\", "/")
+    pattern = pattern.lstrip("./")
+
+    # Simple one-level brace expansion: foo.{ts,tsx} -> [foo.ts, foo.tsx]
+    patterns = [pattern]
+    m = re.search(r"\{([^{}]+)\}", pattern)
+    if m:
+        opts = [opt.strip() for opt in m.group(1).split(",")]
+        pre, post = pattern[: m.start()], pattern[m.end() :]
+        patterns = [f"{pre}{opt}{post}" for opt in opts]
+
+```
+
+This function is important because it defines how Langflow Tutorial: Visual AI Agent and Workflow Platform implements the patterns covered in this chapter.
+
+### `scripts/check_changes_filter.py`
+
+The `matches_pattern` function in [`scripts/check_changes_filter.py`](https://github.com/langflow-ai/langflow/blob/HEAD/scripts/check_changes_filter.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def matches_pattern(file_path: str, pattern: str) -> bool:
+    """Check if a file matches a glob pattern using pathlib semantics.
+
+    Supports ** and a simple one-level {a,b} brace expansion.
+    """
+    import re
+    from pathlib import PurePosixPath
+
+    # Normalize
+    file_path = file_path.lstrip("./").replace("\\", "/")
+    pattern = pattern.lstrip("./")
+
+    # Simple one-level brace expansion: foo.{ts,tsx} -> [foo.ts, foo.tsx]
+    patterns = [pattern]
+    m = re.search(r"\{([^{}]+)\}", pattern)
+    if m:
+        opts = [opt.strip() for opt in m.group(1).split(",")]
+        pre, post = pattern[: m.start()], pattern[m.end() :]
+        patterns = [f"{pre}{opt}{post}" for opt in opts]
+
+    # PurePosixPath.match() only does relative matching from the right
+    # For patterns with **, we need full path matching
+    for pat in patterns:
+        if "**" in pat:
+            # Use fnmatch-style matching for ** patterns
+            # Convert ** to match any depth
+            import fnmatch
+
+            regex_pattern = pat.replace("**", "*")
+            if fnmatch.fnmatch(file_path, regex_pattern):
+```
+
+This function is important because it defines how Langflow Tutorial: Visual AI Agent and Workflow Platform implements the patterns covered in this chapter.
+
+### `scripts/check_changes_filter.py`
+
+The `check_file_coverage` function in [`scripts/check_changes_filter.py`](https://github.com/langflow-ai/langflow/blob/HEAD/scripts/check_changes_filter.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def check_file_coverage(changed_files: list[str], filter_patterns: dict[str, list[str]]) -> tuple[list[str], list[str]]:
+    """Check which files are covered by at least one pattern.
+
+    Returns: (covered_files, uncovered_files)
+    """
+    # Flatten all patterns from all categories
+    all_patterns = []
+    for category_patterns in filter_patterns.values():
+        all_patterns.extend(category_patterns)
+
+    covered = []
+    uncovered = []
+
+    for file_path in changed_files:
+        is_covered = False
+        for pattern in all_patterns:
+            if matches_pattern(file_path, pattern):
+                is_covered = True
+                break
+
+        if is_covered:
+            covered.append(file_path)
+        else:
+            uncovered.append(file_path)
+
+    return covered, uncovered
+
+
+def main():
+    """Main execution function."""
+```
+
+This function is important because it defines how Langflow Tutorial: Visual AI Agent and Workflow Platform implements the patterns covered in this chapter.
+
+### `scripts/check_changes_filter.py`
+
+The `main` function in [`scripts/check_changes_filter.py`](https://github.com/langflow-ai/langflow/blob/HEAD/scripts/check_changes_filter.py) handles a key part of this chapter's functionality:
+
+```py
+
+Usage:
+    # Check files changed in current branch vs main
+    git diff --name-only origin/main HEAD | python scripts/check_changes_filter.py
+
+    # Check specific files
+    echo -e "src/frontend/file1.tsx\nsrc/frontend/file2.ts" | python scripts/check_changes_filter.py
+
+Note:
+    Only files under src/frontend/ are checked. All other files are ignored.
+
+Exit codes:
+    0 - All frontend files are covered by patterns
+    1 - Some frontend files are not covered (or error occurred)
+"""
+
+import sys
+from pathlib import Path
+
+import yaml
+
+
+def load_filter_patterns(filter_file: Path) -> dict[str, list[str]]:
+    """Load all patterns from the changes-filter.yaml file.
+
+    Validates and normalizes the YAML structure to ensure it's a dict mapping
+    str to list[str]. Handles top-level "filters" key if present.
+    """
+    with filter_file.open() as f:
+        data = yaml.safe_load(f)
+
+    # Handle empty or null file
+```
+
+This function is important because it defines how Langflow Tutorial: Visual AI Agent and Workflow Platform implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[get_changed_files_from_stdin]
+    B[matches_pattern]
+    C[check_file_coverage]
+    D[main]
+    A --> B
+    B --> C
+    C --> D
+```

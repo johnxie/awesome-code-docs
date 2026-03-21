@@ -5,6 +5,7 @@ nav_order: 7
 parent: MCP Servers Tutorial
 ---
 
+
 # Chapter 7: Security Considerations
 
 Welcome to **Chapter 7: Security Considerations**. In this part of **MCP Servers Tutorial: Reference Implementations and Patterns**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -108,482 +109,168 @@ Suggested trace strategy:
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- tutorial slug: **mcp-servers-tutorial**
-- chapter focus: **Chapter 7: Security Considerations**
-- system context: **Mcp Servers Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Security Considerations`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [MCP servers repository](https://github.com/modelcontextprotocol/servers)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/)
-- [Anthropic Skills Tutorial](../anthropic-skills-tutorial/)
-- [n8n MCP Tutorial](../n8n-mcp-tutorial/)
-- [Claude Code Tutorial - MCP chapter](../claude-code-tutorial/07-mcp.md)
-- [Chapter 1: Getting Started](01-getting-started.md)
-- [MCP servers repository](https://github.com/modelcontextprotocol/servers)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Security Considerations`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Security Considerations
-
-- tutorial context: **MCP Servers Tutorial: Reference Implementations and Patterns**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+## Source Code Walkthrough
+
+### `src/filesystem/index.ts`
+
+The `updateAllowedDirectoriesFromRoots` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Updates allowed directories based on MCP client roots
+async function updateAllowedDirectoriesFromRoots(requestedRoots: Root[]) {
+  const validatedRootDirs = await getValidRootDirectories(requestedRoots);
+  if (validatedRootDirs.length > 0) {
+    allowedDirectories = [...validatedRootDirs];
+    setAllowedDirectories(allowedDirectories); // Update the global state in lib.ts
+    console.error(`Updated allowed directories from MCP roots: ${validatedRootDirs.length} valid directories`);
+  } else {
+    console.error("No valid root directories provided by client");
+  }
+}
+
+// Handles dynamic roots updates during runtime, when client sends "roots/list_changed" notification, server fetches the updated roots and replaces all allowed directories with the new roots.
+server.server.setNotificationHandler(RootsListChangedNotificationSchema, async () => {
+  try {
+    // Request the updated roots list from the client
+    const response = await server.server.listRoots();
+    if (response && 'roots' in response) {
+      await updateAllowedDirectoriesFromRoots(response.roots);
+    }
+  } catch (error) {
+    console.error("Failed to request roots from client:", error instanceof Error ? error.message : String(error));
+  }
+});
+
+// Handles post-initialization setup, specifically checking for and fetching MCP roots.
+server.server.oninitialized = async () => {
+  const clientCapabilities = server.server.getClientCapabilities();
+
+  if (clientCapabilities?.roots) {
+    try {
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/filesystem/index.ts`
+
+The `runServer` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Start server
+async function runServer() {
+  const transport = new StdioServerTransport();
+  await server.connect(transport);
+  console.error("Secure MCP Filesystem Server running on stdio");
+  if (allowedDirectories.length === 0) {
+    console.error("Started without allowed directories - waiting for client to provide roots via MCP protocol");
+  }
+}
+
+runServer().catch((error) => {
+  console.error("Fatal error running server:", error);
+  process.exit(1);
+});
+
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/filesystem/index.ts`
+
+The `TreeEntry` interface in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
+
+```ts
+  },
+  async (args: z.infer<typeof DirectoryTreeArgsSchema>) => {
+    interface TreeEntry {
+      name: string;
+      type: 'file' | 'directory';
+      children?: TreeEntry[];
+    }
+    const rootPath = args.path;
+
+    async function buildTree(currentPath: string, excludePatterns: string[] = []): Promise<TreeEntry[]> {
+      const validPath = await validatePath(currentPath);
+      const entries = await fs.readdir(validPath, { withFileTypes: true });
+      const result: TreeEntry[] = [];
+
+      for (const entry of entries) {
+        const relativePath = path.relative(rootPath, path.join(currentPath, entry.name));
+        const shouldExclude = excludePatterns.some(pattern => {
+          if (pattern.includes('*')) {
+            return minimatch(relativePath, pattern, { dot: true });
+          }
+          // For files: match exact name or as part of path
+          // For directories: match as directory path
+          return minimatch(relativePath, pattern, { dot: true }) ||
+            minimatch(relativePath, `**/${pattern}`, { dot: true }) ||
+            minimatch(relativePath, `**/${pattern}/**`, { dot: true });
+        });
+        if (shouldExclude)
+          continue;
+
+        const entryData: TreeEntry = {
+          name: entry.name,
+          type: entry.isDirectory() ? 'directory' : 'file'
+```
+
+This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/sequentialthinking/lib.ts`
+
+The `SequentialThinkingServer` class in [`src/sequentialthinking/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/sequentialthinking/lib.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export class SequentialThinkingServer {
+  private thoughtHistory: ThoughtData[] = [];
+  private branches: Record<string, ThoughtData[]> = {};
+  private disableThoughtLogging: boolean;
+
+  constructor() {
+    this.disableThoughtLogging = (process.env.DISABLE_THOUGHT_LOGGING || "").toLowerCase() === "true";
+  }
+
+  private formatThought(thoughtData: ThoughtData): string {
+    const { thoughtNumber, totalThoughts, thought, isRevision, revisesThought, branchFromThought, branchId } = thoughtData;
+
+    let prefix = '';
+    let context = '';
+
+    if (isRevision) {
+      prefix = chalk.yellow('🔄 Revision');
+      context = ` (revising thought ${revisesThought})`;
+    } else if (branchFromThought) {
+      prefix = chalk.green('🌿 Branch');
+      context = ` (from thought ${branchFromThought}, ID: ${branchId})`;
+    } else {
+      prefix = chalk.blue('💭 Thought');
+      context = '';
+    }
+
+    const header = `${prefix} ${thoughtNumber}/${totalThoughts}${context}`;
+    const border = '─'.repeat(Math.max(header.length, thought.length) + 4);
+
+    return `
+```
+
+This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[updateAllowedDirectoriesFromRoots]
+    B[runServer]
+    C[TreeEntry]
+    D[SequentialThinkingServer]
+    E[ThoughtData]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

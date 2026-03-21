@@ -5,6 +5,7 @@ nav_order: 5
 parent: Strands Agents Tutorial
 ---
 
+
 # Chapter 5: Hooks, State, and Reliability Controls
 
 Welcome to **Chapter 5: Hooks, State, and Reliability Controls**. In this part of **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -39,595 +40,182 @@ Next: [Chapter 6: Multi-Agent and Advanced Patterns](06-multi-agent-and-advanced
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- tutorial slug: **strands-agents-tutorial**
-- chapter focus: **Chapter 5: Hooks, State, and Reliability Controls**
-- system context: **Strands Agents Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 5: Hooks, State, and Reliability Controls`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Strands Python SDK Repository](https://github.com/strands-agents/sdk-python)
-- [Strands README](https://github.com/strands-agents/sdk-python/blob/main/README.md)
-- [Strands Documentation](https://strandsagents.com/latest/documentation/docs/)
-- [Strands Python Quickstart](https://strandsagents.com/latest/documentation/docs/user-guide/quickstart/python/)
-- [Strands MCP Client Architecture](https://github.com/strands-agents/sdk-python/blob/main/docs/MCP_CLIENT_ARCHITECTURE.md)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [CrewAI Tutorial](../crewai-tutorial/)
-- [Anything LLM Tutorial](../anything-llm-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 5: Hooks, State, and Reliability Controls`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 5: Hooks, State, and Reliability Controls
-
-- tutorial context: **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 5: Hooks, State, and Reliability Controls` as an operating subsystem inside **Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 5: Hooks, State, and Reliability Controls` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Strands Python SDK Repository](https://github.com/strands-agents/sdk-python)
-  Why it matters: authoritative reference on `Strands Python SDK Repository` (github.com).
-- [Strands README](https://github.com/strands-agents/sdk-python/blob/main/README.md)
-  Why it matters: authoritative reference on `Strands README` (github.com).
-- [Strands Documentation](https://strandsagents.com/latest/documentation/docs/)
-  Why it matters: authoritative reference on `Strands Documentation` (strandsagents.com).
-- [Strands Python Quickstart](https://strandsagents.com/latest/documentation/docs/user-guide/quickstart/python/)
-  Why it matters: authoritative reference on `Strands Python Quickstart` (strandsagents.com).
-- [Strands MCP Client Architecture](https://github.com/strands-agents/sdk-python/blob/main/docs/MCP_CLIENT_ARCHITECTURE.md)
-  Why it matters: authoritative reference on `Strands MCP Client Architecture` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 4: Model Providers and Runtime Strategy](04-model-providers-and-runtime-strategy.md)
-- [Next Chapter: Chapter 6: Multi-Agent and Advanced Patterns](06-multi-agent-and-advanced-patterns.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `src/strands/tools/registry.py`
+
+The `and` interface in [`src/strands/tools/registry.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/tools/registry.py) handles a key part of this chapter's functionality:
+
+```py
+"""Tool registry.
+
+This module provides the central registry for all tools available to the agent, including discovery, validation, and
+invocation capabilities.
+"""
+
+import inspect
+import logging
+import os
+import sys
+import uuid
+import warnings
+from collections.abc import Iterable, Sequence
+from importlib import import_module, util
+from os.path import expanduser
+from pathlib import Path
+from typing import Any, cast
+
+from typing_extensions import TypedDict
+
+from .._async import run_async
+from ..tools.decorator import DecoratedFunctionTool
+from ..types.tools import AgentTool, ToolSpec
+from . import ToolProvider
+from .loader import load_tool_from_string, load_tools_from_module
+from .tools import _COMPOSITION_KEYWORDS, PythonAgentTool, normalize_schema, normalize_tool_spec
+
+logger = logging.getLogger(__name__)
+
+
+class ToolRegistry:
+    """Central registry for all tools available to the agent.
+```
+
+This interface is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+### `src/strands/types/_events.py`
+
+The `TypedEvent` class in [`src/strands/types/_events.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/types/_events.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class TypedEvent(dict):
+    """Base class for all typed events in the agent system."""
+
+    def __init__(self, data: dict[str, Any] | None = None) -> None:
+        """Initialize the typed event with optional data.
+
+        Args:
+            data: Optional dictionary of event data to initialize with
+        """
+        super().__init__(data or {})
+
+    @property
+    def is_callback_event(self) -> bool:
+        """True if this event should trigger the callback_handler to fire."""
+        return True
+
+    def as_dict(self) -> dict:
+        """Convert this event to a raw dictionary for emitting purposes."""
+        return {**self}
+
+    def prepare(self, invocation_state: dict) -> None:
+        """Prepare the event for emission by adding invocation state.
+
+        This allows a subset of events to merge with the invocation_state without needing to
+        pass around the invocation_state throughout the system.
+        """
+        ...
+
+
+class InitEventLoopEvent(TypedEvent):
+```
+
+This class is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+### `src/strands/types/_events.py`
+
+The `for` class in [`src/strands/types/_events.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/types/_events.py) handles a key part of this chapter's functionality:
+
+```py
+"""event system for the Strands Agents framework.
+
+This module defines the event types that are emitted during agent execution,
+providing a structured way to observe to different events of the event loop and
+agent lifecycle.
+"""
+
+from collections.abc import Sequence
+from typing import TYPE_CHECKING, Any, cast
+
+from pydantic import BaseModel
+from typing_extensions import override
+
+from ..interrupt import Interrupt
+from ..telemetry import EventLoopMetrics
+from .citations import Citation
+from .content import Message
+from .event_loop import Metrics, StopReason, Usage
+from .streaming import ContentBlockDelta, StreamEvent
+from .tools import ToolResult, ToolUse
+
+if TYPE_CHECKING:
+    from ..agent import AgentResult
+    from ..multiagent.base import MultiAgentResult, NodeResult
+
+
+class TypedEvent(dict):
+    """Base class for all typed events in the agent system."""
+
+    def __init__(self, data: dict[str, Any] | None = None) -> None:
+```
+
+This class is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+### `src/strands/types/_events.py`
+
+The `InitEventLoopEvent` class in [`src/strands/types/_events.py`](https://github.com/strands-agents/sdk-python/blob/HEAD/src/strands/types/_events.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class InitEventLoopEvent(TypedEvent):
+    """Event emitted at the very beginning of agent execution.
+
+    This event is fired before any processing begins and provides access to the
+    initial invocation state.
+
+    Args:
+            invocation_state: The invocation state passed into the request
+    """
+
+    def __init__(self) -> None:
+        """Initialize the event loop initialization event."""
+        super().__init__({"init_event_loop": True})
+
+    @override
+    def prepare(self, invocation_state: dict) -> None:
+        self.update(invocation_state)
+
+
+class StartEvent(TypedEvent):
+    """Event emitted at the start of each event loop cycle.
+
+    !!deprecated!!
+        Use StartEventLoopEvent instead.
+
+    This event events the beginning of a new processing cycle within the agent's
+    event loop. It's fired before model invocation and tool execution begin.
+    """
+
+    def __init__(self) -> None:
+```
+
+This class is important because it defines how Strands Agents Tutorial: Model-Driven Agent Systems with Native MCP Support implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[and]
+    B[TypedEvent]
+    C[for]
+    D[InitEventLoopEvent]
+    E[StartEvent]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```
