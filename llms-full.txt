@@ -70,10 +70,10 @@ Main repository:
 - Keywords: anything, llm, anythingllm, self, hosted, rag, agents, deploy, operate, mintplex, labs, document, grounded, chat, workspace, management, agent, workflows
 
 ## Athens Research: Deep Dive Tutorial
-- Path: tutorials/athens-research-knowledge-graph
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/README.md
+- Path: tutorials/athens-research-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md
 - Summary: Athens Research — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
-- Keywords: athens, research, knowledge, graph, open, source, roam, like, management, built, clojurescript, databases
+- Keywords: athens, research, open, source, roam, like, knowledge, management, built, clojurescript, graph, databases
 
 ## AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration
 - Path: tutorials/autoagent-tutorial
@@ -244,8 +244,8 @@ Main repository:
 - Keywords: codemachine, cli, orchestrating, long, running, coding, agent, workflows, moazbuilds, orchestrate, repeatable, multi, coordination, context, control, execution
 
 ## Codex Analysis Platform Tutorial: Build Code Intelligence Systems
-- Path: tutorials/codex-analysis-platform
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/README.md
+- Path: tutorials/codex-analysis-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-tutorial/README.md
 - Summary: Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 - Keywords: codex, analysis, code, intelligence, design, operate, grade, parsing, symbol, resolution, features, lsp, integration, rollout, governance
 
@@ -340,8 +340,8 @@ Main repository:
 - Keywords: devika, open, source, autonomous, software, engineer, deploy, operate, stitionai, multi, agent, coding, plans, researches, writes, debugs, code, end
 
 ## Dify Platform: Deep Dive Tutorial
-- Path: tutorials/dify-platform-deep-dive
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md
+- Path: tutorials/dify-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md
 - Summary: Dify — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
 - Keywords: dify, open, source, llm, application, development, building, workflows, rag, pipelines, agents, visual, interface
 
@@ -406,8 +406,8 @@ Main repository:
 - Keywords: fireproof, local, first, document, database, native, apps, storage, encrypted, sync, capable, applications, unified, browser, node, deno, api, react
 
 ## Flowise LLM Orchestration: Deep Dive Tutorial
-- Path: tutorials/flowise-llm-orchestration
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md
+- Path: tutorials/flowise-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md
 - Summary: Flowise — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
 - Keywords: flowise, llm, orchestration, open, source, visual, tool, building, workflows, drag, drop, interface
 
@@ -502,8 +502,8 @@ Main repository:
 - Keywords: kiro, spec, driven, agentic, ide, aws, kirodotdev, structured, powered, development, workflows, agent, steering, event, automation, native, integrations
 
 ## Kubernetes Operator Patterns: Building Production-Grade Controllers
-- Path: tutorials/kubernetes-operator-patterns
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/README.md
+- Path: tutorials/kubernetes-operator-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-tutorial/README.md
 - Summary: Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.
 - Keywords: kubernetes, operator, patterns, building, grade, controllers, master, operators, hands, implementation, sdk, controller, runtime, library, enterprise, application, management
 
@@ -514,8 +514,8 @@ Main repository:
 - Keywords: lancedb, serverless, vector, database, master, open, source, designed, applications, rag, semantic, search
 
 ## LangChain Architecture: Internal Design Deep Dive
-- Path: tutorials/langchain-architecture-guide
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/README.md
+- Path: tutorials/langchain-architecture-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-tutorial/README.md
 - Summary: Deep technical walkthrough of LangChain Architecture: Internal Design Deep Dive.
 - Keywords: langchain, architecture, internal, design, technical, walkthrough
 
@@ -580,8 +580,8 @@ Main repository:
 - Keywords: llamaindex, building, advanced, rag, data, frameworks, technical, walkthrough
 
 ## LobeChat AI Platform: Deep Dive Tutorial
-- Path: tutorials/lobechat-ai-platform
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md
+- Path: tutorials/lobechat-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md
 - Summary: LobeChat — An open-source, modern-design AI chat framework for building private LLM applications.
 - Keywords: lobechat, open, source, modern, design, chat, framework, building, private, llm, applications
 
@@ -592,10 +592,10 @@ Main repository:
 - Keywords: localai, self, hosted, openai, alternative, run, llms, image, generation, audio, models, locally, compatible, api
 
 ## Logseq: Deep Dive Tutorial
-- Path: tutorials/logseq-knowledge-management
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/README.md
+- Path: tutorials/logseq-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-tutorial/README.md
 - Summary: Logseq — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
-- Keywords: logseq, knowledge, management, privacy, first, local, block, based, editing, graph, visualization
+- Keywords: logseq, privacy, first, local, knowledge, management, block, based, editing, graph, visualization
 
 ## Mastra Tutorial: TypeScript Framework for AI Agents and Workflows
 - Path: tutorials/mastra-tutorial
@@ -766,14 +766,14 @@ Main repository:
 - Keywords: nanocoder, building, understanding, coding, agents, nano, collective, implements, local, first, agent, workflows, tool, execution, loops, multi, provider, model
 
 ## NocoDB: Deep Dive Tutorial
-- Path: tutorials/nocodb-database-platform
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/README.md
+- Path: tutorials/nocodb-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-tutorial/README.md
 - Summary: NocoDB — An open-source Airtable alternative that turns any database into a smart spreadsheet.
-- Keywords: nocodb, database, open, source, airtable, alternative, turns, any, smart, spreadsheet
+- Keywords: nocodb, open, source, airtable, alternative, turns, any, database, smart, spreadsheet
 
 ## Obsidian Outliner Plugin: Deep Dive Tutorial
-- Path: tutorials/obsidian-outliner-plugin
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/README.md
+- Path: tutorials/obsidian-outliner-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-tutorial/README.md
 - Summary: Obsidian Outliner — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
 - Keywords: obsidian, outliner, plugin, adds, style, editing, behaviors, demonstrating, advanced, architecture, patterns
 
@@ -922,8 +922,8 @@ Main repository:
 - Keywords: pocketflow, minimal, llm, framework, graph, based, power, agentic, applications, pocket, minimalist, still, supports, workflows, multi, agent, patterns, rag
 
 ## PostgreSQL Query Planner Deep Dive
-- Path: tutorials/postgresql-query-planner
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/README.md
+- Path: tutorials/postgresql-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-tutorial/README.md
 - Summary: Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.
 - Keywords: postgresql, query, planner, master, execution, engine, understand, explain, output, optimize, complex, queries, maximum, performance
 
@@ -958,8 +958,8 @@ Main repository:
 - Keywords: ragflow, complete, open, source, rag, engine, transform, documents, intelligent, comprehensive, retrieval, augmented, generation
 
 ## React Fiber Internals
-- Path: tutorials/react-fiber-internals
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/README.md
+- Path: tutorials/react-fiber-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-tutorial/README.md
 - Summary: Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
 - Keywords: react, fiber, internals, reconciliation, algorithm, architecture, powers, modern, applications
 
@@ -1090,10 +1090,10 @@ Main repository:
 - Keywords: taskade, native, workspace, genesis, agentic, operations, operate, app, generation, agents, automations, enterprise, controls, rollout, patterns
 
 ## Teable: Deep Dive Tutorial
-- Path: tutorials/teable-database-platform
-- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/README.md
+- Path: tutorials/teable-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-tutorial/README.md
 - Summary: Teable — A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.
-- Keywords: teable, database, high, performance, multi, dimensional, built, postgresql, real, time, collaboration
+- Keywords: teable, high, performance, multi, dimensional, database, built, postgresql, real, time, collaboration
 
 ## tiktoken Tutorial: OpenAI Token Encoding & Optimization
 - Path: tutorials/tiktoken-tutorial

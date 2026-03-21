@@ -12,16 +12,16 @@
 
 | Goal | Recommended Starting Tutorial | Next Tutorials |
 |:-----|:------------------------------|:---------------|
-| Learn React internals | [React Fiber](../tutorials/react-fiber-internals/) | [LangChain Architecture](../tutorials/langchain-architecture-guide/) |
-| Learn production K8s control loops | [Kubernetes Operators](../tutorials/kubernetes-operator-patterns/) | [n8n MCP](../tutorials/n8n-mcp-tutorial/) |
+| Learn React internals | [React Fiber](../tutorials/react-fiber-tutorial/) | [LangChain Architecture](../tutorials/langchain-architecture-tutorial/) |
+| Learn production K8s control loops | [Kubernetes Operators](../tutorials/kubernetes-operator-tutorial/) | [n8n MCP](../tutorials/n8n-mcp-tutorial/) |
 | Learn web-scale data extraction | [Firecrawl](../tutorials/firecrawl-tutorial/) | [OpenHands](../tutorials/openhands-tutorial/) for autonomous SWE workflows |
 | Learn local-first app runtime design | [Dyad](../tutorials/dyad-tutorial/) | [VibeSDK](../tutorials/vibesdk-tutorial/) |
 
 ## Featured Systems Tracks
 
-- [Kubernetes Operator Patterns](../tutorials/kubernetes-operator-patterns/)
-- [React Fiber Internals](../tutorials/react-fiber-internals/)
-- [LangChain Architecture Guide](../tutorials/langchain-architecture-guide/)
+- [Kubernetes Operator Patterns](../tutorials/kubernetes-operator-tutorial/)
+- [React Fiber Internals](../tutorials/react-fiber-tutorial/)
+- [LangChain Architecture Guide](../tutorials/langchain-architecture-tutorial/)
 - [Firecrawl](../tutorials/firecrawl-tutorial/)
 
 ## Related Hubs

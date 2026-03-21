@@ -13,17 +13,17 @@
 | Goal | Recommended Starting Tutorial | Next Tutorials |
 |:-----|:------------------------------|:---------------|
 | Build app backends quickly | [Supabase](../tutorials/supabase-tutorial/) | [PostHog](../tutorials/posthog-tutorial/) |
-| Understand Airtable-style platforms | [NocoDB](../tutorials/nocodb-database-platform/) | [Teable](../tutorials/teable-database-platform/) |
+| Understand Airtable-style platforms | [NocoDB](../tutorials/nocodb-tutorial/) | [Teable](../tutorials/teable-tutorial/) |
 | Learn search and retrieval systems | [MeiliSearch](../tutorials/meilisearch-tutorial/) | [Chroma](../tutorials/chroma-tutorial/) → [LanceDB](../tutorials/lancedb-tutorial/) |
-| Learn analytical internals | [ClickHouse](../tutorials/clickhouse-tutorial/) | [PostgreSQL Planner](../tutorials/postgresql-query-planner/) |
-| Build knowledge systems | [Logseq](../tutorials/logseq-knowledge-management/) | [Athens Research](../tutorials/athens-research-knowledge-graph/) |
+| Learn analytical internals | [ClickHouse](../tutorials/clickhouse-tutorial/) | [PostgreSQL Planner](../tutorials/postgresql-tutorial/) |
+| Build knowledge systems | [Logseq](../tutorials/logseq-tutorial/) | [Athens Research](../tutorials/athens-research-tutorial/) |
 
 ## Featured Data Tutorial Tracks
 
-- [NocoDB](../tutorials/nocodb-database-platform/)
-- [Teable](../tutorials/teable-database-platform/)
+- [NocoDB](../tutorials/nocodb-tutorial/)
+- [Teable](../tutorials/teable-tutorial/)
 - [ClickHouse](../tutorials/clickhouse-tutorial/)
-- [PostgreSQL Query Planner](../tutorials/postgresql-query-planner/)
+- [PostgreSQL Query Planner](../tutorials/postgresql-tutorial/)
 - [MeiliSearch](../tutorials/meilisearch-tutorial/)
 - [Liveblocks](../tutorials/liveblocks-tutorial/)
 

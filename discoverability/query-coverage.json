@@ -382,27 +382,27 @@
           "title": "CopilotKit Tutorial: Building AI Copilots for React Applications"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md",
           "intent_signals": [
             "architecture-deep-dive"
           ],
-          "slug": "lobechat-ai-platform",
+          "slug": "lobechat-tutorial",
           "title": "LobeChat AI Platform: Deep Dive Tutorial"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md",
           "intent_signals": [
             "architecture-deep-dive"
           ],
-          "slug": "flowise-llm-orchestration",
+          "slug": "flowise-tutorial",
           "title": "Flowise LLM Orchestration: Deep Dive Tutorial"
         },
         {
-          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md",
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md",
           "intent_signals": [
             "architecture-deep-dive"
           ],
-          "slug": "dify-platform-deep-dive",
+          "slug": "dify-tutorial",
           "title": "Dify Platform: Deep Dive Tutorial"
         },
         {

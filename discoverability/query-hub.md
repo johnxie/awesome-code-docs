@@ -139,11 +139,11 @@ Recommended tutorials:
   - Build robust AI product features with vercel/ai, including streaming, structured outputs, tool loops, framework integration, and production deployment patterns.
 - [CopilotKit Tutorial: Building AI Copilots for React Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/README.md)
   - Create in-app AI assistants, chatbots, and agentic UIs with the open-source CopilotKit framework.
-- [LobeChat AI Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md)
+- [LobeChat AI Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md)
   - LobeChat — An open-source, modern-design AI chat framework for building private LLM applications.
-- [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md)
+- [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md)
   - Flowise — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
-- [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md)
+- [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md)
   - Dify — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
 - [Open WebUI Tutorial: Self-Hosted AI Workspace and Chat Interface](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/open-webui-tutorial/README.md)
   - Learn how to run and operate open-webui/open-webui as a self-hosted AI interface with model routing, RAG workflows, multi-user controls, and production deployment patterns.

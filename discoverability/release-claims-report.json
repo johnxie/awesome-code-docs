@@ -16,7 +16,7 @@
     },
     {
       "age_days": 1302,
-      "file": "tutorials/athens-research-knowledge-graph/README.md",
+      "file": "tutorials/athens-research-tutorial/README.md",
       "line": "- latest release: [`v2.0.0`](https://github.com/athensresearch/athens/releases/tag/v2.0.0) (published 2022-08-22)",
       "line_number": 119,
       "parsed_date": "2022-08-22"
@@ -51,7 +51,7 @@
     },
     {
       "age_days": 166,
-      "file": "tutorials/codex-analysis-platform/README.md",
+      "file": "tutorials/codex-analysis-tutorial/README.md",
       "line": "- latest release: [`v5.9.3`](https://github.com/microsoft/TypeScript/releases/tag/v5.9.3) (published 2025-10-01)",
       "line_number": 31,
       "parsed_date": "2025-10-01"
@@ -156,7 +156,7 @@
     },
     {
       "age_days": 182,
-      "file": "tutorials/teable-database-platform/README.md",
+      "file": "tutorials/teable-tutorial/README.md",
       "line": "- latest release: [`v1.10.0`](https://github.com/teableio/teable/releases/tag/v1.10.0) (published 2025-09-15)",
       "line_number": 123,
       "parsed_date": "2025-09-15"
