@@ -27,6 +27,12 @@ jobs:
         run: |
           python scripts/refresh_tutorial_snapshots.py
 
+      - name: Verify Tutorial Sources
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/verify_tutorial_sources.py
+
       - name: Regenerate Repository Docs Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
