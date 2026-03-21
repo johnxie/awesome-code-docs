@@ -171,6 +171,12 @@
 - [Plane](../tutorials/plane-tutorial/)
 - [MetaGPT](../tutorials/metagpt-tutorial/)
 - [A2A Protocol](../tutorials/a2a-protocol-tutorial/)
+- [Appsmith](../tutorials/appsmith-tutorial/)
+- [tldraw](../tutorials/tldraw-tutorial/)
+- [Windmill](../tutorials/windmill-tutorial/)
+- [Crawl4AI](../tutorials/crawl4ai-tutorial/)
+- [E2B](../tutorials/e2b-tutorial/)
+- [OpenAI Agents](../tutorials/openai-agents-tutorial/)
 
 ## Suggest Additions
 

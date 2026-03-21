@@ -308,6 +308,22 @@
           ],
           "slug": "ollama-tutorial",
           "title": "Ollama Tutorial: Running and Serving LLMs Locally"
+        },
+        {
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crawl4ai-tutorial/README.md",
+          "intent_signals": [
+            "rag-implementation"
+          ],
+          "slug": "crawl4ai-tutorial",
+          "title": "Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines"
+        },
+        {
+          "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tldraw-tutorial/README.md",
+          "intent_signals": [
+            "rag-implementation"
+          ],
+          "slug": "tldraw-tutorial",
+          "title": "tldraw Tutorial: Infinite Canvas SDK with AI-Powered \"Make Real\" App Generation"
         }
       ]
     },

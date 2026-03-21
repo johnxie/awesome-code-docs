@@ -2,7 +2,7 @@
 
 Auto-generated topical clusters to strengthen internal linking and query-to-tutorial mapping.
 
-- Total tutorials: **195**
+- Total tutorials: **201**
 - Total clusters: **9**
 - Source: `scripts/generate_discoverability_assets.py`
 
@@ -64,7 +64,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## ai-coding-agents
 
-- tutorial_count: **87**
+- tutorial_count: **89**
 
 - [A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/a2a-protocol-tutorial/README.md)
   - intents: agentic-coding
@@ -116,7 +116,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: agentic-coding
 - [Cline Tutorial: Agentic Coding with Human Control](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cline-tutorial/README.md)
   - intents: agentic-coding
-- ... plus 62 more tutorials in this cluster
+- ... plus 64 more tutorials in this cluster
 
 ## data-and-storage
 
@@ -195,10 +195,12 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## mcp-ecosystem
 
-- tutorial_count: **37**
+- tutorial_count: **39**
 
 - [Anthropic API Tutorial: Build Production Apps with Claude](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/README.md)
   - intents: production-operations, mcp-integration
+- [Appsmith Tutorial: Low-Code Internal Tools](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/appsmith-tutorial/README.md)
+  - intents: mcp-integration
 - [Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-mcp-servers-tutorial/README.md)
   - intents: tool-selection, mcp-integration
 - [Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/cherry-studio-tutorial/README.md)
@@ -245,15 +247,15 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: production-operations, mcp-integration
 - [MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-rust-sdk-tutorial/README.md)
   - intents: production-operations, mcp-integration
-- [MCP Servers Tutorial: Reference Implementations and Patterns](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mcp-servers-tutorial/README.md)
-  - intents: production-operations, mcp-integration
-- ... plus 12 more tutorials in this cluster
+- ... plus 14 more tutorials in this cluster
 
 ## rag-and-retrieval
 
-- tutorial_count: **7**
+- tutorial_count: **9**
 
 - [ChromaDB Tutorial: Building AI-Native Vector Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/chroma-tutorial/README.md)
+  - intents: rag-implementation
+- [Crawl4AI Tutorial: LLM-Friendly Web Crawling for RAG Pipelines](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/crawl4ai-tutorial/README.md)
   - intents: rag-implementation
 - [Haystack: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/README.md)
   - intents: production-operations, architecture-deep-dive, rag-implementation
@@ -266,6 +268,8 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 - [Quivr Tutorial: Open-Source RAG Framework for Document Ingestion](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/quivr-tutorial/README.md)
   - intents: rag-implementation
 - [RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/README.md)
+  - intents: rag-implementation
+- [tldraw Tutorial: Infinite Canvas SDK with AI-Powered "Make Real" App Generation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tldraw-tutorial/README.md)
   - intents: rag-implementation
 
 ## systems-and-internals
