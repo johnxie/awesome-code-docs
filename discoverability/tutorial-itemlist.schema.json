@@ -84,7 +84,7 @@
       "description": "Athens Research \u2014 An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.",
       "name": "Athens Research: Deep Dive Tutorial",
       "position": 12,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -287,7 +287,7 @@
       "description": "Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.",
       "name": "Codex Analysis Platform Tutorial: Build Code Intelligence Systems",
       "position": 41,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -399,7 +399,7 @@
       "description": "Dify \u2014 An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.",
       "name": "Dify Platform: Deep Dive Tutorial",
       "position": 57,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -476,7 +476,7 @@
       "description": "Flowise \u2014 An open-source visual tool for building LLM workflows with a drag-and-drop interface.",
       "name": "Flowise LLM Orchestration: Deep Dive Tutorial",
       "position": 68,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -588,7 +588,7 @@
       "description": "Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.",
       "name": "Kubernetes Operator Patterns: Building Production-Grade Controllers",
       "position": 84,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -602,7 +602,7 @@
       "description": "Deep technical walkthrough of LangChain Architecture: Internal Design Deep Dive.",
       "name": "LangChain Architecture: Internal Design Deep Dive",
       "position": 86,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -679,7 +679,7 @@
       "description": "LobeChat \u2014 An open-source, modern-design AI chat framework for building private LLM applications.",
       "name": "LobeChat AI Platform: Deep Dive Tutorial",
       "position": 97,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -693,7 +693,7 @@
       "description": "Logseq \u2014 A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.",
       "name": "Logseq: Deep Dive Tutorial",
       "position": 99,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -896,14 +896,14 @@
       "description": "NocoDB \u2014 An open-source Airtable alternative that turns any database into a smart spreadsheet.",
       "name": "NocoDB: Deep Dive Tutorial",
       "position": 128,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-tutorial/README.md"
     },
     {
       "@type": "ListItem",
       "description": "Obsidian Outliner \u2014 A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.",
       "name": "Obsidian Outliner Plugin: Deep Dive Tutorial",
       "position": 129,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -1078,7 +1078,7 @@
       "description": "Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.",
       "name": "PostgreSQL Query Planner Deep Dive",
       "position": 154,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -1120,7 +1120,7 @@
       "description": "Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.",
       "name": "React Fiber Internals",
       "position": 160,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-tutorial/README.md"
     },
     {
       "@type": "ListItem",
@@ -1274,7 +1274,7 @@
       "description": "Teable \u2014 A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.",
       "name": "Teable: Deep Dive Tutorial",
       "position": 182,
-      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/README.md"
+      "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-tutorial/README.md"
     },
     {
       "@type": "ListItem",

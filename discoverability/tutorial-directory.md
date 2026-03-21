@@ -29,7 +29,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
 - [AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/README.md)
   - Learn how to deploy and operate Mintplex-Labs/anything-llm for document-grounded chat, workspace management, agent workflows, and production use.
-- [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/README.md)
+- [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
   - Athens Research — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
 - [AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md)
   - Learn how to use HKUDS/AutoAgent to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
@@ -91,7 +91,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A practical engineering guide to cline/cline: install, operate, and govern Cline across local development and team environments.
 - [CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codemachine-cli-tutorial/README.md)
   - Learn how to use moazbuilds/CodeMachine-CLI to orchestrate repeatable coding-agent workflows with multi-agent coordination, context control, and long-running execution.
-- [Codex Analysis Platform Tutorial: Build Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/README.md)
+- [Codex Analysis Platform Tutorial: Build Code Intelligence Systems](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-tutorial/README.md)
   - Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.
 - [Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-cli-tutorial/README.md)
   - Learn how to use openai/codex to run a lightweight coding agent locally, with strong controls for auth, configuration, MCP integration, and sandboxed execution.
@@ -124,7 +124,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
 - [Devika Tutorial: Open-Source Autonomous AI Software Engineer](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/devika-tutorial/README.md)
   - Learn how to deploy and operate stitionai/devika — a multi-agent autonomous coding system that plans, researches, writes, and debugs code end-to-end.
-- [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md)
+- [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md)
   - Dify — An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.
 - [DSPy Tutorial: Programming Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dspy-tutorial/README.md)
   - Learn to program language models declaratively with DSPy, the Stanford NLP framework for systematic prompt optimization and modular LLM pipelines.
@@ -152,7 +152,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Deep technical walkthrough of Firecrawl Tutorial: Building LLM-Ready Web Scraping and Data Extraction Systems.
 - [Fireproof Tutorial: Local-First Document Database for AI-Native Apps](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/README.md)
   - Learn how to use fireproof-storage/fireproof to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.
-- [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md)
+- [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md)
   - Flowise — An open-source visual tool for building LLM workflows with a drag-and-drop interface.
 
 ## G
@@ -198,14 +198,14 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use MoonshotAI/kimi-cli to run an interactive terminal coding agent with configurable modes, MCP integrations, and ACP-based IDE connectivity.
 - [Kiro Tutorial: Spec-Driven Agentic IDE from AWS](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kiro-tutorial/README.md)
   - Learn how to use kirodotdev/Kiro for structured AI-powered development with spec-driven workflows, agent steering, event-driven automation, and AWS-native integrations.
-- [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/README.md)
+- [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-tutorial/README.md)
   - Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.
 
 ## L
 
 - [LanceDB Tutorial: Serverless Vector Database for AI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lancedb-tutorial/README.md)
   - Master LanceDB, the open-source serverless vector database designed for AI applications, RAG systems, and semantic search.
-- [LangChain Architecture: Internal Design Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/README.md)
+- [LangChain Architecture: Internal Design Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-tutorial/README.md)
   - Deep technical walkthrough of LangChain Architecture: Internal Design Deep Dive.
 - [LangChain Tutorial: Building AI Applications with Large Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/README.md)
   - Pydantic 2 Required: LangChain v0.3 fully migrated to Pydantic 2. Code using langchain_core.pydantic_v1 should be updated to native Pydantic 2 syntax.
@@ -227,11 +227,11 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of LLaMA-Factory covering Unified Framework for LLM Training and Fine-tuning.
 - [LlamaIndex Tutorial: Building Advanced RAG Systems and Data Frameworks](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/llamaindex-tutorial/README.md)
   - A deep technical walkthrough of LlamaIndex covering Building Advanced RAG Systems and Data Frameworks.
-- [LobeChat AI Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md)
+- [LobeChat AI Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md)
   - LobeChat — An open-source, modern-design AI chat framework for building private LLM applications.
 - [LocalAI Tutorial: Self-Hosted OpenAI Alternative](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/localai-tutorial/README.md)
   - Run LLMs, image generation, and audio models locally with an OpenAI-compatible API.
-- [Logseq: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/README.md)
+- [Logseq: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-tutorial/README.md)
   - Logseq — A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.
 
 ## M
@@ -297,12 +297,12 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - n8n — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use.
 - [Nanocoder Tutorial: Building and Understanding AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nanocoder-tutorial/README.md)
   - Learn how Nano-Collective/nanocoder implements local-first coding-agent workflows, tool execution loops, and multi-provider model integration.
-- [NocoDB: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/README.md)
+- [NocoDB: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-tutorial/README.md)
   - NocoDB — An open-source Airtable alternative that turns any database into a smart spreadsheet.
 
 ## O
 
-- [Obsidian Outliner Plugin: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/README.md)
+- [Obsidian Outliner Plugin: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-tutorial/README.md)
   - Obsidian Outliner — A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.
 - [Ollama Tutorial: Running and Serving LLMs Locally](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ollama-tutorial/README.md)
   - Learn how to use ollama/ollama for local model execution, customization, embeddings/RAG, integration, and production deployment.
@@ -357,7 +357,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to use microsoft/playwright-mcp to give AI coding agents structured browser automation with accessibility snapshots, deterministic actions, and portable MCP host integrations.
 - [PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/pocketflow-tutorial/README.md)
   - Learn how to build agentic applications with The-Pocket/PocketFlow, a minimalist graph framework that still supports workflows, multi-agent patterns, RAG, and human-in-the-loop flows.
-- [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/README.md)
+- [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-tutorial/README.md)
   - Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.
 - [PostHog Tutorial: Open Source Product Analytics Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/posthog-tutorial/README.md)
   - Deep technical walkthrough of PostHog Tutorial: Open Source Product Analytics Platform.
@@ -375,7 +375,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [RAGFlow Tutorial: Complete Guide to Open-Source RAG Engine](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ragflow-tutorial/README.md)
   - Transform documents into intelligent Q&A systems with RAGFlow's comprehensive RAG (Retrieval-Augmented Generation) platform.
-- [React Fiber Internals](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/README.md)
+- [React Fiber Internals](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-tutorial/README.md)
   - Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.
 - [Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/refly-tutorial/README.md)
   - Learn how to use refly-ai/refly to turn vibe workflows into reusable, versioned agent skills that can run via API, webhook, and CLI integrations.
@@ -423,7 +423,7 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn how to run, extend, and operate taskade/mcp to connect Taskade workspaces, tasks, projects, and AI agents into MCP-compatible clients.
 - [Taskade Tutorial: AI-Native Workspace, Genesis, and Agentic Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/taskade-tutorial/README.md)
   - Learn how to operate Taskade as an AI-native workspace system: Genesis app generation, AI agents, automations, enterprise controls, and production rollout patterns.
-- [Teable: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/README.md)
+- [Teable: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-tutorial/README.md)
   - Teable — A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.
 - [tiktoken Tutorial: OpenAI Token Encoding & Optimization](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/tiktoken-tutorial/README.md)
   - Master tiktoken, OpenAI's fast BPE tokenizer, to accurately count tokens, optimize prompts, and reduce API costs.

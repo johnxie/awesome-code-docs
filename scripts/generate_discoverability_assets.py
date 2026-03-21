@@ -260,9 +260,9 @@ QUERY_HUBS: tuple[dict[str, object], ...] = (
         "prefer_slugs": (
             "vercel-ai-tutorial",
             "copilotkit-tutorial",
-            "lobechat-ai-platform",
-            "flowise-llm-orchestration",
-            "dify-platform-deep-dive",
+            "lobechat-tutorial",
+            "flowise-tutorial",
+            "dify-tutorial",
             "open-webui-tutorial",
             "chatbox-tutorial",
         ),

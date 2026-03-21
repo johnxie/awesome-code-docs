@@ -641,7 +641,7 @@ This chapter is expanded to v1-style depth for production-grade learning and imp
 - [Cline Tutorial](../cline-tutorial/)
 - [Roo Code Tutorial](../roo-code-tutorial/)
 - [Continue Tutorial](../continue-tutorial/)
-- [Codex Analysis Platform](../codex-analysis-platform/)
+- [Codex Analysis Platform](../codex-analysis-tutorial/)
 - [Chapter 1: Getting Started](01-getting-started.md)
 
 ### Advanced Practice Exercises

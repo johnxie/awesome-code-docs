@@ -73,7 +73,7 @@ flowchart LR
 - [Cline Tutorial](../cline-tutorial/)
 - [Roo Code Tutorial](../roo-code-tutorial/)
 - [Continue Tutorial](../continue-tutorial/)
-- [Codex Analysis Platform](../codex-analysis-platform/)
+- [Codex Analysis Platform](../codex-analysis-tutorial/)
 
 ---
 

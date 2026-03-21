@@ -71,7 +71,7 @@ Use this quick-start map if you searched for a specific outcome.
 | task-driven autonomous agents | [BabyAGI](tutorials/babyagi-tutorial/) | [AutoGen](tutorials/autogen-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [LangGraph](tutorials/langgraph-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
-| build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-ai-platform/) |
+| build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-tutorial/) |
 | taskade ai / genesis / mcp workflows | [Taskade](tutorials/taskade-tutorial/) | [Taskade Docs](tutorials/taskade-docs-tutorial/) → [Taskade MCP](tutorials/taskade-mcp-tutorial/) → [Taskade Awesome Vibe Coding](tutorials/taskade-awesome-vibe-coding-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) |
 | build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [MCP Quickstart Resources](tutorials/mcp-quickstart-resources-tutorial/) → [Create Python Server](tutorials/create-python-server-tutorial/) → [MCP Docs Repo](tutorials/mcp-docs-repo-tutorial/) → [Create TypeScript Server](tutorials/create-typescript-server-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](tutorials/mcp-ruby-sdk-tutorial/) → [MCP PHP SDK](tutorials/mcp-php-sdk-tutorial/) → [MCP Ext Apps](tutorials/mcp-ext-apps-tutorial/) → [MCPB](tutorials/mcpb-tutorial/) → [use-mcp](tutorials/use-mcp-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) → [MCP Chrome](tutorials/mcp-chrome-tutorial/) → [Firecrawl MCP Server](tutorials/firecrawl-mcp-server-tutorial/) |
 
@@ -252,9 +252,9 @@ Full-stack AI chat platforms and copilots.
 
 | Tutorial | Stars | Stack | What You'll Learn |
 |:---------|:-----:|:------|:------------------|
-| **[LobeChat](tutorials/lobechat-ai-platform/)** | 71K+ | Next.js | Modern AI chat, plugins, theming |
-| **[Dify](tutorials/dify-platform-deep-dive/)** | 60K+ | Python/React | Visual LLM app builder |
-| **[Flowise](tutorials/flowise-llm-orchestration/)** | 35K+ | Node.js/React | Visual LLM workflow orchestration |
+| **[LobeChat](tutorials/lobechat-tutorial/)** | 71K+ | Next.js | Modern AI chat, plugins, theming |
+| **[Dify](tutorials/dify-tutorial/)** | 60K+ | Python/React | Visual LLM app builder |
+| **[Flowise](tutorials/flowise-tutorial/)** | 35K+ | Node.js/React | Visual LLM workflow orchestration |
 | **[CopilotKit](tutorials/copilotkit-tutorial/)** | 15K+ | React/TypeScript | In-app AI copilots |
 | **[Chatbox](tutorials/chatbox-tutorial/)** | 24K+ | JavaScript/React | Multi-provider chat client |
 | **[Vercel AI SDK](tutorials/vercel-ai-tutorial/)** | 21K+ | TypeScript | AI-powered React/Next.js apps |
@@ -293,7 +293,7 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[Claude Task Master](tutorials/claude-task-master-tutorial/)** | - | TypeScript | AI-powered task management |
 | **[CopilotKit](tutorials/copilotkit-tutorial/)** | 15K+ | React | In-app AI assistants |
 | **[Nanocoder](tutorials/nanocoder-tutorial/)** | - | TypeScript | AI coding agent internals |
-| **[Codex Analysis](tutorials/codex-analysis-platform/)** | - | TypeScript | Static analysis platform and LSP architecture |
+| **[Codex Analysis](tutorials/codex-analysis-tutorial/)** | - | TypeScript | Static analysis platform and LSP architecture |
 | **[Turborepo](tutorials/turborepo-tutorial/)** | 27K+ | Rust | High-performance monorepo builds |
 | **[n8n AI](tutorials/n8n-ai-tutorial/)** | 52K+ | Node.js | Visual AI workflow automation |
 | **[Activepieces](tutorials/activepieces-tutorial/)** | 20.8K+ | TypeScript | Open-source automation platform, custom pieces, and admin governance |
@@ -411,15 +411,15 @@ Data platforms, knowledge management, and observability.
 |:---------|:-----:|:------|:------------------|
 | **[Supabase](tutorials/supabase-tutorial/)** | 75K+ | PostgreSQL/TypeScript | Realtime DB, auth, edge functions |
 | **[PostHog](tutorials/posthog-tutorial/)** | 23K+ | Python/TypeScript | Product analytics, feature flags |
-| **[NocoDB](tutorials/nocodb-database-platform/)** | 50K+ | Node.js/Vue | Open-source Airtable alternative |
-| **[Teable](tutorials/teable-database-platform/)** | 15K+ | TypeScript/PostgreSQL | Multi-dimensional data platform |
+| **[NocoDB](tutorials/nocodb-tutorial/)** | 50K+ | Node.js/Vue | Open-source Airtable alternative |
+| **[Teable](tutorials/teable-tutorial/)** | 15K+ | TypeScript/PostgreSQL | Multi-dimensional data platform |
 | **[SiYuan](tutorials/siyuan-tutorial/)** | 25K+ | Go/TypeScript | Privacy-first knowledge management |
-| **[Logseq](tutorials/logseq-knowledge-management/)** | 34K+ | ClojureScript | Local-first knowledge graph |
+| **[Logseq](tutorials/logseq-tutorial/)** | 34K+ | ClojureScript | Local-first knowledge graph |
 | **[OpenBB](tutorials/openbb-tutorial/)** | 35K+ | Python | Open-source financial terminal |
-| **[Athens Research](tutorials/athens-research-knowledge-graph/)** | - | ClojureScript | Graph-based knowledge system |
-| **[Obsidian Outliner](tutorials/obsidian-outliner-plugin/)** | - | TypeScript | Obsidian plugin architecture |
+| **[Athens Research](tutorials/athens-research-tutorial/)** | - | ClojureScript | Graph-based knowledge system |
+| **[Obsidian Outliner](tutorials/obsidian-outliner-tutorial/)** | - | TypeScript | Obsidian plugin architecture |
 | **[ClickHouse](tutorials/clickhouse-tutorial/)** | 39K+ | C++ | Column-oriented analytics DB |
-| **[PostgreSQL Planner](tutorials/postgresql-query-planner/)** | - | C | Query planning internals |
+| **[PostgreSQL Planner](tutorials/postgresql-tutorial/)** | - | C | Query planning internals |
 | **[MeiliSearch](tutorials/meilisearch-tutorial/)** | 48K+ | Rust | Lightning-fast search engine |
 | **[PhotoPrism](tutorials/photoprism-tutorial/)** | 36K+ | Go | AI-powered photo management |
 | **[Liveblocks](tutorials/liveblocks-tutorial/)** | 4K+ | TypeScript | Real-time collaboration infra |
@@ -431,10 +431,10 @@ Low-level systems, cloud native, and infrastructure patterns.
 
 | Tutorial | Stars | Stack | What You'll Learn |
 |:---------|:-----:|:------|:------------------|
-| **[Kubernetes Operators](tutorials/kubernetes-operator-patterns/)** | - | Go | Production-grade K8s operator patterns |
-| **[React Fiber](tutorials/react-fiber-internals/)** | - | JavaScript | React reconciler internals |
+| **[Kubernetes Operators](tutorials/kubernetes-operator-tutorial/)** | - | Go | Production-grade K8s operator patterns |
+| **[React Fiber](tutorials/react-fiber-tutorial/)** | - | JavaScript | React reconciler internals |
 | **[Dyad](tutorials/dyad-tutorial/)** | 19K+ | TypeScript | Local AI app development |
-| **[LangChain Architecture](tutorials/langchain-architecture-guide/)** | - | Python | LangChain deep architecture guide |
+| **[LangChain Architecture](tutorials/langchain-architecture-tutorial/)** | - | Python | LangChain deep architecture guide |
 | **[n8n MCP](tutorials/n8n-mcp-tutorial/)** | - | TypeScript | Model Context Protocol with n8n |
 | **[Firecrawl](tutorials/firecrawl-tutorial/)** | 22K+ | Python | LLM-ready web data extraction |
 
