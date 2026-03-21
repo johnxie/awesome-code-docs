@@ -3,6 +3,7 @@ layout: default
 title: "SiYuan Tutorial"
 nav_order: 12
 has_children: true
+format_version: v2
 ---
 
 # SiYuan Tutorial: Privacy-First Knowledge Management
@@ -17,6 +18,9 @@ has_children: true
 SiYuan<sup>[View Repo](https://github.com/siyuan-note/siyuan)</sup> is a privacy-first personal knowledge management system that focuses on building a completely self-hosted, local-first knowledge base. Unlike cloud-based solutions, SiYuan gives you full control over your data while providing powerful features for organizing and connecting your thoughts.
 
 SiYuan combines the best of note-taking apps with advanced features like block-based editing, bi-directional linking, and powerful query capabilities. It's designed for serious knowledge workers who value privacy and data ownership.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -42,7 +46,18 @@ flowchart TD
     class H,I,J extensions
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+SiYuan is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of SiYuan covering Privacy-First Knowledge Management, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with siyuan
+- understanding block-based architecture
+- understanding data storage & persistence
+- understanding query system & search
+
+## Chapter Guide
 
 Welcome to your journey through SiYuan's architecture! This tutorial explores how to build privacy-first knowledge management systems with local data control.
 
@@ -61,7 +76,7 @@ Welcome to your journey through SiYuan's architecture! This tutorial explores ho
 - stars: about **41.9k**
 - latest release: [`v3.6.0`](https://github.com/siyuan-note/siyuan/releases/tag/v3.6.0) (published 2026-03-13)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

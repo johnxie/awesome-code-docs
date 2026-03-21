@@ -158,7 +158,7 @@
     },
     {
       "@type": "ListItem",
-      "description": "This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications",
+      "description": "Important Notice (2025): Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.",
       "name": "Botpress Tutorial: Open Source Conversational AI Platform",
       "position": 23,
       "url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md"

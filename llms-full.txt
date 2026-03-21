@@ -138,8 +138,8 @@ Main repository:
 ## Botpress Tutorial: Open Source Conversational AI Platform
 - Path: tutorials/botpress-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md
-- Summary: This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications
-- Keywords: botpress, open, source, conversational, comprehensive, will, powerful, building, applications
+- Summary: Important Notice (2025): Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.
+- Keywords: botpress, open, source, conversational, important, notice, v12, has, been, sunset, longer, available, new, deployments, however, existing, customers, active
 
 ## Browser Use Tutorial: AI-Powered Web Automation Agents
 - Path: tutorials/browser-use-tutorial

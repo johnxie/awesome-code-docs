@@ -662,27 +662,36 @@
       "title": "bolt.diy Tutorial: Build and Operate an Open Source AI App Builder"
     },
     {
-      "cluster": "ai-app-frameworks",
+      "cluster": "general-software",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md",
       "index_path": "tutorials/botpress-tutorial/README.md",
       "intent_signals": [
-        "general-learning"
+        "production-operations"
       ],
       "keywords": [
         "botpress",
         "open",
         "source",
         "conversational",
-        "comprehensive",
-        "will",
-        "powerful",
-        "building",
-        "applications"
+        "important",
+        "notice",
+        "v12",
+        "has",
+        "been",
+        "sunset",
+        "longer",
+        "available",
+        "new",
+        "deployments",
+        "however",
+        "existing",
+        "customers",
+        "active"
       ],
       "path": "tutorials/botpress-tutorial",
       "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/botpress-tutorial",
       "slug": "botpress-tutorial",
-      "summary": "This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications",
+      "summary": "Important Notice (2025): Botpress v12 has been sunset and is no longer available for new deployments. However, existing customers with active v12 subscriptions remain fully supported.",
       "title": "Botpress Tutorial: Open Source Conversational AI Platform"
     },
     {

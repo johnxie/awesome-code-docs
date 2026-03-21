@@ -3,6 +3,7 @@ layout: default
 title: "MCP Python SDK Tutorial"
 nav_order: 89
 has_children: true
+format_version: v2
 ---
 
 # MCP Python SDK Tutorial: Building AI Tool Servers
@@ -12,6 +13,17 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/modelcontextprotocol/python-sdk?style=social)](https://github.com/modelcontextprotocol/python-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.10+-blue)](https://github.com/modelcontextprotocol/python-sdk)
+
+## Why This Track Matters
+
+MCP Python SDK is increasingly relevant for developers working with modern AI/ML infrastructure. Master the Model Context Protocol Python SDK to build custom tool servers that extend Claude and other LLMs with powerful capabilities, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with mcp python sdk
+- understanding core concepts - resources, tools, and prompts
+- understanding server architecture
+- understanding advanced patterns
 
 ## 🎯 What is MCP Python SDK?
 
@@ -35,7 +47,7 @@ The **Model Context Protocol (MCP) Python SDK** is the official Python implement
 - stars: about **22.2k**
 - latest release: [`v1.26.0`](https://github.com/modelcontextprotocol/python-sdk/releases/tag/v1.26.0) (published 2026-01-24)
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -82,7 +94,7 @@ graph TB
     class FS,DB,API,CODE backend
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |:--------|:------|:------------------|
@@ -107,7 +119,7 @@ graph TB
 | **Testing** | pytest, pytest-asyncio |
 | **Common Integrations** | FastAPI, SQLAlchemy, httpx, aiofiles |
 
-## What You'll Build
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

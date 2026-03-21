@@ -3,6 +3,7 @@ layout: default
 title: "Phidata Tutorial"
 nav_order: 16
 has_children: true
+format_version: v2
 ---
 
 # Phidata Tutorial: Building Autonomous AI Agents
@@ -16,7 +17,18 @@ has_children: true
 
 Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framework for building autonomous AI agents with memory, reasoning, and tool integration capabilities. Create intelligent agents that can perform complex tasks, maintain conversation context, and use various tools to accomplish goals.
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Phidata is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Phidata covering Building Autonomous AI Agents, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Agent Creation**: Build autonomous AI agents with specialized capabilities
+- **Tool Integration**: Connect agents to external tools, APIs, and services
+- **Memory Management**: Implement persistent memory and context retention
+- **Multi-Agent Coordination**: Create collaborative agent teams
+
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and your first AI agent
 2. **[Chapter 2: Agent Architecture](02-agent-architecture.md)** - Understanding Phidata's agent components
@@ -33,7 +45,7 @@ Phidata<sup>[View Repo](https://github.com/phidatahq/phidata)</sup> is a framewo
 - stars: about **38.7k**
 - latest release: [`v2.5.9`](https://github.com/phidatahq/phidata/releases/tag/v2.5.9) (published 2026-03-10)
 
-## What You'll Learn
+## What You Will Learn
 
 - **Agent Creation**: Build autonomous AI agents with specialized capabilities
 - **Tool Integration**: Connect agents to external tools, APIs, and services
@@ -69,7 +81,7 @@ By the end of this tutorial, you'll be able to:
 - 📊 **Analytics**: Detailed metrics and performance tracking
 - 🚀 **Production Ready**: Enterprise-grade reliability and monitoring
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TD

@@ -3,6 +3,7 @@ layout: default
 title: "SuperAGI Tutorial"
 nav_order: 25
 has_children: true
+format_version: v2
 ---
 
 # SuperAGI Tutorial: Production-Ready Autonomous AI Agents
@@ -17,6 +18,9 @@ has_children: true
 SuperAGI<sup>[View Repo](https://github.com/TransformerOptimus/SuperAGI)</sup> is a production-ready autonomous AI agent framework that enables developers to build sophisticated AI agents capable of performing complex tasks independently. It provides a comprehensive platform for creating, deploying, and managing autonomous agents with advanced reasoning, tool integration, and self-improvement capabilities.
 
 SuperAGI combines the power of large language models with practical agent architectures, enabling agents to plan, execute, and learn from their experiences in real-world applications.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -47,7 +51,18 @@ flowchart TD
     class F,G learning
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+SuperAGI is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of SuperAGI covering Production-Ready Autonomous AI Agents, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with superagi
+- understanding agent architecture
+- understanding tool integration
+- understanding memory & learning
+
+## Chapter Guide
 
 Welcome to your journey through autonomous AI agent development! This tutorial explores how to build production-ready autonomous agents with SuperAGI.
 
@@ -66,7 +81,7 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 - stars: about **17.3k**
 - latest release: [`v0.0.14`](https://github.com/TransformerOptimus/SuperAGI/releases/tag/v0.0.14) (published 2024-01-16)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

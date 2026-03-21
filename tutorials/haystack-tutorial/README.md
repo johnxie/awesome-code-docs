@@ -3,6 +3,7 @@ layout: default
 title: "Haystack Tutorial"
 nav_order: 23
 has_children: true
+format_version: v2
 ---
 
 # Haystack: Deep Dive Tutorial
@@ -12,6 +13,17 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/deepset-ai/haystack?style=social)](https://github.com/deepset-ai/haystack)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python](https://img.shields.io/badge/Python-3.9+-blue)](https://github.com/deepset-ai/haystack)
+
+## Why This Track Matters
+
+Haystack is increasingly relevant for developers working with modern AI/ML infrastructure. **Project**: [Haystack](https://github.com/deepset-ai/haystack) — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with haystack
+- understanding document stores
+- understanding retrievers & search
+- understanding generators & llms
 
 ## What Is Haystack?
 
@@ -32,7 +44,7 @@ Haystack is an open-source LLM framework by deepset for building composable AI p
 - stars: about **24.5k**
 - latest release: [`v2.25.2`](https://github.com/deepset-ai/haystack/releases/tag/v2.25.2) (published 2026-03-05)
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -71,7 +83,7 @@ graph TB
     JOINER --> RANKER --> PROMPT --> GEN
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -104,6 +116,12 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ---
 
 *Built with insights from the [Haystack repository](https://github.com/deepset-ai/haystack) and community documentation.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

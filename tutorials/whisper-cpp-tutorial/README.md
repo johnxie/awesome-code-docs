@@ -3,6 +3,7 @@ layout: default
 title: "Whisper.cpp Tutorial"
 nav_order: 11
 has_children: true
+format_version: v2
 ---
 
 # Whisper.cpp Tutorial: High-Performance Speech Recognition in C/C++
@@ -17,6 +18,9 @@ has_children: true
 Whisper.cpp<sup>[View Repo](https://github.com/ggml-org/whisper.cpp)</sup> is a complete C/C++ port of OpenAI's Whisper automatic speech recognition (ASR) model. What makes it special is its focus on high performance, low resource usage, and the ability to run on edge devices without requiring a GPU or internet connection.
 
 Imagine building a voice assistant that can run on a Raspberry Pi, or adding speech recognition to an embedded system. Whisper.cpp makes this possible by running the Whisper model entirely on CPU with minimal memory requirements.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -40,7 +44,18 @@ flowchart TD
     class H,I,J performance
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+Whisper.cpp is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of Whisper.cpp covering High-Performance Speech Recognition in C/C++, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with whisper.cpp
+- understanding audio processing fundamentals
+- understanding model architecture & ggml
+- understanding core api & usage patterns
+
+## Chapter Guide
 
 Welcome to your journey through Whisper.cpp! This tutorial takes you from basic audio processing to building complete speech recognition applications.
 
@@ -59,7 +74,7 @@ Welcome to your journey through Whisper.cpp! This tutorial takes you from basic 
 - stars: about **47.6k**
 - latest release: [`v1.8.3`](https://github.com/ggml-org/whisper.cpp/releases/tag/v1.8.3) (published 2026-01-15)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

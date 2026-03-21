@@ -3,6 +3,7 @@ layout: default
 title: "ChromaDB Tutorial"
 nav_order: 18
 has_children: true
+format_version: v2
 ---
 
 # ChromaDB Tutorial: Building AI-Native Vector Databases
@@ -17,6 +18,9 @@ has_children: true
 Chroma<sup>[View Repo](https://github.com/chroma-core/chroma)</sup> is the AI-native open-source embedding database designed specifically for AI applications. It provides a simple, fast, and scalable solution for storing and retrieving embeddings with advanced features like metadata filtering, multimodal support, and seamless integration with popular AI frameworks.
 
 Chroma enables developers to build sophisticated AI applications with persistent memory, fast retrieval, and powerful querying capabilities without the complexity of traditional databases.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -44,7 +48,18 @@ flowchart TD
     class J,K storage
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+ChromaDB is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of ChromaDB covering Building AI-Native Vector Databases, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with chroma
+- understanding collections & documents
+- understanding embeddings & indexing
+- understanding querying & retrieval
+
+## Chapter Guide
 
 Welcome to your journey through AI-native vector databases! This tutorial explores how to build powerful AI applications with Chroma's embedding database.
 
@@ -63,7 +78,7 @@ Welcome to your journey through AI-native vector databases! This tutorial explor
 - stars: about **26.7k**
 - latest release: [`1.5.5`](https://github.com/chroma-core/chroma/releases/tag/1.5.5) (published 2026-03-10)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 

@@ -3,6 +3,7 @@ layout: default
 title: "n8n AI Tutorial"
 nav_order: 93
 has_children: true
+format_version: v2
 ---
 
 # n8n AI Tutorial: Workflow Automation with AI
@@ -19,6 +20,17 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+n8n AI is increasingly relevant for developers working with modern AI/ML infrastructure. Build powerful AI-powered automations with n8n's visual workflow builder, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Build AI Workflows** visually with n8n
+- **Connect LLM Providers** (OpenAI, Anthropic, Ollama)
+- **Process Documents** with AI extraction
+- **Create AI Agents** with tool access
+
 ## 🎯 What is n8n?
 
 **n8n**<sup>[View Repo](https://github.com/n8n-io/n8n)</sup> is a fair-code workflow automation platform that lets you connect anything to everything. With its AI capabilities, you can build intelligent automations that leverage LLMs, process documents, and make smart decisions.
@@ -33,6 +45,9 @@ has_children: true
 | **Self-Hostable** | Full control over your data |
 | **Code When Needed** | JavaScript/Python in workflows |
 | **Agents** | Build AI agents with tools |
+
+
+## Mental Model
 
 ```mermaid
 flowchart LR
@@ -67,7 +82,7 @@ flowchart LR
 - stars: about **179k**
 - latest release: [`n8n@2.11.4`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.11.4) (published 2026-03-13)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation and first workflow
 2. **[Chapter 2: AI Nodes](02-ai-nodes.md)** - Using OpenAI, Anthropic, and local models
@@ -78,7 +93,7 @@ flowchart LR
 7. **[Chapter 7: Custom AI Tools](07-custom-tools.md)** - Extending agent capabilities
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling and monitoring
 
-## What You'll Learn
+## What You Will Learn
 
 - **Build AI Workflows** visually with n8n
 - **Connect LLM Providers** (OpenAI, Anthropic, Ollama)

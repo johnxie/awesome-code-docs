@@ -3,6 +3,7 @@ layout: default
 title: "Smolagents Tutorial"
 nav_order: 76
 has_children: true
+format_version: v2
 ---
 
 # Smolagents Tutorial: Hugging Face's Lightweight Agent Framework
@@ -19,6 +20,17 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+Smolagents is increasingly relevant for developers working with modern AI/ML infrastructure. Build efficient AI agents with minimal code using Hugging Face's smolagents library, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Create Minimal Agents** that accomplish complex tasks
+- **Use Built-in Tools** for web search, image generation, and more
+- **Build Custom Tools** tailored to your domain
+- **Execute Code Safely** with sandboxed Python execution
+
 ## 🎯 What is Smolagents?
 
 **Smolagents**<sup>[View Repo](https://github.com/huggingface/smolagents)</sup> is Hugging Face's lightweight library for building AI agents. It provides a minimal yet powerful abstraction for creating agents that can use tools, execute code, and solve complex tasks.
@@ -32,6 +44,9 @@ has_children: true
 | **Tool Ecosystem** | Easy integration with Hugging Face tools and custom functions |
 | **Model Agnostic** | Works with any LLM through a unified interface |
 | **Transparency** | Clear visibility into agent reasoning and actions |
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -67,7 +82,7 @@ flowchart TD
 - stars: about **26.1k**
 - latest release: [`v1.24.0`](https://github.com/huggingface/smolagents/releases/tag/v1.24.0) (published 2026-01-16)
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first smolagent
 2. **[Chapter 2: Understanding Agents](02-understanding-agents.md)** - Agent types and execution modes
@@ -78,7 +93,7 @@ flowchart TD
 7. **[Chapter 7: Advanced Patterns](07-advanced.md)** - Multi-agent systems and orchestration
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling, safety, and best practices
 
-## What You'll Learn
+## What You Will Learn
 
 - **Create Minimal Agents** that accomplish complex tasks
 - **Use Built-in Tools** for web search, image generation, and more

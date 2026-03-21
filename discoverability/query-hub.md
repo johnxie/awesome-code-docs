@@ -157,8 +157,8 @@ Recommended tutorials:
   - Learn how to use activepieces/activepieces to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.
 - [Fireproof Tutorial: Local-First Document Database for AI-Native Apps](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/README.md)
   - Learn how to use fireproof-storage/fireproof to build local-first, encrypted, sync-capable applications with a unified browser/Node/Deno API and React hooks.
-- [Botpress Tutorial: Open Source Conversational AI Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/botpress-tutorial/README.md)
-  - This comprehensive tutorial will guide you through Botpress, a powerful open source platform for building conversational AI applications
+- [ComfyUI Tutorial: Mastering AI Image Generation Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/comfyui-tutorial/README.md)
+  - A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows.
 
 ## Taskade AI, Genesis, and MCP Workflows
 

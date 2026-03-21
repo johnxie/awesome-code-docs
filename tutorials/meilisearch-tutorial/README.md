@@ -3,6 +3,7 @@ layout: default
 title: "MeiliSearch Tutorial"
 nav_order: 23
 has_children: true
+format_version: v2
 ---
 
 # MeiliSearch Tutorial: Lightning Fast Search Engine
@@ -26,7 +27,18 @@ MeiliSearch<sup>[View Repo](https://github.com/meilisearch/meilisearch)</sup> is
 
 ---
 
-## 🎯 What You'll Learn
+## Why This Track Matters
+
+MeiliSearch is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with meilisearch
+- understanding document management
+- understanding search fundamentals
+- understanding typo tolerance & relevance
+
+## What You Will Learn
 
 This comprehensive tutorial will guide you through Meilisearch, a powerful search engine written in Rust that provides:
 
@@ -73,7 +85,7 @@ curl -X POST 'http://localhost:7700/indexes/movies/documents' \
 curl 'http://localhost:7700/indexes/movies/search?q=avengers'
 ```
 
-## 🏗️ Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB

@@ -3,6 +3,7 @@ layout: default
 title: "AG2 Tutorial"
 nav_order: 73
 has_children: true
+format_version: v2
 ---
 
 # AG2 Tutorial: Next-Generation Multi-Agent Framework
@@ -19,6 +20,17 @@ has_children: true
 
 ---
 
+## Why This Track Matters
+
+AG2 is increasingly relevant for developers working with modern AI/ML infrastructure. Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- **Create Conversational Agents** that collaborate through natural dialogue
+- **Implement Code Execution** safely with Docker sandboxing
+- **Build Multi-Agent Systems** with group chat coordination
+- **Integrate External Tools** through function calling
+
 ## 🎯 What is AG2?
 
 **AG2**<sup>[View Repo](https://github.com/ag2ai/ag2)</sup> is the community-driven successor to Microsoft's AutoGen framework. It provides a powerful, open-source platform for building AI agents that can collaborate to solve complex tasks through natural conversation.
@@ -34,6 +46,9 @@ has_children: true
 | **Repository** | [github.com/ag2ai/ag2](https://github.com/ag2ai/ag2) | [github.com/microsoft/autogen](https://github.com/microsoft/autogen) |
 
 > **Note**: The original AutoGen creators transitioned to AG2 to promote open governance. Microsoft continues developing AutoGen as part of their Agent Framework.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -91,7 +106,7 @@ flowchart TD
 - **Group Chat** - Multiple agents collaborating
 - **Nested Chat** - Hierarchical agent structures
 
-## Tutorial Chapters
+## Chapter Guide
 
 1. **[Chapter 1: Getting Started](01-getting-started.md)** - Installation, setup, and your first AG2 agents
 2. **[Chapter 2: Agent Types](02-agent-types.md)** - Understanding and configuring different agents
@@ -103,7 +118,7 @@ flowchart TD
 8. **[Chapter 8: Production Deployment](08-production.md)** - Scaling, monitoring, and best practices
 9. **[Chapter 9: Enterprise Operations](09-enterprise-operations.md)** - Governance, evals, safety, and cost/perf tuning
 
-## What You'll Learn
+## What You Will Learn
 
 - **Create Conversational Agents** that collaborate through natural dialogue
 - **Implement Code Execution** safely with Docker sandboxing

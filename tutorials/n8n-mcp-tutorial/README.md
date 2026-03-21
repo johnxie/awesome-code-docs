@@ -3,6 +3,7 @@ layout: default
 title: "n8n MCP Tutorial"
 nav_order: 88
 has_children: true
+format_version: v2
 ---
 
 # n8n Model Context Protocol: Deep Dive Tutorial
@@ -12,6 +13,17 @@ has_children: true
 [![Stars](https://img.shields.io/github/stars/n8n-io/n8n?style=social)](https://github.com/n8n-io/n8n)
 [![License: Sustainable Use](https://img.shields.io/badge/License-Sustainable_Use-blue.svg)](https://github.com/n8n-io/n8n/blob/master/LICENSE.md)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Node.js-blue)](https://github.com/n8n-io/n8n)
+
+## Why This Track Matters
+
+n8n Model Context Protocol is increasingly relevant for developers working with modern AI/ML infrastructure. **Project**: [n8n](https://github.com/n8n-io/n8n) — Visual workflow automation with Model Context Protocol (MCP) integration for AI-powered tool use, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding understanding mcp protocol and n8n integration
+- understanding the n8nmcpengine - core integration interface
+- understanding session management and http server
+- understanding n8napiclient - communicating with n8n
 
 ## What Is This Tutorial?
 
@@ -31,7 +43,7 @@ This tutorial covers n8n's integration with the Model Context Protocol (MCP) —
 - stars: about **179k**
 - latest release: [`n8n@2.11.4`](https://github.com/n8n-io/n8n/releases/tag/n8n@2.11.4) (published 2026-03-13)
 
-## Architecture Overview
+## Mental Model
 
 ```mermaid
 graph TB
@@ -61,7 +73,7 @@ graph TB
     DISC --> TOOLS
 ```
 
-## Tutorial Structure
+## Chapter Guide
 
 | Chapter | Topic | What You'll Learn |
 |---------|-------|-------------------|
@@ -91,6 +103,12 @@ Ready to begin? Start with [Chapter 1: MCP Protocol](01_mcp_protocol.md).
 ---
 
 *Built with insights from the [n8n repository](https://github.com/n8n-io/n8n) and MCP specification.*
+
+## What You Will Learn
+
+- Core architecture and key abstractions
+- Practical patterns for production use
+- Integration and extensibility approaches
 
 ## Navigation & Backlinks
 

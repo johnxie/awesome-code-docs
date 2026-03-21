@@ -3,6 +3,7 @@ layout: default
 title: "ComfyUI Tutorial"
 nav_order: 25
 has_children: true
+format_version: v2
 ---
 
 # ComfyUI Tutorial: Mastering AI Image Generation Workflows
@@ -17,6 +18,9 @@ has_children: true
 ComfyUI<sup>[View Repo](https://github.com/comfyanonymous/ComfyUI)</sup> is a powerful and modular Stable Diffusion GUI with a graph/nodes interface that allows users to create complex AI image generation workflows with unprecedented control and flexibility. It provides a node-based interface where users can connect different components to create sophisticated image generation pipelines.
 
 ComfyUI represents a paradigm shift in AI image generation, offering unparalleled customization and control compared to traditional interfaces, making it the tool of choice for professional artists, researchers, and advanced users.
+
+
+## Mental Model
 
 ```mermaid
 flowchart TD
@@ -50,7 +54,18 @@ flowchart TD
     class E,F output
 ```
 
-## Tutorial Chapters
+## Why This Track Matters
+
+ComfyUI is increasingly relevant for developers working with modern AI/ML infrastructure. A deep technical walkthrough of ComfyUI covering Mastering AI Image Generation Workflows, and this track helps you understand the architecture, key patterns, and production considerations.
+
+This track focuses on:
+
+- understanding getting started with comfyui
+- understanding understanding nodes & workflows
+- understanding text-to-image generation
+- understanding image-to-image & inpainting
+
+## Chapter Guide
 
 Welcome to your journey through advanced AI image generation! This tutorial explores how to master ComfyUI's node-based interface for creating professional-grade image generation workflows.
 
@@ -69,7 +84,7 @@ Welcome to your journey through advanced AI image generation! This tutorial expl
 - stars: about **106k**
 - latest release: [`v0.17.2`](https://github.com/comfyanonymous/ComfyUI/releases/tag/v0.17.2) (published 2026-03-15)
 
-## What You'll Learn
+## What You Will Learn
 
 By the end of this tutorial, you'll be able to:
 
