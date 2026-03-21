@@ -1,8 +1,8 @@
 # Tutorial Source Verification Report
 
-Automated verification of GitHub source repositories referenced by `tutorials/*/index.md`.
+Automated verification of GitHub source repositories referenced by `tutorials/*/README.md`.
 
-- generated_on: **2026-03-02**
+- generated_on: **2026-03-21**
 - tutorials scanned: **191**
 - tutorials with source repos: **191**
 - tutorials without source repos: **0**
@@ -15,31 +15,31 @@ Automated verification of GitHub source repositories referenced by `tutorials/*/
 
 | Repository | Stars | Last Push | Archived |
 |:-----------|------:|:----------|:---------|
-| [`openclaw/openclaw`](https://github.com/openclaw/openclaw) | 247,023 | 2026-03-02 | no |
-| [`facebook/react`](https://github.com/facebook/react) | 243,431 | 2026-03-02 | no |
-| [`n8n-io/n8n`](https://github.com/n8n-io/n8n) | 177,197 | 2026-03-02 | no |
-| [`ollama/ollama`](https://github.com/ollama/ollama) | 163,851 | 2026-03-02 | no |
-| [`huggingface/transformers`](https://github.com/huggingface/transformers) | 157,266 | 2026-03-02 | no |
-| [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 145,194 | 2026-03-02 | no |
-| [`langgenius/dify`](https://github.com/langgenius/dify) | 130,930 | 2026-03-02 | no |
-| [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain) | 127,956 | 2026-03-02 | no |
-| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | 125,443 | 2026-03-02 | no |
-| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | 114,224 | 2026-03-02 | no |
-| [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript) | 107,995 | 2026-03-02 | no |
-| [`comfyanonymous/ComfyUI`](https://github.com/Comfy-Org/ComfyUI) | 104,688 | 2026-03-02 | no |
-| [`supabase/supabase`](https://github.com/supabase/supabase) | 98,422 | 2026-03-02 | no |
-| [`ggerganov/llama.cpp`](https://github.com/ggml-org/llama.cpp) | 96,348 | 2026-03-02 | no |
-| [`google-gemini/gemini-cli`](https://github.com/google-gemini/gemini-cli) | 96,224 | 2026-03-02 | no |
-| [`openai/whisper`](https://github.com/openai/whisper) | 95,307 | 2025-12-15 | no |
-| [`firecrawl/firecrawl`](https://github.com/firecrawl/firecrawl) | 87,358 | 2026-03-02 | no |
-| [`mendableai/firecrawl`](https://github.com/firecrawl/firecrawl) | 87,358 | 2026-03-02 | no |
-| [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) | 81,956 | 2026-02-26 | no |
-| [`anthropics/skills`](https://github.com/anthropics/skills) | 81,153 | 2026-02-25 | no |
-| [`modelcontextprotocol/servers`](https://github.com/modelcontextprotocol/servers) | 79,872 | 2026-02-28 | no |
-| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | 79,382 | 2026-03-02 | no |
-| [`infiniflow/ragflow`](https://github.com/infiniflow/ragflow) | 74,033 | 2026-03-02 | no |
-| [`lobehub/lobe-chat`](https://github.com/lobehub/lobehub) | 72,894 | 2026-03-02 | no |
-| [`anthropics/claude-code`](https://github.com/anthropics/claude-code) | 72,674 | 2026-03-02 | no |
+| [`openclaw/openclaw`](https://github.com/openclaw/openclaw) | 327,464 | 2026-03-21 | no |
+| [`facebook/react`](https://github.com/facebook/react) | 244,092 | 2026-03-20 | no |
+| [`n8n-io/n8n`](https://github.com/n8n-io/n8n) | 180,232 | 2026-03-21 | no |
+| [`ollama/ollama`](https://github.com/ollama/ollama) | 165,720 | 2026-03-20 | no |
+| [`huggingface/transformers`](https://github.com/huggingface/transformers) | 158,154 | 2026-03-20 | no |
+| [`langflow-ai/langflow`](https://github.com/langflow-ai/langflow) | 145,966 | 2026-03-21 | no |
+| [`langgenius/dify`](https://github.com/langgenius/dify) | 133,770 | 2026-03-21 | no |
+| [`langchain-ai/langchain`](https://github.com/langchain-ai/langchain) | 130,416 | 2026-03-20 | no |
+| [`open-webui/open-webui`](https://github.com/open-webui/open-webui) | 128,047 | 2026-03-20 | no |
+| [`anomalyco/opencode`](https://github.com/anomalyco/opencode) | 126,634 | 2026-03-21 | no |
+| [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript) | 108,220 | 2026-03-20 | no |
+| [`comfyanonymous/ComfyUI`](https://github.com/Comfy-Org/ComfyUI) | 106,478 | 2026-03-21 | no |
+| [`supabase/supabase`](https://github.com/supabase/supabase) | 99,368 | 2026-03-20 | no |
+| [`anthropics/skills`](https://github.com/anthropics/skills) | 98,785 | 2026-03-06 | no |
+| [`ggerganov/llama.cpp`](https://github.com/ggml-org/llama.cpp) | 98,779 | 2026-03-21 | no |
+| [`google-gemini/gemini-cli`](https://github.com/google-gemini/gemini-cli) | 98,524 | 2026-03-21 | no |
+| [`openai/whisper`](https://github.com/openai/whisper) | 96,361 | 2025-12-15 | no |
+| [`firecrawl/firecrawl`](https://github.com/firecrawl/firecrawl) | 95,811 | 2026-03-21 | no |
+| [`mendableai/firecrawl`](https://github.com/firecrawl/firecrawl) | 95,811 | 2026-03-21 | no |
+| [`affaan-m/everything-claude-code`](https://github.com/affaan-m/everything-claude-code) | 91,327 | 2026-03-21 | no |
+| [`punkpeye/awesome-mcp-servers`](https://github.com/punkpeye/awesome-mcp-servers) | 83,707 | 2026-03-19 | no |
+| [`modelcontextprotocol/servers`](https://github.com/modelcontextprotocol/servers) | 81,667 | 2026-03-17 | no |
+| [`browser-use/browser-use`](https://github.com/browser-use/browser-use) | 81,509 | 2026-03-20 | no |
+| [`anthropics/claude-code`](https://github.com/anthropics/claude-code) | 80,666 | 2026-03-20 | no |
+| [`infiniflow/ragflow`](https://github.com/infiniflow/ragflow) | 75,637 | 2026-03-20 | no |
 
 ## Tutorials Missing Source Repository Links
 

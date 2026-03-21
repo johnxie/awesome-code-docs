@@ -97,7 +97,7 @@ Quick jump links:
 
 ## ✅ Source Verification Status
 
-All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-02**:
+All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-20**:
 
 - tutorials scanned: **191**
 - tutorials with source repos: **191**
@@ -112,7 +112,7 @@ Verification artifacts:
 
 ---
 
-## 🧬 Taskade Ecosystem Snapshot (Verified 2026-02-24)
+## 🧬 Taskade Ecosystem Snapshot (Verified 2026-03-20)
 
 Live repository snapshot for high-intent Taskade/Genesis/AI/MCP searches.
 
@@ -195,6 +195,19 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[Claude Flow](tutorials/claude-flow-tutorial/)** | 14.0K+ | TypeScript | Multi-agent orchestration, MCP server operations, and V2-V3 migration tradeoffs |
 | **[Devika](tutorials/devika-tutorial/)** | 19.5K+ | Python | AI software engineer agents, planning pipeline, and production governance |
 | **[BabyAGI](tutorials/babyagi-tutorial/)** | 18K+ | Python | Task-driven autonomous agent patterns, memory, and BabyAGI 2o/3 evolution |
+| **[AgenticSeek](tutorials/agenticseek-tutorial/)** | 25.4K+ | Python | Local-first autonomous agent with multi-agent planning, browsing, and coding workflows |
+| **[Agno](tutorials/agno-tutorial/)** | 38.3K+ | Python | Multi-agent systems with memory, orchestration, and AgentOS runtime |
+| **[AutoAgent](tutorials/autoagent-tutorial/)** | 8.6K+ | Python | Zero-code agent creation through natural-language workflows |
+| **[ADK Python](tutorials/adk-python-tutorial/)** | 18.1K+ | Python | Production-grade agent engineering with Google's Agent Development Kit |
+| **[Qwen-Agent](tutorials/qwen-agent-tutorial/)** | 13.5K+ | Python | Tool-enabled agent framework with MCP, RAG, and multi-modal workflows |
+| **[Strands Agents](tutorials/strands-agents-tutorial/)** | 5.2K+ | Python | Model-driven agents with native MCP, hooks, and deployment patterns |
+| **[PocketFlow](tutorials/pocketflow-tutorial/)** | 10.1K+ | Python | Minimal LLM framework with graph-based workflows, multi-agent patterns, and RAG |
+| **[Mastra](tutorials/mastra-tutorial/)** | 21.6K+ | TypeScript | AI agents and workflows with memory and MCP tooling |
+| **[Mini-SWE-Agent](tutorials/mini-swe-agent-tutorial/)** | 3.1K+ | Python | Minimal autonomous code agent design with benchmark-oriented workflows |
+| **[SWE-agent](tutorials/swe-agent-tutorial/)** | 18.6K+ | Python | Autonomous repository repair and benchmark-driven software engineering loops |
+| **[Open SWE](tutorials/open-swe-tutorial/)** | 5.3K+ | Python | Async cloud coding agent architecture and migration playbook |
+| **[HumanLayer](tutorials/humanlayer-tutorial/)** | 9.6K+ | Python | Context engineering and human-governed coding-agent workflows |
+| **[Wshobson Agents](tutorials/wshobson-agents-tutorial/)** | 29.9K+ | TypeScript | Pluginized multi-agent workflows with specialist Claude Code agents |
 
 ### 🧠 LLM Frameworks & RAG
 
@@ -215,6 +228,7 @@ Retrieval-augmented generation, model serving, and LLM tooling.
 | **[HuggingFace](tutorials/huggingface-tutorial/)** | 145K+ | Python | Transformers, model hub, training and inference |
 | **[Semantic Kernel](tutorials/semantic-kernel-tutorial/)** | 23K+ | C#/Python | Microsoft's AI orchestration SDK |
 | **[Fabric](tutorials/fabric-tutorial/)** | 26K+ | Go/Python | AI prompt pattern framework |
+| **[Langflow](tutorials/langflow-tutorial/)** | 145K+ | Python/React | Visual AI agent and workflow platform with flow composition, APIs, and MCP deployment |
 
 ### 🖥️ LLM Infrastructure & Serving
 
@@ -251,6 +265,7 @@ Full-stack AI chat platforms and copilots.
 | **[AnythingLLM](tutorials/anything-llm-tutorial/)** | 30K+ | Node.js | All-in-one AI desktop app |
 | **[GPT-OSS](tutorials/gpt-oss-tutorial/)** | - | TypeScript | Open-source GPT implementation |
 | **[Claude Quickstarts](tutorials/claude-quickstarts-tutorial/)** | 13.7K+ | Python/TypeScript | Production Claude integration patterns |
+| **[Cherry Studio](tutorials/cherry-studio-tutorial/)** | 40.5K+ | TypeScript | Multi-provider AI desktop workspace with assistants, documents, and MCP tools |
 
 ### 🔧 Developer Tools & Productivity
 
@@ -320,6 +335,74 @@ AI coding assistants, build systems, and dev infrastructure.
 | **[OpenAI Python SDK](tutorials/openai-python-sdk-tutorial/)** | 29.8K+ | Python | GPT API, embeddings, assistants, batch processing |
 | **[tiktoken](tutorials/tiktoken-tutorial/)** | 17.1K+ | Python/Rust | Token counting, encoding, cost optimization |
 
+#### Terminal Coding Agents
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[GitHub Copilot CLI](tutorials/copilot-cli-tutorial/)** | 8.9K+ | TypeScript | Copilot agent workflows in the terminal with GitHub context and approval controls |
+| **[Gemini CLI](tutorials/gemini-cli-tutorial/)** | 96.2K+ | TypeScript | Terminal-first agent workflows with tooling, MCP extensibility, and headless automation |
+| **[Crush](tutorials/crush-tutorial/)** | 20.7K+ | Go/TypeScript | Multi-model terminal coding agent with LSP/MCP integrations and strong controls |
+| **[Kimi CLI](tutorials/kimi-cli-tutorial/)** | 6.9K+ | TypeScript | Multi-mode terminal agent with MCP and ACP connectivity |
+| **[Mistral Vibe](tutorials/mistral-vibe-tutorial/)** | 3.3K+ | TypeScript | Minimal CLI coding agent with profiles, skills, subagents, and ACP support |
+| **[Goose](tutorials/goose-tutorial/)** | 32.1K+ | Python | Extensible open-source coding agent with controlled tool execution and provider flexibility |
+| **[gptme](tutorials/gptme-tutorial/)** | 4.2K+ | Python | Local-first terminal agent with extensible tools and automation-friendly modes |
+| **[Kilo Code](tutorials/kilocode-tutorial/)** | 16.1K+ | TypeScript | Agentic engineering across IDE and CLI surfaces with multi-mode control loops |
+| **[Plandex](tutorials/plandex-tutorial/)** | 15K+ | TypeScript | Large-task coding workflows with strong context management and cumulative diff review |
+| **[Codex CLI](tutorials/codex-cli-tutorial/)** | 62.7K+ | Rust/TypeScript | Local terminal agent workflows with sandbox, auth, MCP, and policy controls |
+
+#### Multi-Agent Orchestration
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[Claude Squad](tutorials/claude-squad-tutorial/)** | 6.2K+ | Bash/Tmux | Multi-agent terminal session orchestration across isolated workspaces |
+| **[Superset Terminal](tutorials/superset-terminal-tutorial/)** | 3.3K+ | TypeScript | Command center for parallel coding agents with centralized monitoring |
+| **[Vibe Kanban](tutorials/vibe-kanban-tutorial/)** | 22.2K+ | TypeScript | Multi-agent orchestration board for Claude Code, Codex, Gemini CLI, and more |
+| **[CodeMachine CLI](tutorials/codemachine-cli-tutorial/)** | 2.3K+ | Python | Long-running coding-agent workflows with multi-agent coordination and context control |
+
+#### IDE & Visual Interfaces
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[Onlook](tutorials/onlook-tutorial/)** | 24.8K+ | TypeScript/React | Visual-first AI coding for Next.js and Tailwind with repo-backed edits |
+| **[Opcode](tutorials/opcode-tutorial/)** | 20.7K+ | TypeScript/Electron | GUI command center for Claude Code sessions, agents, and MCP servers |
+| **[Shotgun](tutorials/shotgun-tutorial/)** | 625+ | TypeScript | Spec-driven development workflows for large coding changes |
+
+#### Memory, Skills & Context
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[Cipher](tutorials/cipher-tutorial/)** | 3.5K+ | TypeScript | Shared memory layer for coding agents across IDEs, tools, and teams |
+| **[Claude-Mem](tutorials/claude-mem-tutorial/)** | 32.3K+ | Python | Persistent memory compression and retrieval for Claude Code |
+| **[Beads](tutorials/beads-tutorial/)** | 17.9K+ | Python | Git-backed task graph memory for structured coding-agent planning |
+| **[Planning with Files](tutorials/planning-with-files-tutorial/)** | 15K+ | Markdown/CLI | Persistent file-based planning workflows for coding agents |
+| **[Context7](tutorials/context7-tutorial/)** | 47.4K+ | TypeScript | Live version-aware documentation context for coding agents |
+| **[OpenSrc](tutorials/opensrc-tutorial/)** | 1K+ | TypeScript | Deep source-code context retrieval for implementation-level agent reasoning |
+| **[Serena](tutorials/serena-tutorial/)** | 20.9K+ | Python | Semantic code retrieval toolkit for coding agents on large codebases |
+| **[AGENTS.md](tutorials/agents-md-tutorial/)** | 18.4K+ | Markdown | Portable repository guidance standard for coding agents |
+| **[Claude Code Router](tutorials/claude-code-router-tutorial/)** | 28.8K+ | TypeScript | Multi-provider routing and control plane for Claude Code |
+| **[Claude Plugins Official](tutorials/claude-plugins-official-tutorial/)** | 8.8K+ | TypeScript | Managed plugin directory and contribution standards for Claude Code |
+| **[Compound Engineering Plugin](tutorials/compound-engineering-plugin-tutorial/)** | 9.7K+ | TypeScript | Compound engineering workflows across Claude Code and other toolchains |
+| **[Everything Claude Code](tutorials/everything-claude-code-tutorial/)** | 57K+ | Markdown | Production configuration patterns for Claude Code agents, hooks, and skills |
+| **[Awesome Claude Code](tutorials/awesome-claude-code-tutorial/)** | 25.8K+ | Curated List | High-signal Claude Code resources, commands, hooks, and workflows |
+| **[Awesome Claude Skills](tutorials/awesome-claude-skills-tutorial/)** | 39.6K+ | Curated List | Discovery and evaluation of reusable Claude skills for coding workflows |
+| **[OpenSkills](tutorials/openskills-tutorial/)** | 8.7K+ | TypeScript | Universal skill loading across Claude Code, Cursor, Codex, and Aider |
+| **[Refly](tutorials/refly-tutorial/)** | 6.9K+ | TypeScript | Deterministic agent skills delivered through API, webhook, and CLI surfaces |
+
+#### MCP Servers & Integrations
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[Figma Context MCP](tutorials/figma-context-mcp-tutorial/)** | 13.3K+ | TypeScript | Design-to-code context for higher-fidelity coding-agent implementation |
+| **[Chrome DevTools MCP](tutorials/chrome-devtools-mcp-tutorial/)** | 27.2K+ | TypeScript | Browser automation, tracing, and deep debugging for coding agents |
+| **[Playwright MCP](tutorials/playwright-mcp-tutorial/)** | 28K+ | TypeScript | Structured browser automation through MCP with deterministic actions |
+| **[GitHub MCP Server](tutorials/github-mcp-server-tutorial/)** | 27.4K+ | Go | GitHub operations through MCP for repos, issues, PRs, Actions, and security workflows |
+
+#### Legacy & Migration
+
+| Tutorial | Stars | Stack | What You'll Learn |
+|:---------|:-----:|:------|:------------------|
+| **[OpenCode AI Legacy](tutorials/opencode-ai-legacy-tutorial/)** | 11.2K+ | TypeScript | Archived terminal agent workflows and migration guidance to newer tooling |
+
 ### 🗄️ Databases, Knowledge & Analytics
 
 Data platforms, knowledge management, and observability.
@@ -340,6 +423,7 @@ Data platforms, knowledge management, and observability.
 | **[MeiliSearch](tutorials/meilisearch-tutorial/)** | 48K+ | Rust | Lightning-fast search engine |
 | **[PhotoPrism](tutorials/photoprism-tutorial/)** | 36K+ | Go | AI-powered photo management |
 | **[Liveblocks](tutorials/liveblocks-tutorial/)** | 4K+ | TypeScript | Real-time collaboration infra |
+| **[Fireproof](tutorials/fireproof-tutorial/)** | 950+ | JavaScript | Local-first document database with encrypted sync and React hooks |
 
 ### ⚙️ Systems & Infrastructure
 
