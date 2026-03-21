@@ -5,6 +5,7 @@ nav_order: 5
 parent: HumanLayer Tutorial
 ---
 
+
 # Chapter 5: Human Approval and High-Stakes Actions
 
 Welcome to **Chapter 5: Human Approval and High-Stakes Actions**. In this part of **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -38,604 +39,184 @@ Next: [Chapter 6: IDE and CLI Integration Patterns](06-ide-and-cli-integration-p
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- tutorial slug: **humanlayer-tutorial**
-- chapter focus: **Chapter 5: Human Approval and High-Stakes Actions**
-- system context: **Humanlayer Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 5: Human Approval and High-Stakes Actions`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [HumanLayer Repository](https://github.com/humanlayer/humanlayer)
-- [HumanLayer Releases](https://github.com/humanlayer/humanlayer/releases)
-- [HumanLayer README](https://github.com/humanlayer/humanlayer/blob/main/README.md)
-- [Legacy HumanLayer SDK Docs](https://github.com/humanlayer/humanlayer/blob/main/humanlayer.md)
-
-### Cross-Tutorial Connection Map
-
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 5: Human Approval and High-Stakes Actions`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 5: Human Approval and High-Stakes Actions
-
-- tutorial context: **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 5: Human Approval and High-Stakes Actions` as an operating subsystem inside **HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 5: Human Approval and High-Stakes Actions` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HumanLayer Repository](https://github.com/humanlayer/humanlayer)
-  Why it matters: authoritative reference on `HumanLayer Repository` (github.com).
-- [HumanLayer Releases](https://github.com/humanlayer/humanlayer/releases)
-  Why it matters: authoritative reference on `HumanLayer Releases` (github.com).
-- [HumanLayer README](https://github.com/humanlayer/humanlayer/blob/main/README.md)
-  Why it matters: authoritative reference on `HumanLayer README` (github.com).
-- [Legacy HumanLayer SDK Docs](https://github.com/humanlayer/humanlayer/blob/main/humanlayer.md)
-  Why it matters: authoritative reference on `Legacy HumanLayer SDK Docs` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 4: Parallel Agent Orchestration](04-parallel-agent-orchestration.md)
-- [Next Chapter: Chapter 6: IDE and CLI Integration Patterns](06-ide-and-cli-integration-patterns.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `claudecode-go/client.go`
+
+The `GetVersion` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// GetVersion executes claude --version and returns the version string
+func (c *Client) GetVersion() (string, error) {
+	if c.claudePath == "" {
+		return "", fmt.Errorf("claude path not set")
+	}
+
+	// Create command with timeout to prevent hanging
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, c.claudePath, "--version")
+	output, err := cmd.Output()
+	if err != nil {
+		// Check if it was a timeout
+		if ctx.Err() == context.DeadlineExceeded {
+			return "", fmt.Errorf("claude --version timed out after 5 seconds")
+		}
+		// Check for exit error to get more details
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			return "", fmt.Errorf("claude --version failed with exit code %d: %s", exitErr.ExitCode(), string(exitErr.Stderr))
+		}
+		return "", fmt.Errorf("failed to execute claude --version: %w", err)
+	}
+
+	// Trim whitespace and return
+	version := strings.TrimSpace(string(output))
+	if version == "" {
+		return "", fmt.Errorf("claude --version returned empty output")
+	}
+
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `isExecutable` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+		if _, err := os.Stat(candidatePath); err == nil {
+			// Verify it's executable
+			if err := isExecutable(candidatePath); err == nil {
+				return &Client{claudePath: candidatePath}, nil
+			}
+		}
+	}
+
+	// Try login shell as last resort
+	if shellPath := tryLoginShell(); shellPath != "" {
+		return &Client{claudePath: shellPath}, nil
+	}
+
+	return nil, fmt.Errorf("claude binary not found in PATH or common locations")
+}
+
+// NewClientWithPath creates a new client with a specific claude binary path
+func NewClientWithPath(claudePath string) *Client {
+	return &Client{
+		claudePath: claudePath,
+	}
+}
+
+// GetPath returns the path to the Claude binary
+func (c *Client) GetPath() string {
+	return c.claudePath
+}
+
+// GetVersion executes claude --version and returns the version string
+func (c *Client) GetVersion() (string, error) {
+	if c.claudePath == "" {
+		return "", fmt.Errorf("claude path not set")
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `IsExecutable` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// IsExecutable checks if file is executable (exported version)
+func IsExecutable(path string) error {
+	return isExecutable(path)
+}
+
+// tryLoginShell attempts to find claude using a login shell
+func tryLoginShell() string {
+	shells := []string{"zsh", "bash"}
+	for _, shell := range shells {
+		cmd := exec.Command(shell, "-lc", "which claude")
+		out, err := cmd.Output()
+		if err == nil {
+			path := strings.TrimSpace(string(out))
+			if path != "" && path != "claude not found" && !shouldSkipPath(path) {
+				return path
+			}
+		}
+	}
+	return ""
+}
+
+// buildArgs converts SessionConfig into command line arguments
+func (c *Client) buildArgs(config SessionConfig) ([]string, error) {
+	args := []string{}
+
+	// Session management
+	if config.SessionID != "" {
+		args = append(args, "--resume", config.SessionID)
+
+		// Add fork flag if specified
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `tryLoginShell` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+
+	// Try login shell as last resort
+	if shellPath := tryLoginShell(); shellPath != "" {
+		return &Client{claudePath: shellPath}, nil
+	}
+
+	return nil, fmt.Errorf("claude binary not found in PATH or common locations")
+}
+
+// NewClientWithPath creates a new client with a specific claude binary path
+func NewClientWithPath(claudePath string) *Client {
+	return &Client{
+		claudePath: claudePath,
+	}
+}
+
+// GetPath returns the path to the Claude binary
+func (c *Client) GetPath() string {
+	return c.claudePath
+}
+
+// GetVersion executes claude --version and returns the version string
+func (c *Client) GetVersion() (string, error) {
+	if c.claudePath == "" {
+		return "", fmt.Errorf("claude path not set")
+	}
+
+	// Create command with timeout to prevent hanging
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, c.claudePath, "--version")
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[GetVersion]
+    B[isExecutable]
+    C[IsExecutable]
+    D[tryLoginShell]
+    E[buildArgs]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

@@ -5,6 +5,7 @@ nav_order: 2
 parent: Serena Tutorial
 ---
 
+
 # Chapter 2: Semantic Toolkit and Agent Loop
 
 Welcome to **Chapter 2: Semantic Toolkit and Agent Loop**. In this part of **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -50,586 +51,184 @@ Next: [Chapter 3: MCP Client Integrations](03-mcp-client-integrations.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- tutorial slug: **serena-tutorial**
-- chapter focus: **Chapter 2: Semantic Toolkit and Agent Loop**
-- system context: **Serena Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 2: Semantic Toolkit and Agent Loop`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Serena Repository](https://github.com/oraios/serena)
-- [Serena Documentation](https://oraios.github.io/serena/)
-- [Quick Start and MCP startup](https://github.com/oraios/serena/blob/main/README.md#quick-start)
-- [Connecting clients](https://oraios.github.io/serena/02-usage/030_clients.html)
-- [Project workflow](https://oraios.github.io/serena/02-usage/040_workflow.html)
-- [Configuration](https://oraios.github.io/serena/02-usage/050_configuration.html)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Goose Tutorial](../goose-tutorial/)
-- [Crush Tutorial](../crush-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 2: Semantic Toolkit and Agent Loop`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 2: Semantic Toolkit and Agent Loop
-
-- tutorial context: **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 2: Semantic Toolkit and Agent Loop` as an operating subsystem inside **Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 2: Semantic Toolkit and Agent Loop` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Serena Repository](https://github.com/oraios/serena)
-  Why it matters: authoritative reference on `Serena Repository` (github.com).
-- [Serena Documentation](https://oraios.github.io/serena/)
-  Why it matters: authoritative reference on `Serena Documentation` (oraios.github.io).
-- [Quick Start and MCP startup](https://github.com/oraios/serena/blob/main/README.md#quick-start)
-  Why it matters: authoritative reference on `Quick Start and MCP startup` (github.com).
-- [Connecting clients](https://oraios.github.io/serena/02-usage/030_clients.html)
-  Why it matters: authoritative reference on `Connecting clients` (oraios.github.io).
-- [Project workflow](https://oraios.github.io/serena/02-usage/040_workflow.html)
-  Why it matters: authoritative reference on `Project workflow` (oraios.github.io).
-- [Configuration](https://oraios.github.io/serena/02-usage/050_configuration.html)
-  Why it matters: authoritative reference on `Configuration` (oraios.github.io).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
-- [Next Chapter: Chapter 3: MCP Client Integrations](03-mcp-client-integrations.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `repo_dir_sync.py`
+
+The `gitLog` function in [`repo_dir_sync.py`](https://github.com/oraios/serena/blob/HEAD/repo_dir_sync.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def gitLog(path, arg):
+    oldPath = os.getcwd()
+    os.chdir(path)
+    lg = call("git log --no-merges " + arg)
+    os.chdir(oldPath)
+    return lg
+
+
+def gitCommit(msg):
+    with open(COMMIT_MSG_FILENAME, "wb") as f:
+        f.write(msg.encode("utf-8"))
+    gitCommitWithMessageFromFile(COMMIT_MSG_FILENAME)
+
+
+def gitCommitWithMessageFromFile(commitMsgFilename):
+    if not os.path.exists(commitMsgFilename):
+        raise FileNotFoundError(f"{commitMsgFilename} not found in {os.path.abspath(os.getcwd())}")
+    os.system(f"git commit --file={commitMsgFilename}")
+    os.unlink(commitMsgFilename)
+
+
+COMMIT_MSG_FILENAME = "commitmsg.txt"
+
+
+class OtherRepo:
+    SYNC_COMMIT_ID_FILE_LIB_REPO = ".syncCommitId.remote"
+    SYNC_COMMIT_ID_FILE_THIS_REPO = ".syncCommitId.this"
+    SYNC_COMMIT_MESSAGE = f"Updated %s sync commit identifiers"
+    SYNC_BACKUP_DIR = ".syncBackup"
+    
+```
+
+This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `repo_dir_sync.py`
+
+The `gitCommit` function in [`repo_dir_sync.py`](https://github.com/oraios/serena/blob/HEAD/repo_dir_sync.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def gitCommit(msg):
+    with open(COMMIT_MSG_FILENAME, "wb") as f:
+        f.write(msg.encode("utf-8"))
+    gitCommitWithMessageFromFile(COMMIT_MSG_FILENAME)
+
+
+def gitCommitWithMessageFromFile(commitMsgFilename):
+    if not os.path.exists(commitMsgFilename):
+        raise FileNotFoundError(f"{commitMsgFilename} not found in {os.path.abspath(os.getcwd())}")
+    os.system(f"git commit --file={commitMsgFilename}")
+    os.unlink(commitMsgFilename)
+
+
+COMMIT_MSG_FILENAME = "commitmsg.txt"
+
+
+class OtherRepo:
+    SYNC_COMMIT_ID_FILE_LIB_REPO = ".syncCommitId.remote"
+    SYNC_COMMIT_ID_FILE_THIS_REPO = ".syncCommitId.this"
+    SYNC_COMMIT_MESSAGE = f"Updated %s sync commit identifiers"
+    SYNC_BACKUP_DIR = ".syncBackup"
+    
+    def __init__(self, name, branch, pathToLib):
+        self.pathToLibInThisRepo = os.path.abspath(pathToLib)
+        if not os.path.exists(self.pathToLibInThisRepo):
+            raise ValueError(f"Repository directory '{self.pathToLibInThisRepo}' does not exist")
+        self.name = name
+        self.branch = branch
+        self.libRepo: Optional[LibRepo] = None
+
+```
+
+This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `repo_dir_sync.py`
+
+The `gitCommitWithMessageFromFile` function in [`repo_dir_sync.py`](https://github.com/oraios/serena/blob/HEAD/repo_dir_sync.py) handles a key part of this chapter's functionality:
+
+```py
+    with open(COMMIT_MSG_FILENAME, "wb") as f:
+        f.write(msg.encode("utf-8"))
+    gitCommitWithMessageFromFile(COMMIT_MSG_FILENAME)
+
+
+def gitCommitWithMessageFromFile(commitMsgFilename):
+    if not os.path.exists(commitMsgFilename):
+        raise FileNotFoundError(f"{commitMsgFilename} not found in {os.path.abspath(os.getcwd())}")
+    os.system(f"git commit --file={commitMsgFilename}")
+    os.unlink(commitMsgFilename)
+
+
+COMMIT_MSG_FILENAME = "commitmsg.txt"
+
+
+class OtherRepo:
+    SYNC_COMMIT_ID_FILE_LIB_REPO = ".syncCommitId.remote"
+    SYNC_COMMIT_ID_FILE_THIS_REPO = ".syncCommitId.this"
+    SYNC_COMMIT_MESSAGE = f"Updated %s sync commit identifiers"
+    SYNC_BACKUP_DIR = ".syncBackup"
+    
+    def __init__(self, name, branch, pathToLib):
+        self.pathToLibInThisRepo = os.path.abspath(pathToLib)
+        if not os.path.exists(self.pathToLibInThisRepo):
+            raise ValueError(f"Repository directory '{self.pathToLibInThisRepo}' does not exist")
+        self.name = name
+        self.branch = branch
+        self.libRepo: Optional[LibRepo] = None
+
+    def isSyncEstablished(self):
+        return os.path.exists(os.path.join(self.pathToLibInThisRepo, self.SYNC_COMMIT_ID_FILE_LIB_REPO))
+    
+```
+
+This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `.serena/project.yml`
+
+The `here` interface in [`.serena/project.yml`](https://github.com/oraios/serena/blob/HEAD/.serena/project.yml) handles a key part of this chapter's functionality:
+
+```yml
+#   terraform           toml                typescript          typescript_vts      vue
+#   yaml                zig
+#   (This list may be outdated. For the current list, see values of Language enum here:
+#   https://github.com/oraios/serena/blob/main/src/solidlsp/ls_config.py
+#   For some languages, there are alternative language servers, e.g. csharp_omnisharp, ruby_solargraph.)
+# Note:
+#   - For C, use cpp
+#   - For JavaScript, use typescript
+#   - For Free Pascal/Lazarus, use pascal
+# Special requirements:
+#   - csharp: Requires the presence of a .sln file in the project folder.
+#   - pascal: Requires Free Pascal Compiler (fpc) and optionally Lazarus.
+# When using multiple languages, the first language server that supports a given file will be used for that file.
+# The first language is the default language and the respective language server will be used as a fallback.
+# Note that when using the JetBrains backend, language servers are not used and this list is correspondingly ignored.
+languages:
+- python
+- typescript
+
+# whether to use project's .gitignore files to ignore files
+ignore_all_files_in_gitignore: true
+
+
+# list of additional paths to ignore in all projects
+# same syntax as gitignore, so you can use * and **
+ignored_paths: []
+
+# whether the project is in read-only mode
+# If set to true, all editing tools will be disabled and attempts to use them will result in an error
+read_only: false
+
+
+```
+
+This interface is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[gitLog]
+    B[gitCommit]
+    C[gitCommitWithMessageFromFile]
+    D[here]
+    E[interactive]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

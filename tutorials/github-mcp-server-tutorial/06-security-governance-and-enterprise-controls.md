@@ -5,6 +5,7 @@ nav_order: 6
 parent: GitHub MCP Server Tutorial
 ---
 
+
 # Chapter 6: Security, Governance, and Enterprise Controls
 
 Welcome to **Chapter 6: Security, Governance, and Enterprise Controls**. In this part of **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -42,595 +43,184 @@ Next: [Chapter 7: Troubleshooting, Read-Only, and Lockdown Operations](07-troubl
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- tutorial slug: **github-mcp-server-tutorial**
-- chapter focus: **Chapter 6: Security, Governance, and Enterprise Controls**
-- system context: **Github Mcp Server Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 6: Security, Governance, and Enterprise Controls`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [GitHub MCP Server Repository](https://github.com/github/github-mcp-server)
-- [README](https://github.com/github/github-mcp-server/blob/main/README.md)
-- [Remote Server Docs](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md)
-- [Server Configuration Guide](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)
-- [Policies and Governance](https://github.com/github/github-mcp-server/blob/main/docs/policies-and-governance.md)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chrome DevTools MCP Tutorial](../chrome-devtools-mcp-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Codex CLI Tutorial](../codex-cli-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 6: Security, Governance, and Enterprise Controls`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 6: Security, Governance, and Enterprise Controls
-
-- tutorial context: **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 6: Security, Governance, and Enterprise Controls` as an operating subsystem inside **GitHub MCP Server Tutorial: Production GitHub Operations Through MCP**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 6: Security, Governance, and Enterprise Controls` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [GitHub MCP Server Repository](https://github.com/github/github-mcp-server)
-  Why it matters: authoritative reference on `GitHub MCP Server Repository` (github.com).
-- [README](https://github.com/github/github-mcp-server/blob/main/README.md)
-  Why it matters: authoritative reference on `README` (github.com).
-- [Remote Server Docs](https://github.com/github/github-mcp-server/blob/main/docs/remote-server.md)
-  Why it matters: authoritative reference on `Remote Server Docs` (github.com).
-- [Server Configuration Guide](https://github.com/github/github-mcp-server/blob/main/docs/server-configuration.md)
-  Why it matters: authoritative reference on `Server Configuration Guide` (github.com).
-- [Policies and Governance](https://github.com/github/github-mcp-server/blob/main/docs/policies-and-governance.md)
-  Why it matters: authoritative reference on `Policies and Governance` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 5: Host Integration Patterns](05-host-integration-patterns.md)
-- [Next Chapter: Chapter 7: Troubleshooting, Read-Only, and Lockdown Operations](07-troubleshooting-read-only-and-lockdown-operations.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `pkg/github/labels.go`
+
+The `GetLabelForLabelsToolset` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// GetLabelForLabelsToolset returns the same GetLabel tool but registered in the labels toolset.
+// This provides conformance with the original behavior where get_label was in both toolsets.
+func GetLabelForLabelsToolset(t translations.TranslationHelperFunc) inventory.ServerTool {
+	tool := GetLabel(t)
+	tool.Toolset = ToolsetLabels
+	return tool
+}
+
+// ListLabels lists labels from a repository
+func ListLabels(t translations.TranslationHelperFunc) inventory.ServerTool {
+	return NewTool(
+		ToolsetLabels,
+		mcp.Tool{
+			Name:        "list_label",
+			Description: t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository"),
+			Annotations: &mcp.ToolAnnotations{
+				Title:        t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository."),
+				ReadOnlyHint: true,
+			},
+			InputSchema: &jsonschema.Schema{
+				Type: "object",
+				Properties: map[string]*jsonschema.Schema{
+					"owner": {
+						Type:        "string",
+						Description: "Repository owner (username or organization name) - required for all operations",
+					},
+					"repo": {
+						Type:        "string",
+						Description: "Repository name - required for all operations",
+					},
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/labels.go`
+
+The `ListLabels` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// ListLabels lists labels from a repository
+func ListLabels(t translations.TranslationHelperFunc) inventory.ServerTool {
+	return NewTool(
+		ToolsetLabels,
+		mcp.Tool{
+			Name:        "list_label",
+			Description: t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository"),
+			Annotations: &mcp.ToolAnnotations{
+				Title:        t("TOOL_LIST_LABEL_DESCRIPTION", "List labels from a repository."),
+				ReadOnlyHint: true,
+			},
+			InputSchema: &jsonschema.Schema{
+				Type: "object",
+				Properties: map[string]*jsonschema.Schema{
+					"owner": {
+						Type:        "string",
+						Description: "Repository owner (username or organization name) - required for all operations",
+					},
+					"repo": {
+						Type:        "string",
+						Description: "Repository name - required for all operations",
+					},
+				},
+				Required: []string{"owner", "repo"},
+			},
+		},
+		[]scopes.Scope{scopes.Repo},
+		func(ctx context.Context, deps ToolDependencies, _ *mcp.CallToolRequest, args map[string]any) (*mcp.CallToolResult, any, error) {
+			owner, err := RequiredParam[string](args, "owner")
+			if err != nil {
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/labels.go`
+
+The `LabelWrite` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// LabelWrite handles create, update, and delete operations for GitHub labels
+func LabelWrite(t translations.TranslationHelperFunc) inventory.ServerTool {
+	return NewTool(
+		ToolsetLabels,
+		mcp.Tool{
+			Name:        "label_write",
+			Description: t("TOOL_LABEL_WRITE_DESCRIPTION", "Perform write operations on repository labels. To set labels on issues, use the 'update_issue' tool."),
+			Annotations: &mcp.ToolAnnotations{
+				Title:        t("TOOL_LABEL_WRITE_TITLE", "Write operations on repository labels."),
+				ReadOnlyHint: false,
+			},
+			InputSchema: &jsonschema.Schema{
+				Type: "object",
+				Properties: map[string]*jsonschema.Schema{
+					"method": {
+						Type:        "string",
+						Description: "Operation to perform: 'create', 'update', or 'delete'",
+						Enum:        []any{"create", "update", "delete"},
+					},
+					"owner": {
+						Type:        "string",
+						Description: "Repository owner (username or organization name)",
+					},
+					"repo": {
+						Type:        "string",
+						Description: "Repository name",
+					},
+					"name": {
+						Type:        "string",
+						Description: "Label name - required for all operations",
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/labels.go`
+
+The `getRepositoryID` function in [`pkg/github/labels.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/labels.go) handles a key part of this chapter's functionality:
+
+```go
+
+				// Get repository ID
+				repoID, err := getRepositoryID(ctx, client, owner, repo)
+				if err != nil {
+					return ghErrors.NewGitHubGraphQLErrorResponse(ctx, "Failed to find repository", err), nil, nil
+				}
+
+				input := githubv4.CreateLabelInput{
+					RepositoryID: repoID,
+					Name:         githubv4.String(name),
+					Color:        githubv4.String(color),
+				}
+				if description != "" {
+					d := githubv4.String(description)
+					input.Description = &d
+				}
+
+				var mutation struct {
+					CreateLabel struct {
+						Label struct {
+							Name githubv4.String
+							ID   githubv4.ID
+						}
+					} `graphql:"createLabel(input: $input)"`
+				}
+
+				if err := client.Mutate(ctx, &mutation, input, nil); err != nil {
+					return ghErrors.NewGitHubGraphQLErrorResponse(ctx, "Failed to create label", err), nil, nil
+				}
+
+				return utils.NewToolResultText(fmt.Sprintf("label '%s' created successfully", mutation.CreateLabel.Label.Name)), nil, nil
+
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[GetLabelForLabelsToolset]
+    B[ListLabels]
+    C[LabelWrite]
+    D[getRepositoryID]
+    E[getLabelID]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

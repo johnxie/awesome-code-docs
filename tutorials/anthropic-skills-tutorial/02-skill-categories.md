@@ -5,6 +5,7 @@ nav_order: 2
 parent: Anthropic Skills Tutorial
 ---
 
+
 # Chapter 2: Skill Categories
 
 Welcome to **Chapter 2: Skill Categories**. In this part of **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -112,470 +113,184 @@ Suggested trace strategy:
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- tutorial slug: **anthropic-skills-tutorial**
-- chapter focus: **Chapter 2: Skill Categories**
-- system context: **Anthropic Skills Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 2: Skill Categories`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [anthropics/skills repository](https://github.com/anthropics/skills)
-
-### Cross-Tutorial Connection Map
-
-- [Anthropic API Tutorial](../anthropic-code-tutorial/)
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-- [anthropics/skills repository](https://github.com/anthropics/skills)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 2: Skill Categories`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 2: Skill Categories
-
-- tutorial context: **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+## Source Code Walkthrough
+
+### `skills/skill-creator/scripts/run_eval.py`
+
+The `main` function in [`skills/skill-creator/scripts/run_eval.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/run_eval.py) handles a key part of this chapter's functionality:
+
+```py
+            while time.time() - start_time < timeout:
+                if process.poll() is not None:
+                    remaining = process.stdout.read()
+                    if remaining:
+                        buffer += remaining.decode("utf-8", errors="replace")
+                    break
+
+                ready, _, _ = select.select([process.stdout], [], [], 1.0)
+                if not ready:
+                    continue
+
+                chunk = os.read(process.stdout.fileno(), 8192)
+                if not chunk:
+                    break
+                buffer += chunk.decode("utf-8", errors="replace")
+
+                while "\n" in buffer:
+                    line, buffer = buffer.split("\n", 1)
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    try:
+                        event = json.loads(line)
+                    except json.JSONDecodeError:
+                        continue
+
+                    # Early detection via stream events
+                    if event.get("type") == "stream_event":
+                        se = event.get("event", {})
+                        se_type = se.get("type", "")
+
+```
+
+This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
+
+### `skills/skill-creator/scripts/aggregate_benchmark.py`
+
+The `calculate_stats` function in [`skills/skill-creator/scripts/aggregate_benchmark.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/aggregate_benchmark.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def calculate_stats(values: list[float]) -> dict:
+    """Calculate mean, stddev, min, max for a list of values."""
+    if not values:
+        return {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}
+
+    n = len(values)
+    mean = sum(values) / n
+
+    if n > 1:
+        variance = sum((x - mean) ** 2 for x in values) / (n - 1)
+        stddev = math.sqrt(variance)
+    else:
+        stddev = 0.0
+
+    return {
+        "mean": round(mean, 4),
+        "stddev": round(stddev, 4),
+        "min": round(min(values), 4),
+        "max": round(max(values), 4)
+    }
+
+
+def load_run_results(benchmark_dir: Path) -> dict:
+    """
+    Load all run results from a benchmark directory.
+
+    Returns dict keyed by config name (e.g. "with_skill"/"without_skill",
+    or "new_skill"/"old_skill"), each containing a list of run results.
+    """
+    # Support both layouts: eval dirs directly under benchmark_dir, or under runs/
+```
+
+This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
+
+### `skills/skill-creator/scripts/aggregate_benchmark.py`
+
+The `load_run_results` function in [`skills/skill-creator/scripts/aggregate_benchmark.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/aggregate_benchmark.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def load_run_results(benchmark_dir: Path) -> dict:
+    """
+    Load all run results from a benchmark directory.
+
+    Returns dict keyed by config name (e.g. "with_skill"/"without_skill",
+    or "new_skill"/"old_skill"), each containing a list of run results.
+    """
+    # Support both layouts: eval dirs directly under benchmark_dir, or under runs/
+    runs_dir = benchmark_dir / "runs"
+    if runs_dir.exists():
+        search_dir = runs_dir
+    elif list(benchmark_dir.glob("eval-*")):
+        search_dir = benchmark_dir
+    else:
+        print(f"No eval directories found in {benchmark_dir} or {benchmark_dir / 'runs'}")
+        return {}
+
+    results: dict[str, list] = {}
+
+    for eval_idx, eval_dir in enumerate(sorted(search_dir.glob("eval-*"))):
+        metadata_path = eval_dir / "eval_metadata.json"
+        if metadata_path.exists():
+            try:
+                with open(metadata_path) as mf:
+                    eval_id = json.load(mf).get("eval_id", eval_idx)
+            except (json.JSONDecodeError, OSError):
+                eval_id = eval_idx
+        else:
+            try:
+                eval_id = int(eval_dir.name.split("-")[1])
+```
+
+This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
+
+### `skills/skill-creator/scripts/aggregate_benchmark.py`
+
+The `aggregate_results` function in [`skills/skill-creator/scripts/aggregate_benchmark.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/aggregate_benchmark.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def aggregate_results(results: dict) -> dict:
+    """
+    Aggregate run results into summary statistics.
+
+    Returns run_summary with stats for each configuration and delta.
+    """
+    run_summary = {}
+    configs = list(results.keys())
+
+    for config in configs:
+        runs = results.get(config, [])
+
+        if not runs:
+            run_summary[config] = {
+                "pass_rate": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
+                "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
+                "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}
+            }
+            continue
+
+        pass_rates = [r["pass_rate"] for r in runs]
+        times = [r["time_seconds"] for r in runs]
+        tokens = [r.get("tokens", 0) for r in runs]
+
+        run_summary[config] = {
+            "pass_rate": calculate_stats(pass_rates),
+            "time_seconds": calculate_stats(times),
+            "tokens": calculate_stats(tokens)
+        }
+
+```
+
+This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[main]
+    B[calculate_stats]
+    C[load_run_results]
+    D[aggregate_results]
+    E[generate_benchmark]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

@@ -5,6 +5,7 @@ nav_order: 3
 parent: Awesome Claude Code Tutorial
 ---
 
+
 # Chapter 3: Resource Quality Evaluation Framework
 
 Welcome to **Chapter 3: Resource Quality Evaluation Framework**. In this part of **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -49,595 +50,184 @@ Next: [Chapter 4: Skills, Hooks, and Slash Command Patterns](04-skills-hooks-and
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- tutorial slug: **awesome-claude-code-tutorial**
-- chapter focus: **Chapter 3: Resource Quality Evaluation Framework**
-- system context: **Awesome Claude Code Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Resource Quality Evaluation Framework`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Awesome Claude Code Repository](https://github.com/hesreallyhim/awesome-claude-code)
-- [README](https://github.com/hesreallyhim/awesome-claude-code/blob/main/README.md)
-- [How It Works](https://github.com/hesreallyhim/awesome-claude-code/blob/main/docs/HOW_IT_WORKS.md)
-- [README Generation Guide](https://github.com/hesreallyhim/awesome-claude-code/blob/main/docs/README-GENERATION.md)
-- [Contributing Guide](https://github.com/hesreallyhim/awesome-claude-code/blob/main/docs/CONTRIBUTING.md)
-
-### Cross-Tutorial Connection Map
-
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Everything Claude Code Tutorial](../everything-claude-code-tutorial/)
-- [Claude Plugins Official Tutorial](../claude-plugins-official-tutorial/)
-- [Agents.md Tutorial](../agents-md-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Resource Quality Evaluation Framework`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Resource Quality Evaluation Framework
-
-- tutorial context: **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Resource Quality Evaluation Framework` as an operating subsystem inside **Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Resource Quality Evaluation Framework` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Awesome Claude Code Repository](https://github.com/hesreallyhim/awesome-claude-code)
-  Why it matters: authoritative reference on `Awesome Claude Code Repository` (github.com).
-- [README](https://github.com/hesreallyhim/awesome-claude-code/blob/main/README.md)
-  Why it matters: authoritative reference on `README` (github.com).
-- [How It Works](https://github.com/hesreallyhim/awesome-claude-code/blob/main/docs/HOW_IT_WORKS.md)
-  Why it matters: authoritative reference on `How It Works` (github.com).
-- [README Generation Guide](https://github.com/hesreallyhim/awesome-claude-code/blob/main/docs/README-GENERATION.md)
-  Why it matters: authoritative reference on `README Generation Guide` (github.com).
-- [Contributing Guide](https://github.com/hesreallyhim/awesome-claude-code/blob/main/docs/CONTRIBUTING.md)
-  Why it matters: authoritative reference on `Contributing Guide` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: List Taxonomy and Navigation](02-list-taxonomy-and-navigation.md)
-- [Next Chapter: Chapter 4: Skills, Hooks, and Slash Command Patterns](04-skills-hooks-and-slash-command-patterns.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/validation/validate_links.py`
+
+The `get_crates_latest_release` function in [`scripts/validation/validate_links.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/validation/validate_links.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_crates_latest_release(crate_name: str) -> tuple[str | None, str | None]:
+    """Fetch the latest release date and version from crates.io (Rust).
+
+    Args:
+        crate_name: Rust crate name
+
+    Returns:
+        Tuple of (release_date, version) in (YYYY-MM-DD:HH-MM-SS, version) format,
+        or (None, None) if the crate is not found.
+    """
+    try:
+        api_url = f"https://crates.io/api/v1/crates/{crate_name}"
+        headers_with_ua = {"User-Agent": USER_AGENT}
+        response = requests.get(api_url, headers=headers_with_ua, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            crate_info = data.get("crate", {})
+            newest_version = crate_info.get("newest_version")
+            updated_at = crate_info.get("updated_at")
+            if newest_version and updated_at:
+                release_date = format_commit_date(updated_at)
+                return release_date, newest_version
+    except Exception as e:
+        print(f"Error fetching crates.io release for {crate_name}: {e}")
+
+    return None, None
+
+
+def get_homebrew_latest_release(formula_name: str) -> tuple[str | None, str | None]:
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/validation/validate_links.py`
+
+The `get_homebrew_latest_release` function in [`scripts/validation/validate_links.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/validation/validate_links.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_homebrew_latest_release(formula_name: str) -> tuple[str | None, str | None]:
+    """Fetch the latest version from Homebrew Formulae API.
+
+    Note: Homebrew doesn't provide release dates, only version numbers.
+    We return the version but no date.
+
+    Args:
+        formula_name: Homebrew formula name
+
+    Returns:
+        Tuple of (None, version) - no date available from Homebrew API,
+        or (None, None) if the formula is not found.
+    """
+    try:
+        api_url = f"https://formulae.brew.sh/api/formula/{formula_name}.json"
+        response = requests.get(api_url, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            versions = data.get("versions", {})
+            stable = versions.get("stable")
+            if stable:
+                # Homebrew doesn't provide release dates, but we have the version
+                return None, stable
+    except Exception as e:
+        print(f"Error fetching Homebrew release for {formula_name}: {e}")
+
+    return None, None
+
+
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/validation/validate_links.py`
+
+The `get_github_readme_version` function in [`scripts/validation/validate_links.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/validation/validate_links.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_github_readme_version(owner: str, repo: str) -> tuple[str | None, str | None]:
+    """Fallback: Try to extract version from GitHub README or CHANGELOG.
+
+    Searches for version patterns like "v1.2.3", "version 1.2.3", etc.
+
+    Args:
+        owner: GitHub repository owner
+        repo: GitHub repository name
+
+    Returns:
+        Tuple of (None, version) - no reliable date from README parsing,
+        or (None, None) if no version found.
+    """
+    try:
+        # Try to fetch README
+        for readme_name in ["README.md", "README", "readme.md", "Readme.md"]:
+            api_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{readme_name}"
+            status, _, data = github_request_json_paced(api_url)
+            if status == 200 and isinstance(data, dict):
+                # README content is base64 encoded
+                import base64
+
+                content = base64.b64decode(data.get("content", "")).decode("utf-8", errors="ignore")
+
+                # Search for version patterns
+                version_patterns = [
+                    r"version[:\s]+[\"']?v?(\d+\.\d+(?:\.\d+)?)[\"']?",
+                    r"latest[:\s]+[\"']?v?(\d+\.\d+(?:\.\d+)?)[\"']?",
+                    r"\[v?(\d+\.\d+(?:\.\d+)?)\]",  # Badge format
+                    r"v(\d+\.\d+(?:\.\d+)?)",  # Simple v1.2.3
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/validation/validate_links.py`
+
+The `detect_package_info` function in [`scripts/validation/validate_links.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/validation/validate_links.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def detect_package_info(url: str, display_name: str = "") -> tuple[str | None, str | None]:
+    """Detect package registry and name from URL or display name.
+
+    Args:
+        url: Primary URL of the resource
+        display_name: Display name of the resource (for npm/pypi detection)
+
+    Returns:
+        Tuple of (registry_type, package_name) where registry_type is one of:
+        'npm', 'pypi', 'crates', 'homebrew', 'github-releases', or None if not detected.
+    """
+    url_lower = url.lower() if url else ""
+
+    # Check for npm package URL
+    npm_patterns = [
+        r"npmjs\.com/package/([^/?\s]+)",
+        r"npmjs\.org/package/([^/?\s]+)",
+    ]
+    for pattern in npm_patterns:
+        match = re.search(pattern, url_lower)
+        if match:
+            return "npm", match.group(1)
+
+    # Check for PyPI package URL
+    pypi_patterns = [
+        r"pypi\.org/project/([^/?\s]+)",
+        r"pypi\.python\.org/pypi/([^/?\s]+)",
+    ]
+    for pattern in pypi_patterns:
+        match = re.search(pattern, url_lower)
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[get_crates_latest_release]
+    B[get_homebrew_latest_release]
+    C[get_github_readme_version]
+    D[detect_package_info]
+    E[get_latest_release_info]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

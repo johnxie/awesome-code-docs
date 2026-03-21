@@ -5,6 +5,7 @@ nav_order: 4
 parent: Figma Context MCP Tutorial
 ---
 
+
 # Chapter 4: Prompt Patterns for One-Shot UI Implementation
 
 Welcome to **Chapter 4: Prompt Patterns for One-Shot UI Implementation**. In this part of **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -33,604 +34,184 @@ Next: [Chapter 5: MCP Client Integrations](05-mcp-client-integrations.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- tutorial slug: **figma-context-mcp-tutorial**
-- chapter focus: **Chapter 4: Prompt Patterns for One-Shot UI Implementation**
-- system context: **Figma Context Mcp Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 4: Prompt Patterns for One-Shot UI Implementation`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Figma Context MCP Repository](https://github.com/GLips/Figma-Context-MCP)
-- [Figma Context MCP Releases](https://github.com/GLips/Figma-Context-MCP/releases)
-- [Framelink Quickstart](https://www.framelink.ai/docs/quickstart)
-- [Model Context Protocol Intro](https://modelcontextprotocol.io/introduction)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 4: Prompt Patterns for One-Shot UI Implementation`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 4: Prompt Patterns for One-Shot UI Implementation
-
-- tutorial context: **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 4: Prompt Patterns for One-Shot UI Implementation` as an operating subsystem inside **Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: Prompt Patterns for One-Shot UI Implementation` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Figma Context MCP Repository](https://github.com/GLips/Figma-Context-MCP)
-  Why it matters: authoritative reference on `Figma Context MCP Repository` (github.com).
-- [Figma Context MCP Releases](https://github.com/GLips/Figma-Context-MCP/releases)
-  Why it matters: authoritative reference on `Figma Context MCP Releases` (github.com).
-- [Framelink Quickstart](https://www.framelink.ai/docs/quickstart)
-  Why it matters: authoritative reference on `Framelink Quickstart` (www.framelink.ai).
-- [Model Context Protocol Intro](https://modelcontextprotocol.io/introduction)
-  Why it matters: authoritative reference on `Model Context Protocol Intro` (modelcontextprotocol.io).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Frame Targeting and Context Scope](03-frame-targeting-and-context-scope.md)
-- [Next Chapter: Chapter 5: MCP Client Integrations](05-mcp-client-integrations.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `src/transformers/style.ts`
+
+The `mapGradientStops` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Map gradient stops from Figma's handle-based coordinate system to CSS percentages
+ */
+function mapGradientStops(
+  gradient: Extract<
+    Paint,
+    { type: "GRADIENT_LINEAR" | "GRADIENT_RADIAL" | "GRADIENT_ANGULAR" | "GRADIENT_DIAMOND" }
+  >,
+  elementBounds: { width: number; height: number } = { width: 1, height: 1 },
+): { stops: string; cssGeometry: string } {
+  const handles = gradient.gradientHandlePositions;
+  if (!handles || handles.length < 2) {
+    const stops = gradient.gradientStops
+      .map(({ position, color }) => {
+        const cssColor = formatRGBAColor(color, 1);
+        return `${cssColor} ${Math.round(position * 100)}%`;
+      })
+      .join(", ");
+    return { stops, cssGeometry: "0deg" };
+  }
+
+  const [handle1, handle2, handle3] = handles;
+
+  switch (gradient.type) {
+    case "GRADIENT_LINEAR": {
+      return mapLinearGradient(gradient.gradientStops, handle1, handle2, elementBounds);
+    }
+    case "GRADIENT_RADIAL": {
+      return mapRadialGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    case "GRADIENT_ANGULAR": {
+      return mapAngularGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/transformers/style.ts`
+
+The `mapLinearGradient` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+
+```ts
+  switch (gradient.type) {
+    case "GRADIENT_LINEAR": {
+      return mapLinearGradient(gradient.gradientStops, handle1, handle2, elementBounds);
+    }
+    case "GRADIENT_RADIAL": {
+      return mapRadialGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    case "GRADIENT_ANGULAR": {
+      return mapAngularGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    case "GRADIENT_DIAMOND": {
+      return mapDiamondGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    default: {
+      const stops = gradient.gradientStops
+        .map(({ position, color }) => {
+          const cssColor = formatRGBAColor(color, 1);
+          return `${cssColor} ${Math.round(position * 100)}%`;
+        })
+        .join(", ");
+      return { stops, cssGeometry: "0deg" };
+    }
+  }
+}
+
+/**
+ * Map linear gradient from Figma handles to CSS
+ */
+function mapLinearGradient(
+  gradientStops: { position: number; color: RGBA }[],
+  start: Vector,
+  end: Vector,
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/transformers/style.ts`
+
+The `findExtendedLineIntersections` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+  // Find where the extended gradient line intersects the element boundaries
+  const extendedIntersections = findExtendedLineIntersections(start, end);
+
+  if (extendedIntersections.length >= 2) {
+    // The gradient line extended to fill the element
+    const fullLineStart = Math.min(extendedIntersections[0], extendedIntersections[1]);
+    const fullLineEnd = Math.max(extendedIntersections[0], extendedIntersections[1]);
+    // Map gradient stops from the Figma line segment to the full CSS line
+    const mappedStops = gradientStops.map(({ position, color }) => {
+      const cssColor = formatRGBAColor(color, 1);
+
+      // Position along the Figma gradient line (0 = start handle, 1 = end handle)
+      const figmaLinePosition = position;
+
+      // The Figma line spans from t=0 to t=1
+      // The full extended line spans from fullLineStart to fullLineEnd
+      // Map the figma position to the extended line
+      const tOnExtendedLine = figmaLinePosition * (1 - 0) + 0; // This is just figmaLinePosition
+      const extendedPosition = (tOnExtendedLine - fullLineStart) / (fullLineEnd - fullLineStart);
+      const clampedPosition = Math.max(0, Math.min(1, extendedPosition));
+
+      return `${cssColor} ${Math.round(clampedPosition * 100)}%`;
+    });
+
+    return {
+      stops: mappedStops.join(", "),
+      cssGeometry: `${Math.round(angle)}deg`,
+    };
+  }
+
+  // Fallback to simple gradient if intersection calculation fails
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/transformers/style.ts`
+
+The `mapRadialGradient` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+
+```ts
+    }
+    case "GRADIENT_RADIAL": {
+      return mapRadialGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    case "GRADIENT_ANGULAR": {
+      return mapAngularGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    case "GRADIENT_DIAMOND": {
+      return mapDiamondGradient(gradient.gradientStops, handle1, handle2, handle3, elementBounds);
+    }
+    default: {
+      const stops = gradient.gradientStops
+        .map(({ position, color }) => {
+          const cssColor = formatRGBAColor(color, 1);
+          return `${cssColor} ${Math.round(position * 100)}%`;
+        })
+        .join(", ");
+      return { stops, cssGeometry: "0deg" };
+    }
+  }
+}
+
+/**
+ * Map linear gradient from Figma handles to CSS
+ */
+function mapLinearGradient(
+  gradientStops: { position: number; color: RGBA }[],
+  start: Vector,
+  end: Vector,
+  _elementBounds: { width: number; height: number },
+): { stops: string; cssGeometry: string } {
+  // Calculate the gradient line in element space
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[mapGradientStops]
+    B[mapLinearGradient]
+    C[findExtendedLineIntersections]
+    D[mapRadialGradient]
+    E[mapAngularGradient]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

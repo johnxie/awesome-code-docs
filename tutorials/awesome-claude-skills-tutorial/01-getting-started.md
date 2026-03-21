@@ -5,6 +5,7 @@ nav_order: 1
 parent: Awesome Claude Skills Tutorial
 ---
 
+
 # Chapter 1: Getting Started
 
 Welcome to **Chapter 1: Getting Started**. In this part of **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -39,594 +40,184 @@ Next: [Chapter 2: Catalog Taxonomy and Navigation](02-catalog-taxonomy-and-navig
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- tutorial slug: **awesome-claude-skills-tutorial**
-- chapter focus: **Chapter 1: Getting Started**
-- system context: **Awesome Claude Skills Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 1: Getting Started`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Awesome Claude Skills Repository](https://github.com/ComposioHQ/awesome-claude-skills)
-- [README](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/README.md)
-- [Contributing Guide](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/CONTRIBUTING.md)
-- [Connect Apps Plugin](https://github.com/ComposioHQ/awesome-claude-skills/tree/master/connect-apps-plugin)
-- [Composio Skill SDK](https://github.com/ComposioHQ/awesome-claude-skills/tree/master/composio-sdk)
-
-### Cross-Tutorial Connection Map
-
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Anthropic Skills Tutorial](../anthropic-skills-tutorial/)
-- [Everything Claude Code Tutorial](../everything-claude-code-tutorial/)
-- [OpenSkills Tutorial](../openskills-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 1: Getting Started
-
-- tutorial context: **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started` as an operating subsystem inside **Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Awesome Claude Skills Repository](https://github.com/ComposioHQ/awesome-claude-skills)
-  Why it matters: authoritative reference on `Awesome Claude Skills Repository` (github.com).
-- [README](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/README.md)
-  Why it matters: authoritative reference on `README` (github.com).
-- [Contributing Guide](https://github.com/ComposioHQ/awesome-claude-skills/blob/master/CONTRIBUTING.md)
-  Why it matters: authoritative reference on `Contributing Guide` (github.com).
-- [Connect Apps Plugin](https://github.com/ComposioHQ/awesome-claude-skills/tree/master/connect-apps-plugin)
-  Why it matters: authoritative reference on `Connect Apps Plugin` (github.com).
-- [Composio Skill SDK](https://github.com/ComposioHQ/awesome-claude-skills/tree/master/composio-sdk)
-  Why it matters: authoritative reference on `Composio Skill SDK` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Catalog Taxonomy and Navigation](02-catalog-taxonomy-and-navigation.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `slack-gif-creator/core/visual_effects.py`
+
+The `Particle` class in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
+
+```py
+#!/usr/bin/env python3
+"""
+Visual Effects - Particles, motion blur, impacts, and other effects for GIFs.
+
+This module provides high-impact visual effects that make animations feel
+professional and dynamic while keeping file sizes reasonable.
+"""
+
+from PIL import Image, ImageDraw, ImageFilter
+import numpy as np
+import math
+import random
+from typing import Optional
+
+
+class Particle:
+    """A single particle in a particle system."""
+
+    def __init__(self, x: float, y: float, vx: float, vy: float,
+                 lifetime: float, color: tuple[int, int, int],
+                 size: int = 3, shape: str = 'circle'):
+        """
+        Initialize a particle.
+
+        Args:
+            x, y: Starting position
+            vx, vy: Velocity
+            lifetime: How long particle lives (in frames)
+            color: RGB color
+            size: Particle size in pixels
+            shape: 'circle', 'square', or 'star'
+        """
+```
+
+This class is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/visual_effects.py`
+
+The `ParticleSystem` class in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class ParticleSystem:
+    """Manages a collection of particles."""
+
+    def __init__(self):
+        """Initialize particle system."""
+        self.particles: list[Particle] = []
+
+    def emit(self, x: int, y: int, count: int = 10,
+             spread: float = 2.0, speed: float = 5.0,
+             color: tuple[int, int, int] = (255, 200, 0),
+             lifetime: float = 20.0, size: int = 3, shape: str = 'circle'):
+        """
+        Emit a burst of particles.
+
+        Args:
+            x, y: Emission position
+            count: Number of particles to emit
+            spread: Angle spread (radians)
+            speed: Initial speed
+            color: Particle color
+            lifetime: Particle lifetime in frames
+            size: Particle size
+            shape: Particle shape
+        """
+        for _ in range(count):
+            # Random angle and speed
+            angle = random.uniform(0, 2 * math.pi)
+            vel_mag = random.uniform(speed * 0.5, speed * 1.5)
+            vx = math.cos(angle) * vel_mag
+            vy = math.sin(angle) * vel_mag
+```
+
+This class is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/visual_effects.py`
+
+The `add_motion_blur` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def add_motion_blur(frame: Image.Image, prev_frame: Optional[Image.Image],
+                    blur_amount: float = 0.5) -> Image.Image:
+    """
+    Add motion blur by blending with previous frame.
+
+    Args:
+        frame: Current frame
+        prev_frame: Previous frame (None for first frame)
+        blur_amount: Amount of blur (0.0-1.0)
+
+    Returns:
+        Frame with motion blur applied
+    """
+    if prev_frame is None:
+        return frame
+
+    # Blend current frame with previous frame
+    frame_array = np.array(frame, dtype=np.float32)
+    prev_array = np.array(prev_frame, dtype=np.float32)
+
+    blended = frame_array * (1 - blur_amount) + prev_array * blur_amount
+    blended = np.clip(blended, 0, 255).astype(np.uint8)
+
+    return Image.fromarray(blended)
+
+
+def create_impact_flash(frame: Image.Image, position: tuple[int, int],
+                        radius: int = 100, intensity: float = 0.7) -> Image.Image:
+    """
+    Create a bright flash effect at impact point.
+```
+
+This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+### `slack-gif-creator/core/visual_effects.py`
+
+The `create_impact_flash` function in [`slack-gif-creator/core/visual_effects.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/visual_effects.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def create_impact_flash(frame: Image.Image, position: tuple[int, int],
+                        radius: int = 100, intensity: float = 0.7) -> Image.Image:
+    """
+    Create a bright flash effect at impact point.
+
+    Args:
+        frame: PIL Image to draw on
+        position: Center of flash
+        radius: Flash radius
+        intensity: Flash intensity (0.0-1.0)
+
+    Returns:
+        Modified frame
+    """
+    # Create overlay
+    overlay = Image.new('RGBA', frame.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    x, y = position
+
+    # Draw concentric circles with decreasing opacity
+    num_circles = 5
+    for i in range(num_circles):
+        alpha = int(255 * intensity * (1 - i / num_circles))
+        r = radius * (1 - i / num_circles)
+        color = (255, 255, 240, alpha)  # Warm white
+
+        bbox = [x - r, y - r, x + r, y + r]
+        draw.ellipse(bbox, fill=color)
+
+```
+
+This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[Particle]
+    B[ParticleSystem]
+    C[add_motion_blur]
+    D[create_impact_flash]
+    E[create_shockwave_rings]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

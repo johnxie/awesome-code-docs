@@ -5,6 +5,7 @@ nav_order: 1
 parent: Vibe Kanban Tutorial
 ---
 
+
 # Chapter 1: Getting Started
 
 Welcome to **Chapter 1: Getting Started**. In this part of **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -54,583 +55,184 @@ Next: [Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- tutorial slug: **vibe-kanban-tutorial**
-- chapter focus: **Chapter 1: Getting Started**
-- system context: **Vibe Kanban Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 1: Getting Started`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Vibe Kanban Repository](https://github.com/BloopAI/vibe-kanban)
-- [Vibe Kanban Docs](https://vibekanban.com/docs)
-- [Vibe Kanban Self-Hosting](https://vibekanban.com/docs/self-hosting)
-- [Vibe Kanban README](https://github.com/BloopAI/vibe-kanban/blob/main/README.md)
-
-### Cross-Tutorial Connection Map
-
-- [Superset Terminal Tutorial](../superset-terminal-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Goose Tutorial](../goose-tutorial/)
-- [Opcode Tutorial](../opcode-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 1: Getting Started
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `vibe`, `kanban` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started` as an operating subsystem inside **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `vibe`.
-2. **Input normalization**: shape incoming data so `kanban` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Vibe Kanban Repository](https://github.com/BloopAI/vibe-kanban)
-  Why it matters: authoritative reference on `Vibe Kanban Repository` (github.com).
-- [Vibe Kanban Docs](https://vibekanban.com/docs)
-  Why it matters: authoritative reference on `Vibe Kanban Docs` (vibekanban.com).
-- [Vibe Kanban Self-Hosting](https://vibekanban.com/docs/self-hosting)
-  Why it matters: authoritative reference on `Vibe Kanban Self-Hosting` (vibekanban.com).
-- [Vibe Kanban README](https://github.com/BloopAI/vibe-kanban/blob/main/README.md)
-  Why it matters: authoritative reference on `Vibe Kanban README` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `vibe` and `kanban` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `shared/remote-types.ts`
+
+The `export` interface in [`shared/remote-types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/remote-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Electric row types
+export type JsonValue = number | string | boolean | Array<JsonValue> | { [key in string]?: JsonValue } | null;
+
+export type Project = { id: string, organization_id: string, name: string, color: string, sort_order: number, created_at: string, updated_at: string, };
+
+export type Notification = { id: string, organization_id: string, user_id: string, notification_type: NotificationType, payload: NotificationPayload, issue_id: string | null, comment_id: string | null, seen: boolean, dismissed_at: string | null, created_at: string, };
+
+export type NotificationGroupKind = "single" | "issue_changes" | "status_changes" | "comments" | "reactions" | "issue_deleted";
+
+export type NotificationPayload = { deeplink_path?: string | null, issue_id?: string | null, issue_simple_id?: string | null, issue_title?: string | null, actor_user_id?: string | null, comment_preview?: string | null, old_status_id?: string | null, new_status_id?: string | null, old_status_name?: string | null, new_status_name?: string | null, new_title?: string | null, old_priority?: IssuePriority | null, new_priority?: IssuePriority | null, assignee_user_id?: string | null, emoji?: string | null, };
+
+export type NotificationType = "issue_comment_added" | "issue_status_changed" | "issue_assignee_changed" | "issue_priority_changed" | "issue_unassigned" | "issue_comment_reaction" | "issue_deleted" | "issue_title_changed" | "issue_description_changed";
+
+export type Workspace = { id: string, project_id: string, owner_user_id: string, issue_id: string | null, local_workspace_id: string | null, name: string | null, archived: boolean, files_changed: number | null, lines_added: number | null, lines_removed: number | null, created_at: string, updated_at: string, };
+
+export type ProjectStatus = { id: string, project_id: string, name: string, color: string, sort_order: number, hidden: boolean, created_at: string, };
+
+export type Tag = { id: string, project_id: string, name: string, color: string, };
+
+export type Issue = { id: string, project_id: string, issue_number: number, simple_id: string, status_id: string, title: string, description: string | null, priority: IssuePriority | null, start_date: string | null, target_date: string | null, completed_at: string | null, sort_order: number, parent_issue_id: string | null, parent_issue_sort_order: number | null, extension_metadata: JsonValue, creator_user_id: string | null, created_at: string, updated_at: string, };
+
+export type IssueAssignee = { id: string, issue_id: string, user_id: string, assigned_at: string, };
+
+export type Blob = { id: string, project_id: string, blob_path: string, thumbnail_blob_path: string | null, original_name: string, mime_type: string | null, size_bytes: bigint, hash: string, width: number | null, height: number | null, created_at: string, updated_at: string, };
+
+export type Attachment = { id: string, blob_id: string, issue_id: string | null, comment_id: string | null, created_at: string, expires_at: string | null, };
+
+export type AttachmentWithBlob = { id: string, blob_id: string, issue_id: string | null, comment_id: string | null, created_at: string, expires_at: string | null, blob_path: string, thumbnail_blob_path: string | null, original_name: string, mime_type: string | null, size_bytes: bigint, hash: string, width: number | null, height: number | null, };
+
+export type IssueFollower = { id: string, issue_id: string, user_id: string, };
+
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/remote-types.ts`
+
+The `ShapeDefinition` interface in [`shared/remote-types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/remote-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Shape definition interface
+export interface ShapeDefinition<T> {
+  readonly table: string;
+  readonly params: readonly string[];
+  readonly url: string;
+  readonly fallbackUrl: string;
+  readonly _type: T;  // Phantom field for type inference (not present at runtime)
+}
+
+// Helper to create type-safe shape definitions
+function defineShape<T>(
+  table: string,
+  params: readonly string[],
+  url: string,
+  fallbackUrl: string
+): ShapeDefinition<T> {
+  return { table, params, url, fallbackUrl } as ShapeDefinition<T>;
+}
+
+// Individual shape definitions with embedded types
+export const PROJECTS_SHAPE = defineShape<Project>(
+  'projects',
+  ['organization_id'] as const,
+  '/v1/shape/projects',
+  '/v1/fallback/projects'
+);
+
+export const NOTIFICATIONS_SHAPE = defineShape<Notification>(
+  'notifications',
+  ['user_id'] as const,
+  '/v1/shape/notifications',
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/remote-types.ts`
+
+The `export` interface in [`shared/remote-types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/remote-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Electric row types
+export type JsonValue = number | string | boolean | Array<JsonValue> | { [key in string]?: JsonValue } | null;
+
+export type Project = { id: string, organization_id: string, name: string, color: string, sort_order: number, created_at: string, updated_at: string, };
+
+export type Notification = { id: string, organization_id: string, user_id: string, notification_type: NotificationType, payload: NotificationPayload, issue_id: string | null, comment_id: string | null, seen: boolean, dismissed_at: string | null, created_at: string, };
+
+export type NotificationGroupKind = "single" | "issue_changes" | "status_changes" | "comments" | "reactions" | "issue_deleted";
+
+export type NotificationPayload = { deeplink_path?: string | null, issue_id?: string | null, issue_simple_id?: string | null, issue_title?: string | null, actor_user_id?: string | null, comment_preview?: string | null, old_status_id?: string | null, new_status_id?: string | null, old_status_name?: string | null, new_status_name?: string | null, new_title?: string | null, old_priority?: IssuePriority | null, new_priority?: IssuePriority | null, assignee_user_id?: string | null, emoji?: string | null, };
+
+export type NotificationType = "issue_comment_added" | "issue_status_changed" | "issue_assignee_changed" | "issue_priority_changed" | "issue_unassigned" | "issue_comment_reaction" | "issue_deleted" | "issue_title_changed" | "issue_description_changed";
+
+export type Workspace = { id: string, project_id: string, owner_user_id: string, issue_id: string | null, local_workspace_id: string | null, name: string | null, archived: boolean, files_changed: number | null, lines_added: number | null, lines_removed: number | null, created_at: string, updated_at: string, };
+
+export type ProjectStatus = { id: string, project_id: string, name: string, color: string, sort_order: number, hidden: boolean, created_at: string, };
+
+export type Tag = { id: string, project_id: string, name: string, color: string, };
+
+export type Issue = { id: string, project_id: string, issue_number: number, simple_id: string, status_id: string, title: string, description: string | null, priority: IssuePriority | null, start_date: string | null, target_date: string | null, completed_at: string | null, sort_order: number, parent_issue_id: string | null, parent_issue_sort_order: number | null, extension_metadata: JsonValue, creator_user_id: string | null, created_at: string, updated_at: string, };
+
+export type IssueAssignee = { id: string, issue_id: string, user_id: string, assigned_at: string, };
+
+export type Blob = { id: string, project_id: string, blob_path: string, thumbnail_blob_path: string | null, original_name: string, mime_type: string | null, size_bytes: bigint, hash: string, width: number | null, height: number | null, created_at: string, updated_at: string, };
+
+export type Attachment = { id: string, blob_id: string, issue_id: string | null, comment_id: string | null, created_at: string, expires_at: string | null, };
+
+export type AttachmentWithBlob = { id: string, blob_id: string, issue_id: string | null, comment_id: string | null, created_at: string, expires_at: string | null, blob_path: string, thumbnail_blob_path: string | null, original_name: string, mime_type: string | null, size_bytes: bigint, hash: string, width: number | null, height: number | null, };
+
+export type IssueFollower = { id: string, issue_id: string, user_id: string, };
+
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/remote-types.ts`
+
+The `MutationDefinition` interface in [`shared/remote-types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/remote-types.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Mutation definition interface
+export interface MutationDefinition<TRow, TCreate = unknown, TUpdate = unknown> {
+  readonly name: string;
+  readonly url: string;
+  readonly _rowType: TRow;  // Phantom field for type inference (not present at runtime)
+  readonly _createType: TCreate;  // Phantom field for type inference (not present at runtime)
+  readonly _updateType: TUpdate;  // Phantom field for type inference (not present at runtime)
+}
+
+// Helper to create type-safe mutation definitions
+function defineMutation<TRow, TCreate, TUpdate>(
+  name: string,
+  url: string
+): MutationDefinition<TRow, TCreate, TUpdate> {
+  return { name, url } as MutationDefinition<TRow, TCreate, TUpdate>;
+}
+
+// Individual mutation definitions
+export const PROJECT_MUTATION = defineMutation<Project, CreateProjectRequest, UpdateProjectRequest>(
+  'Project',
+  '/v1/projects'
+);
+
+export const NOTIFICATION_MUTATION = defineMutation<Notification, unknown, UpdateNotificationRequest>(
+  'Notification',
+  '/v1/notifications'
+);
+
+export const TAG_MUTATION = defineMutation<Tag, CreateTagRequest, UpdateTagRequest>(
+  'Tag',
+  '/v1/tags'
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[export]
+    B[ShapeDefinition]
+    C[export]
+    D[MutationDefinition]
+    E[MemberRole]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

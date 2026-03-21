@@ -5,6 +5,7 @@ nav_order: 4
 parent: Stagewise Tutorial
 ---
 
+
 # Chapter 4: Configuration and Plugin Loading
 
 Welcome to **Chapter 4: Configuration and Plugin Loading**. In this part of **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -54,596 +55,182 @@ Next: [Chapter 5: Building Plugins with Plugin SDK](05-building-plugins-with-plu
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- tutorial slug: **stagewise-tutorial**
-- chapter focus: **Chapter 4: Configuration and Plugin Loading**
-- system context: **Stagewise Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 4: Configuration and Plugin Loading`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Stagewise Repository](https://github.com/stagewise-io/stagewise)
-- [Root README](https://github.com/stagewise-io/stagewise/blob/main/README.md)
-- [Docs Home](https://stagewise.io/docs)
-- [CLI Deep Dive](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/advanced-usage/cli-deep-dive.mdx)
-- [Use Different Agents](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/advanced-usage/use-different-agents.mdx)
-- [Install Plugins](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/advanced-usage/install-plugins.mdx)
-- [Build Plugins](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/developer-guides/build-plugins.mdx)
-- [Build Custom Agent Integrations](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/developer-guides/build-custom-agent-integrations.mdx)
-
-### Cross-Tutorial Connection Map
-
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Tabby Tutorial](../tabby-tutorial/)
-- [Sweep Tutorial](../sweep-tutorial/)
-- [VibeSDK Tutorial](../vibesdk-tutorial/)
-- [Chapter 1: Getting Started and CLI Bootstrap](01-getting-started-and-cli-bootstrap.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 4: Configuration and Plugin Loading`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 4: Configuration and Plugin Loading
-
-- tutorial context: **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `plugin`, `plugins`, `custom` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 4: Configuration and Plugin Loading` as an operating subsystem inside **Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `port`, `appPort`, `autoPlugins` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: Configuration and Plugin Loading` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `plugin`.
-2. **Input normalization**: shape incoming data so `plugins` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `custom`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Stagewise Repository](https://github.com/stagewise-io/stagewise)
-  Why it matters: authoritative reference on `Stagewise Repository` (github.com).
-- [Root README](https://github.com/stagewise-io/stagewise/blob/main/README.md)
-  Why it matters: authoritative reference on `Root README` (github.com).
-- [Docs Home](https://stagewise.io/docs)
-  Why it matters: authoritative reference on `Docs Home` (stagewise.io).
-- [CLI Deep Dive](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/advanced-usage/cli-deep-dive.mdx)
-  Why it matters: authoritative reference on `CLI Deep Dive` (github.com).
-- [Use Different Agents](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/advanced-usage/use-different-agents.mdx)
-  Why it matters: authoritative reference on `Use Different Agents` (github.com).
-- [Install Plugins](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/advanced-usage/install-plugins.mdx)
-  Why it matters: authoritative reference on `Install Plugins` (github.com).
-- [Build Plugins](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/developer-guides/build-plugins.mdx)
-  Why it matters: authoritative reference on `Build Plugins` (github.com).
-- [Build Custom Agent Integrations](https://github.com/stagewise-io/stagewise/blob/main/apps/website/content/docs/developer-guides/build-custom-agent-integrations.mdx)
-  Why it matters: authoritative reference on `Build Custom Agent Integrations` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `plugin` and `plugins` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Bridge Mode and Multi-Agent Integrations](03-bridge-mode-and-multi-agent-integrations.md)
-- [Next Chapter: Chapter 5: Building Plugins with Plugin SDK](05-building-plugins-with-plugin-sdk.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/release/bump-version.ts`
+
+The `calculateNextVersion` function in [`scripts/release/bump-version.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/bump-version.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * - From release to prerelease: apply bump, add prerelease (1.0.0 -> 1.0.1-alpha.1)
+ */
+export function calculateNextVersion(
+  currentVersion: string,
+  bumpType: VersionBump,
+  targetChannel: ReleaseChannel,
+): string {
+  const current = parseVersion(currentVersion);
+
+  // Case 1: Target is a stable release
+  if (targetChannel === 'release') {
+    // If already a release version, apply the bump
+    if (!current.prerelease) {
+      return semver.inc(currentVersion, bumpType) || currentVersion;
+    }
+
+    // If coming from prerelease, just drop the prerelease tag
+    // The base version already represents the "next" version
+    return current.base;
+  }
+
+  // Case 2: Target is a prerelease (alpha or beta)
+
+  // If current is a stable release, apply bump and start at prerelease.1
+  if (!current.prerelease) {
+    const bumpedBase = semver.inc(currentVersion, bumpType);
+    if (!bumpedBase) {
+      throw new Error(
+        `Failed to bump version ${currentVersion} with ${bumpType}`,
+      );
+    }
+    return `${bumpedBase}-${targetChannel}.1`;
+```
+
+This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
+
+### `scripts/release/bump-version.ts`
+
+The `getPossibleNextVersions` function in [`scripts/release/bump-version.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/bump-version.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Get a list of possible next versions for display
+ */
+export function getPossibleNextVersions(
+  currentVersion: string,
+  bumpType: VersionBump,
+): Record<ReleaseChannel, string> {
+  return {
+    alpha: calculateNextVersion(currentVersion, bumpType, 'alpha'),
+    beta: calculateNextVersion(currentVersion, bumpType, 'beta'),
+    release: calculateNextVersion(currentVersion, bumpType, 'release'),
+  };
+}
+
+/**
+ * Validate that a channel transition is allowed
+ */
+export function isValidChannelTransition(
+  currentChannel: ReleaseChannel | null,
+  targetChannel: ReleaseChannel,
+): boolean {
+  // From release to any prerelease is allowed
+  if (currentChannel === null) {
+    return true;
+  }
+
+  // To release is always allowed
+  if (targetChannel === 'release') {
+    return true;
+  }
+
+  // Same channel is allowed
+  if (currentChannel === targetChannel) {
+```
+
+This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
+
+### `scripts/release/bump-version.ts`
+
+The `isValidChannelTransition` function in [`scripts/release/bump-version.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/bump-version.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Validate that a channel transition is allowed
+ */
+export function isValidChannelTransition(
+  currentChannel: ReleaseChannel | null,
+  targetChannel: ReleaseChannel,
+): boolean {
+  // From release to any prerelease is allowed
+  if (currentChannel === null) {
+    return true;
+  }
+
+  // To release is always allowed
+  if (targetChannel === 'release') {
+    return true;
+  }
+
+  // Same channel is allowed
+  if (currentChannel === targetChannel) {
+    return true;
+  }
+
+  // alpha -> beta is allowed
+  if (currentChannel === 'alpha' && targetChannel === 'beta') {
+    return true;
+  }
+
+  // beta -> alpha is NOT allowed
+  return false;
+}
+
+```
+
+This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
+
+### `scripts/release/git-utils.ts`
+
+The `getLastTag` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Get the most recent tag matching a prefix
+ */
+export async function getLastTag(prefix: string): Promise<string | null> {
+  try {
+    const { stdout } = await exec(
+      `git tag --list "${prefix}*" --sort=-version:refname | head -n 1`,
+    );
+    const tag = stdout.trim();
+    return tag || null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Get the most recent stable (non-prerelease) tag matching a prefix
+ */
+export async function getLastStableTag(prefix: string): Promise<string | null> {
+  try {
+    const { stdout } = await exec(
+      `git tag --list "${prefix}*" --sort=-version:refname`,
+    );
+    const tags = stdout.trim().split('\n').filter(Boolean);
+
+    // Find the first tag that doesn't contain alpha or beta
+    for (const tag of tags) {
+      const version = tag.replace(prefix, '');
+      if (!version.includes('-alpha') && !version.includes('-beta')) {
+        return tag;
+      }
+    }
+    return null;
+```
+
+This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[calculateNextVersion]
+    B[getPossibleNextVersions]
+    C[isValidChannelTransition]
+    D[getLastTag]
+    E[getLastStableTag]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

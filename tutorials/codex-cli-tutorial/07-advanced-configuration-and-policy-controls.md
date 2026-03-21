@@ -5,6 +5,7 @@ nav_order: 7
 parent: Codex CLI Tutorial
 ---
 
+
 # Chapter 7: Advanced Configuration and Policy Controls
 
 Welcome to **Chapter 7: Advanced Configuration and Policy Controls**. In this part of **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -39,598 +40,184 @@ Next: [Chapter 8: Contribution Workflow and Ecosystem Strategy](08-contribution-
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- tutorial slug: **codex-cli-tutorial**
-- chapter focus: **Chapter 7: Advanced Configuration and Policy Controls**
-- system context: **Codex Cli Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Advanced Configuration and Policy Controls`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Codex Repository](https://github.com/openai/codex)
-- [Codex README](https://github.com/openai/codex/blob/main/README.md)
-- [Codex Documentation](https://developers.openai.com/codex)
-- [Codex Config Docs](https://developers.openai.com/codex/config-reference)
-- [Codex Security Docs](https://developers.openai.com/codex/security)
-- [Codex Contributing Docs](https://github.com/openai/codex/blob/main/docs/contributing.md)
-
-### Cross-Tutorial Connection Map
-
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Goose Tutorial](../goose-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Advanced Configuration and Policy Controls`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: Advanced Configuration and Policy Controls
-
-- tutorial context: **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Advanced Configuration and Policy Controls` as an operating subsystem inside **Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Advanced Configuration and Policy Controls` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Codex Repository](https://github.com/openai/codex)
-  Why it matters: authoritative reference on `Codex Repository` (github.com).
-- [Codex README](https://github.com/openai/codex/blob/main/README.md)
-  Why it matters: authoritative reference on `Codex README` (github.com).
-- [Codex Documentation](https://developers.openai.com/codex)
-  Why it matters: authoritative reference on `Codex Documentation` (developers.openai.com).
-- [Codex Config Docs](https://developers.openai.com/codex/config-reference)
-  Why it matters: authoritative reference on `Codex Config Docs` (developers.openai.com).
-- [Codex Security Docs](https://developers.openai.com/codex/security)
-  Why it matters: authoritative reference on `Codex Security Docs` (developers.openai.com).
-- [Codex Contributing Docs](https://github.com/openai/codex/blob/main/docs/contributing.md)
-  Why it matters: authoritative reference on `Codex Contributing Docs` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Commands, Connectors, and Daily Operations](06-commands-connectors-and-daily-operations.md)
-- [Next Chapter: Chapter 8: Contribution Workflow and Ecosystem Strategy](08-contribution-workflow-and-ecosystem-strategy.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `codex-cli/scripts/install_native_deps.py`
+
+The `fetch_rg` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+
+```py
+        with _gha_group("Fetch ripgrep binaries"):
+            print("Fetching ripgrep binaries...")
+            fetch_rg(vendor_dir, DEFAULT_RG_TARGETS, manifest_path=RG_MANIFEST)
+
+    print(f"Installed native dependencies into {vendor_dir}")
+    return 0
+
+
+def fetch_rg(
+    vendor_dir: Path,
+    targets: Sequence[str] | None = None,
+    *,
+    manifest_path: Path,
+) -> list[Path]:
+    """Download ripgrep binaries described by the DotSlash manifest."""
+
+    if targets is None:
+        targets = DEFAULT_RG_TARGETS
+
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"DotSlash manifest not found: {manifest_path}")
+
+    manifest = _load_manifest(manifest_path)
+    platforms = manifest.get("platforms", {})
+
+    vendor_dir.mkdir(parents=True, exist_ok=True)
+
+    targets = list(targets)
+    if not targets:
+        return []
+
+    task_configs: list[tuple[str, str, dict]] = []
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `codex-cli/scripts/install_native_deps.py`
+
+The `install_binary_components` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+
+```py
+            artifacts_dir = Path(artifacts_dir_str)
+            _download_artifacts(workflow_id, artifacts_dir)
+            install_binary_components(
+                artifacts_dir,
+                vendor_dir,
+                [BINARY_COMPONENTS[name] for name in components if name in BINARY_COMPONENTS],
+            )
+
+    if "rg" in components:
+        with _gha_group("Fetch ripgrep binaries"):
+            print("Fetching ripgrep binaries...")
+            fetch_rg(vendor_dir, DEFAULT_RG_TARGETS, manifest_path=RG_MANIFEST)
+
+    print(f"Installed native dependencies into {vendor_dir}")
+    return 0
+
+
+def fetch_rg(
+    vendor_dir: Path,
+    targets: Sequence[str] | None = None,
+    *,
+    manifest_path: Path,
+) -> list[Path]:
+    """Download ripgrep binaries described by the DotSlash manifest."""
+
+    if targets is None:
+        targets = DEFAULT_RG_TARGETS
+
+    if not manifest_path.exists():
+        raise FileNotFoundError(f"DotSlash manifest not found: {manifest_path}")
+
+    manifest = _load_manifest(manifest_path)
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `codex-cli/scripts/install_native_deps.py`
+
+The `extract_archive` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+
+```py
+    dest = dest_dir / binary_name
+    dest.unlink(missing_ok=True)
+    extract_archive(archive_path, "zst", None, dest)
+    if "windows" not in target:
+        dest.chmod(0o755)
+    return dest
+
+
+def _archive_name_for_target(artifact_prefix: str, target: str) -> str:
+    if "windows" in target:
+        return f"{artifact_prefix}-{target}.exe.zst"
+    return f"{artifact_prefix}-{target}.zst"
+
+
+def _fetch_single_rg(
+    vendor_dir: Path,
+    target: str,
+    platform_key: str,
+    platform_info: dict,
+    manifest_path: Path,
+) -> Path:
+    providers = platform_info.get("providers", [])
+    if not providers:
+        raise RuntimeError(f"No providers listed for platform '{platform_key}' in {manifest_path}.")
+
+    url = providers[0]["url"]
+    archive_format = platform_info.get("format", "zst")
+    archive_member = platform_info.get("path")
+    digest = platform_info.get("digest")
+    expected_size = platform_info.get("size")
+
+    dest_dir = vendor_dir / target / "path"
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `sdk/python/_runtime_setup.py`
+
+The `RuntimeSetupError` class in [`sdk/python/_runtime_setup.py`](https://github.com/openai/codex/blob/HEAD/sdk/python/_runtime_setup.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class RuntimeSetupError(RuntimeError):
+    pass
+
+
+def pinned_runtime_version() -> str:
+    return PINNED_RUNTIME_VERSION
+
+
+def ensure_runtime_package_installed(
+    python_executable: str | Path,
+    sdk_python_dir: Path,
+    install_target: Path | None = None,
+) -> str:
+    requested_version = pinned_runtime_version()
+    installed_version = None
+    if install_target is None:
+        installed_version = _installed_runtime_version(python_executable)
+    normalized_requested = _normalized_package_version(requested_version)
+
+    if installed_version is not None and _normalized_package_version(installed_version) == normalized_requested:
+        return requested_version
+
+    with tempfile.TemporaryDirectory(prefix="codex-python-runtime-") as temp_root_str:
+        temp_root = Path(temp_root_str)
+        archive_path = _download_release_archive(requested_version, temp_root)
+        runtime_binary = _extract_runtime_binary(archive_path, temp_root)
+        staged_runtime_dir = _stage_runtime_package(
+            sdk_python_dir,
+            requested_version,
+            runtime_binary,
+```
+
+This class is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[fetch_rg]
+    B[install_binary_components]
+    C[extract_archive]
+    D[RuntimeSetupError]
+    E[pinned_runtime_version]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

@@ -5,6 +5,7 @@ nav_order: 7
 parent: Mistral Vibe Tutorial
 ---
 
+
 # Chapter 7: ACP and Editor Integrations
 
 Welcome to **Chapter 7: ACP and Editor Integrations**. In this part of **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -31,604 +32,184 @@ Next: [Chapter 8: Production Operations and Governance](08-production-operations
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- tutorial slug: **mistral-vibe-tutorial**
-- chapter focus: **Chapter 7: ACP and Editor Integrations**
-- system context: **Mistral Vibe Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: ACP and Editor Integrations`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Mistral Vibe Repository](https://github.com/mistralai/mistral-vibe)
-- [Mistral Vibe README](https://github.com/mistralai/mistral-vibe/blob/main/README.md)
-- [ACP setup docs](https://github.com/mistralai/mistral-vibe/blob/main/docs/acp-setup.md)
-- [ACP entrypoint](https://github.com/mistralai/mistral-vibe/blob/main/vibe/acp/entrypoint.py)
-
-### Cross-Tutorial Connection Map
-
-- [Kimi CLI Tutorial](../kimi-cli-tutorial/)
-- [GitHub Copilot CLI Tutorial](../copilot-cli-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: ACP and Editor Integrations`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 7: ACP and Editor Integrations
-
-- tutorial context: **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: ACP and Editor Integrations` as an operating subsystem inside **Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: ACP and Editor Integrations` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Mistral Vibe Repository](https://github.com/mistralai/mistral-vibe)
-  Why it matters: authoritative reference on `Mistral Vibe Repository` (github.com).
-- [Mistral Vibe README](https://github.com/mistralai/mistral-vibe/blob/main/README.md)
-  Why it matters: authoritative reference on `Mistral Vibe README` (github.com).
-- [ACP setup docs](https://github.com/mistralai/mistral-vibe/blob/main/docs/acp-setup.md)
-  Why it matters: authoritative reference on `ACP setup docs` (github.com).
-- [ACP entrypoint](https://github.com/mistralai/mistral-vibe/blob/main/vibe/acp/entrypoint.py)
-  Why it matters: authoritative reference on `ACP entrypoint` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Programmatic and Non-Interactive Modes](06-programmatic-and-non-interactive-modes.md)
-- [Next Chapter: Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `vibe/cli/cli.py`
+
+The `get_initial_agent_name` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_initial_agent_name(args: argparse.Namespace) -> str:
+    if args.prompt is not None and args.agent == BuiltinAgentName.DEFAULT:
+        return BuiltinAgentName.AUTO_APPROVE
+    return args.agent
+
+
+def get_prompt_from_stdin() -> str | None:
+    if sys.stdin.isatty():
+        return None
+    try:
+        if content := sys.stdin.read().strip():
+            sys.stdin = sys.__stdin__ = open("/dev/tty")
+            return content
+    except KeyboardInterrupt:
+        pass
+    except OSError:
+        return None
+
+    return None
+
+
+def load_config_or_exit() -> VibeConfig:
+    try:
+        return VibeConfig.load()
+    except MissingAPIKeyError:
+        run_onboarding()
+        return VibeConfig.load()
+    except MissingPromptFileError as e:
+        rprint(f"[yellow]Invalid system prompt id: {e}[/]")
+        sys.exit(1)
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/cli/cli.py`
+
+The `get_prompt_from_stdin` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def get_prompt_from_stdin() -> str | None:
+    if sys.stdin.isatty():
+        return None
+    try:
+        if content := sys.stdin.read().strip():
+            sys.stdin = sys.__stdin__ = open("/dev/tty")
+            return content
+    except KeyboardInterrupt:
+        pass
+    except OSError:
+        return None
+
+    return None
+
+
+def load_config_or_exit() -> VibeConfig:
+    try:
+        return VibeConfig.load()
+    except MissingAPIKeyError:
+        run_onboarding()
+        return VibeConfig.load()
+    except MissingPromptFileError as e:
+        rprint(f"[yellow]Invalid system prompt id: {e}[/]")
+        sys.exit(1)
+    except ValueError as e:
+        rprint(f"[yellow]{e}[/]")
+        sys.exit(1)
+
+
+def bootstrap_config_files() -> None:
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/cli/cli.py`
+
+The `load_config_or_exit` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def load_config_or_exit() -> VibeConfig:
+    try:
+        return VibeConfig.load()
+    except MissingAPIKeyError:
+        run_onboarding()
+        return VibeConfig.load()
+    except MissingPromptFileError as e:
+        rprint(f"[yellow]Invalid system prompt id: {e}[/]")
+        sys.exit(1)
+    except ValueError as e:
+        rprint(f"[yellow]{e}[/]")
+        sys.exit(1)
+
+
+def bootstrap_config_files() -> None:
+    mgr = get_harness_files_manager()
+    config_file = mgr.user_config_file
+    if not config_file.exists():
+        try:
+            config_file.parent.mkdir(parents=True, exist_ok=True)
+            with config_file.open("wb") as f:
+                tomli_w.dump(VibeConfig.create_default(), f)
+        except Exception as e:
+            rprint(f"[yellow]Could not create default config file: {e}[/]")
+
+    history_file = HISTORY_FILE.path
+    if not history_file.exists():
+        try:
+            history_file.parent.mkdir(parents=True, exist_ok=True)
+            history_file.write_text("Hello Vibe!\n", "utf-8")
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/cli/cli.py`
+
+The `bootstrap_config_files` function in [`vibe/cli/cli.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/cli/cli.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def bootstrap_config_files() -> None:
+    mgr = get_harness_files_manager()
+    config_file = mgr.user_config_file
+    if not config_file.exists():
+        try:
+            config_file.parent.mkdir(parents=True, exist_ok=True)
+            with config_file.open("wb") as f:
+                tomli_w.dump(VibeConfig.create_default(), f)
+        except Exception as e:
+            rprint(f"[yellow]Could not create default config file: {e}[/]")
+
+    history_file = HISTORY_FILE.path
+    if not history_file.exists():
+        try:
+            history_file.parent.mkdir(parents=True, exist_ok=True)
+            history_file.write_text("Hello Vibe!\n", "utf-8")
+        except Exception as e:
+            rprint(f"[yellow]Could not create history file: {e}[/]")
+
+
+def load_session(
+    args: argparse.Namespace, config: VibeConfig
+) -> tuple[list[LLMMessage], Path] | None:
+    if not args.continue_session and not args.resume:
+        return None
+
+    if not config.session_logging.enabled:
+        rprint(
+            "[red]Session logging is disabled. "
+            "Enable it in config to use --continue or --resume[/]"
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[get_initial_agent_name]
+    B[get_prompt_from_stdin]
+    C[load_config_or_exit]
+    D[bootstrap_config_files]
+    E[load_session]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

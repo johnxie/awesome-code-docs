@@ -5,6 +5,7 @@ nav_order: 3
 parent: PocketFlow Tutorial
 ---
 
+
 # Chapter 3: Agent and Workflow Patterns
 
 Welcome to **Chapter 3: Agent and Workflow Patterns**. In this part of **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -28,613 +29,184 @@ Next: [Chapter 4: RAG and Knowledge Patterns](04-rag-and-knowledge-patterns.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- tutorial slug: **pocketflow-tutorial**
-- chapter focus: **Chapter 3: Agent and Workflow Patterns**
-- system context: **Pocketflow Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Agent and Workflow Patterns`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [PocketFlow Repository](https://github.com/The-Pocket/PocketFlow)
-- [PocketFlow Docs](https://the-pocket.github.io/PocketFlow/)
-- [PocketFlow Cookbook](https://github.com/The-Pocket/PocketFlow/tree/main/cookbook)
-
-### Cross-Tutorial Connection Map
-
-- [LangGraph Tutorial](../langgraph-tutorial/)
-- [Agno Tutorial](../agno-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Agent and Workflow Patterns`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 39: Chapter 3: Agent and Workflow Patterns
-
-- tutorial context: **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Agent and Workflow Patterns` as an operating subsystem inside **PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Agent and Workflow Patterns` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [PocketFlow Repository](https://github.com/The-Pocket/PocketFlow)
-  Why it matters: authoritative reference on `PocketFlow Repository` (github.com).
-- [PocketFlow Docs](https://the-pocket.github.io/PocketFlow/)
-  Why it matters: authoritative reference on `PocketFlow Docs` (the-pocket.github.io).
-- [PocketFlow Cookbook](https://github.com/The-Pocket/PocketFlow/tree/main/cookbook)
-  Why it matters: authoritative reference on `PocketFlow Cookbook` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Core Graph Abstraction](02-core-graph-abstraction.md)
-- [Next Chapter: Chapter 4: RAG and Knowledge Patterns](04-rag-and-knowledge-patterns.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `cookbook/pocketflow-thinking/nodes.py`
+
+The `format_plan` function in [`cookbook/pocketflow-thinking/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-thinking/nodes.py) handles a key part of this chapter's functionality:
+
+```py
+
+# Helper function to format structured plan for printing
+def format_plan(plan_items, indent_level=0):
+    indent = "  " * indent_level
+    output = []
+    if isinstance(plan_items, list):
+        for item in plan_items:
+            if isinstance(item, dict):
+                status = item.get('status', 'Unknown')
+                desc = item.get('description', 'No description')
+                result = item.get('result', '')
+                mark = item.get('mark', '') # For verification etc.
+
+                # Format the main step line
+                line = f"{indent}- [{status}] {desc}"
+                if result:
+                    line += f": {result}"
+                if mark:
+                    line += f" ({mark})"
+                output.append(line)
+
+                # Recursively format sub-steps if they exist
+                sub_steps = item.get('sub_steps')
+                if sub_steps:
+                    output.append(format_plan(sub_steps, indent_level + 1))
+            elif isinstance(item, str): # Basic fallback for string items
+                 output.append(f"{indent}- {item}")
+            else: # Fallback for unexpected types
+                 output.append(f"{indent}- {str(item)}")
+
+    elif isinstance(plan_items, str): # Handle case where plan is just an error string
+        output.append(f"{indent}{plan_items}")
+```
+
+This function is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+### `cookbook/pocketflow-thinking/nodes.py`
+
+The `format_plan_for_prompt` function in [`cookbook/pocketflow-thinking/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-thinking/nodes.py) handles a key part of this chapter's functionality:
+
+```py
+
+# Helper function to format structured plan for the prompt (simplified view)
+def format_plan_for_prompt(plan_items, indent_level=0):
+    indent = "  " * indent_level
+    output = []
+    # Simplified formatting for prompt clarity
+    if isinstance(plan_items, list):
+        for item in plan_items:
+            if isinstance(item, dict):
+                status = item.get('status', 'Unknown')
+                desc = item.get('description', 'No description')
+                line = f"{indent}- [{status}] {desc}"
+                output.append(line)
+                sub_steps = item.get('sub_steps')
+                if sub_steps:
+                    # Indicate nesting without full recursive display in prompt
+                    output.append(format_plan_for_prompt(sub_steps, indent_level + 1))
+            else: # Fallback
+                 output.append(f"{indent}- {str(item)}")
+    else:
+        output.append(f"{indent}{str(plan_items)}")
+    return "\n".join(output)
+
+
+class ChainOfThoughtNode(Node):
+    def prep(self, shared):
+        problem = shared.get("problem", "")
+        thoughts = shared.get("thoughts", [])
+        current_thought_number = shared.get("current_thought_number", 0)
+
+        shared["current_thought_number"] = current_thought_number + 1
+
+```
+
+This function is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+### `cookbook/pocketflow-thinking/nodes.py`
+
+The `Prompt` interface in [`cookbook/pocketflow-thinking/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-thinking/nodes.py) handles a key part of this chapter's functionality:
+
+```py
+        is_first_thought = prep_res["is_first_thought"]
+
+        # --- Construct Prompt ---
+        # Instructions updated for dictionary structure
+        instruction_base = textwrap.dedent(f"""
+            Your task is to generate the next thought (Thought {current_thought_number}).
+
+            Instructions:
+            1.  **Evaluate Previous Thought:** If not the first thought, start `current_thinking` by evaluating Thought {current_thought_number - 1}. State: "Evaluation of Thought {current_thought_number - 1}: [Correct/Minor Issues/Major Error - explain]". Address errors first.
+            2.  **Execute Step:** Execute the first step in the plan with `status: Pending`.
+            3.  **Maintain Plan (Structure):** Generate an updated `planning` list. Each item should be a dictionary with keys: `description` (string), `status` (string: "Pending", "Done", "Verification Needed"), and optionally `result` (string, concise summary when Done) or `mark` (string, reason for Verification Needed). Sub-steps are represented by a `sub_steps` key containing a *list* of these dictionaries.
+            4.  **Update Current Step Status:** In the updated plan, change the `status` of the executed step to "Done" and add a `result` key with a concise summary. If verification is needed based on evaluation, change status to "Verification Needed" and add a `mark`.
+            5.  **Refine Plan (Sub-steps):** If a "Pending" step is complex, add a `sub_steps` key to its dictionary containing a list of new step dictionaries (status: "Pending") breaking it down. Keep the parent step's status "Pending" until all sub-steps are "Done".
+            6.  **Refine Plan (Errors):** Modify the plan logically based on evaluation findings (e.g., change status, add correction steps).
+            7.  **Final Step:** Ensure the plan progresses towards a final step dictionary like `{{'description': "Conclusion", 'status': "Pending"}}`.
+            8.  **Termination:** Set `next_thought_needed` to `false` ONLY when executing the step with `description: "Conclusion"`.
+        """)
+
+        # Context remains largely the same
+        if is_first_thought:
+            instruction_context = textwrap.dedent("""
+                **This is the first thought:** Create an initial plan as a list of dictionaries (keys: description, status). Include sub-steps via the `sub_steps` key if needed. Then, execute the first step in `current_thinking` and provide the updated plan (marking step 1 `status: Done` with a `result`).
+            """)
+        else:
+            instruction_context = textwrap.dedent(f"""
+                **Previous Plan (Simplified View):**
+                {last_plan_text}
+
+                Start `current_thinking` by evaluating Thought {current_thought_number - 1}. Then, proceed with the first step where `status: Pending`. Update the plan structure (list of dictionaries) reflecting evaluation, execution, and refinements.
+            """)
+
+        # Output format example updated for dictionary structure
+```
+
+This interface is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+### `cookbook/pocketflow-visualization/visualize.py`
+
+The `build_mermaid` function in [`cookbook/pocketflow-visualization/visualize.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-visualization/visualize.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def build_mermaid(start):
+    ids, visited, lines = {}, set(), ["graph LR"]
+    ctr = 1
+
+    def get_id(n):
+        nonlocal ctr
+        return (
+            ids[n] if n in ids else (ids.setdefault(n, f"N{ctr}"), (ctr := ctr + 1))[0]
+        )
+
+    def link(a, b, action=None):
+        if action:
+            lines.append(f"    {a} -->|{action}| {b}")
+        else:
+            lines.append(f"    {a} --> {b}")
+
+    def walk(node, parent=None, action=None):
+        if node in visited:
+            return parent and link(parent, get_id(node), action)
+        visited.add(node)
+        if isinstance(node, Flow):
+            node.start_node and parent and link(parent, get_id(node.start_node), action)
+            lines.append(
+                f"\n    subgraph sub_flow_{get_id(node)}[{type(node).__name__}]"
+            )
+            node.start_node and walk(node.start_node)
+            for act, nxt in node.successors.items():
+                node.start_node and walk(nxt, get_id(node.start_node), act) or (
+                    parent and link(parent, get_id(nxt), action)
+                ) or walk(nxt, None, act)
+```
+
+This function is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[format_plan]
+    B[format_plan_for_prompt]
+    C[Prompt]
+    D[build_mermaid]
+    E[flow_to_json]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

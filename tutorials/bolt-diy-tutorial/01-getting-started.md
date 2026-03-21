@@ -5,6 +5,7 @@ nav_order: 1
 parent: Bolt.diy Tutorial
 ---
 
+
 # Chapter 1: Getting Started
 
 Welcome to **Chapter 1: Getting Started**. In this part of **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -175,461 +176,150 @@ Next: [Chapter 2: Architecture Overview](02-architecture-overview.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- tutorial slug: **bolt-diy-tutorial**
-- chapter focus: **Chapter 1: Getting Started**
-- system context: **Bolt Diy Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 1: Getting Started`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [bolt.diy README](https://github.com/stackblitz-labs/bolt.diy/blob/main/README.md)
-- [bolt.diy docs index](https://github.com/stackblitz-labs/bolt.diy/blob/main/docs/docs/index.md)
-- [bolt.diy Releases](https://github.com/stackblitz-labs/bolt.diy/releases)
-
-### Cross-Tutorial Connection Map
-
-- [Dyad Tutorial](../dyad-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 1: Getting Started
-
-- tutorial context: **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `example`, `bolt`, `pnpm` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started` as an operating subsystem inside **bolt.diy Tutorial: Build and Operate an Open Source AI App Builder**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `install`, `local`, `docker` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `example`.
-2. **Input normalization**: shape incoming data so `bolt` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `pnpm`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [bolt.diy README](https://github.com/stackblitz-labs/bolt.diy/blob/main/README.md)
-  Why it matters: authoritative reference on `bolt.diy README` (github.com).
-- [bolt.diy docs index](https://github.com/stackblitz-labs/bolt.diy/blob/main/docs/docs/index.md)
-  Why it matters: authoritative reference on `bolt.diy docs index` (github.com).
-- [bolt.diy Releases](https://github.com/stackblitz-labs/bolt.diy/releases)
-  Why it matters: authoritative reference on `bolt.diy Releases` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `example` and `bolt` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Architecture Overview](02-architecture-overview.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `worker-configuration.d.ts`
+
+The `Env` interface in [`worker-configuration.d.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/worker-configuration.d.ts) handles a key part of this chapter's functionality:
+
+```ts
+interface Env {
+  RUNNING_IN_DOCKER: Settings;
+  DEFAULT_NUM_CTX: Settings;
+  ANTHROPIC_API_KEY: string;
+  OPENAI_API_KEY: string;
+  GROQ_API_KEY: string;
+  HuggingFace_API_KEY: string;
+  OPEN_ROUTER_API_KEY: string;
+  OLLAMA_API_BASE_URL: string;
+  OPENAI_LIKE_API_KEY: string;
+  OPENAI_LIKE_API_BASE_URL: string;
+  OPENAI_LIKE_API_MODELS: string;
+  TOGETHER_API_KEY: string;
+  TOGETHER_API_BASE_URL: string;
+  DEEPSEEK_API_KEY: string;
+  LMSTUDIO_API_BASE_URL: string;
+  GOOGLE_GENERATIVE_AI_API_KEY: string;
+  MISTRAL_API_KEY: string;
+  XAI_API_KEY: string;
+  PERPLEXITY_API_KEY: string;
+  AWS_BEDROCK_CONFIG: string;
+}
+
+```
+
+This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+### `vite.config.ts`
+
+The `chrome129IssuePlugin` function in [`vite.config.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/vite.config.ts) handles a key part of this chapter's functionality:
+
+```ts
+      UnoCSS(),
+      tsconfigPaths(),
+      chrome129IssuePlugin(),
+      config.mode === 'production' && optimizeCssModules({ apply: 'build' }),
+    ],
+    envPrefix: [
+      'VITE_',
+      'OPENAI_LIKE_API_BASE_URL',
+      'OPENAI_LIKE_API_MODELS',
+      'OLLAMA_API_BASE_URL',
+      'LMSTUDIO_API_BASE_URL',
+      'TOGETHER_API_BASE_URL',
+    ],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          api: 'modern-compiler',
+        },
+      },
+    },
+    test: {
+      exclude: [
+        '**/node_modules/**',
+        '**/dist/**',
+        '**/cypress/**',
+        '**/.{idea,git,cache,output,temp}/**',
+        '**/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build}.config.*',
+        '**/tests/preview/**', // Exclude preview tests that require Playwright
+      ],
+    },
+  };
+});
+```
+
+This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+### `uno.config.ts`
+
+The `generateAlphaPalette` function in [`uno.config.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/uno.config.ts) handles a key part of this chapter's functionality:
+
+```ts
+  ...BASE_COLORS,
+  alpha: {
+    white: generateAlphaPalette(BASE_COLORS.white),
+    gray: generateAlphaPalette(BASE_COLORS.gray[900]),
+    red: generateAlphaPalette(BASE_COLORS.red[500]),
+    accent: generateAlphaPalette(BASE_COLORS.accent[500]),
+  },
+};
+
+export default defineConfig({
+  safelist: [...Object.keys(customIconCollection[collectionName] || {}).map((x) => `i-bolt:${x}`)],
+  shortcuts: {
+    'bolt-ease-cubic-bezier': 'ease-[cubic-bezier(0.4,0,0.2,1)]',
+    'transition-theme': 'transition-[background-color,border-color,color] duration-150 bolt-ease-cubic-bezier',
+    kdb: 'bg-bolt-elements-code-background text-bolt-elements-code-text py-1 px-1.5 rounded-md',
+    'max-w-chat': 'max-w-[var(--chat-max-width)]',
+  },
+  rules: [
+    /**
+     * This shorthand doesn't exist in Tailwind and we overwrite it to avoid
+     * any conflicts with minified CSS classes.
+     */
+    ['b', {}],
+  ],
+  theme: {
+    colors: {
+      ...COLOR_PRIMITIVES,
+      bolt: {
+        elements: {
+          borderColor: 'var(--bolt-elements-borderColor)',
+          borderColorActive: 'var(--bolt-elements-borderColorActive)',
+          background: {
+```
+
+This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+### `load-context.ts`
+
+The `AppLoadContext` interface in [`load-context.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/load-context.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+declare module '@remix-run/cloudflare' {
+  interface AppLoadContext {
+    cloudflare: Cloudflare;
+  }
+}
+
+```
+
+This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[Env]
+    B[chrome129IssuePlugin]
+    C[generateAlphaPalette]
+    D[AppLoadContext]
+    E[setTutorialKitTheme]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

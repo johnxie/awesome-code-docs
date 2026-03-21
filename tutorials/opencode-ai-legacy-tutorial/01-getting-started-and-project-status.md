@@ -5,6 +5,7 @@ nav_order: 1
 parent: OpenCode AI Legacy Tutorial
 ---
 
+
 # Chapter 1: Getting Started and Project Status
 
 Welcome to **Chapter 1: Getting Started and Project Status**. In this part of **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -36,603 +37,184 @@ Next: [Chapter 2: Legacy Architecture and Feature Model](02-legacy-architecture-
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- tutorial slug: **opencode-ai-legacy-tutorial**
-- chapter focus: **Chapter 1: Getting Started and Project Status**
-- system context: **Opencode Ai Legacy Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 1: Getting Started and Project Status`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [OpenCode AI Repository](https://github.com/opencode-ai/opencode)
-- [OpenCode AI README](https://github.com/opencode-ai/opencode/blob/main/README.md)
-- [OpenCode AI Release v0.0.55](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55)
-- [Crush Repository](https://github.com/charmbracelet/crush)
-
-### Cross-Tutorial Connection Map
-
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Crush Tutorial](../crush-tutorial/)
-- [Codex CLI Tutorial](../codex-cli-tutorial/)
-- [Goose Tutorial](../goose-tutorial/)
-- [Chapter 1: Getting Started and Project Status](01-getting-started-and-project-status.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started and Project Status`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 1: Getting Started and Project Status
-
-- tutorial context: **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started and Project Status` as an operating subsystem inside **OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started and Project Status` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [OpenCode AI Repository](https://github.com/opencode-ai/opencode)
-  Why it matters: authoritative reference on `OpenCode AI Repository` (github.com).
-- [OpenCode AI README](https://github.com/opencode-ai/opencode/blob/main/README.md)
-  Why it matters: authoritative reference on `OpenCode AI README` (github.com).
-- [OpenCode AI Release v0.0.55](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55)
-  Why it matters: authoritative reference on `OpenCode AI Release v0.0.55` (github.com).
-- [Crush Repository](https://github.com/charmbracelet/crush)
-  Why it matters: authoritative reference on `Crush Repository` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Legacy Architecture and Feature Model](02-legacy-architecture-and-feature-model.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `internal/lsp/methods.go`
+
+The `Implementation` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
+
+```go
+)
+
+// Implementation sends a textDocument/implementation request to the LSP server.
+// A request to resolve the implementation locations of a symbol at a given text document position. The request's parameter is of type TextDocumentPositionParams the response is of type Definition or a Thenable that resolves to such.
+func (c *Client) Implementation(ctx context.Context, params protocol.ImplementationParams) (protocol.Or_Result_textDocument_implementation, error) {
+	var result protocol.Or_Result_textDocument_implementation
+	err := c.Call(ctx, "textDocument/implementation", params, &result)
+	return result, err
+}
+
+// TypeDefinition sends a textDocument/typeDefinition request to the LSP server.
+// A request to resolve the type definition locations of a symbol at a given text document position. The request's parameter is of type TextDocumentPositionParams the response is of type Definition or a Thenable that resolves to such.
+func (c *Client) TypeDefinition(ctx context.Context, params protocol.TypeDefinitionParams) (protocol.Or_Result_textDocument_typeDefinition, error) {
+	var result protocol.Or_Result_textDocument_typeDefinition
+	err := c.Call(ctx, "textDocument/typeDefinition", params, &result)
+	return result, err
+}
+
+// DocumentColor sends a textDocument/documentColor request to the LSP server.
+// A request to list all color symbols found in a given text document. The request's parameter is of type DocumentColorParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) DocumentColor(ctx context.Context, params protocol.DocumentColorParams) ([]protocol.ColorInformation, error) {
+	var result []protocol.ColorInformation
+	err := c.Call(ctx, "textDocument/documentColor", params, &result)
+	return result, err
+}
+
+// ColorPresentation sends a textDocument/colorPresentation request to the LSP server.
+// A request to list all presentation for a color. The request's parameter is of type ColorPresentationParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) ColorPresentation(ctx context.Context, params protocol.ColorPresentationParams) ([]protocol.ColorPresentation, error) {
+	var result []protocol.ColorPresentation
+	err := c.Call(ctx, "textDocument/colorPresentation", params, &result)
+	return result, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/lsp/methods.go`
+
+The `TypeDefinition` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// TypeDefinition sends a textDocument/typeDefinition request to the LSP server.
+// A request to resolve the type definition locations of a symbol at a given text document position. The request's parameter is of type TextDocumentPositionParams the response is of type Definition or a Thenable that resolves to such.
+func (c *Client) TypeDefinition(ctx context.Context, params protocol.TypeDefinitionParams) (protocol.Or_Result_textDocument_typeDefinition, error) {
+	var result protocol.Or_Result_textDocument_typeDefinition
+	err := c.Call(ctx, "textDocument/typeDefinition", params, &result)
+	return result, err
+}
+
+// DocumentColor sends a textDocument/documentColor request to the LSP server.
+// A request to list all color symbols found in a given text document. The request's parameter is of type DocumentColorParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) DocumentColor(ctx context.Context, params protocol.DocumentColorParams) ([]protocol.ColorInformation, error) {
+	var result []protocol.ColorInformation
+	err := c.Call(ctx, "textDocument/documentColor", params, &result)
+	return result, err
+}
+
+// ColorPresentation sends a textDocument/colorPresentation request to the LSP server.
+// A request to list all presentation for a color. The request's parameter is of type ColorPresentationParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) ColorPresentation(ctx context.Context, params protocol.ColorPresentationParams) ([]protocol.ColorPresentation, error) {
+	var result []protocol.ColorPresentation
+	err := c.Call(ctx, "textDocument/colorPresentation", params, &result)
+	return result, err
+}
+
+// FoldingRange sends a textDocument/foldingRange request to the LSP server.
+// A request to provide folding ranges in a document. The request's parameter is of type FoldingRangeParams, the response is of type FoldingRangeList or a Thenable that resolves to such.
+func (c *Client) FoldingRange(ctx context.Context, params protocol.FoldingRangeParams) ([]protocol.FoldingRange, error) {
+	var result []protocol.FoldingRange
+	err := c.Call(ctx, "textDocument/foldingRange", params, &result)
+	return result, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/lsp/methods.go`
+
+The `DocumentColor` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// DocumentColor sends a textDocument/documentColor request to the LSP server.
+// A request to list all color symbols found in a given text document. The request's parameter is of type DocumentColorParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) DocumentColor(ctx context.Context, params protocol.DocumentColorParams) ([]protocol.ColorInformation, error) {
+	var result []protocol.ColorInformation
+	err := c.Call(ctx, "textDocument/documentColor", params, &result)
+	return result, err
+}
+
+// ColorPresentation sends a textDocument/colorPresentation request to the LSP server.
+// A request to list all presentation for a color. The request's parameter is of type ColorPresentationParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) ColorPresentation(ctx context.Context, params protocol.ColorPresentationParams) ([]protocol.ColorPresentation, error) {
+	var result []protocol.ColorPresentation
+	err := c.Call(ctx, "textDocument/colorPresentation", params, &result)
+	return result, err
+}
+
+// FoldingRange sends a textDocument/foldingRange request to the LSP server.
+// A request to provide folding ranges in a document. The request's parameter is of type FoldingRangeParams, the response is of type FoldingRangeList or a Thenable that resolves to such.
+func (c *Client) FoldingRange(ctx context.Context, params protocol.FoldingRangeParams) ([]protocol.FoldingRange, error) {
+	var result []protocol.FoldingRange
+	err := c.Call(ctx, "textDocument/foldingRange", params, &result)
+	return result, err
+}
+
+// Declaration sends a textDocument/declaration request to the LSP server.
+// A request to resolve the type definition locations of a symbol at a given text document position. The request's parameter is of type TextDocumentPositionParams the response is of type Declaration or a typed array of DeclarationLink or a Thenable that resolves to such.
+func (c *Client) Declaration(ctx context.Context, params protocol.DeclarationParams) (protocol.Or_Result_textDocument_declaration, error) {
+	var result protocol.Or_Result_textDocument_declaration
+	err := c.Call(ctx, "textDocument/declaration", params, &result)
+	return result, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/lsp/methods.go`
+
+The `ColorPresentation` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// ColorPresentation sends a textDocument/colorPresentation request to the LSP server.
+// A request to list all presentation for a color. The request's parameter is of type ColorPresentationParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
+func (c *Client) ColorPresentation(ctx context.Context, params protocol.ColorPresentationParams) ([]protocol.ColorPresentation, error) {
+	var result []protocol.ColorPresentation
+	err := c.Call(ctx, "textDocument/colorPresentation", params, &result)
+	return result, err
+}
+
+// FoldingRange sends a textDocument/foldingRange request to the LSP server.
+// A request to provide folding ranges in a document. The request's parameter is of type FoldingRangeParams, the response is of type FoldingRangeList or a Thenable that resolves to such.
+func (c *Client) FoldingRange(ctx context.Context, params protocol.FoldingRangeParams) ([]protocol.FoldingRange, error) {
+	var result []protocol.FoldingRange
+	err := c.Call(ctx, "textDocument/foldingRange", params, &result)
+	return result, err
+}
+
+// Declaration sends a textDocument/declaration request to the LSP server.
+// A request to resolve the type definition locations of a symbol at a given text document position. The request's parameter is of type TextDocumentPositionParams the response is of type Declaration or a typed array of DeclarationLink or a Thenable that resolves to such.
+func (c *Client) Declaration(ctx context.Context, params protocol.DeclarationParams) (protocol.Or_Result_textDocument_declaration, error) {
+	var result protocol.Or_Result_textDocument_declaration
+	err := c.Call(ctx, "textDocument/declaration", params, &result)
+	return result, err
+}
+
+// SelectionRange sends a textDocument/selectionRange request to the LSP server.
+// A request to provide selection ranges in a document. The request's parameter is of type SelectionRangeParams, the response is of type SelectionRange SelectionRange[] or a Thenable that resolves to such.
+func (c *Client) SelectionRange(ctx context.Context, params protocol.SelectionRangeParams) ([]protocol.SelectionRange, error) {
+	var result []protocol.SelectionRange
+	err := c.Call(ctx, "textDocument/selectionRange", params, &result)
+	return result, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[Implementation]
+    B[TypeDefinition]
+    C[DocumentColor]
+    D[ColorPresentation]
+    E[FoldingRange]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

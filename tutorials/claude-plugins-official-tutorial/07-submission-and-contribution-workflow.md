@@ -5,6 +5,7 @@ nav_order: 7
 parent: Claude Plugins Official Tutorial
 ---
 
+
 # Chapter 7: Submission and Contribution Workflow
 
 Welcome to **Chapter 7: Submission and Contribution Workflow**. In this part of **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -45,595 +46,184 @@ Next: [Chapter 8: Governance and Enterprise Plugin Portfolio Management](08-gove
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- tutorial slug: **claude-plugins-official-tutorial**
-- chapter focus: **Chapter 7: Submission and Contribution Workflow**
-- system context: **Claude Plugins Official Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Submission and Contribution Workflow`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Claude Plugins Official Repository](https://github.com/anthropics/claude-plugins-official)
-- [Directory README](https://github.com/anthropics/claude-plugins-official/blob/main/README.md)
-- [Marketplace Catalog](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json)
-- [Example Plugin](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/example-plugin)
-- [Official Plugin Docs](https://code.claude.com/docs/en/plugins)
-
-### Cross-Tutorial Connection Map
-
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Wshobson Agents Tutorial](../wshobson-agents-tutorial/)
-- [Agents.md Tutorial](../agents-md-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Submission and Contribution Workflow`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: Submission and Contribution Workflow
-
-- tutorial context: **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Submission and Contribution Workflow` as an operating subsystem inside **Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Submission and Contribution Workflow` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Claude Plugins Official Repository](https://github.com/anthropics/claude-plugins-official)
-  Why it matters: authoritative reference on `Claude Plugins Official Repository` (github.com).
-- [Directory README](https://github.com/anthropics/claude-plugins-official/blob/main/README.md)
-  Why it matters: authoritative reference on `Directory README` (github.com).
-- [Marketplace Catalog](https://github.com/anthropics/claude-plugins-official/blob/main/.claude-plugin/marketplace.json)
-  Why it matters: authoritative reference on `Marketplace Catalog` (github.com).
-- [Example Plugin](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/example-plugin)
-  Why it matters: authoritative reference on `Example Plugin` (github.com).
-- [Official Plugin Docs](https://code.claude.com/docs/en/plugins)
-  Why it matters: authoritative reference on `Official Plugin Docs` (code.claude.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Installation, Operations, and Update Strategy](06-installation-operations-and-update-strategy.md)
-- [Next Chapter: Chapter 8: Governance and Enterprise Plugin Portfolio Management](08-governance-and-enterprise-plugin-portfolio-management.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `external_plugins/telegram/server.ts`
+
+The `safeName` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
+
+```ts
+bot.on('message:document', async ctx => {
+  const doc = ctx.message.document
+  const name = safeName(doc.file_name)
+  const text = ctx.message.caption ?? `(document: ${name ?? 'file'})`
+  await handleInbound(ctx, text, undefined, {
+    kind: 'document',
+    file_id: doc.file_id,
+    size: doc.file_size,
+    mime: doc.mime_type,
+    name,
+  })
+})
+
+bot.on('message:voice', async ctx => {
+  const voice = ctx.message.voice
+  const text = ctx.message.caption ?? '(voice message)'
+  await handleInbound(ctx, text, undefined, {
+    kind: 'voice',
+    file_id: voice.file_id,
+    size: voice.file_size,
+    mime: voice.mime_type,
+  })
+})
+
+bot.on('message:audio', async ctx => {
+  const audio = ctx.message.audio
+  const name = safeName(audio.file_name)
+  const text = ctx.message.caption ?? `(audio: ${safeName(audio.title) ?? name ?? 'audio'})`
+  await handleInbound(ctx, text, undefined, {
+    kind: 'audio',
+    file_id: audio.file_id,
+    size: audio.file_size,
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `external_plugins/telegram/server.ts`
+
+The `handleInbound` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+bot.on('message:text', async ctx => {
+  await handleInbound(ctx, ctx.message.text, undefined)
+})
+
+bot.on('message:photo', async ctx => {
+  const caption = ctx.message.caption ?? '(photo)'
+  // Defer download until after the gate approves — any user can send photos,
+  // and we don't want to burn API quota or fill the inbox for dropped messages.
+  await handleInbound(ctx, caption, async () => {
+    // Largest size is last in the array.
+    const photos = ctx.message.photo
+    const best = photos[photos.length - 1]
+    try {
+      const file = await ctx.api.getFile(best.file_id)
+      if (!file.file_path) return undefined
+      const url = `https://api.telegram.org/file/bot${TOKEN}/${file.file_path}`
+      const res = await fetch(url)
+      const buf = Buffer.from(await res.arrayBuffer())
+      const ext = file.file_path.split('.').pop() ?? 'jpg'
+      const path = join(INBOX_DIR, `${Date.now()}-${best.file_unique_id}.${ext}`)
+      mkdirSync(INBOX_DIR, { recursive: true })
+      writeFileSync(path, buf)
+      return path
+    } catch (err) {
+      process.stderr.write(`telegram channel: photo download failed: ${err}\n`)
+      return undefined
+    }
+  })
+})
+
+bot.on('message:document', async ctx => {
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `plugins/hookify/core/rule_engine.py`
+
+The `RuleEngine` class in [`plugins/hookify/core/rule_engine.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/rule_engine.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class RuleEngine:
+    """Evaluates rules against hook input data."""
+
+    def __init__(self):
+        """Initialize rule engine."""
+        # No need for instance cache anymore - using global lru_cache
+        pass
+
+    def evaluate_rules(self, rules: List[Rule], input_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Evaluate all rules and return combined results.
+
+        Checks all rules and accumulates matches. Blocking rules take priority
+        over warning rules. All matching rule messages are combined.
+
+        Args:
+            rules: List of Rule objects to evaluate
+            input_data: Hook input JSON (tool_name, tool_input, etc.)
+
+        Returns:
+            Response dict with systemMessage, hookSpecificOutput, etc.
+            Empty dict {} if no rules match.
+        """
+        hook_event = input_data.get('hook_event_name', '')
+        blocking_rules = []
+        warning_rules = []
+
+        for rule in rules:
+            if self._rule_matches(rule, input_data):
+                if rule.action == 'block':
+                    blocking_rules.append(rule)
+```
+
+This class is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `plugins/hookify/core/rule_engine.py`
+
+The `compile_regex` function in [`plugins/hookify/core/rule_engine.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/rule_engine.py) handles a key part of this chapter's functionality:
+
+```py
+# Cache compiled regexes (max 128 patterns)
+@lru_cache(maxsize=128)
+def compile_regex(pattern: str) -> re.Pattern:
+    """Compile regex pattern with caching.
+
+    Args:
+        pattern: Regex pattern string
+
+    Returns:
+        Compiled regex pattern
+    """
+    return re.compile(pattern, re.IGNORECASE)
+
+
+class RuleEngine:
+    """Evaluates rules against hook input data."""
+
+    def __init__(self):
+        """Initialize rule engine."""
+        # No need for instance cache anymore - using global lru_cache
+        pass
+
+    def evaluate_rules(self, rules: List[Rule], input_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Evaluate all rules and return combined results.
+
+        Checks all rules and accumulates matches. Blocking rules take priority
+        over warning rules. All matching rule messages are combined.
+
+        Args:
+            rules: List of Rule objects to evaluate
+            input_data: Hook input JSON (tool_name, tool_input, etc.)
+
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[safeName]
+    B[handleInbound]
+    C[RuleEngine]
+    D[compile_regex]
+    E[class]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

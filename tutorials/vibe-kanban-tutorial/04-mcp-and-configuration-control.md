@@ -5,6 +5,7 @@ nav_order: 4
 parent: Vibe Kanban Tutorial
 ---
 
+
 # Chapter 4: MCP and Configuration Control
 
 Welcome to **Chapter 4: MCP and Configuration Control**. In this part of **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -47,592 +48,184 @@ Next: [Chapter 5: Review and Quality Gates](05-review-and-quality-gates.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- tutorial slug: **vibe-kanban-tutorial**
-- chapter focus: **Chapter 4: MCP and Configuration Control**
-- system context: **Vibe Kanban Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 4: MCP and Configuration Control`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Vibe Kanban Repository](https://github.com/BloopAI/vibe-kanban)
-- [Vibe Kanban Docs](https://vibekanban.com/docs)
-- [Vibe Kanban Self-Hosting](https://vibekanban.com/docs/self-hosting)
-- [Vibe Kanban README](https://github.com/BloopAI/vibe-kanban/blob/main/README.md)
-
-### Cross-Tutorial Connection Map
-
-- [Superset Terminal Tutorial](../superset-terminal-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Goose Tutorial](../goose-tutorial/)
-- [Opcode Tutorial](../opcode-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 4: MCP and Configuration Control`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 4: MCP and Configuration Control
-
-- tutorial context: **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 4: MCP and Configuration Control` as an operating subsystem inside **Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: MCP and Configuration Control` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Vibe Kanban Repository](https://github.com/BloopAI/vibe-kanban)
-  Why it matters: authoritative reference on `Vibe Kanban Repository` (github.com).
-- [Vibe Kanban Docs](https://vibekanban.com/docs)
-  Why it matters: authoritative reference on `Vibe Kanban Docs` (vibekanban.com).
-- [Vibe Kanban Self-Hosting](https://vibekanban.com/docs/self-hosting)
-  Why it matters: authoritative reference on `Vibe Kanban Self-Hosting` (vibekanban.com).
-- [Vibe Kanban README](https://github.com/BloopAI/vibe-kanban/blob/main/README.md)
-  Why it matters: authoritative reference on `Vibe Kanban README` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Multi-Agent Execution Strategies](03-multi-agent-execution-strategies.md)
-- [Next Chapter: Chapter 5: Review and Quality Gates](05-review-and-quality-gates.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `shared/types.ts`
+
+The `EditorType` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+export type GetMcpServerResponse = { mcp_config: McpConfig, config_path: string, };
+
+export type CheckEditorAvailabilityQuery = { editor_type: EditorType, };
+
+export type CheckEditorAvailabilityResponse = { available: boolean, };
+
+export type CheckAgentAvailabilityQuery = { executor: BaseCodingAgent, };
+
+export type AgentPresetOptionsQuery = { executor: BaseCodingAgent, variant: string | null, };
+
+export type CurrentUserResponse = { user_id: string, };
+
+export type StartSpake2EnrollmentRequest = { enrollment_code: string, client_message_b64: string, };
+
+export type FinishSpake2EnrollmentRequest = { enrollment_id: string, client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, public_key_b64: string, client_proof_b64: string, };
+
+export type StartSpake2EnrollmentResponse = { enrollment_id: string, server_message_b64: string, };
+
+export type FinishSpake2EnrollmentResponse = { signing_session_id: string, server_public_key_b64: string, server_proof_b64: string, };
+
+export type RelayPairedClient = { client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, };
+
+export type ListRelayPairedClientsResponse = { clients: Array<RelayPairedClient>, };
+
+export type RemoveRelayPairedClientResponse = { removed: boolean, };
+
+export type RefreshRelaySigningSessionRequest = { client_id: string, timestamp: bigint, nonce: string, signature_b64: string, };
+
+export type RefreshRelaySigningSessionResponse = { signing_session_id: string, };
+
+export type CreateFollowUpAttempt = { prompt: string, executor_config: ExecutorConfig, retry_process_id: string | null, force_when_dirty: boolean | null, perform_git_reset: boolean | null, };
+
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/types.ts`
+
+The `SoundFile` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+export type Config = { config_version: string, theme: ThemeMode, executor_profile: ExecutorProfileId, disclaimer_acknowledged: boolean, onboarding_acknowledged: boolean, remote_onboarding_acknowledged: boolean, notifications: NotificationConfig, editor: EditorConfig, github: GitHubConfig, analytics_enabled: boolean, workspace_dir: string | null, last_app_version: string | null, show_release_notes: boolean, language: UiLanguage, git_branch_prefix: string, showcases: ShowcaseState, pr_auto_description_enabled: boolean, pr_auto_description_prompt: string | null, commit_reminder_enabled: boolean, commit_reminder_prompt: string | null, send_message_shortcut: SendMessageShortcut, relay_enabled: boolean, host_nickname: string | null, };
+
+export type NotificationConfig = { sound_enabled: boolean, push_enabled: boolean, sound_file: SoundFile, };
+
+export enum ThemeMode { LIGHT = "LIGHT", DARK = "DARK", SYSTEM = "SYSTEM" }
+
+export type EditorConfig = { editor_type: EditorType, custom_command: string | null, remote_ssh_host: string | null, remote_ssh_user: string | null, auto_install_extension: boolean, };
+
+export enum EditorType { VS_CODE = "VS_CODE", VS_CODE_INSIDERS = "VS_CODE_INSIDERS", CURSOR = "CURSOR", WINDSURF = "WINDSURF", INTELLI_J = "INTELLI_J", ZED = "ZED", XCODE = "XCODE", GOOGLE_ANTIGRAVITY = "GOOGLE_ANTIGRAVITY", CUSTOM = "CUSTOM" }
+
+export type EditorOpenError = { "type": "executable_not_found", executable: string, editor_type: EditorType, } | { "type": "invalid_command", details: string, editor_type: EditorType, } | { "type": "launch_failed", executable: string, details: string, editor_type: EditorType, };
+
+export type GitHubConfig = { pat: string | null, oauth_token: string | null, username: string | null, primary_email: string | null, default_pr_base: string | null, };
+
+export enum SoundFile { ABSTRACT_SOUND1 = "ABSTRACT_SOUND1", ABSTRACT_SOUND2 = "ABSTRACT_SOUND2", ABSTRACT_SOUND3 = "ABSTRACT_SOUND3", ABSTRACT_SOUND4 = "ABSTRACT_SOUND4", COW_MOOING = "COW_MOOING", FAHHHHH = "FAHHHHH", PHONE_VIBRATION = "PHONE_VIBRATION", ROOSTER = "ROOSTER" }
+
+export type UiLanguage = "BROWSER" | "EN" | "FR" | "JA" | "ES" | "KO" | "ZH_HANS" | "ZH_HANT";
+
+export type ShowcaseState = { seen_features: Array<string>, };
+
+export type SendMessageShortcut = "ModifierEnter" | "Enter";
+
+export type GitBranch = { name: string, is_current: boolean, is_remote: boolean, last_commit_date: Date, };
+
+export type QueuedMessage = { 
+/**
+ * The session this message is queued for
+ */
+session_id: string, 
+/**
+ * The follow-up data (message + variant)
+ */
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/types.ts`
+
+The `BaseCodingAgent` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Capabilities supported per executor (e.g., { "CLAUDE_CODE": ["SESSION_FORK"] })
+ */
+capabilities: { [key in string]?: Array<BaseAgentCapability> }, shared_api_base: string | null, preview_proxy_port: number | null, executors: { [key in BaseCodingAgent]?: ExecutorProfile }, };
+
+export type Environment = { os_type: string, os_version: string, os_architecture: string, bitness: string, };
+
+export type McpServerQuery = { executor: BaseCodingAgent, };
+
+export type UpdateMcpServersBody = { servers: { [key in string]?: JsonValue }, };
+
+export type GetMcpServerResponse = { mcp_config: McpConfig, config_path: string, };
+
+export type CheckEditorAvailabilityQuery = { editor_type: EditorType, };
+
+export type CheckEditorAvailabilityResponse = { available: boolean, };
+
+export type CheckAgentAvailabilityQuery = { executor: BaseCodingAgent, };
+
+export type AgentPresetOptionsQuery = { executor: BaseCodingAgent, variant: string | null, };
+
+export type CurrentUserResponse = { user_id: string, };
+
+export type StartSpake2EnrollmentRequest = { enrollment_code: string, client_message_b64: string, };
+
+export type FinishSpake2EnrollmentRequest = { enrollment_id: string, client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, public_key_b64: string, client_proof_b64: string, };
+
+export type StartSpake2EnrollmentResponse = { enrollment_id: string, server_message_b64: string, };
+
+export type FinishSpake2EnrollmentResponse = { signing_session_id: string, server_public_key_b64: string, server_proof_b64: string, };
+
+export type RelayPairedClient = { client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, };
+
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `shared/types.ts`
+
+The `BaseAgentCapability` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Capabilities supported per executor (e.g., { "CLAUDE_CODE": ["SESSION_FORK"] })
+ */
+capabilities: { [key in string]?: Array<BaseAgentCapability> }, shared_api_base: string | null, preview_proxy_port: number | null, executors: { [key in BaseCodingAgent]?: ExecutorProfile }, };
+
+export type Environment = { os_type: string, os_version: string, os_architecture: string, bitness: string, };
+
+export type McpServerQuery = { executor: BaseCodingAgent, };
+
+export type UpdateMcpServersBody = { servers: { [key in string]?: JsonValue }, };
+
+export type GetMcpServerResponse = { mcp_config: McpConfig, config_path: string, };
+
+export type CheckEditorAvailabilityQuery = { editor_type: EditorType, };
+
+export type CheckEditorAvailabilityResponse = { available: boolean, };
+
+export type CheckAgentAvailabilityQuery = { executor: BaseCodingAgent, };
+
+export type AgentPresetOptionsQuery = { executor: BaseCodingAgent, variant: string | null, };
+
+export type CurrentUserResponse = { user_id: string, };
+
+export type StartSpake2EnrollmentRequest = { enrollment_code: string, client_message_b64: string, };
+
+export type FinishSpake2EnrollmentRequest = { enrollment_id: string, client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, public_key_b64: string, client_proof_b64: string, };
+
+export type StartSpake2EnrollmentResponse = { enrollment_id: string, server_message_b64: string, };
+
+export type FinishSpake2EnrollmentResponse = { signing_session_id: string, server_public_key_b64: string, server_proof_b64: string, };
+
+export type RelayPairedClient = { client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, };
+
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[EditorType]
+    B[SoundFile]
+    C[BaseCodingAgent]
+    D[BaseAgentCapability]
+    E[PermissionPolicy]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

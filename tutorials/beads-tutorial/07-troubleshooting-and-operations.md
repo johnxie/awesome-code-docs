@@ -5,6 +5,7 @@ nav_order: 7
 parent: Beads Tutorial
 ---
 
+
 # Chapter 7: Troubleshooting and Operations
 
 Welcome to **Chapter 7: Troubleshooting and Operations**. In this part of **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -38,607 +39,184 @@ Next: [Chapter 8: Contribution Workflow and Ecosystem Extensions](08-contributio
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- tutorial slug: **beads-tutorial**
-- chapter focus: **Chapter 7: Troubleshooting and Operations**
-- system context: **Beads Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Troubleshooting and Operations`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Beads Repository](https://github.com/steveyegge/beads)
-- [Beads README](https://github.com/steveyegge/beads/blob/main/README.md)
-- [Agent Workflow Instructions](https://github.com/steveyegge/beads/blob/main/AGENT_INSTRUCTIONS.md)
-- [Installing Guide](https://github.com/steveyegge/beads/blob/main/docs/INSTALLING.md)
-- [FAQ](https://github.com/steveyegge/beads/blob/main/docs/FAQ.md)
-
-### Cross-Tutorial Connection Map
-
-- [AGENTS.md Tutorial](../agents-md-tutorial/)
-- [Codex CLI Tutorial](../codex-cli-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Mini-SWE-Agent Tutorial](../mini-swe-agent-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Troubleshooting and Operations`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 7: Troubleshooting and Operations
-
-- tutorial context: **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 7: Troubleshooting and Operations` as an operating subsystem inside **Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 7: Troubleshooting and Operations` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Beads Repository](https://github.com/steveyegge/beads)
-  Why it matters: authoritative reference on `Beads Repository` (github.com).
-- [Beads README](https://github.com/steveyegge/beads/blob/main/README.md)
-  Why it matters: authoritative reference on `Beads README` (github.com).
-- [Agent Workflow Instructions](https://github.com/steveyegge/beads/blob/main/AGENT_INSTRUCTIONS.md)
-  Why it matters: authoritative reference on `Agent Workflow Instructions` (github.com).
-- [Installing Guide](https://github.com/steveyegge/beads/blob/main/docs/INSTALLING.md)
-  Why it matters: authoritative reference on `Installing Guide` (github.com).
-- [FAQ](https://github.com/steveyegge/beads/blob/main/docs/FAQ.md)
-  Why it matters: authoritative reference on `FAQ` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 6: Multi-Branch Collaboration and Protected Flows](06-multi-branch-collaboration-and-protected-flows.md)
-- [Next Chapter: Chapter 8: Contribution Workflow and Ecosystem Extensions](08-contribution-workflow-and-ecosystem-extensions.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `internal/doltserver/doltserver.go`
+
+The `IsRunning` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
+
+```go
+// ResolveServerDir is the exported version of resolveServerDir.
+// CLI commands use this to resolve the server directory before calling
+// Start, Stop, or IsRunning.
+func ResolveServerDir(beadsDir string) string {
+	return resolveServerDir(beadsDir)
+}
+
+// ResolveDoltDir returns the dolt data directory for the given beadsDir.
+// It checks the BEADS_DOLT_DATA_DIR env var and metadata.json for a custom
+// dolt_data_dir, falling back to the default .beads/dolt/ path.
+//
+// Note: we check for metadata.json existence before calling configfile.Load
+// to avoid triggering the config.json → metadata.json migration side effect,
+// which would create files in the .beads/ directory unexpectedly.
+func ResolveDoltDir(beadsDir string) string {
+	// Shared server mode: use centralized dolt data directory
+	if IsSharedServerMode() {
+		dir, err := SharedDoltDir()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Warning: shared dolt directory unavailable, using per-project mode: %v\n", err)
+		} else {
+			return dir
+		}
+	}
+
+	// Check env var first (highest priority)
+	if d := os.Getenv("BEADS_DOLT_DATA_DIR"); d != "" {
+		if filepath.IsAbs(d) {
+			return d
+		}
+		return filepath.Join(beadsDir, d)
+	}
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+### `internal/doltserver/doltserver.go`
+
+The `EnsureRunning` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
+
+```go
+		// Server is running but we can't determine its port (port file
+		// missing, no explicit config). Stop the orphan so that callers
+		// (EnsureRunning) trigger a fresh Start() with a new port file.
+		fmt.Fprintf(os.Stderr, "Dolt server (PID %d) running but port unknown; stopping for restart\n", pid)
+		if err := gracefulStop(pid, 5*time.Second); err != nil {
+			// Best-effort kill
+			if proc, findErr := os.FindProcess(pid); findErr == nil {
+				_ = proc.Kill()
+			}
+		}
+		_ = os.Remove(pidPath(beadsDir))
+		return &State{Running: false}, nil
+	}
+	return &State{
+		Running: true,
+		PID:     pid,
+		Port:    port,
+		DataDir: ResolveDoltDir(beadsDir),
+	}, nil
+}
+
+// EnsureRunning starts the server if it is not already running.
+// This is the main auto-start entry point. Thread-safe via file lock.
+// Returns the port the server is listening on.
+//
+// When metadata.json specifies an explicit dolt_server_port (indicating an
+// external/shared server, e.g. managed by systemd), EnsureRunning will NOT
+// start a new server. The external server's lifecycle is not bd's
+// responsibility — starting a per-project server would conflict with (or
+// kill) the shared server. See GH#2554.
+func EnsureRunning(beadsDir string) (int, error) {
+	port, _, err := EnsureRunningDetailed(beadsDir)
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+### `internal/doltserver/doltserver.go`
+
+The `EnsureRunningDetailed` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
+
+```go
+// kill) the shared server. See GH#2554.
+func EnsureRunning(beadsDir string) (int, error) {
+	port, _, err := EnsureRunningDetailed(beadsDir)
+	return port, err
+}
+
+// EnsureRunningDetailed is like EnsureRunning but also reports whether a new
+// server was started (startedByUs=true) vs. an already-running server was
+// adopted (startedByUs=false). Callers that need to clean up auto-started
+// servers (e.g. test teardown) should use this variant.
+func EnsureRunningDetailed(beadsDir string) (port int, startedByUs bool, err error) {
+	serverDir := resolveServerDir(beadsDir)
+
+	// Inform when an orchestrator is also running on this machine
+	if IsSharedServerMode() && os.Getenv("GT_ROOT") != "" {
+		fmt.Fprintf(os.Stderr, "Info: Orchestrator detected (GT_ROOT set). Shared server uses port %d to avoid conflict.\n", DefaultSharedServerPort)
+	}
+
+	state, err := IsRunning(serverDir)
+	if err != nil {
+		return 0, false, err
+	}
+	if state.Running {
+		_ = EnsurePortFile(serverDir, state.Port)
+		return state.Port, false, nil
+	}
+
+	// If the server mode is External (explicit port in metadata.json,
+	// shared server mode, etc.), do not start a per-project server —
+	// it would conflict with the external one.
+	mode := ResolveServerMode(beadsDir)
+	if mode == ServerModeExternal {
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+### `internal/doltserver/doltserver.go`
+
+The `Start` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
+
+```go
+//
+// Port assignment uses OS-assigned ephemeral ports by default. When no explicit
+// port is configured (env var, config.yaml, metadata.json), Start() asks the OS
+// for a free port via net.Listen(":0"), passes it to dolt sql-server, and writes
+// the actual port to dolt-server.port. This eliminates the birthday-problem
+// collisions that plagued the old hash-derived port scheme (GH#2098, GH#2372).
+//
+// Users with explicit port config via BEADS_DOLT_SERVER_PORT env var or
+// config.yaml always use that port instead, with conflict detection via
+// reclaimPort.
+//
+// Server state files (PID, port, log, lock) live in the .beads/ directory.
+package doltserver
+
+import (
+	"context"
+	"database/sql"
+	"fmt"
+	"net"
+	"os"
+	"os/exec"
+	"path/filepath"
+	"strconv"
+	"strings"
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+
+	"github.com/steveyegge/beads/internal/config"
+	"github.com/steveyegge/beads/internal/configfile"
+	"github.com/steveyegge/beads/internal/lockfile"
+)
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[IsRunning]
+    B[EnsureRunning]
+    C[EnsureRunningDetailed]
+    D[Start]
+    E[FlushWorkingSet]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

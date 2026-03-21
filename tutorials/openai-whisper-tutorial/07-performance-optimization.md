@@ -5,6 +5,7 @@ nav_order: 7
 parent: OpenAI Whisper Tutorial
 ---
 
+
 # Chapter 7: Performance Optimization
 
 Welcome to **Chapter 7: Performance Optimization**. In this part of **OpenAI Whisper Tutorial: Speech Recognition and Translation**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -91,493 +92,184 @@ Suggested trace strategy:
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- tutorial slug: **openai-whisper-tutorial**
-- chapter focus: **Chapter 7: Performance Optimization**
-- system context: **Openai Whisper Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 7: Performance Optimization`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [openai/whisper repository](https://github.com/openai/whisper)
-
-### Cross-Tutorial Connection Map
-
-- [Whisper.cpp Tutorial](../whisper-cpp-tutorial/)
-- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-- [openai/whisper repository](https://github.com/openai/whisper)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 7: Performance Optimization`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 7: Performance Optimization
-
-- tutorial context: **OpenAI Whisper Tutorial: Speech Recognition and Translation**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
+## Source Code Walkthrough
+
+### `whisper/decoding.py`
+
+The `DecodingTask` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class DecodingTask:
+    inference: Inference
+    sequence_ranker: SequenceRanker
+    decoder: TokenDecoder
+    logit_filters: List[LogitFilter]
+
+    def __init__(self, model: "Whisper", options: DecodingOptions):
+        self.model = model
+
+        language = options.language or "en"
+        tokenizer = get_tokenizer(
+            model.is_multilingual,
+            num_languages=model.num_languages,
+            language=language,
+            task=options.task,
+        )
+        self.tokenizer: Tokenizer = tokenizer
+        self.options: DecodingOptions = self._verify_options(options)
+
+        self.n_group: int = options.beam_size or options.best_of or 1
+        self.n_ctx: int = model.dims.n_text_ctx
+        self.sample_len: int = options.sample_len or model.dims.n_text_ctx // 2
+
+        self.sot_sequence: Tuple[int] = tokenizer.sot_sequence
+        if self.options.without_timestamps:
+            self.sot_sequence = tokenizer.sot_sequence_including_notimestamps
+
+        self.initial_tokens: Tuple[int] = self._get_initial_tokens()
+        self.sample_begin: int = len(self.initial_tokens)
+        self.sot_index: int = self.initial_tokens.index(tokenizer.sot)
+```
+
+This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+### `whisper/decoding.py`
+
+The `that` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
+
+```py
+    task: str = "transcribe"
+
+    # language that the audio is in; uses detected language if None
+    language: Optional[str] = None
+
+    # sampling-related options
+    temperature: float = 0.0
+    sample_len: Optional[int] = None  # maximum number of tokens to sample
+    best_of: Optional[int] = None  # number of independent sample trajectories, if t > 0
+    beam_size: Optional[int] = None  # number of beams in beam search, if t == 0
+    patience: Optional[float] = None  # patience in beam search (arxiv:2204.05424)
+
+    # "alpha" in Google NMT, or None for length norm, when ranking generations
+    # to select which to return among the beams or best-of-N samples
+    length_penalty: Optional[float] = None
+
+    # text or tokens to feed as the prompt or the prefix; for more info:
+    # https://github.com/openai/whisper/discussions/117#discussioncomment-3727051
+    prompt: Optional[Union[str, List[int]]] = None  # for the previous context
+    prefix: Optional[Union[str, List[int]]] = None  # to prefix the current context
+
+    # list of tokens ids (or comma-separated token ids) to suppress
+    # "-1" will suppress a set of symbols as defined in `tokenizer.non_speech_tokens()`
+    suppress_tokens: Optional[Union[str, Iterable[int]]] = "-1"
+    suppress_blank: bool = True  # this will suppress blank outputs
+
+    # timestamp sampling options
+    without_timestamps: bool = False  # use <|notimestamps|> to sample text tokens only
+    max_initial_timestamp: Optional[float] = 1.0
+
+    # implementation details
+    fp16: bool = True  # use fp16 for most of the calculation
+```
+
+This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+### `whisper/decoding.py`
+
+The `instance` class in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
+
+```py
+            prefix_tokens = (
+                self.tokenizer.encode(" " + prefix.strip())
+                if isinstance(prefix, str)
+                else prefix
+            )
+            if self.sample_len is not None:
+                max_prefix_len = self.n_ctx // 2 - self.sample_len
+                prefix_tokens = prefix_tokens[-max_prefix_len:]
+            tokens = tokens + prefix_tokens
+
+        if prompt := self.options.prompt:
+            prompt_tokens = (
+                self.tokenizer.encode(" " + prompt.strip())
+                if isinstance(prompt, str)
+                else prompt
+            )
+            tokens = (
+                [self.tokenizer.sot_prev]
+                + prompt_tokens[-(self.n_ctx // 2 - 1) :]
+                + tokens
+            )
+
+        return tuple(tokens)
+
+    def _get_suppress_tokens(self) -> Tuple[int]:
+        suppress_tokens = self.options.suppress_tokens
+
+        if isinstance(suppress_tokens, str):
+            suppress_tokens = [int(t) for t in suppress_tokens.split(",")]
+
+        if -1 in suppress_tokens:
+            suppress_tokens = [t for t in suppress_tokens if t >= 0]
+```
+
+This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+### `whisper/decoding.py`
+
+The `detect_language` function in [`whisper/decoding.py`](https://github.com/openai/whisper/blob/HEAD/whisper/decoding.py) handles a key part of this chapter's functionality:
+
+```py
+
+@torch.no_grad()
+def detect_language(
+    model: "Whisper", mel: Tensor, tokenizer: Tokenizer = None
+) -> Tuple[Tensor, List[dict]]:
+    """
+    Detect the spoken language in the audio, and return them as list of strings, along with the ids
+    of the most probable language tokens and the probability distribution over all language tokens.
+    This is performed outside the main decode loop in order to not interfere with kv-caching.
+
+    Returns
+    -------
+    language_tokens : Tensor, shape = (n_audio,)
+        ids of the most probable language tokens, which appears after the startoftranscript token.
+    language_probs : List[Dict[str, float]], length = n_audio
+        list of dictionaries containing the probability distribution over all languages.
+    """
+    if tokenizer is None:
+        tokenizer = get_tokenizer(
+            model.is_multilingual, num_languages=model.num_languages
+        )
+    if (
+        tokenizer.language is None
+        or tokenizer.language_token not in tokenizer.sot_sequence
+    ):
+        raise ValueError(
+            "This model doesn't have language tokens so it can't perform lang id"
+        )
+
+    single = mel.ndim == 2
+    if single:
+        mel = mel.unsqueeze(0)
+```
+
+This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[DecodingTask]
+    B[that]
+    C[instance]
+    D[detect_language]
+    E[decode]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

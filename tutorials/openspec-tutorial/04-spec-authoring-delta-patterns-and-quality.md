@@ -5,6 +5,7 @@ nav_order: 4
 parent: OpenSpec Tutorial
 ---
 
+
 # Chapter 4: Spec Authoring, Delta Patterns, and Quality
 
 Welcome to **Chapter 4: Spec Authoring, Delta Patterns, and Quality**. In this part of **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -60,584 +61,184 @@ Next: [Chapter 5: Customization, Schemas, and Project Rules](05-customization-sc
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- tutorial slug: **openspec-tutorial**
-- chapter focus: **Chapter 4: Spec Authoring, Delta Patterns, and Quality**
-- system context: **Openspec Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 4: Spec Authoring, Delta Patterns, and Quality`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [OpenSpec Repository](https://github.com/Fission-AI/OpenSpec)
-- [README](https://github.com/Fission-AI/OpenSpec/blob/main/README.md)
-- [Getting Started](https://github.com/Fission-AI/OpenSpec/blob/main/docs/getting-started.md)
-- [Concepts](https://github.com/Fission-AI/OpenSpec/blob/main/docs/concepts.md)
-- [Workflows](https://github.com/Fission-AI/OpenSpec/blob/main/docs/workflows.md)
-- [Commands](https://github.com/Fission-AI/OpenSpec/blob/main/docs/commands.md)
-- [CLI Reference](https://github.com/Fission-AI/OpenSpec/blob/main/docs/cli.md)
-- [Customization](https://github.com/Fission-AI/OpenSpec/blob/main/docs/customization.md)
-
-### Cross-Tutorial Connection Map
-
-- [Claude Task Master Tutorial](../claude-task-master-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Codex CLI Tutorial](../codex-cli-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
-- [Chapter 1: Getting Started and OPSX Basics](01-getting-started-and-opsx-basics.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 4: Spec Authoring, Delta Patterns, and Quality`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 4: Spec Authoring, Delta Patterns, and Quality
-
-- tutorial context: **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `Requirements`, `Requirement`, `Behavior` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 4: Spec Authoring, Delta Patterns, and Quality` as an operating subsystem inside **OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `ADDED`, `Feature`, `MODIFIED` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: Spec Authoring, Delta Patterns, and Quality` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `Requirements`.
-2. **Input normalization**: shape incoming data so `Requirement` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `Behavior`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [OpenSpec Repository](https://github.com/Fission-AI/OpenSpec)
-  Why it matters: authoritative reference on `OpenSpec Repository` (github.com).
-- [README](https://github.com/Fission-AI/OpenSpec/blob/main/README.md)
-  Why it matters: authoritative reference on `README` (github.com).
-- [Getting Started](https://github.com/Fission-AI/OpenSpec/blob/main/docs/getting-started.md)
-  Why it matters: authoritative reference on `Getting Started` (github.com).
-- [Concepts](https://github.com/Fission-AI/OpenSpec/blob/main/docs/concepts.md)
-  Why it matters: authoritative reference on `Concepts` (github.com).
-- [Workflows](https://github.com/Fission-AI/OpenSpec/blob/main/docs/workflows.md)
-  Why it matters: authoritative reference on `Workflows` (github.com).
-- [Commands](https://github.com/Fission-AI/OpenSpec/blob/main/docs/commands.md)
-  Why it matters: authoritative reference on `Commands` (github.com).
-- [CLI Reference](https://github.com/Fission-AI/OpenSpec/blob/main/docs/cli.md)
-  Why it matters: authoritative reference on `CLI Reference` (github.com).
-- [Customization](https://github.com/Fission-AI/OpenSpec/blob/main/docs/customization.md)
-  Why it matters: authoritative reference on `Customization` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `Requirements` and `Requirement` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Command Surface and Agent Workflows](03-command-surface-and-agent-workflows.md)
-- [Next Chapter: Chapter 5: Customization, Schemas, and Project Rules](05-customization-schemas-and-project-rules.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `src/core/legacy-cleanup.ts`
+
+The `hasOpenSpecMarkers` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
+
+```ts
+      const content = await FileSystemUtils.readFile(filePath);
+
+      if (hasOpenSpecMarkers(content)) {
+        allFiles.push(fileName);
+        filesToUpdate.push(fileName); // Always update, never delete config files
+      }
+    }
+  }
+
+  return { allFiles, filesToUpdate };
+}
+
+/**
+ * Detects legacy slash command directories and files.
+ *
+ * @param projectPath - The root path of the project
+ * @returns Object with directories and individual files found
+ */
+export async function detectLegacySlashCommands(
+  projectPath: string
+): Promise<{
+  directories: string[];
+  files: string[];
+}> {
+  const directories: string[] = [];
+  const files: string[] = [];
+
+  for (const [toolId, pattern] of Object.entries(LEGACY_SLASH_COMMAND_PATHS)) {
+    if (pattern.type === 'directory' && pattern.path) {
+      const dirPath = FileSystemUtils.joinPath(projectPath, pattern.path);
+      if (await FileSystemUtils.directoryExists(dirPath)) {
+        directories.push(pattern.path);
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/legacy-cleanup.ts`
+
+The `isOnlyOpenSpecContent` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns True if content outside markers is only whitespace
+ */
+export function isOnlyOpenSpecContent(content: string): boolean {
+  const startIndex = content.indexOf(OPENSPEC_MARKERS.start);
+  const endIndex = content.indexOf(OPENSPEC_MARKERS.end);
+
+  if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+    return false;
+  }
+
+  const before = content.substring(0, startIndex);
+  const after = content.substring(endIndex + OPENSPEC_MARKERS.end.length);
+
+  return before.trim() === '' && after.trim() === '';
+}
+
+/**
+ * Removes the OpenSpec marker block from file content.
+ * Only removes markers that are on their own lines (ignores inline mentions).
+ * Cleans up double blank lines that may result from removal.
+ *
+ * @param content - File content with OpenSpec markers
+ * @returns Content with marker block removed
+ */
+export function removeMarkerBlock(content: string): string {
+  return removeMarkerBlockUtil(content, OPENSPEC_MARKERS.start, OPENSPEC_MARKERS.end);
+}
+
+/**
+ * Result of cleanup operation
+ */
+export interface CleanupResult {
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/legacy-cleanup.ts`
+
+The `removeMarkerBlock` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { promises as fs } from 'fs';
+import chalk from 'chalk';
+import { FileSystemUtils, removeMarkerBlock as removeMarkerBlockUtil } from '../utils/file-system.js';
+import { OPENSPEC_MARKERS } from './config.js';
+
+/**
+ * Legacy config file names from the old ToolRegistry.
+ * These were config files created at project root with OpenSpec markers.
+ */
+export const LEGACY_CONFIG_FILES = [
+  'CLAUDE.md',
+  'CLINE.md',
+  'CODEBUDDY.md',
+  'COSTRICT.md',
+  'QODER.md',
+  'IFLOW.md',
+  'AGENTS.md', // root AGENTS.md (not openspec/AGENTS.md)
+  'QWEN.md',
+] as const;
+
+/**
+ * Legacy slash command patterns from the old SlashCommandRegistry.
+ * These map toolId to the path pattern where legacy commands were created.
+ * Some tools used a directory structure, others used individual files.
+ */
+export const LEGACY_SLASH_COMMAND_PATHS: Record<string, LegacySlashCommandPattern> = {
+  // Directory-based: .tooldir/commands/openspec/ or .tooldir/commands/openspec/*.md
+  'claude': { type: 'directory', path: '.claude/commands/openspec' },
+  'codebuddy': { type: 'directory', path: '.codebuddy/commands/openspec' },
+  'qoder': { type: 'directory', path: '.qoder/commands/openspec' },
+  'crush': { type: 'directory', path: '.crush/commands/openspec' },
+  'gemini': { type: 'directory', path: '.gemini/commands/openspec' },
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/legacy-cleanup.ts`
+
+The `cleanupLegacyArtifacts` function in [`src/core/legacy-cleanup.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/legacy-cleanup.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns Cleanup result with summary of actions taken
+ */
+export async function cleanupLegacyArtifacts(
+  projectPath: string,
+  detection: LegacyDetectionResult
+): Promise<CleanupResult> {
+  const result: CleanupResult = {
+    deletedFiles: [],
+    modifiedFiles: [],
+    deletedDirs: [],
+    projectMdNeedsMigration: detection.hasProjectMd,
+    errors: [],
+  };
+
+  // Remove marker blocks from config files (NEVER delete config files)
+  // Config files like CLAUDE.md, AGENTS.md belong to the user's project root
+  for (const fileName of detection.configFilesToUpdate) {
+    const filePath = FileSystemUtils.joinPath(projectPath, fileName);
+    try {
+      const content = await FileSystemUtils.readFile(filePath);
+      const newContent = removeMarkerBlock(content);
+      // Always write the file, even if empty - never delete user config files
+      await FileSystemUtils.writeFile(filePath, newContent);
+      result.modifiedFiles.push(fileName);
+    } catch (error: any) {
+      result.errors.push(`Failed to modify ${fileName}: ${error.message}`);
+    }
+  }
+
+  // Delete legacy slash command directories (these are 100% OpenSpec-managed)
+  for (const dirPath of detection.slashCommandDirs) {
+    const fullPath = FileSystemUtils.joinPath(projectPath, dirPath);
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[hasOpenSpecMarkers]
+    B[isOnlyOpenSpecContent]
+    C[removeMarkerBlock]
+    D[cleanupLegacyArtifacts]
+    E[formatCleanupSummary]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

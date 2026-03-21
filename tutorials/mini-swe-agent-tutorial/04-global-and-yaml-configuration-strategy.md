@@ -5,6 +5,7 @@ nav_order: 4
 parent: Mini-SWE-Agent Tutorial
 ---
 
+
 # Chapter 4: Global and YAML Configuration Strategy
 
 Welcome to **Chapter 4: Global and YAML Configuration Strategy**. In this part of **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -39,598 +40,184 @@ Next: [Chapter 5: Environments, Sandboxing, and Deployment](05-environments-sand
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- tutorial slug: **mini-swe-agent-tutorial**
-- chapter focus: **Chapter 4: Global and YAML Configuration Strategy**
-- system context: **Mini Swe Agent Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 4: Global and YAML Configuration Strategy`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Mini-SWE-Agent Repository](https://github.com/SWE-agent/mini-swe-agent)
-- [Mini-SWE-Agent README](https://github.com/SWE-agent/mini-swe-agent/blob/main/README.md)
-- [Mini-SWE-Agent Docs](https://mini-swe-agent.com/latest/)
-- [Quickstart](https://mini-swe-agent.com/latest/quickstart/)
-- [YAML Configuration Guide](https://mini-swe-agent.com/latest/advanced/yaml_configuration/)
-- [Contributing Guide](https://mini-swe-agent.com/latest/contributing/)
-
-### Cross-Tutorial Connection Map
-
-- [SWE-agent Tutorial](../swe-agent-tutorial/)
-- [Open SWE Tutorial](../open-swe-tutorial/)
-- [Codex CLI Tutorial](../codex-cli-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 4: Global and YAML Configuration Strategy`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 4: Global and YAML Configuration Strategy
-
-- tutorial context: **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 4: Global and YAML Configuration Strategy` as an operating subsystem inside **Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: Global and YAML Configuration Strategy` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Mini-SWE-Agent Repository](https://github.com/SWE-agent/mini-swe-agent)
-  Why it matters: authoritative reference on `Mini-SWE-Agent Repository` (github.com).
-- [Mini-SWE-Agent README](https://github.com/SWE-agent/mini-swe-agent/blob/main/README.md)
-  Why it matters: authoritative reference on `Mini-SWE-Agent README` (github.com).
-- [Mini-SWE-Agent Docs](https://mini-swe-agent.com/latest/)
-  Why it matters: authoritative reference on `Mini-SWE-Agent Docs` (mini-swe-agent.com).
-- [Quickstart](https://mini-swe-agent.com/latest/quickstart/)
-  Why it matters: authoritative reference on `Quickstart` (mini-swe-agent.com).
-- [YAML Configuration Guide](https://mini-swe-agent.com/latest/advanced/yaml_configuration/)
-  Why it matters: authoritative reference on `YAML Configuration Guide` (mini-swe-agent.com).
-- [Contributing Guide](https://mini-swe-agent.com/latest/contributing/)
-  Why it matters: authoritative reference on `Contributing Guide` (mini-swe-agent.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: CLI, Batch, and Inspector Workflows](03-cli-batch-and-inspector-workflows.md)
-- [Next Chapter: Chapter 5: Environments, Sandboxing, and Deployment](05-environments-sandboxing-and-deployment.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `src/minisweagent/models/openrouter_model.py`
+
+The `OpenRouterModel` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class OpenRouterModelConfig(BaseModel):
+    model_name: str
+    model_kwargs: dict[str, Any] = {}
+    set_cache_control: Literal["default_end"] | None = None
+    """Set explicit cache control markers, for example for Anthropic models"""
+    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
+    """Cost tracking mode for this model. Can be "default" or "ignore_errors" (ignore errors/missing cost info)"""
+    format_error_template: str = "{{ error }}"
+    """Template used when the LM's output is not in the expected format."""
+    observation_template: str = (
+        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
+        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
+    )
+    """Template used to render the observation after executing an action."""
+    multimodal_regex: str = ""
+    """Regex to extract multimodal content. Empty string disables multimodal processing."""
+
+
+class OpenRouterAPIError(Exception):
+    """Custom exception for OpenRouter API errors."""
+
+
+class OpenRouterAuthenticationError(Exception):
+    """Custom exception for OpenRouter authentication errors."""
+
+
+class OpenRouterRateLimitError(Exception):
+    """Custom exception for OpenRouter rate limit errors."""
+
+
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/openrouter_model.py`
+
+The `_DictToObj` class in [`src/minisweagent/models/openrouter_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/openrouter_model.py) handles a key part of this chapter's functionality:
+
+```py
+        """Parse tool calls from the response. Raises FormatError if unknown tool."""
+        tool_calls = response["choices"][0]["message"].get("tool_calls") or []
+        tool_calls = [_DictToObj(tc) for tc in tool_calls]
+        return parse_toolcall_actions(tool_calls, format_error_template=self.config.format_error_template)
+
+    def format_message(self, **kwargs) -> dict:
+        return expand_multimodal_content(kwargs, pattern=self.config.multimodal_regex)
+
+    def format_observation_messages(
+        self, message: dict, outputs: list[dict], template_vars: dict | None = None
+    ) -> list[dict]:
+        """Format execution outputs into tool result messages."""
+        actions = message.get("extra", {}).get("actions", [])
+        return format_toolcall_observation_messages(
+            actions=actions,
+            outputs=outputs,
+            observation_template=self.config.observation_template,
+            template_vars=template_vars,
+            multimodal_regex=self.config.multimodal_regex,
+        )
+
+    def get_template_vars(self, **kwargs) -> dict[str, Any]:
+        return self.config.model_dump()
+
+    def serialize(self) -> dict:
+        return {
+            "info": {
+                "config": {
+                    "model": self.config.model_dump(mode="json"),
+                    "model_type": f"{self.__class__.__module__}.{self.__class__.__name__}",
+                },
+            }
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/portkey_response_model.py`
+
+The `PortkeyResponseAPIModelConfig` class in [`src/minisweagent/models/portkey_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_response_model.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class PortkeyResponseAPIModelConfig(BaseModel):
+    model_name: str
+    model_kwargs: dict[str, Any] = {}
+    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
+    litellm_model_name_override: str = ""
+    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
+    format_error_template: str = "{{ error }}"
+    observation_template: str = (
+        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
+        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
+    )
+    multimodal_regex: str = ""
+
+
+class PortkeyResponseAPIModel:
+    """Portkey model using the Responses API with native tool calling.
+
+    Note: This implementation is stateless - each request must include
+    the full conversation history. previous_response_id is not used.
+    """
+
+    abort_exceptions: list[type[Exception]] = [KeyboardInterrupt, TypeError, ValueError]
+
+    def __init__(self, **kwargs):
+        self.config = PortkeyResponseAPIModelConfig(**kwargs)
+        if self.config.litellm_model_registry and Path(self.config.litellm_model_registry).is_file():
+            litellm.utils.register_model(json.loads(Path(self.config.litellm_model_registry).read_text()))
+
+        self._api_key = os.getenv("PORTKEY_API_KEY")
+        if not self._api_key:
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/portkey_response_model.py`
+
+The `PortkeyResponseAPIModel` class in [`src/minisweagent/models/portkey_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_response_model.py) handles a key part of this chapter's functionality:
+
+```py
+except ImportError:
+    raise ImportError(
+        "The portkey-ai package is required to use PortkeyResponseAPIModel. Please install it with: pip install portkey-ai"
+    )
+
+
+class PortkeyResponseAPIModelConfig(BaseModel):
+    model_name: str
+    model_kwargs: dict[str, Any] = {}
+    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
+    litellm_model_name_override: str = ""
+    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
+    format_error_template: str = "{{ error }}"
+    observation_template: str = (
+        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
+        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
+    )
+    multimodal_regex: str = ""
+
+
+class PortkeyResponseAPIModel:
+    """Portkey model using the Responses API with native tool calling.
+
+    Note: This implementation is stateless - each request must include
+    the full conversation history. previous_response_id is not used.
+    """
+
+    abort_exceptions: list[type[Exception]] = [KeyboardInterrupt, TypeError, ValueError]
+
+    def __init__(self, **kwargs):
+        self.config = PortkeyResponseAPIModelConfig(**kwargs)
+        if self.config.litellm_model_registry and Path(self.config.litellm_model_registry).is_file():
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[OpenRouterModel]
+    B[_DictToObj]
+    C[PortkeyResponseAPIModelConfig]
+    D[PortkeyResponseAPIModel]
+    E[RequestyModelConfig]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

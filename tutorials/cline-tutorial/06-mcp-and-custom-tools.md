@@ -5,6 +5,7 @@ nav_order: 6
 parent: Cline Tutorial
 ---
 
+
 # Chapter 6: MCP and Custom Tools
 
 Welcome to **Chapter 6: MCP and Custom Tools**. In this part of **Cline Tutorial: Agentic Coding with Human Control**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -101,537 +102,181 @@ Next: [Chapter 7: Context and Cost Control](07-context-and-cost-control.md)
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Cline Tutorial: Agentic Coding with Human Control**
-- tutorial slug: **cline-tutorial**
-- chapter focus: **Chapter 6: MCP and Custom Tools**
-- system context: **Cline Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 6: MCP and Custom Tools`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Cline README](https://github.com/cline/cline/blob/main/README.md)
-- [Cline Docs](https://docs.cline.bot/)
-- [Cline docs config (repo)](https://github.com/cline/cline/blob/main/docs/docs.json)
-- [Cline Releases](https://github.com/cline/cline/releases)
-
-### Cross-Tutorial Connection Map
-
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 6: MCP and Custom Tools`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 6: MCP and Custom Tools
-
-- tutorial context: **Cline Tutorial: Agentic Coding with Human Control**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `Tool`, `Cline`, `flowchart` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 6: MCP and Custom Tools` as an operating subsystem inside **Cline Tutorial: Agentic Coding with Human Control**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `Task`, `Client`, `Read` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 6: MCP and Custom Tools` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `Tool`.
-2. **Input normalization**: shape incoming data so `Cline` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `flowchart`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Cline README](https://github.com/cline/cline/blob/main/README.md)
-  Why it matters: authoritative reference on `Cline README` (github.com).
-- [Cline Docs](https://docs.cline.bot/)
-  Why it matters: authoritative reference on `Cline Docs` (docs.cline.bot).
-- [Cline docs config (repo)](https://github.com/cline/cline/blob/main/docs/docs.json)
-  Why it matters: authoritative reference on `Cline docs config (repo)` (github.com).
-- [Cline Releases](https://github.com/cline/cline/releases)
-  Why it matters: authoritative reference on `Cline Releases` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `Tool` and `Cline` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 5: Browser Automation](05-browser-automation.md)
-- [Next Chapter: Chapter 7: Context and Cost Control](07-context-and-cost-control.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/interactive-playwright.ts`
+
+The `main` function in [`scripts/interactive-playwright.ts`](https://github.com/cline/cline/blob/HEAD/scripts/interactive-playwright.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { E2ETestHelper } from "../src/test/e2e/utils/helpers"
+
+async function main() {
+	await ClineApiServerMock.startGlobalServer()
+
+	const userDataDir = mkdtempSync(path.join(os.tmpdir(), "vsce-interactive"))
+	const executablePath = await downloadAndUnzipVSCode("stable", undefined, new SilentReporter())
+
+	// launch VSCode
+	const app = await _electron.launch({
+		executablePath,
+		env: {
+			...process.env,
+			TEMP_PROFILE: "true",
+			E2E_TEST: "true",
+			CLINE_ENVIRONMENT: "local",
+			GRPC_RECORDER_ENABLED: "true",
+			GRPC_RECORDER_TESTS_FILTERS_ENABLED: "true",
+		},
+		args: [
+			"--no-sandbox",
+			"--disable-updates",
+			"--disable-workspace-trust",
+			"--disable-extensions",
+			"--skip-welcome",
+			"--skip-release-notes",
+			`--user-data-dir=${userDataDir}`,
+			`--install-extension=${path.join(E2ETestHelper.CODEBASE_ROOT_DIR, "dist", "e2e.vsix")}`,
+			`--extensionDevelopmentPath=${E2ETestHelper.CODEBASE_ROOT_DIR}`,
+			path.join(E2ETestHelper.E2E_TESTS_DIR, "fixtures", "workspace"),
+		],
+	})
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `scripts/interactive-playwright.ts`
+
+The `teardown` function in [`scripts/interactive-playwright.ts`](https://github.com/cline/cline/blob/HEAD/scripts/interactive-playwright.ts) handles a key part of this chapter's functionality:
+
+```ts
+	console.log("Press Ctrl+C to close when done.")
+
+	async function teardown() {
+		console.log("Cleaning up resources...")
+		try {
+			await app?.close()
+			await ClineApiServerMock.stopGlobalServer?.()
+			await E2ETestHelper.rmForRetries(userDataDir, { recursive: true })
+		} catch (e) {
+			console.log(`We could teardown interactive playwright properly, error:${e}`)
+		}
+		console.log("Finished cleaning up resources...")
+	}
+
+	process.on("SIGINT", async () => {
+		await teardown()
+		process.exit(0)
+	})
+
+	process.on("SIGTERM", async () => {
+		await teardown()
+		process.exit(0)
+	})
+
+	const win = await app.firstWindow()
+	win.on("close", async () => {
+		console.log("VS Code window closed.")
+		await teardown()
+		process.exit(0)
+	})
+	process.stdin.resume()
+}
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/common.ts`
+
+The `to` class in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { WebviewProvider } from "./core/webview"
+import "./utils/path" // necessary to have access to String.prototype.toPosix
+
+import { HostProvider } from "@/hosts/host-provider"
+import { Logger } from "@/shared/services/Logger"
+import type { StorageContext } from "@/shared/storage/storage-context"
+import { FileContextTracker } from "./core/context/context-tracking/FileContextTracker"
+import { clearOnboardingModelsCache } from "./core/controller/models/getClineOnboardingModels"
+import { HookDiscoveryCache } from "./core/hooks/HookDiscoveryCache"
+import { HookProcessRegistry } from "./core/hooks/HookProcessRegistry"
+import { StateManager } from "./core/storage/StateManager"
+import { AgentConfigLoader } from "./core/task/tools/subagent/AgentConfigLoader"
+import { ExtensionRegistryInfo } from "./registry"
+import { ErrorService } from "./services/error"
+import { featureFlagsService } from "./services/feature-flags"
+import { getDistinctId } from "./services/logging/distinctId"
+import { telemetryService } from "./services/telemetry"
+import { PostHogClientProvider } from "./services/telemetry/providers/posthog/PostHogClientProvider"
+import { ClineTempManager } from "./services/temp"
+import { cleanupTestMode } from "./services/test/TestMode"
+import { ShowMessageType } from "./shared/proto/host/window"
+import { syncWorker } from "./shared/services/worker/sync"
+import { getBlobStoreSettingsFromEnv } from "./shared/services/worker/worker"
+import { getLatestAnnouncementId } from "./utils/announcements"
+import { arePathsEqual } from "./utils/path"
+
+/**
+ * Performs intialization for Cline that is common to all platforms.
+ *
+ * @param context
+ * @returns The webview provider
+```
+
+This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/common.ts`
+
+The `initialize` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @throws ClineConfigurationError if endpoints.json exists but is invalid
+ */
+export async function initialize(storageContext: StorageContext): Promise<WebviewProvider> {
+	// Configure the shared Logging class to use HostProvider's output channels and debug logger
+	Logger.subscribe((msg: string) => HostProvider.get().logToChannel(msg)) // File system logging
+	Logger.subscribe((msg: string) => HostProvider.env.debugLog({ value: msg })) // Host debug logging
+
+	// Initialize ClineEndpoint configuration (reads bundled and ~/.cline/endpoints.json if present)
+	// This must be done before any other code that calls ClineEnv.config()
+	// Throws ClineConfigurationError if config file exists but is invalid
+	const { ClineEndpoint } = await import("./config")
+	await ClineEndpoint.initialize(HostProvider.get().extensionFsPath)
+
+	try {
+		await StateManager.initialize(storageContext)
+	} catch (error) {
+		Logger.error("[Cline] CRITICAL: Failed to initialize StateManager:", error)
+		HostProvider.window.showMessage({
+			type: ShowMessageType.ERROR,
+			message: "Failed to initialize storage. Please check logs for details or try restarting the client.",
+		})
+	}
+
+	// =============== External services ===============
+	await ErrorService.initialize()
+	// Initialize PostHog client provider (skip in self-hosted mode)
+	if (!ClineEndpoint.isSelfHosted()) {
+		PostHogClientProvider.getInstance()
+	}
+
+	// =============== Webview services ===============
+	const webview = HostProvider.get().createWebviewProvider()
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[main]
+    B[teardown]
+    C[to]
+    D[initialize]
+    A --> B
+    B --> C
+    C --> D
+```

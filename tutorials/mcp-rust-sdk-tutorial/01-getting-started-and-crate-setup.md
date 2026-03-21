@@ -5,6 +5,7 @@ nav_order: 1
 parent: MCP Rust SDK Tutorial
 ---
 
+
 # Chapter 1: Getting Started and Crate Setup
 
 Welcome to **Chapter 1: Getting Started and Crate Setup**. In this part of **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -40,607 +41,184 @@ Next: [Chapter 2: Service Model and Macro-Based Tooling](02-service-model-and-ma
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- tutorial slug: **mcp-rust-sdk-tutorial**
-- chapter focus: **Chapter 1: Getting Started and Crate Setup**
-- system context: **Mcp Rust Sdk Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 1: Getting Started and Crate Setup`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Rust SDK README](https://github.com/modelcontextprotocol/rust-sdk/blob/main/README.md)
-- [rmcp Crate README](https://github.com/modelcontextprotocol/rust-sdk/blob/main/crates/rmcp/README.md)
-- [rmcp-macros README](https://github.com/modelcontextprotocol/rust-sdk/blob/main/crates/rmcp-macros/README.md)
-- [OAuth Support Guide](https://github.com/modelcontextprotocol/rust-sdk/blob/main/docs/OAUTH_SUPPORT.md)
-- [Examples Index](https://github.com/modelcontextprotocol/rust-sdk/blob/main/examples/README.md)
-- [Client Examples](https://github.com/modelcontextprotocol/rust-sdk/blob/main/examples/clients/README.md)
-- [Server Examples](https://github.com/modelcontextprotocol/rust-sdk/blob/main/examples/servers/README.md)
-- [rmcp Changelog](https://github.com/modelcontextprotocol/rust-sdk/blob/main/crates/rmcp/CHANGELOG.md)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Specification Tutorial](../mcp-specification-tutorial/)
-- [MCP Go SDK Tutorial](../mcp-go-sdk-tutorial/)
-- [MCP Java SDK Tutorial](../mcp-java-sdk-tutorial/)
-- [MCP Swift SDK Tutorial](../mcp-swift-sdk-tutorial/)
-- [Chapter 1: Getting Started and Crate Setup](01-getting-started-and-crate-setup.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 1: Getting Started and Crate Setup`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 1: Getting Started and Crate Setup
-
-- tutorial context: **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `rmcp`, `version`, `features` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started and Crate Setup` as an operating subsystem inside **MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `server` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started and Crate Setup` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `rmcp`.
-2. **Input normalization**: shape incoming data so `version` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `features`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Rust SDK README](https://github.com/modelcontextprotocol/rust-sdk/blob/main/README.md)
-  Why it matters: authoritative reference on `Rust SDK README` (github.com).
-- [rmcp Crate README](https://github.com/modelcontextprotocol/rust-sdk/blob/main/crates/rmcp/README.md)
-  Why it matters: authoritative reference on `rmcp Crate README` (github.com).
-- [rmcp-macros README](https://github.com/modelcontextprotocol/rust-sdk/blob/main/crates/rmcp-macros/README.md)
-  Why it matters: authoritative reference on `rmcp-macros README` (github.com).
-- [OAuth Support Guide](https://github.com/modelcontextprotocol/rust-sdk/blob/main/docs/OAUTH_SUPPORT.md)
-  Why it matters: authoritative reference on `OAuth Support Guide` (github.com).
-- [Examples Index](https://github.com/modelcontextprotocol/rust-sdk/blob/main/examples/README.md)
-  Why it matters: authoritative reference on `Examples Index` (github.com).
-- [Client Examples](https://github.com/modelcontextprotocol/rust-sdk/blob/main/examples/clients/README.md)
-  Why it matters: authoritative reference on `Client Examples` (github.com).
-- [Server Examples](https://github.com/modelcontextprotocol/rust-sdk/blob/main/examples/servers/README.md)
-  Why it matters: authoritative reference on `Server Examples` (github.com).
-- [rmcp Changelog](https://github.com/modelcontextprotocol/rust-sdk/blob/main/crates/rmcp/CHANGELOG.md)
-  Why it matters: authoritative reference on `rmcp Changelog` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `rmcp` and `version` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Service Model and Macro-Based Tooling](02-service-model-and-macro-based-tooling.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `examples/servers/src/completion_stdio.rs`
+
+The `SqlQueryArgs` interface in [`examples/servers/src/completion_stdio.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/completion_stdio.rs) handles a key part of this chapter's functionality:
+
+```rs
+#[derive(Debug, Serialize, Deserialize, JsonSchema)]
+#[schemars(description = "SQL query builder with progressive completion")]
+pub struct SqlQueryArgs {
+    #[schemars(description = "SQL operation type (SELECT, INSERT, UPDATE, DELETE)")]
+    pub operation: String,
+    #[schemars(description = "Database table name")]
+    pub table: String,
+    #[schemars(description = "Columns to select/update (only for SELECT/UPDATE)")]
+    pub columns: Option<String>,
+    #[schemars(description = "WHERE clause condition (optional for all operations)")]
+    pub where_clause: Option<String>,
+    #[schemars(description = "Values to insert (only for INSERT)")]
+    pub values: Option<String>,
+}
+
+/// SQL query builder server with progressive completion
+#[derive(Clone)]
+pub struct SqlQueryServer {
+    prompt_router: PromptRouter<SqlQueryServer>,
+}
+
+impl SqlQueryServer {
+    pub fn new() -> Self {
+        Self {
+            prompt_router: Self::prompt_router(),
+        }
+    }
+}
+
+impl Default for SqlQueryServer {
+    fn default() -> Self {
+        Self::new()
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `examples/servers/src/completion_stdio.rs`
+
+The `SqlQueryServer` interface in [`examples/servers/src/completion_stdio.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/completion_stdio.rs) handles a key part of this chapter's functionality:
+
+```rs
+/// SQL query builder server with progressive completion
+#[derive(Clone)]
+pub struct SqlQueryServer {
+    prompt_router: PromptRouter<SqlQueryServer>,
+}
+
+impl SqlQueryServer {
+    pub fn new() -> Self {
+        Self {
+            prompt_router: Self::prompt_router(),
+        }
+    }
+}
+
+impl Default for SqlQueryServer {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl SqlQueryServer {
+    /// Fuzzy matching with scoring for completion suggestions
+    fn fuzzy_match(&self, query: &str, candidates: &[&str]) -> Vec<String> {
+        if query.is_empty() {
+            return candidates.iter().take(10).map(|s| s.to_string()).collect();
+        }
+
+        let query_lower = query.to_lowercase();
+        let mut scored_matches = Vec::new();
+
+        for candidate in candidates {
+            let candidate_lower = candidate.to_lowercase();
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `conformance/src/bin/client.rs`
+
+The `ConformanceContext` interface in [`conformance/src/bin/client.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/client.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+#[derive(Debug, Default, serde::Deserialize)]
+struct ConformanceContext {
+    #[serde(default)]
+    client_id: Option<String>,
+    #[serde(default)]
+    client_secret: Option<String>,
+    // client-credentials-jwt
+    #[serde(default)]
+    private_key_pem: Option<String>,
+    #[serde(default)]
+    signing_algorithm: Option<String>,
+}
+
+fn load_context() -> ConformanceContext {
+    std::env::var("MCP_CONFORMANCE_CONTEXT")
+        .ok()
+        .and_then(|s| serde_json::from_str(&s).ok())
+        .unwrap_or_default()
+}
+
+// ─── Client handlers ────────────────────────────────────────────────────────
+
+/// A basic client handler that does nothing special
+struct BasicClientHandler;
+impl ClientHandler for BasicClientHandler {}
+
+/// A client handler that handles elicitation requests by applying schema defaults.
+struct ElicitationDefaultsClientHandler;
+
+impl ClientHandler for ElicitationDefaultsClientHandler {
+    fn get_info(&self) -> ClientInfo {
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `conformance/src/bin/client.rs`
+
+The `BasicClientHandler` interface in [`conformance/src/bin/client.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/client.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+/// A basic client handler that does nothing special
+struct BasicClientHandler;
+impl ClientHandler for BasicClientHandler {}
+
+/// A client handler that handles elicitation requests by applying schema defaults.
+struct ElicitationDefaultsClientHandler;
+
+impl ClientHandler for ElicitationDefaultsClientHandler {
+    fn get_info(&self) -> ClientInfo {
+        let mut info = ClientInfo::default();
+        info.capabilities.elicitation = Some(ElicitationCapability {
+            form: Some(FormElicitationCapability {
+                schema_validation: Some(true),
+            }),
+            url: None,
+        });
+        info
+    }
+
+    async fn create_elicitation(
+        &self,
+        request: CreateElicitationRequestParams,
+        _cx: RequestContext<RoleClient>,
+    ) -> Result<CreateElicitationResult, ErrorData> {
+        let content = match &request {
+            CreateElicitationRequestParams::FormElicitationParams {
+                requested_schema, ..
+            } => {
+                let mut defaults = serde_json::Map::new();
+                for (name, prop) in &requested_schema.properties {
+                    match prop {
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[SqlQueryArgs]
+    B[SqlQueryServer]
+    C[ConformanceContext]
+    D[BasicClientHandler]
+    E[ElicitationDefaultsClientHandler]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

@@ -5,6 +5,7 @@ nav_order: 2
 parent: gptme Tutorial
 ---
 
+
 # Chapter 2: Core CLI Workflow and Prompt Patterns
 
 Welcome to **Chapter 2: Core CLI Workflow and Prompt Patterns**. In this part of **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -38,607 +39,184 @@ Next: [Chapter 3: Tooling and Local Execution Boundaries](03-tooling-and-local-e
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- tutorial slug: **gptme-tutorial**
-- chapter focus: **Chapter 2: Core CLI Workflow and Prompt Patterns**
-- system context: **Gptme Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 2: Core CLI Workflow and Prompt Patterns`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [gptme Repository](https://github.com/gptme/gptme)
-- [gptme README](https://github.com/gptme/gptme/blob/master/README.md)
-- [Getting Started docs](https://github.com/gptme/gptme/blob/master/docs/getting-started.rst)
-- [Configuration docs](https://github.com/gptme/gptme/blob/master/docs/config.rst)
-- [CLI entrypoint](https://github.com/gptme/gptme/blob/master/gptme/cli/main.py)
-
-### Cross-Tutorial Connection Map
-
-- [Mistral Vibe Tutorial](../mistral-vibe-tutorial/)
-- [Kimi CLI Tutorial](../kimi-cli-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Claude Squad Tutorial](../claude-squad-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 2: Core CLI Workflow and Prompt Patterns`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 2: Core CLI Workflow and Prompt Patterns
-
-- tutorial context: **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 2: Core CLI Workflow and Prompt Patterns` as an operating subsystem inside **gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 2: Core CLI Workflow and Prompt Patterns` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [gptme Repository](https://github.com/gptme/gptme)
-  Why it matters: authoritative reference on `gptme Repository` (github.com).
-- [gptme README](https://github.com/gptme/gptme/blob/master/README.md)
-  Why it matters: authoritative reference on `gptme README` (github.com).
-- [Getting Started docs](https://github.com/gptme/gptme/blob/master/docs/getting-started.rst)
-  Why it matters: authoritative reference on `Getting Started docs` (github.com).
-- [Configuration docs](https://github.com/gptme/gptme/blob/master/docs/config.rst)
-  Why it matters: authoritative reference on `Configuration docs` (github.com).
-- [CLI entrypoint](https://github.com/gptme/gptme/blob/master/gptme/cli/main.py)
-  Why it matters: authoritative reference on `CLI entrypoint` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
-- [Next Chapter: Chapter 3: Tooling and Local Execution Boundaries](03-tooling-and-local-execution-boundaries.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `scripts/analyze_compression.py`
+
+The `create_plot` function in [`scripts/analyze_compression.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/analyze_compression.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def create_plot(distribution: dict, output_file: str = "compression_distribution.png"):
+    """Create matplotlib plot of distribution."""
+    try:
+        import matplotlib.pyplot as plt  # type: ignore[import-not-found]
+        import numpy as np  # type: ignore[import-not-found]
+    except ImportError:
+        print("Note: Install matplotlib for plot generation: pip install matplotlib")
+        return
+
+    buckets = distribution["buckets"]
+    bucket_names = list(buckets.keys())
+    counts = [len(buckets[name]) for name in bucket_names]
+
+    # Create figure
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Histogram
+    colors = [
+        "red" if i < 3 else "orange" if i < 5 else "green"
+        for i in range(len(bucket_names))
+    ]
+    ax1.bar(range(len(bucket_names)), counts, color=colors, alpha=0.7)
+    ax1.set_xlabel("Novelty Ratio")
+    ax1.set_ylabel("Message Count")
+    ax1.set_title("Distribution of Information Novelty")
+    ax1.set_xticks(range(len(bucket_names)))
+    ax1.set_xticklabels(bucket_names, rotation=45, ha="right")
+    ax1.grid(axis="y", alpha=0.3)
+
+    # Add classification zones
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `scripts/analyze_compression.py`
+
+The `print_results_incremental` function in [`scripts/analyze_compression.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/analyze_compression.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def print_results_incremental(
+    results: dict, detailed: bool = False, plot: bool = False
+):
+    """Print incremental compression analysis results."""
+    stats = results["overall_stats"]
+
+    print("=" * 80)
+    print("INCREMENTAL COMPRESSION ANALYSIS RESULTS")
+    print("=" * 80)
+    print()
+
+    # Overall statistics
+    print("Overall Statistics:")
+    print(f"  Total conversations analyzed: {stats['total_conversations']}")
+    print(f"  Total messages: {stats['total_messages']}")
+    print(f"  Average novelty ratio: {stats['avg_novelty_ratio']:.3f}")
+    print(f"  Low novelty messages (ratio < 0.3): {stats['low_novelty_messages']}")
+    print(f"  High novelty messages (ratio > 0.7): {stats['high_novelty_messages']}")
+    print()
+
+    # By role statistics
+    print("Information Novelty by Role:")
+    for role, data in sorted(results["by_role"].items()):
+        avg_ratio = data["total_ratio"] / data["count"] if data["count"] > 0 else 0
+        print(f"  {role:12s}: {avg_ratio:.3f} (n={data['count']:,})")
+    print()
+
+    # Distribution analysis
+    distribution = analyze_distribution(results)
+    if distribution:
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `scripts/analyze_compression.py`
+
+The `main` function in [`scripts/analyze_compression.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/analyze_compression.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Analyze compression ratios of conversation logs"
+    )
+    parser.add_argument(
+        "--limit",
+        type=int,
+        default=100,
+        help="Maximum number of conversations to analyze (default: 100)",
+    )
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Show verbose output"
+    )
+    parser.add_argument(
+        "--detailed", "-d", action="store_true", help="Show detailed results"
+    )
+    parser.add_argument(
+        "--incremental",
+        "-i",
+        action="store_true",
+        help="Use incremental compression analysis (measures marginal information contribution)",
+    )
+    parser.add_argument(
+        "--plot",
+        "-p",
+        action="store_true",
+        help="Generate matplotlib plot of distribution (requires matplotlib)",
+    )
+
+    args = parser.parse_args()
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/codeblock.py`
+
+The `Codeblock` class in [`gptme/codeblock.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/codeblock.py) handles a key part of this chapter's functionality:
+
+```py
+
+@dataclass(frozen=True)
+class Codeblock:
+    lang: str
+    content: str
+    path: str | None = None
+    start: int | None = field(default=None, compare=False)
+
+    def __post_init__(self):
+        # init path if path is None and lang is pathy
+        if self.path is None and self.is_filename:
+            object.__setattr__(self, "path", self.lang)  # frozen dataclass workaround
+
+    def to_markdown(self) -> str:
+        return f"```{self.lang}\n{self.content}\n```"
+
+    def to_xml(self) -> str:
+        """Converts codeblock to XML with proper escaping."""
+        # Use quoteattr for attributes to handle quotes and special chars safely
+        # Use xml_escape for content to handle <, >, & characters
+        path_attr = f" path={quoteattr(self.path)}" if self.path else ""
+        return f"<codeblock lang={quoteattr(self.lang)}{path_attr}>\n{xml_escape(self.content)}\n</codeblock>"
+
+    @classmethod
+    @trace_function(name="codeblock.from_markdown", attributes={"component": "parser"})
+    def from_markdown(cls, content: str) -> "Codeblock":
+        stripped = content.strip()
+        fence_len = 0
+
+        # Handle variable-length fences (3+ backticks)
+        start_match = re.match(r"^(`{3,})", stripped)
+        if start_match:
+```
+
+This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[create_plot]
+    B[print_results_incremental]
+    C[main]
+    D[Codeblock]
+    E[workaround]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

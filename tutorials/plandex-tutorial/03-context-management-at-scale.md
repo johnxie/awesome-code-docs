@@ -5,6 +5,7 @@ nav_order: 3
 parent: Plandex Tutorial
 ---
 
+
 # Chapter 3: Context Management at Scale
 
 Welcome to **Chapter 3: Context Management at Scale**. In this part of **Plandex Tutorial: Large-Task AI Coding Agent Workflows**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -28,604 +29,184 @@ Next: [Chapter 4: Planning, Execution, and Diff Sandbox](04-planning-execution-a
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- tutorial slug: **plandex-tutorial**
-- chapter focus: **Chapter 3: Context Management at Scale**
-- system context: **Plandex Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 3: Context Management at Scale`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Plandex Repository](https://github.com/plandex-ai/plandex)
-- [Plandex Releases](https://github.com/plandex-ai/plandex/releases)
-- [Plandex Docs](https://docs.plandex.ai/)
-- [Plandex Local Self-Hosting Quickstart](https://docs.plandex.ai/hosting/self-hosting/local-mode-quickstart)
-
-### Cross-Tutorial Connection Map
-
-- [Aider Tutorial](../aider-tutorial/)
-- [OpenCode Tutorial](../opencode-tutorial/)
-- [Cline Tutorial](../cline-tutorial/)
-- [Roo Code Tutorial](../roo-code-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 3: Context Management at Scale`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 38: Chapter 3: Context Management at Scale
-
-- tutorial context: **Plandex Tutorial: Large-Task AI Coding Agent Workflows**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Context Management at Scale` as an operating subsystem inside **Plandex Tutorial: Large-Task AI Coding Agent Workflows**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Context Management at Scale` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Plandex Repository](https://github.com/plandex-ai/plandex)
-  Why it matters: authoritative reference on `Plandex Repository` (github.com).
-- [Plandex Releases](https://github.com/plandex-ai/plandex/releases)
-  Why it matters: authoritative reference on `Plandex Releases` (github.com).
-- [Plandex Docs](https://docs.plandex.ai/)
-  Why it matters: authoritative reference on `Plandex Docs` (docs.plandex.ai).
-- [Plandex Local Self-Hosting Quickstart](https://docs.plandex.ai/hosting/self-hosting/local-mode-quickstart)
-  Why it matters: authoritative reference on `Plandex Local Self-Hosting Quickstart` (docs.plandex.ai).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Architecture and Workflow](02-architecture-and-workflow.md)
-- [Next Chapter: Chapter 4: Planning, Execution, and Diff Sandbox](04-planning-execution-and-diff-sandbox.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `app/shared/ai_models_packs.go`
+
+The `getStrongModelFallback` function in [`app/shared/ai_models_packs.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_packs.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func getStrongModelFallback(role ModelRole, modelId ModelId, fns ...func(*ModelRoleConfigSchema)) func(*ModelRoleConfigSchema) {
+	return func(c *ModelRoleConfigSchema) {
+		n := getModelRoleConfig(role, modelId)
+		for _, f := range fns {
+			f(&n)
+		}
+		c.StrongModel = &n
+	}
+}
+
+var (
+	DailyDriverSchema         ModelPackSchema
+	ReasoningSchema           ModelPackSchema
+	StrongSchema              ModelPackSchema
+	OssSchema                 ModelPackSchema
+	CheapSchema               ModelPackSchema
+	OllamaExperimentalSchema  ModelPackSchema
+	OllamaAdaptiveOssSchema   ModelPackSchema
+	OllamaAdaptiveDailySchema ModelPackSchema
+	AnthropicSchema           ModelPackSchema
+	OpenAISchema              ModelPackSchema
+	GoogleSchema              ModelPackSchema
+	GeminiPlannerSchema       ModelPackSchema
+	OpusPlannerSchema         ModelPackSchema
+	R1PlannerSchema           ModelPackSchema
+	PerplexityPlannerSchema   ModelPackSchema
+	O3PlannerSchema           ModelPackSchema
+)
+
+var BuiltInModelPackSchemas = []*ModelPackSchema{
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `app/shared/ai_models_packs.go`
+
+The `init` function in [`app/shared/ai_models_packs.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_packs.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func init() {
+	defaultBuilder := getModelRoleConfig(ModelRoleBuilder, "openai/o4-mini-medium",
+		getStrongModelFallback(ModelRoleBuilder, "openai/o4-mini-high"),
+	)
+
+	DailyDriverSchema = ModelPackSchema{
+		Name:        "daily-driver",
+		Description: "A mix of models from Anthropic, OpenAI, and Google that balances speed, quality, and cost. Supports up to 2M context.",
+		ModelPackSchemaRoles: ModelPackSchemaRoles{
+			Planner: getModelRoleConfig(ModelRolePlanner, "anthropic/claude-sonnet-4",
+				getLargeContextFallback(ModelRolePlanner, "google/gemini-2.5-pro",
+					getLargeContextFallback(ModelRolePlanner, "google/gemini-pro-1.5"),
+				),
+			),
+			Architect: Pointer(getModelRoleConfig(ModelRoleArchitect, "anthropic/claude-sonnet-4",
+				getLargeContextFallback(ModelRoleArchitect, "google/gemini-2.5-pro",
+					getLargeContextFallback(ModelRoleArchitect, "google/gemini-pro-1.5"),
+				),
+			)),
+			Coder: Pointer(getModelRoleConfig(ModelRoleCoder, "anthropic/claude-sonnet-4",
+				getLargeContextFallback(ModelRoleCoder, "openai/gpt-4.1"),
+			)),
+			PlanSummary:      getModelRoleConfig(ModelRolePlanSummary, "openai/o4-mini-low"),
+			Builder:          defaultBuilder,
+			WholeFileBuilder: Pointer(getModelRoleConfig(ModelRoleWholeFileBuilder, "openai/o4-mini-medium")),
+			Namer:            getModelRoleConfig(ModelRoleName, "openai/gpt-4.1-mini"),
+			CommitMsg:        getModelRoleConfig(ModelRoleCommitMsg, "openai/gpt-4.1-mini"),
+			ExecStatus:       getModelRoleConfig(ModelRoleExecStatus, "openai/o4-mini-low"),
+		},
+	}
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `app/shared/ai_models_packs.go`
+
+The `cloneSchema` function in [`app/shared/ai_models_packs.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_packs.go) handles a key part of this chapter's functionality:
+
+```go
+
+	// Copy daily driver schema and modify it to use ollama for lighter tasks
+	OllamaAdaptiveDailySchema = cloneSchema(DailyDriverSchema)
+	OllamaAdaptiveDailySchema.Name = "ollama-daily"
+	OllamaAdaptiveDailySchema.Description = "Ollama adaptive/daily-driver blend. Uses 'daily-driver' for heavy lifting, local models for lighter tasks."
+	OllamaAdaptiveDailySchema.LocalProvider = ModelProviderOllama
+	OllamaAdaptiveDailySchema.PlanSummary = getModelRoleConfig(ModelRolePlanSummary, "mistral/devstral-small")
+	OllamaAdaptiveDailySchema.CommitMsg = getModelRoleConfig(ModelRoleCommitMsg, "qwen/qwen3-8b-local")
+	OllamaAdaptiveDailySchema.Namer = getModelRoleConfig(ModelRoleName, "qwen/qwen3-8b-local")
+
+	// Copy oss schema and modify it to use ollama for lighter tasks
+	OllamaAdaptiveOssSchema = cloneSchema(OssSchema)
+	OllamaAdaptiveOssSchema.Name = "ollama-oss"
+	OllamaAdaptiveOssSchema.Description = "Ollama adaptive/oss blend. Uses local models for planning and context selection, open source cloud models for implementation and file edits. Supports up to 110k context."
+	OllamaAdaptiveOssSchema.LocalProvider = ModelProviderOllama
+	OllamaAdaptiveOssSchema.PlanSummary = getModelRoleConfig(ModelRolePlanSummary, "mistral/devstral-small")
+	OllamaAdaptiveOssSchema.CommitMsg = getModelRoleConfig(ModelRoleCommitMsg, "qwen/qwen3-8b-local")
+	OllamaAdaptiveOssSchema.Namer = getModelRoleConfig(ModelRoleName, "qwen/qwen3-8b-local")
+
+	OpenAISchema = ModelPackSchema{
+		Name:        "openai",
+		Description: "OpenAI blend. Supports up to 1M context. Uses OpenAI's GPT-4.1 model for heavy lifting, GPT-4.1 Mini for lighter tasks.",
+		ModelPackSchemaRoles: ModelPackSchemaRoles{
+			Planner:     getModelRoleConfig(ModelRolePlanner, "openai/gpt-4.1"),
+			PlanSummary: getModelRoleConfig(ModelRolePlanSummary, "openai/o4-mini-low"),
+			Builder:     defaultBuilder,
+			WholeFileBuilder: Pointer(getModelRoleConfig(ModelRoleWholeFileBuilder,
+				"openai/o4-mini-medium")),
+			Namer:      getModelRoleConfig(ModelRoleName, "openai/gpt-4.1-mini"),
+			CommitMsg:  getModelRoleConfig(ModelRoleCommitMsg, "openai/gpt-4.1-mini"),
+			ExecStatus: getModelRoleConfig(ModelRoleExecStatus, "openai/o4-mini-low"),
+		},
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `app/shared/ai_models_providers.go`
+
+The `ToComposite` function in [`app/shared/ai_models_providers.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_providers.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (m *ModelProviderConfigSchema) ToComposite() string {
+	if m.CustomProvider != nil {
+		return fmt.Sprintf("%s|%s", m.Provider, *m.CustomProvider)
+	}
+	return string(m.Provider)
+}
+
+const DefaultAzureApiVersion = "2025-04-01-preview"
+const AnthropicMaxReasoningBudget = 32000
+const GoogleMaxReasoningBudget = 32000
+
+var BuiltInModelProviderConfigs = map[ModelProvider]ModelProviderConfigSchema{
+	ModelProviderOpenAI: {
+		Provider:     ModelProviderOpenAI,
+		BaseUrl:      OpenAIV1BaseUrl,
+		ApiKeyEnvVar: OpenAIEnvVar,
+		ExtraAuthVars: []ModelProviderExtraAuthVars{
+			{
+				Var:      "OPENAI_ORG_ID",
+				Required: false,
+			},
+		},
+	},
+	ModelProviderOpenRouter: {
+		Provider:     ModelProviderOpenRouter,
+		BaseUrl:      OpenRouterBaseUrl,
+		ApiKeyEnvVar: OpenRouterApiKeyEnvVar,
+	},
+	ModelProviderAnthropic: {
+		Provider:     ModelProviderAnthropic,
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[getStrongModelFallback]
+    B[init]
+    C[cloneSchema]
+    D[ToComposite]
+    E[init]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

@@ -5,6 +5,7 @@ nav_order: 5
 parent: MCP Go SDK Tutorial
 ---
 
+
 # Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
 
 Welcome to **Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation**. In this part of **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -47,604 +48,184 @@ Next: [Chapter 6: Auth, Security, and Runtime Hardening](06-auth-security-and-ru
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
-
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
-
-### Strategic Context
-
-- tutorial: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- tutorial slug: **mcp-go-sdk-tutorial**
-- chapter focus: **Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation**
-- system context: **Mcp Go Sdk Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [Go SDK README](https://github.com/modelcontextprotocol/go-sdk/blob/main/README.md)
-- [Features Index](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/README.md)
-- [Protocol Support](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/protocol.md)
-- [Server Features](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/server.md)
-- [Client Features](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/client.md)
-- [Troubleshooting](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/troubleshooting.md)
-- [Rough Edges](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/rough_edges.md)
-- [Server Conformance Script](https://github.com/modelcontextprotocol/go-sdk/blob/main/scripts/server-conformance.sh)
-
-### Cross-Tutorial Connection Map
-
-- [MCP Specification Tutorial](../mcp-specification-tutorial/)
-- [MCP Python SDK Tutorial](../mcp-python-sdk-tutorial/)
-- [MCP TypeScript SDK Tutorial](../mcp-typescript-sdk-tutorial/)
-- [FastMCP Tutorial](../fastmcp-tutorial/)
-- [Chapter 1: Getting Started and SDK Package Map](01-getting-started-and-sdk-package-map.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 7: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 8: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 9: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 10: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 11: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 12: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 13: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 14: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 15: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 16: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 17: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 18: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 19: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 20: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 21: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 22: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 23: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 24: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 25: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 26: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 27: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 28: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 29: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 30: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 31: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 32: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 33: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 34: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 35: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 36: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 37: Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation
-
-- tutorial context: **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation` as an operating subsystem inside **MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 5: Client Capabilities: Roots, Sampling, and Elicitation` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Go SDK README](https://github.com/modelcontextprotocol/go-sdk/blob/main/README.md)
-  Why it matters: authoritative reference on `Go SDK README` (github.com).
-- [Features Index](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/README.md)
-  Why it matters: authoritative reference on `Features Index` (github.com).
-- [Protocol Support](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/protocol.md)
-  Why it matters: authoritative reference on `Protocol Support` (github.com).
-- [Server Features](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/server.md)
-  Why it matters: authoritative reference on `Server Features` (github.com).
-- [Client Features](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/client.md)
-  Why it matters: authoritative reference on `Client Features` (github.com).
-- [Troubleshooting](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/troubleshooting.md)
-  Why it matters: authoritative reference on `Troubleshooting` (github.com).
-- [Rough Edges](https://github.com/modelcontextprotocol/go-sdk/blob/main/docs/rough_edges.md)
-  Why it matters: authoritative reference on `Rough Edges` (github.com).
-- [Server Conformance Script](https://github.com/modelcontextprotocol/go-sdk/blob/main/scripts/server-conformance.sh)
-  Why it matters: authoritative reference on `Server Conformance Script` (github.com).
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 4: Building Tools, Resources, and Prompts in Go](04-building-tools-resources-and-prompts-in-go.md)
-- [Next Chapter: Chapter 6: Auth, Security, and Runtime Hardening](06-auth-security-and-runtime-hardening.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## Source Code Walkthrough
+
+### `mcp/client.go`
+
+The `shouldSendListChangedNotification` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+
+```go
+	if change() {
+		// Check if listChanged is enabled for this notification type.
+		if c.shouldSendListChangedNotification(notification) {
+			sessions = slices.Clone(c.sessions)
+		}
+	}
+	c.mu.Unlock()
+	notifySessions(sessions, notification, params, c.opts.Logger)
+}
+
+// shouldSendListChangedNotification checks if the client's capabilities allow
+// sending the given list-changed notification.
+func (c *Client) shouldSendListChangedNotification(notification string) bool {
+	// Get effective capabilities (considering user-provided defaults).
+	caps := c.opts.Capabilities
+
+	switch notification {
+	case notificationRootsListChanged:
+		// If user didn't specify capabilities, default behavior sends notifications.
+		if caps == nil {
+			return true
+		}
+		// Check RootsV2 first (preferred), then fall back to Roots.
+		if caps.RootsV2 != nil {
+			return caps.RootsV2.ListChanged
+		}
+		return caps.Roots.ListChanged
+	default:
+		// Unknown notification, allow by default.
+		return true
+	}
+}
+```
+
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+### `mcp/client.go`
+
+The `listRoots` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (c *Client) listRoots(_ context.Context, req *ListRootsRequest) (*ListRootsResult, error) {
+	c.mu.Lock()
+	defer c.mu.Unlock()
+	roots := slices.Collect(c.roots.all())
+	if roots == nil {
+		roots = []*Root{} // avoid JSON null
+	}
+	return &ListRootsResult{
+		Roots: roots,
+	}, nil
+}
+
+func (c *Client) createMessage(ctx context.Context, req *CreateMessageWithToolsRequest) (*CreateMessageWithToolsResult, error) {
+	if c.opts.CreateMessageWithToolsHandler != nil {
+		return c.opts.CreateMessageWithToolsHandler(ctx, req)
+	}
+	if c.opts.CreateMessageHandler != nil {
+		// Downconvert the request for the basic handler.
+		baseParams, err := req.Params.toBase()
+		if err != nil {
+			return nil, err
+		}
+		baseReq := &CreateMessageRequest{
+			Session: req.Session,
+			Params:  baseParams,
+		}
+		res, err := c.opts.CreateMessageHandler(ctx, baseReq)
+		if err != nil {
+			return nil, err
+		}
+```
+
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+### `mcp/client.go`
+
+The `createMessage` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+
+```go
+	// Logger may be set to a non-nil value to enable logging of client activity.
+	Logger *slog.Logger
+	// CreateMessageHandler handles incoming requests for sampling/createMessage.
+	//
+	// Setting CreateMessageHandler to a non-nil value automatically causes the
+	// client to advertise the sampling capability, with default value
+	// &SamplingCapabilities{}. If [ClientOptions.Capabilities] is set and has a
+	// non nil value for [ClientCapabilities.Sampling], that value overrides the
+	// inferred capability.
+	CreateMessageHandler func(context.Context, *CreateMessageRequest) (*CreateMessageResult, error)
+	// CreateMessageWithToolsHandler handles incoming sampling/createMessage
+	// requests that may involve tool use. It returns
+	// [CreateMessageWithToolsResult], which supports array content for parallel
+	// tool calls.
+	//
+	// Setting this handler causes the client to advertise the sampling
+	// capability with tools support (sampling.tools). As with
+	// [CreateMessageHandler], [ClientOptions.Capabilities].Sampling overrides
+	// the inferred capability.
+	//
+	// It is a panic to set both CreateMessageHandler and
+	// CreateMessageWithToolsHandler.
+	CreateMessageWithToolsHandler func(context.Context, *CreateMessageWithToolsRequest) (*CreateMessageWithToolsResult, error)
+	// ElicitationHandler handles incoming requests for elicitation/create.
+	//
+	// Setting ElicitationHandler to a non-nil value automatically causes the
+	// client to advertise the elicitation capability, with default value
+	// &ElicitationCapabilities{}. If [ClientOptions.Capabilities] is set and has
+	// a non nil value for [ClientCapabilities.ELicitattion], that value
+	// overrides the inferred capability.
+	ElicitationHandler func(context.Context, *ElicitRequest) (*ElicitResult, error)
+	// Capabilities optionally configures the client's default capabilities,
+```
+
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+### `mcp/client.go`
+
+The `urlElicitationMiddleware` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// urlElicitationMiddleware returns middleware that automatically handles URL elicitation
+// required errors by executing the elicitation handler, waiting for completion notifications,
+// and retrying the operation.
+//
+// This middleware should be added to clients that want automatic URL elicitation handling:
+//
+//	client := mcp.NewClient(impl, opts)
+//	client.AddSendingMiddleware(mcp.urlElicitationMiddleware())
+//
+// TODO(rfindley): this isn't strictly necessary for the SEP, but may be
+// useful. Propose exporting it.
+func urlElicitationMiddleware() Middleware {
+	return func(next MethodHandler) MethodHandler {
+		return func(ctx context.Context, method string, req Request) (Result, error) {
+			// Call the underlying handler.
+			res, err := next(ctx, method, req)
+			if err == nil {
+				return res, nil
+			}
+
+			// Check if this is a URL elicitation required error.
+			var rpcErr *jsonrpc.Error
+			if !errors.As(err, &rpcErr) || rpcErr.Code != CodeURLElicitationRequired {
+				return res, err
+			}
+
+			// Notifications don't support retries.
+			if strings.HasPrefix(method, "notifications/") {
+				return res, err
+			}
+```
+
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[shouldSendListChangedNotification]
+    B[listRoots]
+    C[createMessage]
+    D[urlElicitationMiddleware]
+    E[elicit]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```
