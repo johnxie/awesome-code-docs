@@ -328,28 +328,28 @@
     },
     {
       "cluster": "data-and-storage",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/README.md",
-      "index_path": "tutorials/athens-research-knowledge-graph/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md",
+      "index_path": "tutorials/athens-research-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
       "keywords": [
         "athens",
         "research",
-        "knowledge",
-        "graph",
         "open",
         "source",
         "roam",
         "like",
+        "knowledge",
         "management",
         "built",
         "clojurescript",
+        "graph",
         "databases"
       ],
-      "path": "tutorials/athens-research-knowledge-graph",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-knowledge-graph",
-      "slug": "athens-research-knowledge-graph",
+      "path": "tutorials/athens-research-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-tutorial",
+      "slug": "athens-research-tutorial",
       "summary": "Athens Research \u2014 An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.",
       "title": "Athens Research: Deep Dive Tutorial"
     },
@@ -1199,8 +1199,8 @@
     },
     {
       "cluster": "ai-coding-agents",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-platform/README.md",
-      "index_path": "tutorials/codex-analysis-platform/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/codex-analysis-tutorial/README.md",
+      "index_path": "tutorials/codex-analysis-tutorial/README.md",
       "intent_signals": [
         "production-operations",
         "architecture-deep-dive",
@@ -1223,9 +1223,9 @@
         "rollout",
         "governance"
       ],
-      "path": "tutorials/codex-analysis-platform",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-platform",
-      "slug": "codex-analysis-platform",
+      "path": "tutorials/codex-analysis-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/codex-analysis-tutorial",
+      "slug": "codex-analysis-tutorial",
       "summary": "Design and operate a production-grade code analysis platform with parsing, symbol resolution, code intelligence features, LSP integration, and rollout governance.",
       "title": "Codex Analysis Platform Tutorial: Build Code Intelligence Systems"
     },
@@ -1703,8 +1703,8 @@
     },
     {
       "cluster": "ai-app-frameworks",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md",
-      "index_path": "tutorials/dify-platform-deep-dive/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md",
+      "index_path": "tutorials/dify-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -1723,9 +1723,9 @@
         "visual",
         "interface"
       ],
-      "path": "tutorials/dify-platform-deep-dive",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-platform-deep-dive",
-      "slug": "dify-platform-deep-dive",
+      "path": "tutorials/dify-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-tutorial",
+      "slug": "dify-tutorial",
       "summary": "Dify \u2014 An open-source LLM application development platform for building workflows, RAG pipelines, and AI agents with a visual interface.",
       "title": "Dify Platform: Deep Dive Tutorial"
     },
@@ -2030,8 +2030,8 @@
     },
     {
       "cluster": "ai-app-frameworks",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md",
-      "index_path": "tutorials/flowise-llm-orchestration/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md",
+      "index_path": "tutorials/flowise-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -2049,9 +2049,9 @@
         "drop",
         "interface"
       ],
-      "path": "tutorials/flowise-llm-orchestration",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-llm-orchestration",
-      "slug": "flowise-llm-orchestration",
+      "path": "tutorials/flowise-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/flowise-tutorial",
+      "slug": "flowise-tutorial",
       "summary": "Flowise \u2014 An open-source visual tool for building LLM workflows with a drag-and-drop interface.",
       "title": "Flowise LLM Orchestration: Deep Dive Tutorial"
     },
@@ -2523,8 +2523,8 @@
     },
     {
       "cluster": "systems-and-internals",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/README.md",
-      "index_path": "tutorials/kubernetes-operator-patterns/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-tutorial/README.md",
+      "index_path": "tutorials/kubernetes-operator-tutorial/README.md",
       "intent_signals": [
         "production-operations"
       ],
@@ -2547,9 +2547,9 @@
         "application",
         "management"
       ],
-      "path": "tutorials/kubernetes-operator-patterns",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-patterns",
-      "slug": "kubernetes-operator-patterns",
+      "path": "tutorials/kubernetes-operator-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/kubernetes-operator-tutorial",
+      "slug": "kubernetes-operator-tutorial",
       "summary": "Master Kubernetes Operators with hands-on Go implementation using the Operator SDK and controller-runtime library for enterprise application management.",
       "title": "Kubernetes Operator Patterns: Building Production-Grade Controllers"
     },
@@ -2582,9 +2582,9 @@
       "title": "LanceDB Tutorial: Serverless Vector Database for AI"
     },
     {
-      "cluster": "ai-app-frameworks",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/README.md",
-      "index_path": "tutorials/langchain-architecture-guide/README.md",
+      "cluster": "systems-and-internals",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-tutorial/README.md",
+      "index_path": "tutorials/langchain-architecture-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -2596,9 +2596,9 @@
         "technical",
         "walkthrough"
       ],
-      "path": "tutorials/langchain-architecture-guide",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-architecture-guide",
-      "slug": "langchain-architecture-guide",
+      "path": "tutorials/langchain-architecture-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/langchain-architecture-tutorial",
+      "slug": "langchain-architecture-tutorial",
       "summary": "Deep technical walkthrough of LangChain Architecture: Internal Design Deep Dive.",
       "title": "LangChain Architecture: Internal Design Deep Dive"
     },
@@ -2866,8 +2866,8 @@
     },
     {
       "cluster": "ai-app-frameworks",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md",
-      "index_path": "tutorials/lobechat-ai-platform/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md",
+      "index_path": "tutorials/lobechat-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -2884,9 +2884,9 @@
         "llm",
         "applications"
       ],
-      "path": "tutorials/lobechat-ai-platform",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lobechat-ai-platform",
-      "slug": "lobechat-ai-platform",
+      "path": "tutorials/lobechat-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/lobechat-tutorial",
+      "slug": "lobechat-tutorial",
       "summary": "LobeChat \u2014 An open-source, modern-design AI chat framework for building private LLM applications.",
       "title": "LobeChat AI Platform: Deep Dive Tutorial"
     },
@@ -2921,28 +2921,28 @@
     },
     {
       "cluster": "data-and-storage",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/README.md",
-      "index_path": "tutorials/logseq-knowledge-management/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-tutorial/README.md",
+      "index_path": "tutorials/logseq-tutorial/README.md",
       "intent_signals": [
         "beginner-onboarding",
         "architecture-deep-dive"
       ],
       "keywords": [
         "logseq",
-        "knowledge",
-        "management",
         "privacy",
         "first",
         "local",
+        "knowledge",
+        "management",
         "block",
         "based",
         "editing",
         "graph",
         "visualization"
       ],
-      "path": "tutorials/logseq-knowledge-management",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-knowledge-management",
-      "slug": "logseq-knowledge-management",
+      "path": "tutorials/logseq-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/logseq-tutorial",
+      "slug": "logseq-tutorial",
       "summary": "Logseq \u2014 A privacy-first, local-first knowledge management platform with block-based editing and graph visualization.",
       "title": "Logseq: Deep Dive Tutorial"
     },
@@ -3817,33 +3817,33 @@
     },
     {
       "cluster": "data-and-storage",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/README.md",
-      "index_path": "tutorials/nocodb-database-platform/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-tutorial/README.md",
+      "index_path": "tutorials/nocodb-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
       "keywords": [
         "nocodb",
-        "database",
         "open",
         "source",
         "airtable",
         "alternative",
         "turns",
         "any",
+        "database",
         "smart",
         "spreadsheet"
       ],
-      "path": "tutorials/nocodb-database-platform",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nocodb-database-platform",
-      "slug": "nocodb-database-platform",
+      "path": "tutorials/nocodb-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/nocodb-tutorial",
+      "slug": "nocodb-tutorial",
       "summary": "NocoDB \u2014 An open-source Airtable alternative that turns any database into a smart spreadsheet.",
       "title": "NocoDB: Deep Dive Tutorial"
     },
     {
       "cluster": "systems-and-internals",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/README.md",
-      "index_path": "tutorials/obsidian-outliner-plugin/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-tutorial/README.md",
+      "index_path": "tutorials/obsidian-outliner-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -3860,9 +3860,9 @@
         "architecture",
         "patterns"
       ],
-      "path": "tutorials/obsidian-outliner-plugin",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-plugin",
-      "slug": "obsidian-outliner-plugin",
+      "path": "tutorials/obsidian-outliner-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/obsidian-outliner-tutorial",
+      "slug": "obsidian-outliner-tutorial",
       "summary": "Obsidian Outliner \u2014 A plugin that adds outliner-style editing behaviors to Obsidian, demonstrating advanced plugin architecture patterns.",
       "title": "Obsidian Outliner Plugin: Deep Dive Tutorial"
     },
@@ -4583,8 +4583,8 @@
     },
     {
       "cluster": "data-and-storage",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/README.md",
-      "index_path": "tutorials/postgresql-query-planner/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-tutorial/README.md",
+      "index_path": "tutorials/postgresql-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -4604,9 +4604,9 @@
         "maximum",
         "performance"
       ],
-      "path": "tutorials/postgresql-query-planner",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/postgresql-query-planner",
-      "slug": "postgresql-query-planner",
+      "path": "tutorials/postgresql-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/postgresql-tutorial",
+      "slug": "postgresql-tutorial",
       "summary": "Master PostgreSQL's query execution engine, understand EXPLAIN output, and optimize complex queries for maximum performance.",
       "title": "PostgreSQL Query Planner Deep Dive"
     },
@@ -4742,8 +4742,8 @@
     },
     {
       "cluster": "systems-and-internals",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/README.md",
-      "index_path": "tutorials/react-fiber-internals/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-tutorial/README.md",
+      "index_path": "tutorials/react-fiber-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
@@ -4758,9 +4758,9 @@
         "modern",
         "applications"
       ],
-      "path": "tutorials/react-fiber-internals",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-internals",
-      "slug": "react-fiber-internals",
+      "path": "tutorials/react-fiber-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/react-fiber-tutorial",
+      "slug": "react-fiber-tutorial",
       "summary": "Deep dive into React's reconciliation algorithm, the Fiber architecture that powers modern React applications.",
       "title": "React Fiber Internals"
     },
@@ -5383,27 +5383,27 @@
     },
     {
       "cluster": "data-and-storage",
-      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/README.md",
-      "index_path": "tutorials/teable-database-platform/README.md",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-tutorial/README.md",
+      "index_path": "tutorials/teable-tutorial/README.md",
       "intent_signals": [
         "architecture-deep-dive"
       ],
       "keywords": [
         "teable",
-        "database",
         "high",
         "performance",
         "multi",
         "dimensional",
+        "database",
         "built",
         "postgresql",
         "real",
         "time",
         "collaboration"
       ],
-      "path": "tutorials/teable-database-platform",
-      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-database-platform",
-      "slug": "teable-database-platform",
+      "path": "tutorials/teable-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/teable-tutorial",
+      "slug": "teable-tutorial",
       "summary": "Teable \u2014 A high-performance, multi-dimensional database platform built on PostgreSQL with real-time collaboration.",
       "title": "Teable: Deep Dive Tutorial"
     },

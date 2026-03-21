@@ -70,7 +70,7 @@ flowchart LR
 
 ## Related Tutorials
 
-- [Flowise Tutorial](../flowise-llm-orchestration/)
+- [Flowise Tutorial](../flowise-tutorial/)
 - [LangChain Tutorial](../langchain-tutorial/)
 - [LangGraph Tutorial](../langgraph-tutorial/)
 - [MCP Servers Tutorial](../mcp-servers-tutorial/)

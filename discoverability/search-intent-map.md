@@ -8,7 +8,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## ai-app-frameworks
 
-- tutorial_count: **26**
+- tutorial_count: **25**
 
 - [Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md)
   - intents: production-operations
@@ -20,7 +20,7 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: general-learning
 - [CopilotKit Tutorial: Building AI Copilots for React Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/copilotkit-tutorial/README.md)
   - intents: general-learning
-- [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-platform-deep-dive/README.md)
+- [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md)
   - intents: architecture-deep-dive
 - [Dyad Tutorial: Local-First AI App Building](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dyad-tutorial/README.md)
   - intents: beginner-onboarding, production-operations
@@ -28,19 +28,17 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: general-learning
 - [Fireproof Tutorial: Local-First Document Database for AI-Native Apps](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/fireproof-tutorial/README.md)
   - intents: beginner-onboarding
-- [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-llm-orchestration/README.md)
+- [Flowise LLM Orchestration: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/flowise-tutorial/README.md)
   - intents: architecture-deep-dive
 - [GPT Open Source: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/gpt-oss-tutorial/README.md)
   - intents: production-operations, architecture-deep-dive
 - [HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/README.md)
   - intents: general-learning
-- [LangChain Architecture: Internal Design Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-guide/README.md)
-  - intents: architecture-deep-dive
 - [LangChain Tutorial: Building AI Applications with Large Language Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-tutorial/README.md)
   - intents: general-learning
 - [LangGraph Tutorial: Building Stateful Multi-Actor Applications](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langgraph-tutorial/README.md)
   - intents: general-learning
-- [LobeChat AI Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-ai-platform/README.md)
+- [LobeChat AI Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/lobechat-tutorial/README.md)
   - intents: architecture-deep-dive
 - [Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/onlook-tutorial/README.md)
   - intents: beginner-onboarding, production-operations, architecture-deep-dive
@@ -60,7 +58,8 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
   - intents: general-learning
 - [Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/vercel-ai-tutorial/README.md)
   - intents: production-operations
-- ... plus 1 more tutorials in this cluster
+- [n8n AI Tutorial: Workflow Automation with AI](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/n8n-ai-tutorial/README.md)
+  - intents: general-learning
 
 ## ai-coding-agents
 
@@ -122,21 +121,21 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 - tutorial_count: **8**
 
-- [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-knowledge-graph/README.md)
+- [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
   - intents: architecture-deep-dive
 - [ClickHouse Tutorial: High-Performance Analytical Database](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/clickhouse-tutorial/README.md)
   - intents: general-learning
-- [Logseq: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-knowledge-management/README.md)
+- [Logseq: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/logseq-tutorial/README.md)
   - intents: beginner-onboarding, architecture-deep-dive
 - [MeiliSearch Tutorial: Lightning Fast Search Engine](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/meilisearch-tutorial/README.md)
   - intents: general-learning
-- [NocoDB: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-database-platform/README.md)
+- [NocoDB: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/nocodb-tutorial/README.md)
   - intents: architecture-deep-dive
-- [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-query-planner/README.md)
+- [PostgreSQL Query Planner Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/postgresql-tutorial/README.md)
   - intents: architecture-deep-dive
 - [SiYuan Tutorial: Privacy-First Knowledge Management](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/siyuan-tutorial/README.md)
   - intents: beginner-onboarding
-- [Teable: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-database-platform/README.md)
+- [Teable: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/teable-tutorial/README.md)
   - intents: architecture-deep-dive
 
 ## general-software
@@ -268,13 +267,15 @@ Auto-generated topical clusters to strengthen internal linking and query-to-tuto
 
 ## systems-and-internals
 
-- tutorial_count: **3**
+- tutorial_count: **4**
 
-- [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-patterns/README.md)
+- [Kubernetes Operator Patterns: Building Production-Grade Controllers](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/kubernetes-operator-tutorial/README.md)
   - intents: production-operations
-- [Obsidian Outliner Plugin: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-plugin/README.md)
+- [LangChain Architecture: Internal Design Deep Dive](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/langchain-architecture-tutorial/README.md)
   - intents: architecture-deep-dive
-- [React Fiber Internals](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-internals/README.md)
+- [Obsidian Outliner Plugin: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/obsidian-outliner-tutorial/README.md)
+  - intents: architecture-deep-dive
+- [React Fiber Internals](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/react-fiber-tutorial/README.md)
   - intents: architecture-deep-dive
 
 ## taskade-ecosystem

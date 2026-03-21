@@ -116,7 +116,7 @@ This chapter is expanded to v1-style depth for production-grade learning and imp
 
 ### Cross-Tutorial Connection Map
 
-- [Flowise Tutorial](../flowise-llm-orchestration/)
+- [Flowise Tutorial](../flowise-tutorial/)
 - [LangChain Tutorial](../langchain-tutorial/)
 - [LangGraph Tutorial](../langgraph-tutorial/)
 - [MCP Servers Tutorial](../mcp-servers-tutorial/)
