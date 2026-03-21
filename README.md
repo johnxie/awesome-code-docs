@@ -97,7 +97,7 @@ Quick jump links:
 
 ## ✅ Source Verification Status
 
-All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-02**:
+All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-20**:
 
 - tutorials scanned: **191**
 - tutorials with source repos: **191**
@@ -112,7 +112,7 @@ Verification artifacts:
 
 ---
 
-## 🧬 Taskade Ecosystem Snapshot (Verified 2026-02-24)
+## 🧬 Taskade Ecosystem Snapshot (Verified 2026-03-20)
 
 Live repository snapshot for high-intent Taskade/Genesis/AI/MCP searches.
 

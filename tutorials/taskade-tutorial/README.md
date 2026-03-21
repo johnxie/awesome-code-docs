@@ -60,7 +60,7 @@ flowchart LR
 - integration surfaces including API and MCP-based agent tooling
 - enterprise controls for security, auditability, and organizational scaling
 
-## Imported Help-Center Knowledge Base (verified 2026-02-24)
+## Imported Help-Center Knowledge Base (verified 2026-03-20)
 
 This track is now aligned with the official Help Center pillar model and onboarding guidance:
 
@@ -70,7 +70,7 @@ This track is now aligned with the official Help Center pillar model and onboard
 - [Custom AI Agents: The Intelligence Pillar](https://help.taskade.com/en/articles/8958457-custom-ai-agents-the-intelligence-pillar) -> agent creation, training, tooling, and command modes
 - [Automations: The Execution Pillar](https://help.taskade.com/en/articles/8958467-automations-the-execution-pillar) -> trigger/action/variable automation model and generator modes
 
-## Imported Newsletter Signals (verified 2026-02-24)
+## Imported Newsletter Signals (verified 2026-03-20)
 
 Recent newsletter pages were imported to keep this track aligned with product evolution signals:
 
