@@ -36,47 +36,45 @@ You now have a repeatable integration pattern for client configuration and trans
 
 Next: [Chapter 4: Infrastructure and IaC Workflows](04-infrastructure-and-iac-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/verify_package_name.py`
+### `scripts/verify_tool_names.py`
 
-The `extract_package_from_base64_config` function in [`scripts/verify_package_name.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_package_name.py) handles a key part of this chapter's functionality:
+The `calculate_fully_qualified_name` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def extract_package_from_base64_config(config_b64: str) -> List[str]:
-    """Extract package names from Base64 encoded or URL-encoded JSON config."""
+def calculate_fully_qualified_name(server_name: str, tool_name: str) -> str:
+    """Calculate the fully qualified tool name as used by MCP clients.
+
+    Format: awslabs<server_name>___<tool_name>
+
+    Examples:
+        awslabs + git_repo_research_mcp_server + ___ + search_repos_on_github
+        = awslabsgit_repo_research_mcp_server___search_repos_on_github
+    """
+    return f'awslabs{server_name}___{tool_name}'
+
+
+def find_tool_decorators(file_path: Path) -> List[Tuple[str, int]]:
+    """Find all tool definitions in a Python file and extract tool names.
+
+    Supports all tool registration patterns:
+    - Pattern 1: @mcp.tool(name='tool_name')
+    - Pattern 2: @mcp.tool() (uses function name)
+    - Pattern 3: app.tool('tool_name')(function)
+    - Pattern 4: mcp.tool()(function) (uses function name)
+    - Pattern 5: self.mcp.tool(name='tool_name')(function)
+    - Pattern 6: @<var>.tool(name='tool_name')
+
+    Returns:
+        List of tuples: (tool_name, line_number)
+    """
     try:
-        # First, try to URL decode in case it's URL-encoded
-        try:
-            config_b64 = urllib.parse.unquote(config_b64)
-        except (ValueError, UnicodeDecodeError):
-            pass  # If URL decoding fails, use original string
-
-        # Try to parse as JSON directly first (for URL-encoded JSON)
-        try:
-            config = json.loads(config_b64)
-        except json.JSONDecodeError:
-            # If not JSON, try Base64 decoding
-            config_json = base64.b64decode(config_b64).decode('utf-8')
-            config = json.loads(config_json)
-
-        # Look for package names in the config
-        package_names = []
-
-        # Check command field - handle both formats:
-        # Format 1: {"command": "uvx", "args": ["package@version"]}
-        # Format 2: {"command": "uvx package@version"}
-        if 'command' in config:
-            command = config['command']
-            if command in ['uvx', 'uv']:
-                # Format 1: check args array
-                if 'args' in config and config['args']:
-                    for arg in config['args']:
-                        # Only consider it a package if it has @ and doesn't look like a URL or connection string
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except (FileNotFoundError, UnicodeDecodeError):
 ```
 
 This function is important because it defines how awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads implements the patterns covered in this chapter.
@@ -86,5 +84,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[extract_package_from_base64_config]
+    A[calculate_fully_qualified_name]
 ```

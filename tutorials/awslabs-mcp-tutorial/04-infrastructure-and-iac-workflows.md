@@ -36,47 +36,45 @@ You now understand how to use IaC-focused MCP servers without weakening deployme
 
 Next: [Chapter 5: Data, Knowledge, and Agent Workflows](05-data-knowledge-and-agent-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/verify_package_name.py`
+### `scripts/verify_tool_names.py`
 
-The `find_package_references_in_readme` function in [`scripts/verify_package_name.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_package_name.py) handles a key part of this chapter's functionality:
+The `find_tool_decorators` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def find_package_references_in_readme(
-    readme_path: Path, dependencies: List[str] = None, verbose: bool = False
-) -> List[Tuple[str, int]]:
-    """Find all package name references in the README file with line numbers."""
+def find_tool_decorators(file_path: Path) -> List[Tuple[str, int]]:
+    """Find all tool definitions in a Python file and extract tool names.
+
+    Supports all tool registration patterns:
+    - Pattern 1: @mcp.tool(name='tool_name')
+    - Pattern 2: @mcp.tool() (uses function name)
+    - Pattern 3: app.tool('tool_name')(function)
+    - Pattern 4: mcp.tool()(function) (uses function name)
+    - Pattern 5: self.mcp.tool(name='tool_name')(function)
+    - Pattern 6: @<var>.tool(name='tool_name')
+
+    Returns:
+        List of tuples: (tool_name, line_number)
+    """
     try:
-        with open(readme_path, 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-            content = ''.join(lines)
-    except FileNotFoundError:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+    except (FileNotFoundError, UnicodeDecodeError):
         return []
 
-    # More specific patterns for package references in installation instructions
-    patterns = [
-        # uvx/uv tool run patterns with @version
-        r'uvx\s+([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+)',
-        r'uv\s+tool\s+run\s+--from\s+([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+)',
-        # pip install patterns
-        r'pip\s+install\s+([a-zA-Z0-9._-]+)',
-        # JSON configuration patterns with @version
-        r'"([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+)"',
-        # Package names in JSON config (without version)
-        r'"([a-zA-Z0-9._-]+)"\s*:\s*{[^}]*"command"\s*:\s*"uvx"',
-        # Docker image patterns (only match actual image names, not command args)
-        r'docker\s+run[^"]*"([a-zA-Z0-9._/-]+)"\s*:',
-        # Cursor installation links - handled via Base64 config extraction
-        # r'cursor\.com/en/install-mcp\?name=([a-zA-Z0-9._-]+)',  # Removed: name often contains display names
-        # VS Code installation links (name parameter in URL) - only match package-like names
-        r'vscode\.dev/redirect/mcp/install\?name=([a-zA-Z0-9._-]+)',
-    ]
+    tools = []
 
+    try:
+        tree = ast.parse(content, filename=str(file_path))
+    except SyntaxError:
+        # If we can't parse the file, skip it
+        return []
+
+    for node in ast.walk(tree):
+        # PATTERN 1 & 2 & 6: Decorator patterns
 ```
 
 This function is important because it defines how awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads implements the patterns covered in this chapter.
@@ -86,5 +84,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[find_package_references_in_readme]
+    A[find_tool_decorators]
 ```

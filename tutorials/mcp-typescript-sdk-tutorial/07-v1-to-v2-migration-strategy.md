@@ -40,8 +40,6 @@ You now have a phased migration plan that reduces production breakage risk.
 
 Next: [Chapter 8: Conformance Testing and Contribution Workflows](08-conformance-testing-and-contribution-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`

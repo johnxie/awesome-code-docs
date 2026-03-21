@@ -40,9 +40,78 @@ You now know how to build robust routing logic with graceful degradation paths.
 
 Next: [Chapter 5: CLI Operations: Model, Preset, and Statusline Workflows](05-cli-operations-model-preset-and-statusline-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `docs/sidebars.ts`
+
+The `sidebars` module in [`docs/sidebars.ts`](https://github.com/musistudio/claude-code-router/blob/HEAD/docs/sidebars.ts) handles a key part of this chapter's functionality:
+
+```ts
+import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
+
+const sidebars: SidebarsConfig = {
+  tutorialSidebar: [
+    {
+      type: 'category',
+      label: 'CLI',
+      link: {
+        type: 'generated-index',
+        title: 'Claude Code Router CLI',
+        description: 'Command-line tool usage guide',
+        slug: 'category/cli',
+      },
+      items: [
+        'cli/intro',
+        'cli/installation',
+        'cli/quick-start',
+        {
+          type: 'category',
+          label: 'Commands',
+          link: {
+            type: 'generated-index',
+            title: 'CLI Commands',
+            description: 'Complete command reference',
+            slug: 'category/cli-commands',
+          },
+          items: [
+            'cli/commands/start',
+            'cli/commands/model',
+            'cli/commands/status',
+            'cli/commands/statusline',
+            'cli/commands/preset',
+            'cli/commands/other',
+          ],
+        },
+```
+
+This module is important because it defines how Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code implements the patterns covered in this chapter.
+
+### `tsconfig.base.json`
+
+The `tsconfig.base` module in [`tsconfig.base.json`](https://github.com/musistudio/claude-code-router/blob/HEAD/tsconfig.base.json) handles a key part of this chapter's functionality:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "declaration": true,
+    "typeRoots": ["./node_modules/@types", "./packages/*/node_modules/@types"]
+  }
+}
+
+```
+
+This module is important because it defines how Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code implements the patterns covered in this chapter.
 
 ### `package.json`
 
@@ -88,56 +157,14 @@ The `package` module in [`package.json`](https://github.com/musistudio/claude-co
 
 This module is important because it defines how Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code implements the patterns covered in this chapter.
 
-### `examples/preset-manifest-example.json`
-
-The `preset-manifest-example` module in [`examples/preset-manifest-example.json`](https://github.com/musistudio/claude-code-router/blob/HEAD/examples/preset-manifest-example.json) handles a key part of this chapter's functionality:
-
-```json
-{
-  "name": "multi-provider-example",
-  "version": "1.0.0",
-  "description": "多Provider配置示例 - 支持OpenAI和DeepSeek切换",
-  "author": "CCR Team",
-  "keywords": ["openai", "deepseek", "multi-provider"],
-  "ccrVersion": "2.0.0",
-  "Providers": [
-    {
-      "name": "openai",
-      "api_base_url": "https://api.openai.com/v1",
-      "models": ["gpt-4o", "gpt-4o-mini", "gpt-3.5-turbo"]
-    },
-    {
-      "name": "deepseek",
-      "api_base_url": "https://api.deepseek.com",
-      "models": ["deepseek-v3", "deepseek-chat"]
-    }
-  ],
-  "schema": [
-    {
-      "id": "primaryProvider",
-      "type": "select",
-      "label": "主要Provider",
-      "prompt": "选择您主要使用的LLM提供商",
-      "options": {
-        "type": "providers"
-      },
-      "required": true,
-      "defaultValue": "openai"
-    },
-    {
-      "id": "apiKey",
-      "type": "password",
-      "label": "API Key",
-```
-
-This module is important because it defines how Claude Code Router Tutorial: Multi-Provider Routing and Control Plane for Claude Code implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[package]
-    B[preset-manifest-example]
+    A[sidebars]
+    B[tsconfig.base]
+    C[package]
     A --> B
+    B --> C
 ```

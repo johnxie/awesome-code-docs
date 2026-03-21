@@ -72,8 +72,6 @@ You now understand how model role separation drives both quality and operational
 
 Next: [Chapter 4: Answer Engine and Context Indexing](04-answer-engine-and-context-indexing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `python/tabby/trainer.py`

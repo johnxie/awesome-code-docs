@@ -32,8 +32,6 @@ You now have an advanced concept map for transport and context-design decisions.
 
 Next: [Chapter 6: Tooling Docs: Inspector and Debugging](06-tooling-docs-inspector-and-debugging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

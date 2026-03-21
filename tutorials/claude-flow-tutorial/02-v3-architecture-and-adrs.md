@@ -36,8 +36,6 @@ You now have a grounded model of how V3 is structured and how ADRs shape impleme
 
 Next: [Chapter 3: Swarm Coordination and Consensus Patterns](03-swarm-coordination-and-consensus-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/index.ts`

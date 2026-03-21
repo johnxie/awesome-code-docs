@@ -38,8 +38,6 @@ You now have a cross-client setup model for consistent Firecrawl MCP usage.
 
 Next: [Chapter 5: Configuration, Retries, and Credit Monitoring](05-configuration-retries-and-credit-monitoring.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

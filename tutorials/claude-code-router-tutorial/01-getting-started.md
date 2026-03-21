@@ -46,8 +46,6 @@ You now have a working CCR baseline for deeper routing configuration.
 
 Next: [Chapter 2: Architecture and Package Topology](02-architecture-and-package-topology.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `custom-router.example.js`

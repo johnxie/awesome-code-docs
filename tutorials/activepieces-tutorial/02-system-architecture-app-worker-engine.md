@@ -43,53 +43,7 @@ You now understand the runtime surfaces that matter for production scaling decis
 
 Next: [Chapter 3: Flow Design, Versioning, and Debugging](03-flow-design-versioning-and-debugging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `.eslintrc.json`
-
-The `.eslintrc` module in [`.eslintrc.json`](https://github.com/activepieces/activepieces/blob/HEAD/.eslintrc.json) handles a key part of this chapter's functionality:
-
-```json
-{
-  "root": true,
-  "ignorePatterns": ["**/*", "deploy/**/*"],
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "rules": {
-        "no-restricted-imports": [
-          "error",
-          {
-            "patterns": ["lodash", "lodash/*"]
-          }
-        ]
-      }
-    },
-    {
-      "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@typescript-eslint/recommended"],
-      "rules": {
-        "@typescript-eslint/no-extra-semi": "error",
-        "@typescript-eslint/no-unused-vars": "warn",
-        "@typescript-eslint/no-explicit-any": "warn",
-        "no-extra-semi": "off"
-      }
-    },
-    {
-      "files": ["*.js", "*.jsx"],
-      "rules": {
-        "@typescript-eslint/no-extra-semi": "error",
-        "no-extra-semi": "off"
-      }
-    },
-    {
-      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-      "env": {
-```
-
-This module is important because it defines how Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations implements the patterns covered in this chapter.
 
 ### `package.json`
 
@@ -135,39 +89,90 @@ The `package` module in [`package.json`](https://github.com/activepieces/activep
 
 This module is important because it defines how Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations implements the patterns covered in this chapter.
 
-### `.typos.toml`
+### `.eslintrc.json`
 
-The `.typos` module in [`.typos.toml`](https://github.com/activepieces/activepieces/blob/HEAD/.typos.toml) handles a key part of this chapter's functionality:
+The `.eslintrc` module in [`.eslintrc.json`](https://github.com/activepieces/activepieces/blob/HEAD/.eslintrc.json) handles a key part of this chapter's functionality:
 
-```toml
-[files]
-extend-exclude = [
-    ".git/",
-    "**/database/**",
-    "packages/ui/core/src/locale/",
-    # French
-    "packages/pieces/community/wedof/src/",
-]
-ignore-hidden = false
+```json
+{
+  "root": true,
+  "ignorePatterns": ["**/*", "deploy/**/*"],
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": ["lodash", "lodash/*"]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "@typescript-eslint/no-unused-vars": "warn",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "no-extra-semi": "off"
+      }
+    },
+    {
+      "files": ["*.js", "*.jsx"],
+      "rules": {
+        "@typescript-eslint/no-extra-semi": "error",
+        "no-extra-semi": "off"
+      }
+    },
+    {
+      "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
+      "env": {
+```
 
-[default]
-extend-ignore-re = [
-    "[0-9A-Za-z]{34}",
-    "name: 'referal'",
-    "getRepository\\('referal'\\)",
-    "label: 'FO Language', value: 'fo'",
-    "649c83111c9cbe6ba1d4cabe",
-    "hYy9pRFVxpDsO1FB05SunFWUe9JZY",
-    "lod6JEdKyPlvrnErdnrGa",
-]
+This module is important because it defines how Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations implements the patterns covered in this chapter.
 
-[default.extend-identifiers]
-"crazyTweek" = "crazyTweek"
-"optin_ip" = "optin_ip"
+### `docker-compose.yml`
 
-# Typos
-"Github" = "GitHub"
+The `docker-compose` module in [`docker-compose.yml`](https://github.com/activepieces/activepieces/blob/HEAD/docker-compose.yml) handles a key part of this chapter's functionality:
 
+```yml
+services:
+  app:
+    image: ghcr.io/activepieces/activepieces:0.79.0
+    container_name: activepieces-app
+    restart: unless-stopped
+    ports:
+      - '8080:80'
+    depends_on:
+      - postgres
+      - redis
+    env_file: .env
+    environment:
+      - AP_CONTAINER_TYPE=APP
+    volumes:
+      - ./cache:/usr/src/app/cache
+    networks:
+      - activepieces
+  worker:
+    image: ghcr.io/activepieces/activepieces:0.79.0
+    restart: unless-stopped
+    depends_on:
+      - app
+    env_file: .env
+    environment:
+      - AP_CONTAINER_TYPE=WORKER
+    deploy:
+      replicas: 5
+    volumes:
+      - ./cache:/usr/src/app/cache
+    networks:
+      - activepieces
+  postgres:
+    image: 'postgres:14.4'
+    container_name: postgres
+    restart: unless-stopped
 ```
 
 This module is important because it defines how Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations implements the patterns covered in this chapter.
@@ -177,9 +182,9 @@ This module is important because it defines how Activepieces Tutorial: Open-Sour
 
 ```mermaid
 flowchart TD
-    A[.eslintrc]
-    B[package]
-    C[.typos]
+    A[package]
+    B[.eslintrc]
+    C[docker-compose]
     A --> B
     B --> C
 ```

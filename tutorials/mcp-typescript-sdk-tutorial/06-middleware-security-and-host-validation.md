@@ -41,8 +41,6 @@ You now have concrete controls for hardening local and remote server exposure.
 
 Next: [Chapter 7: v1 to v2 Migration Strategy](07-v1-to-v2-migration-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`

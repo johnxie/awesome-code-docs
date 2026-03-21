@@ -38,8 +38,6 @@ You now have a repeatable verification framework for `use-mcp` integrations.
 
 Next: [Chapter 8: Maintenance Risk, Migration, and Production Guidance](08-maintenance-risk-migration-and-production-guidance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `examples/chat-ui/scripts/update-models.ts`

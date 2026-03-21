@@ -38,8 +38,6 @@ This chapter consolidates operational controls for security posture, performance
 
 You now have an end-to-end operational framework for adopting Claude Flow with stronger reliability and governance discipline.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/swarm.config.ts`

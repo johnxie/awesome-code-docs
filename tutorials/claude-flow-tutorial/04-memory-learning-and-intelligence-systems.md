@@ -36,8 +36,6 @@ You now have a practical framework for adopting memory and learning features inc
 
 Next: [Chapter 5: MCP Server, CLI, and Runtime Operations](05-mcp-server-cli-and-runtime-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/swarm.config.ts`

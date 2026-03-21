@@ -54,37 +54,48 @@ You now have a practical operations frame for safely evolving Tabby over time.
 
 Next: [Chapter 8: Contribution, Roadmap, and Team Adoption](08-contribution-roadmap-and-team-adoption.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `.changie.yaml`
+### `Cargo.toml`
 
-The `.changie` module in [`.changie.yaml`](https://github.com/TabbyML/tabby/blob/HEAD/.changie.yaml) handles a key part of this chapter's functionality:
+The `Cargo` module in [`Cargo.toml`](https://github.com/TabbyML/tabby/blob/HEAD/Cargo.toml) handles a key part of this chapter's functionality:
 
-```yaml
-changesDir: .changes
-unreleasedDir: unreleased
-headerPath: header.tpl.md
-changelogPath: CHANGELOG.md
-versionExt: md
-versionFormat: '## {{.Version}} ({{.Time.Format "2006-01-02"}})'
-kindFormat: '### {{.Kind}}'
-changeFormat: '* {{.Body}}'
-kinds:
-- label: Notice
-  auto: minor
-- label: Features
-  auto: minor
-- label: Fixed and Improvements
-  auto: patch
-newlines:
-  afterChangelogHeader: 1
-  afterKind: 1
-  afterChangelogVersion: 1
-  beforeKind: 1
-  endOfVersion: 1
-envPrefix: CHANGIE_
+```toml
+[workspace]
+resolver = "1"
+members = [
+    "crates/tabby",
+    "crates/tabby-common",
+    "crates/tabby-download",
+    "crates/tabby-git",
+    "crates/tabby-inference",
+    "crates/tabby-index",
+    "crates/tabby-crawler",
+
+    "crates/aim-downloader",
+    "crates/http-api-bindings",
+    "crates/llama-cpp-server",
+    "crates/ollama-api-bindings",
+    "crates/tabby-index-cli",
+    "crates/hash-ids",
+    "crates/sqlx-migrate-validate",
+
+    "ee/tabby-webserver",
+    "ee/tabby-db",
+    "ee/tabby-db-macros",
+    "ee/tabby-schema",
+]
+
+[workspace.package]
+version = "0.33.0-dev.0"
+edition = "2021"
+authors = ["TabbyML Team"]
+homepage = "https://github.com/TabbyML/tabby"
+
+[workspace.dependencies]
+cached = "0.49.3"
+lazy_static = "1.4.0"
+serde = { version = "1.0", features = ["derive"] }
 ```
 
 This module is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
@@ -94,5 +105,5 @@ This module is important because it defines how Tabby Tutorial: Self-Hosted AI C
 
 ```mermaid
 flowchart TD
-    A[.changie]
+    A[Cargo]
 ```

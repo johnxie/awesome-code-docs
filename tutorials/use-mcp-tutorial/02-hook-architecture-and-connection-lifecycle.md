@@ -40,8 +40,6 @@ You now have a lifecycle model for robust hook-driven MCP client UX.
 
 Next: [Chapter 3: Authentication, OAuth Callback, and Storage](03-authentication-oauth-callback-and-storage.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/auth/browser-provider.ts`

@@ -38,8 +38,6 @@ You now have a reproducible baseline for generating MCP Python server projects.
 
 Next: [Chapter 2: Generated Project Structure and Conventions](02-generated-project-structure-and-conventions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

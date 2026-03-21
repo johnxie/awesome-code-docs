@@ -39,8 +39,6 @@ You now have a stronger strategy for client transport and auth compatibility.
 
 Next: [Chapter 4: Tool, Resource, Prompt Design and Completions](04-tool-resource-prompt-design-and-completions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`

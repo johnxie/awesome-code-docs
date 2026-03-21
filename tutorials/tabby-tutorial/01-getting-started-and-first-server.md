@@ -73,55 +73,38 @@ You now have a working Tabby deployment with at least one connected editor clien
 
 Next: [Chapter 2: Architecture and Runtime Components](02-architecture-and-runtime-components.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `website/docusaurus.config.js`
+### `rules/use-schema-result.yml`
 
-The `tailwind` function in [`website/docusaurus.config.js`](https://github.com/TabbyML/tabby/blob/HEAD/website/docusaurus.config.js) handles a key part of this chapter's functionality:
+The `severity` interface in [`rules/use-schema-result.yml`](https://github.com/TabbyML/tabby/blob/HEAD/rules/use-schema-result.yml) handles a key part of this chapter's functionality:
 
-```js
-
-  plugins: [
-    async function tailwind(context, options) {
-      return {
-        name: "docusaurus-tailwindcss",
-        configurePostCss(postcssOptions) {
-          // Appends TailwindCSS and AutoPrefixer.
-          postcssOptions.plugins.push(require("tailwindcss"));
-          postcssOptions.plugins.push(require("autoprefixer"));
-          return postcssOptions;
-        },
-      };
-    },
-    [
-      "posthog-docusaurus",
-      {
-        apiKey: "phc_aBzNGHzlOy2C8n1BBDtH7d4qQsIw9d8T0unVlnKfdxB",
-        appUrl: "https://app.posthog.com",
-        enableInDevelopment: false,
-      },
-    ],
-    [
-      '@docusaurus/plugin-client-redirects',
-      {
-        redirects: [
-          {
-            to: '/blog/2024/02/05/create-tabby-extension-with-language-server-protocol',
-            from: '/blog/running-tabby-as-a-language-server'
-          },
-          {
-            to: '/blog/2023/09/05/deploy-tabby-to-huggingface-space',
-            from: '/blog/deploy-tabby-to-huggingface-space.md',
+```yml
+id: use-schema-result
+message: Use schema::Result as API interface
+severity: error
+language: rust
+files:
+- ./ee/tabby-schema/src/**
+ignores:
+- ./ee/tabby-schema/src/lib.rs
+- ./ee/tabby-schema/src/dao.rs
+rule:
+  any:
+    - pattern: anyhow
+      not:
+        inside:
+          kind: enum_variant
+          stopBy: end
+    - pattern: FieldResult
 ```
 
-This function is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
+This interface is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[tailwind]
+    A[severity]
 ```

@@ -42,8 +42,6 @@ You now have a working Firecrawl MCP baseline.
 
 Next: [Chapter 2: Architecture, Transports, and Versioning](02-architecture-transports-and-versioning.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/types/fastmcp.d.ts`

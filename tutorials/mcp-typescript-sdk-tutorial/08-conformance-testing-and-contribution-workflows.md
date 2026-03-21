@@ -39,8 +39,6 @@ You now have a production-aligned approach for maintaining and extending MCP Typ
 
 Next: Continue with [MCP Use Tutorial](../mcp-use-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`

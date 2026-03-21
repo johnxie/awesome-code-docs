@@ -36,8 +36,6 @@ You can now extend Claude Flow with better modularity and lower operational risk
 
 Next: [Chapter 7: Testing, Migration, and Upgrade Strategy](07-testing-migration-and-upgrade-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/swarm.config.ts`

@@ -41,8 +41,6 @@ You now have a long-term operating model for scaffold-derived Python MCP service
 
 Return to the [Create Python Server Tutorial index](README.md).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

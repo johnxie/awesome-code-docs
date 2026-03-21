@@ -39,8 +39,6 @@ You now have an end-to-end model for adopting and operating Firecrawl MCP Server
 
 Next: combine this with [MCP Chrome](../mcp-chrome-tutorial/) and [MCP Inspector](../mcp-inspector-tutorial/) for full browsing-data toolchains.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

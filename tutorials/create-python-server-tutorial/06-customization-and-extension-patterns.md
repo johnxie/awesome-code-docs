@@ -38,8 +38,6 @@ You now have an extension model for safely evolving generated MCP servers.
 
 Next: [Chapter 7: Quality, Security, and Contribution Workflows](07-quality-security-and-contribution-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/create_mcp_server/__init__.py`

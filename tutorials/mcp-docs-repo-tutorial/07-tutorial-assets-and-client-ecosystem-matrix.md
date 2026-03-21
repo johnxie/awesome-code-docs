@@ -32,8 +32,6 @@ You now have a framework for using archived ecosystem docs in planning and valid
 
 Next: [Chapter 8: Contribution Governance and Documentation Operations](08-contribution-governance-and-documentation-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

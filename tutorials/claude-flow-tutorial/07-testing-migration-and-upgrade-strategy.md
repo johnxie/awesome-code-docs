@@ -36,8 +36,6 @@ You now have a testing and migration strategy that reduces upgrade surprises.
 
 Next: [Chapter 8: Production Governance, Security, and Performance](08-production-governance-security-and-performance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `v3/swarm.config.ts`

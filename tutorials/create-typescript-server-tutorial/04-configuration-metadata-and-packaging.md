@@ -31,53 +31,7 @@ You now have a packaging and metadata strategy for generated MCP TypeScript serv
 
 Next: [Chapter 5: Development Workflows: Build, Watch, and Link](05-development-workflows-build-watch-and-link.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `package.json`
-
-The `package` module in [`package.json`](https://github.com/modelcontextprotocol/create-typescript-server/blob/HEAD/package.json) handles a key part of this chapter's functionality:
-
-```json
-{
-  "name": "@modelcontextprotocol/create-server",
-  "version": "0.3.1",
-  "description": "CLI tool to create new MCP servers",
-  "license": "MIT",
-  "author": "Anthropic, PBC (https://anthropic.com)",
-  "homepage": "https://modelcontextprotocol.io",
-  "bugs": "https://github.com/modelcontextprotocol/create-typescript-server/issues",
-  "type": "module",
-  "bin": {
-    "create-mcp-server": "build/index.js"
-  },
-  "files": [
-    "build",
-    "template"
-  ],
-  "scripts": {
-    "build": "tsc && shx chmod +x build/index.js",
-    "prepare": "npm run build",
-    "watch": "tsc --watch"
-  },
-  "dependencies": {
-    "@modelcontextprotocol/sdk": "0.6.0",
-    "chalk": "^5.3.0",
-    "commander": "^12.0.0",
-    "ejs": "^3.1.9",
-    "inquirer": "^9.2.15",
-    "ora": "^8.0.1"
-  },
-  "devDependencies": {
-    "@types/ejs": "^3.1.5",
-    "@types/inquirer": "^9.0.7",
-    "@types/node": "^20.11.24",
-    "shx": "^0.3.4",
-    "typescript": "^5.3.3"
-```
-
-This module is important because it defines how Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates implements the patterns covered in this chapter.
 
 ### `src/index.ts`
 
@@ -123,9 +77,9 @@ async function updateClaudeConfig(name: string, directory: string) {
 
 This module is important because it defines how Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates implements the patterns covered in this chapter.
 
-### `template/tsconfig.json`
+### `tsconfig.json`
 
-The `tsconfig` module in [`template/tsconfig.json`](https://github.com/modelcontextprotocol/create-typescript-server/blob/HEAD/template/tsconfig.json) handles a key part of this chapter's functionality:
+The `tsconfig` module in [`tsconfig.json`](https://github.com/modelcontextprotocol/create-typescript-server/blob/HEAD/tsconfig.json) handles a key part of this chapter's functionality:
 
 ```json
 {
@@ -138,12 +92,57 @@ The `tsconfig` module in [`template/tsconfig.json`](https://github.com/modelcont
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
 
+```
+
+This module is important because it defines how Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates implements the patterns covered in this chapter.
+
+### `package.json`
+
+The `package` module in [`package.json`](https://github.com/modelcontextprotocol/create-typescript-server/blob/HEAD/package.json) handles a key part of this chapter's functionality:
+
+```json
+{
+  "name": "@modelcontextprotocol/create-server",
+  "version": "0.3.1",
+  "description": "CLI tool to create new MCP servers",
+  "license": "MIT",
+  "author": "Anthropic, PBC (https://anthropic.com)",
+  "homepage": "https://modelcontextprotocol.io",
+  "bugs": "https://github.com/modelcontextprotocol/create-typescript-server/issues",
+  "type": "module",
+  "bin": {
+    "create-mcp-server": "build/index.js"
+  },
+  "files": [
+    "build",
+    "template"
+  ],
+  "scripts": {
+    "build": "tsc && shx chmod +x build/index.js",
+    "prepare": "npm run build",
+    "watch": "tsc --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "0.6.0",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "ejs": "^3.1.9",
+    "inquirer": "^9.2.15",
+    "ora": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.11.24",
+    "shx": "^0.3.4",
+    "typescript": "^5.3.3"
 ```
 
 This module is important because it defines how Create TypeScript Server Tutorial: Scaffold MCP Servers with TypeScript Templates implements the patterns covered in this chapter.
@@ -153,9 +152,9 @@ This module is important because it defines how Create TypeScript Server Tutoria
 
 ```mermaid
 flowchart TD
-    A[package]
-    B[index]
-    C[tsconfig]
+    A[index]
+    B[tsconfig]
+    C[package]
     A --> B
     B --> C
 ```

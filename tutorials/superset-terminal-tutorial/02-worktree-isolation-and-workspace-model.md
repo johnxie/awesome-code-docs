@@ -30,8 +30,6 @@ You now understand how Superset prevents multi-agent interference through worksp
 
 Next: [Chapter 3: Workspace Orchestration Lifecycle](03-workspace-orchestration-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `apps/desktop/runtime-dependencies.ts`

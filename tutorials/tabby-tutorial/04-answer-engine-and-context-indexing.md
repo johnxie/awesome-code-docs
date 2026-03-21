@@ -61,8 +61,6 @@ You now have a practical model for operating Tabby as a context-grounded assista
 
 Next: [Chapter 5: Editor Agents and Client Integrations](05-editor-agents-and-client-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `python/tabby/trainer.py`

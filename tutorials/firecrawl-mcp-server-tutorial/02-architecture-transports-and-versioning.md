@@ -43,8 +43,6 @@ You now understand the transport and version boundaries that shape deployment ar
 
 Next: [Chapter 3: Tool Selection: Scrape, Map, Crawl, Search, Extract](03-tool-selection-scrape-map-crawl-search-extract.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/types/fastmcp.d.ts`

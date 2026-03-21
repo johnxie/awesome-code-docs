@@ -31,8 +31,6 @@ You now have a clear scope boundary for using archived docs safely.
 
 Next: [Chapter 2: Repository Layout and Canonical Migration Path](02-repository-layout-and-canonical-migration-path.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

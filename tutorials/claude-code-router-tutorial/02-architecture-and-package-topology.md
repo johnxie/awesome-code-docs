@@ -40,8 +40,6 @@ You now have a clear component model for reasoning about CCR behavior.
 
 Next: [Chapter 3: Provider Configuration and Transformer Strategy](03-provider-configuration-and-transformer-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs/src/docusaurus.d.ts`

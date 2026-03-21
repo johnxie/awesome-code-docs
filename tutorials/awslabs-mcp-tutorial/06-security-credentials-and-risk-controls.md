@@ -36,47 +36,45 @@ You now have a practical risk-control framework for production MCP usage on AWS.
 
 Next: [Chapter 7: Development, Testing, and Contribution Workflow](07-development-testing-and-contribution-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/verify_package_name.py`
+### `scripts/verify_tool_names.py`
 
-The `main` function in [`scripts/verify_package_name.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_package_name.py) handles a key part of this chapter's functionality:
+The `validate_tool_name` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main():
-    """Main function to verify package name consistency."""
-    parser = argparse.ArgumentParser(
-        description='Verify that README files correctly reference package names from pyproject.toml'
-    )
-    parser.add_argument(
-        'package_dir', help='Path to the package directory (e.g., src/amazon-neptune-mcp-server)'
-    )
-    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output')
+def validate_tool_name(tool_name: str) -> Tuple[List[str], List[str]]:
+    """Validate a tool name against naming conventions.
 
-    args = parser.parse_args()
+    Returns:
+        Tuple of (errors, warnings)
+        - errors: Critical validation failures (will fail the build)
+        - warnings: Style recommendations (informational only)
+    """
+    errors = []
+    warnings = []
 
-    package_dir = Path(args.package_dir)
-    pyproject_path = package_dir / 'pyproject.toml'
-    readme_path = package_dir / 'README.md'
+    # Check if name is empty
+    if not tool_name:
+        errors.append('Tool name cannot be empty')
+        return errors, warnings
 
-    if not package_dir.exists():
-        print(f"Error: Package directory '{package_dir}' does not exist", file=sys.stderr)
-        sys.exit(1)
+    # Check length (MCP SEP-986: tool names should be 1-64 characters)
+    if len(tool_name) > MAX_TOOL_NAME_LENGTH:
+        errors.append(
+            f"Tool name '{tool_name}' ({len(tool_name)} chars) exceeds the {MAX_TOOL_NAME_LENGTH} "
+            f'character limit specified in MCP SEP-986. Please shorten the tool name.'
+        )
 
-    if not pyproject_path.exists():
-        print(f"Error: pyproject.toml not found in '{package_dir}'", file=sys.stderr)
-        sys.exit(1)
-
-    if not readme_path.exists():
-        print(f"Warning: README.md not found in '{package_dir}'", file=sys.stderr)
-        sys.exit(0)
-
-    try:
-        # Extract package name from pyproject.toml
+    # Check if name matches the valid pattern
+    if not VALID_TOOL_NAME_PATTERN.match(tool_name):
+        if tool_name[0].isdigit():
+            errors.append(f"Tool name '{tool_name}' cannot start with a number")
+        elif not tool_name[0].isalpha():
+            errors.append(f"Tool name '{tool_name}' must start with a letter")
+        else:
 ```
 
 This function is important because it defines how awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads implements the patterns covered in this chapter.
@@ -86,5 +84,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[main]
+    A[validate_tool_name]
 ```

@@ -38,8 +38,6 @@ You now have a reliable baseline for generating TypeScript MCP servers.
 
 Next: [Chapter 2: Generated Structure and Build Pipeline](02-generated-structure-and-build-pipeline.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/index.ts`

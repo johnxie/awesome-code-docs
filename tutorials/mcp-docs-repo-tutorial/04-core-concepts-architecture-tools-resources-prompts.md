@@ -33,8 +33,6 @@ You now have a concept-level baseline for MCP system reasoning.
 
 Next: [Chapter 5: Advanced Concepts: Transports, Sampling, and Roots](05-advanced-concepts-transports-sampling-and-roots.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs.json`

@@ -52,8 +52,6 @@ You now have a stable package and runtime baseline for SDK work.
 
 Next: [Chapter 2: Server Transports and Deployment Patterns](02-server-transports-and-deployment-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/cli.ts`

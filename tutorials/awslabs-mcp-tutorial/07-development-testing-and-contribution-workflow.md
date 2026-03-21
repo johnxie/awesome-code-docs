@@ -36,47 +36,45 @@ You now have a reliable workflow for shipping server changes in the `awslabs/mcp
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/verify_tool_names.py`
 
-The `extract_package_name` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
+The `validate_tool_names` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def extract_package_name(pyproject_path: Path) -> str:
-    """Extract the package name from pyproject.toml file."""
-    try:
-        with open(pyproject_path, 'rb') as f:
-            data = tomllib.load(f)
-        return data['project']['name']
-    except (FileNotFoundError, KeyError) as e:
-        raise ValueError(f'Failed to extract package name from {pyproject_path}: {e}')
-    except Exception as e:
-        if 'TOML' in str(type(e).__name__):
-            raise ValueError(f'Failed to parse TOML file {pyproject_path}: {e}')
-        else:
-            raise ValueError(f'Failed to extract package name from {pyproject_path}: {e}')
+def validate_tool_names(
+    package_name: str, tools: List[Tuple[str, Path, int]], verbose: bool = False
+) -> Tuple[bool, List[str], List[str]]:
+    """Validate all tool names in a package.
 
-
-def convert_package_name_to_server_format(package_name: str) -> str:
-    """Convert package name to the format used in fully qualified tool names.
-
-    Examples:
-        awslabs.git-repo-research-mcp-server -> git_repo_research_mcp_server
-        awslabs.nova-canvas-mcp-server -> nova_canvas_mcp_server
+    Returns:
+        Tuple of (is_valid, list_of_errors, list_of_warnings)
+        - is_valid: True if no errors (warnings don't fail validation)
+        - list_of_errors: Critical issues that fail the build
+        - list_of_warnings: Recommendations that don't fail the build
     """
-    # Remove 'awslabs.' prefix if present
-    if package_name.startswith('awslabs.'):
-        package_name = package_name[8:]
+    errors = []
+    warnings = []
 
-    # Replace hyphens with underscores
-    return package_name.replace('-', '_')
+    for tool_name, file_path, line_number in tools:
+        # Validate tool name (length, characters, conventions)
+        naming_errors, naming_warnings = validate_tool_name(tool_name)
+        for error in naming_errors:
+            errors.append(f'{file_path}:{line_number} - {error}')
+        for warning in naming_warnings:
+            warnings.append(f'{file_path}:{line_number} - {warning}')
 
+        if verbose:
+            status = '✓' if not naming_errors else '✗'
+            style_note = ''
+            if naming_warnings:
+                style_note = ' (non-snake_case)'
+            print(f'  {status} {tool_name} ({len(tool_name)} chars){style_note}')
 
+    return len(errors) == 0, errors, warnings
 ```
 
 This function is important because it defines how awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads implements the patterns covered in this chapter.
@@ -86,5 +84,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[extract_package_name]
+    A[validate_tool_names]
 ```

@@ -38,46 +38,44 @@ This chapter closes with production operating patterns for long-term reliability
 
 You now have an end-to-end model for operating AWS MCP servers with stronger governance and maintainability.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/verify_tool_names.py`
 
-The `convert_package_name_to_server_format` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def convert_package_name_to_server_format(package_name: str) -> str:
-    """Convert package name to the format used in fully qualified tool names.
+def main():
+    """Main function to verify tool name conventions."""
+    parser = argparse.ArgumentParser(
+        description='Verify that MCP tool names follow naming conventions and length limits'
+    )
+    parser.add_argument(
+        'package_dir',
+        help='Path to the package directory (e.g., src/git-repo-research-mcp-server)',
+    )
+    parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output')
 
-    Examples:
-        awslabs.git-repo-research-mcp-server -> git_repo_research_mcp_server
-        awslabs.nova-canvas-mcp-server -> nova_canvas_mcp_server
-    """
-    # Remove 'awslabs.' prefix if present
-    if package_name.startswith('awslabs.'):
-        package_name = package_name[8:]
+    args = parser.parse_args()
 
-    # Replace hyphens with underscores
-    return package_name.replace('-', '_')
+    package_dir = Path(args.package_dir)
+    pyproject_path = package_dir / 'pyproject.toml'
 
+    if not package_dir.exists():
+        print(f"Error: Package directory '{package_dir}' does not exist", file=sys.stderr)
+        sys.exit(1)
 
-def calculate_fully_qualified_name(server_name: str, tool_name: str) -> str:
-    """Calculate the fully qualified tool name as used by MCP clients.
+    if not pyproject_path.exists():
+        print(f"Error: pyproject.toml not found in '{package_dir}'", file=sys.stderr)
+        sys.exit(1)
 
-    Format: awslabs<server_name>___<tool_name>
-
-    Examples:
-        awslabs + git_repo_research_mcp_server + ___ + search_repos_on_github
-        = awslabsgit_repo_research_mcp_server___search_repos_on_github
-    """
-    return f'awslabs{server_name}___{tool_name}'
-
-
-def find_tool_decorators(file_path: Path) -> List[Tuple[str, int]]:
-    """Find all tool definitions in a Python file and extract tool names.
+    try:
+        # Extract package name from pyproject.toml
+        package_name = extract_package_name(pyproject_path)
+        if args.verbose:
+            print(f'Package name from pyproject.toml: {package_name}')
 
 ```
 
@@ -88,5 +86,5 @@ This function is important because it defines how awslabs/mcp Tutorial: Operatin
 
 ```mermaid
 flowchart TD
-    A[convert_package_name_to_server_format]
+    A[main]
 ```
