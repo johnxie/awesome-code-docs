@@ -3,10 +3,29 @@
     "docs_only": 0,
     "index_only": 0,
     "mixed": 0,
-    "root_only": 191
+    "root_only": 195
   },
-  "tutorial_count": 191,
+  "tutorial_count": 195,
   "tutorials": [
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "a2a-protocol-tutorial",
+      "path": "tutorials/a2a-protocol-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
     {
       "chapter_numbers": [
         "01",
@@ -41,6 +60,25 @@
       "has_index": true,
       "name": "adk-python-tutorial",
       "path": "tutorials/adk-python-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "affine-tutorial",
+      "path": "tutorials/affine-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8
@@ -2340,6 +2378,25 @@
       ],
       "docs_chapter_count": 0,
       "has_index": true,
+      "name": "metagpt-tutorial",
+      "path": "tutorials/metagpt-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
       "name": "mini-swe-agent-tutorial",
       "path": "tutorials/mini-swe-agent-tutorial",
       "structure": "root_only",
@@ -2856,6 +2913,25 @@
       "has_index": true,
       "name": "plandex-tutorial",
       "path": "tutorials/plandex-tutorial",
+      "structure": "root_only",
+      "top_level_chapter_count": 8,
+      "total_numbered_chapter_count": 8
+    },
+    {
+      "chapter_numbers": [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08"
+      ],
+      "docs_chapter_count": 0,
+      "has_index": true,
+      "name": "plane-tutorial",
+      "path": "tutorials/plane-tutorial",
       "structure": "root_only",
       "top_level_chapter_count": 8,
       "total_numbered_chapter_count": 8

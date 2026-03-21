@@ -2,15 +2,19 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **191**
+- Total tutorials: **195**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
 
+- [A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/a2a-protocol-tutorial/README.md)
+  - Learn how agents discover, communicate, and delegate tasks to each other using the A2A protocol — the open standard (now Linux Foundation) for agent-to-agent interoperability.
 - [Activepieces Tutorial: Open-Source Automation, Pieces, and AI-Ready Workflow Operations](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md)
   - Learn how to use activepieces/activepieces to build, run, and govern production automation workflows with open-source extensibility, piece development, API control, and self-hosted operations.
 - [ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/adk-python-tutorial/README.md)
   - Learn how to use google/adk-python to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.
+- [AFFiNE Tutorial: Open-Source AI Workspace with Docs, Whiteboards, and Databases](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/affine-tutorial/README.md)
+  - Learn how to use toeverything/AFFiNE to build, extend, and self-host a modern knowledge workspace combining documents, whiteboards, and databases — powered by BlockSuite, CRDT-based collaboration, and integrated AI copilot features.
 - [AG2 Tutorial: Next-Generation Multi-Agent Framework](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/ag2-tutorial/README.md)
   - Build collaborative AI agent systems with AG2, the community-driven successor to AutoGen.
 - [AgentGPT Tutorial: Building Autonomous AI Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/agentgpt-tutorial/README.md)
@@ -284,6 +288,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - A deep technical walkthrough of MeiliSearch covering Lightning Fast Search Engine.
 - [Mem0 Tutorial: Building Production-Ready AI Agents with Scalable Long-Term Memory](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mem0-tutorial/README.md)
   - A deep technical walkthrough of Mem0 covering Building Production-Ready AI Agents with Scalable Long-Term Memory.
+- [MetaGPT Tutorial: Multi-Agent Software Development with Role-Based Collaboration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/metagpt-tutorial/README.md)
+  - In one sentence: Give MetaGPT a product idea, and a virtual software company of AI agents designs, architects, codes, and tests it for you.
 - [Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/README.md)
   - Learn how to use SWE-agent/mini-swe-agent to run compact, high-performing software-engineering agent workflows with minimal scaffolding and strong reproducibility.
 - [Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mistral-vibe-tutorial/README.md)
@@ -351,6 +357,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - AI Photo Management Revolution: Enhanced facial recognition, LLM integrations, and advanced organization features mark PhotoPrism's evolution.
 - [Plandex Tutorial: Large-Task AI Coding Agent Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plandex-tutorial/README.md)
   - Learn how to use plandex-ai/plandex for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.
+- [Plane Tutorial: AI-Native Project Management](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plane-tutorial/README.md)
+  - Open-source AI-native project management that rivals Jira and Linear — with issues, cycles, modules, and wiki built in.
 - [Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/planning-with-files-tutorial/README.md)
   - Learn how to use OthmanAdi/planning-with-files to run Manus-style file-based planning workflows across Claude Code and other AI coding environments.
 - [Playwright MCP Tutorial: Browser Automation for Coding Agents Through MCP](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/playwright-mcp-tutorial/README.md)

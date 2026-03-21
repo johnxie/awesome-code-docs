@@ -167,6 +167,10 @@
 - [Vibe Kanban](../tutorials/vibe-kanban-tutorial/)
 - [Whisper Cpp](../tutorials/whisper-cpp-tutorial/)
 - [Wshobson Agents](../tutorials/wshobson-agents-tutorial/)
+- [AFFiNE](../tutorials/affine-tutorial/)
+- [Plane](../tutorials/plane-tutorial/)
+- [MetaGPT](../tutorials/metagpt-tutorial/)
+- [A2A Protocol](../tutorials/a2a-protocol-tutorial/)
 
 ## Suggest Additions
 

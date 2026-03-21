@@ -1,7 +1,40 @@
 {
   "project": "awesome-code-docs",
-  "tutorial_count": 191,
+  "tutorial_count": 195,
   "tutorials": [
+    {
+      "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/a2a-protocol-tutorial/README.md",
+      "index_path": "tutorials/a2a-protocol-tutorial/README.md",
+      "intent_signals": [
+        "agentic-coding"
+      ],
+      "keywords": [
+        "a2a",
+        "protocol",
+        "building",
+        "interoperable",
+        "agent",
+        "google",
+        "standard",
+        "agents",
+        "discover",
+        "communicate",
+        "delegate",
+        "tasks",
+        "each",
+        "other",
+        "open",
+        "now",
+        "linux",
+        "foundation"
+      ],
+      "path": "tutorials/a2a-protocol-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/a2a-protocol-tutorial",
+      "slug": "a2a-protocol-tutorial",
+      "summary": "Learn how agents discover, communicate, and delegate tasks to each other using the A2A protocol \u2014 the open standard (now Linux Foundation) for agent-to-agent interoperability.",
+      "title": "A2A Protocol Tutorial: Building Interoperable Agent Systems With Google's Agent-to-Agent Standard"
+    },
     {
       "cluster": "ai-app-frameworks",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/activepieces-tutorial/README.md",
@@ -64,6 +97,39 @@
       "slug": "adk-python-tutorial",
       "summary": "Learn how to use google/adk-python to build, evaluate, and deploy modular AI agent systems with strong tooling, session controls, and production rollouts.",
       "title": "ADK Python Tutorial: Production-Grade Agent Engineering with Google's ADK"
+    },
+    {
+      "cluster": "data-and-storage",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/affine-tutorial/README.md",
+      "index_path": "tutorials/affine-tutorial/README.md",
+      "intent_signals": [
+        "general-learning"
+      ],
+      "keywords": [
+        "affine",
+        "open",
+        "source",
+        "workspace",
+        "whiteboards",
+        "databases",
+        "toeverything",
+        "extend",
+        "self",
+        "host",
+        "modern",
+        "knowledge",
+        "combining",
+        "documents",
+        "powered",
+        "blocksuite",
+        "crdt",
+        "based"
+      ],
+      "path": "tutorials/affine-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/affine-tutorial",
+      "slug": "affine-tutorial",
+      "summary": "Learn how to use toeverything/AFFiNE to build, extend, and self-host a modern knowledge workspace combining documents, whiteboards, and databases \u2014 powered by BlockSuite, CRDT-based collaboration, and integrated AI copilot features.",
+      "title": "AFFiNE Tutorial: Open-Source AI Workspace with Docs, Whiteboards, and Databases"
     },
     {
       "cluster": "ai-coding-agents",
@@ -3668,6 +3734,40 @@
     },
     {
       "cluster": "ai-coding-agents",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/metagpt-tutorial/README.md",
+      "index_path": "tutorials/metagpt-tutorial/README.md",
+      "intent_signals": [
+        "architecture-deep-dive",
+        "agentic-coding"
+      ],
+      "keywords": [
+        "metagpt",
+        "multi",
+        "agent",
+        "software",
+        "development",
+        "role",
+        "based",
+        "collaboration",
+        "one",
+        "sentence",
+        "give",
+        "product",
+        "idea",
+        "virtual",
+        "company",
+        "agents",
+        "designs",
+        "architects"
+      ],
+      "path": "tutorials/metagpt-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/metagpt-tutorial",
+      "slug": "metagpt-tutorial",
+      "summary": "In one sentence: Give MetaGPT a product idea, and a virtual software company of AI agents designs, architects, codes, and tests it for you.",
+      "title": "MetaGPT Tutorial: Multi-Agent Software Development with Role-Based Collaboration"
+    },
+    {
+      "cluster": "ai-coding-agents",
       "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/mini-swe-agent-tutorial/README.md",
       "index_path": "tutorials/mini-swe-agent-tutorial/README.md",
       "intent_signals": [
@@ -4483,6 +4583,34 @@
       "slug": "plandex-tutorial",
       "summary": "Learn how to use plandex-ai/plandex for large codebase tasks with strong context management, cumulative diff review, model packs, and self-hosted operations.",
       "title": "Plandex Tutorial: Large-Task AI Coding Agent Workflows"
+    },
+    {
+      "cluster": "ai-app-frameworks",
+      "file_url": "https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/plane-tutorial/README.md",
+      "index_path": "tutorials/plane-tutorial/README.md",
+      "intent_signals": [
+        "general-learning"
+      ],
+      "keywords": [
+        "plane",
+        "native",
+        "management",
+        "open",
+        "source",
+        "rivals",
+        "jira",
+        "linear",
+        "issues",
+        "cycles",
+        "modules",
+        "wiki",
+        "built"
+      ],
+      "path": "tutorials/plane-tutorial",
+      "repo_url": "https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/plane-tutorial",
+      "slug": "plane-tutorial",
+      "summary": "Open-source AI-native project management that rivals Jira and Linear \u2014 with issues, cycles, modules, and wiki built in.",
+      "title": "Plane Tutorial: AI-Native Project Management"
     },
     {
       "cluster": "ai-coding-agents",
