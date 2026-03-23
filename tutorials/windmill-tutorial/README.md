@@ -32,12 +32,11 @@ This track focuses on:
 - **App Builder** -- drag-and-drop internal tool builder connected to your scripts
 - **Self-Hosted Control** -- run on your own infrastructure with full audit trails
 
-## Current Snapshot
+## Current Snapshot (auto-updated)
 
 - repository: [`windmill-labs/windmill`](https://github.com/windmill-labs/windmill)
-- stars: about **16k**
-- latest release: check [releases](https://github.com/windmill-labs/windmill/releases)
-- license: AGPLv3 (Community) / Enterprise license available
+- stars: about **16.1k**
+- latest release: [`v1.662.0`](https://github.com/windmill-labs/windmill/releases/tag/v1.662.0) (published 2026-03-20)
 
 ## Mental Model
 

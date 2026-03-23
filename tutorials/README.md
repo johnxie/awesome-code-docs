@@ -16,7 +16,7 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 |:-------|:------|
 | Tutorial directories | 201 |
 | Tutorial markdown files | 1812 |
-| Tutorial markdown lines | 730,017 |
+| Tutorial markdown lines | 730,015 |
 
 ## Source Verification Snapshot
 
@@ -24,10 +24,10 @@ Repository-source verification run against tutorial index references (GitHub API
 
 | Signal | Value |
 |:-------|------:|
-| Tutorials scanned | 191 |
-| Tutorials with source repos | 191 |
+| Tutorials scanned | 201 |
+| Tutorials with source repos | 201 |
 | Tutorials with unverified source repos | 0 |
-| Unique verified source repos | 201 |
+| Unique verified source repos | 214 |
 
 - Report: [../discoverability/tutorial-source-verification.md](../discoverability/tutorial-source-verification.md)
 - JSON: [../discoverability/tutorial-source-verification.json](../discoverability/tutorial-source-verification.json)

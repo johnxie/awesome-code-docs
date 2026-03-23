@@ -34,8 +34,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`makeplane/plane`](https://github.com/makeplane/plane)
-- stars: about **47k**
-- latest release: check [releases](https://github.com/makeplane/plane/releases)
+- stars: about **46.9k**
+- latest release: [`v1.2.3`](https://github.com/makeplane/plane/releases/tag/v1.2.3) (published 2026-03-05)
 
 ## Mental Model
 

@@ -49,7 +49,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`SillyTavern/SillyTavern`](https://github.com/SillyTavern/SillyTavern)
-- stars: about **24.6k**
+- stars: about **24.7k**
 - latest release: [`1.16.0`](https://github.com/SillyTavern/SillyTavern/releases/tag/1.16.0) (published 2026-02-14)
 
 ## Mental Model

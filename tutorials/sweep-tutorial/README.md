@@ -29,7 +29,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`sweepai/sweep`](https://github.com/sweepai/sweep)
-- stars: about **7.6k**
+- stars: about **7.7k**
 - latest release: [`sweep-sandbox-v1`](https://github.com/sweepai/sweep/releases/tag/sweep-sandbox-v1) (published 2023-09-11)
 
 ## Mental Model
