@@ -85,8 +85,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`microsoft/semantic-kernel`](https://github.com/microsoft/semantic-kernel)
-- stars: about **27.5k**
-- latest release: [`dotnet-1.74.0`](https://github.com/microsoft/semantic-kernel/releases/tag/dotnet-1.74.0) (published 2026-03-20)
+- stars: about **27.6k**
+- latest release: [`python-1.41.1`](https://github.com/microsoft/semantic-kernel/releases/tag/python-1.41.1) (published 2026-03-25)
 
 ## Chapter Guide
 

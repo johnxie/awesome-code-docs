@@ -81,7 +81,7 @@ Welcome to your journey through production ML deployment! This tutorial explores
 
 - repository: [`bentoml/BentoML`](https://github.com/bentoml/BentoML)
 - stars: about **8.5k**
-- latest release: [`v1.4.36`](https://github.com/bentoml/BentoML/releases/tag/v1.4.36) (published 2026-03-06)
+- latest release: [`v1.4.37`](https://github.com/bentoml/BentoML/releases/tag/v1.4.37) (published 2026-03-25)
 
 ## What You Will Learn
 

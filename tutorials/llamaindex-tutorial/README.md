@@ -80,8 +80,8 @@ Welcome to your journey through advanced RAG systems and data frameworks! This t
 ## Current Snapshot (auto-updated)
 
 - repository: [`run-llama/llama_index`](https://github.com/run-llama/llama_index)
-- stars: about **47.9k**
-- latest release: [`v0.14.18`](https://github.com/run-llama/llama_index/releases/tag/v0.14.18) (published 2026-03-16)
+- stars: about **48.1k**
+- latest release: [`v0.14.19`](https://github.com/run-llama/llama_index/releases/tag/v0.14.19) (published 2026-03-25)
 
 ## What You Will Learn
 

@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/csharp-sdk`](https://github.com/modelcontextprotocol/csharp-sdk)
-- stars: about **4.1k**
-- latest release: [`v1.1.0`](https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v1.1.0) (published 2026-03-06)
+- stars: about **4.2k**
+- latest release: [`v1.2.0`](https://github.com/modelcontextprotocol/csharp-sdk/releases/tag/v1.2.0) (published 2026-03-27)
 
 ## Mental Model
 

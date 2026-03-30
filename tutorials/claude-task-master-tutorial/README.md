@@ -76,7 +76,7 @@ Welcome to your journey through AI-powered task management! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`eyaltoledano/claude-task-master`](https://github.com/eyaltoledano/claude-task-master)
-- stars: about **26.1k**
+- stars: about **26.3k**
 - latest release: [`task-master-ai@0.43.0`](https://github.com/eyaltoledano/claude-task-master/releases/tag/task-master-ai@0.43.0) (published 2026-02-04)
 
 ## What You Will Learn

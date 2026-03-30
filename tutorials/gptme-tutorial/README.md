@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`gptme/gptme`](https://github.com/gptme/gptme)
-- stars: about **4.2k**
+- stars: about **4.3k**
 - latest release: [`v0.31.0`](https://github.com/gptme/gptme/releases/tag/v0.31.0) (published 2025-12-15)
 
 ## Mental Model

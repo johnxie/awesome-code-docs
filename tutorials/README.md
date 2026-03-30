@@ -26,8 +26,8 @@ Repository-source verification run against tutorial index references (GitHub API
 |:-------|------:|
 | Tutorials scanned | 201 |
 | Tutorials with source repos | 201 |
-| Tutorials with unverified source repos | 0 |
-| Unique verified source repos | 214 |
+| Tutorials with unverified source repos | 1 |
+| Unique verified source repos | 212 |
 
 - Report: [../discoverability/tutorial-source-verification.md](../discoverability/tutorial-source-verification.md)
 - JSON: [../discoverability/tutorial-source-verification.json](../discoverability/tutorial-source-verification.json)
