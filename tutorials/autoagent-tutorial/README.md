@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent)
-- stars: about **8.7k**
+- stars: about **8.9k**
 
 ## Mental Model
 

@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`opencode-ai/opencode`](https://github.com/opencode-ai/opencode)
-- stars: about **11.7k**
+- stars: about **11.8k**
 - latest release: [`v0.0.55`](https://github.com/opencode-ai/opencode/releases/tag/v0.0.55) (published 2025-06-27)
 - status: **archived**
 

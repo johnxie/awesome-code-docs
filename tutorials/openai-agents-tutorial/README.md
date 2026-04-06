@@ -75,8 +75,8 @@ Welcome to your journey through the OpenAI Agents SDK! This tutorial takes you f
 ## Current Snapshot (auto-updated)
 
 - repository: [`openai/openai-agents-python`](https://github.com/openai/openai-agents-python)
-- stars: about **20.4k**
-- latest release: [`v0.13.2`](https://github.com/openai/openai-agents-python/releases/tag/v0.13.2) (published 2026-03-26)
+- stars: about **20.6k**
+- latest release: [`v0.13.5`](https://github.com/openai/openai-agents-python/releases/tag/v0.13.5) (published 2026-04-06)
 
 ## What You Will Learn
 

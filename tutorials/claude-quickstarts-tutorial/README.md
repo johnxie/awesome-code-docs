@@ -265,7 +265,7 @@ Ready to begin? Start with [Chapter 1: Getting Started](01-getting-started.md).
 ## Current Snapshot (auto-updated)
 
 - repository: [`anthropics/anthropic-quickstarts`](https://github.com/anthropics/anthropic-quickstarts)
-- stars: about **15.8k**
+- stars: about **15.9k**
 
 ## What You Will Learn
 

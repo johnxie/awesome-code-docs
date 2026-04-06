@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`google/adk-python`](https://github.com/google/adk-python)
-- stars: about **18.7k**
-- latest release: [`v1.28.0`](https://github.com/google/adk-python/releases/tag/v1.28.0) (published 2026-03-26)
+- stars: about **18.8k**
+- latest release: [`v1.28.1`](https://github.com/google/adk-python/releases/tag/v1.28.1) (published 2026-04-02)
 
 ## Mental Model
 

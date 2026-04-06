@@ -49,7 +49,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`bytedance/deer-flow`](https://github.com/bytedance/deer-flow)
-- stars: about **53.5k**
+- stars: about **58.4k**
 
 ## Mental Model
 

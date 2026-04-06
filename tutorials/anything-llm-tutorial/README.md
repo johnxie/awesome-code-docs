@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`Mintplex-Labs/anything-llm`](https://github.com/Mintplex-Labs/anything-llm)
-- stars: about **57.1k**
-- latest release: [`v1.11.2`](https://github.com/Mintplex-Labs/anything-llm/releases/tag/v1.11.2) (published 2026-03-18)
+- stars: about **57.7k**
+- latest release: [`v1.12.0`](https://github.com/Mintplex-Labs/anything-llm/releases/tag/v1.12.0) (published 2026-04-02)
 
 ## Mental Model
 

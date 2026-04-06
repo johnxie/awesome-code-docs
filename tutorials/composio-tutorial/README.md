@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`ComposioHQ/composio`](https://github.com/ComposioHQ/composio)
-- stars: about **27.6k**
-- latest release: [`@composio/cli@0.2.16`](https://github.com/ComposioHQ/composio/releases/tag/@composio/cli@0.2.16) (published 2026-03-27)
+- stars: about **27.7k**
+- latest release: [`@composio/cli@0.2.19`](https://github.com/ComposioHQ/composio/releases/tag/@composio/cli@0.2.19) (published 2026-04-06)
 
 ## Mental Model
 

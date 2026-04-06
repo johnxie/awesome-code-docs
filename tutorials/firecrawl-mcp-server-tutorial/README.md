@@ -29,7 +29,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`firecrawl/firecrawl-mcp-server`](https://github.com/firecrawl/firecrawl-mcp-server)
-- stars: about **5.9k**
+- stars: about **6k**
 - latest release: [`v3.2.1`](https://github.com/firecrawl/firecrawl-mcp-server/releases/tag/v3.2.1) (published 2025-09-26)
 
 ## Mental Model
