@@ -1,28 +1,21 @@
 {
   "findings": [
     {
-      "age_days": 17,
-      "file": "README.md",
-      "line": "All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-20**:",
-      "line_number": 100,
-      "parsed_date": "2026-03-20"
-    },
-    {
-      "age_days": 16,
+      "age_days": 23,
       "file": "README.md",
       "line": "## \ud83e\uddec Taskade Ecosystem Snapshot (Verified 2026-03-21)",
-      "line_number": 115,
+      "line_number": 119,
       "parsed_date": "2026-03-21"
     },
     {
-      "age_days": 17,
+      "age_days": 24,
       "file": "tutorials/taskade-tutorial/README.md",
       "line": "## Imported Help-Center Knowledge Base (verified 2026-03-20)",
       "line_number": 63,
       "parsed_date": "2026-03-20"
     },
     {
-      "age_days": 17,
+      "age_days": 24,
       "file": "tutorials/taskade-tutorial/README.md",
       "line": "## Imported Newsletter Signals (verified 2026-03-20)",
       "line_number": 73,
@@ -30,7 +23,7 @@
     }
   ],
   "max_age_days": 10,
-  "stale_marker_count": 4,
+  "stale_marker_count": 3,
   "targets": [
     "README.md",
     "tutorials/README.md",

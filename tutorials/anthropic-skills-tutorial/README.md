@@ -36,6 +36,11 @@ The `anthropics/anthropic-quickstarts` repository is the canonical starting poin
 | `financial-data-analyst/` | Next.js app with file upload, Claude analysis, and Recharts visualizations |
 | `browser-use-demo/` | DOM-aware browser automation via Playwright instead of pixel coordinates |
 
+## Current Snapshot (auto-updated)
+
+- repository: [`anthropics/anthropic-quickstarts`](https://github.com/anthropics/anthropic-quickstarts)
+- stars: about **16.1k**
+
 ## Why This Repository Matters
 
 Before these quickstarts existed, the standard approach was to cobble together ad-hoc integrations from API documentation snippets. The quickstarts provide:

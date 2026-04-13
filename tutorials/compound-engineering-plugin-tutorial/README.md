@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`EveryInc/compound-engineering-plugin`](https://github.com/EveryInc/compound-engineering-plugin)
-- stars: about **13.2k**
-- latest release: [`compound-engineering-v2.62.1`](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/compound-engineering-v2.62.1) (published 2026-04-05)
+- stars: about **14.1k**
+- latest release: [`compound-engineering-v2.65.0`](https://github.com/EveryInc/compound-engineering-plugin/releases/tag/compound-engineering-v2.65.0) (published 2026-04-11)
 
 ## Mental Model
 

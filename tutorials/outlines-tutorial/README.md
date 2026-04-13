@@ -42,7 +42,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`dottxt-ai/outlines`](https://github.com/dottxt-ai/outlines)
-- stars: about **13.6k**
+- stars: about **13.7k**
 - latest release: [`1.2.12`](https://github.com/dottxt-ai/outlines/releases/tag/1.2.12) (published 2026-03-03)
 
 ## What You Will Learn

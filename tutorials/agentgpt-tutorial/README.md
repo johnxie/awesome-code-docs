@@ -75,7 +75,7 @@ Welcome to your journey through autonomous AI agent development! This tutorial e
 ## Current Snapshot (auto-updated)
 
 - repository: [`reworkd/AgentGPT`](https://github.com/reworkd/AgentGPT)
-- stars: about **35.9k**
+- stars: about **36k**
 - latest release: [`v.1.0.0`](https://github.com/reworkd/AgentGPT/releases/tag/v.1.0.0) (published 2023-11-02)
 - status: **archived**
 

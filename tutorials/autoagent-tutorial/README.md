@@ -22,6 +22,11 @@ AutoAgent (formerly MetaChain) is a **zero-code autonomous agent framework** fro
 
 This tutorial walks through AutoAgent from first install to production-grade multi-agent pipelines. By the end, you will understand how the MetaChain engine works under the hood, how all three operating modes fit together, and how to extend the framework with your own tools, agents, and workflows.
 
+## Current Snapshot (auto-updated)
+
+- repository: [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent)
+- stars: about **9.1k**
+
 ## Who This Tutorial Is For
 
 - Developers who want to build research or automation agents without writing orchestration boilerplate

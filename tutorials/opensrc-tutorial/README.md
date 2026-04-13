@@ -28,7 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`vercel-labs/opensrc`](https://github.com/vercel-labs/opensrc)
-- stars: about **1.6k**
+- stars: about **1.8k**
+- latest release: [`v0.7.1`](https://github.com/vercel-labs/opensrc/releases/tag/v0.7.1) (published 2026-04-09)
 
 ## Mental Model
 

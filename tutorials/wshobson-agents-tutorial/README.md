@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`wshobson/agents`](https://github.com/wshobson/agents)
-- stars: about **33k**
+- stars: about **33.5k**
 
 ## Mental Model
 

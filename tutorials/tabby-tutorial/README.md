@@ -29,7 +29,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`TabbyML/tabby`](https://github.com/TabbyML/tabby)
-- stars: about **33.3k**
+- stars: about **33.4k**
 - latest release: [`v0.32.0`](https://github.com/TabbyML/tabby/releases/tag/v0.32.0) (published 2026-01-25)
 
 ## Mental Model

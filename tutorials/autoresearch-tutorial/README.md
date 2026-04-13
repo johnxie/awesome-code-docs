@@ -42,6 +42,11 @@ This tutorial takes you from zero to running your own autonomous ML research loo
 - How to read `results.tsv` and `analysis.ipynb` to extract signal from 100 nightly experiments
 - Scaling and customizing the system for smaller GPUs, multiple GPUs, or alternative hardware
 
+## Current Snapshot (auto-updated)
+
+- repository: [`karpathy/autoresearch`](https://github.com/karpathy/autoresearch)
+- stars: about **71.3k**
+
 ## Repository Structure
 
 ```

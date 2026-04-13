@@ -27,7 +27,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`microsoft/TypeScript`](https://github.com/microsoft/TypeScript)
-- stars: about **108k**
+- stars: about **109k**
 - latest release: [`v6.0.2`](https://github.com/microsoft/TypeScript/releases/tag/v6.0.2) (published 2026-03-23)
 
 ## Mental Model
