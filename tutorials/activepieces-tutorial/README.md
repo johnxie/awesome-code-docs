@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`activepieces/activepieces`](https://github.com/activepieces/activepieces)
-- stars: about **21.5k**
-- latest release: [`0.80.0-rc`](https://github.com/activepieces/activepieces/releases/tag/0.80.0-rc) (published 2026-03-29)
+- stars: about **21.6k**
+- latest release: [`0.81.4`](https://github.com/activepieces/activepieces/releases/tag/0.81.4) (published 2026-04-05)
 
 ## Mental Model
 

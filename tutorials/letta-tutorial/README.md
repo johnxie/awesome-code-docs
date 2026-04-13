@@ -84,8 +84,8 @@ flowchart TD
 ## Current Snapshot (auto-updated)
 
 - repository: [`letta-ai/letta`](https://github.com/letta-ai/letta)
-- stars: about **21.8k**
-- latest release: [`0.16.6`](https://github.com/letta-ai/letta/releases/tag/0.16.6) (published 2026-03-04)
+- stars: about **21.9k**
+- latest release: [`0.16.7`](https://github.com/letta-ai/letta/releases/tag/0.16.7) (published 2026-03-31)
 
 ## Chapter Guide
 

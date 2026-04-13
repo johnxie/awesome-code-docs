@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`google-gemini/gemini-cli`](https://github.com/google-gemini/gemini-cli)
-- stars: about **99.5k**
-- latest release: [`v0.35.3`](https://github.com/google-gemini/gemini-cli/releases/tag/v0.35.3) (published 2026-03-28)
+- stars: about **100k**
+- latest release: [`v0.36.0`](https://github.com/google-gemini/gemini-cli/releases/tag/v0.36.0) (published 2026-04-01)
 
 ## Mental Model
 

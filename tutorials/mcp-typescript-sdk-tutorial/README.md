@@ -28,8 +28,8 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`modelcontextprotocol/typescript-sdk`](https://github.com/modelcontextprotocol/typescript-sdk)
-- stars: about **12k**
-- latest release: [`v1.28.0`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v1.28.0) (published 2026-03-25)
+- stars: about **12.1k**
+- latest release: [`v1.29.0`](https://github.com/modelcontextprotocol/typescript-sdk/releases/tag/v1.29.0) (published 2026-03-30)
 
 ## Mental Model
 

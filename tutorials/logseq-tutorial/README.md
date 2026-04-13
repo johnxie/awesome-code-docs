@@ -127,7 +127,7 @@ Ready to begin? Start with [Chapter 1: Knowledge Management Principles](01-knowl
 ## Current Snapshot (auto-updated)
 
 - repository: [`logseq/logseq`](https://github.com/logseq/logseq)
-- stars: about **41.8k**
+- stars: about **41.9k**
 - latest release: [`0.10.15`](https://github.com/logseq/logseq/releases/tag/0.10.15) (published 2025-12-01)
 
 ## What You Will Learn

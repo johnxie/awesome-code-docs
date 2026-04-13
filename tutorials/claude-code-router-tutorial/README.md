@@ -28,7 +28,7 @@ This track focuses on:
 ## Current Snapshot (auto-updated)
 
 - repository: [`musistudio/claude-code-router`](https://github.com/musistudio/claude-code-router)
-- stars: about **30.7k**
+- stars: about **31.6k**
 
 ## Mental Model
 

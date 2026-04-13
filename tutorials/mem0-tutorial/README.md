@@ -78,8 +78,8 @@ Welcome to your journey through scalable AI memory systems! This tutorial explor
 ## Current Snapshot (auto-updated)
 
 - repository: [`mem0ai/mem0`](https://github.com/mem0ai/mem0)
-- stars: about **51.5k**
-- latest release: [`v1.0.9`](https://github.com/mem0ai/mem0/releases/tag/v1.0.9) (published 2026-03-28)
+- stars: about **52.1k**
+- latest release: [`openclaw-v1.0.3`](https://github.com/mem0ai/mem0/releases/tag/openclaw-v1.0.3) (published 2026-04-02)
 
 ## What You Will Learn
 
