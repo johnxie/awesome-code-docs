@@ -25,12 +25,13 @@
 - Agno Tutorial: Multi-Agent Systems That Learn Over Time: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/agno-tutorial
 - Aider Tutorial: AI Pair Programming in Your Terminal: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/aider-tutorial
 - Anthropic API Tutorial: Build Production Apps with Claude: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-code-tutorial
-- Anthropic Skills Tutorial: Reusable AI Agent Capabilities: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial
+- Anthropic Quickstarts Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anthropic-skills-tutorial
 - AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/anything-llm-tutorial
 - Appsmith Tutorial: Low-Code Internal Tools: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/appsmith-tutorial
 - Athens Research: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/athens-research-tutorial
-- AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial
+- AutoAgent Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoagent-tutorial
 - Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autogen-tutorial
+- autoresearch Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/autoresearch-tutorial
 - Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-code-tutorial
 - Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-claude-skills-tutorial
 - Awesome MCP Servers Tutorial: Curating and Operating High-Signal MCP Integrations: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/awesome-mcp-servers-tutorial
@@ -72,7 +73,7 @@
 - CrewAI Tutorial: Building Collaborative AI Agent Teams: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crewai-tutorial
 - Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/crush-tutorial
 - Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/daytona-tutorial
-- Deer Flow Tutorial: Distributed Workflow Orchestration Platform: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
+- DeerFlow Tutorial: Open-Source Super Agent Harness: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/deer-flow-tutorial
 - Devika Tutorial: Open-Source Autonomous AI Software Engineer: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/devika-tutorial
 - Dify Platform: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dify-tutorial
 - DSPy Tutorial: Programming Language Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/dspy-tutorial
@@ -95,6 +96,7 @@
 - gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/gptme-tutorial
 - HAPI Tutorial: Remote Control for Local AI Coding Sessions: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hapi-tutorial
 - Haystack: Deep Dive Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/haystack-tutorial
+- Hermes Agent Tutorial: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/hermes-agent-tutorial
 - HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/huggingface-tutorial
 - HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/humanlayer-tutorial
 - Instructor Tutorial: Structured LLM Outputs: https://github.com/johnxie/awesome-code-docs/tree/main/tutorials/instructor-tutorial
