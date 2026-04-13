@@ -515,6 +515,28 @@ class CrewScalingManager:
             }
 ```
 
+## Advanced Multi-Crew Architecture
+
+```mermaid
+flowchart TD
+    A[Complex enterprise task]
+    B[Orchestrator crew receives task]
+    C[Specialized sub-crews spawned]
+    D[Research crew gathers data]
+    E[Analysis crew processes data]
+    F[Execution crew implements]
+    G[Results aggregated by orchestrator]
+    H[Final output delivered]
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    D --> F
+    E --> F
+    F --> G
+    G --> H
+```
+
 ## What We've Accomplished
 
 ✅ **Built federated crew systems** for distributed collaboration

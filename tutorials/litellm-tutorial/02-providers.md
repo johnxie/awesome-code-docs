@@ -6,6 +6,7 @@ has_children: false
 parent: LiteLLM Tutorial
 ---
 
+
 # Chapter 2: Provider Configuration
 
 Welcome to **Chapter 2: Provider Configuration**. In this part of **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -485,149 +486,184 @@ This comprehensive provider configuration gives you the flexibility to use any L
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `litellm/anthropic_beta_headers_manager.py`
 
-### Strategic Context
+The `get_beta_headers_config` function in [`litellm/anthropic_beta_headers_manager.py`](https://github.com/BerriAI/litellm/blob/HEAD/litellm/anthropic_beta_headers_manager.py) handles a key part of this chapter's functionality:
 
-- tutorial: **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**
-- tutorial slug: **litellm-tutorial**
-- chapter focus: **Chapter 2: Provider Configuration**
-- system context: **Litellm Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+```py
 
-### Architecture Decomposition
 
-1. Define the runtime boundary for `Chapter 2: Provider Configuration`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+def get_beta_headers_config(url: str) -> dict:
+    """
+    Public entry point — returns the beta headers config dict.
 
-### Operator Decision Matrix
+    1. If ``LITELLM_LOCAL_ANTHROPIC_BETA_HEADERS`` is set, uses the local backup only.
+    2. Otherwise fetches from ``url``, validates integrity, and falls back
+       to the local backup on any failure.
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+    Args:
+        url: URL to fetch the remote beta headers configuration from
 
-### Failure Modes and Countermeasures
+    Returns:
+        Dict containing the beta headers configuration
+    """
+    # Check if local-only mode is enabled
+    if os.getenv("LITELLM_LOCAL_ANTHROPIC_BETA_HEADERS", "").lower() == "true":
+        # verbose_logger.debug("Using local Anthropic beta headers config (LITELLM_LOCAL_ANTHROPIC_BETA_HEADERS=True)")
+        return GetAnthropicBetaHeadersConfig.load_local_beta_headers_config()
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+    try:
+        content = GetAnthropicBetaHeadersConfig.fetch_remote_beta_headers_config(url)
+    except Exception as e:
+        verbose_logger.warning(
+            "LiteLLM: Failed to fetch remote beta headers config from %s: %s. "
+            "Falling back to local backup.",
+            url,
+            str(e),
+        )
+        return GetAnthropicBetaHeadersConfig.load_local_beta_headers_config()
 
-### Implementation Runbook
+```
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-### Quality Gate Checklist
+### `litellm/anthropic_beta_headers_manager.py`
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+The `reload_beta_headers_config` function in [`litellm/anthropic_beta_headers_manager.py`](https://github.com/BerriAI/litellm/blob/HEAD/litellm/anthropic_beta_headers_manager.py) handles a key part of this chapter's functionality:
 
-### Source Alignment
+```py
 
-- [LiteLLM Repository](https://github.com/BerriAI/litellm)
-- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
-- [LiteLLM Docs](https://docs.litellm.ai/)
 
-### Cross-Tutorial Connection Map
+def reload_beta_headers_config() -> Dict:
+    """
+    Force reload the beta headers configuration from source (remote or local).
+    Clears the cache and fetches fresh configuration.
 
-- [Langfuse Tutorial](../langfuse-tutorial/)
-- [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+    Returns:
+        Dict containing the newly loaded beta headers configuration
+    """
+    global _BETA_HEADERS_CONFIG
+    _BETA_HEADERS_CONFIG = None
+    verbose_logger.info("Reloading beta headers config (cache cleared)")
+    return _load_beta_headers_config()
 
-### Advanced Practice Exercises
 
-1. Build a minimal end-to-end implementation for `Chapter 2: Provider Configuration`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+def get_provider_name(provider: str) -> str:
+    """
+    Resolve provider aliases to canonical provider names.
 
-### Review Questions
+    Args:
+        provider: Provider name (may be an alias)
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+    Returns:
+        Canonical provider name
+    """
+    config = _load_beta_headers_config()
+    aliases = config.get("provider_aliases", {})
+    return aliases.get(provider, provider)
 
-## What Problem Does This Solve?
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `model`, `litellm`, `messages` so behavior stays predictable as complexity grows.
+def filter_and_transform_beta_headers(
+```
 
-In practical terms, this chapter helps you avoid three common failures:
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+### `litellm/anthropic_beta_headers_manager.py`
 
-After working through this chapter, you should be able to reason about `Chapter 2: Provider Configuration` as an operating subsystem inside **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, with explicit contracts for inputs, state transitions, and outputs.
+The `get_provider_name` function in [`litellm/anthropic_beta_headers_manager.py`](https://github.com/BerriAI/litellm/blob/HEAD/litellm/anthropic_beta_headers_manager.py) handles a key part of this chapter's functionality:
 
-Use the implementation notes around `content`, `response`, `getenv` as your checklist when adapting these patterns to your own repository.
+```py
 
-## How it Works Under the Hood
 
-Under the hood, `Chapter 2: Provider Configuration` usually follows a repeatable control path:
+def get_provider_name(provider: str) -> str:
+    """
+    Resolve provider aliases to canonical provider names.
 
-1. **Context bootstrap**: initialize runtime config and prerequisites for `model`.
-2. **Input normalization**: shape incoming data so `litellm` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `messages`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+    Args:
+        provider: Provider name (may be an alias)
 
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+    Returns:
+        Canonical provider name
+    """
+    config = _load_beta_headers_config()
+    aliases = config.get("provider_aliases", {})
+    return aliases.get(provider, provider)
 
-## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+def filter_and_transform_beta_headers(
+    beta_headers: List[str],
+    provider: str,
+) -> List[str]:
+    """
+    Filter and transform beta headers based on provider's mapping configuration.
 
-- [LiteLLM Repository](https://github.com/BerriAI/litellm)
-  Why it matters: authoritative reference on `LiteLLM Repository` (github.com).
-- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
-  Why it matters: authoritative reference on `LiteLLM Releases` (github.com).
-- [LiteLLM Docs](https://docs.litellm.ai/)
-  Why it matters: authoritative reference on `LiteLLM Docs` (docs.litellm.ai).
+    This function:
+    1. Only allows headers that are present in the provider's mapping keys
+    2. Filters out headers with null values (unsupported)
+    3. Maps headers to provider-specific names (e.g., advanced-tool-use -> tool-search-tool)
 
-Suggested trace strategy:
-- search upstream code for `model` and `litellm` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+    Args:
+        beta_headers: List of Anthropic beta header values
+        provider: Provider name (e.g., "anthropic", "bedrock", "vertex_ai")
+```
 
-## Chapter Connections
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 1: Getting Started with LiteLLM](01-getting-started.md)
-- [Next Chapter: Chapter 3: Completion API](03-completion.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+### `litellm/anthropic_beta_headers_manager.py`
+
+The `filter_and_transform_beta_headers` function in [`litellm/anthropic_beta_headers_manager.py`](https://github.com/BerriAI/litellm/blob/HEAD/litellm/anthropic_beta_headers_manager.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def filter_and_transform_beta_headers(
+    beta_headers: List[str],
+    provider: str,
+) -> List[str]:
+    """
+    Filter and transform beta headers based on provider's mapping configuration.
+
+    This function:
+    1. Only allows headers that are present in the provider's mapping keys
+    2. Filters out headers with null values (unsupported)
+    3. Maps headers to provider-specific names (e.g., advanced-tool-use -> tool-search-tool)
+
+    Args:
+        beta_headers: List of Anthropic beta header values
+        provider: Provider name (e.g., "anthropic", "bedrock", "vertex_ai")
+
+    Returns:
+        List of filtered and transformed beta headers for the provider
+    """
+    if not beta_headers:
+        return []
+
+    config = _load_beta_headers_config()
+    provider = get_provider_name(provider)
+
+    # Get the header mapping for this provider
+    provider_mapping = config.get(provider, {})
+
+    filtered_headers: Set[str] = set()
+
+```
+
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
+
+
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[get_beta_headers_config]
+    B[reload_beta_headers_config]
+    C[get_provider_name]
+    D[filter_and_transform_beta_headers]
+    E[is_beta_header_supported]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

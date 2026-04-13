@@ -38,184 +38,178 @@ You now have a team-ready approach to Codex configuration governance.
 
 Next: [Chapter 8: Contribution Workflow and Ecosystem Strategy](08-contribution-workflow-and-ecosystem-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `codex-cli/scripts/install_native_deps.py`
+### `tools/argument-comment-lint/wrapper_common.py`
 
-The `fetch_rg` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+The `prefer_rustup_shims` function in [`tools/argument-comment-lint/wrapper_common.py`](https://github.com/openai/codex/blob/HEAD/tools/argument-comment-lint/wrapper_common.py) handles a key part of this chapter's functionality:
 
 ```py
-        with _gha_group("Fetch ripgrep binaries"):
-            print("Fetching ripgrep binaries...")
-            fetch_rg(vendor_dir, DEFAULT_RG_TARGETS, manifest_path=RG_MANIFEST)
-
-    print(f"Installed native dependencies into {vendor_dir}")
-    return 0
 
 
-def fetch_rg(
-    vendor_dir: Path,
-    targets: Sequence[str] | None = None,
-    *,
-    manifest_path: Path,
-) -> list[Path]:
-    """Download ripgrep binaries described by the DotSlash manifest."""
+def prefer_rustup_shims(env: MutableMapping[str, str]) -> None:
+    if env.get("CODEX_ARGUMENT_COMMENT_LINT_SKIP_RUSTUP_SHIMS") == "1":
+        return
 
-    if targets is None:
-        targets = DEFAULT_RG_TARGETS
+    rustup = shutil.which("rustup", path=env.get("PATH"))
+    if rustup is None:
+        return
 
-    if not manifest_path.exists():
-        raise FileNotFoundError(f"DotSlash manifest not found: {manifest_path}")
+    rustup_bin_dir = str(Path(rustup).resolve().parent)
+    path_entries = [
+        entry
+        for entry in env.get("PATH", "").split(os.pathsep)
+        if entry and entry != rustup_bin_dir
+    ]
+    env["PATH"] = os.pathsep.join([rustup_bin_dir, *path_entries])
 
-    manifest = _load_manifest(manifest_path)
-    platforms = manifest.get("platforms", {})
+    if not env.get("RUSTUP_HOME"):
+        rustup_home = run_capture(["rustup", "show", "home"], env=env)
+        if rustup_home:
+            env["RUSTUP_HOME"] = rustup_home
 
-    vendor_dir.mkdir(parents=True, exist_ok=True)
 
-    targets = list(targets)
-    if not targets:
-        return []
-
-    task_configs: list[tuple[str, str, dict]] = []
+def fetch_packaged_entrypoint(dotslash_manifest: Path, env: MutableMapping[str, str]) -> Path:
+    require_command(
+        "dotslash",
+        "argument-comment-lint prebuilt wrapper requires dotslash.\n"
+        "Install dotslash, or use:\n"
+        "  ./tools/argument-comment-lint/run.py ...",
+    )
+    entrypoint = run_capture(["dotslash", "--", "fetch", str(dotslash_manifest)], env=env)
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `codex-cli/scripts/install_native_deps.py`
+### `tools/argument-comment-lint/wrapper_common.py`
 
-The `install_binary_components` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+The `fetch_packaged_entrypoint` function in [`tools/argument-comment-lint/wrapper_common.py`](https://github.com/openai/codex/blob/HEAD/tools/argument-comment-lint/wrapper_common.py) handles a key part of this chapter's functionality:
 
 ```py
-            artifacts_dir = Path(artifacts_dir_str)
-            _download_artifacts(workflow_id, artifacts_dir)
-            install_binary_components(
-                artifacts_dir,
-                vendor_dir,
-                [BINARY_COMPONENTS[name] for name in components if name in BINARY_COMPONENTS],
-            )
-
-    if "rg" in components:
-        with _gha_group("Fetch ripgrep binaries"):
-            print("Fetching ripgrep binaries...")
-            fetch_rg(vendor_dir, DEFAULT_RG_TARGETS, manifest_path=RG_MANIFEST)
-
-    print(f"Installed native dependencies into {vendor_dir}")
-    return 0
 
 
-def fetch_rg(
-    vendor_dir: Path,
-    targets: Sequence[str] | None = None,
-    *,
-    manifest_path: Path,
-) -> list[Path]:
-    """Download ripgrep binaries described by the DotSlash manifest."""
+def fetch_packaged_entrypoint(dotslash_manifest: Path, env: MutableMapping[str, str]) -> Path:
+    require_command(
+        "dotslash",
+        "argument-comment-lint prebuilt wrapper requires dotslash.\n"
+        "Install dotslash, or use:\n"
+        "  ./tools/argument-comment-lint/run.py ...",
+    )
+    entrypoint = run_capture(["dotslash", "--", "fetch", str(dotslash_manifest)], env=env)
+    return Path(entrypoint).resolve()
 
-    if targets is None:
-        targets = DEFAULT_RG_TARGETS
 
-    if not manifest_path.exists():
-        raise FileNotFoundError(f"DotSlash manifest not found: {manifest_path}")
+def find_packaged_cargo_dylint(package_entrypoint: Path) -> Path:
+    bin_dir = package_entrypoint.parent
+    cargo_dylint = bin_dir / "cargo-dylint"
+    if not cargo_dylint.is_file():
+        cargo_dylint = bin_dir / "cargo-dylint.exe"
+    if not cargo_dylint.is_file():
+        die(f"bundled cargo-dylint executable not found under {bin_dir}")
+    return cargo_dylint
 
-    manifest = _load_manifest(manifest_path)
+
+def normalize_packaged_library(package_entrypoint: Path) -> Path:
+    library_dir = package_entrypoint.parent.parent / "lib"
+    libraries = sorted(path for path in library_dir.glob("*@*") if path.is_file())
+    if not libraries:
+        die(f"no packaged Dylint library found in {library_dir}")
+    if len(libraries) != 1:
+        die(f"expected exactly one packaged Dylint library in {library_dir}")
+
+    library_path = libraries[0]
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `codex-cli/scripts/install_native_deps.py`
+### `tools/argument-comment-lint/wrapper_common.py`
 
-The `extract_archive` function in [`codex-cli/scripts/install_native_deps.py`](https://github.com/openai/codex/blob/HEAD/codex-cli/scripts/install_native_deps.py) handles a key part of this chapter's functionality:
+The `find_packaged_cargo_dylint` function in [`tools/argument-comment-lint/wrapper_common.py`](https://github.com/openai/codex/blob/HEAD/tools/argument-comment-lint/wrapper_common.py) handles a key part of this chapter's functionality:
 
 ```py
-    dest = dest_dir / binary_name
-    dest.unlink(missing_ok=True)
-    extract_archive(archive_path, "zst", None, dest)
-    if "windows" not in target:
-        dest.chmod(0o755)
-    return dest
 
 
-def _archive_name_for_target(artifact_prefix: str, target: str) -> str:
-    if "windows" in target:
-        return f"{artifact_prefix}-{target}.exe.zst"
-    return f"{artifact_prefix}-{target}.zst"
+def find_packaged_cargo_dylint(package_entrypoint: Path) -> Path:
+    bin_dir = package_entrypoint.parent
+    cargo_dylint = bin_dir / "cargo-dylint"
+    if not cargo_dylint.is_file():
+        cargo_dylint = bin_dir / "cargo-dylint.exe"
+    if not cargo_dylint.is_file():
+        die(f"bundled cargo-dylint executable not found under {bin_dir}")
+    return cargo_dylint
 
 
-def _fetch_single_rg(
-    vendor_dir: Path,
-    target: str,
-    platform_key: str,
-    platform_info: dict,
-    manifest_path: Path,
-) -> Path:
-    providers = platform_info.get("providers", [])
-    if not providers:
-        raise RuntimeError(f"No providers listed for platform '{platform_key}' in {manifest_path}.")
+def normalize_packaged_library(package_entrypoint: Path) -> Path:
+    library_dir = package_entrypoint.parent.parent / "lib"
+    libraries = sorted(path for path in library_dir.glob("*@*") if path.is_file())
+    if not libraries:
+        die(f"no packaged Dylint library found in {library_dir}")
+    if len(libraries) != 1:
+        die(f"expected exactly one packaged Dylint library in {library_dir}")
 
-    url = providers[0]["url"]
-    archive_format = platform_info.get("format", "zst")
-    archive_member = platform_info.get("path")
-    digest = platform_info.get("digest")
-    expected_size = platform_info.get("size")
+    library_path = libraries[0]
+    match = _NIGHTLY_LIBRARY_PATTERN.match(library_path.stem)
+    if match is None:
+        return library_path
 
-    dest_dir = vendor_dir / target / "path"
+    temp_dir = Path(tempfile.mkdtemp(prefix="argument-comment-lint."))
+    normalized_library_path = temp_dir / f"{match.group(1)}{library_path.suffix}"
+    shutil.copy2(library_path, normalized_library_path)
+    return normalized_library_path
+
+
+def exec_command(command: Sequence[str], env: MutableMapping[str, str]) -> "Never":
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `sdk/python/_runtime_setup.py`
+### `tools/argument-comment-lint/wrapper_common.py`
 
-The `RuntimeSetupError` class in [`sdk/python/_runtime_setup.py`](https://github.com/openai/codex/blob/HEAD/sdk/python/_runtime_setup.py) handles a key part of this chapter's functionality:
+The `normalize_packaged_library` function in [`tools/argument-comment-lint/wrapper_common.py`](https://github.com/openai/codex/blob/HEAD/tools/argument-comment-lint/wrapper_common.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class RuntimeSetupError(RuntimeError):
-    pass
+def normalize_packaged_library(package_entrypoint: Path) -> Path:
+    library_dir = package_entrypoint.parent.parent / "lib"
+    libraries = sorted(path for path in library_dir.glob("*@*") if path.is_file())
+    if not libraries:
+        die(f"no packaged Dylint library found in {library_dir}")
+    if len(libraries) != 1:
+        die(f"expected exactly one packaged Dylint library in {library_dir}")
+
+    library_path = libraries[0]
+    match = _NIGHTLY_LIBRARY_PATTERN.match(library_path.stem)
+    if match is None:
+        return library_path
+
+    temp_dir = Path(tempfile.mkdtemp(prefix="argument-comment-lint."))
+    normalized_library_path = temp_dir / f"{match.group(1)}{library_path.suffix}"
+    shutil.copy2(library_path, normalized_library_path)
+    return normalized_library_path
 
 
-def pinned_runtime_version() -> str:
-    return PINNED_RUNTIME_VERSION
+def exec_command(command: Sequence[str], env: MutableMapping[str, str]) -> "Never":
+    try:
+        completed = subprocess.run(list(command), env=dict(env), check=False)
+    except FileNotFoundError:
+        die(f"{command[0]} is required but was not found on PATH.")
+    raise SystemExit(completed.returncode)
 
-
-def ensure_runtime_package_installed(
-    python_executable: str | Path,
-    sdk_python_dir: Path,
-    install_target: Path | None = None,
-) -> str:
-    requested_version = pinned_runtime_version()
-    installed_version = None
-    if install_target is None:
-        installed_version = _installed_runtime_version(python_executable)
-    normalized_requested = _normalized_package_version(requested_version)
-
-    if installed_version is not None and _normalized_package_version(installed_version) == normalized_requested:
-        return requested_version
-
-    with tempfile.TemporaryDirectory(prefix="codex-python-runtime-") as temp_root_str:
-        temp_root = Path(temp_root_str)
-        archive_path = _download_release_archive(requested_version, temp_root)
-        runtime_binary = _extract_runtime_binary(archive_path, temp_root)
-        staged_runtime_dir = _stage_runtime_package(
-            sdk_python_dir,
-            requested_version,
-            runtime_binary,
 ```
 
-This class is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[fetch_rg]
-    B[install_binary_components]
-    C[extract_archive]
-    D[RuntimeSetupError]
-    E[pinned_runtime_version]
+    A[prefer_rustup_shims]
+    B[fetch_packaged_entrypoint]
+    C[find_packaged_cargo_dylint]
+    D[normalize_packaged_library]
+    E[exec_command]
     A --> B
     B --> C
     C --> D

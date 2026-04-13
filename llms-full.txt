@@ -69,11 +69,11 @@ Main repository:
 - Summary: A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
 - Keywords: anthropic, code, api, apps, claude, building, official, sdks, messages, tools, vision, streaming, operations
 
-## Anthropic Skills Tutorial: Reusable AI Agent Capabilities
+## Anthropic Quickstarts Tutorial
 - Path: tutorials/anthropic-skills-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/README.md
-- Summary: Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
-- Keywords: anthropic, skills, reusable, agent, capabilities, operate, quality, claude, code, api
+- Summary: A deep-dive into every project in the official anthropics/anthropic-quickstarts repository — computer use, autonomous coding, customer support, financial analysis, and the agents reference implementation.
+- Keywords: anthropic, skills, quickstarts, every, official, anthropics, repository, computer, autonomous, coding, customer, support, financial, analysis, agents, reference, implementation
 
 ## AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform
 - Path: tutorials/anything-llm-tutorial
@@ -90,20 +90,26 @@ Main repository:
 ## Athens Research: Deep Dive Tutorial
 - Path: tutorials/athens-research-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md
-- Summary: Athens Research — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
-- Keywords: athens, research, open, source, roam, like, knowledge, management, built, clojurescript, graph, databases
+- Summary: Project Status: The Athens Research repository was archived in August 2022 and is no longer actively maintained. This tutorial covers the final v2.0.0 release as a historical reference for ClojureScript/Datascript architectural patterns. Do not use Athens as the basis for new production projects.
+- Keywords: athens, research, status, repository, was, archived, august, longer, actively, maintained, covers, final, release, historical, reference, clojurescript, datascript, architectural
 
-## AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration
+## AutoAgent Tutorial
 - Path: tutorials/autoagent-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md
-- Summary: Learn how to use HKUDS/AutoAgent to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
-- Keywords: autoagent, zero, code, agent, creation, automated, workflow, orchestration, hkuds, create, orchestrate, llm, agents, natural, language, workflows, support, cli
+- Summary: AutoAgent (formerly MetaChain) is a zero-code autonomous agent framework from HKUDS that lets you describe agents in plain English and have them generated, tested, and deployed automatically. With 9,116 GitHub stars and an academic paper (arxiv:2502.05957), it represents a significant step toward democratizing multi-agent system development.
+- Keywords: autoagent, formerly, metachain, zero, code, autonomous, agent, framework, hkuds, lets, describe, agents, plain, english, have, them, generated, tested
 
 ## Microsoft AutoGen Tutorial: Building Multi-Agent AI Systems
 - Path: tutorials/autogen-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autogen-tutorial/README.md
 - Summary: A deep technical walkthrough of Microsoft AutoGen covering Building Multi-Agent AI Systems.
 - Keywords: autogen, microsoft, building, multi, agent, technical, walkthrough
+
+## autoresearch Tutorial
+- Path: tutorials/autoresearch-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoresearch-tutorial/README.md
+- Summary: The overnight ML research agent that runs ~100 GPU experiments while you sleep.
+- Keywords: autoresearch, overnight, research, agent, runs, gpu, experiments, while, sleep
 
 ## Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation
 - Path: tutorials/awesome-claude-code-tutorial
@@ -351,11 +357,11 @@ Main repository:
 - Summary: Learn how to use daytonaio/daytona to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
 - Keywords: daytona, secure, sandbox, infrastructure, generated, code, daytonaio, run, isolated, sandboxes, integrate, coding, agents, mcp, operate, stronger, security, resource
 
-## Deer Flow Tutorial: Distributed Workflow Orchestration Platform
+## DeerFlow Tutorial: Open-Source Super Agent Harness
 - Path: tutorials/deer-flow-tutorial
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/README.md
-- Summary: Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
-- Keywords: deer, flow, distributed, workflow, orchestration, orchestrate, complex, workflows, powerful, task, coordination, execution
+- Summary: DeerFlow is a LangGraph-powered multi-agent runtime by ByteDance that orchestrates a lead agent, specialized sub-agents, persistent memory, sandboxed code execution, and a modular skills system to tackle complex, long-horizon research and automation tasks.
+- Keywords: deer, flow, deerflow, open, source, super, agent, harness, langgraph, powered, multi, runtime, bytedance, orchestrates, lead, specialized, sub, agents
 
 ## Devika Tutorial: Open-Source Autonomous AI Software Engineer
 - Path: tutorials/devika-tutorial
@@ -488,6 +494,12 @@ Main repository:
 - Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/README.md
 - Summary: Haystack — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
 - Keywords: haystack, open, source, framework, building, ready, llm, applications, rag, pipelines, intelligent, search
+
+## Hermes Agent Tutorial
+- Path: tutorials/hermes-agent-tutorial
+- Index: https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hermes-agent-tutorial/README.md
+- Summary: NousResearch's self-hosted personal AI agent with persistent memory, autonomous skill creation, 20+ platform gateway, and a closed reinforcement-learning loop that turns every conversation into fine-tuning data.
+- Keywords: hermes, agent, nousresearch, self, hosted, personal, persistent, memory, autonomous, skill, creation, gateway, closed, reinforcement, learning, loop, turns, every
 
 ## HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models
 - Path: tutorials/huggingface-tutorial

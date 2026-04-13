@@ -674,22 +674,20 @@ Under the hood, `Chapter 7: Fine-Tuning & Alignment -- LoRA, QLoRA, RLHF, DPO, a
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `train.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The fine-tuning starting point in [`train.py`](https://github.com/karpathy/nanoGPT/blob/master/train.py) is controlled by the `init_from` config variable:
+
+```python
+init_from = 'scratch'  # 'scratch' or 'resume' or 'gpt2*'
+
+# model
+dropout = 0.0  # for pretraining 0 is good, for finetuning try 0.1+
+```
+
+Setting `init_from = 'gpt2'` loads pretrained GPT-2 weights and `dropout = 0.1` enables regularization for fine-tuning. The `configurator.py` script allows overriding any config via CLI arguments, making it easy to run fine-tuning experiments: `python train.py config/finetune_shakespeare.py`. The `GPT.from_pretrained` classmethod loads weights directly from Hugging Face Hub.
 
 Suggested trace strategy:
 - search upstream code for `model` and `self` to map concrete implementation paths

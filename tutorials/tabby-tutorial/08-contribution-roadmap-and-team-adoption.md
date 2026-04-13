@@ -54,54 +54,22 @@ Next: pick a related implementation track such as [Continue](../continue-tutoria
 
 ## Source Code Walkthrough
 
-### `Cargo.toml`
+Use the following upstream sources to verify contribution workflow and team adoption details while reading this chapter:
 
-The `Cargo` module in [`Cargo.toml`](https://github.com/TabbyML/tabby/blob/HEAD/Cargo.toml) handles a key part of this chapter's functionality:
+- [`CONTRIBUTING.md`](https://github.com/TabbyML/tabby/blob/HEAD/CONTRIBUTING.md) — the contributor guide covering how to set up a development environment, run tests, submit pull requests, and follow the project's coding standards.
+- [`Cargo.toml`](https://github.com/TabbyML/tabby/blob/HEAD/Cargo.toml) — the workspace manifest used by contributors to understand the crate layout, add new crates, and manage inter-crate dependencies when extending Tabby.
 
-```toml
-[workspace]
-resolver = "1"
-members = [
-    "crates/tabby",
-    "crates/tabby-common",
-    "crates/tabby-download",
-    "crates/tabby-git",
-    "crates/tabby-inference",
-    "crates/tabby-index",
-    "crates/tabby-crawler",
-
-    "crates/aim-downloader",
-    "crates/http-api-bindings",
-    "crates/llama-cpp-server",
-    "crates/ollama-api-bindings",
-    "crates/tabby-index-cli",
-    "crates/hash-ids",
-    "crates/sqlx-migrate-validate",
-
-    "ee/tabby-webserver",
-    "ee/tabby-db",
-    "ee/tabby-db-macros",
-    "ee/tabby-schema",
-]
-
-[workspace.package]
-version = "0.33.0-dev.0"
-edition = "2021"
-authors = ["TabbyML Team"]
-homepage = "https://github.com/TabbyML/tabby"
-
-[workspace.dependencies]
-cached = "0.49.3"
-lazy_static = "1.4.0"
-serde = { version = "1.0", features = ["derive"] }
-```
-
-This module is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- read `CONTRIBUTING.md` for the dev environment setup steps (Rust toolchain, LLVM requirements) and the test suite commands
+- review `Cargo.toml` workspace member list to identify where a new feature or integration should be placed
+- check `.github/workflows/` for the CI pipeline to understand what checks must pass before a PR can be merged
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[Cargo]
+flowchart LR
+    A[Contributor forks repo] --> B[CONTRIBUTING.md setup guide]
+    B --> C[Cargo.toml workspace orientation]
+    C --> D[Code changes in appropriate crate]
+    D --> E[CI passes and PR merged]
 ```

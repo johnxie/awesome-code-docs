@@ -49,9 +49,129 @@ You now have a contributor-ready workflow for building and submitting Cherry Stu
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `scripts/feishu-notify.ts`
+
+The `SendOptions` interface in [`scripts/feishu-notify.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/feishu-notify.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+/** Send subcommand options */
+interface SendOptions {
+  title: string
+  description: string
+  color?: string
+}
+
+/**
+ * Generate Feishu webhook signature using HMAC-SHA256
+ * @param secret - Feishu webhook secret
+ * @param timestamp - Unix timestamp in seconds
+ * @returns Base64 encoded signature
+ */
+function generateSignature(secret: string, timestamp: number): string {
+  const stringToSign = `${timestamp}\n${secret}`
+  const hmac = crypto.createHmac('sha256', stringToSign)
+  return hmac.digest('base64')
+}
+
+/**
+ * Send message to Feishu webhook
+ * @param webhookUrl - Feishu webhook URL
+ * @param secret - Feishu webhook secret
+ * @param content - Feishu card message content
+ * @returns Resolves when message is sent successfully
+ * @throws When Feishu API returns non-2xx status code or network error occurs
+ */
+function sendToFeishu(webhookUrl: string, secret: string, content: FeishuCard): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const timestamp = Math.floor(Date.now() / 1000)
+    const sign = generateSignature(secret, timestamp)
+```
+
+This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+
+### `scripts/update-i18n.ts`
+
+The `translate` function in [`scripts/update-i18n.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-i18n.ts) handles a key part of this chapter's functionality:
+
+```ts
+/**
+ * 使用 OpenAI 兼容的模型生成 i18n 文本，并更新到 translate 目录
+ *
+ * API_KEY=sk-xxxx BASE_URL=xxxx MODEL=xxxx ts-node scripts/update-i18n.ts
+ */
+
+import OpenAI from '@cherrystudio/openai'
+import cliProgress from 'cli-progress'
+import fs from 'fs'
+
+type I18NValue = string | { [key: string]: I18NValue }
+type I18N = { [key: string]: I18NValue }
+
+const API_KEY = process.env.API_KEY
+const BASE_URL = process.env.BASE_URL || 'https://dashscope.aliyuncs.com/compatible-mode/v1/'
+const MODEL = process.env.MODEL || 'qwen-plus-latest'
+
+const INDEX = [
+  // 语言的名称代码用来翻译的模型
+  { name: 'France', code: 'fr-fr', model: MODEL },
+  { name: 'Spanish', code: 'es-es', model: MODEL },
+  { name: 'Portuguese', code: 'pt-pt', model: MODEL },
+  { name: 'Greek', code: 'el-gr', model: MODEL }
+]
+
+const zh = JSON.parse(fs.readFileSync('src/renderer/src/i18n/locales/zh-cn.json', 'utf8')) as I18N
+
+const openai = new OpenAI({
+  apiKey: API_KEY,
+  baseURL: BASE_URL
+})
+```
+
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+
+### `scripts/skills-check.ts`
+
+The `isAgentsReadmeFile` function in [`scripts/skills-check.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/skills-check.ts) handles a key part of this chapter's functionality:
+
+```ts
+} from './skills-common'
+
+function isAgentsReadmeFile(file: string): boolean {
+  return /^\.agents\/skills\/README(?:\.[a-z0-9-]+)?\.md$/i.test(file)
+}
+
+function isClaudeReadmeFile(file: string): boolean {
+  return /^\.claude\/skills\/README(?:\.[a-z0-9-]+)?\.md$/i.test(file)
+}
+
+function checkGitignore(filePath: string, expected: string, displayPath: string, errors: string[]) {
+  const actual = readFileSafe(filePath)
+  if (actual === null) {
+    errors.push(`${displayPath} is missing`)
+    return
+  }
+  if (actual !== expected) {
+    errors.push(`${displayPath} is out of date (run pnpm skills:sync)`)
+  }
+}
+
+/**
+ * Verifies `.claude/skills/<skillName>` is a symlink pointing to
+ * `../../.agents/skills/<skillName>`.
+ */
+function checkClaudeSkillSymlink(skillName: string, errors: string[]) {
+  const claudeSkillDir = path.join(CLAUDE_SKILLS_DIR, skillName)
+  const expectedTarget = path.join('..', '..', '.agents', 'skills', skillName)
+
+  let stat: fs.Stats
+  try {
+    stat = fs.lstatSync(claudeSkillDir)
+```
+
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
 ### `scripts/skills-check.ts`
 
@@ -94,139 +214,16 @@ function checkClaudeSkillSymlink(skillName: string, errors: string[]) {
 
 This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
-### `scripts/skills-check.ts`
-
-The `checkGitignore` function in [`scripts/skills-check.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/skills-check.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function checkGitignore(filePath: string, expected: string, displayPath: string, errors: string[]) {
-  const actual = readFileSafe(filePath)
-  if (actual === null) {
-    errors.push(`${displayPath} is missing`)
-    return
-  }
-  if (actual !== expected) {
-    errors.push(`${displayPath} is out of date (run pnpm skills:sync)`)
-  }
-}
-
-/**
- * Verifies `.claude/skills/<skillName>` is a symlink pointing to
- * `../../.agents/skills/<skillName>`.
- */
-function checkClaudeSkillSymlink(skillName: string, errors: string[]) {
-  const claudeSkillDir = path.join(CLAUDE_SKILLS_DIR, skillName)
-  const expectedTarget = path.join('..', '..', '.agents', 'skills', skillName)
-
-  let stat: fs.Stats
-  try {
-    stat = fs.lstatSync(claudeSkillDir)
-  } catch {
-    errors.push(`.claude/skills/${skillName} is missing (run pnpm skills:sync)`)
-    return
-  }
-
-  if (!stat.isSymbolicLink()) {
-    errors.push(
-      `.claude/skills/${skillName} must be a symlink, not a ${stat.isDirectory() ? 'directory' : 'file'} (run pnpm skills:sync)`
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
-### `scripts/skills-check.ts`
-
-The `checkClaudeSkillSymlink` function in [`scripts/skills-check.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/skills-check.ts) handles a key part of this chapter's functionality:
-
-```ts
- * `../../.agents/skills/<skillName>`.
- */
-function checkClaudeSkillSymlink(skillName: string, errors: string[]) {
-  const claudeSkillDir = path.join(CLAUDE_SKILLS_DIR, skillName)
-  const expectedTarget = path.join('..', '..', '.agents', 'skills', skillName)
-
-  let stat: fs.Stats
-  try {
-    stat = fs.lstatSync(claudeSkillDir)
-  } catch {
-    errors.push(`.claude/skills/${skillName} is missing (run pnpm skills:sync)`)
-    return
-  }
-
-  if (!stat.isSymbolicLink()) {
-    errors.push(
-      `.claude/skills/${skillName} must be a symlink, not a ${stat.isDirectory() ? 'directory' : 'file'} (run pnpm skills:sync)`
-    )
-    return
-  }
-
-  const actualTarget = fs.readlinkSync(claudeSkillDir)
-  if (actualTarget !== expectedTarget) {
-    errors.push(`.claude/skills/${skillName} symlink points to '${actualTarget}', expected '${expectedTarget}'`)
-  }
-}
-
-function checkTrackedFilesAgainstWhitelist(skillNames: string[], errors: string[]) {
-  const sharedAgentsFiles = new Set(['.agents/skills/.gitignore', '.agents/skills/public-skills.txt'])
-  const sharedClaudeFiles = new Set(['.claude/skills/.gitignore'])
-  const allowedAgentsPrefixes = skillNames.map((skillName) => `.agents/skills/${skillName}/`)
-  const allowedClaudeSymlinks = new Set(skillNames.map((skillName) => `.claude/skills/${skillName}`))
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
-### `scripts/skills-check.ts`
-
-The `checkTrackedFilesAgainstWhitelist` function in [`scripts/skills-check.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/skills-check.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function checkTrackedFilesAgainstWhitelist(skillNames: string[], errors: string[]) {
-  const sharedAgentsFiles = new Set(['.agents/skills/.gitignore', '.agents/skills/public-skills.txt'])
-  const sharedClaudeFiles = new Set(['.claude/skills/.gitignore'])
-  const allowedAgentsPrefixes = skillNames.map((skillName) => `.agents/skills/${skillName}/`)
-  const allowedClaudeSymlinks = new Set(skillNames.map((skillName) => `.claude/skills/${skillName}`))
-  const allowedClaudePrefixes = skillNames.map((skillName) => `.claude/skills/${skillName}/`)
-
-  let trackedFiles: string[]
-  try {
-    const output = execSync('git ls-files -- .agents/skills .claude/skills', {
-      cwd: ROOT_DIR,
-      encoding: 'utf-8'
-    })
-    trackedFiles = output
-      .split('\n')
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0)
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error)
-    errors.push(`failed to read tracked skill files via git ls-files: ${message}`)
-    return
-  }
-
-  for (const file of trackedFiles) {
-    if (file.startsWith('.agents/skills/')) {
-      if (sharedAgentsFiles.has(file) || isAgentsReadmeFile(file)) {
-        continue
-      }
-      if (allowedAgentsPrefixes.some((prefix) => file.startsWith(prefix))) {
-        continue
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[isClaudeReadmeFile]
-    B[checkGitignore]
-    C[checkClaudeSkillSymlink]
-    D[checkTrackedFilesAgainstWhitelist]
-    E[main]
+    A[SendOptions]
+    B[translate]
+    C[isAgentsReadmeFile]
+    D[isClaudeReadmeFile]
+    E[checkGitignore]
     A --> B
     B --> C
     C --> D

@@ -707,6 +707,25 @@ export function InteractiveGenerator() {
 }
 ```
 
+## Generative UI Flow
+
+```mermaid
+flowchart TD
+    A[User requests dynamic interface in chat]
+    B[LLM decides to render a UI component]
+    C[useCopilotAction with render function invoked]
+    D[React component rendered inline in chat]
+    E[User interacts with generated component]
+    F[Interaction result passed back to agent]
+    G[Agent continues conversation with result]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## Summary
 
 In this chapter, we've covered:

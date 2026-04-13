@@ -50,98 +50,80 @@ You now have a baseline operational model for running Refly beyond local experim
 
 Next: [Chapter 7: Troubleshooting, Safety, and Cost Controls](07-troubleshooting-safety-and-cost-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cypress/support/commands.ts`
+### `docs/scripts/convert-webp.js`
 
-The `Chainable` interface in [`cypress/support/commands.ts`](https://github.com/refly-ai/refly/blob/HEAD/cypress/support/commands.ts) handles a key part of this chapter's functionality:
+The `updateMarkdownFiles` function in [`docs/scripts/convert-webp.js`](https://github.com/refly-ai/refly/blob/HEAD/docs/scripts/convert-webp.js) handles a key part of this chapter's functionality:
 
-```ts
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
-
-declare namespace Cypress {
-  interface Chainable {
-    /**
-     * Execute SQL query through Docker container
-     * @param query - SQL query to execute
-     * @example
-     * cy.execSQL('SELECT * FROM users')
-     */
-    execSQL(query: string): Chainable<string>;
-    /**
-     * Login to the app
-     * @param email - Email to login with
-     * @param password - Password to login with
-     * @example
-     * cy.login('test@example.com', 'testPassword123')
-     */
-    login(email: string, password: string): Chainable<void>;
-  }
+```js
 }
 
-Cypress.Commands.add('execSQL', (query: string) => {
+async function updateMarkdownFiles() {
+  try {
+    const markdownFiles = await findMarkdownFiles(rootDir);
+    console.log(`Found ${markdownFiles.length} Markdown files to update`);
+
+    for (const file of markdownFiles) {
+      let content = await fs.readFile(file, 'utf-8');
+      let modified = false;
+
+      // Replace image links in Markdown
+      // This regex matches Markdown image syntax: ![alt text](/images/image.png)
+      const regex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+
+      content = content.replace(regex, (match, alt, imagePath) => {
+        // Normalize the path to handle different formats
+        const normalizedPath = imagePath.trim();
+
+        // Check if this image is in our map
+        for (const [originalPath, webpPath] of imageMap.entries()) {
+          if (normalizedPath.includes(originalPath)) {
+            modified = true;
+            return `![${alt}](${webpPath})`;
+          }
+        }
+
+        // If no match found, return the original
+        return match;
+      });
+
+      // Also handle HTML img tags
 ```
 
-This interface is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
+This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
-### `cypress/support/commands.ts`
+### `docs/scripts/convert-webp.js`
 
-The `Chainable` interface in [`cypress/support/commands.ts`](https://github.com/refly-ai/refly/blob/HEAD/cypress/support/commands.ts) handles a key part of this chapter's functionality:
+The `main` function in [`docs/scripts/convert-webp.js`](https://github.com/refly-ai/refly/blob/HEAD/docs/scripts/convert-webp.js) handles a key part of this chapter's functionality:
 
-```ts
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
-
-declare namespace Cypress {
-  interface Chainable {
-    /**
-     * Execute SQL query through Docker container
-     * @param query - SQL query to execute
-     * @example
-     * cy.execSQL('SELECT * FROM users')
-     */
-    execSQL(query: string): Chainable<string>;
-    /**
-     * Login to the app
-     * @param email - Email to login with
-     * @param password - Password to login with
-     * @example
-     * cy.login('test@example.com', 'testPassword123')
-     */
-    login(email: string, password: string): Chainable<void>;
-  }
+```js
 }
 
-Cypress.Commands.add('execSQL', (query: string) => {
+async function main() {
+  console.log('Starting image conversion and Markdown update process...');
+
+  await convertImagesToWebp();
+  await updateMarkdownFiles();
+
+  console.log('Process completed successfully!');
+}
+
+main().catch((error) => {
+  console.error('An error occurred:', error);
+  process.exit(1);
+});
+
 ```
 
-This interface is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
+This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Chainable]
-    B[Chainable]
+    A[updateMarkdownFiles]
+    B[main]
     A --> B
 ```

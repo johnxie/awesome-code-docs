@@ -39,121 +39,118 @@ You now have a full legacy-to-sunset runbook for archived terminal coding-agent 
 
 Next tutorial: [AGENTS.md Tutorial](../agents-md-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/app/app.go`
+### `internal/completions/files-folders.go`
 
-The `initTheme` function in [`internal/app/app.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
+The `processNullTerminatedOutput` function in [`internal/completions/files-folders.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/completions/files-folders.go) handles a key part of this chapter's functionality:
 
 ```go
+}
 
-	// Initialize theme based on configuration
-	app.initTheme()
+func processNullTerminatedOutput(outputBytes []byte) []string {
+	if len(outputBytes) > 0 && outputBytes[len(outputBytes)-1] == 0 {
+		outputBytes = outputBytes[:len(outputBytes)-1]
+	}
 
-	// Initialize LSP clients in the background
-	go app.initLSPClients(ctx)
+	if len(outputBytes) == 0 {
+		return []string{}
+	}
 
-	var err error
-	app.CoderAgent, err = agent.NewAgent(
-		config.AgentCoder,
-		app.Sessions,
-		app.Messages,
-		agent.CoderAgentTools(
-			app.Permissions,
-			app.Sessions,
-			app.Messages,
-			app.History,
-			app.LSPClients,
-		),
-	)
+	split := bytes.Split(outputBytes, []byte{0})
+	matches := make([]string, 0, len(split))
+
+	for _, p := range split {
+		if len(p) == 0 {
+			continue
+		}
+
+		path := string(p)
+		path = filepath.Join(".", path)
+
+		if !fileutil.SkipHidden(path) {
+			matches = append(matches, path)
+		}
+	}
+
+	return matches
+}
+
+func (cg *filesAndFoldersContextGroup) getFiles(query string) ([]string, error) {
+	cmdRg := fileutil.GetRgCmd("") // No glob pattern for this use case
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/completions/files-folders.go`
+
+The `getFiles` function in [`internal/completions/files-folders.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/completions/files-folders.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (cg *filesAndFoldersContextGroup) getFiles(query string) ([]string, error) {
+	cmdRg := fileutil.GetRgCmd("") // No glob pattern for this use case
+	cmdFzf := fileutil.GetFzfCmd(query)
+
+	var matches []string
+	// Case 1: Both rg and fzf available
+	if cmdRg != nil && cmdFzf != nil {
+		rgPipe, err := cmdRg.StdoutPipe()
+		if err != nil {
+			return nil, fmt.Errorf("failed to get rg stdout pipe: %w", err)
+		}
+		defer rgPipe.Close()
+
+		cmdFzf.Stdin = rgPipe
+		var fzfOut bytes.Buffer
+		var fzfErr bytes.Buffer
+		cmdFzf.Stdout = &fzfOut
+		cmdFzf.Stderr = &fzfErr
+
+		if err := cmdFzf.Start(); err != nil {
+			return nil, fmt.Errorf("failed to start fzf: %w", err)
+		}
+
+		errRg := cmdRg.Run()
+		errFzf := cmdFzf.Wait()
+
+		if errRg != nil {
+			logging.Warn(fmt.Sprintf("rg command failed during pipe: %v", errRg))
+		}
+
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/completions/files-folders.go`
+
+The `GetChildEntries` function in [`internal/completions/files-folders.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/completions/files-folders.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (cg *filesAndFoldersContextGroup) GetChildEntries(query string) ([]dialog.CompletionItemI, error) {
+	matches, err := cg.getFiles(query)
 	if err != nil {
-		logging.Error("Failed to create coder agent", err)
 		return nil, err
 	}
 
-	return app, nil
+	items := make([]dialog.CompletionItemI, 0, len(matches))
+	for _, file := range matches {
+		item := dialog.NewCompletionItem(dialog.CompletionItem{
+			Title: file,
+			Value: file,
+		})
+		items = append(items, item)
+	}
+
+	return items, nil
 }
 
-// initTheme sets the application theme based on the configuration
-func (app *App) initTheme() {
-	cfg := config.Get()
-	if cfg == nil || cfg.TUI.Theme == "" {
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/app/app.go`
-
-The `RunNonInteractive` function in [`internal/app/app.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// RunNonInteractive handles the execution flow when a prompt is provided via CLI flag.
-func (a *App) RunNonInteractive(ctx context.Context, prompt string, outputFormat string, quiet bool) error {
-	logging.Info("Running in non-interactive mode")
-
-	// Start spinner if not in quiet mode
-	var spinner *format.Spinner
-	if !quiet {
-		spinner = format.NewSpinner("Thinking...")
-		spinner.Start()
-		defer spinner.Stop()
-	}
-
-	const maxPromptLengthForTitle = 100
-	titlePrefix := "Non-interactive: "
-	var titleSuffix string
-
-	if len(prompt) > maxPromptLengthForTitle {
-		titleSuffix = prompt[:maxPromptLengthForTitle] + "..."
-	} else {
-		titleSuffix = prompt
-	}
-	title := titlePrefix + titleSuffix
-
-	sess, err := a.Sessions.Create(ctx, title)
-	if err != nil {
-		return fmt.Errorf("failed to create session for non-interactive mode: %w", err)
-	}
-	logging.Info("Created session for non-interactive run", "session_id", sess.ID)
-
-	// Automatically approve all permission requests for this non-interactive session
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/app/app.go`
-
-The `Shutdown` function in [`internal/app/app.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// Shutdown performs a clean shutdown of the application
-func (app *App) Shutdown() {
-	// Cancel all watcher goroutines
-	app.cancelFuncsMutex.Lock()
-	for _, cancel := range app.watcherCancelFuncs {
-		cancel()
-	}
-	app.cancelFuncsMutex.Unlock()
-	app.watcherWG.Wait()
-
-	// Perform additional cleanup for LSP clients
-	app.clientsMutex.RLock()
-	clients := make(map[string]*lsp.Client, len(app.LSPClients))
-	maps.Copy(clients, app.LSPClients)
-	app.clientsMutex.RUnlock()
-
-	for name, client := range clients {
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-		if err := client.Shutdown(shutdownCtx); err != nil {
-			logging.Error("Failed to shutdown LSP client", "name", name, "error", err)
-		}
-		cancel()
+func NewFileAndFolderContextGroup() dialog.CompletionProvider {
+	return &filesAndFoldersContextGroup{
+		prefix: "file",
 	}
 }
 
@@ -161,43 +158,19 @@ func (app *App) Shutdown() {
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
-### `internal/app/lsp.go`
+### `internal/completions/files-folders.go`
 
-The `initLSPClients` function in [`internal/app/lsp.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/app/lsp.go) handles a key part of this chapter's functionality:
+The `NewFileAndFolderContextGroup` function in [`internal/completions/files-folders.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/completions/files-folders.go) handles a key part of this chapter's functionality:
 
 ```go
-)
-
-func (app *App) initLSPClients(ctx context.Context) {
-	cfg := config.Get()
-
-	// Initialize LSP clients
-	for name, clientConfig := range cfg.LSP {
-		// Start each client initialization in its own goroutine
-		go app.createAndStartLSPClient(ctx, name, clientConfig.Command, clientConfig.Args...)
-	}
-	logging.Info("LSP clients initialization started in background")
 }
 
-// createAndStartLSPClient creates a new LSP client, initializes it, and starts its workspace watcher
-func (app *App) createAndStartLSPClient(ctx context.Context, name string, command string, args ...string) {
-	// Create a specific context for initialization with a timeout
-	logging.Info("Creating LSP client", "name", name, "command", command, "args", args)
-	
-	// Create the LSP client
-	lspClient, err := lsp.NewClient(ctx, command, args...)
-	if err != nil {
-		logging.Error("Failed to create LSP client for", name, err)
-		return
+func NewFileAndFolderContextGroup() dialog.CompletionProvider {
+	return &filesAndFoldersContextGroup{
+		prefix: "file",
 	}
+}
 
-	// Create a longer timeout for initialization (some servers take time to start)
-	initCtx, cancel := context.WithTimeout(ctx, 30*time.Second)
-	defer cancel()
-	
-	// Initialize with the initialization context
-	_, err = lspClient.InitializeLSPClient(initCtx, config.WorkingDirectory())
-	if err != nil {
 ```
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
@@ -207,11 +180,11 @@ This function is important because it defines how OpenCode AI Legacy Tutorial: A
 
 ```mermaid
 flowchart TD
-    A[initTheme]
-    B[RunNonInteractive]
-    C[Shutdown]
-    D[initLSPClients]
-    E[createAndStartLSPClient]
+    A[processNullTerminatedOutput]
+    B[getFiles]
+    C[GetChildEntries]
+    D[NewFileAndFolderContextGroup]
+    E[initLSPClients]
     A --> B
     B --> C
     C --> D

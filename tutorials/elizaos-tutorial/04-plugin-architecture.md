@@ -574,16 +574,28 @@ Under the hood, `Chapter 4: Plugin Architecture` usually follows a repeatable co
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/commands/create.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The `CATEGORY_ICONS` map in [`packages/elizaos/src/commands/create.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/commands/create.ts) enumerates the built-in plugin categories available when scaffolding a new plugin:
 
-Suggested trace strategy:
-- search upstream code for `runtime` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+const CATEGORY_ICONS: Record<string, string> = {
+  plugin: "🔧",
+  chat: "💬",
+  "text-adventure": "🎮",
+  a2a: "🤝",
+  mcp: "🔌",
+  html: "📄",
+  react: "⚛️",
+  aws: "☁️",
+  gcp: "🌩️",
+  cloudflare: "🔶",
+};
+```
+
+Each plugin template under `packages/elizaos/examples/` provides a minimal TypeScript/Python/Rust stub with the required `ElizaPlugin` interface. Plugins register actions, evaluators, and providers — the three extension points of the elizaOS agent runtime.
 
 ## Chapter Connections
 

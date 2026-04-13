@@ -40,170 +40,168 @@ You now have a practical pattern library for secure, performant MCP Apps.
 
 Next: [Chapter 6: Testing, Local Hosts, and Integration Workflows](06-testing-local-hosts-and-integration-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app.examples.ts`
+### `src/app-bridge.examples.ts`
 
-The `closeConnections` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
-
-```ts
-  app.onteardown = async () => {
-    await saveState();
-    closeConnections();
-    console.log("App ready for teardown");
-    return {};
-  };
-  //#endregion App_onteardown_performCleanup
-}
-
-// Stubs for example
-declare function saveState(): Promise<void>;
-declare function closeConnections(): void;
-
-/**
- * Example: Handle tool calls from the host.
- */
-function App_oncalltool_handleFromHost(app: App) {
-  //#region App_oncalltool_handleFromHost
-  app.oncalltool = async (params, extra) => {
-    if (params.name === "greet") {
-      const name = params.arguments?.name ?? "World";
-      return { content: [{ type: "text", text: `Hello, ${name}!` }] };
-    }
-    throw new Error(`Unknown tool: ${params.name}`);
-  };
-  //#endregion App_oncalltool_handleFromHost
-}
-
-/**
- * Example: Return available tools from the onlisttools handler.
- */
-function App_onlisttools_returnTools(app: App) {
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `src/app.examples.ts`
-
-The `App_oncalltool_handleFromHost` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
+The `AppBridge_onreadresource_returnResource` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Example: Handle tool calls from the host.
+ * Example: Forward read resource requests to the MCP server.
  */
-function App_oncalltool_handleFromHost(app: App) {
-  //#region App_oncalltool_handleFromHost
-  app.oncalltool = async (params, extra) => {
-    if (params.name === "greet") {
-      const name = params.arguments?.name ?? "World";
-      return { content: [{ type: "text", text: `Hello, ${name}!` }] };
-    }
-    throw new Error(`Unknown tool: ${params.name}`);
-  };
-  //#endregion App_oncalltool_handleFromHost
-}
-
-/**
- * Example: Return available tools from the onlisttools handler.
- */
-function App_onlisttools_returnTools(app: App) {
-  //#region App_onlisttools_returnTools
-  app.onlisttools = async (params, extra) => {
-    return {
-      tools: ["greet", "calculate", "format"],
-    };
-  };
-  //#endregion App_onlisttools_returnTools
-}
-
-/**
- * Example: Fetch updated weather data using callServerTool.
- */
-async function App_callServerTool_fetchWeather(app: App) {
-  //#region App_callServerTool_fetchWeather
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `src/app.examples.ts`
-
-The `App_onlisttools_returnTools` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Example: Return available tools from the onlisttools handler.
- */
-function App_onlisttools_returnTools(app: App) {
-  //#region App_onlisttools_returnTools
-  app.onlisttools = async (params, extra) => {
-    return {
-      tools: ["greet", "calculate", "format"],
-    };
-  };
-  //#endregion App_onlisttools_returnTools
-}
-
-/**
- * Example: Fetch updated weather data using callServerTool.
- */
-async function App_callServerTool_fetchWeather(app: App) {
-  //#region App_callServerTool_fetchWeather
-  try {
-    const result = await app.callServerTool({
-      name: "get_weather",
-      arguments: { location: "Tokyo" },
-    });
-    if (result.isError) {
-      console.error("Tool returned error:", result.content);
-    } else {
-      console.log(result.content);
-    }
-  } catch (error) {
-    console.error("Tool call failed:", error);
-  }
-  //#endregion App_callServerTool_fetchWeather
-}
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `src/app.examples.ts`
-
-The `App_callServerTool_fetchWeather` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Example: Fetch updated weather data using callServerTool.
- */
-async function App_callServerTool_fetchWeather(app: App) {
-  //#region App_callServerTool_fetchWeather
-  try {
-    const result = await app.callServerTool({
-      name: "get_weather",
-      arguments: { location: "Tokyo" },
-    });
-    if (result.isError) {
-      console.error("Tool returned error:", result.content);
-    } else {
-      console.log(result.content);
-    }
-  } catch (error) {
-    console.error("Tool call failed:", error);
-  }
-  //#endregion App_callServerTool_fetchWeather
-}
-
-/**
- * Example: Read a video resource and play it.
- */
-async function App_readServerResource_playVideo(
-  app: App,
-  videoElement: HTMLVideoElement,
+function AppBridge_onreadresource_returnResource(
+  bridge: AppBridge,
+  mcpClient: Client,
 ) {
-  //#region App_readServerResource_playVideo
-  try {
-    const result = await app.readServerResource({
-      uri: "videos://bunny-1mb",
-    });
+  //#region AppBridge_onreadresource_returnResource
+  bridge.onreadresource = async (params, extra) => {
+    return mcpClient.request(
+      { method: "resources/read", params },
+      ReadResourceResultSchema,
+      { signal: extra.signal },
+    );
+  };
+  //#endregion AppBridge_onreadresource_returnResource
+}
+
+/**
+ * Example: Forward list prompts requests to the MCP server.
+ */
+function AppBridge_onlistprompts_returnPrompts(
+  bridge: AppBridge,
+  mcpClient: Client,
+) {
+  //#region AppBridge_onlistprompts_returnPrompts
+  bridge.onlistprompts = async (params, extra) => {
+    return mcpClient.request(
+      { method: "prompts/list", params },
+      ListPromptsResultSchema,
+      { signal: extra.signal },
+    );
+  };
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/app-bridge.examples.ts`
+
+The `AppBridge_onlistprompts_returnPrompts` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Example: Forward list prompts requests to the MCP server.
+ */
+function AppBridge_onlistprompts_returnPrompts(
+  bridge: AppBridge,
+  mcpClient: Client,
+) {
+  //#region AppBridge_onlistprompts_returnPrompts
+  bridge.onlistprompts = async (params, extra) => {
+    return mcpClient.request(
+      { method: "prompts/list", params },
+      ListPromptsResultSchema,
+      { signal: extra.signal },
+    );
+  };
+  //#endregion AppBridge_onlistprompts_returnPrompts
+}
+
+/**
+ * Example: Handle ping requests from the View.
+ */
+function AppBridge_onping_handleRequest(bridge: AppBridge) {
+  //#region AppBridge_onping_handleRequest
+  bridge.onping = (params, extra) => {
+    console.log("Received ping from view");
+  };
+  //#endregion AppBridge_onping_handleRequest
+}
+
+/**
+ * Example: Handle size change notifications from the View.
+ */
+function AppBridge_onsizechange_handleResize(
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/app-bridge.examples.ts`
+
+The `AppBridge_onping_handleRequest` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Example: Handle ping requests from the View.
+ */
+function AppBridge_onping_handleRequest(bridge: AppBridge) {
+  //#region AppBridge_onping_handleRequest
+  bridge.onping = (params, extra) => {
+    console.log("Received ping from view");
+  };
+  //#endregion AppBridge_onping_handleRequest
+}
+
+/**
+ * Example: Handle size change notifications from the View.
+ */
+function AppBridge_onsizechange_handleResize(
+  bridge: AppBridge,
+  iframe: HTMLIFrameElement,
+) {
+  //#region AppBridge_onsizechange_handleResize
+  bridge.onsizechange = ({ width, height }) => {
+    if (width != null) {
+      iframe.style.width = `${width}px`;
+    }
+    if (height != null) {
+      iframe.style.height = `${height}px`;
+    }
+  };
+  //#endregion AppBridge_onsizechange_handleResize
+}
+
+/**
+ * Example: Handle display mode requests from the View.
+ */
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `src/app-bridge.examples.ts`
+
+The `AppBridge_onsizechange_handleResize` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Example: Handle size change notifications from the View.
+ */
+function AppBridge_onsizechange_handleResize(
+  bridge: AppBridge,
+  iframe: HTMLIFrameElement,
+) {
+  //#region AppBridge_onsizechange_handleResize
+  bridge.onsizechange = ({ width, height }) => {
+    if (width != null) {
+      iframe.style.width = `${width}px`;
+    }
+    if (height != null) {
+      iframe.style.height = `${height}px`;
+    }
+  };
+  //#endregion AppBridge_onsizechange_handleResize
+}
+
+/**
+ * Example: Handle display mode requests from the View.
+ */
+function AppBridge_onrequestdisplaymode_handleRequest(
+  bridge: AppBridge,
+  currentDisplayMode: McpUiDisplayMode,
+  availableDisplayModes: McpUiDisplayMode[],
+) {
+  //#region AppBridge_onrequestdisplaymode_handleRequest
+  bridge.onrequestdisplaymode = async ({ mode }, extra) => {
+    if (availableDisplayModes.includes(mode)) {
+      currentDisplayMode = mode;
+    }
+    return { mode: currentDisplayMode };
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This function is important because it defines how MCP Ext Apps Tutorial: Buildin
 
 ```mermaid
 flowchart TD
-    A[closeConnections]
-    B[App_oncalltool_handleFromHost]
-    C[App_onlisttools_returnTools]
-    D[App_callServerTool_fetchWeather]
-    E[App_readServerResource_playVideo]
+    A[AppBridge_onreadresource_returnResource]
+    B[AppBridge_onlistprompts_returnPrompts]
+    C[AppBridge_onping_handleRequest]
+    D[AppBridge_onsizechange_handleResize]
+    E[AppBridge_onrequestdisplaymode_handleRequest]
     A --> B
     B --> C
     C --> D

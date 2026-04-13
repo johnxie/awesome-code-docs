@@ -46,170 +46,168 @@ You now have a token-efficient memory retrieval workflow for complex sessions.
 
 Next: [Chapter 6: Viewer Operations and Maintenance Workflows](06-viewer-operations-and-maintenance-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/analyze-transformations-smart.js`
+### `scripts/regenerate-claude-md.ts`
 
-The `loadOriginalContent` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+The `hasDirectChildFile` function in [`scripts/regenerate-claude-md.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/regenerate-claude-md.ts) handles a key part of this chapter's functionality:
 
-```js
-// Parse transcript to get BOTH tool_use (inputs) and tool_result (outputs) content
-// Returns true if transcript is clean, false if contaminated (already transformed)
-async function loadOriginalContentFromFile(filePath, fileLabel) {
-  const fileStream = fs.createReadStream(filePath);
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity
-  });
-
-  let count = 0;
-  let isContaminated = false;
-  const toolUseIdsFromThisFile = new Set();
-
-  for await (const line of rl) {
-    if (!line.includes('toolu_')) continue;
-
+```ts
+ * Check if an observation has any files that are direct children of the folder
+ */
+function hasDirectChildFile(obs: ObservationRow, folderPath: string): boolean {
+  const checkFiles = (filesJson: string | null): boolean => {
+    if (!filesJson) return false;
     try {
-      const obj = JSON.parse(line);
+      const files = JSON.parse(filesJson);
+      if (Array.isArray(files)) {
+        return files.some(f => isDirectChild(f, folderPath));
+      }
+    } catch {}
+    return false;
+  };
 
-      if (obj.message?.content) {
-        for (const item of obj.message.content) {
-          // Capture tool_use (inputs)
-          if (item.type === 'tool_use' && item.id) {
-            const existing = originalContent.get(item.id) || { input: '', output: '', name: '' };
-            existing.input = JSON.stringify(item.input || {});
-            existing.name = item.name;
-            originalContent.set(item.id, existing);
-            toolUseIdsFromThisFile.add(item.id);
-            count++;
-          }
-
-          // Capture tool_result (outputs)
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/analyze-transformations-smart.js`
-
-The `getBaseToolUseId` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Strip __N suffix from tool_use_id to get base ID
-function getBaseToolUseId(id) {
-  return id ? id.replace(/__\d+$/, '') : id;
+  return checkFiles(obs.files_modified) || checkFiles(obs.files_read);
 }
 
-// Query observations from database using tool_use_ids found in transcripts
-// Handles suffixed IDs like toolu_abc__1, toolu_abc__2 matching transcript's toolu_abc
-function queryObservations() {
-  // Get tool_use_ids from the loaded transcript content
-  const toolUseIds = Array.from(originalContent.keys());
+/**
+ * Query observations for a specific folder
+ * folderPath is a relative path from the project root (e.g., "src/services")
+ * Only returns observations with files directly in the folder (not in subfolders)
+ */
+function findObservationsByFolder(db: Database, relativeFolderPath: string, project: string, limit: number): ObservationRow[] {
+  // Query more results than needed since we'll filter some out
+  const queryLimit = limit * 3;
 
-  if (toolUseIds.length === 0) {
-    console.log('No tool use IDs found in transcripts\n');
-    return [];
-  }
-
-  console.log(`Querying observations for ${toolUseIds.length} tool use IDs from transcripts...`);
-
-  const db = new Database(DB_PATH, { readonly: true });
-
-  // Build LIKE clauses to match both exact IDs and suffixed variants (toolu_abc, toolu_abc__1, etc)
-  const likeConditions = toolUseIds.map(() => 'tool_use_id LIKE ?').join(' OR ');
-  const likeParams = toolUseIds.map(id => `${id}%`);
-
-  const query = `
-    SELECT
-      id,
-      tool_use_id,
-      type,
-      narrative,
-      title,
+  const sql = `
+    SELECT o.*, o.discovery_tokens
+    FROM observations o
+    WHERE o.project = ?
+      AND (o.files_modified LIKE ? OR o.files_read LIKE ?)
+    ORDER BY o.created_at_epoch DESC
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/analyze-transformations-smart.js`
+### `scripts/regenerate-claude-md.ts`
 
-The `queryObservations` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+The `findObservationsByFolder` function in [`scripts/regenerate-claude-md.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/regenerate-claude-md.ts) handles a key part of this chapter's functionality:
 
-```js
-// Query observations from database using tool_use_ids found in transcripts
-// Handles suffixed IDs like toolu_abc__1, toolu_abc__2 matching transcript's toolu_abc
-function queryObservations() {
-  // Get tool_use_ids from the loaded transcript content
-  const toolUseIds = Array.from(originalContent.keys());
+```ts
+ * Only returns observations with files directly in the folder (not in subfolders)
+ */
+function findObservationsByFolder(db: Database, relativeFolderPath: string, project: string, limit: number): ObservationRow[] {
+  // Query more results than needed since we'll filter some out
+  const queryLimit = limit * 3;
 
-  if (toolUseIds.length === 0) {
-    console.log('No tool use IDs found in transcripts\n');
-    return [];
-  }
+  const sql = `
+    SELECT o.*, o.discovery_tokens
+    FROM observations o
+    WHERE o.project = ?
+      AND (o.files_modified LIKE ? OR o.files_read LIKE ?)
+    ORDER BY o.created_at_epoch DESC
+    LIMIT ?
+  `;
 
-  console.log(`Querying observations for ${toolUseIds.length} tool use IDs from transcripts...`);
+  // Files in DB are stored as relative paths like "src/services/foo.ts"
+  // Match any file that starts with this folder path (we'll filter to direct children below)
+  const likePattern = `%"${relativeFolderPath}/%`;
+  const allMatches = db.prepare(sql).all(project, likePattern, likePattern, queryLimit) as ObservationRow[];
 
-  const db = new Database(DB_PATH, { readonly: true });
+  // Filter to only observations with direct child files (not in subfolders)
+  return allMatches.filter(obs => hasDirectChildFile(obs, relativeFolderPath)).slice(0, limit);
+}
 
-  // Build LIKE clauses to match both exact IDs and suffixed variants (toolu_abc, toolu_abc__1, etc)
-  const likeConditions = toolUseIds.map(() => 'tool_use_id LIKE ?').join(' OR ');
-  const likeParams = toolUseIds.map(id => `${id}%`);
-
-  const query = `
-    SELECT
-      id,
-      tool_use_id,
-      type,
-      narrative,
-      title,
-      facts,
-      concepts,
-      LENGTH(COALESCE(facts,'')) as facts_len,
-      LENGTH(COALESCE(title,'')) + LENGTH(COALESCE(facts,'')) as title_facts_len,
-      LENGTH(COALESCE(title,'')) + LENGTH(COALESCE(facts,'')) + LENGTH(COALESCE(concepts,'')) as compact_len,
-      LENGTH(COALESCE(narrative,'')) as narrative_len,
+/**
+ * Extract relevant file from an observation for display
+ * Only returns files that are direct children of the folder (not in subfolders)
+ * @param obs - The observation row
+ * @param relativeFolder - Relative folder path (e.g., "src/services")
+ */
+function extractRelevantFile(obs: ObservationRow, relativeFolder: string): string {
+  // Try files_modified first - only direct children
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/analyze-transformations-smart.js`
+### `scripts/regenerate-claude-md.ts`
 
-The `analyzeTransformations` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
+The `extractRelevantFile` function in [`scripts/regenerate-claude-md.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/regenerate-claude-md.ts) handles a key part of this chapter's functionality:
 
-```js
+```ts
+ * @param relativeFolder - Relative folder path (e.g., "src/services")
+ */
+function extractRelevantFile(obs: ObservationRow, relativeFolder: string): string {
+  // Try files_modified first - only direct children
+  if (obs.files_modified) {
+    try {
+      const modified = JSON.parse(obs.files_modified);
+      if (Array.isArray(modified) && modified.length > 0) {
+        for (const file of modified) {
+          if (isDirectChild(file, relativeFolder)) {
+            // Get just the filename (no path since it's a direct child)
+            return path.basename(file);
+          }
+        }
+      }
+    } catch {}
+  }
 
-// Analyze OUTPUT-only replacement for eligible tools
-function analyzeTransformations(observations) {
-  console.log('='.repeat(110));
-  console.log('OUTPUT REPLACEMENT ANALYSIS (Eligible Tools Only)');
-  console.log('='.repeat(110));
-  console.log();
-  console.log('Eligible tools:', Array.from(REPLACEABLE_TOOLS).join(', '));
-  console.log();
+  // Fall back to files_read - only direct children
+  if (obs.files_read) {
+    try {
+      const read = JSON.parse(obs.files_read);
+      if (Array.isArray(read) && read.length > 0) {
+        for (const file of read) {
+          if (isDirectChild(file, relativeFolder)) {
+            return path.basename(file);
+          }
+        }
+      }
+    } catch {}
+  }
 
-  // Group observations by BASE tool_use_id (strip __N suffix)
-  // This groups toolu_abc, toolu_abc__1, toolu_abc__2 together
-  const obsByToolId = new Map();
-  observations.forEach(obs => {
-    const baseId = getBaseToolUseId(obs.tool_use_id);
-    if (!obsByToolId.has(baseId)) {
-      obsByToolId.set(baseId, []);
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/regenerate-claude-md.ts`
+
+The `formatObservationsForClaudeMd` function in [`scripts/regenerate-claude-md.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/regenerate-claude-md.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Format observations for CLAUDE.md content
+ */
+function formatObservationsForClaudeMd(observations: ObservationRow[], folderPath: string): string {
+  const lines: string[] = [];
+  lines.push('# Recent Activity');
+  lines.push('');
+
+  if (observations.length === 0) {
+    return '';
+  }
+
+  const byDate = groupByDate(observations, obs => obs.created_at);
+
+  for (const [day, dayObs] of byDate) {
+    lines.push(`### ${day}`);
+    lines.push('');
+
+    const byFile = new Map<string, ObservationRow[]>();
+    for (const obs of dayObs) {
+      const file = extractRelevantFile(obs, folderPath);
+      if (!byFile.has(file)) byFile.set(file, []);
+      byFile.get(file)!.push(obs);
     }
-    obsByToolId.get(baseId).push(obs);
-  });
 
-  // Define strategies to test
-  const strategies = [
-    { name: 'facts_only', field: 'facts_len', desc: 'Facts only (~400 chars)' },
-    { name: 'title_facts', field: 'title_facts_len', desc: 'Title + Facts (~450 chars)' },
-    { name: 'compact', field: 'compact_len', desc: 'Title + Facts + Concepts (~500 chars)' },
-    { name: 'narrative', field: 'narrative_len', desc: 'Narrative only (~700 chars)' },
-    { name: 'full', field: 'full_obs_len', desc: 'Full observation (~1200 chars)' }
-  ];
+    for (const [file, fileObs] of byFile) {
+      lines.push(`**${file}**`);
+      lines.push('| ID | Time | T | Title | Read |');
+      lines.push('|----|------|---|-------|------|');
 
-  // Track results per strategy
-  const results = {};
+      let lastTime = '';
+      for (const obs of fileObs) {
+        const time = formatTime(obs.created_at_epoch);
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how Claude-Mem Tutorial: Persisten
 
 ```mermaid
 flowchart TD
-    A[loadOriginalContent]
-    B[getBaseToolUseId]
-    C[queryObservations]
-    D[analyzeTransformations]
-    E[main]
+    A[hasDirectChildFile]
+    B[findObservationsByFolder]
+    C[extractRelevantFile]
+    D[formatObservationsForClaudeMd]
+    E[writeClaudeMdToFolderForRegenerate]
     A --> B
     B --> C
     C --> D

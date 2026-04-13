@@ -107,168 +107,156 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/filesystem/index.ts`
+### `src/filesystem/path-utils.ts`
 
-The `updateAllowedDirectoriesFromRoots` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
+The `expandHome` function in [`src/filesystem/path-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/path-utils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-// Updates allowed directories based on MCP client roots
-async function updateAllowedDirectoriesFromRoots(requestedRoots: Root[]) {
-  const validatedRootDirs = await getValidRootDirectories(requestedRoots);
-  if (validatedRootDirs.length > 0) {
-    allowedDirectories = [...validatedRootDirs];
-    setAllowedDirectories(allowedDirectories); // Update the global state in lib.ts
-    console.error(`Updated allowed directories from MCP roots: ${validatedRootDirs.length} valid directories`);
-  } else {
-    console.error("No valid root directories provided by client");
+ * @returns Expanded path
+ */
+export function expandHome(filepath: string): string {
+  if (filepath.startsWith('~/') || filepath === '~') {
+    return path.join(os.homedir(), filepath.slice(1));
   }
+  return filepath;
 }
 
-// Handles dynamic roots updates during runtime, when client sends "roots/list_changed" notification, server fetches the updated roots and replaces all allowed directories with the new roots.
-server.server.setNotificationHandler(RootsListChangedNotificationSchema, async () => {
+
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/filesystem/roots-utils.ts`
+
+The `parseRootUri` function in [`src/filesystem/roots-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/roots-utils.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns Promise resolving to validated path or null if invalid
+ */
+async function parseRootUri(rootUri: string): Promise<string | null> {
   try {
-    // Request the updated roots list from the client
-    const response = await server.server.listRoots();
-    if (response && 'roots' in response) {
-      await updateAllowedDirectoriesFromRoots(response.roots);
-    }
-  } catch (error) {
-    console.error("Failed to request roots from client:", error instanceof Error ? error.message : String(error));
+    const rawPath = rootUri.startsWith('file://') ? fileURLToPath(rootUri) : rootUri;
+    const expandedPath = rawPath.startsWith('~/') || rawPath === '~' 
+      ? path.join(os.homedir(), rawPath.slice(1)) 
+      : rawPath;
+    const absolutePath = path.resolve(expandedPath);
+    const resolvedPath = await fs.realpath(absolutePath);
+    return normalizePath(resolvedPath);
+  } catch {
+    return null; // Path doesn't exist or other error
   }
-});
+}
 
-// Handles post-initialization setup, specifically checking for and fetching MCP roots.
-server.server.oninitialized = async () => {
-  const clientCapabilities = server.server.getClientCapabilities();
+/**
+ * Formats error message for directory validation failures.
+ * @param dir - Directory path that failed validation
+ * @param error - Error that occurred during validation
+ * @param reason - Specific reason for failure
+ * @returns Formatted error message
+ */
+function formatDirectoryError(dir: string, error?: unknown, reason?: string): string {
+  if (reason) {
+    return `Skipping ${reason}: ${dir}`;
+  }
+  const message = error instanceof Error ? error.message : String(error);
+  return `Skipping invalid directory: ${dir} due to error: ${message}`;
+}
 
-  if (clientCapabilities?.roots) {
+/**
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/filesystem/roots-utils.ts`
+
+The `formatDirectoryError` function in [`src/filesystem/roots-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/roots-utils.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns Formatted error message
+ */
+function formatDirectoryError(dir: string, error?: unknown, reason?: string): string {
+  if (reason) {
+    return `Skipping ${reason}: ${dir}`;
+  }
+  const message = error instanceof Error ? error.message : String(error);
+  return `Skipping invalid directory: ${dir} due to error: ${message}`;
+}
+
+/**
+ * Resolves requested root directories from MCP root specifications.
+ * 
+ * Converts root URI specifications (file:// URIs or plain paths) into normalized
+ * directory paths, validating that each path exists and is a directory.
+ * Includes symlink resolution for security.
+ * 
+ * @param requestedRoots - Array of root specifications with URI and optional name
+ * @returns Promise resolving to array of validated directory paths
+ */
+export async function getValidRootDirectories(
+  requestedRoots: readonly Root[]
+): Promise<string[]> {
+  const validatedDirectories: string[] = [];
+  
+  for (const requestedRoot of requestedRoots) {
+    const resolvedPath = await parseRootUri(requestedRoot.uri);
+    if (!resolvedPath) {
+      console.error(formatDirectoryError(requestedRoot.uri, undefined, 'invalid path or inaccessible'));
+      continue;
+    }
+    
+```
+
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+
+### `src/filesystem/roots-utils.ts`
+
+The `getValidRootDirectories` function in [`src/filesystem/roots-utils.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/roots-utils.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns Promise resolving to array of validated directory paths
+ */
+export async function getValidRootDirectories(
+  requestedRoots: readonly Root[]
+): Promise<string[]> {
+  const validatedDirectories: string[] = [];
+  
+  for (const requestedRoot of requestedRoots) {
+    const resolvedPath = await parseRootUri(requestedRoot.uri);
+    if (!resolvedPath) {
+      console.error(formatDirectoryError(requestedRoot.uri, undefined, 'invalid path or inaccessible'));
+      continue;
+    }
+    
     try {
+      const stats: Stats = await fs.stat(resolvedPath);
+      if (stats.isDirectory()) {
+        validatedDirectories.push(resolvedPath);
+      } else {
+        console.error(formatDirectoryError(resolvedPath, undefined, 'non-directory root'));
+      }
+    } catch (error) {
+      console.error(formatDirectoryError(resolvedPath, error));
+    }
+  }
+  
+  return validatedDirectories;
+}
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `src/filesystem/index.ts`
-
-The `runServer` function in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Start server
-async function runServer() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
-  console.error("Secure MCP Filesystem Server running on stdio");
-  if (allowedDirectories.length === 0) {
-    console.error("Started without allowed directories - waiting for client to provide roots via MCP protocol");
-  }
-}
-
-runServer().catch((error) => {
-  console.error("Fatal error running server:", error);
-  process.exit(1);
-});
-
-```
-
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `src/filesystem/index.ts`
-
-The `TreeEntry` interface in [`src/filesystem/index.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/index.ts) handles a key part of this chapter's functionality:
-
-```ts
-  },
-  async (args: z.infer<typeof DirectoryTreeArgsSchema>) => {
-    interface TreeEntry {
-      name: string;
-      type: 'file' | 'directory';
-      children?: TreeEntry[];
-    }
-    const rootPath = args.path;
-
-    async function buildTree(currentPath: string, excludePatterns: string[] = []): Promise<TreeEntry[]> {
-      const validPath = await validatePath(currentPath);
-      const entries = await fs.readdir(validPath, { withFileTypes: true });
-      const result: TreeEntry[] = [];
-
-      for (const entry of entries) {
-        const relativePath = path.relative(rootPath, path.join(currentPath, entry.name));
-        const shouldExclude = excludePatterns.some(pattern => {
-          if (pattern.includes('*')) {
-            return minimatch(relativePath, pattern, { dot: true });
-          }
-          // For files: match exact name or as part of path
-          // For directories: match as directory path
-          return minimatch(relativePath, pattern, { dot: true }) ||
-            minimatch(relativePath, `**/${pattern}`, { dot: true }) ||
-            minimatch(relativePath, `**/${pattern}/**`, { dot: true });
-        });
-        if (shouldExclude)
-          continue;
-
-        const entryData: TreeEntry = {
-          name: entry.name,
-          type: entry.isDirectory() ? 'directory' : 'file'
-```
-
-This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `src/sequentialthinking/lib.ts`
-
-The `SequentialThinkingServer` class in [`src/sequentialthinking/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/sequentialthinking/lib.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export class SequentialThinkingServer {
-  private thoughtHistory: ThoughtData[] = [];
-  private branches: Record<string, ThoughtData[]> = {};
-  private disableThoughtLogging: boolean;
-
-  constructor() {
-    this.disableThoughtLogging = (process.env.DISABLE_THOUGHT_LOGGING || "").toLowerCase() === "true";
-  }
-
-  private formatThought(thoughtData: ThoughtData): string {
-    const { thoughtNumber, totalThoughts, thought, isRevision, revisesThought, branchFromThought, branchId } = thoughtData;
-
-    let prefix = '';
-    let context = '';
-
-    if (isRevision) {
-      prefix = chalk.yellow('🔄 Revision');
-      context = ` (revising thought ${revisesThought})`;
-    } else if (branchFromThought) {
-      prefix = chalk.green('🌿 Branch');
-      context = ` (from thought ${branchFromThought}, ID: ${branchId})`;
-    } else {
-      prefix = chalk.blue('💭 Thought');
-      context = '';
-    }
-
-    const header = `${prefix} ${thoughtNumber}/${totalThoughts}${context}`;
-    const border = '─'.repeat(Math.max(header.length, thought.length) + 4);
-
-    return `
-```
-
-This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[updateAllowedDirectoriesFromRoots]
-    B[runServer]
-    C[TreeEntry]
-    D[SequentialThinkingServer]
-    E[ThoughtData]
+    A[expandHome]
+    B[parseRootUri]
+    C[formatDirectoryError]
+    D[getValidRootDirectories]
+    E[SequentialThinkingServer]
     A --> B
     B --> C
     C --> D

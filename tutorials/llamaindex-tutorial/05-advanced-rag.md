@@ -12,6 +12,21 @@ Welcome to **Chapter 5: Advanced RAG Patterns**. In this part of **LlamaIndex Tu
 
 > Implement sophisticated RAG architectures with multi-modal data, agents, and hybrid approaches.
 
+## Advanced RAG Patterns
+
+```mermaid
+flowchart TD
+    ADV[Advanced RAG] --> HYB[Hybrid Search\nVector + BM25 keyword]
+    ADV --> MQ[Multi-Query\nHyDE, query decomposition]
+    ADV --> MR[Multi-Modal RAG\ntext + images + tables]
+    ADV --> AG[Agent-Based RAG\nReActAgent with tools]
+    ADV --> KG[Knowledge Graph RAG\nentity linking]
+
+    HYB --> FUSE[Reciprocal Rank Fusion]
+    MQ --> SYNTH[Response synthesis]
+    AG --> TOOLS[QueryEngine as Tool]
+```
+
 ## 🎯 Overview
 
 This chapter covers advanced Retrieval-Augmented Generation patterns including multi-modal RAG, agent-based systems, knowledge graphs, and hybrid architectures that combine multiple retrieval and generation strategies.
@@ -858,12 +873,25 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/query_engine/sub_question_query_engine.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/query_engine/sub_question_query_engine.py)
+  `SubQuestionQueryEngine` that decomposes complex queries into sub-questions, routes each to a relevant index, then combines answers. Core of the multi-document advanced RAG pattern.
+
+- [`llama_index/core/retrievers/fusion_retriever.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/retrievers/fusion_retriever.py)
+  `QueryFusionRetriever` implementing multi-query fusion. Generates multiple query variants via LLM, retrieves from each, then merges results with Reciprocal Rank Fusion (RRF) to improve recall for complex questions.
+
+- [`llama_index/core/node_parser/text/hierarchical.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/node_parser/text/hierarchical.py)
+  `HierarchicalNodeParser` for building multi-granularity chunking. Creates parent (larger) and child (smaller) nodes with relationship links, enabling "small-to-big" retrieval where small chunks are retrieved but larger context windows are passed to the LLM.
+
+- [`llama_index/core/postprocessor/llm_rerank.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/postprocessor/llm_rerank.py)
+  `LLMRerank` postprocessor that uses an LLM to score and reorder retrieved nodes by relevance before synthesis. Essential for advanced RAG pipelines where top-k retrieval is noisy.
+
+- [`llama_index/core/query_engine/router_query_engine.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/query_engine/router_query_engine.py)
+  `RouterQueryEngine` that uses a `LLMSingleSelector` or `PydanticMultiSelector` to route queries to the most relevant index or query engine among multiple options. Key component in multi-source RAG architectures.
 
 Suggested trace strategy:
-- search upstream code for `query` and `self` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Study `QueryFusionRetriever` to understand how RRF merges ranked lists from multiple query variants
+- Trace `SubQuestionQueryEngine.query()` to see how sub-questions are generated and then combined with a final synthesis prompt
+- Compare `HierarchicalNodeParser` chunk levels with `AutoMergingRetriever` to understand parent-child node retrieval patterns
 
 ## Chapter Connections
 

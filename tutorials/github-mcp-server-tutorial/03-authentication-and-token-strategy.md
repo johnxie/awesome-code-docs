@@ -47,170 +47,168 @@ You now have an authentication strategy that balances compatibility and risk.
 
 Next: [Chapter 4: Toolsets, Tools, and Dynamic Discovery](04-toolsets-tools-and-dynamic-discovery.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `pkg/github/actions.go`
+### `pkg/github/dependencies.go`
 
-The `deleteWorkflowRunLogs` function in [`pkg/github/actions.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/actions.go) handles a key part of this chapter's functionality:
+The `NewToolFromHandler` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
 
 ```go
-				return cancelWorkflowRun(ctx, client, owner, repo, int64(runID))
-			case actionsMethodDeleteWorkflowRunLogs:
-				return deleteWorkflowRunLogs(ctx, client, owner, repo, int64(runID))
-			default:
-				return utils.NewToolResultError(fmt.Sprintf("unknown method: %s", method)), nil, nil
-			}
-		},
-	)
-	return tool
 }
 
-// ActionsGetJobLogs returns the tool and handler for getting workflow job logs.
-func ActionsGetJobLogs(t translations.TranslationHelperFunc) inventory.ServerTool {
-	tool := NewTool(
-		ToolsetMetadataActions,
-		mcp.Tool{
-			Name: "get_job_logs",
-			Description: t("TOOL_GET_JOB_LOGS_CONSOLIDATED_DESCRIPTION", `Get logs for GitHub Actions workflow jobs.
-Use this tool to retrieve logs for a specific job or all failed jobs in a workflow run.
-For single job logs, provide job_id. For all failed jobs in a run, provide run_id with failed_only=true.
-`),
-			Annotations: &mcp.ToolAnnotations{
-				Title:        t("TOOL_GET_JOB_LOGS_CONSOLIDATED_USER_TITLE", "Get GitHub Actions workflow job logs"),
-				ReadOnlyHint: true,
-			},
-			InputSchema: &jsonschema.Schema{
-				Type: "object",
-				Properties: map[string]*jsonschema.Schema{
-					"owner": {
-						Type:        "string",
-						Description: "Repository owner",
-					},
+// NewToolFromHandler creates a ServerTool that retrieves ToolDependencies from context at call time.
+// Use this when you have a handler that conforms to mcp.ToolHandler directly.
+//
+// The handler function receives deps extracted from context via MustDepsFromContext.
+// Ensure ContextWithDeps is called to inject deps before any tool handlers are invoked.
+//
+// requiredScopes specifies the minimum OAuth scopes needed for this tool.
+// AcceptedScopes are automatically derived using the scope hierarchy.
+func NewToolFromHandler(
+	toolset inventory.ToolsetMetadata,
+	tool mcp.Tool,
+	requiredScopes []scopes.Scope,
+	handler func(ctx context.Context, deps ToolDependencies, req *mcp.CallToolRequest) (*mcp.CallToolResult, error),
+) inventory.ServerTool {
+	st := inventory.NewServerToolWithRawContextHandler(tool, toolset, func(ctx context.Context, req *mcp.CallToolRequest) (*mcp.CallToolResult, error) {
+		deps := MustDepsFromContext(ctx)
+		return handler(ctx, deps, req)
+	})
+	st.RequiredScopes = scopes.ToStringSlice(requiredScopes...)
+	st.AcceptedScopes = scopes.ExpandScopes(requiredScopes...)
+	return st
+}
+
+type RequestDeps struct {
+	// Static dependencies
+	apiHosts          utils.APIHostResolver
+	version           string
+	lockdownMode      bool
+	RepoAccessOpts    []lockdown.RepoAccessOption
+	T                 translations.TranslationHelperFunc
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/minimal_types.go`
+### `pkg/github/dependencies.go`
 
-The `convertToMinimalPullRequestReview` function in [`pkg/github/minimal_types.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/minimal_types.go) handles a key part of this chapter's functionality:
-
-```go
-// Helper functions
-
-func convertToMinimalPullRequestReview(review *github.PullRequestReview) MinimalPullRequestReview {
-	m := MinimalPullRequestReview{
-		ID:                review.GetID(),
-		State:             review.GetState(),
-		Body:              review.GetBody(),
-		HTMLURL:           review.GetHTMLURL(),
-		User:              convertToMinimalUser(review.GetUser()),
-		CommitID:          review.GetCommitID(),
-		AuthorAssociation: review.GetAuthorAssociation(),
-	}
-
-	if review.SubmittedAt != nil {
-		m.SubmittedAt = review.SubmittedAt.Format(time.RFC3339)
-	}
-
-	return m
-}
-
-func convertToMinimalIssue(issue *github.Issue) MinimalIssue {
-	m := MinimalIssue{
-		Number:            issue.GetNumber(),
-		Title:             issue.GetTitle(),
-		Body:              issue.GetBody(),
-		State:             issue.GetState(),
-		StateReason:       issue.GetStateReason(),
-		Draft:             issue.GetDraft(),
-		Locked:            issue.GetLocked(),
-		HTMLURL:           issue.GetHTMLURL(),
-		User:              convertToMinimalUser(issue.GetUser()),
-		AuthorAssociation: issue.GetAuthorAssociation(),
-```
-
-This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
-
-### `pkg/github/minimal_types.go`
-
-The `convertToMinimalIssue` function in [`pkg/github/minimal_types.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/minimal_types.go) handles a key part of this chapter's functionality:
+The `NewRequestDeps` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func convertToMinimalIssue(issue *github.Issue) MinimalIssue {
-	m := MinimalIssue{
-		Number:            issue.GetNumber(),
-		Title:             issue.GetTitle(),
-		Body:              issue.GetBody(),
-		State:             issue.GetState(),
-		StateReason:       issue.GetStateReason(),
-		Draft:             issue.GetDraft(),
-		Locked:            issue.GetLocked(),
-		HTMLURL:           issue.GetHTMLURL(),
-		User:              convertToMinimalUser(issue.GetUser()),
-		AuthorAssociation: issue.GetAuthorAssociation(),
-		Comments:          issue.GetComments(),
+// NewRequestDeps creates a RequestDeps with the provided clients and configuration.
+func NewRequestDeps(
+	apiHosts utils.APIHostResolver,
+	version string,
+	lockdownMode bool,
+	repoAccessOpts []lockdown.RepoAccessOption,
+	t translations.TranslationHelperFunc,
+	contentWindowSize int,
+	featureChecker inventory.FeatureFlagChecker,
+	obsv observability.Exporters,
+) *RequestDeps {
+	return &RequestDeps{
+		apiHosts:          apiHosts,
+		version:           version,
+		lockdownMode:      lockdownMode,
+		RepoAccessOpts:    repoAccessOpts,
+		T:                 t,
+		ContentWindowSize: contentWindowSize,
+		featureChecker:    featureChecker,
+		obsv:              obsv,
 	}
+}
 
-	if issue.CreatedAt != nil {
-		m.CreatedAt = issue.CreatedAt.Format(time.RFC3339)
-	}
-	if issue.UpdatedAt != nil {
-		m.UpdatedAt = issue.UpdatedAt.Format(time.RFC3339)
-	}
-	if issue.ClosedAt != nil {
-		m.ClosedAt = issue.ClosedAt.Format(time.RFC3339)
-	}
-
-	for _, label := range issue.Labels {
-		if label != nil {
-			m.Labels = append(m.Labels, label.GetName())
-		}
+// GetClient implements ToolDependencies.
+func (d *RequestDeps) GetClient(ctx context.Context) (*gogithub.Client, error) {
+	// extract the token from the context
+	tokenInfo, ok := ghcontext.GetTokenInfo(ctx)
+	if !ok {
+		return nil, fmt.Errorf("no token info in context")
 	}
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
 
-### `pkg/github/minimal_types.go`
+### `pkg/github/dependencies.go`
 
-The `fragmentToMinimalIssue` function in [`pkg/github/minimal_types.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/minimal_types.go) handles a key part of this chapter's functionality:
+The `GetClient` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
 
 ```go
+// The toolsets package uses `any` for deps and tool handlers type-assert to this interface.
+type ToolDependencies interface {
+	// GetClient returns a GitHub REST API client
+	GetClient(ctx context.Context) (*gogithub.Client, error)
+
+	// GetGQLClient returns a GitHub GraphQL client
+	GetGQLClient(ctx context.Context) (*githubv4.Client, error)
+
+	// GetRawClient returns a raw content client for GitHub
+	GetRawClient(ctx context.Context) (*raw.Client, error)
+
+	// GetRepoAccessCache returns the lockdown mode repo access cache
+	GetRepoAccessCache(ctx context.Context) (*lockdown.RepoAccessCache, error)
+
+	// GetT returns the translation helper function
+	GetT() translations.TranslationHelperFunc
+
+	// GetFlags returns feature flags
+	GetFlags(ctx context.Context) FeatureFlags
+
+	// GetContentWindowSize returns the content window size for log truncation
+	GetContentWindowSize() int
+
+	// IsFeatureEnabled checks if a feature flag is enabled.
+	IsFeatureEnabled(ctx context.Context, flagName string) bool
+
+	// Logger returns the structured logger, optionally enriched with
+	// request-scoped data from ctx. Integrators provide their own slog.Handler
+	// to control where logs are sent.
+	Logger(ctx context.Context) *slog.Logger
+
+	// Metrics returns the metrics client
+```
+
+This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
+
+### `pkg/github/dependencies.go`
+
+The `GetGQLClient` function in [`pkg/github/dependencies.go`](https://github.com/github/github-mcp-server/blob/HEAD/pkg/github/dependencies.go) handles a key part of this chapter's functionality:
+
+```go
+	GetClient(ctx context.Context) (*gogithub.Client, error)
+
+	// GetGQLClient returns a GitHub GraphQL client
+	GetGQLClient(ctx context.Context) (*githubv4.Client, error)
+
+	// GetRawClient returns a raw content client for GitHub
+	GetRawClient(ctx context.Context) (*raw.Client, error)
+
+	// GetRepoAccessCache returns the lockdown mode repo access cache
+	GetRepoAccessCache(ctx context.Context) (*lockdown.RepoAccessCache, error)
+
+	// GetT returns the translation helper function
+	GetT() translations.TranslationHelperFunc
+
+	// GetFlags returns feature flags
+	GetFlags(ctx context.Context) FeatureFlags
+
+	// GetContentWindowSize returns the content window size for log truncation
+	GetContentWindowSize() int
+
+	// IsFeatureEnabled checks if a feature flag is enabled.
+	IsFeatureEnabled(ctx context.Context, flagName string) bool
+
+	// Logger returns the structured logger, optionally enriched with
+	// request-scoped data from ctx. Integrators provide their own slog.Handler
+	// to control where logs are sent.
+	Logger(ctx context.Context) *slog.Logger
+
+	// Metrics returns the metrics client
+	Metrics(ctx context.Context) metrics.Metrics
 }
 
-func fragmentToMinimalIssue(fragment IssueFragment) MinimalIssue {
-	m := MinimalIssue{
-		Number:    int(fragment.Number),
-		Title:     sanitize.Sanitize(string(fragment.Title)),
-		Body:      sanitize.Sanitize(string(fragment.Body)),
-		State:     string(fragment.State),
-		Comments:  int(fragment.Comments.TotalCount),
-		CreatedAt: fragment.CreatedAt.Format(time.RFC3339),
-		UpdatedAt: fragment.UpdatedAt.Format(time.RFC3339),
-		User: &MinimalUser{
-			Login: string(fragment.Author.Login),
-		},
-	}
-
-	for _, label := range fragment.Labels.Nodes {
-		m.Labels = append(m.Labels, string(label.Name))
-	}
-
-	return m
-}
-
-func convertToMinimalIssuesResponse(fragment IssueQueryFragment) MinimalIssuesResponse {
-	minimalIssues := make([]MinimalIssue, 0, len(fragment.Nodes))
-	for _, issue := range fragment.Nodes {
-		minimalIssues = append(minimalIssues, fragmentToMinimalIssue(issue))
-	}
-
-	return MinimalIssuesResponse{
-		Issues:     minimalIssues,
-		TotalCount: fragment.TotalCount,
 ```
 
 This function is important because it defines how GitHub MCP Server Tutorial: Production GitHub Operations Through MCP implements the patterns covered in this chapter.
@@ -220,11 +218,11 @@ This function is important because it defines how GitHub MCP Server Tutorial: Pr
 
 ```mermaid
 flowchart TD
-    A[deleteWorkflowRunLogs]
-    B[convertToMinimalPullRequestReview]
-    C[convertToMinimalIssue]
-    D[fragmentToMinimalIssue]
-    E[convertToMinimalIssuesResponse]
+    A[NewToolFromHandler]
+    B[NewRequestDeps]
+    C[GetClient]
+    D[GetGQLClient]
+    E[GetRawClient]
     A --> B
     B --> C
     C --> D

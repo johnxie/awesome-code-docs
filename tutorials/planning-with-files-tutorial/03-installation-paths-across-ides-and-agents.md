@@ -43,170 +43,127 @@ You now have a clear multi-environment installation model.
 
 Next: [Chapter 4: Commands, Hooks, and Workflow Orchestration](04-commands-hooks-and-workflow-orchestration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `.codex/skills/planning-with-files/scripts/session-catchup.py`
+### `scripts/session-catchup.py`
 
-The `get_project_dir` function in [`.codex/skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/.codex/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+The `scan_for_planning_update` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_project_dir(project_path: str) -> Tuple[Optional[Path], Optional[str]]:
-    """Resolve session storage path for the current runtime variant."""
-    normalized = normalize_path(project_path)
+def scan_for_planning_update(session_file: Path) -> Tuple[int, Optional[str]]:
+    """
+    Quickly scan a session file for planning file updates.
+    Returns (line_number, filename) of last update, or (-1, None) if none found.
+    """
+    last_update_line = -1
+    last_update_file = None
 
-    # Claude Code's sanitization: replace path separators and : with -
-    sanitized = normalized.replace('\\', '-').replace('/', '-').replace(':', '-')
-    sanitized = sanitized.replace('_', '-')
-    # Strip leading dash if present (Unix absolute paths start with /)
-    if sanitized.startswith('-'):
-        sanitized = sanitized[1:]
+    try:
+        with open(session_file, 'r') as f:
+            for line_num, line in enumerate(f):
+                if '"Write"' not in line and '"Edit"' not in line:
+                    continue
 
-    claude_path = Path.home() / '.claude' / 'projects' / sanitized
+                try:
+                    data = json.loads(line)
+                    if data.get('type') != 'assistant':
+                        continue
 
-    # Codex stores sessions in ~/.codex/sessions with a different format.
-    # Avoid silently scanning Claude paths when running from Codex skill folder.
-    script_path = Path(__file__).as_posix().lower()
-    is_codex_variant = '/.codex/' in script_path
-    codex_sessions_dir = Path.home() / '.codex' / 'sessions'
-    if is_codex_variant and codex_sessions_dir.exists() and not claude_path.exists():
-        return None, (
-            "[planning-with-files] Session catchup skipped: Codex stores sessions "
-            "in ~/.codex/sessions and native Codex parsing is not implemented yet."
-        )
+                    content = data.get('message', {}).get('content', [])
+                    if not isinstance(content, list):
+                        continue
 
-    return claude_path, None
+                    for item in content:
+                        if item.get('type') != 'tool_use':
+                            continue
+                        tool_name = item.get('name', '')
+                        if tool_name not in ('Write', 'Edit'):
+                            continue
 
-
-def get_sessions_sorted(project_dir: Path) -> List[Path]:
-    """Get all session files sorted by modification time (newest first)."""
-    sessions = list(project_dir.glob('*.jsonl'))
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
 
-### `.codex/skills/planning-with-files/scripts/session-catchup.py`
+### `scripts/session-catchup.py`
 
-The `get_sessions_sorted` function in [`.codex/skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/.codex/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+The `extract_messages_from_session` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_sessions_sorted(project_dir: Path) -> List[Path]:
+def extract_messages_from_session(session_file: Path, after_line: int = -1) -> List[Dict]:
+    """
+    Extract conversation messages from a session file.
+    If after_line >= 0, only extract messages after that line.
+    If after_line < 0, extract all messages.
+    """
+    result = []
+
+    try:
+        with open(session_file, 'r') as f:
+            for line_num, line in enumerate(f):
+                if after_line >= 0 and line_num <= after_line:
+                    continue
+
+                try:
+                    msg = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+
+                msg_type = msg.get('type')
+                is_meta = msg.get('isMeta', False)
+
+                if msg_type == 'user' and not is_meta:
+                    content = msg.get('message', {}).get('content', '')
+                    if isinstance(content, list):
+                        for item in content:
+                            if isinstance(item, dict) and item.get('type') == 'text':
+                                content = item.get('text', '')
+                                break
+                        else:
+```
+
+This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
+
+### `scripts/session-catchup.py`
+
+The `main` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+
+```py
     """Get all session files sorted by modification time (newest first)."""
     sessions = list(project_dir.glob('*.jsonl'))
     main_sessions = [s for s in sessions if not s.name.startswith('agent-')]
     return sorted(main_sessions, key=lambda p: p.stat().st_mtime, reverse=True)
 
 
-def parse_session_messages(session_file: Path) -> List[Dict]:
-    """Parse all messages from a session file, preserving order."""
-    messages = []
-    with open(session_file, 'r', encoding='utf-8', errors='replace') as f:
-        for line_num, line in enumerate(f):
-            try:
-                data = json.loads(line)
-                data['_line_num'] = line_num
-                messages.append(data)
-            except json.JSONDecodeError:
-                pass
-    return messages
-
-
-def find_last_planning_update(messages: List[Dict]) -> Tuple[int, Optional[str]]:
+def get_sessions_sorted_opencode(storage_dir: Path) -> List[Path]:
     """
-    Find the last time a planning file was written/edited.
-    Returns (line_number, filename) or (-1, None) if not found.
+    Get all OpenCode session files sorted by modification time.
+    OpenCode stores sessions at: storage/session/{projectHash}/{sessionID}.json
     """
-    last_update_line = -1
-    last_update_file = None
+    session_dir = storage_dir / 'session'
+    if not session_dir.exists():
+        return []
 
-    for msg in messages:
-```
+    sessions = []
+    for project_hash_dir in session_dir.iterdir():
+        if project_hash_dir.is_dir():
+            for session_file in project_hash_dir.glob('*.json'):
+                sessions.append(session_file)
 
-This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
-
-### `.codex/skills/planning-with-files/scripts/session-catchup.py`
-
-The `parse_session_messages` function in [`.codex/skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/.codex/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
-
-```py
+    return sorted(sessions, key=lambda p: p.stat().st_mtime, reverse=True)
 
 
-def parse_session_messages(session_file: Path) -> List[Dict]:
-    """Parse all messages from a session file, preserving order."""
-    messages = []
-    with open(session_file, 'r', encoding='utf-8', errors='replace') as f:
-        for line_num, line in enumerate(f):
-            try:
-                data = json.loads(line)
-                data['_line_num'] = line_num
-                messages.append(data)
-            except json.JSONDecodeError:
-                pass
-    return messages
-
-
-def find_last_planning_update(messages: List[Dict]) -> Tuple[int, Optional[str]]:
-    """
-    Find the last time a planning file was written/edited.
-    Returns (line_number, filename) or (-1, None) if not found.
-    """
-    last_update_line = -1
-    last_update_file = None
-
-    for msg in messages:
-        msg_type = msg.get('type')
-
-        if msg_type == 'assistant':
-            content = msg.get('message', {}).get('content', [])
-            if isinstance(content, list):
-                for item in content:
-                    if item.get('type') == 'tool_use':
-```
-
-This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
-
-### `.codex/skills/planning-with-files/scripts/session-catchup.py`
-
-The `find_last_planning_update` function in [`.codex/skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/.codex/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def find_last_planning_update(messages: List[Dict]) -> Tuple[int, Optional[str]]:
-    """
-    Find the last time a planning file was written/edited.
-    Returns (line_number, filename) or (-1, None) if not found.
-    """
-    last_update_line = -1
-    last_update_file = None
-
-    for msg in messages:
-        msg_type = msg.get('type')
-
-        if msg_type == 'assistant':
-            content = msg.get('message', {}).get('content', [])
-            if isinstance(content, list):
-                for item in content:
-                    if item.get('type') == 'tool_use':
-                        tool_name = item.get('name', '')
-                        tool_input = item.get('input', {})
-
-                        if tool_name in ('Write', 'Edit'):
-                            file_path = tool_input.get('file_path', '')
-                            for pf in PLANNING_FILES:
-                                if file_path.endswith(pf):
-                                    last_update_line = msg['_line_num']
-                                    last_update_file = pf
-
-    return last_update_line, last_update_file
-
-
-def extract_messages_after(messages: List[Dict], after_line: int) -> List[Dict]:
+def get_session_first_timestamp(session_file: Path) -> Optional[str]:
+    """Get the timestamp of the first message in a session."""
+    try:
+        with open(session_file, 'r') as f:
+            for line in f:
+                try:
+                    data = json.loads(line)
+                    ts = data.get('timestamp')
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
@@ -216,13 +173,9 @@ This function is important because it defines how Planning with Files Tutorial: 
 
 ```mermaid
 flowchart TD
-    A[get_project_dir]
-    B[get_sessions_sorted]
-    C[parse_session_messages]
-    D[find_last_planning_update]
-    E[extract_messages_after]
+    A[scan_for_planning_update]
+    B[extract_messages_from_session]
+    C[main]
     A --> B
     B --> C
-    C --> D
-    D --> E
 ```

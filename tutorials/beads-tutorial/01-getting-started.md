@@ -31,8 +31,6 @@ You now have a working Beads baseline for structured task tracking.
 
 Next: [Chapter 2: Architecture and Data Model](02-architecture-and-data-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `.golangci.yml`
@@ -76,12 +74,53 @@ The `fields` interface in [`.golangci.yml`](https://github.com/steveyegge/beads/
 
 This interface is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
+### `website/docusaurus.config.ts`
+
+The `parseUrl` function in [`website/docusaurus.config.ts`](https://github.com/steveyegge/beads/blob/HEAD/website/docusaurus.config.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Parse SITE_URL into origin (url) and pathname (baseUrl)
+function parseUrl(fullUrl: string): { origin: string; baseUrl: string } {
+  try {
+    const parsed = new URL(fullUrl);
+    const baseUrl = parsed.pathname === '/' ? `/${projectName}/` :
+                    parsed.pathname.endsWith('/') ? parsed.pathname : `${parsed.pathname}/`;
+    return { origin: parsed.origin, baseUrl };
+  } catch {
+    return { origin: `https://${orgName}.github.io`, baseUrl: `/${projectName}/` };
+  }
+}
+
+const { origin: siteUrl, baseUrl } = parseUrl(siteUrlEnv);
+
+const config: Config = {
+  title: 'Beads Documentation',
+  tagline: 'Dolt-powered issue tracker for AI-supervised coding workflows',
+  favicon: 'img/favicon.svg',
+
+  // Enable Mermaid diagrams in markdown
+  markdown: {
+    mermaid: true,
+  },
+  themes: ['@docusaurus/theme-mermaid'],
+
+  // future: {
+  //   v4: true,
+  // },
+
+  // GitHub Pages deployment (environment-configurable)
+  url: siteUrl,
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
 ### `beads.go`
 
 The `Open` function in [`beads.go`](https://github.com/steveyegge/beads/blob/HEAD/beads.go) handles a key part of this chapter's functionality:
 
 ```go
-type Transaction = beads.Transaction
+)
 
 // Open opens a Dolt-backed beads database at the given path.
 // This always opens in embedded mode. Use OpenFromConfig to respect
@@ -158,57 +197,16 @@ func FindAllDatabases() []DatabaseInfo {
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `beads.go`
-
-The `FindDatabasePath` function in [`beads.go`](https://github.com/steveyegge/beads/blob/HEAD/beads.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// FindDatabasePath finds the beads database in the current directory tree
-func FindDatabasePath() string {
-	return beads.FindDatabasePath()
-}
-
-// FindBeadsDir finds the .beads/ directory in the current directory tree.
-// Returns empty string if not found.
-func FindBeadsDir() string {
-	return beads.FindBeadsDir()
-}
-
-// DatabaseInfo contains information about a beads database
-type DatabaseInfo = beads.DatabaseInfo
-
-// FindAllDatabases finds all beads databases in the system
-func FindAllDatabases() []DatabaseInfo {
-	return beads.FindAllDatabases()
-}
-
-// RedirectInfo contains information about a beads directory redirect
-type RedirectInfo = beads.RedirectInfo
-
-// GetRedirectInfo checks if the current beads directory is redirected.
-// Returns RedirectInfo with IsRedirected=true if a redirect is active.
-func GetRedirectInfo() RedirectInfo {
-	return beads.GetRedirectInfo()
-}
-
-// Core types from internal/types
-type (
-```
-
-This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
     A[fields]
-    B[Open]
-    C[OpenFromConfig]
-    D[FindDatabasePath]
-    E[FindBeadsDir]
+    B[parseUrl]
+    C[Open]
+    D[OpenFromConfig]
+    E[FindDatabasePath]
     A --> B
     B --> C
     C --> D

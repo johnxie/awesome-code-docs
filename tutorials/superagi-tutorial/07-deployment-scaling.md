@@ -1043,6 +1043,16 @@ Under the hood, `Chapter 7: Deployment & Scaling` usually follows a repeatable c
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Agent workload] --> B[Docker deployment]
+    B --> C[SuperAGI server]
+    C --> D[Agent pool]
+    D --> E[Horizontal scaling with load balancer]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

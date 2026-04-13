@@ -1100,6 +1100,21 @@ Under the hood, `Chapter 5: Data, Knowledge Bases & RAG Implementation` usually 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## RAG Pipeline Flow
+
+```mermaid
+flowchart TD
+    A[Document Upload] --> B[Text Extraction]
+    B --> C[Chunking]
+    C --> D[Embedding Model]
+    D --> E[Vector Store]
+    F[User Query] --> G[Query Embedding]
+    G --> E
+    E --> H[Relevant Chunks]
+    H --> I[LLM with Context]
+    I --> J[Grounded Response]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

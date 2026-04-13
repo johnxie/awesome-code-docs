@@ -712,6 +712,18 @@ Under the hood, `Chapter 7: Integration - Connecting Applications with External 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+    A[Integration Task] --> B[Identify External Service]
+    B --> C[Generate Client Code]
+    C --> D[Add Auth / Config]
+    D --> E[Write Tests]
+    E --> F[Validate Connection]
+    F --> G[Integration Complete]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

@@ -35,167 +35,142 @@ You can now design `tools.yaml` schemas that stay readable and stable as capabil
 
 Next: [Chapter 4: MCP Connectivity and Client Integration](04-mcp-connectivity-and-client-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/server/config.go`
+### `internal/server/server.go`
 
-The `UnmarshalYAMLToolsetConfig` function in [`internal/server/config.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/config.go) handles a key part of this chapter's functionality:
-
-```go
-			toolConfigs[name] = c
-		case "toolsets":
-			c, err := UnmarshalYAMLToolsetConfig(ctx, name, resource)
-			if err != nil {
-				return nil, nil, nil, nil, nil, nil, fmt.Errorf("error unmarshaling %s: %s", kind, err)
-			}
-			if toolsetConfigs == nil {
-				toolsetConfigs = make(ToolsetConfigs)
-			}
-			toolsetConfigs[name] = c
-		case "embeddingModels":
-			c, err := UnmarshalYAMLEmbeddingModelConfig(ctx, name, resource)
-			if err != nil {
-				return nil, nil, nil, nil, nil, nil, fmt.Errorf("error unmarshaling %s: %s", kind, err)
-			}
-			if embeddingModelConfigs == nil {
-				embeddingModelConfigs = make(EmbeddingModelConfigs)
-			}
-			embeddingModelConfigs[name] = c
-		case "prompts":
-			c, err := UnmarshalYAMLPromptConfig(ctx, name, resource)
-			if err != nil {
-				return nil, nil, nil, nil, nil, nil, fmt.Errorf("error unmarshaling %s: %s", kind, err)
-			}
-			if promptConfigs == nil {
-				promptConfigs = make(PromptConfigs)
-			}
-			promptConfigs[name] = c
-		default:
-			return nil, nil, nil, nil, nil, nil, fmt.Errorf("invalid kind %s", kind)
-		}
-	}
-```
-
-This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
-
-### `internal/server/config.go`
-
-The `UnmarshalYAMLPromptConfig` function in [`internal/server/config.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/config.go) handles a key part of this chapter's functionality:
+The `ServeStdio` function in [`internal/server/server.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/server.go) handles a key part of this chapter's functionality:
 
 ```go
-			embeddingModelConfigs[name] = c
-		case "prompts":
-			c, err := UnmarshalYAMLPromptConfig(ctx, name, resource)
-			if err != nil {
-				return nil, nil, nil, nil, nil, nil, fmt.Errorf("error unmarshaling %s: %s", kind, err)
-			}
-			if promptConfigs == nil {
-				promptConfigs = make(PromptConfigs)
-			}
-			promptConfigs[name] = c
-		default:
-			return nil, nil, nil, nil, nil, nil, fmt.Errorf("invalid kind %s", kind)
-		}
-	}
-	return sourceConfigs, authServiceConfigs, embeddingModelConfigs, toolConfigs, toolsetConfigs, promptConfigs, nil
 }
 
-func UnmarshalYAMLSourceConfig(ctx context.Context, name string, r map[string]any) (sources.SourceConfig, error) {
-	resourceType, ok := r["type"].(string)
-	if !ok {
-		return nil, fmt.Errorf("missing 'type' field or it is not a string")
-	}
-	dec, err := util.NewStrictDecoder(r)
-	if err != nil {
-		return nil, fmt.Errorf("error creating decoder: %w", err)
-	}
-	sourceConfig, err := sources.DecodeConfig(ctx, resourceType, name, dec)
-	if err != nil {
-		return nil, err
-	}
-	return sourceConfig, nil
+// ServeStdio starts a new stdio session for mcp.
+func (s *Server) ServeStdio(ctx context.Context, stdin io.Reader, stdout io.Writer) error {
+	stdioServer := NewStdioSession(s, stdin, stdout)
+	return stdioServer.Start(ctx)
 }
-```
 
-This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
-
-### `internal/server/config.go`
-
-The `NameValidation` function in [`internal/server/config.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/config.go) handles a key part of this chapter's functionality:
-
-```go
-// Tool names SHOULD NOT contain spaces, commas, or other special characters.
-// Tool names SHOULD be unique within a server.
-func NameValidation(name string) error {
-	strLen := len(name)
-	if strLen < 1 || strLen > 128 {
-		return fmt.Errorf("resource name SHOULD be between 1 and 128 characters in length (inclusive)")
-	}
-	validChars := regexp.MustCompile("^[a-zA-Z0-9_.-]+$")
-	isValid := validChars.MatchString(name)
-	if !isValid {
-		return fmt.Errorf("invalid character for resource name; only uppercase and lowercase ASCII letters (A-Z, a-z), digits (0-9), underscore (_), hyphen (-), and dot (.) is allowed")
-	}
-	return nil
+// Shutdown gracefully shuts down the server without interrupting any active
+// connections. It uses http.Server.Shutdown() and has the same functionality.
+func (s *Server) Shutdown(ctx context.Context) error {
+	s.logger.DebugContext(ctx, "shutting down the server.")
+	return s.srv.Shutdown(ctx)
 }
 
 ```
 
 This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
 
-### `internal/server/config.go`
+### `internal/server/server.go`
 
-The `the` interface in [`internal/server/config.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/config.go) handles a key part of this chapter's functionality:
+The `Shutdown` function in [`internal/server/server.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/server.go) handles a key part of this chapter's functionality:
 
 ```go
-// Copyright 2024 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//	http://www.apache.org/licenses/LICENSE-2.0
+}
+
+// Shutdown gracefully shuts down the server without interrupting any active
+// connections. It uses http.Server.Shutdown() and has the same functionality.
+func (s *Server) Shutdown(ctx context.Context) error {
+	s.logger.DebugContext(ctx, "shutting down the server.")
+	return s.srv.Shutdown(ctx)
+}
+
+```
+
+This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
+
+### `internal/server/server.go`
+
+The `to` interface in [`internal/server/server.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/server/server.go) handles a key part of this chapter's functionality:
+
+```go
+//     http://www.apache.org/licenses/LICENSE-2.0
 //
 // Unless required by applicable law or agreed to in writing, software
 // distributed under the License is distributed on an "AS IS" BASIS,
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 package server
 
 import (
-	"bytes"
 	"context"
+	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
-	"regexp"
+	"net"
+	"net/http"
+	"os"
+	"slices"
+	"strconv"
 	"strings"
+	"time"
 
-	yaml "github.com/goccy/go-yaml"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
+	"github.com/go-chi/httplog/v3"
+	"github.com/go-chi/render"
 	"github.com/googleapis/genai-toolbox/internal/auth"
-	"github.com/googleapis/genai-toolbox/internal/auth/google"
+	"github.com/googleapis/genai-toolbox/internal/auth/generic"
 	"github.com/googleapis/genai-toolbox/internal/embeddingmodels"
-	"github.com/googleapis/genai-toolbox/internal/embeddingmodels/gemini"
-	"github.com/googleapis/genai-toolbox/internal/prompts"
-	"github.com/googleapis/genai-toolbox/internal/sources"
-	"github.com/googleapis/genai-toolbox/internal/tools"
-	"github.com/googleapis/genai-toolbox/internal/util"
 ```
 
 This interface is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
+
+### `cmd/internal/config.go`
+
+The `parseEnv` function in [`cmd/internal/config.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/cmd/internal/config.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// parseEnv replaces environment variables ${ENV_NAME} with their values.
+// also support ${ENV_NAME:default_value}.
+func (p *ConfigParser) parseEnv(input string) (string, error) {
+	re := regexp.MustCompile(`\$\{(\w+)(:([^}]*))?\}`)
+
+	if p.EnvVars == nil {
+		p.EnvVars = make(map[string]string)
+	}
+
+	var err error
+	output := re.ReplaceAllStringFunc(input, func(match string) string {
+		parts := re.FindStringSubmatch(match)
+
+		// extract the variable name
+		variableName := parts[1]
+		if value, found := os.LookupEnv(variableName); found {
+			p.EnvVars[variableName] = value
+			return value
+		}
+		if len(parts) >= 4 && parts[2] != "" {
+			value := parts[3]
+			p.EnvVars[variableName] = value
+			return value
+		}
+		err = fmt.Errorf("environment variable not found: %q", variableName)
+		return ""
+	})
+	return output, err
+}
+
+```
+
+This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[UnmarshalYAMLToolsetConfig]
-    B[UnmarshalYAMLPromptConfig]
-    C[NameValidation]
-    D[the]
-    E[InitializeConfigs]
+    A[ServeStdio]
+    B[Shutdown]
+    C[to]
+    D[parseEnv]
+    E[ParseConfig]
     A --> B
     B --> C
     C --> D

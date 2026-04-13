@@ -111,88 +111,86 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `autonomous-coding/security.py`
+### `autonomous-coding/autonomous_agent_demo.py`
 
-The `validate_chmod_command` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `main` function in [`autonomous-coding/autonomous_agent_demo.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/autonomous_agent_demo.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def validate_chmod_command(command_string: str) -> tuple[bool, str]:
-    """
-    Validate chmod commands - only allow making files executable with +x.
+def main() -> None:
+    """Main entry point."""
+    args = parse_args()
 
-    Returns:
-        Tuple of (is_allowed, reason_if_blocked)
-    """
-    try:
-        tokens = shlex.split(command_string)
-    except ValueError:
-        return False, "Could not parse chmod command"
+    # Check for API key
+    if not os.environ.get("ANTHROPIC_API_KEY"):
+        print("Error: ANTHROPIC_API_KEY environment variable not set")
+        print("\nGet your API key from: https://console.anthropic.com/")
+        print("\nThen set it:")
+        print("  export ANTHROPIC_API_KEY='your-api-key-here'")
+        return
 
-    if not tokens or tokens[0] != "chmod":
-        return False, "Not a chmod command"
-
-    # Look for the mode argument
-    # Valid modes: +x, u+x, a+x, etc. (anything ending with +x for execute permission)
-    mode = None
-    files = []
-
-    for token in tokens[1:]:
-        if token.startswith("-"):
-            # Skip flags like -R (we don't allow recursive chmod anyway)
-            return False, "chmod flags are not allowed"
-        elif mode is None:
-            mode = token
+    # Automatically place projects in generations/ directory unless already specified
+    project_dir = args.project_dir
+    if not str(project_dir).startswith("generations/"):
+        # Convert relative paths to be under generations/
+        if project_dir.is_absolute():
+            # If absolute path, use as-is
+            pass
         else:
-            files.append(token)
+            # Prepend generations/ to relative paths
+            project_dir = Path("generations") / project_dir
 
-    if mode is None:
+    # Run the agent
+    try:
+        asyncio.run(
+            run_autonomous_agent(
+                project_dir=project_dir,
+                model=args.model,
+                max_iterations=args.max_iterations,
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
-### `autonomous-coding/security.py`
+### `autonomous-coding/agent.py`
 
-The `validate_init_script` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `run_agent_session` function in [`autonomous-coding/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/agent.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def validate_init_script(command_string: str) -> tuple[bool, str]:
+async def run_agent_session(
+    client: ClaudeSDKClient,
+    message: str,
+    project_dir: Path,
+) -> tuple[str, str]:
     """
-    Validate init.sh script execution - only allow ./init.sh.
-
-    Returns:
-        Tuple of (is_allowed, reason_if_blocked)
-    """
-    try:
-        tokens = shlex.split(command_string)
-    except ValueError:
-        return False, "Could not parse init script command"
-
-    if not tokens:
-        return False, "Empty command"
-
-    # The command should be exactly ./init.sh (possibly with arguments)
-    script = tokens[0]
-
-    # Allow ./init.sh or paths ending in /init.sh
-    if script == "./init.sh" or script.endswith("/init.sh"):
-        return True, ""
-
-    return False, f"Only ./init.sh is allowed, got: {script}"
-
-
-def get_command_for_validation(cmd: str, segments: list[str]) -> str:
-    """
-    Find the specific command segment that contains the given command.
+    Run a single agent session using Claude Agent SDK.
 
     Args:
+        client: Claude SDK client
+        message: The prompt to send
+        project_dir: Project directory path
+
+    Returns:
+        (status, response_text) where status is:
+        - "continue" if agent should continue working
+        - "error" if an error occurred
+    """
+    print("Sending prompt to Claude Agent SDK...\n")
+
+    try:
+        # Send the query
+        await client.query(message)
+
+        # Collect response text and show tool use
+        response_text = ""
+        async for msg in client.receive_response():
+            msg_type = type(msg).__name__
+
+            # Handle AssistantMessage (text and tool use)
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
@@ -202,7 +200,7 @@ This function is important because it defines how Claude Quickstarts Tutorial: P
 
 ```mermaid
 flowchart TD
-    A[validate_chmod_command]
-    B[validate_init_script]
+    A[main]
+    B[run_agent_session]
     A --> B
 ```

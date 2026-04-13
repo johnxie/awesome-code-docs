@@ -45,47 +45,45 @@ You now have a long-term operating approach for using Sweep responsibly within a
 
 Next: compare adjacent architectures in [OpenCode](../opencode-tutorial/) and [Stagewise](../stagewise-tutorial/).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `main` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `handle_event` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
-            return handle_request(payload, get_event_type(event))
 
-    def main():
-        cprint(
-            f"\n[bold black on white]  Starting server, listening to events from {repo_name}...  [/bold black on white]\n",
-        )
-        cprint(
-            f"To create a PR, please create an issue at https://github.com/{repo_name}/issues with a title prefixed with 'Sweep:' or label an existing issue with 'sweep'. The events will be logged here, but there may be a brief delay.\n"
-        )
-        for event in stream_events(repo):
-            handle_event(event)
-
-    if __name__ == "__main__":
-        main()
+def handle_github_webhook(event_payload):
+    handle_event(event_payload.get("request"), event_payload.get("event"))
 
 
-@app.command()
-def init(override: bool = False):
-    # TODO: Fix telemetry
-    if not override:
-        if os.path.exists(config_path):
-            with open(config_path, "r") as f:
-                config = json.load(f)
-                if "OPENAI_API_KEY" in config and "ANTHROPIC_API_KEY" in config and "GITHUB_PAT" in config:
-                    override = typer.confirm(
-                        f"\nConfiguration already exists at {config_path}. Override?",
-                        default=False,
-                        abort=True,
-                    )
-    cprint(
-        "\n[bold black on white]  Initializing Sweep CLI...  [/bold black on white]\n",
-    )
+def handle_request(request_dict, event=None):
+    """So it can be exported to the listen endpoint."""
+    with logger.contextualize(tracking_id="main", env=ENV):
+        action = request_dict.get("action")
+
+        try:
+            handle_github_webhook(
+                {
+                    "request": request_dict,
+                    "event": event,
+                }
+            )
+        except Exception as e:
+            logger.exception(str(e))
+        logger.info(f"Done handling {event}, {action}")
+        return {"success": True}
+
+
+# @app.post("/")
+async def validate_signature(
+    request: Request,
+    x_hub_signature: Optional[str] = Header(None, alias="X-Hub-Signature-256")
+):
+    payload_body = await request.body()
+    if not verify_signature(payload_body=payload_body, signature_header=x_hub_signature):
+        raise HTTPException(status_code=403, detail="Request signatures didn't match!")
+
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
@@ -218,7 +216,7 @@ This function is important because it defines how Sweep Tutorial: Issue-to-PR AI
 
 ```mermaid
 flowchart TD
-    A[main]
+    A[handle_event]
     B[pascal_to_snake]
     C[get_event_type]
     D[stream_events]

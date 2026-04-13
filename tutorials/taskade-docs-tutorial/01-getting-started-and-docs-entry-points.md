@@ -52,58 +52,23 @@ You now have an entry-point strategy that matches role and objective.
 
 Next: [Chapter 2: GitBook Structure, Navigation, and Information Architecture](02-gitbook-structure-navigation-and-information-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `archive/help-center/_imported/CLEANUP_SUMMARY.json`
+Use the following upstream sources to verify docs entry point and navigation details while reading this chapter:
 
-The `CLEANUP_SUMMARY` module in [`archive/help-center/_imported/CLEANUP_SUMMARY.json`](https://github.com/taskade/docs/blob/HEAD/archive/help-center/_imported/CLEANUP_SUMMARY.json) handles a key part of this chapter's functionality:
+- [`README.md`](https://github.com/taskade/docs/blob/HEAD/README.md) — the root entry point for the Taskade docs repo, containing the primary navigation overview and links to the major documentation sections.
+- [`SUMMARY.md`](https://github.com/taskade/docs/blob/HEAD/SUMMARY.md) — the GitBook navigation manifest that defines the complete document tree, section ordering, and all internal page links.
 
-```json
-{
-  "cleanup_date": "2025-09-14T01:11:04.798Z",
-  "total_unique_articles": 1145,
-  "duplicates_removed": 0,
-  "published_articles": 1057,
-  "unpublished_articles": 88,
-  "categories": [
-    "ai-agents",
-    "ai-automation",
-    "ai-basics",
-    "ai-features",
-    "automations",
-    "collaboration",
-    "essentials",
-    "folders",
-    "general",
-    "genesis",
-    "getting-started",
-    "integrations",
-    "known-urls",
-    "mobile",
-    "overview",
-    "productivity",
-    "project-views",
-    "projects",
-    "sharing",
-    "structure",
-    "taskade-ai",
-    "tasks",
-    "templates",
-    "tips",
-    "workspaces"
-  ],
-  "published_by_category": {
-    "ai-agents": 22,
-```
-
-This module is important because it defines how Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- read `README.md` to understand the intended reader journey and which sections are prioritized for new users
+- browse `SUMMARY.md` to map the full navigation structure before diving into individual sections
+- check `.gitbook.yaml` for any redirects or custom config that affects URL resolution
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[CLEANUP_SUMMARY]
+flowchart LR
+    A[New reader arrives] --> B[README.md entry point]
+    B --> C[SUMMARY.md navigation tree]
+    C --> D[Section-specific docs pages]
 ```

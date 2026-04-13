@@ -72,55 +72,53 @@ You now have a repeatable pattern to regenerate MCP tools from OpenAPI updates.
 
 Next: [Chapter 5: Client Integration Across Claude, Cursor, Windsurf, and n8n](05-client-integration-across-claude-cursor-windsurf-and-n8n.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `packages/server/src/tools.generated.ts`
+### `packages/openapi-codegen/src/openapi.ts`
 
-The `toQueryParams` function in [`packages/server/src/tools.generated.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/server/src/tools.generated.ts) handles a key part of this chapter's functionality:
+The `if` interface in [`packages/openapi-codegen/src/openapi.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/openapi-codegen/src/openapi.ts) handles a key part of this chapter's functionality:
 
 ```ts
-) => Promise<any>;
-
-function toQueryParams(obj: Record<string, any>): string {
-  const params = new URLSearchParams();
-
-  for (const key in obj) {
-    const value = obj[key];
-
-    if (value == null) {
-      continue;
-    }
-
-    if (Array.isArray(value)) {
-      value.forEach((v) => params.append(key, String(v)));
-    } else if (typeof value === 'object') {
-      params.append(key, JSON.stringify(value));
-    } else {
-      params.append(key, String(value));
-    }
+  response: OpenAPIV3.ResponseObject | OpenAPIV3.ReferenceObject,
+): OpenAPIV3.ResponseObject => {
+  if ('$ref' in response) {
+    throw new Error('Reference not supported');
   }
 
-  const str = params.toString();
+  return response;
+};
 
-  if (str === '') {
-    return '';
+export const convertOpenApiSchemaToJsonSchema = (
+  schema: OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject,
+): IJsonSchema => {
+  if ('$ref' in schema) {
+    // Should already be dereferenced
+    throw new Error('Reference not supported');
   }
 
-  return `?${str}`;
-}
+  const jsonSchema: IJsonSchema = {};
 
-export const prepareToolCallOperation = (
-  operation: ToolCallOpenApiOperation,
+  // Handle basic properties
+  if (schema.type) {
+    jsonSchema.type = schema.type;
+  }
+
+  if (schema.description) {
+    jsonSchema.description = schema.description;
+  }
+
+  if (schema.default !== undefined) {
+    jsonSchema.default = schema.default;
+  }
+
 ```
 
-This function is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
+This interface is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[toQueryParams]
+    A[if]
 ```

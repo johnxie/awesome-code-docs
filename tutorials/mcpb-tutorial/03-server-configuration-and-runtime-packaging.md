@@ -41,8 +41,6 @@ You now have a runtime packaging model for reliable MCPB installation and execut
 
 Next: [Chapter 4: Tools, Prompts, User Config, and Localization](04-tools-prompts-user-config-and-localization.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/cli/init.ts`

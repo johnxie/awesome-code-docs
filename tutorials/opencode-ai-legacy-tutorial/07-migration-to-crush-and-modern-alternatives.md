@@ -39,110 +39,167 @@ You now have a practical migration path away from archived OpenCode AI infrastru
 
 Next: [Chapter 8: Legacy Governance and Controlled Sunset](08-legacy-governance-and-controlled-sunset.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/message/content.go`
+### `internal/history/file.go`
 
-The `AddFinish` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (m *Message) AddFinish(reason FinishReason) {
-	// remove any existing finish part
-	for i, part := range m.Parts {
-		if _, ok := part.(Finish); ok {
-			m.Parts = slices.Delete(m.Parts, i, i+1)
-			break
-		}
-	}
-	m.Parts = append(m.Parts, Finish{Reason: reason, Time: time.Now().Unix()})
-}
-
-func (m *Message) AddImageURL(url, detail string) {
-	m.Parts = append(m.Parts, ImageURLContent{URL: url, Detail: detail})
-}
-
-func (m *Message) AddBinary(mimeType string, data []byte) {
-	m.Parts = append(m.Parts, BinaryContent{MIMEType: mimeType, Data: data})
-}
-
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/message/content.go`
-
-The `AddImageURL` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
+The `Get` function in [`internal/history/file.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/history/file.go) handles a key part of this chapter's functionality:
 
 ```go
+	Create(ctx context.Context, sessionID, path, content string) (File, error)
+	CreateVersion(ctx context.Context, sessionID, path, content string) (File, error)
+	Get(ctx context.Context, id string) (File, error)
+	GetByPathAndSession(ctx context.Context, path, sessionID string) (File, error)
+	ListBySession(ctx context.Context, sessionID string) ([]File, error)
+	ListLatestSessionFiles(ctx context.Context, sessionID string) ([]File, error)
+	Update(ctx context.Context, file File) (File, error)
+	Delete(ctx context.Context, id string) error
+	DeleteSessionFiles(ctx context.Context, sessionID string) error
 }
 
-func (m *Message) AddImageURL(url, detail string) {
-	m.Parts = append(m.Parts, ImageURLContent{URL: url, Detail: detail})
+type service struct {
+	*pubsub.Broker[File]
+	db *sql.DB
+	q  *db.Queries
 }
 
-func (m *Message) AddBinary(mimeType string, data []byte) {
-	m.Parts = append(m.Parts, BinaryContent{MIMEType: mimeType, Data: data})
-}
-
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/message/content.go`
-
-The `AddBinary` function in [`internal/message/content.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/content.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (m *Message) AddBinary(mimeType string, data []byte) {
-	m.Parts = append(m.Parts, BinaryContent{MIMEType: mimeType, Data: data})
-}
-
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
-### `internal/message/message.go`
-
-The `NewService` function in [`internal/message/message.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/message/message.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func NewService(q db.Querier) Service {
+func NewService(q *db.Queries, db *sql.DB) Service {
 	return &service{
-		Broker: pubsub.NewBroker[Message](),
+		Broker: pubsub.NewBroker[File](),
 		q:      q,
+		db:     db,
 	}
 }
 
-func (s *service) Delete(ctx context.Context, id string) error {
-	message, err := s.Get(ctx, id)
-	if err != nil {
-		return err
-	}
-	err = s.q.DeleteMessage(ctx, message.ID)
-	if err != nil {
-		return err
-	}
-	s.Publish(pubsub.DeletedEvent, message)
-	return nil
+func (s *service) Create(ctx context.Context, sessionID, path, content string) (File, error) {
+	return s.createWithVersion(ctx, sessionID, path, content, InitialVersion)
 }
 
-func (s *service) Create(ctx context.Context, sessionID string, params CreateMessageParams) (Message, error) {
-	if params.Role != Assistant {
-		params.Parts = append(params.Parts, Finish{
-			Reason: "stop",
-		})
+func (s *service) CreateVersion(ctx context.Context, sessionID, path, content string) (File, error) {
+	// Get the latest version for this path
+	files, err := s.q.ListFilesByPath(ctx, path)
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/history/file.go`
+
+The `GetByPathAndSession` function in [`internal/history/file.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/history/file.go) handles a key part of this chapter's functionality:
+
+```go
+	CreateVersion(ctx context.Context, sessionID, path, content string) (File, error)
+	Get(ctx context.Context, id string) (File, error)
+	GetByPathAndSession(ctx context.Context, path, sessionID string) (File, error)
+	ListBySession(ctx context.Context, sessionID string) ([]File, error)
+	ListLatestSessionFiles(ctx context.Context, sessionID string) ([]File, error)
+	Update(ctx context.Context, file File) (File, error)
+	Delete(ctx context.Context, id string) error
+	DeleteSessionFiles(ctx context.Context, sessionID string) error
+}
+
+type service struct {
+	*pubsub.Broker[File]
+	db *sql.DB
+	q  *db.Queries
+}
+
+func NewService(q *db.Queries, db *sql.DB) Service {
+	return &service{
+		Broker: pubsub.NewBroker[File](),
+		q:      q,
+		db:     db,
 	}
-	partsJSON, err := marshallParts(params.Parts)
+}
+
+func (s *service) Create(ctx context.Context, sessionID, path, content string) (File, error) {
+	return s.createWithVersion(ctx, sessionID, path, content, InitialVersion)
+}
+
+func (s *service) CreateVersion(ctx context.Context, sessionID, path, content string) (File, error) {
+	// Get the latest version for this path
+	files, err := s.q.ListFilesByPath(ctx, path)
 	if err != nil {
-		return Message{}, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/history/file.go`
+
+The `ListBySession` function in [`internal/history/file.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/history/file.go) handles a key part of this chapter's functionality:
+
+```go
+	Get(ctx context.Context, id string) (File, error)
+	GetByPathAndSession(ctx context.Context, path, sessionID string) (File, error)
+	ListBySession(ctx context.Context, sessionID string) ([]File, error)
+	ListLatestSessionFiles(ctx context.Context, sessionID string) ([]File, error)
+	Update(ctx context.Context, file File) (File, error)
+	Delete(ctx context.Context, id string) error
+	DeleteSessionFiles(ctx context.Context, sessionID string) error
+}
+
+type service struct {
+	*pubsub.Broker[File]
+	db *sql.DB
+	q  *db.Queries
+}
+
+func NewService(q *db.Queries, db *sql.DB) Service {
+	return &service{
+		Broker: pubsub.NewBroker[File](),
+		q:      q,
+		db:     db,
+	}
+}
+
+func (s *service) Create(ctx context.Context, sessionID, path, content string) (File, error) {
+	return s.createWithVersion(ctx, sessionID, path, content, InitialVersion)
+}
+
+func (s *service) CreateVersion(ctx context.Context, sessionID, path, content string) (File, error) {
+	// Get the latest version for this path
+	files, err := s.q.ListFilesByPath(ctx, path)
+	if err != nil {
+		return File{}, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
+
+### `internal/history/file.go`
+
+The `ListLatestSessionFiles` function in [`internal/history/file.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/history/file.go) handles a key part of this chapter's functionality:
+
+```go
+	GetByPathAndSession(ctx context.Context, path, sessionID string) (File, error)
+	ListBySession(ctx context.Context, sessionID string) ([]File, error)
+	ListLatestSessionFiles(ctx context.Context, sessionID string) ([]File, error)
+	Update(ctx context.Context, file File) (File, error)
+	Delete(ctx context.Context, id string) error
+	DeleteSessionFiles(ctx context.Context, sessionID string) error
+}
+
+type service struct {
+	*pubsub.Broker[File]
+	db *sql.DB
+	q  *db.Queries
+}
+
+func NewService(q *db.Queries, db *sql.DB) Service {
+	return &service{
+		Broker: pubsub.NewBroker[File](),
+		q:      q,
+		db:     db,
+	}
+}
+
+func (s *service) Create(ctx context.Context, sessionID, path, content string) (File, error) {
+	return s.createWithVersion(ctx, sessionID, path, content, InitialVersion)
+}
+
+func (s *service) CreateVersion(ctx context.Context, sessionID, path, content string) (File, error) {
+	// Get the latest version for this path
+	files, err := s.q.ListFilesByPath(ctx, path)
+	if err != nil {
+		return File{}, err
 	}
 ```
 
@@ -153,11 +210,11 @@ This function is important because it defines how OpenCode AI Legacy Tutorial: A
 
 ```mermaid
 flowchart TD
-    A[AddFinish]
-    B[AddImageURL]
-    C[AddBinary]
-    D[NewService]
-    E[Delete]
+    A[Get]
+    B[GetByPathAndSession]
+    C[ListBySession]
+    D[ListLatestSessionFiles]
+    E[Update]
     A --> B
     B --> C
     C --> D

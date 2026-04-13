@@ -34,170 +34,168 @@ You now have a session lifecycle model for high-throughput parallel task executi
 
 Next: [Chapter 4: Multi-Agent Program Integration](04-multi-agent-program-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `ui/list.go`
+### `session/instance.go`
 
-The `addRepo` function in [`ui/list.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/list.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (l *List) addRepo(repo string) {
-	if _, ok := l.repos[repo]; !ok {
-		l.repos[repo] = 0
-	}
-	l.repos[repo]++
-}
-
-func (l *List) rmRepo(repo string) {
-	if _, ok := l.repos[repo]; !ok {
-		log.ErrorLog.Printf("repo %s not found", repo)
-		return
-	}
-	l.repos[repo]--
-	if l.repos[repo] == 0 {
-		delete(l.repos, repo)
-	}
-}
-
-// AddInstance adds a new instance to the list. It returns a finalizer function that should be called when the instance
-// is started. If the instance was restored from storage or is paused, you can call the finalizer immediately.
-// When creating a new one and entering the name, you want to call the finalizer once the name is done.
-func (l *List) AddInstance(instance *session.Instance) (finalize func()) {
-	l.items = append(l.items, instance)
-	// The finalizer registers the repo name once the instance is started.
-	return func() {
-		repoName, err := instance.RepoName()
-		if err != nil {
-			log.ErrorLog.Printf("could not get repo name: %v", err)
-			return
-		}
-```
-
-This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
-
-### `ui/list.go`
-
-The `rmRepo` function in [`ui/list.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/list.go) handles a key part of this chapter's functionality:
-
-```go
-		log.ErrorLog.Printf("could not get repo name: %v", err)
-	} else {
-		l.rmRepo(repoName)
-	}
-
-	// Since there's items after this, the selectedIdx can stay the same.
-	l.items = append(l.items[:l.selectedIdx], l.items[l.selectedIdx+1:]...)
-}
-
-func (l *List) Attach() (chan struct{}, error) {
-	targetInstance := l.items[l.selectedIdx]
-	return targetInstance.Attach()
-}
-
-// Up selects the prev item in the list.
-func (l *List) Up() {
-	if len(l.items) == 0 {
-		return
-	}
-	if l.selectedIdx > 0 {
-		l.selectedIdx--
-	}
-}
-
-func (l *List) addRepo(repo string) {
-	if _, ok := l.repos[repo]; !ok {
-		l.repos[repo] = 0
-	}
-	l.repos[repo]++
-}
-
-func (l *List) rmRepo(repo string) {
-```
-
-This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
-
-### `ui/list.go`
-
-The `AddInstance` function in [`ui/list.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/list.go) handles a key part of this chapter's functionality:
+The `UpdateDiffStats` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// AddInstance adds a new instance to the list. It returns a finalizer function that should be called when the instance
-// is started. If the instance was restored from storage or is paused, you can call the finalizer immediately.
-// When creating a new one and entering the name, you want to call the finalizer once the name is done.
-func (l *List) AddInstance(instance *session.Instance) (finalize func()) {
-	l.items = append(l.items, instance)
-	// The finalizer registers the repo name once the instance is started.
-	return func() {
-		repoName, err := instance.RepoName()
-		if err != nil {
-			log.ErrorLog.Printf("could not get repo name: %v", err)
-			return
-		}
-
-		l.addRepo(repoName)
-	}
-}
-
-// GetSelectedInstance returns the currently selected instance
-func (l *List) GetSelectedInstance() *session.Instance {
-	if len(l.items) == 0 {
+// UpdateDiffStats updates the git diff statistics for this instance
+func (i *Instance) UpdateDiffStats() error {
+	if !i.started {
+		i.diffStats = nil
 		return nil
 	}
-	return l.items[l.selectedIdx]
+
+	if i.Status == Paused {
+		// Keep the previous diff stats if the instance is paused
+		return nil
+	}
+
+	stats := i.gitWorktree.Diff()
+	if stats.Error != nil {
+		if strings.Contains(stats.Error.Error(), "base commit SHA not set") {
+			// Worktree is not fully set up yet, not an error
+			i.diffStats = nil
+			return nil
+		}
+		return fmt.Errorf("failed to get diff stats: %w", stats.Error)
+	}
+
+	i.diffStats = stats
+	return nil
 }
 
-// SetSelectedInstance sets the selected index. Noop if the index is out of bounds.
-func (l *List) SetSelectedInstance(idx int) {
-	if idx >= len(l.items) {
-		return
-	}
+// ComputeDiff runs the expensive git diff I/O and returns the result without
+// mutating instance state. Safe to call from a background goroutine.
+func (i *Instance) ComputeDiff() *git.DiffStats {
+	if !i.started || i.Status == Paused {
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/list.go`
+### `session/instance.go`
 
-The `GetSelectedInstance` function in [`ui/list.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/list.go) handles a key part of this chapter's functionality:
+The `ComputeDiff` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// GetSelectedInstance returns the currently selected instance
-func (l *List) GetSelectedInstance() *session.Instance {
-	if len(l.items) == 0 {
+// ComputeDiff runs the expensive git diff I/O and returns the result without
+// mutating instance state. Safe to call from a background goroutine.
+func (i *Instance) ComputeDiff() *git.DiffStats {
+	if !i.started || i.Status == Paused {
 		return nil
 	}
-	return l.items[l.selectedIdx]
+	return i.gitWorktree.Diff()
 }
 
-// SetSelectedInstance sets the selected index. Noop if the index is out of bounds.
-func (l *List) SetSelectedInstance(idx int) {
-	if idx >= len(l.items) {
-		return
+// SetDiffStats sets the diff statistics on the instance. Should be called from
+// the main event loop to avoid data races with View.
+func (i *Instance) SetDiffStats(stats *git.DiffStats) {
+	i.diffStats = stats
+}
+
+// GetDiffStats returns the current git diff statistics
+func (i *Instance) GetDiffStats() *git.DiffStats {
+	return i.diffStats
+}
+
+// SendPrompt sends a prompt to the tmux session
+func (i *Instance) SendPrompt(prompt string) error {
+	if !i.started {
+		return fmt.Errorf("instance not started")
 	}
-	l.selectedIdx = idx
-}
-
-// SelectInstance finds and selects the given instance in the list.
-func (l *List) SelectInstance(target *session.Instance) {
-	for i, inst := range l.items {
-		if inst == target {
-			l.SetSelectedInstance(i)
-			return
-		}
+	if i.tmuxSession == nil {
+		return fmt.Errorf("tmux session not initialized")
 	}
+	if err := i.tmuxSession.SendKeys(prompt); err != nil {
+		return fmt.Errorf("error sending keys to tmux session: %w", err)
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `session/instance.go`
+
+The `SetDiffStats` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
+
+```go
 }
 
-// GetInstances returns all instances in the list
-func (l *List) GetInstances() []*session.Instance {
-	return l.items
+// SetDiffStats sets the diff statistics on the instance. Should be called from
+// the main event loop to avoid data races with View.
+func (i *Instance) SetDiffStats(stats *git.DiffStats) {
+	i.diffStats = stats
 }
+
+// GetDiffStats returns the current git diff statistics
+func (i *Instance) GetDiffStats() *git.DiffStats {
+	return i.diffStats
+}
+
+// SendPrompt sends a prompt to the tmux session
+func (i *Instance) SendPrompt(prompt string) error {
+	if !i.started {
+		return fmt.Errorf("instance not started")
+	}
+	if i.tmuxSession == nil {
+		return fmt.Errorf("tmux session not initialized")
+	}
+	if err := i.tmuxSession.SendKeys(prompt); err != nil {
+		return fmt.Errorf("error sending keys to tmux session: %w", err)
+	}
+
+	// Brief pause to prevent carriage return from being interpreted as newline
+	time.Sleep(100 * time.Millisecond)
+	if err := i.tmuxSession.TapEnter(); err != nil {
+		return fmt.Errorf("error tapping enter: %w", err)
+	}
+
+	return nil
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `session/instance.go`
+
+The `GetDiffStats` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// GetDiffStats returns the current git diff statistics
+func (i *Instance) GetDiffStats() *git.DiffStats {
+	return i.diffStats
+}
+
+// SendPrompt sends a prompt to the tmux session
+func (i *Instance) SendPrompt(prompt string) error {
+	if !i.started {
+		return fmt.Errorf("instance not started")
+	}
+	if i.tmuxSession == nil {
+		return fmt.Errorf("tmux session not initialized")
+	}
+	if err := i.tmuxSession.SendKeys(prompt); err != nil {
+		return fmt.Errorf("error sending keys to tmux session: %w", err)
+	}
+
+	// Brief pause to prevent carriage return from being interpreted as newline
+	time.Sleep(100 * time.Millisecond)
+	if err := i.tmuxSession.TapEnter(); err != nil {
+		return fmt.Errorf("error tapping enter: %w", err)
+	}
+
+	return nil
+}
+
+// PreviewFullHistory captures the entire tmux pane output including full scrollback history
+func (i *Instance) PreviewFullHistory() (string, error) {
+	if !i.started || i.Status == Paused {
+		return "", nil
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -207,11 +205,11 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 
 ```mermaid
 flowchart TD
-    A[addRepo]
-    B[rmRepo]
-    C[AddInstance]
-    D[GetSelectedInstance]
-    E[SetSelectedInstance]
+    A[UpdateDiffStats]
+    B[ComputeDiff]
+    C[SetDiffStats]
+    D[GetDiffStats]
+    E[SendPrompt]
     A --> B
     B --> C
     C --> D

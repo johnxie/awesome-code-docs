@@ -39,169 +39,167 @@ You now have a reliability playbook for daily operations.
 
 Next: [Chapter 8: Contribution Workflow and Governance](08-contribution-workflow-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/sessions-cli.js`
+### `.codebuddy/uninstall.js`
 
-The `printWorkers` function in [`scripts/sessions-cli.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/sessions-cli.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function printWorkers(workers) {
-  console.log(`Workers: ${workers.length}`);
-  if (workers.length === 0) {
-    console.log('  - none');
-    return;
-  }
-
-  for (const worker of workers) {
-    console.log(`  - ${worker.id || worker.label || '(unknown)'} ${worker.state || 'unknown'}`);
-    console.log(`    Branch: ${worker.branch || '(unknown)'}`);
-    console.log(`    Worktree: ${worker.worktree || '(unknown)'}`);
-  }
-}
-
-function printSkillRuns(skillRuns) {
-  console.log(`Skill runs: ${skillRuns.length}`);
-  if (skillRuns.length === 0) {
-    console.log('  - none');
-    return;
-  }
-
-  for (const skillRun of skillRuns) {
-    console.log(`  - ${skillRun.id} ${skillRun.outcome} ${skillRun.skillId}@${skillRun.skillVersion}`);
-    console.log(`    Task: ${skillRun.taskDescription}`);
-    console.log(`    Duration: ${skillRun.durationMs ?? '(unknown)'} ms`);
-  }
-}
-
-function printDecisions(decisions) {
-  console.log(`Decisions: ${decisions.length}`);
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/sessions-cli.js`
-
-The `printSkillRuns` function in [`scripts/sessions-cli.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/sessions-cli.js) handles a key part of this chapter's functionality:
+The `findEmptyDirs` function in [`.codebuddy/uninstall.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/uninstall.js) handles a key part of this chapter's functionality:
 
 ```js
-}
+ * Recursively find empty directories
+ */
+function findEmptyDirs(dirPath) {
+  const emptyDirs = [];
 
-function printSkillRuns(skillRuns) {
-  console.log(`Skill runs: ${skillRuns.length}`);
-  if (skillRuns.length === 0) {
-    console.log('  - none');
-    return;
-  }
+  function walkDirs(currentPath) {
+    try {
+      const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+      const subdirs = entries.filter(e => e.isDirectory());
 
-  for (const skillRun of skillRuns) {
-    console.log(`  - ${skillRun.id} ${skillRun.outcome} ${skillRun.skillId}@${skillRun.skillVersion}`);
-    console.log(`    Task: ${skillRun.taskDescription}`);
-    console.log(`    Duration: ${skillRun.durationMs ?? '(unknown)'} ms`);
-  }
-}
+      for (const subdir of subdirs) {
+        const subdirPath = path.join(currentPath, subdir.name);
+        walkDirs(subdirPath);
+      }
 
-function printDecisions(decisions) {
-  console.log(`Decisions: ${decisions.length}`);
-  if (decisions.length === 0) {
-    console.log('  - none');
-    return;
-  }
-
-  for (const decision of decisions) {
-    console.log(`  - ${decision.id} ${decision.status}`);
-    console.log(`    Title: ${decision.title}`);
-    console.log(`    Alternatives: ${decision.alternatives.join(', ') || '(none)'}`);
-  }
-}
-
-function printSessionDetail(payload) {
-  console.log(`Session: ${payload.session.id}`);
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/sessions-cli.js`
-
-The `printDecisions` function in [`scripts/sessions-cli.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/sessions-cli.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function printDecisions(decisions) {
-  console.log(`Decisions: ${decisions.length}`);
-  if (decisions.length === 0) {
-    console.log('  - none');
-    return;
-  }
-
-  for (const decision of decisions) {
-    console.log(`  - ${decision.id} ${decision.status}`);
-    console.log(`    Title: ${decision.title}`);
-    console.log(`    Alternatives: ${decision.alternatives.join(', ') || '(none)'}`);
-  }
-}
-
-function printSessionDetail(payload) {
-  console.log(`Session: ${payload.session.id}`);
-  console.log(`Harness: ${payload.session.harness}`);
-  console.log(`Adapter: ${payload.session.adapterId}`);
-  console.log(`State: ${payload.session.state}`);
-  console.log(`Repo: ${payload.session.repoRoot || '(unknown)'}`);
-  console.log(`Started: ${payload.session.startedAt || '(unknown)'}`);
-  console.log(`Ended: ${payload.session.endedAt || '(active)'}`);
-  console.log();
-  printWorkers(payload.workers);
-  console.log();
-  printSkillRuns(payload.skillRuns);
-  console.log();
-  printDecisions(payload.decisions);
-}
-
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/sessions-cli.js`
-
-The `printSessionDetail` function in [`scripts/sessions-cli.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/sessions-cli.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function printSessionDetail(payload) {
-  console.log(`Session: ${payload.session.id}`);
-  console.log(`Harness: ${payload.session.harness}`);
-  console.log(`Adapter: ${payload.session.adapterId}`);
-  console.log(`State: ${payload.session.state}`);
-  console.log(`Repo: ${payload.session.repoRoot || '(unknown)'}`);
-  console.log(`Started: ${payload.session.startedAt || '(unknown)'}`);
-  console.log(`Ended: ${payload.session.endedAt || '(active)'}`);
-  console.log();
-  printWorkers(payload.workers);
-  console.log();
-  printSkillRuns(payload.skillRuns);
-  console.log();
-  printDecisions(payload.decisions);
-}
-
-async function main() {
-  let store = null;
-
-  try {
-    const options = parseArgs(process.argv);
-    if (options.help) {
-      showHelp(0);
+      // Check if directory is now empty
+      try {
+        const remaining = fs.readdirSync(currentPath);
+        if (remaining.length === 0 && currentPath !== dirPath) {
+          emptyDirs.push(currentPath);
+        }
+      } catch {
+        // Directory might have been deleted
+      }
+    } catch {
+      // Ignore errors
     }
+  }
 
-    store = await createStateStore({
-      dbPath: options.dbPath,
-      homeDir: process.env.HOME,
+  walkDirs(dirPath);
+  return emptyDirs.sort().reverse(); // Sort in reverse for removal
+}
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `.codebuddy/uninstall.js`
+
+The `walkDirs` function in [`.codebuddy/uninstall.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/uninstall.js) handles a key part of this chapter's functionality:
+
+```js
+  const emptyDirs = [];
+
+  function walkDirs(currentPath) {
+    try {
+      const entries = fs.readdirSync(currentPath, { withFileTypes: true });
+      const subdirs = entries.filter(e => e.isDirectory());
+
+      for (const subdir of subdirs) {
+        const subdirPath = path.join(currentPath, subdir.name);
+        walkDirs(subdirPath);
+      }
+
+      // Check if directory is now empty
+      try {
+        const remaining = fs.readdirSync(currentPath);
+        if (remaining.length === 0 && currentPath !== dirPath) {
+          emptyDirs.push(currentPath);
+        }
+      } catch {
+        // Directory might have been deleted
+      }
+    } catch {
+      // Ignore errors
+    }
+  }
+
+  walkDirs(dirPath);
+  return emptyDirs.sort().reverse(); // Sort in reverse for removal
+}
+
+/**
+ * Prompt user for confirmation
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `.codebuddy/uninstall.js`
+
+The `promptConfirm` function in [`.codebuddy/uninstall.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/uninstall.js) handles a key part of this chapter's functionality:
+
+```js
+ * Prompt user for confirmation
+ */
+async function promptConfirm(question) {
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
     });
+
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(/^[yY]$/.test(answer));
+    });
+  });
+}
+
+/**
+ * Main uninstall function
+ */
+async function doUninstall() {
+  const codebuddyDirName = '.codebuddy';
+
+  // Parse arguments
+  let targetDir = process.cwd();
+  if (process.argv.length > 2) {
+    const arg = process.argv[2];
+    if (arg === '~' || arg === getHomeDir()) {
+      targetDir = getHomeDir();
+    } else {
+      targetDir = path.resolve(arg);
+    }
+  }
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `.codebuddy/uninstall.js`
+
+The `doUninstall` function in [`.codebuddy/uninstall.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/.codebuddy/uninstall.js) handles a key part of this chapter's functionality:
+
+```js
+ * Main uninstall function
+ */
+async function doUninstall() {
+  const codebuddyDirName = '.codebuddy';
+
+  // Parse arguments
+  let targetDir = process.cwd();
+  if (process.argv.length > 2) {
+    const arg = process.argv[2];
+    if (arg === '~' || arg === getHomeDir()) {
+      targetDir = getHomeDir();
+    } else {
+      targetDir = path.resolve(arg);
+    }
+  }
+
+  // Determine codebuddy full path
+  let codebuddyFullPath;
+  const baseName = path.basename(targetDir);
+
+  if (baseName === codebuddyDirName) {
+    codebuddyFullPath = targetDir;
+  } else {
+    codebuddyFullPath = path.join(targetDir, codebuddyDirName);
+  }
+
+  console.log('ECC CodeBuddy Uninstaller');
+  console.log('==========================');
+  console.log('');
+  console.log(`Target:  ${codebuddyFullPath}/`);
+  console.log('');
 
 ```
 
@@ -212,11 +210,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[printWorkers]
-    B[printSkillRuns]
-    C[printDecisions]
-    D[printSessionDetail]
-    E[main]
+    A[findEmptyDirs]
+    B[walkDirs]
+    C[promptConfirm]
+    D[doUninstall]
+    E[getHelpText]
     A --> B
     B --> C
     C --> D

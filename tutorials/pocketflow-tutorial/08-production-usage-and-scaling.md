@@ -24,170 +24,164 @@ This chapter outlines how to run PocketFlow systems reliably in production conte
 
 You now have an operations baseline for production PocketFlow workloads.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cookbook/pocketflow-structured-output/main.py`
+### `cookbook/pocketflow-rag/nodes.py`
 
-The `ResumeParserNode` class in [`cookbook/pocketflow-structured-output/main.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-structured-output/main.py) handles a key part of this chapter's functionality:
-
-```py
-from utils import call_llm # Assumes utils.py with call_llm exists
-
-class ResumeParserNode(Node):
-    def prep(self, shared):
-        """Return resume text and target skills from shared state."""
-        return {
-            "resume_text": shared["resume_text"],
-            "target_skills": shared.get("target_skills", [])
-        }
-
-    def exec(self, prep_res):
-        """Extract structured data from resume using prompt engineering.
-        Requests YAML output with comments and skill indexes as a list.
-        """
-        resume_text = prep_res["resume_text"]
-        target_skills = prep_res["target_skills"]
-
-        # Format skills with indexes for the prompt
-        skill_list_for_prompt = "\n".join([f"{i}: {skill}" for i, skill in enumerate(target_skills)])
-
-        # Simplified Prompt focusing on key instructions and format
-        prompt = f"""
-Analyze the resume below. Output ONLY the requested information in YAML format.
-
-**Resume:**
-```
-{resume_text}
-```
-
-**Target Skills (use these indexes):**
-```
-{skill_list_for_prompt}
-```
-
-This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
-
-### `cookbook/pocketflow-a2a/nodes.py`
-
-The `DecideAction` class in [`cookbook/pocketflow-a2a/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-a2a/nodes.py) handles a key part of this chapter's functionality:
+The `EmbedQueryNode` class in [`cookbook/pocketflow-rag/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-rag/nodes.py) handles a key part of this chapter's functionality:
 
 ```py
-import yaml
 
-class DecideAction(Node):
+# Nodes for the online flow
+class EmbedQueryNode(Node):
     def prep(self, shared):
-        """Prepare the context and question for the decision-making process."""
-        # Get the current context (default to "No previous search" if none exists)
-        context = shared.get("context", "No previous search")
-        # Get the question from the shared store
-        question = shared["question"]
-        # Return both for the exec step
-        return question, context
-        
-    def exec(self, inputs):
-        """Call the LLM to decide whether to search or answer."""
-        question, context = inputs
-        
-        print(f"🤔 Agent deciding what to do next...")
-        
-        # Create a prompt to help the LLM decide what to do next with proper yaml formatting
-        prompt = f"""
-### CONTEXT
-You are a research assistant that can search the web.
-Question: {question}
-Previous Research: {context}
-
-### ACTION SPACE
-[1] search
-  Description: Look up more information on the web
-  Parameters:
-    - query (str): What to search for
-
-[2] answer
-```
-
-This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
-
-### `cookbook/pocketflow-a2a/nodes.py`
-
-The `SearchWeb` class in [`cookbook/pocketflow-a2a/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-a2a/nodes.py) handles a key part of this chapter's functionality:
-
-```py
-        return exec_res["action"]
-
-class SearchWeb(Node):
-    def prep(self, shared):
-        """Get the search query from the shared store."""
-        return shared["search_query"]
-        
-    def exec(self, search_query):
-        """Search the web for the given query."""
-        # Call the search utility function
-        print(f"🌐 Searching the web for: {search_query}")
-        results = search_web(search_query)
-        return results
+        """Get query from shared store"""
+        return shared["query"]
+    
+    def exec(self, query):
+        """Embed the query"""
+        print(f"🔍 Embedding query: {query}")
+        query_embedding = get_embedding(query)
+        return np.array([query_embedding], dtype=np.float32)
     
     def post(self, shared, prep_res, exec_res):
-        """Save the search results and go back to the decision node."""
-        # Add the search results to the context in the shared store
-        previous = shared.get("context", "")
-        shared["context"] = previous + "\n\nSEARCH: " + shared["search_query"] + "\nRESULTS: " + exec_res
-        
-        print(f"📚 Found information, analyzing results...")
-        
-        # Always go back to the decision node after searching
-        return "decide"
+        """Store query embedding in shared store"""
+        shared["query_embedding"] = exec_res
+        return "default"
 
-class AnswerQuestion(Node):
+class RetrieveDocumentNode(Node):
     def prep(self, shared):
-        """Get the question and context for answering."""
-        return shared["question"], shared.get("context", "")
-        
+        """Get query embedding, index, and texts from shared store"""
+        return shared["query_embedding"], shared["index"], shared["texts"]
+    
     def exec(self, inputs):
-        """Call the LLM to generate a final answer."""
+        """Search the index for similar documents"""
+        print("🔎 Searching for relevant documents...")
+        query_embedding, index, texts = inputs
+        
+        # Search for the most similar document
+        distances, indices = index.search(query_embedding, k=1)
+        
+        # Get the index of the most similar document
 ```
 
 This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
 
-### `cookbook/pocketflow-a2a/nodes.py`
+### `cookbook/pocketflow-rag/nodes.py`
 
-The `AnswerQuestion` class in [`cookbook/pocketflow-a2a/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-a2a/nodes.py) handles a key part of this chapter's functionality:
+The `RetrieveDocumentNode` class in [`cookbook/pocketflow-rag/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-rag/nodes.py) handles a key part of this chapter's functionality:
 
 ```py
-        return "decide"
+        return "default"
 
-class AnswerQuestion(Node):
+class RetrieveDocumentNode(Node):
     def prep(self, shared):
-        """Get the question and context for answering."""
-        return shared["question"], shared.get("context", "")
-        
+        """Get query embedding, index, and texts from shared store"""
+        return shared["query_embedding"], shared["index"], shared["texts"]
+    
     def exec(self, inputs):
-        """Call the LLM to generate a final answer."""
-        question, context = inputs
+        """Search the index for similar documents"""
+        print("🔎 Searching for relevant documents...")
+        query_embedding, index, texts = inputs
         
-        print(f"✍️ Crafting final answer...")
+        # Search for the most similar document
+        distances, indices = index.search(query_embedding, k=1)
         
-        # Create a prompt for the LLM to answer the question
-        prompt = f"""
-### CONTEXT
-Based on the following information, answer the question.
-Question: {question}
-Research: {context}
+        # Get the index of the most similar document
+        best_idx = indices[0][0]
+        distance = distances[0][0]
+        
+        # Get the corresponding text
+        most_relevant_text = texts[best_idx]
+        
+        return {
+            "text": most_relevant_text,
+            "index": best_idx,
+            "distance": distance
+        }
+    
+    def post(self, shared, prep_res, exec_res):
+        """Store retrieved document in shared store"""
+        shared["retrieved_document"] = exec_res
+        print(f"📄 Retrieved document (index: {exec_res['index']}, distance: {exec_res['distance']:.4f})")
+```
 
-## YOUR ANSWER:
-Provide a comprehensive answer using the research results.
+This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+### `cookbook/pocketflow-rag/nodes.py`
+
+The `GenerateAnswerNode` class in [`cookbook/pocketflow-rag/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-rag/nodes.py) handles a key part of this chapter's functionality:
+
+```py
+        return "default"
+    
+class GenerateAnswerNode(Node):
+    def prep(self, shared):
+        """Get query, retrieved document, and any other context needed"""
+        return shared["query"], shared["retrieved_document"]
+    
+    def exec(self, inputs):
+        """Generate an answer using the LLM"""
+        query, retrieved_doc = inputs
+        
+        prompt = f"""
+Briefly answer the following question based on the context provided:
+Question: {query}
+Context: {retrieved_doc['text']}
+Answer:
 """
-        # Call the LLM to generate an answer
+        
         answer = call_llm(prompt)
         return answer
     
     def post(self, shared, prep_res, exec_res):
-        """Save the final answer and complete the flow."""
-        # Save the answer in the shared store
-        shared["answer"] = exec_res
-        
+        """Store generated answer in shared store"""
+        shared["generated_answer"] = exec_res
+        print("\n🤖 Generated Answer:")
+        print(exec_res)
+        return "default"
+
+```
+
+This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+### `cookbook/pocketflow-voice-chat/nodes.py`
+
+The `CaptureAudioNode` class in [`cookbook/pocketflow-voice-chat/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-voice-chat/nodes.py) handles a key part of this chapter's functionality:
+
+```py
+from utils.text_to_speech import text_to_speech_api
+
+class CaptureAudioNode(Node):
+    """Records audio input from the user using VAD."""
+    def exec(self, _): # prep_res is not used as per design
+        print("\nListening for your query...")
+        audio_data, sample_rate = record_audio()
+        if audio_data is None:
+            return None, None
+        return audio_data, sample_rate
+
+    def post(self, shared, prep_res, exec_res):
+        audio_numpy_array, sample_rate = exec_res
+        if audio_numpy_array is None:
+            shared["user_audio_data"] = None
+            shared["user_audio_sample_rate"] = None
+            print("CaptureAudioNode: Failed to capture audio.")
+            return "end_conversation" 
+
+        shared["user_audio_data"] = audio_numpy_array
+        shared["user_audio_sample_rate"] = sample_rate
+        print(f"Audio captured ({len(audio_numpy_array)/sample_rate:.2f}s), proceeding to STT.")
+
+class SpeechToTextNode(Node):
+    """Converts the recorded in-memory audio to text."""
+    def prep(self, shared):
+        user_audio_data = shared.get("user_audio_data")
+        user_audio_sample_rate = shared.get("user_audio_sample_rate")
+        if user_audio_data is None or user_audio_sample_rate is None:
+            print("SpeechToTextNode: No audio data to process.")
+            return None # Signal to skip exec
+        return user_audio_data, user_audio_sample_rate
 ```
 
 This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
@@ -197,11 +191,11 @@ This class is important because it defines how PocketFlow Tutorial: Minimal LLM 
 
 ```mermaid
 flowchart TD
-    A[ResumeParserNode]
-    B[DecideAction]
-    C[SearchWeb]
-    D[AnswerQuestion]
-    E[ValidatePayment]
+    A[EmbedQueryNode]
+    B[RetrieveDocumentNode]
+    C[GenerateAnswerNode]
+    D[CaptureAudioNode]
+    E[SpeechToTextNode]
     A --> B
     B --> C
     C --> D

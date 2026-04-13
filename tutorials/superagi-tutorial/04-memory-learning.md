@@ -703,6 +703,17 @@ Under the hood, `Chapter 4: Memory & Learning` usually follows a repeatable cont
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Agent experience] --> B[Memory storage layer]
+    B --> C[Short-term context buffer]
+    B --> D[Long-term vector store]
+    C --> E[Current task reasoning]
+    D --> E
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

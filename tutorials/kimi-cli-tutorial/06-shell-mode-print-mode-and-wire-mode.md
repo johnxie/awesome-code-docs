@@ -38,141 +38,139 @@ You now know when to use interactive mode versus automation/protocol modes.
 
 Next: [Chapter 7: Loop Control, Retries, and Long Tasks](07-loop-control-retries-and-long-tasks.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/kimi-psql/main.py`
+### `vis/src/App.tsx`
 
-The `ExecuteSql` class in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
+The `SessionDirectoryActions` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
 
-```py
+```tsx
+}
 
+function SessionDirectoryActions({
+  session,
+  openInSupported,
+}: {
+  session: SessionInfo;
+  openInSupported: boolean;
+}) {
+  const [copied, setCopied] = useState(false);
 
-class ExecuteSqlParams(BaseModel):
-    """Parameters for ExecuteSql tool."""
+  const handleOpenSessionDir = useCallback(async () => {
+    try {
+      await openInPath("finder", session.session_dir);
+    } catch (error) {
+      console.error("Failed to open session directory:", error);
+      window.alert(
+        error instanceof Error
+          ? `Failed to open session directory:\n${error.message}`
+          : "Failed to open session directory",
+      );
+    }
+  }, [session.session_dir]);
 
-    sql: str = Field(description="The SQL query to execute in the connected PostgreSQL database")
-
-
-class ExecuteSql(CallableTool2[ExecuteSqlParams]):
-    """Execute read-only SQL query in the connected PostgreSQL database."""
-
-    name: str = "ExecuteSql"
-    description: str = (
-        "Execute a READ-ONLY SQL query in the connected PostgreSQL database. "
-        "Use this tool for SELECT queries and database introspection queries. "
-        "This tool CANNOT execute write operations (INSERT, UPDATE, DELETE, DROP, etc.). "
-        "For write operations, return the SQL in a markdown code block for the user to "
-        "execute manually. "
-        "Note: psql meta-commands (\\d, \\dt, etc.) are NOT supported - use SQL queries "
-        "instead (e.g., SELECT * FROM pg_tables WHERE schemaname = 'public')."
-    )
-    params: type[ExecuteSqlParams] = ExecuteSqlParams
-
-    def __init__(self, conninfo: str):
-        """
-        Initialize ExecuteSql tool with database connection info.
-
-        Args:
-            conninfo: PostgreSQL connection string
-                (e.g., "host=localhost port=5432 dbname=mydb user=postgres")
-        """
-        super().__init__()
+  const handleCopyDirInfo = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(getSessionDir(session));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy DIR info:", error);
+      window.alert("Failed to copy DIR info");
 ```
 
-This class is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
-### `examples/kimi-psql/main.py`
+### `vis/src/App.tsx`
 
-The `PsqlProcess` class in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
+The `SessionStats` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
 
-```py
+```tsx
+type Tab = "wire" | "context" | "state" | "dual" | "agents";
 
-# ============================================================================
-# PsqlProcess: PTY-based psql subprocess management
-# ============================================================================
+interface SessionStatsData {
+  turns: number;
+  steps: number;
+  toolCalls: number;
+  errors: number;
+  compactions: number;
+  durationSec: number;
+  inputTokens: number;
+  outputTokens: number;
+  cacheRate: number;
+}
 
+function computeStats(events: WireEvent[]): SessionStatsData {
+  let turns = 0;
+  let steps = 0;
+  let toolCalls = 0;
+  let errors = 0;
+  let compactions = 0;
+  let inputTokens = 0;
+  let outputTokens = 0;
+  let totalCacheRead = 0;
+  let totalInputOther = 0;
+  let totalCacheCreation = 0;
 
-class PsqlProcess:
-    """Manages a psql subprocess with PTY support for full interactive experience."""
-
-    def __init__(self, psql_args: list[str]):
-        self.psql_args = psql_args
-        self._master_fd: int | None = None
-        self._pid: int | None = None
-        self._running = False
-        self._original_termios: list | None = None
-
-    def start(self) -> None:
-        """Spawn psql in a pseudo-terminal."""
-        # Save original terminal settings
-        if sys.stdin.isatty():
-            self._original_termios = termios.tcgetattr(sys.stdin)
-
-        pid, master_fd = pty.fork()
-
-        if pid == 0:
-            # Child process: exec psql
-            os.execvp("psql", self.psql_args)
-        else:
-            # Parent process
-            self._pid = pid
-            self._master_fd = master_fd
-            self._running = True
+  for (const e of events) {
+    if (e.type === "TurnBegin") turns++;
+    if (e.type === "StepBegin") steps++;
+    if (e.type === "ToolCall") toolCalls++;
+    if (e.type === "CompactionBegin") compactions++;
+    if (isErrorEvent(e)) errors++;
 ```
 
-This class is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
-### `examples/kimi-psql/main.py`
+### `vis/src/App.tsx`
 
-The `PsqlMode` class in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
+The `ShortcutRow` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
 
-```py
+```tsx
+}
 
-# ============================================================================
-# PsqlMode: Operation mode enumeration
-# ============================================================================
+function ShortcutRow({ keys, desc }: { keys: string; desc: string }) {
+  return (
+    <div className="flex items-center gap-3">
+      <kbd className="inline-flex min-w-[2rem] items-center justify-center rounded border bg-muted px-1.5 py-0.5 font-mono text-xs">
+        {keys}
+      </kbd>
+      <span className="text-muted-foreground">{desc}</span>
+    </div>
+  );
+}
 
+export function App() {
+  const { theme, toggleTheme } = useTheme();
+  const [sessionId, setSessionId] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("session");
+  });
+  const [activeTab, setActiveTab] = useState<Tab>("wire");
+  const [explorerView, setExplorerView] = useState<"sessions" | "statistics">("sessions");
+  const [showShortcutHelp, setShowShortcutHelp] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+  const [openInSupported, setOpenInSupported] = useState(false);
+  // Agent scope: null = main agent, string = sub-agent ID
+  const [agentScope, setAgentScope] = useState<string | null>(null);
+  // Cross-reference navigation targets
+  const [contextScrollTarget, setContextScrollTarget] = useState<string | null>(null);
+  const [wireScrollTarget, setWireScrollTarget] = useState<string | null>(null);
 
-class PsqlMode(Enum):
-    AI = "ai"  # AI assistance mode (default)
-    PSQL = "psql"  # Direct psql interaction
-
-    def toggle(self) -> "PsqlMode":
-        return PsqlMode.PSQL if self == PsqlMode.AI else PsqlMode.AI
-
-
-# ============================================================================
-# PsqlSoul: SQL generation specialized Soul
-# ============================================================================
-
-
-async def create_psql_soul(llm: LLM | None, conninfo: str) -> KimiSoul:
-    """Create a KimiSoul configured for PostgreSQL with ExecuteSql tool
-    and standard kimi-cli tools."""
-    from typing import cast
-
-    from kimi_cli.config import load_config
-    from kimi_cli.soul.agent import load_agent
-    from kimi_cli.soul.toolset import KimiToolset
-
-    config = load_config()
-    kaos_work_dir = KaosPath.cwd()
-    session = await Session.create(kaos_work_dir)
-    runtime = await Runtime.create(
+  const handleNavigateToContext = useCallback((toolCallId: string) => {
 ```
 
-This class is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ExecuteSql]
-    B[PsqlProcess]
-    C[PsqlMode]
+    A[SessionDirectoryActions]
+    B[SessionStats]
+    C[ShortcutRow]
     A --> B
     B --> C
 ```

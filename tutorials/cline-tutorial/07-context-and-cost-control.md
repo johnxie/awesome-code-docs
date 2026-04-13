@@ -114,162 +114,168 @@ You now have a scalable context-and-cost operating model:
 
 Next: [Chapter 8: Team and Enterprise Operations](08-team-and-enterprise-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/common.ts`
+### `src/extension.ts`
 
-The `showVersionUpdateAnnouncement` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
-
-```ts
-	const stateManager = StateManager.get()
-	// Non-blocking announcement check and display
-	showVersionUpdateAnnouncement(stateManager)
-	// Check if this workspace was opened from worktree quick launch
-	await checkWorktreeAutoOpen(stateManager)
-
-	// =============== Background sync and cleanup tasks ===============
-	// Use remote config blobStoreConfig if available, otherwise fall back to env vars
-	const blobStoreSettings = stateManager.getRemoteConfigSettings()?.blobStoreConfig ?? getBlobStoreSettingsFromEnv()
-	syncWorker().init({ ...blobStoreSettings, userDistinctId: getDistinctId() })
-	// Clean up old temp files in background (non-blocking) and start periodic cleanup every 24 hours
-	ClineTempManager.startPeriodicCleanup()
-	// Clean up orphaned file context warnings (startup cleanup)
-	FileContextTracker.cleanupOrphanedWarnings(stateManager)
-
-	telemetryService.captureExtensionActivated()
-
-	return webview
-}
-
-async function showVersionUpdateAnnouncement(stateManager: StateManager) {
-	// Version checking for autoupdate notification
-	const currentVersion = ExtensionRegistryInfo.version
-	const previousVersion = stateManager.getGlobalStateKey("clineVersion")
-	// Perform post-update actions if necessary
-	try {
-		if (!previousVersion || currentVersion !== previousVersion) {
-			Logger.log(`Cline version changed: ${previousVersion} -> ${currentVersion}. First run or update detected.`)
-
-			// Check if there's a new announcement to show
-			const lastShownAnnouncementId = stateManager.getGlobalStateKey("lastShownAnnouncementId")
-			const latestAnnouncementId = getLatestAnnouncementId()
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/common.ts`
-
-The `checkWorktreeAutoOpen` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
+The `showJupyterPromptInput` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
 ```ts
-	showVersionUpdateAnnouncement(stateManager)
-	// Check if this workspace was opened from worktree quick launch
-	await checkWorktreeAutoOpen(stateManager)
+			commands.JupyterGenerateCell,
+			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
+				const userPrompt = await showJupyterPromptInput(
+					"Generate Notebook Cell",
+					"Enter your prompt for generating notebook cell (press Enter to confirm & Esc to cancel)",
+				)
+				if (!userPrompt) return
 
-	// =============== Background sync and cleanup tasks ===============
-	// Use remote config blobStoreConfig if available, otherwise fall back to env vars
-	const blobStoreSettings = stateManager.getRemoteConfigSettings()?.blobStoreConfig ?? getBlobStoreSettingsFromEnv()
-	syncWorker().init({ ...blobStoreSettings, userDistinctId: getDistinctId() })
-	// Clean up old temp files in background (non-blocking) and start periodic cleanup every 24 hours
-	ClineTempManager.startPeriodicCleanup()
-	// Clean up orphaned file context warnings (startup cleanup)
-	FileContextTracker.cleanupOrphanedWarnings(stateManager)
+				const ctx = await getNotebookCommandContext(range, diagnostics)
+				if (!ctx) return
 
-	telemetryService.captureExtensionActivated()
+				const notebookContext = `User prompt: ${userPrompt}
+Insert a new Jupyter notebook cell above or below the current cell based on user prompt.
+${NOTEBOOK_EDIT_INSTRUCTIONS}
 
-	return webview
-}
+Current Notebook Cell Context (JSON, sanitized of image data):
+\`\`\`json
+${ctx.cellJson || "{}"}
+\`\`\``
 
-async function showVersionUpdateAnnouncement(stateManager: StateManager) {
-	// Version checking for autoupdate notification
-	const currentVersion = ExtensionRegistryInfo.version
-	const previousVersion = stateManager.getGlobalStateKey("clineVersion")
-	// Perform post-update actions if necessary
-	try {
-		if (!previousVersion || currentVersion !== previousVersion) {
-			Logger.log(`Cline version changed: ${previousVersion} -> ${currentVersion}. First run or update detected.`)
+				await addToCline(ctx.controller, ctx.commandContext, notebookContext)
+			},
+		),
+	)
 
-			// Check if there's a new announcement to show
-			const lastShownAnnouncementId = stateManager.getGlobalStateKey("lastShownAnnouncementId")
-			const latestAnnouncementId = getLatestAnnouncementId()
-
-			if (lastShownAnnouncementId !== latestAnnouncementId) {
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/common.ts`
-
-The `tearDown` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Performs cleanup when Cline is deactivated that is common to all platforms.
- */
-export async function tearDown(): Promise<void> {
-	AgentConfigLoader.getInstance()?.dispose()
-	PostHogClientProvider.getInstance().dispose()
-	telemetryService.dispose()
-	ErrorService.get().dispose()
-	featureFlagsService.dispose()
-	// Dispose all webview instances
-	await WebviewProvider.disposeAllInstances()
-	syncWorker().dispose()
-	clearOnboardingModelsCache()
-
-	// Kill any running hook processes to prevent zombies
-	await HookProcessRegistry.terminateAll()
-	// Clean up hook discovery cache
-	HookDiscoveryCache.getInstance().dispose()
-	// Stop periodic temp file cleanup
-	ClineTempManager.stopPeriodicCleanup()
-
-	// Clean up test mode
-	cleanupTestMode()
-}
+	context.subscriptions.push(
+		vscode.commands.registerCommand(
+			commands.JupyterExplainCell,
+			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
+				const ctx = await getNotebookCommandContext(range, diagnostics)
+				if (!ctx) return
 
 ```
 
 This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
-### `scripts/generate-stubs.js`
+### `src/extension.ts`
 
-The `traverse` function in [`scripts/generate-stubs.js`](https://github.com/cline/cline/blob/HEAD/scripts/generate-stubs.js) handles a key part of this chapter's functionality:
+The `setupHostProvider` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
-const { Project, SyntaxKind } = require("ts-morph")
+```ts
+	// 1. Set up HostProvider for VSCode
+	// IMPORTANT: This must be done before any service can be registered
+	setupHostProvider(context)
 
-function traverse(container, output, prefix = "") {
-	for (const node of container.getStatements()) {
-		const kind = node.getKind()
+	// 2. Clean up legacy data patterns within VSCode's native storage.
+	// Moves workspace→global keys, task history→file, custom instructions→rules, etc.
+	// Must run BEFORE the file export so we copy clean state.
+	await cleanupLegacyVSCodeStorage(context)
 
-		if (kind === SyntaxKind.ModuleDeclaration) {
-			const name = node.getName().replace(/^['"]|['"]$/g, "")
-			var fullPrefix
-			if (prefix) {
-				fullPrefix = `${prefix}.${name}`
-			} else {
-				fullPrefix = name
-			}
-			output.push(`${fullPrefix} = {};`)
-			const body = node.getBody()
-			if (body && body.getKind() === SyntaxKind.ModuleBlock) {
-				traverse(body, output, fullPrefix)
-			}
-		} else if (kind === SyntaxKind.FunctionDeclaration) {
-			const name = node.getName()
-			const params = node.getParameters().map((p, i) => sanitizeParam(p.getName(), i))
-			const typeNode = node.getReturnTypeNode()
-			const returnType = typeNode ? typeNode.getText() : ""
-			const ret = mapReturn(returnType)
-			output.push(
-				`${prefix}.${name} = function(${params.join(", ")}) { console.log('Called stubbed function: ${prefix}.${name}');  ${ret} };`,
-			)
-		} else if (kind === SyntaxKind.EnumDeclaration) {
-			const name = node.getName()
-			const members = node.getMembers().map((m) => m.getName())
-			output.push(`${prefix}.${name} = { ${members.map((m) => `${m}: 0`).join(", ")} };`)
+	// 3. One-time export of VSCode's native storage to shared file-backed stores.
+	// After this, all platforms (VSCode, CLI, JetBrains) read from ~/.cline/data/.
+	const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
+	const storageContext = createStorageContext({ workspacePath })
+	await exportVSCodeStorageToSharedFiles(context, storageContext)
+
+	// 4. Register services and perform common initialization
+	// IMPORTANT: Must be done after host provider is setup and migrations are complete
+	const webview = (await initialize(storageContext)) as VscodeWebviewProvider
+
+	// 5. Register services and commands specific to VS Code
+	// Initialize test mode and add disposables to context
+	const testModeWatchers = await initializeTestMode(webview)
+	context.subscriptions.push(...testModeWatchers)
+
+	// Initialize hook discovery cache for performance optimization
+	HookDiscoveryCache.getInstance().initialize(
+		context as any, // Adapt VSCode ExtensionContext to generic interface
+		(dir: string) => {
+			try {
+				const pattern = new vscode.RelativePattern(dir, "*")
+				const watcher = vscode.workspace.createFileSystemWatcher(pattern)
+				// Ensure watcher is disposed when extension is deactivated
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/extension.ts`
+
+The `getUriPath` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+
+```ts
+	const handleUri = async (uri: vscode.Uri) => {
+		const url = decodeURIComponent(uri.toString())
+		const isTaskUri = getUriPath(url) === TASK_URI_PATH
+
+		if (isTaskUri) {
+			await openClineSidebarForTaskUri()
+		}
+
+		let success = await SharedUriHandler.handleUri(url)
+
+		// Task deeplinks can race with first-time sidebar initialization.
+		if (!success && isTaskUri) {
+			await openClineSidebarForTaskUri()
+			success = await SharedUriHandler.handleUri(url)
+		}
+
+		if (!success) {
+			Logger.warn("Extension URI handler: Failed to process URI:", uri.toString())
+		}
+	}
+	context.subscriptions.push(vscode.window.registerUriHandler({ handleUri }))
+
+	// Register size testing commands in development mode
+	if (IS_DEV) {
+		vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV)
+		// Use dynamic import to avoid loading the module in production
+		import("./dev/commands/tasks")
+			.then((module) => {
+				const devTaskCommands = module.registerTaskCommands(webview.controller)
+				context.subscriptions.push(...devTaskCommands)
+				Logger.log("[Cline Dev] Dev mode activated & dev commands registered")
+			})
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/extension.ts`
+
+The `openClineSidebarForTaskUri` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+		if (isTaskUri) {
+			await openClineSidebarForTaskUri()
+		}
+
+		let success = await SharedUriHandler.handleUri(url)
+
+		// Task deeplinks can race with first-time sidebar initialization.
+		if (!success && isTaskUri) {
+			await openClineSidebarForTaskUri()
+			success = await SharedUriHandler.handleUri(url)
+		}
+
+		if (!success) {
+			Logger.warn("Extension URI handler: Failed to process URI:", uri.toString())
+		}
+	}
+	context.subscriptions.push(vscode.window.registerUriHandler({ handleUri }))
+
+	// Register size testing commands in development mode
+	if (IS_DEV) {
+		vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV)
+		// Use dynamic import to avoid loading the module in production
+		import("./dev/commands/tasks")
+			.then((module) => {
+				const devTaskCommands = module.registerTaskCommands(webview.controller)
+				context.subscriptions.push(...devTaskCommands)
+				Logger.log("[Cline Dev] Dev mode activated & dev commands registered")
+			})
+			.catch((error) => {
+				Logger.log("[Cline Dev] Failed to register dev commands: " + error)
+			})
 ```
 
 This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
@@ -279,10 +285,10 @@ This function is important because it defines how Cline Tutorial: Agentic Coding
 
 ```mermaid
 flowchart TD
-    A[showVersionUpdateAnnouncement]
-    B[checkWorktreeAutoOpen]
-    C[tearDown]
-    D[traverse]
+    A[showJupyterPromptInput]
+    B[setupHostProvider]
+    C[getUriPath]
+    D[openClineSidebarForTaskUri]
     A --> B
     B --> C
     C --> D

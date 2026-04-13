@@ -45,53 +45,7 @@ You now have a transport selection model for PHP MCP deployment contexts.
 
 Next: [Chapter 6: Client Communication: Sampling, Logging, and Progress](06-client-communication-sampling-logging-and-progress.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `composer.json`
-
-The `composer` module in [`composer.json`](https://github.com/modelcontextprotocol/php-sdk/blob/HEAD/composer.json) handles a key part of this chapter's functionality:
-
-```json
-{
-  "name": "mcp/sdk",
-  "description": "Model Context Protocol SDK for Client and Server applications in PHP",
-  "license": "Apache-2.0",
-  "type": "library",
-  "authors": [
-    {
-      "name": "Christopher Hertel",
-      "email": "mail@christopher-hertel.de"
-    },
-    {
-      "name": "Kyrian Obikwelu",
-      "email": "koshnawaza@gmail.com"
-    },
-    {
-      "name": "Tobias Nyholm",
-      "email": "tobias.nyholm@gmail.com"
-    }
-  ],
-  "require": {
-    "php": "^8.1",
-    "ext-fileinfo": "*",
-    "opis/json-schema": "^2.4",
-    "php-http/discovery": "^1.20",
-    "phpdocumentor/reflection-docblock": "^5.6 || ^6.0",
-    "psr/clock": "^1.0",
-    "psr/container": "^1.0 || ^2.0",
-    "psr/event-dispatcher": "^1.0",
-    "psr/http-client": "^1.0",
-    "psr/http-factory": "^1.1",
-    "psr/http-message": "^1.1 || ^2.0",
-    "psr/http-server-handler": "^1.0",
-    "psr/http-server-middleware": "^1.0",
-    "psr/log": "^1.0 || ^2.0 || ^3.0",
-    "symfony/finder": "^5.4 || ^6.4 || ^7.3 || ^8.0",
-```
-
-This module is important because it defines how MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility implements the patterns covered in this chapter.
 
 ### `examples/server/oauth-keycloak/keycloak/mcp-realm.json`
 
@@ -181,14 +135,58 @@ services:
 
 This module is important because it defines how MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility implements the patterns covered in this chapter.
 
+### `composer.json`
+
+The `composer` module in [`composer.json`](https://github.com/modelcontextprotocol/php-sdk/blob/HEAD/composer.json) handles a key part of this chapter's functionality:
+
+```json
+{
+  "name": "mcp/sdk",
+  "description": "Model Context Protocol SDK for Client and Server applications in PHP",
+  "license": "Apache-2.0",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Christopher Hertel",
+      "email": "mail@christopher-hertel.de"
+    },
+    {
+      "name": "Kyrian Obikwelu",
+      "email": "koshnawaza@gmail.com"
+    },
+    {
+      "name": "Tobias Nyholm",
+      "email": "tobias.nyholm@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "ext-fileinfo": "*",
+    "opis/json-schema": "^2.4",
+    "php-http/discovery": "^1.20",
+    "phpdocumentor/reflection-docblock": "^5.6 || ^6.0",
+    "psr/clock": "^1.0",
+    "psr/container": "^1.0 || ^2.0",
+    "psr/event-dispatcher": "^1.0",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.1",
+    "psr/http-message": "^1.1 || ^2.0",
+    "psr/http-server-handler": "^1.0",
+    "psr/http-server-middleware": "^1.0",
+    "psr/log": "^1.0 || ^2.0 || ^3.0",
+    "symfony/finder": "^5.4 || ^6.4 || ^7.3 || ^8.0",
+```
+
+This module is important because it defines how MCP PHP SDK Tutorial: Building MCP Servers in PHP with Discovery and Transport Flexibility implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[composer]
-    B[mcp-realm]
-    C[docker-compose]
+    A[mcp-realm]
+    B[docker-compose]
+    C[composer]
     A --> B
     B --> C
 ```

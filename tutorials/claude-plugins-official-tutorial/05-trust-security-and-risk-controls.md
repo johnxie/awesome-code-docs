@@ -45,95 +45,11 @@ You now have a practical safety model for directory plugin adoption.
 
 Next: [Chapter 6: Installation, Operations, and Update Strategy](06-installation-operations-and-update-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `external_plugins/telegram/server.ts`
+### `external_plugins/imessage/server.ts`
 
-The `defaultAccess` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function defaultAccess(): Access {
-  return {
-    dmPolicy: 'pairing',
-    allowFrom: [],
-    groups: {},
-    pending: {},
-  }
-}
-
-const MAX_CHUNK_LIMIT = 4096
-const MAX_ATTACHMENT_BYTES = 50 * 1024 * 1024
-
-// reply's files param takes any path. .env is ~60 bytes and ships as a
-// document. Claude can already Read+paste file contents, so this isn't a new
-// exfil channel for arbitrary paths — but the server's own state is the one
-// thing Claude has no reason to ever send.
-function assertSendable(f: string): void {
-  let real, stateReal: string
-  try {
-    real = realpathSync(f)
-    stateReal = realpathSync(STATE_DIR)
-  } catch { return } // statSync will fail properly; or STATE_DIR absent → nothing to leak
-  const inbox = join(stateReal, 'inbox')
-  if (real.startsWith(stateReal + sep) && !real.startsWith(inbox + sep)) {
-    throw new Error(`refusing to send channel state: ${f}`)
-  }
-}
-
-function readAccessFile(): Access {
-  try {
-```
-
-This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
-
-### `external_plugins/telegram/server.ts`
-
-The `assertSendable` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
-
-```ts
-// exfil channel for arbitrary paths — but the server's own state is the one
-// thing Claude has no reason to ever send.
-function assertSendable(f: string): void {
-  let real, stateReal: string
-  try {
-    real = realpathSync(f)
-    stateReal = realpathSync(STATE_DIR)
-  } catch { return } // statSync will fail properly; or STATE_DIR absent → nothing to leak
-  const inbox = join(stateReal, 'inbox')
-  if (real.startsWith(stateReal + sep) && !real.startsWith(inbox + sep)) {
-    throw new Error(`refusing to send channel state: ${f}`)
-  }
-}
-
-function readAccessFile(): Access {
-  try {
-    const raw = readFileSync(ACCESS_FILE, 'utf8')
-    const parsed = JSON.parse(raw) as Partial<Access>
-    return {
-      dmPolicy: parsed.dmPolicy ?? 'pairing',
-      allowFrom: parsed.allowFrom ?? [],
-      groups: parsed.groups ?? {},
-      pending: parsed.pending ?? {},
-      mentionPatterns: parsed.mentionPatterns,
-      ackReaction: parsed.ackReaction,
-      replyToMode: parsed.replyToMode,
-      textChunkLimit: parsed.textChunkLimit,
-      chunkMode: parsed.chunkMode,
-    }
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return defaultAccess()
-    try {
-```
-
-This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
-
-### `external_plugins/telegram/server.ts`
-
-The `readAccessFile` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
+The `readAccessFile` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
@@ -143,38 +59,38 @@ function readAccessFile(): Access {
     const raw = readFileSync(ACCESS_FILE, 'utf8')
     const parsed = JSON.parse(raw) as Partial<Access>
     return {
-      dmPolicy: parsed.dmPolicy ?? 'pairing',
+      dmPolicy: parsed.dmPolicy ?? 'allowlist',
       allowFrom: parsed.allowFrom ?? [],
       groups: parsed.groups ?? {},
       pending: parsed.pending ?? {},
       mentionPatterns: parsed.mentionPatterns,
-      ackReaction: parsed.ackReaction,
-      replyToMode: parsed.replyToMode,
       textChunkLimit: parsed.textChunkLimit,
       chunkMode: parsed.chunkMode,
     }
   } catch (err) {
     if ((err as NodeJS.ErrnoException).code === 'ENOENT') return defaultAccess()
-    try {
-      renameSync(ACCESS_FILE, `${ACCESS_FILE}.corrupt-${Date.now()}`)
-    } catch {}
-    process.stderr.write(`telegram channel: access.json is corrupt, moved aside. Starting fresh.\n`)
+    try { renameSync(ACCESS_FILE, `${ACCESS_FILE}.corrupt-${Date.now()}`) } catch {}
+    process.stderr.write(`imessage: access.json is corrupt, moved aside. Starting fresh.\n`)
     return defaultAccess()
   }
 }
 
 // In static mode, access is snapshotted at boot and never re-read or written.
-// Pairing requires runtime mutation, so it's downgraded to allowlist with a
-// startup warning — handing out codes that never get approved would be worse.
+// Pairing requires runtime mutation, so it's downgraded to allowlist.
 const BOOT_ACCESS: Access | null = STATIC
   ? (() => {
+      const a = readAccessFile()
+      if (a.dmPolicy === 'pairing') {
+        process.stderr.write(
+          'imessage channel: static mode — dmPolicy "pairing" downgraded to "allowlist"\n',
+        )
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `external_plugins/telegram/server.ts`
+### `external_plugins/imessage/server.ts`
 
-The `loadAccess` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
+The `loadAccess` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
   : null
@@ -183,13 +99,41 @@ function loadAccess(): Access {
   return BOOT_ACCESS ?? readAccessFile()
 }
 
-// Outbound gate — reply/react/edit can only target chats the inbound gate
-// would deliver from. Telegram DM chat_id == user_id, so allowFrom covers DMs.
-function assertAllowedChat(chat_id: string): void {
+function saveAccess(a: Access): void {
+  if (STATIC) return
+  mkdirSync(STATE_DIR, { recursive: true, mode: 0o700 })
+  const tmp = ACCESS_FILE + '.tmp'
+  writeFileSync(tmp, JSON.stringify(a, null, 2) + '\n', { mode: 0o600 })
+  renameSync(tmp, ACCESS_FILE)
+}
+
+// chat.db has every text macOS received, gated or not. chat_messages scopes
+// reads to chats you've opened: self-chat, allowlisted DMs, configured groups.
+function allowedChatGuids(): Set<string> {
   const access = loadAccess()
-  if (access.allowFrom.includes(chat_id)) return
-  if (chat_id in access.groups) return
-  throw new Error(`chat ${chat_id} is not allowlisted — add via /telegram:access`)
+  const out = new Set<string>(Object.keys(access.groups))
+  const handles = new Set([...access.allowFrom.map(h => h.toLowerCase()), ...SELF])
+  for (const h of handles) {
+    for (const { guid } of qChatsForHandle.all(h)) out.add(guid)
+  }
+  return out
+}
+
+function pruneExpired(a: Access): boolean {
+  const now = Date.now()
+  let changed = false
+  for (const [code, p] of Object.entries(a.pending)) {
+    if (p.expiresAt < now) {
+      delete a.pending[code]
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `external_plugins/imessage/server.ts`
+
+The `saveAccess` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
+
+```ts
 }
 
 function saveAccess(a: Access): void {
@@ -198,6 +142,18 @@ function saveAccess(a: Access): void {
   const tmp = ACCESS_FILE + '.tmp'
   writeFileSync(tmp, JSON.stringify(a, null, 2) + '\n', { mode: 0o600 })
   renameSync(tmp, ACCESS_FILE)
+}
+
+// chat.db has every text macOS received, gated or not. chat_messages scopes
+// reads to chats you've opened: self-chat, allowlisted DMs, configured groups.
+function allowedChatGuids(): Set<string> {
+  const access = loadAccess()
+  const out = new Set<string>(Object.keys(access.groups))
+  const handles = new Set([...access.allowFrom.map(h => h.toLowerCase()), ...SELF])
+  for (const h of handles) {
+    for (const { guid } of qChatsForHandle.all(h)) out.add(guid)
+  }
+  return out
 }
 
 function pruneExpired(a: Access): boolean {
@@ -209,6 +165,48 @@ function pruneExpired(a: Access): boolean {
       changed = true
     }
   }
+  return changed
+```
+
+This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
+
+### `external_plugins/imessage/server.ts`
+
+The `allowedChatGuids` function in [`external_plugins/imessage/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/imessage/server.ts) handles a key part of this chapter's functionality:
+
+```ts
+// chat.db has every text macOS received, gated or not. chat_messages scopes
+// reads to chats you've opened: self-chat, allowlisted DMs, configured groups.
+function allowedChatGuids(): Set<string> {
+  const access = loadAccess()
+  const out = new Set<string>(Object.keys(access.groups))
+  const handles = new Set([...access.allowFrom.map(h => h.toLowerCase()), ...SELF])
+  for (const h of handles) {
+    for (const { guid } of qChatsForHandle.all(h)) out.add(guid)
+  }
+  return out
+}
+
+function pruneExpired(a: Access): boolean {
+  const now = Date.now()
+  let changed = false
+  for (const [code, p] of Object.entries(a.pending)) {
+    if (p.expiresAt < now) {
+      delete a.pending[code]
+      changed = true
+    }
+  }
+  return changed
+}
+
+type GateInput = {
+  senderId: string
+  chatGuid: string
+  isGroup: boolean
+  text: string
+}
+
+type GateResult =
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how Claude Plugins Official Tutori
 
 ```mermaid
 flowchart TD
-    A[defaultAccess]
-    B[assertSendable]
-    C[readAccessFile]
-    D[loadAccess]
-    E[assertAllowedChat]
+    A[readAccessFile]
+    B[loadAccess]
+    C[saveAccess]
+    D[allowedChatGuids]
+    E[pruneExpired]
     A --> B
     B --> C
     C --> D

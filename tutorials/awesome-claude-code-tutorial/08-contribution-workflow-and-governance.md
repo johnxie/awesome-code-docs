@@ -50,161 +50,168 @@ Next steps:
 - trial one skill, one hook, and one slash command with strict validation
 - contribute one high-signal recommendation with clear evidence
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/resources/detect_informal_submission.py`
+### `tools/readme_tree/update_readme_tree.py`
 
-The `set_github_output` function in [`scripts/resources/detect_informal_submission.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/detect_informal_submission.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def set_github_output(name: str, value: str) -> None:
-    """Set a GitHub Actions output variable safely."""
-    # Sanitize both name and value to prevent injection attacks
-    safe_name = sanitize_output(name)
-    safe_value = sanitize_output(value)
-
-    github_output = os.environ.get("GITHUB_OUTPUT")
-    if github_output:
-        with open(github_output, "a") as f:
-            f.write(f"{safe_name}={safe_value}\n")
-    else:
-        # For local testing, just print
-        print(f"::set-output name={safe_name}::{safe_value}")
-
-
-def main() -> None:
-    """Entry point for GitHub Actions."""
-    title = os.environ.get("ISSUE_TITLE", "")
-    body = os.environ.get("ISSUE_BODY", "")
-
-    result = calculate_confidence(title, body)
-
-    # Output results for GitHub Actions
-    set_github_output("action", result.action.value)
-    set_github_output("confidence", f"{result.confidence:.0%}")
-    set_github_output("matched_signals", ", ".join(result.matched_signals))
-
-    # Also print for logging
-    print(f"Confidence: {result.confidence:.2%}")
-    print(f"Action: {result.action.value}")
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `scripts/resources/detect_informal_submission.py`
-
-The `main` function in [`scripts/resources/detect_informal_submission.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/detect_informal_submission.py) handles a key part of this chapter's functionality:
+The `class` class in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
 
 ```py
+import subprocess
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
 
-
-def main() -> None:
-    """Entry point for GitHub Actions."""
-    title = os.environ.get("ISSUE_TITLE", "")
-    body = os.environ.get("ISSUE_BODY", "")
-
-    result = calculate_confidence(title, body)
-
-    # Output results for GitHub Actions
-    set_github_output("action", result.action.value)
-    set_github_output("confidence", f"{result.confidence:.0%}")
-    set_github_output("matched_signals", ", ".join(result.matched_signals))
-
-    # Also print for logging
-    print(f"Confidence: {result.confidence:.2%}")
-    print(f"Action: {result.action.value}")
-    print(f"Matched signals: {result.matched_signals}")
-
-
-if __name__ == "__main__":
-    main()
-
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `scripts/resources/detect_informal_submission.py`
-
-The `import` interface in [`scripts/resources/detect_informal_submission.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/detect_informal_submission.py) handles a key part of this chapter's functionality:
-
-```py
-"""
-
-from __future__ import annotations
-
-import os
-import re
-from dataclasses import dataclass
-from enum import Enum
-
-
-class Action(Enum):
-    NONE = "none"
-    WARN = "warn"  # Medium confidence: warn but don't close
-    CLOSE = "close"  # High confidence: warn and close
+import yaml
 
 
 @dataclass
-class DetectionResult:
-    confidence: float
-    action: Action
-    matched_signals: list[str]
+class Node:
+    """Tree node representing a file or directory."""
+
+    name: str
+    is_dir: bool
+    children: dict[str, Node] = field(default_factory=dict)
 
 
-# Template field labels - VERY strong indicator (from the issue form)
-# Matching 3+ of these is almost certainly a copy-paste from template without using form
-TEMPLATE_FIELD_LABELS = [
-    "display name:",
-    "category:",
-    "sub-category:",
-    "primary link:",
-    "author name:",
-    "author link:",
+@dataclass(frozen=True)
+class IgnoreRule:
+    """Parsed ignore rule from config patterns."""
+
+    pattern: str
+    negated: bool
+    dir_only: bool
+    anchored: bool
+
+
+@dataclass
+class GitIgnoreChecker:
+    """Check paths against gitignore using `git check-ignore`."""
+
+    repo_root: Path
 ```
 
-This interface is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+This class is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
 
-### `scripts/ticker/fetch_repo_ticker_data.py`
+### `tools/readme_tree/update_readme_tree.py`
 
-The `load_previous_data` function in [`scripts/ticker/fetch_repo_ticker_data.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/ticker/fetch_repo_ticker_data.py) handles a key part of this chapter's functionality:
+The `IgnoreRule` class in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
+
+```py
+
+@dataclass(frozen=True)
+class IgnoreRule:
+    """Parsed ignore rule from config patterns."""
+
+    pattern: str
+    negated: bool
+    dir_only: bool
+    anchored: bool
+
+
+@dataclass
+class GitIgnoreChecker:
+    """Check paths against gitignore using `git check-ignore`."""
+
+    repo_root: Path
+    enabled: bool = True
+    _cache: dict[str, bool] = field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        """Disable checking when git is unavailable."""
+        if not self._git_available():
+            self.enabled = False
+
+    def _git_available(self) -> bool:
+        """Return True if git is available and repo_root is a git work tree."""
+        try:
+            result = subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(self.repo_root),
+```
+
+This class is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `tools/readme_tree/update_readme_tree.py`
+
+The `class` class in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
+
+```py
+import subprocess
+import sys
+from dataclasses import dataclass, field
+from pathlib import Path
+
+import yaml
+
+
+@dataclass
+class Node:
+    """Tree node representing a file or directory."""
+
+    name: str
+    is_dir: bool
+    children: dict[str, Node] = field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class IgnoreRule:
+    """Parsed ignore rule from config patterns."""
+
+    pattern: str
+    negated: bool
+    dir_only: bool
+    anchored: bool
+
+
+@dataclass
+class GitIgnoreChecker:
+    """Check paths against gitignore using `git check-ignore`."""
+
+    repo_root: Path
+```
+
+This class is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `tools/readme_tree/update_readme_tree.py`
+
+The `find_repo_root` function in [`tools/readme_tree/update_readme_tree.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/tools/readme_tree/update_readme_tree.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def load_previous_data(csv_path: Path) -> dict[str, dict[str, int]]:
-    """
-    Load previous repository data from CSV file.
+def find_repo_root(start: Path) -> Path:
+    """Locate the repo root.
+
+    Prefer git to identify the VCS root; fall back to walking upward for pyproject.toml.
 
     Args:
-        csv_path: Path to previous CSV file
+        start: Path inside the repo.
 
     Returns:
-        Dictionary mapping full_name to metrics dict
+        The repo root path.
     """
-    if not csv_path.exists():
-        return {}
+    p = start.resolve()
+    # Prefer git root if available.
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(p), "rev-parse", "--show-toplevel"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            git_root = result.stdout.strip()
+            if git_root:
+                return Path(git_root)
+    except FileNotFoundError:
+        pass
 
-    previous = {}
-    with csv_path.open("r", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            previous[row["full_name"]] = {
-                "stars": int(row["stars"]),
-                "watchers": int(row["watchers"]),
-                "forks": int(row["forks"]),
-            }
-
-    print(f"✓ Loaded {len(previous)} repositories from previous data")
-    return previous
-
-
-def fetch_repos(token: str) -> list[dict[str, Any]]:
-    """
-    Fetch repositories from GitHub Search API.
+    # Fallback: walk upward until pyproject.toml exists.
+    while not (p / "pyproject.toml").exists():
+        if p.parent == p:
 ```
 
 This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
@@ -214,11 +221,11 @@ This function is important because it defines how Awesome Claude Code Tutorial: 
 
 ```mermaid
 flowchart TD
-    A[set_github_output]
-    B[main]
-    C[import]
-    D[load_previous_data]
-    E[fetch_repos]
+    A[class]
+    B[IgnoreRule]
+    C[class]
+    D[find_repo_root]
+    E[normalize_key]
     A --> B
     B --> C
     C --> D

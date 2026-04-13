@@ -45,9 +45,89 @@ You now have a concrete baseline for safer Inspector operation.
 
 Next: [Chapter 6: Configuration, Timeouts, and Runtime Tuning](06-configuration-timeouts-and-runtime-tuning.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `client/bin/start.js`
+
+The `startDevClient` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+async function startDevClient(clientOptions) {
+  const {
+    CLIENT_PORT,
+    SERVER_PORT,
+    authDisabled,
+    sessionToken,
+    abort,
+    cancelled,
+  } = clientOptions;
+  const clientCommand = "npx";
+  const host = process.env.HOST || "localhost";
+  const clientArgs = ["vite", "--port", CLIENT_PORT, "--host", host];
+  const isWindows = process.platform === "win32";
+
+  const spawnOptions = {
+    cwd: resolve(__dirname, ".."),
+    env: { ...process.env, CLIENT_PORT },
+    signal: abort.signal,
+    echoOutput: true,
+  };
+
+  // For Windows, we need to ignore stdin to prevent hanging
+  if (isWindows) {
+    spawnOptions.stdio = ["ignore", "pipe", "pipe"];
+  }
+
+  const client = spawn(clientCommand, clientArgs, spawnOptions);
+
+  const url = getClientUrl(
+    CLIENT_PORT,
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
+
+### `client/bin/start.js`
+
+The `startProdClient` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+async function startProdClient(clientOptions) {
+  const {
+    CLIENT_PORT,
+    SERVER_PORT,
+    authDisabled,
+    sessionToken,
+    abort,
+    cancelled,
+  } = clientOptions;
+  const inspectorClientPath = resolve(
+    __dirname,
+    "../..",
+    "client",
+    "bin",
+    "client.js",
+  );
+
+  const url = getClientUrl(
+    CLIENT_PORT,
+    authDisabled,
+    sessionToken,
+    SERVER_PORT,
+  );
+
+  await spawnPromise("node", [inspectorClientPath], {
+    env: {
+      ...process.env,
+      CLIENT_PORT,
+      INSPECTOR_URL: url,
+    },
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
 ### `client/bin/start.js`
 
@@ -90,96 +170,14 @@ async function main() {
 
 This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
-### `cli/src/cli.ts`
-
-The `handleError` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
-
-```ts
-    };
-
-function handleError(error: unknown): never {
-  let message: string;
-
-  if (error instanceof Error) {
-    message = error.message;
-  } else if (typeof error === "string") {
-    message = error;
-  } else {
-    message = "Unknown error";
-  }
-
-  console.error(message);
-
-  process.exit(1);
-}
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms, true));
-}
-
-async function runWebClient(args: Args): Promise<void> {
-  // Path to the client entry point
-  const inspectorClientPath = resolve(
-    __dirname,
-    "../../",
-    "client",
-    "bin",
-    "start.js",
-  );
-
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
-### `cli/src/cli.ts`
-
-The `delay` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms, true));
-}
-
-async function runWebClient(args: Args): Promise<void> {
-  // Path to the client entry point
-  const inspectorClientPath = resolve(
-    __dirname,
-    "../../",
-    "client",
-    "bin",
-    "start.js",
-  );
-
-  const abort = new AbortController();
-  let cancelled: boolean = false;
-  process.on("SIGINT", () => {
-    cancelled = true;
-    abort.abort();
-  });
-
-  // Build arguments to pass to start.js
-  const startArgs: string[] = [];
-
-  // Pass environment variables
-  for (const [key, value] of Object.entries(args.envArgs)) {
-    startArgs.push("-e", `${key}=${value}`);
-  }
-
-  // Pass transport type if specified
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[handleError]
-    C[delay]
+    A[startDevClient]
+    B[startProdClient]
+    C[main]
     A --> B
     B --> C
 ```

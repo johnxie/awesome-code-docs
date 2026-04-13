@@ -37,184 +37,182 @@ You now have an extensibility model for connecting gptme to broader tool ecosyst
 
 Next: [Chapter 7: Automation, Server Mode, and Agent Templates](07-automation-server-mode-and-agent-templates.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `gptme/telemetry.py`
+### `scripts/generate_sounds.py`
 
-The `record_conversation_change` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
+The `generate_bell_sound` function in [`scripts/generate_sounds.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/generate_sounds.py) handles a key part of this chapter's functionality:
 
 ```py
-    "record_request_duration",
-    "record_tool_call",
-    "record_conversation_change",
-    "record_llm_request",
-    "measure_tokens_per_second",
-]
-
-logger = logging.getLogger(__name__)
-
-# Type variable for generic function decoration
-F = TypeVar("F", bound=Callable[..., Any])
 
 
-def is_telemetry_enabled() -> bool:
-    """Check if telemetry is enabled."""
-    return _is_enabled()
+def generate_bell_sound(
+    duration: float = 1.5,
+    sample_rate: int = 44100,
+    fundamental_freq: float = 800.0,
+    volume: float = 0.3,
+) -> np.ndarray:
+    """Generate a pleasant bell sound using multiple harmonics with exponential decay."""
+    t = np.linspace(0, duration, int(sample_rate * duration))
 
+    # Bell harmonics (frequency ratios based on real bell acoustics)
+    harmonics = [
+        (1.0, 1.0),  # Fundamental
+        (2.76, 0.6),  # First overtone
+        (5.40, 0.4),  # Second overtone
+        (8.93, 0.25),  # Third overtone
+        (13.34, 0.15),  # Fourth overtone
+        (18.64, 0.1),  # Fifth overtone
+    ]
 
-def init_telemetry(
-    service_name: str = "gptme",
-    enable_flask_instrumentation: bool = True,
-    enable_requests_instrumentation: bool = True,
-    enable_openai_instrumentation: bool = True,
-    enable_anthropic_instrumentation: bool = True,
-    agent_name: str | None = None,
-    interactive: bool | None = None,
-) -> None:
-    """Initialize OpenTelemetry tracing and metrics.
+    bell_sound = np.zeros_like(t)
 
-    Args:
-        service_name: Name of the service for telemetry
-        enable_flask_instrumentation: Whether to auto-instrument Flask
+    for freq_ratio, amplitude in harmonics:
+        freq = fundamental_freq * freq_ratio
+        sine_wave = np.sin(2 * np.pi * freq * t)
+        decay_rate = 3.0 + freq_ratio * 0.5
+        envelope = np.exp(-decay_rate * t)
+        modulation = 1 + 0.02 * np.sin(2 * np.pi * 5 * t) * envelope
+        bell_sound += amplitude * sine_wave * envelope * modulation
+
+    # Attack envelope
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `gptme/telemetry.py`
+### `scripts/generate_sounds.py`
 
-The `record_llm_request` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
+The `generate_sawing_sound` function in [`scripts/generate_sounds.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/generate_sounds.py) handles a key part of this chapter's functionality:
 
 ```py
-    "record_tool_call",
-    "record_conversation_change",
-    "record_llm_request",
-    "measure_tokens_per_second",
-]
-
-logger = logging.getLogger(__name__)
-
-# Type variable for generic function decoration
-F = TypeVar("F", bound=Callable[..., Any])
 
 
-def is_telemetry_enabled() -> bool:
-    """Check if telemetry is enabled."""
-    return _is_enabled()
+def generate_sawing_sound(
+    duration: float = 0.5,
+    sample_rate: int = 44100,
+    volume: float = 0.2,
+) -> np.ndarray:
+    """Generate a gentle whir sound for general tool use."""
+    t = np.linspace(0, duration, int(sample_rate * duration))
 
+    # Gentle whir: soft oscillating tone
+    base_freq = 300.0
+    modulation_freq = 8.0
 
-def init_telemetry(
-    service_name: str = "gptme",
-    enable_flask_instrumentation: bool = True,
-    enable_requests_instrumentation: bool = True,
-    enable_openai_instrumentation: bool = True,
-    enable_anthropic_instrumentation: bool = True,
-    agent_name: str | None = None,
-    interactive: bool | None = None,
-) -> None:
-    """Initialize OpenTelemetry tracing and metrics.
+    # Create oscillating frequency
+    freq_modulation = 1 + 0.3 * np.sin(2 * np.pi * modulation_freq * t)
+    whir_sound = np.sin(2 * np.pi * base_freq * freq_modulation * t)
 
-    Args:
-        service_name: Name of the service for telemetry
-        enable_flask_instrumentation: Whether to auto-instrument Flask
-        enable_requests_instrumentation: Whether to auto-instrument requests library
+    # Add subtle harmonics
+    whir_sound += 0.4 * np.sin(2 * np.pi * base_freq * 2 * freq_modulation * t)
+    whir_sound += 0.2 * np.sin(2 * np.pi * base_freq * 3 * freq_modulation * t)
+
+    # Smooth envelope
+    envelope = np.sin(np.pi * t / duration) * 0.8 + 0.2
+    whir_sound *= envelope
+
+    # Final envelope
+    fade_samples = int(0.05 * sample_rate)
+    final_envelope = np.ones_like(t)
+    final_envelope[:fade_samples] = np.linspace(0, 1, fade_samples)
+    final_envelope[-fade_samples:] = np.linspace(1, 0, fade_samples)
+
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `gptme/telemetry.py`
+### `scripts/generate_sounds.py`
 
-The `measure_tokens_per_second` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
+The `generate_drilling_sound` function in [`scripts/generate_sounds.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/generate_sounds.py) handles a key part of this chapter's functionality:
 
 ```py
-    "record_conversation_change",
-    "record_llm_request",
-    "measure_tokens_per_second",
-]
-
-logger = logging.getLogger(__name__)
-
-# Type variable for generic function decoration
-F = TypeVar("F", bound=Callable[..., Any])
 
 
-def is_telemetry_enabled() -> bool:
-    """Check if telemetry is enabled."""
-    return _is_enabled()
+def generate_drilling_sound(
+    duration: float = 0.4,
+    sample_rate: int = 44100,
+    volume: float = 0.25,
+) -> np.ndarray:
+    """Generate a soft buzz sound for alternative general tool use."""
+    t = np.linspace(0, duration, int(sample_rate * duration))
 
+    # Soft buzz: steady tone with slight vibrato
+    buzz_freq = 400.0
+    vibrato_freq = 6.0
+    vibrato_depth = 0.1
 
-def init_telemetry(
-    service_name: str = "gptme",
-    enable_flask_instrumentation: bool = True,
-    enable_requests_instrumentation: bool = True,
-    enable_openai_instrumentation: bool = True,
-    enable_anthropic_instrumentation: bool = True,
-    agent_name: str | None = None,
-    interactive: bool | None = None,
-) -> None:
-    """Initialize OpenTelemetry tracing and metrics.
+    # Create vibrato
+    vibrato = 1 + vibrato_depth * np.sin(2 * np.pi * vibrato_freq * t)
+    buzz_sound = np.sin(2 * np.pi * buzz_freq * vibrato * t)
 
-    Args:
-        service_name: Name of the service for telemetry
-        enable_flask_instrumentation: Whether to auto-instrument Flask
-        enable_requests_instrumentation: Whether to auto-instrument requests library
-        enable_openai_instrumentation: Whether to auto-instrument OpenAI
+    # Add harmonics for warmth
+    buzz_sound += 0.3 * np.sin(2 * np.pi * buzz_freq * 2 * vibrato * t)
+    buzz_sound += 0.1 * np.sin(2 * np.pi * buzz_freq * 3 * vibrato * t)
+
+    # Smooth envelope
+    envelope = np.sin(np.pi * t / duration) * 0.9 + 0.1
+    buzz_sound *= envelope
+
+    # Final envelope
+    fade_samples = int(0.03 * sample_rate)
+    final_envelope = np.ones_like(t)
+    final_envelope[:fade_samples] = np.linspace(0, 1, fade_samples)
+    final_envelope[-fade_samples:] = np.linspace(1, 0, fade_samples)
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `gptme/info.py`
+### `scripts/generate_sounds.py`
 
-The `class` class in [`gptme/info.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/info.py) handles a key part of this chapter's functionality:
+The `generate_page_turn_sound` function in [`scripts/generate_sounds.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/generate_sounds.py) handles a key part of this chapter's functionality:
 
 ```py
-import re
-import shutil
-from dataclasses import dataclass, field
-from pathlib import Path
-
-from . import __version__
-from .dirs import get_logs_dir
 
 
-@dataclass
-class ExtraInfo:
-    """Information about an optional dependency/extra."""
+def generate_page_turn_sound(
+    duration: float = 0.6,
+    sample_rate: int = 44100,
+    volume: float = 0.25,
+) -> np.ndarray:
+    """Generate a soft whoosh sound for read operations."""
+    t = np.linspace(0, duration, int(sample_rate * duration))
 
-    name: str
-    installed: bool
-    description: str
-    packages: list[str] = field(default_factory=list)
+    # Soft whoosh: frequency sweep from low to high
+    start_freq = 200.0
+    end_freq = 800.0
 
+    # Create frequency sweep
+    freq_sweep = start_freq + (end_freq - start_freq) * (t / duration)
+    whoosh_sound = np.sin(2 * np.pi * freq_sweep * t)
 
-@dataclass
-class InstallInfo:
-    """Information about how gptme was installed."""
+    # Add subtle harmonics
+    whoosh_sound += 0.3 * np.sin(2 * np.pi * freq_sweep * 2 * t)
 
-    method: str  # pip, pipx, uv, poetry, unknown
-    editable: bool
-    path: str | None = None
+    # Smooth envelope that peaks in the middle
+    envelope = np.sin(np.pi * t / duration) * np.exp(-2 * t)
+    whoosh_sound *= envelope
 
+    # Final envelope
+    fade_samples = int(0.05 * sample_rate)
+    final_envelope = np.ones_like(t)
+    final_envelope[:fade_samples] = np.linspace(0, 1, fade_samples)
+    final_envelope[-fade_samples:] = np.linspace(1, 0, fade_samples)
 
-# Human-friendly descriptions for extras (optional enhancement)
-# If an extra isn't listed here, its name will be used as description
-_EXTRA_DESCRIPTIONS = {
-    "browser": "Web browsing with Playwright",
+    whoosh_sound *= final_envelope
 ```
 
-This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[record_conversation_change]
-    B[record_llm_request]
-    C[measure_tokens_per_second]
-    D[class]
-    E[class]
+    A[generate_bell_sound]
+    B[generate_sawing_sound]
+    C[generate_drilling_sound]
+    D[generate_page_turn_sound]
+    E[generate_seashell_click_sound]
     A --> B
     B --> C
     C --> D

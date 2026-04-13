@@ -39,9 +39,130 @@ You now have an HTTP architecture model for route-scoped MCP services in ASP.NET
 
 Next: [Chapter 4: Tools, Prompts, Resources, and Filter Pipelines](04-tools-prompts-resources-and-filter-pipelines.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`
+
+The `or` class in [`src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.AspNetCore/AuthorizationFilterSetup.cs) handles a key part of this chapter's functionality:
+
+```cs
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using ModelContextProtocol.Protocol;
+using ModelContextProtocol.Server;
+
+namespace ModelContextProtocol.AspNetCore;
+
+/// <summary>
+/// Evaluates authorization policies from endpoint metadata.
+/// </summary>
+internal sealed class AuthorizationFilterSetup(IAuthorizationPolicyProvider? policyProvider = null) : IConfigureOptions<McpServerOptions>, IPostConfigureOptions<McpServerOptions>
+{
+    private static readonly string AuthorizationFilterInvokedKey = "ModelContextProtocol.AspNetCore.AuthorizationFilter.Invoked";
+
+    public void Configure(McpServerOptions options)
+    {
+        ConfigureListToolsFilter(options);
+        ConfigureCallToolFilter(options);
+
+        ConfigureListResourcesFilter(options);
+        ConfigureListResourceTemplatesFilter(options);
+        ConfigureReadResourceFilter(options);
+
+        ConfigureListPromptsFilter(options);
+        ConfigureGetPromptFilter(options);
+    }
+
+    public void PostConfigure(string? name, McpServerOptions options)
+    {
+```
+
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
+### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
+
+The `XmlToDescriptionGenerator` class in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
+
+```cs
+/// </summary>
+[Generator]
+public sealed class XmlToDescriptionGenerator : IIncrementalGenerator
+{
+    private const string GeneratedFileName = "ModelContextProtocol.Descriptions.g.cs";
+
+    /// <summary>
+    /// A display format that produces fully-qualified type names with "global::" prefix
+    /// and includes nullability annotations.
+    /// </summary>
+    private static readonly SymbolDisplayFormat s_fullyQualifiedFormatWithNullability =
+        SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(
+            SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier);
+
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        // Extract method information for all MCP tools, prompts, and resources.
+        // The transform extracts all necessary data upfront so the output doesn't depend on the compilation.
+        var allMethods = CreateProviderForAttribute(context, McpAttributeNames.McpServerToolAttribute).Collect()
+            .Combine(CreateProviderForAttribute(context, McpAttributeNames.McpServerPromptAttribute).Collect())
+            .Combine(CreateProviderForAttribute(context, McpAttributeNames.McpServerResourceAttribute).Collect())
+            .Select(static (tuple, _) =>
+            {
+                var ((tools, prompts), resources) = tuple;
+                return new EquatableArray<MethodToGenerate>(tools.Concat(prompts).Concat(resources));
+            });
+
+        // Report diagnostics for all methods.
+        context.RegisterSourceOutput(
+            allMethods, 
+            static (spc, methods) =>
+            {
+```
+
+This class is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
+
+### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
+
+The `MethodToGenerate` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
+
+```cs
+            {
+                var ((tools, prompts), resources) = tuple;
+                return new EquatableArray<MethodToGenerate>(tools.Concat(prompts).Concat(resources));
+            });
+
+        // Report diagnostics for all methods.
+        context.RegisterSourceOutput(
+            allMethods, 
+            static (spc, methods) =>
+            {
+                foreach (var method in methods)
+                {
+                    foreach (var diagnostic in method.Diagnostics)
+                    {
+                        spc.ReportDiagnostic(CreateDiagnostic(diagnostic));
+                    }
+                }
+            });
+
+        // Generate source code only for methods that need generation.
+        context.RegisterSourceOutput(
+            allMethods.Select(static (methods, _) => new EquatableArray<MethodToGenerate>(methods.Where(m => m.NeedsGeneration))),
+            static (spc, methods) =>
+            {
+                if (methods.Length > 0)
+                {
+                    spc.AddSource(GeneratedFileName, SourceText.From(GenerateSourceFile(methods), Encoding.UTF8));
+                }
+            });
+    }
+
+    private static Diagnostic CreateDiagnostic(DiagnosticInfo info) =>
+```
+
+This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
 ### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
 
@@ -84,131 +205,15 @@ The `ParameterInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescr
 
 This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
 
-### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
-
-The `TypeInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
-
-```cs
-        return new MethodToGenerate(
-            NeedsGeneration: true,
-            TypeInfo: ExtractTypeInfo(methodSymbol.ContainingType),
-            Modifiers: modifiersStr,
-            ReturnType: returnType,
-            MethodName: methodName,
-            Parameters: new EquatableArray<ParameterInfo>(parameters),
-            MethodDescription: needsMethodDescription ? xmlDocs?.MethodDescription : null,
-            ReturnDescription: needsReturnDescription ? xmlDocs?.Returns : null,
-            Diagnostics: diagnostics);
-    }
-
-    /// <summary>Checks if XML documentation would generate any Description attributes for a method.</summary>
-    private static bool HasGeneratableContent(XmlDocumentation xmlDocs, IMethodSymbol methodSymbol, INamedTypeSymbol descriptionAttribute)
-    {
-        if (!string.IsNullOrWhiteSpace(xmlDocs.MethodDescription) && !HasAttribute(methodSymbol, descriptionAttribute))
-        {
-            return true;
-        }
-
-        if (!string.IsNullOrWhiteSpace(xmlDocs.Returns) &&
-            methodSymbol.GetReturnTypeAttributes().All(attr => !SymbolEqualityComparer.Default.Equals(attr.AttributeClass, descriptionAttribute)))
-        {
-            return true;
-        }
-
-        foreach (var param in methodSymbol.Parameters)
-        {
-            if (!HasAttribute(param, descriptionAttribute) &&
-                xmlDocs.Parameters.TryGetValue(param.Name, out var paramDoc) &&
-                !string.IsNullOrWhiteSpace(paramDoc))
-            {
-```
-
-This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
-
-The `TypeDeclarationInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
-
-```cs
-
-        // Build list of nested types from innermost to outermost
-        var typesBuilder = ImmutableArray.CreateBuilder<TypeDeclarationInfo>();
-        for (var current = typeSymbol; current is not null; current = current.ContainingType)
-        {
-            var typeDecl = current.DeclaringSyntaxReferences.FirstOrDefault()?.GetSyntax() as TypeDeclarationSyntax;
-            string typeKeyword;
-            if (typeDecl is RecordDeclarationSyntax rds)
-            {
-                string classOrStruct = rds.ClassOrStructKeyword.ValueText;
-                if (string.IsNullOrEmpty(classOrStruct))
-                {
-                    classOrStruct = "class";
-                }
-                typeKeyword = $"{typeDecl.Keyword.ValueText} {classOrStruct}";
-            }
-            else
-            {
-                typeKeyword = typeDecl?.Keyword.ValueText ?? "class";
-            }
-
-            typesBuilder.Add(new TypeDeclarationInfo(current.Name, typeKeyword));
-        }
-
-        // Reverse to get outermost first
-        typesBuilder.Reverse();
-        
-        string ns = typeSymbol.ContainingNamespace.IsGlobalNamespace ? "" : typeSymbol.ContainingNamespace.ToDisplayString();
-        return new TypeInfo(ns, new EquatableArray<TypeDeclarationInfo>(typesBuilder.ToImmutable()));
-    }
-
-    private static (XmlDocumentation? Docs, bool HasInvalidXml) TryExtractXmlDocumentation(IMethodSymbol methodSymbol)
-```
-
-This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
-### `src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`
-
-The `LocationInfo` interface in [`src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs`](https://github.com/modelcontextprotocol/csharp-sdk/blob/HEAD/src/ModelContextProtocol.Analyzers/XmlToDescriptionGenerator.cs) handles a key part of this chapter's functionality:
-
-```cs
-    /// causes issues when the generator returns cached data with locations from earlier compilations.
-    /// </remarks>
-    private readonly record struct LocationInfo(string FilePath, TextSpan TextSpan, LinePositionSpan LineSpan)
-    {
-        public static LocationInfo? FromLocation(Location? location) =>
-            location is null || !location.IsInSource ? null :
-            new LocationInfo(location.SourceTree?.FilePath ?? "", location.SourceSpan, location.GetLineSpan().Span);
-
-        public Location ToLocation() =>
-            Location.Create(FilePath, TextSpan, LineSpan);
-    }
-
-    /// <summary>Holds diagnostic information to be reported.</summary>
-    private readonly record struct DiagnosticInfo(string Id, LocationInfo? Location, string MethodName)
-    {
-        public static DiagnosticInfo Create(string id, Location? location, string methodName) =>
-            new(id, LocationInfo.FromLocation(location), methodName);
-
-        public object?[] MessageArgs => [MethodName];
-    }
-
-    /// <summary>Holds extracted XML documentation for a method (used only during extraction, not cached).</summary>
-    private sealed record XmlDocumentation(string MethodDescription, string Returns, Dictionary<string, string> Parameters);
-}
-
-```
-
-This interface is important because it defines how MCP C# SDK Tutorial: Production MCP in .NET with Hosting, ASP.NET Core, and Task Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ParameterInfo]
-    B[TypeInfo]
-    C[TypeDeclarationInfo]
-    D[LocationInfo]
+    A[or]
+    B[XmlToDescriptionGenerator]
+    C[MethodToGenerate]
+    D[ParameterInfo]
     A --> B
     B --> C
     C --> D

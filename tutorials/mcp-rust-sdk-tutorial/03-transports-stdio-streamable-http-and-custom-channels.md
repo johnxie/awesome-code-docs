@@ -39,170 +39,168 @@ You now have a transport planning framework for matching capability requirements
 
 Next: [Chapter 4: Client Patterns, Sampling, and Batching Flows](04-client-patterns-sampling-and-batching-flows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `crates/rmcp/src/service.rs`
 
-The `serve_directly_with_ct` function in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `MaybeSendFuture` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-    E: std::error::Error + Send + Sync + 'static,
-{
-    serve_directly_with_ct(service, transport, peer_info, Default::default())
-}
+//
+// `MaybeSend`       – supertrait alias: `Send + Sync` without `local`, empty with `local`
+// `MaybeSendFuture` – future bound alias: `Send` without `local`, empty with `local`
+// `MaybeBoxFuture`  – boxed future type: `BoxFuture` without `local`, `LocalBoxFuture` with `local`
+// ---------------------------------------------------------------------------
 
-/// Use this function to skip initialization process
-pub fn serve_directly_with_ct<R, S, T, E, A>(
-    service: S,
-    transport: T,
-    peer_info: Option<R::PeerInfo>,
-    ct: CancellationToken,
-) -> RunningService<R, S>
-where
-    R: ServiceRole,
-    S: Service<R>,
-    T: IntoTransport<R, E, A>,
-    E: std::error::Error + Send + Sync + 'static,
-{
-    let (peer, peer_rx) = Peer::new(Arc::new(AtomicU32RequestIdProvider::default()), peer_info);
-    serve_inner(service, transport.into_transport(), peer, peer_rx, ct)
-}
-
-/// Spawn a task that may hold `!Send` state when the `local` feature is active.
-///
-/// Without the `local` feature this is `tokio::spawn` (requires `Future: Send + 'static`).
-/// With `local` it uses `tokio::task::spawn_local` (requires only `Future: 'static`).
 #[cfg(not(feature = "local"))]
-fn spawn_service_task<F>(future: F) -> tokio::task::JoinHandle<F::Output>
-where
-    F: Future + Send + 'static,
-    F::Output: Send + 'static,
+#[doc(hidden)]
+pub trait MaybeSend: Send + Sync {}
+#[cfg(not(feature = "local"))]
+impl<T: Send + Sync> MaybeSend for T {}
+
+#[cfg(feature = "local")]
+#[doc(hidden)]
+pub trait MaybeSend {}
+#[cfg(feature = "local")]
+impl<T> MaybeSend for T {}
+
+#[cfg(not(feature = "local"))]
+#[doc(hidden)]
+pub trait MaybeSendFuture: Send {}
+#[cfg(not(feature = "local"))]
+impl<T: Send> MaybeSendFuture for T {}
+
+#[cfg(feature = "local")]
+#[doc(hidden)]
+pub trait MaybeSendFuture {}
+#[cfg(feature = "local")]
+impl<T> MaybeSendFuture for T {}
+
+#[cfg(not(feature = "local"))]
+pub(crate) type MaybeBoxFuture<'a, T> = BoxFuture<'a, T>;
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `crates/rmcp/src/service.rs`
+
+The `MaybeSendFuture` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+
+```rs
+//
+// `MaybeSend`       – supertrait alias: `Send + Sync` without `local`, empty with `local`
+// `MaybeSendFuture` – future bound alias: `Send` without `local`, empty with `local`
+// `MaybeBoxFuture`  – boxed future type: `BoxFuture` without `local`, `LocalBoxFuture` with `local`
+// ---------------------------------------------------------------------------
+
+#[cfg(not(feature = "local"))]
+#[doc(hidden)]
+pub trait MaybeSend: Send + Sync {}
+#[cfg(not(feature = "local"))]
+impl<T: Send + Sync> MaybeSend for T {}
+
+#[cfg(feature = "local")]
+#[doc(hidden)]
+pub trait MaybeSend {}
+#[cfg(feature = "local")]
+impl<T> MaybeSend for T {}
+
+#[cfg(not(feature = "local"))]
+#[doc(hidden)]
+pub trait MaybeSendFuture: Send {}
+#[cfg(not(feature = "local"))]
+impl<T: Send> MaybeSendFuture for T {}
+
+#[cfg(feature = "local")]
+#[doc(hidden)]
+pub trait MaybeSendFuture {}
+#[cfg(feature = "local")]
+impl<T> MaybeSendFuture for T {}
+
+#[cfg(not(feature = "local"))]
+pub(crate) type MaybeBoxFuture<'a, T> = BoxFuture<'a, T>;
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `crates/rmcp/src/service.rs`
+
+The `TransferObject` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+
+```rs
+}
+
+trait TransferObject:
+    std::fmt::Debug + Clone + serde::Serialize + serde::de::DeserializeOwned + Send + Sync + 'static
 {
-```
+}
 
-This function is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+impl<T> TransferObject for T where
+    T: std::fmt::Debug
+        + serde::Serialize
+        + serde::de::DeserializeOwned
+        + Send
+        + Sync
+        + 'static
+        + Clone
+{
+}
 
-### `crates/rmcp/src/service.rs`
-
-The `to` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
-
-```rs
-        NumberOrString, ProgressToken, RequestId,
-    },
-    transport::{DynamicTransportError, IntoTransport, Transport},
-};
-#[cfg(feature = "client")]
-mod client;
-#[cfg(feature = "client")]
-pub use client::*;
-#[cfg(feature = "server")]
-mod server;
-#[cfg(feature = "server")]
-pub use server::*;
-#[cfg(feature = "tower")]
-mod tower;
-use tokio_util::sync::{CancellationToken, DropGuard};
-#[cfg(feature = "tower")]
-pub use tower::*;
-use tracing::{Instrument as _, instrument};
-#[derive(Error, Debug)]
-#[non_exhaustive]
-pub enum ServiceError {
-    #[error("Mcp error: {0}")]
-    McpError(McpError),
-    #[error("Transport send error: {0}")]
-    TransportSend(DynamicTransportError),
-    #[error("Transport closed")]
-    TransportClosed,
-    #[error("Unexpected response type")]
-    UnexpectedResponse,
-    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
-    Cancelled { reason: Option<String> },
-    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
+#[allow(private_bounds, reason = "there's no the third implementation")]
+pub trait ServiceRole: std::fmt::Debug + Send + Sync + 'static + Copy + Clone {
+    type Req: TransferObject + GetMeta + GetExtensions;
+    type Resp: TransferObject;
+    type Not: TryInto<CancelledNotification, Error = Self::Not>
+        + From<CancelledNotification>
+        + TransferObject;
+    type PeerReq: TransferObject + GetMeta + GetExtensions;
+    type PeerResp: TransferObject;
+    type PeerNot: TryInto<CancelledNotification, Error = Self::PeerNot>
+        + From<CancelledNotification>
+        + TransferObject
+        + GetMeta
+        + GetExtensions;
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
 ### `crates/rmcp/src/service.rs`
 
-The `to` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `ServiceRole` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-        NumberOrString, ProgressToken, RequestId,
-    },
-    transport::{DynamicTransportError, IntoTransport, Transport},
-};
-#[cfg(feature = "client")]
-mod client;
-#[cfg(feature = "client")]
-pub use client::*;
-#[cfg(feature = "server")]
-mod server;
-#[cfg(feature = "server")]
-pub use server::*;
-#[cfg(feature = "tower")]
-mod tower;
-use tokio_util::sync::{CancellationToken, DropGuard};
-#[cfg(feature = "tower")]
-pub use tower::*;
-use tracing::{Instrument as _, instrument};
-#[derive(Error, Debug)]
-#[non_exhaustive]
-pub enum ServiceError {
-    #[error("Mcp error: {0}")]
-    McpError(McpError),
-    #[error("Transport send error: {0}")]
-    TransportSend(DynamicTransportError),
-    #[error("Transport closed")]
-    TransportClosed,
-    #[error("Unexpected response type")]
-    UnexpectedResponse,
-    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
-    Cancelled { reason: Option<String> },
-    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
-```
 
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+#[allow(private_bounds, reason = "there's no the third implementation")]
+pub trait ServiceRole: std::fmt::Debug + Send + Sync + 'static + Copy + Clone {
+    type Req: TransferObject + GetMeta + GetExtensions;
+    type Resp: TransferObject;
+    type Not: TryInto<CancelledNotification, Error = Self::Not>
+        + From<CancelledNotification>
+        + TransferObject;
+    type PeerReq: TransferObject + GetMeta + GetExtensions;
+    type PeerResp: TransferObject;
+    type PeerNot: TryInto<CancelledNotification, Error = Self::PeerNot>
+        + From<CancelledNotification>
+        + TransferObject
+        + GetMeta
+        + GetExtensions;
+    type InitializeError;
+    const IS_CLIENT: bool;
+    type Info: TransferObject;
+    type PeerInfo: TransferObject;
+}
 
-### `crates/rmcp/src/service.rs`
+pub type TxJsonRpcMessage<R> =
+    JsonRpcMessage<<R as ServiceRole>::Req, <R as ServiceRole>::Resp, <R as ServiceRole>::Not>;
+pub type RxJsonRpcMessage<R> = JsonRpcMessage<
+    <R as ServiceRole>::PeerReq,
+    <R as ServiceRole>::PeerResp,
+    <R as ServiceRole>::PeerNot,
+>;
 
-The `to` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
-
-```rs
-        NumberOrString, ProgressToken, RequestId,
-    },
-    transport::{DynamicTransportError, IntoTransport, Transport},
-};
-#[cfg(feature = "client")]
-mod client;
-#[cfg(feature = "client")]
-pub use client::*;
-#[cfg(feature = "server")]
-mod server;
-#[cfg(feature = "server")]
-pub use server::*;
-#[cfg(feature = "tower")]
-mod tower;
-use tokio_util::sync::{CancellationToken, DropGuard};
-#[cfg(feature = "tower")]
-pub use tower::*;
-use tracing::{Instrument as _, instrument};
-#[derive(Error, Debug)]
-#[non_exhaustive]
-pub enum ServiceError {
-    #[error("Mcp error: {0}")]
-    McpError(McpError),
-    #[error("Transport send error: {0}")]
-    TransportSend(DynamicTransportError),
-    #[error("Transport closed")]
-    TransportClosed,
-    #[error("Unexpected response type")]
-    UnexpectedResponse,
-    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
-    Cancelled { reason: Option<String> },
-    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
+#[cfg(not(feature = "local"))]
+pub trait Service<R: ServiceRole>: Send + Sync + 'static {
+    fn handle_request(
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[serve_directly_with_ct]
-    B[to]
-    C[to]
-    D[to]
-    E[AtomicU32Provider]
+    A[MaybeSendFuture]
+    B[MaybeSendFuture]
+    C[TransferObject]
+    D[ServiceRole]
+    E[Service]
     A --> B
     B --> C
     C --> D

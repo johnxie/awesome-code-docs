@@ -37,141 +37,110 @@ You now have a pattern for multi-agent portability without duplicated docs.
 
 Next: [Chapter 4: Repository Structure and Scope Strategy](04-repository-structure-and-scope-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `components/CodeExample.tsx`
+### `AGENTS.md`
 
-The `parseMarkdown` function in [`components/CodeExample.tsx`](https://github.com/agentsmd/agents.md/blob/HEAD/components/CodeExample.tsx) handles a key part of this chapter's functionality:
+The portability story is grounded in the [`AGENTS.md`](https://github.com/agentsmd/agents.md/blob/HEAD/AGENTS.md) specification file itself, which deliberately avoids any tool-specific syntax. Plain Markdown headings are the only required structure — no YAML front matter, no proprietary directives — which is what makes the format portable across Claude Code, Codex, Copilot, Cursor, and other agents.
 
-```tsx
- * Very lightly highlight the Markdown without fully parsing it.
- */
-function parseMarkdown(md: string): React.ReactNode[] {
-  const lines = md.split("\n");
-  const elements: React.ReactNode[] = [];
+Reviewing the upstream `AGENTS.md` shows which conventions are tool-agnostic (headings, bullet lists, fenced code blocks for commands) versus optional enhancements that some tools support.
+            .
+          </p>
 
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-
-    // Handle headers
-    if (line.startsWith("# ") || line.startsWith("## ") || line.startsWith("### ")) {
-      elements.push(
-        <div key={i} className="font-bold">
-          {line}
-        </div>
-      );
-    } else if (line.startsWith("- ")) {
-      // Handle list items with inline code
-      elements.push(
-        <div key={i}>
-          {renderLineWithInlineCode(line)}
-        </div>
-      );
-    } else if (line.trim() === "") {
-      // Handle empty lines
-      elements.push(<div key={i}>&nbsp;</div>);
-    } else {
-      // Handle regular lines with inline code
-      elements.push(
-        <div key={i}>
-          {renderLineWithInlineCode(line)}
-        </div>
 ```
 
 This function is important because it defines how AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories implements the patterns covered in this chapter.
 
-### `components/CodeExample.tsx`
+### `components/FAQSection.tsx`
 
-The `renderLineWithInlineCode` function in [`components/CodeExample.tsx`](https://github.com/agentsmd/agents.md/blob/HEAD/components/CodeExample.tsx) handles a key part of this chapter's functionality:
+The `FAQ` function in [`components/FAQSection.tsx`](https://github.com/agentsmd/agents.md/blob/HEAD/components/FAQSection.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-      elements.push(
-        <div key={i}>
-          {renderLineWithInlineCode(line)}
-        </div>
-      );
-    } else if (line.trim() === "") {
-      // Handle empty lines
-      elements.push(<div key={i}>&nbsp;</div>);
-    } else {
-      // Handle regular lines with inline code
-      elements.push(
-        <div key={i}>
-          {renderLineWithInlineCode(line)}
-        </div>
-      );
-    }
-  }
+import CodeExample from "@/components/CodeExample";
 
-  return elements;
+interface FAQItem {
+  question: string;
+  answer: React.ReactNode;
 }
 
-/**
- * Render a line with inline code highlighting
- */
-function renderLineWithInlineCode(line: string): React.ReactNode {
-  const parts = line.split(/(`[^`]+`)/g);
-
-  return parts.map((part, index) => {
-    if (part.startsWith("`") && part.endsWith("`")) {
-      // This is inline code
-      return (
-        <span key={index} className="bg-gray-200 dark:bg-gray-800 px-1 rounded">
+export default function FAQ() {
+  const faqItems: FAQItem[] = [
+    {
+      question: "Are there required fields?",
+      answer:
+        "No. AGENTS.md is just standard Markdown. Use any headings you like; the agent simply parses the text you provide.",
+    },
+    {
+      question: "What if instructions conflict?",
+      answer:
+        "The closest AGENTS.md to the edited file wins; explicit user chat prompts override everything.",
+    },
+    {
+      question: "Will the agent run testing commands found in AGENTS.md automatically?",
+      answer:
+        "Yes—if you list them. The agent will attempt to execute relevant programmatic checks and fix failures before finishing the task.",
+    },
+    {
+      question: "Can I update it later?",
+      answer: "Absolutely. Treat AGENTS.md as living documentation.",
+    },
+    {
+      question: "How do I migrate existing docs to AGENTS.md?",
+      answer: (
+        <>
 ```
 
 This function is important because it defines how AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories implements the patterns covered in this chapter.
 
-### `components/CodeExample.tsx`
+### `components/FAQSection.tsx`
 
-The `CodeExample` function in [`components/CodeExample.tsx`](https://github.com/agentsmd/agents.md/blob/HEAD/components/CodeExample.tsx) handles a key part of this chapter's functionality:
+The `FAQItem` interface in [`components/FAQSection.tsx`](https://github.com/agentsmd/agents.md/blob/HEAD/components/FAQSection.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-import CopyIcon from "./icons/CopyIcon";
+import CodeExample from "@/components/CodeExample";
 
-interface CodeExampleProps {
-  /** Markdown content to display; falls back to default example if not provided */
-  code?: string;
-  /** Optional URL for "View on GitHub" link */
-  href?: string;
-  /** If true, render only the code block without the section wrapper */
-  compact?: boolean;
-  /** Override Tailwind height classes for the <pre> block */
-  heightClass?: string;
-
-  /**
-   * When true, vertically center the content and copy button – useful for
-   * single-line shell commands shown inside a short container (e.g. FAQ).
-   */
-  centerVertically?: boolean;
+interface FAQItem {
+  question: string;
+  answer: React.ReactNode;
 }
 
-export const HERO_AGENTS_MD = `# AGENTS.md
-
-## Setup commands
-- Install deps: \`pnpm install\`
-- Start dev server: \`pnpm dev\`
-- Run tests: \`pnpm test\`
-
-## Code style
-- TypeScript strict mode
-- Single quotes, no semicolons
-- Use functional patterns where possible`;
-
-const EXAMPLE_AGENTS_MD = `# Sample AGENTS.md file
+export default function FAQ() {
+  const faqItems: FAQItem[] = [
+    {
+      question: "Are there required fields?",
+      answer:
+        "No. AGENTS.md is just standard Markdown. Use any headings you like; the agent simply parses the text you provide.",
+    },
+    {
+      question: "What if instructions conflict?",
+      answer:
+        "The closest AGENTS.md to the edited file wins; explicit user chat prompts override everything.",
+    },
+    {
+      question: "Will the agent run testing commands found in AGENTS.md automatically?",
+      answer:
+        "Yes—if you list them. The agent will attempt to execute relevant programmatic checks and fix failures before finishing the task.",
+    },
+    {
+      question: "Can I update it later?",
+      answer: "Absolutely. Treat AGENTS.md as living documentation.",
+    },
+    {
+      question: "How do I migrate existing docs to AGENTS.md?",
+      answer: (
+        <>
 ```
 
-This function is important because it defines how AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories implements the patterns covered in this chapter.
+This interface is important because it defines how AGENTS.md Tutorial: Open Standard for Coding-Agent Guidance in Repositories implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[parseMarkdown]
-    B[renderLineWithInlineCode]
-    C[CodeExample]
+    A[Hero]
+    B[FAQ]
+    C[FAQItem]
     A --> B
     B --> C
 ```

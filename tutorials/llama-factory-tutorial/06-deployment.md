@@ -9,6 +9,20 @@ nav_order: 6
 
 Welcome to the deployment phase! This chapter covers production deployment strategies for your fine-tuned LLaMA models, from model optimization to serving infrastructure and scaling considerations.
 
+## Deployment Options
+
+```mermaid
+flowchart TD
+    M[Fine-Tuned Model + LoRA Adapter] --> OPT[Optimization]
+    OPT --> Q[Quantize: GPTQ / AWQ / GGUF]
+    OPT --> MERGE[Merge LoRA into Base]
+    Q --> SERVE{Serving Backend}
+    MERGE --> SERVE
+    SERVE --> A[llamafactory-cli api\nbuilt-in OpenAI API]
+    SERVE --> B[vLLM\nhigh-throughput serving]
+    SERVE --> C[llama.cpp server\nlow-resource edge]
+```
+
 ## Model Optimization for Production
 
 ### Quantization and Compression
@@ -628,14 +642,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory):
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/api/app.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/api/app.py) -- FastAPI OpenAI-compatible API server: `/v1/chat/completions` endpoint
+- [`src/llamafactory/model/loader.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/model/loader.py) -- `load_model()` with `finetuning_type="lora"` and `adapter_name_or_path` to load merged adapters
+- [`src/llamafactory/train/sft/workflow.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/sft/workflow.py) -- `run_export()`: merges LoRA adapter weights into the base model for deployment
 
-Suggested trace strategy:
-- search upstream code for `self` and `request` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `run_export()` → `merge_lora()` → see how PEFT's `merge_and_unload()` is called to produce a standalone merged model ready for serving.
 
 ## Chapter Connections
 

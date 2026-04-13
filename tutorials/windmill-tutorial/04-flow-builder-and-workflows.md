@@ -412,6 +412,17 @@ When a flow fails:
 3. Click a failed step to see the full error and logs
 4. Use **Restart from step** to re-run from the failure point
 
+## Source Code Walkthrough
+
+### Flow execution — `backend/windmill-worker/src/flow_status_helpers.rs`
+
+[`backend/windmill-worker/src/flow_status_helpers.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/flow_status_helpers.rs) implements the DAG execution engine: step sequencing, branch evaluation, loop iteration, and suspend/resume for approval steps. This is where flow state transitions are managed.
+
+### Flow API — `backend/windmill-api/src/flows.rs`
+
+[`backend/windmill-api/src/flows.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-api/src/flows.rs) handles flow CRUD operations and defines the JSON schema for flow modules (step, branchall, branchone, for-loop, flow). Reviewing this shows the data model behind the visual Flow Builder.
+
+
 ## What You Learned
 
 In this chapter you:

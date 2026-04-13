@@ -38,8 +38,6 @@ You now have a repeatable packaging workflow for MCPB bundle production.
 
 Next: [Chapter 6: Signing, Verification, and Trust Controls](06-signing-verification-and-trust-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/cli/init.ts`

@@ -56,170 +56,168 @@ You now have a strong mental model of Gemini CLI execution internals.
 
 Next: [Chapter 3: Authentication and Model Access Strategy](03-authentication-and-model-access-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/lint.js`
+### `scripts/get-release-version.js`
 
-The `runTSConfigLinter` function in [`scripts/lint.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/lint.js) handles a key part of this chapter's functionality:
+The `validateVersion` function in [`scripts/get-release-version.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/get-release-version.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-export function runTSConfigLinter() {
-  console.log('\nRunning tsconfig linter...');
+function validateVersion(version, format, name) {
+  const versionRegex = {
+    'X.Y.Z': /^\d+\.\d+\.\d+$/,
+    'X.Y.Z-preview.N': /^\d+\.\d+\.\d+-preview\.\d+$/,
+  };
 
-  let files = [];
-  try {
-    // Find all tsconfig.json files under packages/ using a git pathspec
-    files = execSync("git ls-files 'packages/**/tsconfig.json'")
-      .toString()
-      .trim()
-      .split('\n')
-      .filter(Boolean);
-  } catch (e) {
-    console.error('Error finding tsconfig.json files:', e.message);
-    process.exit(1);
-  }
-
-  let hasError = false;
-
-  for (const file of files) {
-    const tsconfigPath = join(process.cwd(), file);
-    if (!existsSync(tsconfigPath)) {
-      console.error(`Error: ${tsconfigPath} does not exist.`);
-      hasError = true;
-      continue;
-    }
-
-    try {
-      const content = readFileSync(tsconfigPath, 'utf-8');
-      const config = JSON.parse(stripJSONComments(content));
-
-```
-
-This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
-
-### `scripts/lint.js`
-
-The `main` function in [`scripts/lint.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/lint.js) handles a key part of this chapter's functionality:
-
-```js
-
-  function getChangedFiles() {
-    const baseRef = process.env.GITHUB_BASE_REF || 'main';
-    try {
-      execSync(`git fetch origin ${baseRef}`);
-      const mergeBase = execSync(`git merge-base HEAD origin/${baseRef}`)
-        .toString()
-        .trim();
-      return execSync(`git diff --name-only ${mergeBase}..HEAD`)
-        .toString()
-        .trim()
-        .split('\n')
-        .filter(Boolean);
-    } catch (_error) {
-      console.error(`Could not get changed files against origin/${baseRef}.`);
-      try {
-        console.log('Falling back to diff against HEAD~1');
-        return execSync(`git diff --name-only HEAD~1..HEAD`)
-          .toString()
-          .trim()
-          .split('\n')
-          .filter(Boolean);
-      } catch (_fallbackError) {
-        console.error('Could not get changed files against HEAD~1 either.');
-        process.exit(1);
-      }
-    }
-  }
-
-  const changedFiles = getChangedFiles();
-  let violationsFound = false;
-
-```
-
-This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
-
-### `scripts/telemetry_utils.js`
-
-The `getJson` function in [`scripts/telemetry_utils.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/telemetry_utils.js) handles a key part of this chapter's functionality:
-
-```js
-);
-
-export function getJson(url) {
-  const tmpFile = path.join(
-    os.tmpdir(),
-    `gemini-cli-releases-${Date.now()}.json`,
-  );
-  try {
-    const result = spawnSync(
-      'curl',
-      ['-sL', '-H', 'User-Agent: gemini-cli-dev-script', '-o', tmpFile, url],
-      { stdio: 'pipe', encoding: 'utf-8' },
+  if (!versionRegex[format] || !versionRegex[format].test(version)) {
+    throw new Error(
+      `Invalid ${name}: ${version}. Must be in ${format} format.`,
     );
-    if (result.status !== 0) {
-      throw new Error(result.stderr);
-    }
-    const content = fs.readFileSync(tmpFile, 'utf-8');
-    return JSON.parse(content);
-  } catch (e) {
-    console.error(`Failed to fetch or parse JSON from ${url}`);
-    throw e;
-  } finally {
-    if (fs.existsSync(tmpFile)) {
-      fs.unlinkSync(tmpFile);
-    }
   }
 }
 
-export function downloadFile(url, dest) {
-  try {
-    const result = spawnSync('curl', ['-fL', '-sS', '-o', dest, url], {
-      stdio: 'pipe',
+function getStableVersion(args) {
+  const { latestVersion: latestPreviewVersion } = getAndVerifyTags({
+    npmDistTag: TAG_PREVIEW,
+    args,
+  });
+  let releaseVersion;
+  if (args['stable_version_override']) {
+    const overrideVersion = args['stable_version_override'].replace(/^v/, '');
+    validateVersion(overrideVersion, 'X.Y.Z', 'stable_version_override');
+    releaseVersion = overrideVersion;
+  } else {
+    releaseVersion = latestPreviewVersion.replace(/-preview.*/, '');
+  }
+
+  const { latestTag: previousStableTag } = getAndVerifyTags({
+    npmDistTag: TAG_LATEST,
+    args,
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/telemetry_utils.js`
+### `scripts/get-release-version.js`
 
-The `downloadFile` function in [`scripts/telemetry_utils.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/telemetry_utils.js) handles a key part of this chapter's functionality:
+The `getStableVersion` function in [`scripts/get-release-version.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/get-release-version.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-export function downloadFile(url, dest) {
-  try {
-    const result = spawnSync('curl', ['-fL', '-sS', '-o', dest, url], {
-      stdio: 'pipe',
-      encoding: 'utf-8',
-    });
-    if (result.status !== 0) {
-      throw new Error(result.stderr);
-    }
-    return dest;
-  } catch (e) {
-    console.error(`Failed to download file from ${url}`);
-    throw e;
+function getStableVersion(args) {
+  const { latestVersion: latestPreviewVersion } = getAndVerifyTags({
+    npmDistTag: TAG_PREVIEW,
+    args,
+  });
+  let releaseVersion;
+  if (args['stable_version_override']) {
+    const overrideVersion = args['stable_version_override'].replace(/^v/, '');
+    validateVersion(overrideVersion, 'X.Y.Z', 'stable_version_override');
+    releaseVersion = overrideVersion;
+  } else {
+    releaseVersion = latestPreviewVersion.replace(/-preview.*/, '');
   }
+
+  const { latestTag: previousStableTag } = getAndVerifyTags({
+    npmDistTag: TAG_LATEST,
+    args,
+  });
+
+  return {
+    releaseVersion,
+    npmTag: TAG_LATEST,
+    previousReleaseTag: previousStableTag,
+  };
 }
 
-export function findFile(startPath, filter) {
-  if (!fs.existsSync(startPath)) {
-    return null;
+function getPreviewVersion(args) {
+  const latestStableVersion = getStableBaseVersion(args);
+
+  let releaseVersion;
+```
+
+This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
+
+### `scripts/get-release-version.js`
+
+The `getPreviewVersion` function in [`scripts/get-release-version.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/get-release-version.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function getPreviewVersion(args) {
+  const latestStableVersion = getStableBaseVersion(args);
+
+  let releaseVersion;
+  if (args['preview_version_override']) {
+    const overrideVersion = args['preview_version_override'].replace(/^v/, '');
+    validateVersion(
+      overrideVersion,
+      'X.Y.Z-preview.N',
+      'preview_version_override',
+    );
+    releaseVersion = overrideVersion;
+  } else {
+    const major = semver.major(latestStableVersion);
+    const minor = semver.minor(latestStableVersion);
+    const nextMinor = minor + 1;
+    releaseVersion = `${major}.${nextMinor}.0-preview.0`;
   }
-  const files = fs.readdirSync(startPath);
-  for (const file of files) {
-    const filename = path.join(startPath, file);
-    const stat = fs.lstatSync(filename);
-    if (stat.isDirectory()) {
-      const result = findFile(filename, filter);
-      if (result) return result;
-    } else if (filter(file)) {
-      return filename;
-    }
+
+  const { latestTag: previousPreviewTag } = getAndVerifyTags({
+    npmDistTag: TAG_PREVIEW,
+    args,
+  });
+
+  return {
+    releaseVersion,
+    npmTag: TAG_PREVIEW,
+    previousReleaseTag: previousPreviewTag,
+  };
+}
+```
+
+This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
+
+### `scripts/get-release-version.js`
+
+The `getPatchVersion` function in [`scripts/get-release-version.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/get-release-version.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function getPatchVersion(args) {
+  const patchFrom = args['patch-from'];
+  if (!patchFrom || (patchFrom !== 'stable' && patchFrom !== TAG_PREVIEW)) {
+    throw new Error(
+      'Patch type must be specified with --patch-from=stable or --patch-from=preview',
+    );
+  }
+  const distTag = patchFrom === 'stable' ? TAG_LATEST : TAG_PREVIEW;
+  const { latestVersion, latestTag } = getAndVerifyTags({
+    npmDistTag: distTag,
+    args,
+  });
+
+  if (patchFrom === 'stable') {
+    // For stable versions, increment the patch number: 0.5.4 -> 0.5.5
+    const versionParts = latestVersion.split('.');
+    const major = versionParts[0];
+    const minor = versionParts[1];
+    const patch = versionParts[2] ? parseInt(versionParts[2]) : 0;
+    const releaseVersion = `${major}.${minor}.${patch + 1}`;
+    return {
+      releaseVersion,
+      npmTag: distTag,
+      previousReleaseTag: latestTag,
+    };
+  } else {
+    // For preview versions, increment the preview number: 0.6.0-preview.2 -> 0.6.0-preview.3
+    const [version, prereleasePart] = latestVersion.split('-');
+    if (!prereleasePart || !prereleasePart.startsWith('preview.')) {
+      throw new Error(
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
@@ -229,11 +227,11 @@ This function is important because it defines how Gemini CLI Tutorial: Terminal-
 
 ```mermaid
 flowchart TD
-    A[runTSConfigLinter]
-    B[main]
-    C[getJson]
-    D[downloadFile]
-    E[findFile]
+    A[validateVersion]
+    B[getStableVersion]
+    C[getPreviewVersion]
+    D[getPatchVersion]
+    E[getVersion]
     A --> B
     B --> C
     C --> D

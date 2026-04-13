@@ -608,6 +608,113 @@ class CrossChannelMemory {
 }
 ```
 
+## Memory Host SDK (`packages/memory-host-sdk`)
+
+The high-level memory system described above is powered under the hood by a dedicated package: `packages/memory-host-sdk`. This SDK is the production-grade semantic memory engine that ships with OpenClaw and handles vector embeddings, provider routing, persistent storage, and a custom query language.
+
+### What Problem It Solves
+
+The built-in `FactMemory` and `EpisodicMemory` classes need a reliable, provider-agnostic way to generate embeddings, store vectors, and run similarity searches. `memory-host-sdk` provides a single engine that abstracts away eight different embedding backends behind a uniform interface, so the rest of the codebase never has to care whether embeddings come from OpenAI, a local Ollama model, or AWS Bedrock.
+
+### Architecture
+
+```mermaid
+graph TB
+    subgraph SDK["memory-host-sdk"]
+        ENGINE[engine.ts<br/>MemoryEngine]
+        EMB[engine-embeddings.ts<br/>EmbeddingRouter]
+        QMD[engine-qmd.ts<br/>QMD Query Parser]
+        STORE[engine-storage.ts<br/>SQLite + sqlite-vec]
+        FOUND[engine-foundation.ts<br/>Schema & Migrations]
+    end
+
+    subgraph Backends["Embedding Backends (packages/memory-host-sdk/src/host/)"]
+        OAI[embeddings-openai.ts]
+        VOY[embeddings-voyage.ts]
+        GEM[embeddings-gemini.ts]
+        OLL[embeddings-ollama.ts]
+        MIS[embeddings-mistral.ts]
+        BED[embeddings-bedrock.ts]
+        REM[embeddings-remote-provider.ts]
+    end
+
+    ENGINE --> EMB
+    ENGINE --> QMD
+    ENGINE --> STORE
+    STORE --> FOUND
+    EMB --> OAI
+    EMB --> VOY
+    EMB --> GEM
+    EMB --> OLL
+    EMB --> MIS
+    EMB --> BED
+    EMB --> REM
+```
+
+### Key Source Files
+
+| File | Role |
+|------|------|
+| `src/engine.ts` | Top-level `MemoryEngine` — entry point for all memory operations |
+| `src/engine-embeddings.ts` | Routes embedding requests to the configured backend |
+| `src/engine-qmd.ts` | Parses and executes QMD queries against the vector store |
+| `src/engine-storage.ts` | SQLite + `sqlite-vec` for vector persistence |
+| `src/engine-foundation.ts` | Schema definitions and migration helpers |
+| `src/host/embeddings-openai.ts` | OpenAI `text-embedding-3-*` backend |
+| `src/host/embeddings-voyage.ts` | Voyage AI backend (best for code/technical content) |
+| `src/host/embeddings-bedrock.ts` | AWS Bedrock Titan/Cohere backends |
+| `src/host/embeddings-ollama.ts` | Local Ollama backend (fully offline) |
+| `src/host/qmd-query-parser.ts` | QMD lexer + parser |
+| `src/host/qmd-process.ts` | QMD execution engine |
+| `src/host/session-files.ts` | Per-session memory file layout on disk |
+
+### QMD: Query Memory Description Language
+
+QMD is a purpose-built query syntax for filtering memories by metadata and running vector similarity searches in one pass. It avoids the impedance mismatch of writing raw SQL against a vector table:
+
+```typescript
+// Example QMD queries
+const results = await engine.query(
+  // Semantic search scoped to a category and recency window
+  "remember my preferences FOR:preference SINCE:30d LIMIT:10"
+);
+
+const codeMemories = await engine.query(
+  // Find memories tagged for a specific project with min similarity
+  "typescript patterns FOR:technical TAG:project-alpha SIM:0.75"
+);
+```
+
+QMD expressions are parsed in `src/host/qmd-query-parser.ts`, compiled to a query plan in `src/host/qmd-scope.ts`, and executed against the SQLite vector store in `src/host/qmd-process.ts`.
+
+### Configuring the Embedding Backend
+
+```typescript
+// In openclaw config (config.yaml)
+memory:
+  embedding_provider: voyage        # openai | voyage | gemini | ollama | mistral | bedrock | remote
+  embedding_model: voyage-3-large
+  voyage_api_key: ${VOYAGE_API_KEY}
+
+# For fully local/offline operation:
+memory:
+  embedding_provider: ollama
+  embedding_model: nomic-embed-text
+  ollama_base_url: http://localhost:11434
+```
+
+The `backend-config.ts` module validates provider config at startup and fails fast if required credentials are missing, preventing silent fallback to lower-quality embeddings.
+
+### When to Use This Directly
+
+Most users never touch `memory-host-sdk` directly — OpenClaw wires it automatically. Reach for it directly when:
+- Building a custom memory backend or alternative storage layer
+- Writing integration tests that need to verify embedding quality
+- Extending the QMD language with project-specific filter clauses
+- Migrating to a new embedding provider (swap one backend file, everything else stays the same)
+
+---
+
 ## Summary
 
 | Concept | Key Takeaway |

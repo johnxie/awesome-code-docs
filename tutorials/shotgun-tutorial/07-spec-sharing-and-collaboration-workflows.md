@@ -40,170 +40,166 @@ You can now structure multi-person review around stable spec artifacts instead o
 
 Next: [Chapter 8: Production Operations, Observability, and Security](08-production-operations-observability-and-security.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/shotgun/settings.py`
+### `src/shotgun/exceptions.py`
 
-The `ApiSettings` class in [`src/shotgun/settings.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/settings.py) handles a key part of this chapter's functionality:
+The `ContextSizeLimitExceeded` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ApiSettings(BaseSettings):
-    """API endpoint settings.
+class ContextSizeLimitExceeded(UserActionableError):  # noqa: N818
+    """Raised when conversation context exceeds the model's limits.
 
-    Configuration for Shotgun backend services.
+    This is a user-actionable error - they need to either:
+    1. Switch to a larger context model
+    2. Switch to a larger model, compact their conversation, then switch back
+    3. Clear the conversation and start fresh
     """
 
-    web_base_url: str = Field(
-        default="https://api-219702594231.us-east4.run.app",
-        description="Shotgun Web API base URL (authentication/subscription)",
-    )
-    account_llm_base_url: str = Field(
-        default="https://litellm-219702594231.us-east4.run.app",
-        description="Shotgun's LiteLLM proxy base URL (AI model requests)",
-    )
+    def __init__(self, model_name: str, max_tokens: int):
+        """Initialize the exception.
 
-    model_config = SettingsConfigDict(
-        env_prefix="SHOTGUN_",
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
+        Args:
+            model_name: Name of the model whose limit was exceeded
+            max_tokens: Maximum tokens allowed by the model
+        """
+        self.model_name = model_name
+        self.max_tokens = max_tokens
+        super().__init__(
+            f"Context too large for {model_name} (limit: {max_tokens:,} tokens)"
+        )
 
-
-class DevelopmentSettings(BaseSettings):
-    """Development and testing settings.
-
-    These settings are primarily used for testing and development purposes.
-    """
-
-    home: str | None = Field(
+    def to_markdown(self) -> str:
+        """Generate markdown-formatted error message for TUI."""
+        return (
+            f"⚠️ **Context too large for {self.model_name}**\n\n"
+            f"Your conversation history exceeds this model's limit ({self.max_tokens:,} tokens).\n\n"
+            f"**Choose an action:**\n\n"
+            f"1. Switch to a larger model (`/` → Change Model)\n"
+            f"2. Switch to a larger model, compact (`/compact`), then switch back to {self.model_name}\n"
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `src/shotgun/settings.py`
+### `src/shotgun/exceptions.py`
 
-The `DevelopmentSettings` class in [`src/shotgun/settings.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/settings.py) handles a key part of this chapter's functionality:
+The `ShotgunAccountException` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class DevelopmentSettings(BaseSettings):
-    """Development and testing settings.
+class ShotgunAccountException(UserActionableError):  # noqa: N818
+    """Base class for Shotgun Account service errors.
 
-    These settings are primarily used for testing and development purposes.
+    TUI will check isinstance() of this class to show contact email UI.
     """
 
-    home: str | None = Field(
-        default=None,
-        description="Override Shotgun home directory (for testing)",
-    )
-    pipx_simulate: bool = Field(
-        default=False,
-        description="Simulate pipx installation (for testing)",
-    )
-    version_override: str | None = Field(
-        default=None,
-        description="Override current version for testing (e.g., '0.1.0')",
-    )
-    install_method_override: str | None = Field(
-        default=None,
-        description="Override installation method for testing (uvx, uv-tool, pipx, pip, venv)",
-    )
 
-    model_config = SettingsConfigDict(
-        env_prefix="SHOTGUN_",
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
+class BudgetExceededException(ShotgunAccountException):
+    """Raised when Shotgun Account budget has been exceeded.
 
+    This is a user-actionable error - they need to contact support
+    to increase their budget limit. This is a temporary exception
+    until self-service budget increases are implemented.
+    """
+
+    def __init__(
+        self,
+        current_cost: float | None = None,
+        max_budget: float | None = None,
+        message: str | None = None,
+    ):
+        """Initialize the exception.
+
+        Args:
+            current_cost: Current total spend/cost (optional)
+            max_budget: Maximum budget limit (optional)
+            message: Optional custom error message from API
+        """
+        self.current_cost = current_cost
+        self.max_budget = max_budget
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `src/shotgun/settings.py`
+### `src/shotgun/exceptions.py`
 
-The `IndexingSettings` class in [`src/shotgun/settings.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/settings.py) handles a key part of this chapter's functionality:
+The `for` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
 
 ```py
+"""General exceptions for Shotgun application."""
+
+from shotgun.utils import get_shotgun_home
+
+# Shotgun Account signup URL for BYOK users
+SHOTGUN_SIGNUP_URL = "https://shotgun.sh"
+SHOTGUN_CONTACT_EMAIL = "contact@shotgun.sh"
 
 
-class IndexingSettings(BaseSettings):
-    """Codebase indexing settings.
+class UserActionableError(Exception):  # noqa: N818
+    """Base for user-actionable errors that shouldn't be sent to telemetry.
 
-    Controls parallel processing behavior for code indexing.
+    These errors represent expected user conditions requiring action
+    rather than bugs that need tracking.
+
+    All subclasses should implement to_markdown() and to_plain_text() methods
+    for consistent error message formatting.
     """
 
-    index_parallel: bool = Field(
-        default=True,
-        description="Enable parallel indexing (requires 4+ CPU cores)",
-    )
-    index_workers: int | None = Field(
-        default=None,
-        description="Number of worker processes for parallel indexing (default: CPU count - 1)",
-        ge=1,
-    )
-    index_batch_size: int | None = Field(
-        default=None,
-        description="Files per batch for parallel indexing (default: auto-calculated)",
-        ge=1,
-    )
+    def to_markdown(self) -> str:
+        """Generate markdown-formatted error message for TUI.
 
-    model_config = SettingsConfigDict(
-        env_prefix="SHOTGUN_",
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
-    )
+        Subclasses should override this method.
+        """
+        return f"⚠️ {str(self)}"
 
-    @field_validator("index_parallel", mode="before")
-    @classmethod
+    def to_plain_text(self) -> str:
+        """Generate plain text error message for CLI.
+
+        Subclasses should override this method.
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `src/shotgun/settings.py`
+### `src/shotgun/exceptions.py`
 
-The `OpenAICompatSettings` class in [`src/shotgun/settings.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/settings.py) handles a key part of this chapter's functionality:
+The `to` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
 
 ```py
 
+class UserActionableError(Exception):  # noqa: N818
+    """Base for user-actionable errors that shouldn't be sent to telemetry.
 
-class OpenAICompatSettings(BaseSettings):
-    """OpenAI-compatible endpoint settings.
+    These errors represent expected user conditions requiring action
+    rather than bugs that need tracking.
 
-    When base_url is set, Shotgun bypasses normal provider configuration
-    and uses the specified endpoint directly for all LLM requests.
-
-    Environment variables:
-        SHOTGUN_OPENAI_COMPAT_BASE_URL: The base URL of the OpenAI-compatible endpoint
-        SHOTGUN_OPENAI_COMPAT_API_KEY: API key for authentication
-        SHOTGUN_OPENAI_COMPAT_WEB_SEARCH_MODEL: Model to use for web search (optional)
+    All subclasses should implement to_markdown() and to_plain_text() methods
+    for consistent error message formatting.
     """
 
-    base_url: str | None = Field(
-        default=None,
-        description="Base URL for OpenAI-compatible endpoint (e.g., https://api.example.com/v1)",
-    )
-    api_key: str | None = Field(
-        default=None,
-        description="API key for the OpenAI-compatible endpoint",
-    )
-    web_search_model: str | None = Field(
-        default=None,
-        description="Model to use for web search (defaults to openai/gpt-5.2 if not set)",
-    )
+    def to_markdown(self) -> str:
+        """Generate markdown-formatted error message for TUI.
 
-    model_config = SettingsConfigDict(
-        env_prefix="SHOTGUN_OPENAI_COMPAT_",
-        env_file=".env",
-        env_file_encoding="utf-8",
-        extra="ignore",
+        Subclasses should override this method.
+        """
+        return f"⚠️ {str(self)}"
+
+    def to_plain_text(self) -> str:
+        """Generate plain text error message for CLI.
+
+        Subclasses should override this method.
+        """
+        return f"⚠️  {str(self)}"
+
+
+# ============================================================================
+# User Action Required Errors
+# ============================================================================
+
+
+class AgentCancelledException(UserActionableError):  # noqa: N818
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
@@ -213,11 +209,11 @@ This class is important because it defines how Shotgun Tutorial: Spec-Driven Dev
 
 ```mermaid
 flowchart TD
-    A[ApiSettings]
-    B[DevelopmentSettings]
-    C[IndexingSettings]
-    D[OpenAICompatSettings]
-    E[Settings]
+    A[ContextSizeLimitExceeded]
+    B[ShotgunAccountException]
+    C[for]
+    D[to]
+    E[BudgetExceededException]
     A --> B
     B --> C
     C --> D

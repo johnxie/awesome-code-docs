@@ -102,186 +102,36 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `whisper/timing.py`
-
-The `add_word_timestamps` function in [`whisper/timing.py`](https://github.com/openai/whisper/blob/HEAD/whisper/timing.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def add_word_timestamps(
-    *,
-    segments: List[dict],
-    model: "Whisper",
-    tokenizer: Tokenizer,
-    mel: torch.Tensor,
-    num_frames: int,
-    prepend_punctuations: str = "\"'“¿([{-",
-    append_punctuations: str = "\"'.。,，!！?？:：”)]}、",
-    last_speech_timestamp: float,
-    **kwargs,
-):
-    if len(segments) == 0:
-        return
-
-    text_tokens_per_segment = [
-        [token for token in segment["tokens"] if token < tokenizer.eot]
-        for segment in segments
-    ]
-
-    text_tokens = list(itertools.chain.from_iterable(text_tokens_per_segment))
-    alignment = find_alignment(model, tokenizer, text_tokens, mel, num_frames, **kwargs)
-    word_durations = np.array([t.end - t.start for t in alignment])
-    word_durations = word_durations[word_durations.nonzero()]
-    median_duration = np.median(word_durations) if len(word_durations) > 0 else 0.0
-    median_duration = min(0.7, float(median_duration))
-    max_duration = median_duration * 2
-
-    # hack: truncate long words at sentence boundaries.
-    # a better segmentation algorithm based on VAD should be able to replace this.
-```
-
-This function is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
 ### `whisper/model.py`
 
-The `from` class in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
+The `MultiHeadAttention` class in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) is central to the encoder-decoder architecture covered in this chapter:
 
 ```py
-import base64
-import gzip
-from contextlib import contextmanager
-from dataclasses import dataclass
-from typing import Dict, Iterable, Optional, Tuple
+class MultiHeadAttention(nn.Module):
+    use_sdpa = True
 
-import numpy as np
-import torch
-import torch.nn.functional as F
-from torch import Tensor, nn
-
-from .decoding import decode as decode_function
-from .decoding import detect_language as detect_language_function
-from .transcribe import transcribe as transcribe_function
-
-try:
-    from torch.nn.functional import scaled_dot_product_attention
-
-    SDPA_AVAILABLE = True
-except (ImportError, RuntimeError, OSError):
-    scaled_dot_product_attention = None
-    SDPA_AVAILABLE = False
-
-
-@dataclass
-class ModelDimensions:
-    n_mels: int
-    n_audio_ctx: int
-    n_audio_state: int
-    n_audio_head: int
-    n_audio_layer: int
-    n_vocab: int
+    def __init__(self, n_state: int, n_head: int):
+        super().__init__()
+        self.n_head = n_head
+        self.query = Linear(n_state, n_state)
+        self.key = Linear(n_state, n_state, bias=False)
+        self.value = Linear(n_state, n_state)
+        self.out = Linear(n_state, n_state)
 ```
 
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/model.py`
-
-The `class` class in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
-
-```py
-import gzip
-from contextlib import contextmanager
-from dataclasses import dataclass
-from typing import Dict, Iterable, Optional, Tuple
-
-import numpy as np
-import torch
-import torch.nn.functional as F
-from torch import Tensor, nn
-
-from .decoding import decode as decode_function
-from .decoding import detect_language as detect_language_function
-from .transcribe import transcribe as transcribe_function
-
-try:
-    from torch.nn.functional import scaled_dot_product_attention
-
-    SDPA_AVAILABLE = True
-except (ImportError, RuntimeError, OSError):
-    scaled_dot_product_attention = None
-    SDPA_AVAILABLE = False
-
-
-@dataclass
-class ModelDimensions:
-    n_mels: int
-    n_audio_ctx: int
-    n_audio_state: int
-    n_audio_head: int
-    n_audio_layer: int
-    n_vocab: int
-    n_text_ctx: int
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
-### `whisper/model.py`
-
-The `LayerNorm` class in [`whisper/model.py`](https://github.com/openai/whisper/blob/HEAD/whisper/model.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class LayerNorm(nn.LayerNorm):
-    def forward(self, x: Tensor) -> Tensor:
-        return super().forward(x.float()).type(x.dtype)
-
-
-class Linear(nn.Linear):
-    def forward(self, x: Tensor) -> Tensor:
-        return F.linear(
-            x,
-            self.weight.to(x.dtype),
-            None if self.bias is None else self.bias.to(x.dtype),
-        )
-
-
-class Conv1d(nn.Conv1d):
-    def _conv_forward(
-        self, x: Tensor, weight: Tensor, bias: Optional[Tensor]
-    ) -> Tensor:
-        return super()._conv_forward(
-            x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype)
-        )
-
-
-def sinusoids(length, channels, max_timescale=10000):
-    """Returns sinusoids for positional embedding"""
-    assert channels % 2 == 0
-    log_timescale_increment = np.log(max_timescale) / (channels // 2 - 1)
-    inv_timescales = torch.exp(-log_timescale_increment * torch.arange(channels // 2))
-    scaled_time = torch.arange(length)[:, np.newaxis] * inv_timescales[np.newaxis, :]
-    return torch.cat([torch.sin(scaled_time), torch.cos(scaled_time)], dim=1)
-```
-
-This class is important because it defines how OpenAI Whisper Tutorial: Speech Recognition and Translation implements the patterns covered in this chapter.
-
+This class implements the multi-head attention layers used in both the audio encoder and text decoder, which is the core of Whisper's transformer architecture.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[add_word_timestamps]
-    B[from]
-    C[class]
-    D[LayerNorm]
-    E[Linear]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    A[Audio Frames 30s] --> B[Log-Mel Spectrogram]
+    B --> C[Audio Encoder]
+    C --> D[Cross-Attention Keys/Values]
+    E[Token Sequence] --> F[Text Decoder]
+    F --> D
+    F --> G[Next Token Logits]
+    G --> H[Output Text]
 ```

@@ -27,170 +27,168 @@ You now have practical scoping techniques that improve one-shot implementation q
 
 Next: [Chapter 4: Prompt Patterns for One-Shot UI Implementation](04-prompt-patterns-for-one-shot-ui-implementation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/transformers/style.ts`
+### `src/extractors/built-in.ts`
 
-The `generateTransformHash` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+The `getStyleCache` function in [`src/extractors/built-in.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/extractors/built-in.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @returns Short hash string for filename suffix
+const styleCaches = new WeakMap<GlobalVars, Map<string, string>>();
+
+function getStyleCache(globalVars: GlobalVars): Map<string, string> {
+  let cache = styleCaches.get(globalVars);
+  if (!cache) {
+    cache = new Map();
+    styleCaches.set(globalVars, cache);
+  }
+  return cache;
+}
+
+/**
+ * Find an existing global style variable with the same value, or create one.
  */
-function generateTransformHash(transform: Transform): string {
-  const values = transform.flat();
-  const hash = values.reduce((acc, val) => {
-    // Simple hash function - convert to string and create checksum
-    const str = val.toString();
-    for (let i = 0; i < str.length; i++) {
-      acc = ((acc << 5) - acc + str.charCodeAt(i)) & 0xffffffff;
+function findOrCreateVar(globalVars: GlobalVars, value: StyleTypes, prefix: string): string {
+  const cache = getStyleCache(globalVars);
+  const key = JSON.stringify(value);
+
+  const existing = cache.get(key);
+  if (existing) return existing;
+
+  const varId = generateVarId(prefix);
+  globalVars.styles[varId] = value;
+  cache.set(key, varId);
+  return varId;
+}
+
+/**
+ * Extracts layout-related properties from a node.
+ */
+export const layoutExtractor: ExtractorFn = (node, result, context) => {
+  const layout = buildSimplifiedLayout(node, context.parent);
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/extractors/built-in.ts`
+
+The `findOrCreateVar` function in [`src/extractors/built-in.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/extractors/built-in.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Find an existing global style variable with the same value, or create one.
+ */
+function findOrCreateVar(globalVars: GlobalVars, value: StyleTypes, prefix: string): string {
+  const cache = getStyleCache(globalVars);
+  const key = JSON.stringify(value);
+
+  const existing = cache.get(key);
+  if (existing) return existing;
+
+  const varId = generateVarId(prefix);
+  globalVars.styles[varId] = value;
+  cache.set(key, varId);
+  return varId;
+}
+
+/**
+ * Extracts layout-related properties from a node.
+ */
+export const layoutExtractor: ExtractorFn = (node, result, context) => {
+  const layout = buildSimplifiedLayout(node, context.parent);
+  if (Object.keys(layout).length > 1) {
+    result.layout = findOrCreateVar(context.globalVars, layout, "layout");
+  }
+};
+
+/**
+ * Extracts text content and text styling from a node.
+ */
+export const textExtractor: ExtractorFn = (node, result, context) => {
+  // Extract text content
+  if (isTextNode(node)) {
+    result.text = extractNodeText(node);
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/extractors/built-in.ts`
+
+The `getStyleName` function in [`src/extractors/built-in.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/extractors/built-in.ts) handles a key part of this chapter's functionality:
+
+```ts
+    if (textStyle) {
+      // Prefer Figma named style when available
+      const styleName = getStyleName(node, context, ["text", "typography"]);
+      if (styleName) {
+        context.globalVars.styles[styleName] = textStyle;
+        result.textStyle = styleName;
+      } else {
+        result.textStyle = findOrCreateVar(context.globalVars, textStyle, "style");
+      }
     }
-    return acc;
-  }, 0);
-
-  // Convert to positive hex string, take first 6 chars
-  return Math.abs(hash).toString(16).substring(0, 6);
-}
+  }
+};
 
 /**
- * Handle imageTransform for post-processing (not CSS translation)
- *
- * When Figma includes an imageTransform matrix, it means the image is cropped/transformed.
- * This function converts the transform into processing instructions for Sharp.
- *
- * @param imageTransform - Figma's 2x3 transform matrix [[scaleX, skewX, translateX], [skewY, scaleY, translateY]]
- * @returns Processing metadata for image cropping
+ * Extracts visual appearance properties (fills, strokes, effects, opacity, border radius).
  */
-function handleImageTransform(
-  imageTransform: Transform,
-): NonNullable<SimplifiedImageFill["imageDownloadArguments"]> {
-  const transformHash = generateTransformHash(imageTransform);
-  return {
-    needsCropping: true,
+export const visualsExtractor: ExtractorFn = (node, result, context) => {
+  // Check if node has children to determine CSS properties
+  const hasChildren =
+    hasValue("children", node) && Array.isArray(node.children) && node.children.length > 0;
+
+  // fills
+  if (hasValue("fills", node) && Array.isArray(node.fills) && node.fills.length) {
+    const fills = node.fills.map((fill) => parsePaint(fill, hasChildren)).reverse();
+    const styleName = getStyleName(node, context, ["fill", "fills"]);
+    if (styleName) {
+      context.globalVars.styles[styleName] = fills;
+      result.fills = styleName;
+    } else {
+      result.fills = findOrCreateVar(context.globalVars, fills, "fill");
+    }
+  }
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
-### `src/transformers/style.ts`
+### `src/extractors/built-in.ts`
 
-The `handleImageTransform` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
+The `collapseSvgContainers` function in [`src/extractors/built-in.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/extractors/built-in.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * @returns Processing metadata for image cropping
+ * @returns Children to include (empty array if collapsed)
  */
-function handleImageTransform(
-  imageTransform: Transform,
-): NonNullable<SimplifiedImageFill["imageDownloadArguments"]> {
-  const transformHash = generateTransformHash(imageTransform);
-  return {
-    needsCropping: true,
-    requiresImageDimensions: false,
-    cropTransform: imageTransform,
-    filenameSuffix: `${transformHash}`,
-  };
+export function collapseSvgContainers(
+  node: FigmaDocumentNode,
+  result: SimplifiedNode,
+  children: SimplifiedNode[],
+): SimplifiedNode[] {
+  const allChildrenAreSvgEligible = children.every((child) => SVG_ELIGIBLE_TYPES.has(child.type));
+
+  if (
+    (node.type === "FRAME" ||
+      node.type === "GROUP" ||
+      node.type === "INSTANCE" ||
+      node.type === "BOOLEAN_OPERATION") &&
+    allChildrenAreSvgEligible &&
+    !hasImageFillInChildren(node)
+  ) {
+    // Collapse to IMAGE-SVG and omit children
+    result.type = "IMAGE-SVG";
+    return [];
+  }
+
+  // Include all children normally
+  return children;
 }
 
 /**
- * Build simplified stroke information from a Figma node
+ * Check whether a node or its direct children have image fills.
  *
- * @param n - The Figma node to extract stroke information from
- * @param hasChildren - Whether the node has children (affects paint processing)
- * @returns Simplified stroke object with colors and properties
- */
-export function buildSimplifiedStrokes(
-  n: FigmaDocumentNode,
-  hasChildren: boolean = false,
-): SimplifiedStroke {
-  let strokes: SimplifiedStroke = { colors: [] };
-  if (hasValue("strokes", n) && Array.isArray(n.strokes) && n.strokes.length) {
-    strokes.colors = n.strokes.filter(isVisible).map((stroke) => parsePaint(stroke, hasChildren));
-  }
-
-  if (hasValue("strokeWeight", n) && typeof n.strokeWeight === "number" && n.strokeWeight > 0) {
-    strokes.strokeWeight = `${n.strokeWeight}px`;
-```
-
-This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
-
-### `src/transformers/style.ts`
-
-The `buildSimplifiedStrokes` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @returns Simplified stroke object with colors and properties
- */
-export function buildSimplifiedStrokes(
-  n: FigmaDocumentNode,
-  hasChildren: boolean = false,
-): SimplifiedStroke {
-  let strokes: SimplifiedStroke = { colors: [] };
-  if (hasValue("strokes", n) && Array.isArray(n.strokes) && n.strokes.length) {
-    strokes.colors = n.strokes.filter(isVisible).map((stroke) => parsePaint(stroke, hasChildren));
-  }
-
-  if (hasValue("strokeWeight", n) && typeof n.strokeWeight === "number" && n.strokeWeight > 0) {
-    strokes.strokeWeight = `${n.strokeWeight}px`;
-  }
-
-  if (hasValue("strokeDashes", n) && Array.isArray(n.strokeDashes) && n.strokeDashes.length) {
-    strokes.strokeDashes = n.strokeDashes;
-  }
-
-  if (hasValue("individualStrokeWeights", n, isStrokeWeights)) {
-    strokes.strokeWeight = generateCSSShorthand(n.individualStrokeWeights);
-  }
-
-  return strokes;
-}
-
-/**
- * Convert a Figma paint (solid, image, gradient) to a SimplifiedFill
- * @param raw - The Figma paint to convert
- * @param hasChildren - Whether the node has children (determines CSS properties)
- * @returns The converted SimplifiedFill
- */
-```
-
-This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
-
-### `src/transformers/style.ts`
-
-The `parsePaint` function in [`src/transformers/style.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/style.ts) handles a key part of this chapter's functionality:
-
-```ts
-  let strokes: SimplifiedStroke = { colors: [] };
-  if (hasValue("strokes", n) && Array.isArray(n.strokes) && n.strokes.length) {
-    strokes.colors = n.strokes.filter(isVisible).map((stroke) => parsePaint(stroke, hasChildren));
-  }
-
-  if (hasValue("strokeWeight", n) && typeof n.strokeWeight === "number" && n.strokeWeight > 0) {
-    strokes.strokeWeight = `${n.strokeWeight}px`;
-  }
-
-  if (hasValue("strokeDashes", n) && Array.isArray(n.strokeDashes) && n.strokeDashes.length) {
-    strokes.strokeDashes = n.strokeDashes;
-  }
-
-  if (hasValue("individualStrokeWeights", n, isStrokeWeights)) {
-    strokes.strokeWeight = generateCSSShorthand(n.individualStrokeWeights);
-  }
-
-  return strokes;
-}
-
-/**
- * Convert a Figma paint (solid, image, gradient) to a SimplifiedFill
- * @param raw - The Figma paint to convert
- * @param hasChildren - Whether the node has children (determines CSS properties)
- * @returns The converted SimplifiedFill
- */
-export function parsePaint(raw: Paint, hasChildren: boolean = false): SimplifiedFill {
-  if (raw.type === "IMAGE") {
-    const baseImageFill: SimplifiedImageFill = {
-      type: "IMAGE",
-      imageRef: raw.imageRef,
-      ...(raw.gifRef ? { gifRef: raw.gifRef } : {}),
+ * Only direct children need checking because afterChildren runs bottom-up:
+ * if a deeper descendant has image fills, its parent won't collapse (stays FRAME),
+ * and FRAME isn't SVG-eligible, so the chain breaks naturally at each level.
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
@@ -200,11 +198,11 @@ This function is important because it defines how Figma Context MCP Tutorial: De
 
 ```mermaid
 flowchart TD
-    A[generateTransformHash]
-    B[handleImageTransform]
-    C[buildSimplifiedStrokes]
-    D[parsePaint]
-    E[parsePatternPaint]
+    A[getStyleCache]
+    B[findOrCreateVar]
+    C[getStyleName]
+    D[collapseSvgContainers]
+    E[hasImageFillInChildren]
     A --> B
     B --> C
     C --> D

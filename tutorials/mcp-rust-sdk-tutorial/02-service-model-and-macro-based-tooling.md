@@ -38,170 +38,168 @@ You now have a practical model for macro-driven capability design in Rust.
 
 Next: [Chapter 3: Transports: stdio, Streamable HTTP, and Custom Channels](03-transports-stdio-streamable-http-and-custom-channels.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/servers/src/complex_auth_streamhttp.rs`
+### `crates/rmcp/src/service.rs`
 
-The `AuthSession` interface in [`examples/servers/src/complex_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/complex_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+The `PeerRequestOptions` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-struct McpOAuthStore {
-    clients: Arc<RwLock<HashMap<String, OAuthClientConfig>>>,
-    auth_sessions: Arc<RwLock<HashMap<String, AuthSession>>>,
-    access_tokens: Arc<RwLock<HashMap<String, McpAccessToken>>>,
+pub struct RequestHandle<R: ServiceRole> {
+    pub rx: tokio::sync::oneshot::Receiver<Result<R::PeerResp, ServiceError>>,
+    pub options: PeerRequestOptions,
+    pub peer: Peer<R>,
+    pub id: RequestId,
+    pub progress_token: ProgressToken,
 }
 
-impl McpOAuthStore {
-    fn new() -> Self {
-        let mut clients = HashMap::new();
-        clients.insert(
-            "mcp-client".to_string(),
-            OAuthClientConfig {
-                client_id: "mcp-client".to_string(),
-                client_secret: Some("mcp-client-secret".to_string()),
-                scopes: vec!["profile".to_string(), "email".to_string()],
-                redirect_uri: "http://localhost:8080/callback".to_string(),
-            },
-        );
-
-        Self {
-            clients: Arc::new(RwLock::new(clients)),
-            auth_sessions: Arc::new(RwLock::new(HashMap::new())),
-            access_tokens: Arc::new(RwLock::new(HashMap::new())),
-        }
-    }
-
-    async fn validate_client(
-        &self,
-        client_id: &str,
-        redirect_uri: &str,
-    ) -> Option<OAuthClientConfig> {
-        let clients = self.clients.read().await;
+impl<R: ServiceRole> RequestHandle<R> {
+    pub const REQUEST_TIMEOUT_REASON: &str = "request timeout";
+    pub async fn await_response(self) -> Result<R::PeerResp, ServiceError> {
+        if let Some(timeout) = self.options.timeout {
+            let timeout_result = tokio::time::timeout(timeout, async move {
+                self.rx.await.map_err(|_e| ServiceError::TransportClosed)?
+            })
+            .await;
+            match timeout_result {
+                Ok(response) => response,
+                Err(_) => {
+                    let error = Err(ServiceError::Timeout { timeout });
+                    // cancel this request
+                    let notification = CancelledNotification {
+                        params: CancelledNotificationParam {
+                            request_id: self.id,
+                            reason: Some(Self::REQUEST_TIMEOUT_REASON.to_owned()),
+                        },
+                        method: crate::model::CancelledNotificationMethod,
+                        extensions: Default::default(),
+                    };
+                    let _ = self.peer.send_notification(notification.into()).await;
+                    error
+                }
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `examples/servers/src/complex_auth_streamhttp.rs`
+### `crates/rmcp/src/service.rs`
 
-The `AuthToken` interface in [`examples/servers/src/complex_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/complex_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+The `RunningService` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
+        self,
+        transport: T,
+    ) -> impl Future<Output = Result<RunningService<R, Self>, R::InitializeError>> + MaybeSendFuture
+    where
+        T: IntoTransport<R, E, A>,
+        E: std::error::Error + Send + Sync + 'static,
+        Self: Sized,
+    {
+        Self::serve_with_ct(self, transport, Default::default())
+    }
+    fn serve_with_ct<T, E, A>(
+        self,
+        transport: T,
+        ct: CancellationToken,
+    ) -> impl Future<Output = Result<RunningService<R, Self>, R::InitializeError>> + MaybeSendFuture
+    where
+        T: IntoTransport<R, E, A>,
+        E: std::error::Error + Send + Sync + 'static,
+        Self: Sized;
+}
+
+impl<R: ServiceRole> Service<R> for Box<dyn DynService<R>> {
+    fn handle_request(
         &self,
-        session_id: &str,
-        token: AuthToken,
-    ) -> Result<(), String> {
-        let mut sessions = self.auth_sessions.write().await;
-        if let Some(session) = sessions.get_mut(session_id) {
-            session.auth_token = Some(token);
-            Ok(())
-        } else {
-            Err("Session not found".to_string())
-        }
+        request: R::PeerReq,
+        context: RequestContext<R>,
+    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_ {
+        DynService::handle_request(self.as_ref(), request, context)
     }
 
-    async fn create_mcp_token(&self, session_id: &str) -> Result<McpAccessToken, String> {
-        let sessions = self.auth_sessions.read().await;
-        if let Some(session) = sessions.get(session_id) {
-            if let Some(auth_token) = &session.auth_token {
-                let access_token = format!("mcp-token-{}", Uuid::new_v4());
-                let token = McpAccessToken {
-                    access_token: access_token.clone(),
-                    token_type: "Bearer".to_string(),
-                    expires_in: 3600,
-                    refresh_token: format!("mcp-refresh-{}", Uuid::new_v4()),
-                    scope: session.scope.clone(),
-                    auth_token: auth_token.clone(),
-                    client_id: session.client_id.clone(),
-                };
-
-                self.access_tokens
-                    .write()
-                    .await
-                    .insert(access_token.clone(), token.clone());
+    fn handle_notification(
+        &self,
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `examples/servers/src/complex_auth_streamhttp.rs`
+### `crates/rmcp/src/service.rs`
 
-The `McpAccessToken` interface in [`examples/servers/src/complex_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/complex_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+The `RunningServiceCancellationToken` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-    clients: Arc<RwLock<HashMap<String, OAuthClientConfig>>>,
-    auth_sessions: Arc<RwLock<HashMap<String, AuthSession>>>,
-    access_tokens: Arc<RwLock<HashMap<String, McpAccessToken>>>,
-}
+    }
+    #[inline]
+    pub fn cancellation_token(&self) -> RunningServiceCancellationToken {
+        RunningServiceCancellationToken(self.cancellation_token.clone())
+    }
 
-impl McpOAuthStore {
-    fn new() -> Self {
-        let mut clients = HashMap::new();
-        clients.insert(
-            "mcp-client".to_string(),
-            OAuthClientConfig {
-                client_id: "mcp-client".to_string(),
-                client_secret: Some("mcp-client-secret".to_string()),
-                scopes: vec!["profile".to_string(), "email".to_string()],
-                redirect_uri: "http://localhost:8080/callback".to_string(),
-            },
-        );
+    /// Returns true if the service has been closed or cancelled.
+    #[inline]
+    pub fn is_closed(&self) -> bool {
+        self.handle.is_none() || self.cancellation_token.is_cancelled()
+    }
 
-        Self {
-            clients: Arc::new(RwLock::new(clients)),
-            auth_sessions: Arc::new(RwLock::new(HashMap::new())),
-            access_tokens: Arc::new(RwLock::new(HashMap::new())),
+    /// Wait for the service to complete.
+    ///
+    /// This will block until the service loop terminates (either due to
+    /// cancellation, transport closure, or an error).
+    #[inline]
+    pub async fn waiting(mut self) -> Result<QuitReason, tokio::task::JoinError> {
+        match self.handle.take() {
+            Some(handle) => handle.await,
+            None => Ok(QuitReason::Closed),
         }
     }
 
-    async fn validate_client(
-        &self,
-        client_id: &str,
-        redirect_uri: &str,
-    ) -> Option<OAuthClientConfig> {
-        let clients = self.clients.read().await;
-        if let Some(client) = clients.get(client_id) {
+    /// Gracefully close the connection and wait for cleanup to complete.
+    ///
+    /// This method cancels the service, waits for the background task to finish
+    /// (which includes calling `transport.close()`), and ensures all cleanup
+    /// operations complete before returning.
+    ///
+    /// Unlike [`cancel`](Self::cancel), this method takes `&mut self` and can be
+    /// called without consuming the `RunningService`. After calling this method,
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `examples/servers/src/complex_auth_streamhttp.rs`
+### `crates/rmcp/src/service.rs`
 
-The `AuthorizeQuery` interface in [`examples/servers/src/complex_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/complex_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+The `RequestContext` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
 
 ```rs
-
-#[derive(Debug, Deserialize)]
-struct AuthorizeQuery {
-    #[allow(dead_code)]
-    response_type: String,
-    client_id: String,
-    redirect_uri: String,
-    scope: Option<String>,
-    state: Option<String>,
+        &self,
+        request: R::PeerReq,
+        context: RequestContext<R>,
+    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_;
+    fn handle_notification(
+        &self,
+        notification: R::PeerNot,
+        context: NotificationContext<R>,
+    ) -> impl Future<Output = Result<(), McpError>> + MaybeSendFuture + '_;
+    fn get_info(&self) -> R::Info;
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-struct TokenRequest {
-    grant_type: String,
-    #[serde(default)]
-    code: String,
-    #[serde(default)]
-    client_id: String,
-    #[serde(default)]
-    client_secret: String,
-    #[serde(default)]
-    redirect_uri: String,
-    #[serde(default)]
-    code_verifier: Option<String>,
-    #[serde(default)]
-    refresh_token: String,
+#[cfg(feature = "local")]
+pub trait Service<R: ServiceRole>: 'static {
+    fn handle_request(
+        &self,
+        request: R::PeerReq,
+        context: RequestContext<R>,
+    ) -> impl Future<Output = Result<R::Resp, McpError>> + MaybeSendFuture + '_;
+    fn handle_notification(
+        &self,
+        notification: R::PeerNot,
+        context: NotificationContext<R>,
+    ) -> impl Future<Output = Result<(), McpError>> + MaybeSendFuture + '_;
+    fn get_info(&self) -> R::Info;
 }
 
-fn generate_random_string(length: usize) -> String {
-    rand::rng()
-        .sample_iter(&Alphanumeric)
-        .take(length)
+pub trait ServiceExt<R: ServiceRole>: Service<R> + Sized {
+    /// Convert this service to a dynamic boxed service
+    ///
+    /// This could be very helpful when you want to store the services in a collection
+    fn into_dyn(self) -> Box<dyn DynService<R>> {
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[AuthSession]
-    B[AuthToken]
-    C[McpAccessToken]
-    D[AuthorizeQuery]
-    E[TokenRequest]
+    A[PeerRequestOptions]
+    B[RunningService]
+    C[RunningServiceCancellationToken]
+    D[RequestContext]
+    E[NotificationContext]
     A --> B
     B --> C
     C --> D

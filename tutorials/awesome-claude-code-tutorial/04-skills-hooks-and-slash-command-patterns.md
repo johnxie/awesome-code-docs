@@ -47,184 +47,182 @@ You now have a practical model for composing multiple resource types without add
 
 Next: [Chapter 5: `CLAUDE.md` and Project Scaffolding Patterns](05-claude-md-and-project-scaffolding-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/resources/parse_issue_form.py`
+### `scripts/resources/create_resource_pr.py`
 
-The `main` function in [`scripts/resources/parse_issue_form.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/parse_issue_form.py) handles a key part of this chapter's functionality:
+The `validate_generated_outputs` function in [`scripts/resources/create_resource_pr.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/create_resource_pr.py) handles a key part of this chapter's functionality:
 
 ```py
+
+
+def validate_generated_outputs(status_stdout: str, repo_root: str) -> None:
+    """Verify expected outputs exist and no unexpected files are changed."""
+    expected_readme = os.path.join(repo_root, "README.md")
+    expected_csv = os.path.join(repo_root, "THE_RESOURCES_TABLE.csv")
+    expected_readme_dir = os.path.join(repo_root, "README_ALTERNATIVES")
+
+    if not os.path.isfile(expected_readme):
+        raise Exception(f"Missing generated README: {expected_readme}")
+    if not os.path.isfile(expected_csv):
+        raise Exception(f"Missing CSV: {expected_csv}")
+    if not os.path.isdir(expected_readme_dir):
+        raise Exception(f"Missing README directory: {expected_readme_dir}")
+    if not glob.glob(os.path.join(expected_readme_dir, "*.md")):
+        raise Exception(f"No README alternatives found in {expected_readme_dir}")
+
+    changed_paths = []
+    for line in status_stdout.splitlines():
+        if not line.strip():
+            continue
+        path = line[3:]
+        if " -> " in path:
+            path = path.split(" -> ", 1)[1]
+        changed_paths.append(path)
+
+    allowed_files = {"README.md", "THE_RESOURCES_TABLE.csv"}
+    allowed_prefixes = ("README_ALTERNATIVES/", "assets/")
+    ignored_files = {"resource_data.json", "pr_result.json"}
+    unexpected = [
+        path
+        for path in changed_paths
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/resources/create_resource_pr.py`
+
+The `write_step_outputs` function in [`scripts/resources/create_resource_pr.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/create_resource_pr.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def write_step_outputs(outputs: dict[str, str]) -> None:
+    """Write outputs for GitHub Actions, if available."""
+    output_path = os.environ.get("GITHUB_OUTPUT")
+    if not output_path:
+        return
+
+    try:
+        with open(output_path, "a", encoding="utf-8") as f:
+            for key, value in outputs.items():
+                if value is None:
+                    value = ""
+                value_str = str(value)
+                if "\n" in value_str or "\r" in value_str:
+                    f.write(f"{key}<<EOF\n{value_str}\nEOF\n")
+                else:
+                    f.write(f"{key}={value_str}\n")
+    except Exception as e:
+        print(f"Warning: failed to write step outputs: {e}", file=sys.stderr)
 
 
 def main():
-    """Main entry point for the script."""
-    # Get issue body from environment variable
-    issue_body = os.environ.get("ISSUE_BODY", "")
-    if not issue_body:
-        print(json.dumps({"valid": False, "errors": ["No issue body provided"], "data": {}}))
-        return 1
+    """Main entry point."""
+    parser = argparse.ArgumentParser(description="Create PR from approved resource submission")
+    parser.add_argument("--issue-number", required=True, help="Issue number")
+    parser.add_argument("--resource-data", required=True, help="Path to resource data JSON file")
+    args = parser.parse_args()
 
-    # Parse the issue body
-    parsed_data = parse_issue_body(issue_body)
-
-    # Check if --validate flag is passed
-    validate_mode = "--validate" in sys.argv
-
-    if validate_mode:
-        # Full validation mode
-        is_valid, errors, warnings = validate_parsed_data(parsed_data)
-
-        # Check for duplicates
-        duplicate_warnings = check_for_duplicates(parsed_data)
-        warnings.extend(duplicate_warnings)
-
-        # If basic validation passed, do URL validation
-        if is_valid and parsed_data.get("primary_link"):
-            url_valid, enriched_data, url_errors = validate_single_resource(
-                primary_link=parsed_data.get("primary_link", ""),
-                secondary_link=parsed_data.get("secondary_link", ""),
-                display_name=parsed_data.get("display_name", ""),
-                category=parsed_data.get("category", ""),
-                license=parsed_data.get("license", "NOT_FOUND"),
+    # Load resource data
+    with open(args.resource_data) as f:
+        resource_data = json.load(f)
 ```
 
 This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
 
-### `scripts/maintenance/check_repo_health.py`
+### `scripts/resources/create_resource_pr.py`
 
-The `get_repo_info` function in [`scripts/maintenance/check_repo_health.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/maintenance/check_repo_health.py) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/resources/create_resource_pr.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/resources/create_resource_pr.py) handles a key part of this chapter's functionality:
+
+```py
+
+from scripts.ids.resource_id import generate_resource_id
+from scripts.readme.generate_readme import main as generate_readmes
+from scripts.resources.resource_utils import append_to_csv, generate_pr_content
+from scripts.validation.validate_links import (
+    get_github_commit_dates_from_url,
+    get_latest_release_info,
+)
+
+
+def run_command(cmd: list[str], check: bool = True) -> subprocess.CompletedProcess:
+    """Run a command and return the result."""
+    return subprocess.run(cmd, capture_output=True, text=True, check=check)
+
+
+def create_unique_branch_name(base_name: str) -> str:
+    """Create a unique branch name with timestamp."""
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    return f"{base_name}-{timestamp}"
+
+
+def get_badge_filename(display_name: str) -> str:
+    """Compute the badge filename for a resource.
+
+    Uses the same logic as save_resource_badge_svg in generate_readme.py.
+    """
+    safe_name = re.sub(r"[^a-zA-Z0-9]", "-", display_name.lower())
+    safe_name = re.sub(r"-+", "-", safe_name).strip("-")
+    return f"badge-{safe_name}.svg"
+
+
+def validate_generated_outputs(status_stdout: str, repo_root: str) -> None:
+```
+
+This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+
+### `scripts/badges/badge_notification_core.py`
+
+The `RateLimiter` class in [`scripts/badges/badge_notification_core.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/badges/badge_notification_core.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_repo_info(owner, repo):
-    """
-    Fetch repository information from GitHub API.
-    Returns a dict with:
-    - open_issues: number of open issues
-    - last_updated: date of last push (ISO format string)
-    - exists: whether the repo exists (False if 404)
-    Returns None if API call fails for other reasons.
-    """
-    api_url = f"https://api.github.com/repos/{owner}/{repo}"
+class RateLimiter:
+    """Handle GitHub API rate limiting with exponential backoff"""
 
-    try:
-        response = requests.get(api_url, headers=HEADERS, timeout=10)
+    def __init__(self):
+        self.last_request_time = 0
+        self.request_count = 0
+        self.backoff_seconds = 1
+        self.max_backoff = 60
 
-        if response.status_code == 404:
-            logger.warning(f"Repository {owner}/{repo} not found (deleted or private)")
-            return {"exists": False, "open_issues": 0, "last_updated": None}
-
-        if response.status_code == 403:
-            logger.error(f"Rate limit or forbidden for {owner}/{repo}")
-            return None
-
-        if response.status_code != 200:
-            logger.error(f"Failed to fetch {owner}/{repo}: HTTP {response.status_code}")
-            return None
-
-        data = response.json()
-
-        return {
-            "exists": True,
+    def check_rate_limit(self, github_client: Github) -> dict:
+        """Check current rate limit status"""
+        try:
+            rate_limit = github_client.get_rate_limit()
+            core = rate_limit.resources.core
+            return {
+                "remaining": core.remaining,
+                "limit": core.limit,
+                "reset_time": core.reset.timestamp(),
+                "should_pause": core.remaining < 100,
+                "should_stop": core.remaining < 10,
+            }
+        except Exception as e:
+            logger.warning(f"Could not check rate limit: {e}")
+            return {
+                "remaining": -1,
+                "limit": -1,
+                "reset_time": 0,
+                "should_pause": False,
+                "should_stop": False,
+            }
 ```
 
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `scripts/maintenance/check_repo_health.py`
-
-The `is_outdated` function in [`scripts/maintenance/check_repo_health.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/maintenance/check_repo_health.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def is_outdated(last_updated_str, months_threshold):
-    """
-    Check if a repository hasn't been updated in more than months_threshold months.
-    """
-    if not last_updated_str:
-        return True  # Consider it outdated if we don't have a date
-
-    try:
-        last_updated = datetime.fromisoformat(last_updated_str.replace("Z", "+00:00"))
-        now = datetime.now(UTC)
-        threshold_date = now - timedelta(days=months_threshold * 30)
-        return last_updated < threshold_date
-    except (ValueError, AttributeError) as e:
-        logger.warning(f"Could not parse date '{last_updated_str}': {e}")
-        return True
-
-
-def check_repos_health(
-    csv_file, months_threshold=MONTHS_THRESHOLD, issues_threshold=OPEN_ISSUES_THRESHOLD
-):
-    """
-    Check health of all active GitHub repositories in the CSV.
-    Returns a list of problematic repos.
-    """
-    problematic_repos = []
-    checked_repos = 0
-    deleted_repos = []
-
-    logger.info(f"Reading repository list from {csv_file}")
-
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
-
-### `scripts/maintenance/check_repo_health.py`
-
-The `check_repos_health` function in [`scripts/maintenance/check_repo_health.py`](https://github.com/hesreallyhim/awesome-claude-code/blob/HEAD/scripts/maintenance/check_repo_health.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def check_repos_health(
-    csv_file, months_threshold=MONTHS_THRESHOLD, issues_threshold=OPEN_ISSUES_THRESHOLD
-):
-    """
-    Check health of all active GitHub repositories in the CSV.
-    Returns a list of problematic repos.
-    """
-    problematic_repos = []
-    checked_repos = 0
-    deleted_repos = []
-
-    logger.info(f"Reading repository list from {csv_file}")
-
-    try:
-        with open(csv_file, encoding="utf-8") as f:
-            reader = csv.DictReader(f)
-
-            for row in reader:
-                # Check if Active is TRUE
-                active = row.get("Active", "").strip().upper()
-                if active != "TRUE":
-                    continue
-
-                primary_link = row.get("Primary Link", "").strip()
-                if not primary_link:
-                    continue
-
-                # Extract owner and repo from GitHub URL
-                _, is_github, owner, repo = parse_github_url(primary_link)
-                if not is_github or not owner or not repo:
-```
-
-This function is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
+This class is important because it defines how Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[get_repo_info]
-    C[is_outdated]
-    D[check_repos_health]
-    E[main]
+    A[validate_generated_outputs]
+    B[write_step_outputs]
+    C[main]
+    D[RateLimiter]
+    E[BadgeNotificationCore]
     A --> B
     B --> C
     C --> D

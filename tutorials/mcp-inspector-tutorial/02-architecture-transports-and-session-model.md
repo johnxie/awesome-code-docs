@@ -54,8 +54,6 @@ You now have a transport-first mental model for debugging with Inspector.
 
 Next: [Chapter 3: UI Debugging Workflows: Tools, Resources, Prompts](03-ui-debugging-workflows-tools-resources-prompts.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `cli/src/index.ts`

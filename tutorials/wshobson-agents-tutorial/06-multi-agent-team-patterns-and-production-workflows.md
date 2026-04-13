@@ -59,98 +59,27 @@ You now have concrete patterns for reliable multi-agent collaboration.
 
 Next: [Chapter 7: Governance, Safety, and Operational Best Practices](07-governance-safety-and-operational-best-practices.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` expresses multi-agent team patterns through plugin compositions and documentation, not executable source code. The `plugins/agent-teams` directory and usage guide document the orchestration patterns covered here.
 
-The `rgb_to_hex` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `plugins/agent-teams/`
 
-```py
+The [`plugins/agent-teams/` directory](https://github.com/wshobson/agents/tree/main/plugins/agent-teams) contains the agent-teams plugin definition. This plugin is specifically designed for coordinated multi-agent workflows — it defines team compositions, handoff patterns, and the orchestration commands referenced in this chapter's Full-Stack Feature Flow and Team Review Flow patterns.
 
+### `docs/usage.md` — Multi-agent workflow examples
 
-def rgb_to_hex(rgb: tuple) -> str:
-    """Convert RGB tuple to hex color string."""
-    return "#{:02x}{:02x}{:02x}".format(*rgb)
-
-
-def analyze_color_palettes(frames: list[Path], sample_size: int = 10) -> dict:
-    """Analyze color palettes across sampled frames."""
-    if not COLORTHIEF_AVAILABLE:
-        return {}
-    if not frames:
-        return {}
-
-    # Sample frames evenly across the video
-    step = max(1, len(frames) // sample_size)
-    sampled = frames[::step][:sample_size]
-
-    print(f"[*] Extracting color palettes from {len(sampled)} frames …")
-
-    all_colors = []
-    for frame in sampled:
-        palette = extract_color_palette(frame)
-        all_colors.extend(palette)
-
-    if not all_colors:
-        return {}
-
-    # Find most common colors (rounded to reduce similar colors)
-    def round_color(rgb, bucket_size=32):
-        return tuple((c // bucket_size) * bucket_size for c in rgb)
-
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `analyze_color_palettes` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def analyze_color_palettes(frames: list[Path], sample_size: int = 10) -> dict:
-    """Analyze color palettes across sampled frames."""
-    if not COLORTHIEF_AVAILABLE:
-        return {}
-    if not frames:
-        return {}
-
-    # Sample frames evenly across the video
-    step = max(1, len(frames) // sample_size)
-    sampled = frames[::step][:sample_size]
-
-    print(f"[*] Extracting color palettes from {len(sampled)} frames …")
-
-    all_colors = []
-    for frame in sampled:
-        palette = extract_color_palette(frame)
-        all_colors.extend(palette)
-
-    if not all_colors:
-        return {}
-
-    # Find most common colors (rounded to reduce similar colors)
-    def round_color(rgb, bucket_size=32):
-        return tuple((c // bucket_size) * bucket_size for c in rgb)
-
-    rounded = [round_color(c) for c in all_colors]
-    most_common = Counter(rounded).most_common(12)
-
-    return {
-        "dominant_colors": [rgb_to_hex(c) for c, _ in most_common[:6]],
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+The [multi-agent workflow examples section](https://github.com/wshobson/agents/blob/main/docs/usage.md#multi-agent-workflow-examples) in the usage guide documents concrete orchestration sequences for feature development, review, and incident response — the three patterns this chapter covers.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[rgb_to_hex]
-    B[analyze_color_palettes]
-    A --> B
+    A[plugins/agent-teams/] -->|team compositions| B[Multi-Agent Orchestration]
+    B -->|full-stack feature| C[architecture → implementation → security → deploy]
+    B -->|team review| D[split concerns → aggregate → prioritize]
+    B -->|incident response| E[triage → fix → regression guard]
+    C --> F[Production guardrail: explicit scope + final review]
+    D --> F
+    E --> F
 ```

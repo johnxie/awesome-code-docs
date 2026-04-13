@@ -13,6 +13,26 @@ Welcome to **Chapter 5: Retrieval-Augmented Generation (RAG)**. In this part of 
 
 > Build knowledge-based AI systems that retrieve relevant information and generate accurate responses.
 
+## RAG Workflow in n8n
+
+```mermaid
+flowchart TD
+    subgraph Ingestion
+        DOC[Documents] --> LOAD[Document Loader]
+        LOAD --> SPLIT[Text Splitter]
+        SPLIT --> EMBED[Embeddings Node]
+        EMBED --> VS[(Vector Store\nPinecone / Qdrant / Supabase)]
+    end
+
+    subgraph Query
+        Q[User Question] --> QEMBED[Embeddings Node]
+        QEMBED --> SEARCH[Vector Store Search]
+        SEARCH --> CTX[Retrieved Context]
+        CTX --> LLM[AI Chat Node]
+        LLM --> ANS[Answer]
+    end
+```
+
 ## RAG Fundamentals
 
 RAG combines retrieval of relevant documents with generative AI to provide accurate, context-aware responses.
@@ -534,16 +554,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/@n8n/nodes-langchain/nodes/vector_store/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/vector_store) -- vector store nodes: Pinecone, Qdrant, Supabase, PGVector, In-Memory
+- [`packages/@n8n/nodes-langchain/nodes/retrievers/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/retrievers) -- retriever nodes; wrap vector stores for use as Agent tools
+- [`packages/@n8n/nodes-langchain/nodes/chains/ChainRetrievalQA/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/chains/ChainRetrievalQA) -- RAG chain node: connects retriever + LLM into a question-answering pipeline
 
-Suggested trace strategy:
-- search upstream code for `json` and `text` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: find how `VectorStoreQA` chain node calls `loadQAStuffChain()` and see how retrieved documents are formatted into the LLM prompt context.
 
 ## Chapter Connections
 

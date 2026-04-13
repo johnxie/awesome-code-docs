@@ -687,6 +687,20 @@ Under the hood, `Chapter 5: Testing - Comprehensive Test Suite Generation and Qu
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+    A[Implementation] --> B[Analyze Code Paths]
+    B --> C[Generate Unit Tests]
+    B --> D[Generate Integration Tests]
+    C --> E[Execute Test Suite]
+    D --> E
+    E --> F{Pass Rate}
+    F -->|Failures| G[Diagnose and Retry]
+    F -->|All Pass| H[Test Report]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

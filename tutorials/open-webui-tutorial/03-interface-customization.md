@@ -1087,6 +1087,18 @@ Under the hood, `Chapter 3: Interface Customization & Personalization` usually f
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Customization Flow
+
+```mermaid
+flowchart LR
+    A[Admin Settings] --> B[Branding & Theme]
+    A --> C[System Prompt Templates]
+    A --> D[Model Defaults]
+    B --> E[Custom Logo / Colors]
+    C --> F[Persona Presets]
+    D --> G[Temperature / Params]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

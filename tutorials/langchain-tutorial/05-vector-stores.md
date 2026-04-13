@@ -483,6 +483,19 @@ Build a RAG system that can answer questions about a specific domain (like progr
 
 *What's the most interesting application you can think of for RAG systems?* 🤖
 
+## Vector Store RAG Flow
+
+```mermaid
+flowchart TD
+    A[Query string] --> B[Embeddings model]
+    B --> C[Query embedding vector]
+    C --> D[Vector store similarity search]
+    D --> E[Top-k similar documents]
+    E --> F[Stuffed into prompt]
+    F --> G[LLM generates answer]
+    G --> H[Response with sources]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `documents`, `print`, `page_content` so behavior stays predictable as complexity grows.

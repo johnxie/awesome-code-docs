@@ -13,6 +13,17 @@ Welcome to **Chapter 3: Document AI and Content Processing**. In this part of **
 
 > Extract information from PDFs, images, web pages, and documents using AI-powered processing.
 
+## Document AI Pipeline
+
+```mermaid
+flowchart LR
+    SRC[Source: Email / S3 / URL] --> LOAD[Document Loader\nPDF, HTML, CSV]
+    LOAD --> SPLIT[Text Splitter\nRecursiveCharacterTextSplitter]
+    SPLIT --> AI[AI Node\nExtract / Summarize / Classify]
+    AI --> OUT[Structured Output\nJSON fields]
+    OUT --> STORE[Database / Spreadsheet]
+```
+
 ## Document Processing Nodes
 
 n8n provides various nodes for processing different document types with AI assistance.
@@ -628,16 +639,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/@n8n/nodes-langchain/nodes/document_loaders/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/document_loaders) -- document loader nodes: PDF, URL, JSON, CSV, binary data loaders
+- [`packages/@n8n/nodes-langchain/nodes/text_splitters/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/text_splitters) -- text splitter nodes wrapping LangChain's `RecursiveCharacterTextSplitter`, `TokenTextSplitter`
+- [`packages/@n8n/nodes-langchain/nodes/output_parser/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/output_parser) -- structured output parsers for extracting JSON from LLM responses
 
-Suggested trace strategy:
-- search upstream code for `content` and `json` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: follow a PDF document loader node's `supplyData()` to see how it returns a LangChain `Document[]` array for downstream vector store ingestion.
 
 ## Chapter Connections
 

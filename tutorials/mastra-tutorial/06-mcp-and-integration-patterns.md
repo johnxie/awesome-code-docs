@@ -38,170 +38,168 @@ You now understand how to connect Mastra agents to broader MCP and application e
 
 Next: [Chapter 7: Evals, Observability, and Quality](07-evals-observability-and-quality.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/generate-package-docs.ts`
+### `scripts/install-example.js`
 
-The `SourceMap` interface in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
+The `findLinkedDependencies` function in [`scripts/install-example.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/install-example.js) handles a key part of this chapter's functionality:
 
-```ts
-}
-
-interface SourceMap {
-  version: string;
-  package: string;
-  exports: Record<string, ExportInfo>;
-  modules: Record<string, ModuleInfo>;
-}
-
-interface ManifestEntry {
-  path: string; // e.g., "docs/agents/adding-voice/llms.txt"
-  title: string;
-  description?: string;
-  category: string; // "docs", "reference", "guides", "models"
-  folderPath: string; // e.g., "agents/adding-voice"
-}
-
-interface LlmsManifest {
-  version: string;
-  generatedAt: string;
-  packages: Record<string, ManifestEntry[]>;
-}
-
-// Cache for chunk file contents and their pre-split lines
-const chunkCache = new Map<string, string[] | null>();
-
-// Cache for file existence checks
-const existsCache = new Map<string, boolean>();
-
-function cachedExists(filePath: string): boolean {
-  const cached = existsCache.get(filePath);
-  if (cached !== undefined) return cached;
-```
-
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `scripts/generate-package-docs.ts`
-
-The `ManifestEntry` interface in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface ManifestEntry {
-  path: string; // e.g., "docs/agents/adding-voice/llms.txt"
-  title: string;
-  description?: string;
-  category: string; // "docs", "reference", "guides", "models"
-  folderPath: string; // e.g., "agents/adding-voice"
-}
-
-interface LlmsManifest {
-  version: string;
-  generatedAt: string;
-  packages: Record<string, ManifestEntry[]>;
-}
-
-// Cache for chunk file contents and their pre-split lines
-const chunkCache = new Map<string, string[] | null>();
-
-// Cache for file existence checks
-const existsCache = new Map<string, boolean>();
-
-function cachedExists(filePath: string): boolean {
-  const cached = existsCache.get(filePath);
-  if (cached !== undefined) return cached;
-  const exists = fs.existsSync(filePath);
-  existsCache.set(filePath, exists);
-  return exists;
-}
-
-function getChunkLines(chunkPath: string): string[] | null {
-  const cached = chunkCache.get(chunkPath);
-```
-
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `scripts/generate-package-docs.ts`
-
-The `LlmsManifest` interface in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface LlmsManifest {
-  version: string;
-  generatedAt: string;
-  packages: Record<string, ManifestEntry[]>;
-}
-
-// Cache for chunk file contents and their pre-split lines
-const chunkCache = new Map<string, string[] | null>();
-
-// Cache for file existence checks
-const existsCache = new Map<string, boolean>();
-
-function cachedExists(filePath: string): boolean {
-  const cached = existsCache.get(filePath);
-  if (cached !== undefined) return cached;
-  const exists = fs.existsSync(filePath);
-  existsCache.set(filePath, exists);
-  return exists;
-}
-
-function getChunkLines(chunkPath: string): string[] | null {
-  const cached = chunkCache.get(chunkPath);
-  if (cached !== undefined) return cached;
-
-  if (!cachedExists(chunkPath)) {
-    chunkCache.set(chunkPath, null);
-    return null;
-  }
-
+```js
+ * @returns {Object} An object containing all linked dependencies
+ */
+function findLinkedDependencies(dir, protocol = 'link:') {
   try {
+    // Read package.json from current working directory
+    const packageJson = JSON.parse(readFileSync(`${dir}/package.json`, 'utf8'));
+
+    // Initialize an object to store linked dependencies
+    const linkedDependencies = {};
+
+    // Check regular dependencies
+    if (packageJson.dependencies) {
+      for (const [name, version] of Object.entries(packageJson.dependencies)) {
+        if (typeof version === 'string' && version.startsWith(protocol)) {
+          linkedDependencies[name] = version;
+        }
+      }
+    }
+
+    // Check dev dependencies
+    if (packageJson.devDependencies) {
+      for (const [name, version] of Object.entries(packageJson.devDependencies)) {
+        if (typeof version === 'string' && version.startsWith(protocol)) {
+          linkedDependencies[name] = version;
+        }
+      }
+    }
+
+    // Check peer dependencies
+    if (packageJson.peerDependencies) {
+      for (const [name, version] of Object.entries(packageJson.peerDependencies)) {
+        if (typeof version === 'string' && version.startsWith(protocol)) {
 ```
 
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/ralph-wiggum-loop-prototype.ts`
+### `scripts/commonjs-tsc-fixer.js`
 
-The `testsPassing` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+The `slash` function in [`scripts/commonjs-tsc-fixer.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/commonjs-tsc-fixer.js) handles a key part of this chapter's functionality:
 
-```ts
- * Check if tests pass
- */
-export function testsPassing(testCommand = 'npm test'): CompletionChecker {
-  return {
-    async check() {
-      try {
-        const { stdout, stderr } = await execAsync(testCommand, { timeout: 300000 });
-        return {
-          success: true,
-          message: 'All tests passed',
-          data: { stdout, stderr },
-        };
-      } catch (error: any) {
-        return {
-          success: false,
-          message: error.message,
-          data: { stdout: error.stdout, stderr: error.stderr },
-        };
-      }
-    },
-  };
+```js
+import { globby } from 'globby';
+
+/** Convert Windows backslashes to posix forward slashes */
+function slash(p) {
+  return p.replaceAll('\\', '/');
 }
 
-/**
- * Check if build succeeds
- */
-export function buildSucceeds(buildCommand = 'npm run build'): CompletionChecker {
-  return {
-    async check() {
-      try {
-        const { stdout, stderr } = await execAsync(buildCommand, { timeout: 600000 });
-        return {
+async function cleanupDtsFiles() {
+  const rootPath = process.cwd();
+  const files = await globby('./*.d.ts', { cwd: rootPath });
+
+  for (const file of files) {
+    await rm(join(rootPath, file), { force: true });
+  }
+}
+
+async function writeDtsFiles() {
+  const rootPath = process.cwd();
+  const packageJson = JSON.parse(await readFile(join(rootPath, 'package.json')));
+
+  const exports = packageJson.exports;
+
+  // Handle specific path exports
+  for (const [key, value] of Object.entries(exports)) {
+    if (key !== '.' && value.require?.types) {
+      const pattern = value.require.types;
+      const matches = await globby(pattern, {
+        cwd: rootPath,
+        absolute: true,
+      });
+
+      for (const file of matches) {
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `scripts/commonjs-tsc-fixer.js`
+
+The `cleanupDtsFiles` function in [`scripts/commonjs-tsc-fixer.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/commonjs-tsc-fixer.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+async function cleanupDtsFiles() {
+  const rootPath = process.cwd();
+  const files = await globby('./*.d.ts', { cwd: rootPath });
+
+  for (const file of files) {
+    await rm(join(rootPath, file), { force: true });
+  }
+}
+
+async function writeDtsFiles() {
+  const rootPath = process.cwd();
+  const packageJson = JSON.parse(await readFile(join(rootPath, 'package.json')));
+
+  const exports = packageJson.exports;
+
+  // Handle specific path exports
+  for (const [key, value] of Object.entries(exports)) {
+    if (key !== '.' && value.require?.types) {
+      const pattern = value.require.types;
+      const matches = await globby(pattern, {
+        cwd: rootPath,
+        absolute: true,
+      });
+
+      for (const file of matches) {
+        if (key.endsWith('*')) {
+          // For wildcard patterns, derive the subpath relative to dist/
+          const dir = dirname(file);
+          const distRoot = join(rootPath, 'dist');
+          const subPath = slash(relative(distRoot, dir));
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `scripts/commonjs-tsc-fixer.js`
+
+The `writeDtsFiles` function in [`scripts/commonjs-tsc-fixer.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/commonjs-tsc-fixer.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+async function writeDtsFiles() {
+  const rootPath = process.cwd();
+  const packageJson = JSON.parse(await readFile(join(rootPath, 'package.json')));
+
+  const exports = packageJson.exports;
+
+  // Handle specific path exports
+  for (const [key, value] of Object.entries(exports)) {
+    if (key !== '.' && value.require?.types) {
+      const pattern = value.require.types;
+      const matches = await globby(pattern, {
+        cwd: rootPath,
+        absolute: true,
+      });
+
+      for (const file of matches) {
+        if (key.endsWith('*')) {
+          // For wildcard patterns, derive the subpath relative to dist/
+          const dir = dirname(file);
+          const distRoot = join(rootPath, 'dist');
+          const subPath = slash(relative(distRoot, dir));
+          const filename = key.replace('*', subPath);
+
+          const targetPath = join(rootPath, filename) + '.d.ts';
+          await mkdir(dirname(targetPath), { recursive: true });
+
+          const relPath = slash(relative(dirname(targetPath), file)).replace('/index.d.ts', '');
+          await writeFile(targetPath, `export * from './${relPath}';`);
+        } else {
+          const targetPath = join(rootPath, key) + '.d.ts';
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Mastra Tutorial: TypeScript Fr
 
 ```mermaid
 flowchart TD
-    A[SourceMap]
-    B[ManifestEntry]
-    C[LlmsManifest]
-    D[testsPassing]
-    E[buildSucceeds]
+    A[findLinkedDependencies]
+    B[slash]
+    C[cleanupDtsFiles]
+    D[writeDtsFiles]
+    E[or]
     A --> B
     B --> C
     C --> D

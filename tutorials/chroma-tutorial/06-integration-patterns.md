@@ -1020,16 +1020,20 @@ Under the hood, `Chapter 6: Integration Patterns` usually follows a repeatable c
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/client.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `Client.__init__` factory pattern in [`chromadb/api/client.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/client.py) is the standard integration entrypoint. The class uses `maybe_set_tenant_and_database` to ensure tenant/database context is resolved before any collection operation, which is critical for multi-tenant LangChain / LlamaIndex integrations:
 
-Suggested trace strategy:
-- search upstream code for `documents` and `Chroma` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.auth.utils import maybe_set_tenant_and_database
+from chromadb.config import Settings, System
+from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE
+from chromadb.api.models.Collection import Collection
+```
+
+LangChain and LlamaIndex integrations call `chromadb.HttpClient()` or `chromadb.EphemeralClient()` to get a `Client` instance, then pass it directly to their vector store wrappers. The `DataLoader` and `URIs` types in `chromadb/api/types.py` support multimodal (image, audio) document stores.
 
 ## Chapter Connections
 

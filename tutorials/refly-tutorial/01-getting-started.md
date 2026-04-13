@@ -49,8 +49,6 @@ You now have a baseline local environment for running Refly workflows.
 
 Next: [Chapter 2: Architecture and Component Topology](02-architecture-and-component-topology.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/check-i18n-consistency.js`
@@ -94,46 +92,46 @@ class I18nConsistencyChecker {
 
 This class is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
-### `scripts/cleanup-node-modules.js`
+### `config/provider-catalog.json`
 
-The `findNodeModules` function in [`scripts/cleanup-node-modules.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/cleanup-node-modules.js) handles a key part of this chapter's functionality:
+The `for` interface in [`config/provider-catalog.json`](https://github.com/refly-ai/refly/blob/HEAD/config/provider-catalog.json) handles a key part of this chapter's functionality:
 
-```js
- * @param {string[]} nodeModulesPaths - Array to collect found paths
- */
-function findNodeModules(dir, nodeModulesPaths = []) {
-  try {
-    const items = fs.readdirSync(dir, { withFileTypes: true });
-
-    for (const item of items) {
-      if (item.isDirectory()) {
-        const fullPath = path.join(dir, item.name);
-
-        if (item.name === 'node_modules') {
-          nodeModulesPaths.push(fullPath);
-          console.log(`Found: ${fullPath}`);
-        } else {
-          // Skip common directories that shouldn't contain node_modules we want to delete
-          const skipDirs = ['.git', '.turbo', 'dist', 'build', 'coverage', '.next', '.nuxt'];
-          if (!skipDirs.includes(item.name)) {
-            findNodeModules(fullPath, nodeModulesPaths);
-          }
-        }
-      }
-    }
-  } catch (error) {
-    // Skip directories we can't read (permission issues, etc.)
-    console.warn(`Warning: Could not read directory ${dir}: ${error.message}`);
-  }
-
-  return nodeModulesPaths;
-}
-
-/**
- * Delete a directory recursively
+```json
+      "baseUrl": "https://api.siliconflow.cn/v1",
+      "description": {
+        "en": "SiliconFlow provides a one-stop cloud service platform with high-performance inference for top-tier large language and embedding models.",
+        "zh-CN": "SiliconFlow 提供一站式云服务平台，为顶级大语言模型和嵌入模型提供高性能推理服务。"
+      },
+      "categories": ["llm", "embedding"],
+      "documentation": "https://docs.siliconflow.cn/",
+      "icon": "https://static.refly.ai/icons/providers/siliconflow.png"
+    },
+    {
+      "name": "litellm",
+      "providerKey": "openai",
+      "baseUrl": "https://litellm.powerformer.net/v1",
+      "description": {
+        "en": "LiteLLM is a lightweight library to simplify LLM completion and embedding calls, providing a consistent interface for over 100 LLMs.",
+        "zh-CN": "LiteLLM 是一个轻量级库，用于简化 LLM 的补全和嵌入调用，为 100 多个 LLM 提供一致的接口。"
+      },
+      "categories": ["llm", "embedding"],
+      "documentation": "https://docs.litellm.ai/",
+      "icon": "https://static.refly.ai/icons/providers/litellm.png"
+    },
+    {
+      "name": "七牛云AI",
+      "providerKey": "openai",
+      "baseUrl": "https://api.qnaigc.com/v1",
+      "description": {
+        "en": "Qiniu AI provides efficient, stable, and secure model inference services, supporting mainstream open-source large models.",
+        "zh-CN": "七牛云AI 提供高效、稳定、安全的模型推理服务，支持主流开源大模型。"
+      },
+      "categories": ["llm"],
+      "documentation": "https://developer.qiniu.com/aitokenapi",
+      "icon": "https://static.refly.ai/icons/providers/qiniu.png"
 ```
 
-This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
+This interface is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
@@ -141,6 +139,6 @@ This function is important because it defines how Refly Tutorial: Build Determin
 ```mermaid
 flowchart TD
     A[I18nConsistencyChecker]
-    B[findNodeModules]
+    B[for]
     A --> B
 ```

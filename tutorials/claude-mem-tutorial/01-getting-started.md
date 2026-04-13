@@ -56,8 +56,6 @@ You now have a working Claude-Mem baseline with persistent session memory.
 
 Next: [Chapter 2: Architecture, Hooks, and Worker Flow](02-architecture-hooks-and-worker-flow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/endless-mode-token-calculator.js`

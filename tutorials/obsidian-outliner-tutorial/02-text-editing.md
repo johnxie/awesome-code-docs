@@ -24,6 +24,23 @@ By the end of this chapter, you'll understand:
 
 ## 📝 Obsidian Editor Architecture
 
+```mermaid
+flowchart TD
+    A[Keyboard event] --> B[Obsidian command handler]
+    B --> C[OutlinerPlugin.handleKeydown]
+    C --> D[Get CodeMirror editor state]
+    D --> E[Parse current line as list item]
+    E --> F{Action type}
+    F -->|indent| G[AddInnerBullet operation]
+    F -->|move| H[MoveListDown/Up operation]
+    F -->|fold| I[FoldBullet operation]
+    G --> J[Apply editor transaction]
+    H --> J
+    I --> J
+    J --> K[Updated editor state]
+```
+
+
 Obsidian's editor is built on CodeMirror 6, a powerful text editing framework. The Outliner plugin extends this foundation with advanced list and tree manipulation features.
 
 ### **Editor Component Hierarchy**
@@ -708,6 +725,16 @@ Under the hood, `Chapter 2: Text Editing Implementation` usually follows a repea
 6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+
+## Source Code Walkthrough
+
+### `src/services/Parser.ts`
+
+The [`src/services/Parser.ts`](https://github.com/vslinko/obsidian-outliner/blob/HEAD/src/services/Parser.ts) file parses the editor's current list content into a tree structure. Its `parse` method reads the current CodeMirror editor state, identifies list item boundaries, and constructs the `IList`/`IRoot` tree that all editing operations work against.
+
+### `src/features/` — editing feature modules
+
+The [`src/features/`](https://github.com/vslinko/obsidian-outliner/tree/HEAD/src/features) directory contains individual feature classes like `MoveItemDown.ts`, `IndentList.ts`, and `AddInnerBullet.ts`. Each feature registers a command and implements an `execute(editor)` method that calls the parser, performs the tree operation, and applies the result as a CodeMirror transaction.
 
 ## Source Walkthrough
 

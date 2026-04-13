@@ -50,9 +50,48 @@ You now understand how the workflow loop creates durable engineering leverage.
 
 Next: [Chapter 3: Architecture of Agents, Commands, and Skills](03-architecture-of-agents-commands-and-skills.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `src/converters/claude-to-opencode.ts`
+
+The `renderHookStatements` function in [`src/converters/claude-to-opencode.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-opencode.ts) handles a key part of this chapter's functionality:
+
+```ts
+  const statements: string[] = []
+  for (const matcher of matchers) {
+    statements.push(...renderHookStatements(matcher, options.useToolMatcher))
+  }
+  const rendered = statements.map((line) => `    ${line}`).join("\n")
+  const wrapped = options.requireError
+    ? `    if (input?.error) {\n${statements.map((line) => `      ${line}`).join("\n")}\n    }`
+    : rendered
+
+  // Wrap tool.execute.before handlers in try-catch to prevent a failing hook
+  // from crashing parallel tool call batches (causes API 400 errors).
+  // See: https://github.com/EveryInc/compound-engineering-plugin/issues/85
+  const isPreToolUse = event === "tool.execute.before"
+  const note = options.note ? `    // ${options.note}\n` : ""
+  if (isPreToolUse) {
+    return `    "${event}": async (input) => {\n${note}    try {\n  ${wrapped}\n    } catch (err) {\n      console.error("[hook] ${event} error (non-fatal):", err)\n    }\n    }`
+  }
+  return `    "${event}": async (input) => {\n${note}${wrapped}\n    }`
+}
+
+function renderHookStatements(
+  matcher: ClaudeHooks["hooks"][string][number],
+  useToolMatcher: boolean,
+): string[] {
+  if (!matcher.hooks || matcher.hooks.length === 0) return []
+  const tools = matcher.matcher
+    ? matcher.matcher
+        .split("|")
+        .map((tool) => tool.trim().toLowerCase())
+        .filter(Boolean)
+    : []
+
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
 ### `src/converters/claude-to-opencode.ts`
 
@@ -79,7 +118,7 @@ function convertCommands(commands: ClaudeCommand[]): OpenCodeCommandFile[] {
       description: command.description,
     }
     if (command.model && command.model !== "inherit") {
-      frontmatter.model = normalizeModel(command.model)
+      frontmatter.model = normalizeModelWithProvider(command.model)
     }
     const content = formatFrontmatter(frontmatter, rewriteClaudePaths(command.body))
     files.push({ name: command.name, content })
@@ -97,41 +136,41 @@ This function is important because it defines how Compound Engineering Plugin Tu
 
 ### `src/converters/claude-to-opencode.ts`
 
-The `normalizeModel` function in [`src/converters/claude-to-opencode.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-opencode.ts) handles a key part of this chapter's functionality:
+The `transformSkillContentForOpenCode` function in [`src/converters/claude-to-opencode.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-opencode.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-  if (agent.model && agent.model !== "inherit") {
-    frontmatter.model = normalizeModel(agent.model)
-  }
-
-  if (options.inferTemperature) {
-    const temperature = inferTemperature(agent)
-    if (temperature !== undefined) {
-      frontmatter.temperature = temperature
-    }
-  }
-
-  const content = formatFrontmatter(frontmatter, rewriteClaudePaths(agent.body))
-
-  return {
-    name: agent.name,
-    content,
-  }
+ * See #477.
+ */
+export function transformSkillContentForOpenCode(body: string): string {
+  let result = rewriteClaudePaths(body)
+  // Rewrite 3-segment FQ agent refs: plugin:category:agent-name -> agent-name.
+  // Boundary assertions prevent partial matching on 4+ segment names
+  // (e.g. `a:b:c:d` would otherwise produce `c:d` or `a:d`).
+  // The `/` in the lookbehind prevents rewriting slash commands like
+  // `/team:ops:deploy` — agent names are never preceded by `/`.
+  result = result.replace(
+    /(?<![a-z0-9:/-])[a-z][a-z0-9-]*:[a-z][a-z0-9-]*:([a-z][a-z0-9-]*)(?![a-z0-9:-])/g,
+    "$1",
+  )
+  return result
 }
 
-// Commands are written as individual .md files rather than entries in opencode.json.
-// Chosen over JSON map because opencode resolves commands by filename at runtime (ADR-001).
-function convertCommands(commands: ClaudeCommand[]): OpenCodeCommandFile[] {
-  const files: OpenCodeCommandFile[] = []
-  for (const command of commands) {
-    if (command.disableModelInvocation) continue
-    const frontmatter: Record<string, unknown> = {
-      description: command.description,
-    }
-    if (command.model && command.model !== "inherit") {
-      frontmatter.model = normalizeModel(command.model)
-    }
+function inferTemperature(agent: ClaudeAgent): number | undefined {
+  const sample = `${agent.name} ${agent.description ?? ""}`.toLowerCase()
+  if (/(review|audit|security|sentinel|oracle|lint|verification|guardian)/.test(sample)) {
+    return 0.1
+  }
+  if (/(plan|planning|architecture|strategist|analysis|research)/.test(sample)) {
+    return 0.2
+  }
+  if (/(doc|readme|changelog|editor|writer)/.test(sample)) {
+    return 0.3
+  }
+  if (/(brainstorm|creative|ideate|design|concept)/.test(sample)) {
+    return 0.6
+  }
+  return 0.3
+}
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -177,57 +216,16 @@ const HOOK_EVENT_MAP: Record<string, HookEventMapping> = {
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-opencode.ts`
-
-The `applyPermissions` function in [`src/converters/claude-to-opencode.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-opencode.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-
-  applyPermissions(config, plugin.commands, options.permissions)
-
-  return {
-    config,
-    agents: agentFiles,
-    commandFiles: cmdFiles,
-    plugins,
-    skillDirs: plugin.skills.map((skill) => ({ sourceDir: skill.sourceDir, name: skill.name })),
-  }
-}
-
-function convertAgent(agent: ClaudeAgent, options: ClaudeToOpenCodeOptions) {
-  const frontmatter: Record<string, unknown> = {
-    description: agent.description,
-    mode: options.agentMode,
-  }
-
-  if (agent.model && agent.model !== "inherit") {
-    frontmatter.model = normalizeModel(agent.model)
-  }
-
-  if (options.inferTemperature) {
-    const temperature = inferTemperature(agent)
-    if (temperature !== undefined) {
-      frontmatter.temperature = temperature
-    }
-  }
-
-  const content = formatFrontmatter(frontmatter, rewriteClaudePaths(agent.body))
-
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[rewriteClaudePaths]
-    B[normalizeModel]
-    C[inferTemperature]
-    D[applyPermissions]
-    E[normalizeTool]
+    A[renderHookStatements]
+    B[rewriteClaudePaths]
+    C[transformSkillContentForOpenCode]
+    D[inferTemperature]
+    E[applyPermissions]
     A --> B
     B --> C
     C --> D

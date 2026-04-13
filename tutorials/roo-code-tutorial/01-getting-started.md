@@ -131,98 +131,24 @@ You now have Roo Code running with:
 
 Next: [Chapter 2: Modes and Task Design](02-modes-and-task-design.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-i18n-key.js`
+Use the following upstream sources to verify getting started and initial setup details while reading this chapter:
 
-The `getLocaleDirs` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
+- [`src/extension.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/extension.ts) — the VS Code extension entry point that registers commands, activates the Roo Code sidebar, initializes the task manager, and sets up MCP server connections on first load.
+- [`src/core/task/index.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/core/task/index.ts) — the task manager that drives Roo Code's core loop: receiving user messages, dispatching to the model, handling tool approvals, and managing the conversation lifecycle.
 
-```js
-
-// Get all language directories for a specific locales directory
-function getLocaleDirs(localesDir) {
-	try {
-		const allLocales = fs.readdirSync(localesDir).filter((file) => {
-			const stats = fs.statSync(path.join(localesDir, file))
-			return stats.isDirectory() // Do not exclude any language directories
-		})
-
-		// Filter to a specific language if specified
-		return args.locale ? allLocales.filter((locale) => locale === args.locale) : allLocales
-	} catch (error) {
-		if (error.code === "ENOENT") {
-			console.warn(`Warning: Locales directory not found: ${localesDir}`)
-			return []
-		}
-		throw error
-	}
-}
-
-// Get the value from JSON by path
-function getValueByPath(obj, path) {
-	const parts = path.split(".")
-	let current = obj
-
-	for (const part of parts) {
-		if (current === undefined || current === null) {
-			return undefined
-		}
-		current = current[part]
-	}
-
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
-### `scripts/find-missing-i18n-key.js`
-
-The `getValueByPath` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Get the value from JSON by path
-function getValueByPath(obj, path) {
-	const parts = path.split(".")
-	let current = obj
-
-	for (const part of parts) {
-		if (current === undefined || current === null) {
-			return undefined
-		}
-		current = current[part]
-	}
-
-	return current
-}
-
-// Check if the key exists in all language files, return a list of missing language files
-function checkKeyInLocales(key, localeDirs, localesDir) {
-	const [file, ...pathParts] = key.split(":")
-	const jsonPath = pathParts.join(".")
-
-	const missingLocales = []
-
-	localeDirs.forEach((locale) => {
-		const filePath = path.join(localesDir, locale, `${file}.json`)
-		if (!fs.existsSync(filePath)) {
-			missingLocales.push(`${locale}/${file}.json`)
-			return
-		}
-
-		const json = JSON.parse(fs.readFileSync(filePath, "utf8"))
-		if (getValueByPath(json, jsonPath) === undefined) {
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- read `src/extension.ts` `activate()` function to understand the full initialization sequence when Roo Code first loads
+- trace `src/core/task/index.ts` constructor and `initiateTaskLoop` to understand how a first task invocation is structured
+- check `src/shared/ExtensionMessage.ts` for the message types exchanged between the extension and webview during setup
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[getLocaleDirs]
-    B[getValueByPath]
-    A --> B
+flowchart LR
+    A[VS Code activates extension] --> B[extension.ts activate]
+    B --> C[Sidebar and commands registered]
+    B --> D[Task manager initialized in task/index.ts]
+    D --> E[First user message triggers task loop]
 ```

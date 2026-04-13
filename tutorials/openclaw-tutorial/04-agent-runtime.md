@@ -620,6 +620,116 @@ class AgentErrorHandler {
 }
 ```
 
+## ACP Layer (`extensions/acpx`)
+
+OpenClaw includes an **Agent Communication Protocol (ACP)** extension that lets it communicate with other ACP-compatible agents in a multi-agent network. ACP is an emerging open standard for agent-to-agent messaging; OpenClaw implements it via the `acpx` extension (`extensions/acpx/`).
+
+### What Problem It Solves
+
+A single Pi Agent can handle most tasks alone, but some workflows benefit from specialist agents running in other processes, on other machines, or implemented in other frameworks. ACP provides a standard envelope for cross-agent requests so OpenClaw can delegate to — or be orchestrated by — any ACP-compatible peer without bespoke integrations.
+
+### How It Works
+
+```mermaid
+graph TB
+    subgraph Local["OpenClaw Instance"]
+        AGENT[Pi Agent]
+        ACP_EXT[acpx Extension<br/>extensions/acpx/index.ts]
+        ACP_RT[ACP Runtime<br/>src/runtime.ts]
+        ACP_SVC[ACP Service<br/>src/service.ts]
+        ROUTER[acp-router Skill<br/>skills/acp-router/]
+    end
+
+    subgraph Network["ACP Network"]
+        PEER_A[ACP Agent A<br/>another framework]
+        PEER_B[ACP Agent B<br/>specialist model]
+        ORCHESTRATOR[ACP Orchestrator]
+    end
+
+    AGENT --> ACP_EXT
+    ACP_EXT --> ACP_RT
+    ACP_RT --> ACP_SVC
+    ACP_SVC -->|ACP messages| PEER_A
+    ACP_SVC -->|ACP messages| PEER_B
+    ORCHESTRATOR -->|orchestrate OpenClaw| ACP_SVC
+    ACP_EXT --> ROUTER
+```
+
+### Key Source Files
+
+| File | Role |
+|------|------|
+| `extensions/acpx/index.ts` | Extension entry point; registers with OpenClaw plugin system |
+| `extensions/acpx/src/runtime.ts` | ACP session lifecycle and message dispatch |
+| `extensions/acpx/src/service.ts` | HTTP service that speaks the ACP wire protocol |
+| `extensions/acpx/src/config.ts` | ACP endpoint configuration and peer registry |
+| `extensions/acpx/src/config-schema.ts` | Config schema (validates peer URLs, auth tokens) |
+| `extensions/acpx/skills/acp-router/SKILL.md` | Skill that exposes `acp_call` tool to the Pi Agent |
+| `extensions/acpx/src/runtime-internals/mcp-proxy.mjs` | MCP-over-ACP bridge for MCP-native peers |
+| `extensions/acpx/register.runtime.ts` | Hooks into OpenClaw's extension registration system |
+| `extensions/acpx/runtime-api.ts` | Public API surface used by other extensions |
+| `extensions/acpx/setup-api.ts` | Setup/teardown helpers for integration tests |
+
+### Calling a Peer Agent
+
+When `acpx` is installed, the Pi Agent gains an `acp_call` tool it can invoke during its reasoning loop:
+
+```typescript
+// The agent emits a tool call like this during planning:
+{
+  tool: "acp_call",
+  input: {
+    agent: "research-specialist",     // peer alias from config
+    task: "Summarize the latest news about transformer attention",
+    context: { format: "bullets", max_length: 500 },
+  }
+}
+
+// acpx wraps this in an ACP envelope and sends it to the peer:
+// POST https://research-agent.internal/acp/v1/tasks
+// {
+//   "task": "Summarize...",
+//   "context": { ... },
+//   "reply_to": "https://my-openclaw.internal/acp/v1/callbacks/abc123"
+// }
+```
+
+The response flows back through the ACP service into a `tool_result` block, which the agent uses in its next reasoning step — indistinguishable from any other tool result.
+
+### Enabling ACP
+
+```yaml
+# In config.yaml — enable the acpx extension and register peers
+extensions:
+  acpx:
+    enabled: true
+    peers:
+      research-specialist:
+        url: https://research-agent.internal
+        auth_token: ${RESEARCH_AGENT_TOKEN}
+      coding-agent:
+        url: https://coding-agent.internal
+        auth_token: ${CODING_AGENT_TOKEN}
+    # Expose OpenClaw itself as an ACP endpoint
+    server:
+      enabled: true
+      port: 19876
+      auth_token: ${MY_ACP_TOKEN}
+```
+
+### Integration Tests Pattern
+
+The ACP layer has deep integration test coverage. Files like `extensions/discord/src/monitor/acp-bind-here.integration.test.ts` show the canonical pattern for testing ACP bindings: start a mock peer, bind a channel, send a message, assert the ACP envelope was formed correctly.
+
+### When to Use ACP
+
+- You have a specialist model or agent optimized for a narrow task (e.g., code review, legal analysis)
+- You want to orchestrate multiple OpenClaw instances across devices
+- You're building a multi-agent pipeline where OpenClaw is one node
+- You need to connect OpenClaw to an MCP server via the built-in MCP-over-ACP bridge (`mcp-proxy.mjs`)
+
+---
+
 ## Summary
 
 | Component | Purpose |

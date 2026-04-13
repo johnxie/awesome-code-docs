@@ -39,170 +39,168 @@ You now have a control-oriented strategy for advanced Kotlin client capabilities
 
 Next: [Chapter 7: Testing, Conformance, and Operational Diagnostics](07-testing-conformance-and-operational-diagnostics.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
 
-The `Progress` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
-
-```kt
- */
-@Serializable
-public class Progress(
-    public val progress: Double,
-    public val total: Double? = null,
-    public val message: String? = null,
-)
-
-// ============================================================================
-// Custom Notification
-// ============================================================================
-
-/**
- * Represents a custom notification method that is not part of the core MCP specification.
- *
- * The MCP protocol allows implementations to define custom methods for extending functionality.
- * This class captures such custom notifications while preserving all their data.
- *
- * @property method The custom method name. By convention, custom methods often contain
- * organization-specific prefixes (e.g., "mycompany/custom_event").
- * @property params Raw JSON parameters for the custom notification, if present.
- */
-@Serializable
-public data class CustomNotification(override val method: Method, override val params: BaseNotificationParams? = null) :
-    ClientNotification,
-    ServerNotification {
-
-    public val meta: JsonObject?
-        get() = params?.meta
-}
-
-// ============================================================================
-```
-
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
-
-The `captures` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
-
-```kt
- *
- * The MCP protocol allows implementations to define custom methods for extending functionality.
- * This class captures such custom notifications while preserving all their data.
- *
- * @property method The custom method name. By convention, custom methods often contain
- * organization-specific prefixes (e.g., "mycompany/custom_event").
- * @property params Raw JSON parameters for the custom notification, if present.
- */
-@Serializable
-public data class CustomNotification(override val method: Method, override val params: BaseNotificationParams? = null) :
-    ClientNotification,
-    ServerNotification {
-
-    public val meta: JsonObject?
-        get() = params?.meta
-}
-
-// ============================================================================
-// Cancelled Notification
-// ============================================================================
-
-/**
- * This notification can be sent by either side to indicate that it is cancelling a previously-issued request.
- *
- * The request SHOULD still be in-flight, but due to communication latency,
- * it is always possible that this notification MAY arrive after the request has already finished.
- *
- * This notification indicates that the result will be unused, so any associated processing SHOULD cease.
- *
- * A client MUST NOT attempt to cancel its `initialize` request.
- *
- * @property params Details of the cancellation request.
-```
-
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
-
-The `CustomNotification` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
+The `ReadResourceResult` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
 
 ```kt
  */
 @Serializable
-public data class CustomNotification(override val method: Method, override val params: BaseNotificationParams? = null) :
-    ClientNotification,
-    ServerNotification {
-
-    public val meta: JsonObject?
-        get() = params?.meta
-}
+public data class ReadResourceResult(
+    val contents: List<ResourceContents>,
+    @SerialName("_meta")
+    override val meta: JsonObject? = null,
+) : ServerResult
 
 // ============================================================================
-// Cancelled Notification
+// resources/subscribe
 // ============================================================================
 
 /**
- * This notification can be sent by either side to indicate that it is cancelling a previously-issued request.
+ * Sent from the client to request resources/updated notifications from the server
+ * whenever a particular resource changes.
  *
- * The request SHOULD still be in-flight, but due to communication latency,
- * it is always possible that this notification MAY arrive after the request has already finished.
+ * After subscribing, the server will send [ResourceUpdatedNotification] messages
+ * whenever the subscribed resource is modified. This requires the server to support
+ * the `subscribe` capability in [ServerCapabilities.resources].
  *
- * This notification indicates that the result will be unused, so any associated processing SHOULD cease.
- *
- * A client MUST NOT attempt to cancel its `initialize` request.
- *
- * @property params Details of the cancellation request.
+ * @property params The parameters specifying which resource URI to subscribe to.
  */
 @Serializable
-public data class CancelledNotification(override val params: CancelledNotificationParams) :
-    ClientNotification,
-    ServerNotification {
+public data class SubscribeRequest(override val params: SubscribeRequestParams) : ClientRequest {
     @EncodeDefault
-    override val method: Method = Method.Defined.NotificationsCancelled
+    override val method: Method = Method.Defined.ResourcesSubscribe
+
+    /**
+     * The URI of the resource to subscribe to.
+     */
+    public val uri: String
+        get() = params.uri
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
 
-The `CancelledNotification` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
+The `SubscribeRequest` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
 
 ```kt
  */
 @Serializable
-public data class CancelledNotification(override val params: CancelledNotificationParams) :
-    ClientNotification,
-    ServerNotification {
+public data class SubscribeRequest(override val params: SubscribeRequestParams) : ClientRequest {
     @EncodeDefault
-    override val method: Method = Method.Defined.NotificationsCancelled
+    override val method: Method = Method.Defined.ResourcesSubscribe
 
     /**
-     * The ID of the request to cancel.
+     * The URI of the resource to subscribe to.
      */
-    public val requestId: RequestId
-        get() = params.requestId
+    public val uri: String
+        get() = params.uri
 
     /**
-     * A string describing the reason for the cancellation.
+     * Metadata for this request. May include a progressToken for out-of-band progress notifications.
      */
-    public val reason: String?
-        get() = params.reason
-
-    /**
-     * Metadata for this notification.
-     */
-    public val meta: JsonObject?
+    public val meta: RequestMeta?
         get() = params.meta
 }
 
 /**
- * Parameters for a notifications/cancelled notification.
+ * Parameters for a resources/subscribe request.
  *
- * @property requestId The ID of the request to cancel.
- * This MUST correspond to the ID of a request previously issued in the same direction.
+ * @property uri The URI of the resource to subscribe to. The URI can use any protocol;
+ * it is up to the server how to interpret it.
+ * @property meta Optional metadata for this request. May include a progressToken for
+ * out-of-band progress notifications.
+ */
+@Serializable
+public data class SubscribeRequestParams(
+    val uri: String,
+    @SerialName("_meta")
+    override val meta: RequestMeta? = null,
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+
+The `SubscribeRequestParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+
+```kt
+ */
+@Serializable
+public data class SubscribeRequest(override val params: SubscribeRequestParams) : ClientRequest {
+    @EncodeDefault
+    override val method: Method = Method.Defined.ResourcesSubscribe
+
+    /**
+     * The URI of the resource to subscribe to.
+     */
+    public val uri: String
+        get() = params.uri
+
+    /**
+     * Metadata for this request. May include a progressToken for out-of-band progress notifications.
+     */
+    public val meta: RequestMeta?
+        get() = params.meta
+}
+
+/**
+ * Parameters for a resources/subscribe request.
+ *
+ * @property uri The URI of the resource to subscribe to. The URI can use any protocol;
+ * it is up to the server how to interpret it.
+ * @property meta Optional metadata for this request. May include a progressToken for
+ * out-of-band progress notifications.
+ */
+@Serializable
+public data class SubscribeRequestParams(
+    val uri: String,
+    @SerialName("_meta")
+    override val meta: RequestMeta? = null,
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+
+The `UnsubscribeRequest` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+
+```kt
+ */
+@Serializable
+public data class UnsubscribeRequest(override val params: UnsubscribeRequestParams) : ClientRequest {
+    @EncodeDefault
+    override val method: Method = Method.Defined.ResourcesUnsubscribe
+
+    /**
+     * The URI of the resource to unsubscribe from.
+     */
+    public val uri: String
+        get() = params.uri
+
+    /**
+     * Metadata for this request. May include a progressToken for out-of-band progress notifications.
+     */
+    public val meta: RequestMeta?
+        get() = params.meta
+
+    public constructor(
+        uri: String,
+        meta: RequestMeta? = null,
+    ) : this(UnsubscribeRequestParams(uri, meta))
+}
+
+/**
+ * Parameters for a resources/unsubscribe request.
+ *
+ * @property uri The URI of the resource to unsubscribe from. This should match
+ * a URI from a previous [SubscribeRequest].
+ * @property meta Optional metadata for this request. May include a progressToken for
+ * out-of-band progress notifications.
+ */
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ```mermaid
 flowchart TD
-    A[Progress]
-    B[captures]
-    C[CustomNotification]
-    D[CancelledNotification]
-    E[CancelledNotificationParams]
+    A[ReadResourceResult]
+    B[SubscribeRequest]
+    C[SubscribeRequestParams]
+    D[UnsubscribeRequest]
+    E[UnsubscribeRequestParams]
     A --> B
     B --> C
     C --> D

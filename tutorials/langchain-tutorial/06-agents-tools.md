@@ -710,6 +710,19 @@ Now that you understand agents and tools, let's explore advanced chains and cust
 
 *What kind of autonomous agent will you build first?* 🤖
 
+## Agent ReAct Loop
+
+```mermaid
+flowchart TD
+    A[User task] --> B[Agent LLM]
+    B --> C{Decide action}
+    C -->|Use tool| D[Tool executor]
+    D --> E[Tool result / observation]
+    E --> B
+    C -->|Answer ready| F[Final answer]
+    G[Tool registry] --> B
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `tools`, `agent` so behavior stays predictable as complexity grows.

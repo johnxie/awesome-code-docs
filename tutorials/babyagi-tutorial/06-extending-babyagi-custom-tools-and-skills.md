@@ -40,170 +40,168 @@ You now know how to extend BabyAGI with external tools and skills, enabling the 
 
 Next: [Chapter 7: BabyAGI Evolution: 2o and Functionz Framework](07-babyagi-evolution-2o-and-functionz-framework.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `babyagi/functionz/packs/drafts/user_db.py`
+### `babyagi/functionz/packs/drafts/generate_function.py`
 
-The `delete_record` function in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
+The `ExtractionInfo` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
 
 ```py
-    imports=["sqlalchemy"]
-)
-def delete_record(db_name: str, table_name: str, record_id: int):
-    from sqlalchemy import create_engine, MetaData, Table
-    from sqlalchemy.orm import sessionmaker
-    UserDB_name = func.get_user_db_class()
-    UserDB = type(UserDB_name, (), {
-        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
-        'metadata': MetaData()
-    })
-    user_db = UserDB(f'sqlite:///{db_name}.sqlite')
-    user_db.metadata.reflect(user_db.engine)
-    table = Table(table_name, user_db.metadata, autoload_with=user_db.engine)
-    Session = sessionmaker(bind=user_db.engine)
-    with Session() as session:
-        delete = table.delete().where(table.c.id == record_id)
-        result = session.execute(delete)
-        session.commit()
-        if result.rowcount:
-            return f"Record {record_id} in table '{table_name}' of database '{db_name}' deleted successfully."
-        return f"Record {record_id} not found in table '{table_name}' of database '{db_name}'."
+        selected_urls: List[str] = Field(default_factory=list)
 
+    # Updated ExtractionInfo model with 'requires_more_info'
+    class ExtractionInfo(BaseModel):
+        relevant_info: str
+        additional_urls: List[str] = Field(default_factory=list)
+        requires_more_info: bool
 
-@func.register_function(
-    metadata={"description": "Convert value to specified SQLAlchemy type"},
-    imports=["sqlalchemy", "json", "datetime"]
-)
-def convert_value(value, target_type):
-    from sqlalchemy import Boolean, DateTime, LargeBinary, Integer, Float
-    import json
-    from datetime import datetime
+    # System prompt
+    system_prompt = """
+    You are an AI designed to help developers write Python functions using the functionz framework. Every function you generate must adhere to the following rules:
+
+    Function Registration: All functions must be registered with the functionz framework using the @babyagi.register_function() decorator. Each function can include metadata, dependencies, imports, and key dependencies.
+
+    Basic Function Registration Example:
+
+    def function_name(param1, param2):
+        # function logic here
+        return result
+
+    Metadata and Dependencies: When writing functions, you may include optional metadata (such as descriptions) and dependencies. Dependencies can be other functions or secrets (API keys, etc.).
+
+    Import Handling: Manage imports by specifying them in the decorator as dictionaries with 'name' and 'lib' keys. Include these imports within the function body.
+
+    Secret Management: When using API keys or authentication secrets, reference the stored key with globals()['key_name'].
+
+    Error Handling: Functions should handle errors gracefully, catching exceptions if necessary.
+
+    General Guidelines: Use simple, clean, and readable code. Follow the structure and syntax of the functionz framework. Ensure proper function documentation via metadata.
+    """
+
+    # Function to check if a URL is valid
+```
+
+This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `babyagi/functionz/packs/drafts/generate_function.py`
+
+The `GeneratedFunction` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
+
+```py
+
+    # Define Pydantic model
+    class GeneratedFunction(BaseModel):
+        name: str
+        code: str
+        metadata: Optional[Dict[str, Any]] = Field(default_factory=dict)
+        imports: Optional[List[Dict[str, str]]] = Field(default_factory=list)
+        dependencies: List[str] = Field(default_factory=list)
+        key_dependencies: List[str] = Field(default_factory=list)
+        triggers: List[str] = Field(default_factory=list)
+
+        class Config:
+            extra = "forbid"
+
+    # System prompt
+    system_prompt = """
+    You are an AI designed to help developers write Python functions using the functionz framework. Every function you generate must adhere to the following rules:
+
+    Function Registration: All functions must be registered with the functionz framework using the @babyagi.register_function() decorator. Each function can include metadata, dependencies, imports, and key dependencies.
+
+    Basic Function Registration Example:
+
+    def function_name(param1, param2):
+        # function logic here
+        return result
+
+    Metadata and Dependencies: When writing functions, you may include optional metadata (such as descriptions) and dependencies. Dependencies can be other functions or secrets (API keys, etc.).
+
+    Import Handling: Manage imports by specifying them in the decorator as dictionaries with 'name' and 'lib' keys. Include these imports within the function body.
+
+    Secret Management: When using API keys or authentication secrets, reference the stored key with globals()['key_name'].
 
 ```
 
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `babyagi/functionz/packs/drafts/user_db.py`
+### `babyagi/functionz/packs/drafts/generate_function.py`
 
-The `convert_value` function in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
+The `Config` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
 
 ```py
-@func.register_function(
-    metadata={"description": "Create a new record in a table."},
-    dependencies=["get_user_db_class", "convert_value"],
-    imports=["sqlalchemy", "json"]
-)
-def create_record(db_name: str, table_name: str, data: list):
-    from sqlalchemy import create_engine, MetaData, Table, String
-    from sqlalchemy.orm import sessionmaker
-    import json
+        triggers: List[str] = Field(default_factory=list)
 
-    if not isinstance(data_dict, dict):
-        return "Error: Data must be a JSON object"
+        class Config:
+            extra = "forbid"
 
-    UserDB_name = func.get_user_db_class()
-    UserDB = type(UserDB_name, (), {
-        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
-        'metadata': MetaData()
-    })
-    user_db = UserDB(f'sqlite:///{db_name}.sqlite')
-    user_db.metadata.reflect(user_db.engine)
-    table = Table(table_name, user_db.metadata, autoload_with=user_db.engine)
-    Session = sessionmaker(bind=user_db.engine)
+    # System prompt
+    system_prompt = """
+    You are an AI designed to help developers write Python functions using the functionz framework. Every function you generate must adhere to the following rules:
 
-    # Get column types
-    column_types = {c.name: c.type for c in table.columns}
+    Function Registration: All functions must be registered with the functionz framework using the @babyagi.register_function() decorator. Each function can include metadata, dependencies, imports, and key dependencies.
 
-    # Convert input data to appropriate types
-    converted_data = {key: func.convert_value(value, column_types.get(key, String)) for key, value in data.items()}
+    Basic Function Registration Example:
 
-    try:
-        with Session() as session:
-            ins = table.insert().values(**converted_data)
+    def function_name(param1, param2):
+        # function logic here
+        return result
+
+    Metadata and Dependencies: When writing functions, you may include optional metadata (such as descriptions) and dependencies. Dependencies can be other functions or secrets (API keys, etc.).
+
+    Import Handling: Manage imports by specifying them in the decorator as dictionaries with 'name' and 'lib' keys. Include these imports within the function body.
+
+    Secret Management: When using API keys or authentication secrets, reference the stored key with globals()['key_name'].
+
+    Error Handling: Functions should handle errors gracefully, catching exceptions if necessary.
+
+    General Guidelines: Use simple, clean, and readable code. Follow the structure and syntax of the functionz framework. Ensure proper function documentation via metadata.
+    """
+
+    # Function to chunk text
+    def chunk_text(text: str, chunk_size: int = 100000, overlap: int = 10000) -> List[str]:
+        chunks = []
+        start = 0
 ```
 
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `babyagi/functionz/packs/drafts/user_db.py`
+### `babyagi/functionz/packs/drafts/generate_function.py`
 
-The `the` interface in [`babyagi/functionz/packs/drafts/user_db.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/user_db.py) handles a key part of this chapter's functionality:
-
-```py
-                session.close()
-
-    return UserDB.__name__  # Return the name of the class instead of the class itself
-
-@func.register_function(
-    metadata={"description": "Create a new database."},
-    dependencies=["get_user_db_class"],
-    imports=["sqlalchemy"]
-)
-def create_database(db_name: str, db_type: str = 'sqlite', **kwargs):
-    from sqlalchemy import create_engine, MetaData
-
-    if db_type == 'sqlite':
-        db_url = f'sqlite:///{db_name}.sqlite'
-    elif db_type == 'postgresql':
-        db_url = f'postgresql://{kwargs.get("user")}:{kwargs.get("password")}@{kwargs.get("host", "localhost")}:{kwargs.get("port", 5432)}/{db_name}'
-    elif db_type == 'mysql':
-        db_url = f'mysql+pymysql://{kwargs.get("user")}:{kwargs.get("password")}@{kwargs.get("host", "localhost")}:{kwargs.get("port", 3306)}/{db_name}'
-    else:
-        raise ValueError(f"Unsupported database type: {db_type}")
-
-    UserDB_name = func.get_user_db_class()
-    # Reconstruct the UserDB class
-    UserDB = type(UserDB_name, (), {
-        '__init__': lambda self, db_url: setattr(self, 'engine', create_engine(db_url)),
-        'metadata': MetaData()
-    })
-
-    user_db = UserDB(db_url)  # Pass db_url here
-
-    new_engine = create_engine(db_url)
-    user_db.metadata.create_all(new_engine)
-```
-
-This interface is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/functionz/db/models.py`
-
-The `Function` class in [`babyagi/functionz/db/models.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/db/models.py) handles a key part of this chapter's functionality:
+The `Endpoint` class in [`babyagi/functionz/packs/drafts/generate_function.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/functionz/packs/drafts/generate_function.py) handles a key part of this chapter's functionality:
 
 ```py
-fernet = Fernet(ENCRYPTION_KEY.encode())
 
-# Association table for function dependencies (many-to-many between FunctionVersion and Function)
-function_dependency = Table('function_dependency', Base.metadata,
-    Column('function_version_id', Integer, ForeignKey('function_versions.id')),
-    Column('dependency_id', Integer, ForeignKey('functions.id'))
-)
+    # Define Pydantic models
+    class Endpoint(BaseModel):
+        method: Optional[str]
+        url: str
+        description: Optional[str] = None
 
-# **Define function_version_imports association table here**
-function_version_imports = Table('function_version_imports', Base.metadata,
-    Column('function_version_id', Integer, ForeignKey('function_versions.id')),
-    Column('import_id', Integer, ForeignKey('imports.id'))
-)
+    class APIDetails(BaseModel):
+        api_name: str = Field(alias="name")  # Use alias to map 'name' to 'api_name'
+        purpose: str
+        endpoints: Optional[List[Union[Endpoint, str]]] = Field(default_factory=list)
 
+        @validator("endpoints", pre=True, each_item=True)
+        def convert_to_endpoint(cls, v):
+            """Convert string URLs into Endpoint objects if necessary."""
+            if isinstance(v, str):
+                return Endpoint(url=v)  # Create an Endpoint object from a URL string
+            return v
 
-class Function(Base):
-    __tablename__ = 'functions'
-    id = Column(Integer, primary_key=True)
-    name = Column(String, unique=True)
-    versions = relationship("FunctionVersion", back_populates="function", cascade="all, delete-orphan")
+    class APIResponse(BaseModel):
+        name: str
+        purpose: str
+        endpoints: List[Endpoint]
 
-class FunctionVersion(Base):
-    __tablename__ = 'function_versions'
-    id = Column(Integer, primary_key=True)
-    function_id = Column(Integer, ForeignKey('functions.id'))
-    version = Column(Integer)
-    code = Column(String)
-    function_metadata = Column(JSON)
-    is_active = Column(Boolean, default=False)
-    created_date = Column(DateTime, default=datetime.utcnow)
-    input_parameters = Column(JSON)
-    output_parameters = Column(JSON)
+    # System prompt
+    system_prompt = """
+    [Your existing system prompt here]
+    """
+
+    prompt_for_apis = f"""You are an assistant analyzing function requirements.
+
+    The user has provided the following function description: {description}.
 ```
 
 This class is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This class is important because it defines how BabyAGI Tutorial: The Original Au
 
 ```mermaid
 flowchart TD
-    A[delete_record]
-    B[convert_value]
-    C[the]
-    D[Function]
-    E[FunctionVersion]
+    A[ExtractionInfo]
+    B[GeneratedFunction]
+    C[Config]
+    D[Endpoint]
+    E[APIResponse]
     A --> B
     B --> C
     C --> D

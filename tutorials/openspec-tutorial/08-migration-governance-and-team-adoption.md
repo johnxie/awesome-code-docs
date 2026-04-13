@@ -54,164 +54,168 @@ You now have an end-to-end model for running OpenSpec as part of a production en
 
 Next: compare execution patterns with [Claude Task Master](../claude-task-master-tutorial/) and [Codex CLI](../codex-cli-tutorial/).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/core/profile-sync-drift.ts`
+### `src/core/config-schema.ts`
 
-The `hasToolProfileOrDeliveryDrift` function in [`src/core/profile-sync-drift.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/profile-sync-drift.ts) handles a key part of this chapter's functionality:
+The `getNestedValue` function in [`src/core/config-schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/config-schema.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * - artifacts for workflows that were deselected from the current profile
+ * @returns The value at the path, or undefined if not found
  */
-export function hasToolProfileOrDeliveryDrift(
-  projectPath: string,
-  toolId: string,
-  desiredWorkflows: readonly string[],
-  delivery: Delivery
-): boolean {
-  const tool = AI_TOOLS.find((t) => t.value === toolId);
-  if (!tool?.skillsDir) return false;
+export function getNestedValue(obj: Record<string, unknown>, path: string): unknown {
+  const keys = path.split('.');
+  let current: unknown = obj;
 
-  const knownDesiredWorkflows = toKnownWorkflows(desiredWorkflows);
-  const desiredWorkflowSet = new Set<WorkflowId>(knownDesiredWorkflows);
-  const skillsDir = path.join(projectPath, tool.skillsDir, 'skills');
-  const adapter = CommandAdapterRegistry.get(toolId);
-  const shouldGenerateSkills = delivery !== 'commands';
-  const shouldGenerateCommands = delivery !== 'skills';
-
-  if (shouldGenerateSkills) {
-    for (const workflow of knownDesiredWorkflows) {
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      const skillFile = path.join(skillsDir, dirName, 'SKILL.md');
-      if (!fs.existsSync(skillFile)) {
-        return true;
-      }
+  for (const key of keys) {
+    if (current === null || current === undefined) {
+      return undefined;
     }
-
-    // Deselecting workflows in a profile should trigger sync.
-    for (const workflow of ALL_WORKFLOWS) {
-      if (desiredWorkflowSet.has(workflow)) continue;
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      const skillDir = path.join(skillsDir, dirName);
-```
-
-This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/core/profile-sync-drift.ts`
-
-The `getToolsNeedingProfileSync` function in [`src/core/profile-sync-drift.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/profile-sync-drift.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Returns configured tools that currently need a profile/delivery sync.
- */
-export function getToolsNeedingProfileSync(
-  projectPath: string,
-  desiredWorkflows: readonly string[],
-  delivery: Delivery,
-  configuredTools?: readonly string[]
-): string[] {
-  const tools = configuredTools ? [...new Set(configuredTools)] : getConfiguredToolsForProfileSync(projectPath);
-  return tools.filter((toolId) =>
-    hasToolProfileOrDeliveryDrift(projectPath, toolId, desiredWorkflows, delivery)
-  );
-}
-
-function getInstalledWorkflowsForTool(
-  projectPath: string,
-  toolId: string,
-  options: { includeSkills: boolean; includeCommands: boolean }
-): WorkflowId[] {
-  const tool = AI_TOOLS.find((t) => t.value === toolId);
-  if (!tool?.skillsDir) return [];
-
-  const installed = new Set<WorkflowId>();
-  const skillsDir = path.join(projectPath, tool.skillsDir, 'skills');
-
-  if (options.includeSkills) {
-    for (const workflow of ALL_WORKFLOWS) {
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      const skillFile = path.join(skillsDir, dirName, 'SKILL.md');
-      if (fs.existsSync(skillFile)) {
-        installed.add(workflow);
-      }
-```
-
-This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/core/profile-sync-drift.ts`
-
-The `getInstalledWorkflowsForTool` function in [`src/core/profile-sync-drift.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/profile-sync-drift.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function getInstalledWorkflowsForTool(
-  projectPath: string,
-  toolId: string,
-  options: { includeSkills: boolean; includeCommands: boolean }
-): WorkflowId[] {
-  const tool = AI_TOOLS.find((t) => t.value === toolId);
-  if (!tool?.skillsDir) return [];
-
-  const installed = new Set<WorkflowId>();
-  const skillsDir = path.join(projectPath, tool.skillsDir, 'skills');
-
-  if (options.includeSkills) {
-    for (const workflow of ALL_WORKFLOWS) {
-      const dirName = WORKFLOW_TO_SKILL_DIR[workflow];
-      const skillFile = path.join(skillsDir, dirName, 'SKILL.md');
-      if (fs.existsSync(skillFile)) {
-        installed.add(workflow);
-      }
+    if (typeof current !== 'object') {
+      return undefined;
     }
+    current = (current as Record<string, unknown>)[key];
   }
 
-  if (options.includeCommands) {
-    const adapter = CommandAdapterRegistry.get(toolId);
-    if (adapter) {
-      for (const workflow of ALL_WORKFLOWS) {
-        const cmdPath = adapter.getFilePath(workflow);
-        const fullPath = path.isAbsolute(cmdPath) ? cmdPath : path.join(projectPath, cmdPath);
-        if (fs.existsSync(fullPath)) {
-          installed.add(workflow);
-        }
+  return current;
+}
+
+/**
+ * Set a nested value in an object using dot notation.
+ * Creates intermediate objects as needed.
+ *
+ * @param obj - The object to modify (mutated in place)
+ * @param path - Dot-separated path (e.g., "featureFlags.someFlag")
+ * @param value - The value to set
+ */
+export function setNestedValue(obj: Record<string, unknown>, path: string, value: unknown): void {
+  const keys = path.split('.');
+  let current: Record<string, unknown> = obj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
 ```
 
 This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/profile-sync-drift.ts`
+### `src/core/config-schema.ts`
 
-The `hasProjectConfigDrift` function in [`src/core/profile-sync-drift.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/profile-sync-drift.ts) handles a key part of this chapter's functionality:
+The `setNestedValue` function in [`src/core/config-schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/config-schema.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Detects whether the current project has any profile/delivery drift.
+ * @param value - The value to set
  */
-export function hasProjectConfigDrift(
-  projectPath: string,
-  desiredWorkflows: readonly string[],
-  delivery: Delivery
-): boolean {
-  const configuredTools = getConfiguredToolsForProfileSync(projectPath);
-  if (getToolsNeedingProfileSync(projectPath, desiredWorkflows, delivery, configuredTools).length > 0) {
+export function setNestedValue(obj: Record<string, unknown>, path: string, value: unknown): void {
+  const keys = path.split('.');
+  let current: Record<string, unknown> = obj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    if (current[key] === undefined || current[key] === null || typeof current[key] !== 'object') {
+      current[key] = {};
+    }
+    current = current[key] as Record<string, unknown>;
+  }
+
+  const lastKey = keys[keys.length - 1];
+  current[lastKey] = value;
+}
+
+/**
+ * Delete a nested value from an object using dot notation.
+ *
+ * @param obj - The object to modify (mutated in place)
+ * @param path - Dot-separated path (e.g., "featureFlags.someFlag")
+ * @returns true if the key existed and was deleted, false otherwise
+ */
+export function deleteNestedValue(obj: Record<string, unknown>, path: string): boolean {
+  const keys = path.split('.');
+  let current: Record<string, unknown> = obj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    if (current[key] === undefined || current[key] === null || typeof current[key] !== 'object') {
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/config-schema.ts`
+
+The `deleteNestedValue` function in [`src/core/config-schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/config-schema.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns true if the key existed and was deleted, false otherwise
+ */
+export function deleteNestedValue(obj: Record<string, unknown>, path: string): boolean {
+  const keys = path.split('.');
+  let current: Record<string, unknown> = obj;
+
+  for (let i = 0; i < keys.length - 1; i++) {
+    const key = keys[i];
+    if (current[key] === undefined || current[key] === null || typeof current[key] !== 'object') {
+      return false;
+    }
+    current = current[key] as Record<string, unknown>;
+  }
+
+  const lastKey = keys[keys.length - 1];
+  if (lastKey in current) {
+    delete current[lastKey];
     return true;
   }
-
-  const desiredSet = new Set(toKnownWorkflows(desiredWorkflows));
-  const includeSkills = delivery !== 'commands';
-  const includeCommands = delivery !== 'skills';
-
-  for (const toolId of configuredTools) {
-    const installed = getInstalledWorkflowsForTool(projectPath, toolId, { includeSkills, includeCommands });
-    if (installed.some((workflow) => !desiredSet.has(workflow))) {
-      return true;
-    }
-  }
-
   return false;
 }
 
+/**
+ * Coerce a string value to its appropriate type.
+ * - "true" / "false" -> boolean
+ * - Numeric strings -> number
+ * - Everything else -> string
+ *
+ * @param value - The string value to coerce
+ * @param forceString - If true, always return the value as a string
+ * @returns The coerced value
+ */
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/config-schema.ts`
+
+The `coerceValue` function in [`src/core/config-schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/config-schema.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @returns The coerced value
+ */
+export function coerceValue(value: string, forceString: boolean = false): string | number | boolean {
+  if (forceString) {
+    return value;
+  }
+
+  // Boolean coercion
+  if (value === 'true') {
+    return true;
+  }
+  if (value === 'false') {
+    return false;
+  }
+
+  // Number coercion - must be a valid finite number
+  const num = Number(value);
+  if (!isNaN(num) && isFinite(num) && value.trim() !== '') {
+    return num;
+  }
+
+  return value;
+}
+
+/**
+ * Format a value for YAML-like display.
+ *
+ * @param value - The value to format
+ * @param indent - Current indentation level
+ * @returns Formatted string
+ */
+export function formatValueYaml(value: unknown, indent: number = 0): string {
 ```
 
 This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
@@ -221,11 +225,11 @@ This function is important because it defines how OpenSpec Tutorial: Spec-Driven
 
 ```mermaid
 flowchart TD
-    A[hasToolProfileOrDeliveryDrift]
-    B[getToolsNeedingProfileSync]
-    C[getInstalledWorkflowsForTool]
-    D[hasProjectConfigDrift]
-    E[ChangeCommand]
+    A[getNestedValue]
+    B[setNestedValue]
+    C[deleteNestedValue]
+    D[coerceValue]
+    E[formatValueYaml]
     A --> B
     B --> C
     C --> D

@@ -40,98 +40,96 @@ You now have a complete TypeScript server workflow, from scaffold to interactive
 
 Next: [Chapter 5: Python Server Framework and Debug Endpoints](05-python-server-framework-and-debug-endpoints.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `libraries/python/examples/simple_server_manager_use.py`
+### `libraries/python/examples/example_middleware.py`
 
-The `DynamicTool` class in [`libraries/python/examples/simple_server_manager_use.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/simple_server_manager_use.py) handles a key part of this chapter's functionality:
+The `MutationMiddleware` class in [`libraries/python/examples/example_middleware.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/example_middleware.py) handles a key part of this chapter's functionality:
 
 ```py
 
+    # Middleware that demonstrates mutating params and adding headers-like metadata
+    class MutationMiddleware(Middleware):
+        async def on_call_tool(self, context: MiddlewareContext[Any], call_next: NextFunctionT) -> Any:
+            # Defensive mutation of params: ensure `arguments` exists before writing
+            try:
+                print("[MutationMiddleware] context.params=", context.params)
+                args = getattr(context.params, "arguments", None)
+                if args is None:
+                    args = {}
 
-class DynamicTool(BaseTool):
-    """A tool that is created dynamically."""
+                # Inject a URL argument (example) and a trace id
+                args["url"] = "https://github.com"
+                meta = args.setdefault("meta", {})
+                meta["trace_id"] = "trace-123"
 
-    name: str
-    description: str
-    args_schema: type[BaseModel] | None = None
+                # Write back the mutated arguments to the params object
+                context.params.arguments = args
 
-    def _run(self) -> str:
-        return f"Hello from {self.name}!"
+                # Also demonstrate carrying header-like info via metadata
+                context.metadata.setdefault("headers", {})["X-Trace-Id"] = "trace-123"
+                # Debug: show the mutated params/metadata immediately
+                print("[AddTraceMiddleware] after mutation:", context.params, context.metadata)
 
-    async def _arun(self) -> str:
-        return f"Hello from {self.name}!"
+            except Exception as e:
+                # Don't break the request flow in an example
+                print(f"[AddTraceMiddleware] failed to mutate params: {e}")
 
+            return await call_next(context)
 
-class HelloWorldTool(BaseTool):
-    """A simple tool that returns a greeting and adds a new tool."""
-
-    name: str = "hello_world"
-    description: str = "Returns the string 'Hello, World!' and adds a new dynamic tool."
-    args_schema: type[BaseModel] | None = None
-    server_manager: "SimpleServerManager"
-
-    def _run(self) -> str:
-        new_tool = DynamicTool(
-            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
-        )
-        self.server_manager.add_tool(new_tool)
-        return "Hello, World! I've added a new tool. You can use it now."
-
-    async def _arun(self) -> str:
+    config = {
+        "mcpServers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"], "env": {"DISPLAY": ":1"}}}
 ```
 
 This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
-### `libraries/python/examples/simple_server_manager_use.py`
+### `libraries/python/examples/example_middleware.py`
 
-The `HelloWorldTool` class in [`libraries/python/examples/simple_server_manager_use.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/simple_server_manager_use.py) handles a key part of this chapter's functionality:
+The `main` function in [`libraries/python/examples/example_middleware.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/example_middleware.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class HelloWorldTool(BaseTool):
-    """A simple tool that returns a greeting and adds a new tool."""
+async def main():
+    """Run the example with default logging and optional custom middleware."""
+    # Load environment variables
+    load_dotenv()
 
-    name: str = "hello_world"
-    description: str = "Returns the string 'Hello, World!' and adds a new dynamic tool."
-    args_schema: type[BaseModel] | None = None
-    server_manager: "SimpleServerManager"
+    # Create custom middleware
+    class TimingMiddleware(Middleware):
+        async def on_request(self, context: MiddlewareContext[Any], call_next: NextFunctionT) -> Any:
+            start = time.time()
+            try:
+                print("--------------------------------")
+                print(f"{context.method} started")
+                print("--------------------------------")
+                print(f"{context.params}, {context.metadata}, {context.timestamp}, {context.connection_id}")
+                print("--------------------------------")
+                result = await call_next(context)
+                return result
+            finally:
+                duration = time.time() - start
+                print("--------------------------------")
+                print(f"{context.method} took {int(1000 * duration)}ms")
+                print("--------------------------------")
 
-    def _run(self) -> str:
-        new_tool = DynamicTool(
-            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
-        )
-        self.server_manager.add_tool(new_tool)
-        return "Hello, World! I've added a new tool. You can use it now."
-
-    async def _arun(self) -> str:
-        new_tool = DynamicTool(
-            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
-        )
-        self.server_manager.add_tool(new_tool)
-        return "Hello, World! I've added a new tool. You can use it now."
-
-
-class SimpleServerManager(BaseServerManager):
-    """A simple server manager that provides a HelloWorldTool."""
-
-    def __init__(self):
-        self._tools: list[BaseTool] = []
-        self._initialized = False
-        # Pass a reference to the server manager to the tool
+    # Middleware that demonstrates mutating params and adding headers-like metadata
+    class MutationMiddleware(Middleware):
+        async def on_call_tool(self, context: MiddlewareContext[Any], call_next: NextFunctionT) -> Any:
+            # Defensive mutation of params: ensure `arguments` exists before writing
+            try:
+                print("[MutationMiddleware] context.params=", context.params)
+                args = getattr(context.params, "arguments", None)
 ```
 
-This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
+This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[DynamicTool]
-    B[HelloWorldTool]
+    A[MutationMiddleware]
+    B[main]
     A --> B
 ```

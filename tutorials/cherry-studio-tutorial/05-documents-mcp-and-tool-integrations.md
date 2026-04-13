@@ -39,184 +39,182 @@ You now know how to combine documents and MCP tooling in Cherry Studio workflows
 
 Next: [Chapter 6: Team Adoption and Enterprise Capabilities](06-team-adoption-and-enterprise-capabilities.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/update-app-upgrade-config.ts`
 
-The `getBaseVersion` function in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+The `SegmentMatchRule` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  }
-
-  const baseVersion = getBaseVersion(releaseInfo.version)
-  return baseVersion ?? releaseInfo.version
 }
 
-function getBaseVersion(version: string): string | null {
-  const parsed = semver.parse(version, { loose: true })
-  if (!parsed) {
-    return null
-  }
-  return `${parsed.major}.${parsed.minor}.${parsed.patch}`
+interface SegmentMatchRule {
+  range?: string
+  exact?: string[]
+  excludeExact?: string[]
 }
 
-function createEmptyVersionEntry(): VersionEntry {
-  return {
-    minCompatibleVersion: '',
-    description: '',
-    channels: {
-      latest: null,
-      rc: null,
-      beta: null
-    }
-  }
+interface SegmentDefinition {
+  id: string
+  type: 'legacy' | 'breaking' | 'latest'
+  match: SegmentMatchRule
+  lockedVersion?: string
+  minCompatibleVersion: string
+  description: string
+  channelTemplates?: Partial<Record<UpgradeChannel, ChannelTemplateConfig>>
 }
 
-function ensureChannelSlots(
+interface SegmentMetadataFile {
+  segments: SegmentDefinition[]
+}
+
+interface ChannelConfig {
+  version: string
+  feedUrls: Record<UpdateMirror, string>
+}
+
+interface VersionMetadata {
+  segmentId: string
+  segmentType?: string
+}
+
+```
+
+This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+
+### `scripts/update-app-upgrade-config.ts`
+
+The `SegmentDefinition` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+interface SegmentDefinition {
+  id: string
+  type: 'legacy' | 'breaking' | 'latest'
+  match: SegmentMatchRule
+  lockedVersion?: string
+  minCompatibleVersion: string
+  description: string
+  channelTemplates?: Partial<Record<UpgradeChannel, ChannelTemplateConfig>>
+}
+
+interface SegmentMetadataFile {
+  segments: SegmentDefinition[]
+}
+
+interface ChannelConfig {
+  version: string
+  feedUrls: Record<UpdateMirror, string>
+}
+
+interface VersionMetadata {
+  segmentId: string
+  segmentType?: string
+}
+
+interface VersionEntry {
+  metadata?: VersionMetadata
+  minCompatibleVersion: string
+  description: string
   channels: Record<UpgradeChannel, ChannelConfig | null>
-): Record<UpgradeChannel, ChannelConfig | null> {
-  return CHANNELS.reduce(
-    (acc, channel) => {
-      acc[channel] = channels[channel] ?? null
+}
 ```
 
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
 ### `scripts/update-app-upgrade-config.ts`
 
-The `createEmptyVersionEntry` function in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+The `SegmentMetadataFile` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    entry = { ...versionsCopy[existingKey], channels: { ...versionsCopy[existingKey].channels } }
-  } else {
-    entry = createEmptyVersionEntry()
-  }
-
-  entry.channels = ensureChannelSlots(entry.channels)
-
-  const channelUpdated = await applyChannelUpdate(entry, segment, releaseInfo, skipReleaseValidation)
-  if (!channelUpdated) {
-    return { versions, updated: false }
-  }
-
-  if (shouldRename && existingKey) {
-    delete versionsCopy[existingKey]
-  }
-
-  entry.metadata = {
-    segmentId: segment.id,
-    segmentType: segment.type
-  }
-  entry.minCompatibleVersion = segment.minCompatibleVersion
-  entry.description = segment.description
-
-  versionsCopy[targetKey] = entry
-  return {
-    versions: sortVersionMap(versionsCopy),
-    updated: true
-  }
 }
 
-function findVersionKeyBySegment(versions: Record<string, VersionEntry>, segmentId: string): string | null {
-  for (const [key, value] of Object.entries(versions)) {
+interface SegmentMetadataFile {
+  segments: SegmentDefinition[]
+}
+
+interface ChannelConfig {
+  version: string
+  feedUrls: Record<UpdateMirror, string>
+}
+
+interface VersionMetadata {
+  segmentId: string
+  segmentType?: string
+}
+
+interface VersionEntry {
+  metadata?: VersionMetadata
+  minCompatibleVersion: string
+  description: string
+  channels: Record<UpgradeChannel, ChannelConfig | null>
+}
+
+interface UpgradeConfigFile {
+  lastUpdated: string
+  versions: Record<string, VersionEntry>
+}
+
+interface ReleaseInfo {
+  tag: string
+  version: string
+  channel: UpgradeChannel
 ```
 
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
 ### `scripts/update-app-upgrade-config.ts`
 
-The `ensureChannelSlots` function in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
+The `ChannelConfig` interface in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  }
-
-  entry.channels = ensureChannelSlots(entry.channels)
-
-  const channelUpdated = await applyChannelUpdate(entry, segment, releaseInfo, skipReleaseValidation)
-  if (!channelUpdated) {
-    return { versions, updated: false }
-  }
-
-  if (shouldRename && existingKey) {
-    delete versionsCopy[existingKey]
-  }
-
-  entry.metadata = {
-    segmentId: segment.id,
-    segmentType: segment.type
-  }
-  entry.minCompatibleVersion = segment.minCompatibleVersion
-  entry.description = segment.description
-
-  versionsCopy[targetKey] = entry
-  return {
-    versions: sortVersionMap(versionsCopy),
-    updated: true
-  }
 }
 
-function findVersionKeyBySegment(versions: Record<string, VersionEntry>, segmentId: string): string | null {
-  for (const [key, value] of Object.entries(versions)) {
-    if (value.metadata?.segmentId === segmentId) {
-      return key
-    }
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
-### `scripts/update-app-upgrade-config.ts`
-
-The `applyChannelUpdate` function in [`scripts/update-app-upgrade-config.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/update-app-upgrade-config.ts) handles a key part of this chapter's functionality:
-
-```ts
-  entry.channels = ensureChannelSlots(entry.channels)
-
-  const channelUpdated = await applyChannelUpdate(entry, segment, releaseInfo, skipReleaseValidation)
-  if (!channelUpdated) {
-    return { versions, updated: false }
-  }
-
-  if (shouldRename && existingKey) {
-    delete versionsCopy[existingKey]
-  }
-
-  entry.metadata = {
-    segmentId: segment.id,
-    segmentType: segment.type
-  }
-  entry.minCompatibleVersion = segment.minCompatibleVersion
-  entry.description = segment.description
-
-  versionsCopy[targetKey] = entry
-  return {
-    versions: sortVersionMap(versionsCopy),
-    updated: true
-  }
+interface ChannelConfig {
+  version: string
+  feedUrls: Record<UpdateMirror, string>
 }
 
-function findVersionKeyBySegment(versions: Record<string, VersionEntry>, segmentId: string): string | null {
-  for (const [key, value] of Object.entries(versions)) {
-    if (value.metadata?.segmentId === segmentId) {
-      return key
-    }
-  }
-  return null
+interface VersionMetadata {
+  segmentId: string
+  segmentType?: string
+}
+
+interface VersionEntry {
+  metadata?: VersionMetadata
+  minCompatibleVersion: string
+  description: string
+  channels: Record<UpgradeChannel, ChannelConfig | null>
+}
+
+interface UpgradeConfigFile {
+  lastUpdated: string
+  versions: Record<string, VersionEntry>
+}
+
+interface ReleaseInfo {
+  tag: string
+  version: string
+  channel: UpgradeChannel
+}
+
+interface UpdateVersionsResult {
+  versions: Record<string, VersionEntry>
 ```
 
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
+This interface is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getBaseVersion]
-    B[createEmptyVersionEntry]
-    C[ensureChannelSlots]
-    D[applyChannelUpdate]
-    E[buildFeedUrls]
+    A[SegmentMatchRule]
+    B[SegmentDefinition]
+    C[SegmentMetadataFile]
+    D[ChannelConfig]
+    E[VersionMetadata]
     A --> B
     B --> C
     C --> D

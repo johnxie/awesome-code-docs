@@ -1,296 +1,230 @@
 ---
 layout: default
-title: "Chapter 2: Skill Categories"
+title: "Chapter 2: Quickstart Architecture"
 nav_order: 2
-parent: Anthropic Skills Tutorial
+parent: Anthropic Quickstarts Tutorial
+format_version: v2
+source_repo: https://github.com/anthropics/anthropic-quickstarts
 ---
 
-
-# Chapter 2: Skill Categories
-
-Welcome to **Chapter 2: Skill Categories**. In this part of **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
-
-
-Category design controls maintainability. If categories are too broad, skills become brittle and hard to trust.
-
-## Four Practical Categories
-
-| Category | Typical Inputs | Typical Outputs | Typical Risk |
-|:---------|:---------------|:----------------|:-------------|
-| Document Workflows | Notes, policy docs, datasets | Structured docs/slides/sheets | Formatting drift |
-| Creative and Brand | Briefs, tone rules, examples | On-brand copy or concepts | Brand inconsistency |
-| Engineering and Ops | Codebase context, tickets, logs | Patches, runbooks, plans | Incorrect assumptions |
-| Enterprise Process | Internal standards and controls | Audit artifacts, compliance actions | Governance gaps |
-
-## How to Choose Category Boundaries
-
-Use one outcome per skill. If two outcomes have different acceptance criteria, split the skill.
-
-**Good split:**
-- `incident-triage`
-- `postmortem-draft`
-- `stakeholder-update`
-
-**Bad split:**
-- `incident-everything`
-
-A single giant skill creates unclear prompts, conflicting priorities, and harder testing.
-
-## Decision Matrix
-
-| Question | If "Yes" | If "No" |
-|:---------|:----------|:----------|
-| Is the output contract identical across requests? | Keep in same skill | Split into separate skills |
-| Do tasks share the same references and policies? | Keep shared references | Isolate by domain |
-| Can one test suite verify quality for all use cases? | Keep grouped | Split for clearer quality gates |
-| Are escalation paths identical? | Keep grouped | Split by risk/approval path |
-
-## Category-Specific Design Tips
-
-- **Document skills:** prioritize template fidelity and deterministic section ordering.
-- **Creative skills:** define what variation is allowed and what must stay fixed.
-- **Technical skills:** enforce constraints on tools, files, and unsafe operations.
-- **Enterprise skills:** include explicit policy references and audit fields.
-
-## Anti-Patterns
-
-- Category names that describe team structure instead of behavior
-- Mixing high-stakes and low-stakes actions in one skill
-- Using skills as a substitute for missing source documentation
-- Requiring hidden tribal knowledge to run the skill
-
-## Summary
-
-You can now define category boundaries that keep skills focused, testable, and easier to operate.
-
-Next: [Chapter 3: Advanced Skill Design](03-advanced-skill-design.md)
+# Chapter 2: Quickstart Architecture
 
 ## What Problem Does This Solve?
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for core abstractions in this chapter so behavior stays predictable as complexity grows.
+Before you can extend or adapt any of these quickstarts, you need to understand the patterns they all share. Five projects look different on the surface — Python vs TypeScript, Docker vs bare Node.js, Streamlit vs Next.js — but they share a common architectural skeleton. Recognizing that skeleton lets you find the right file to edit when something breaks, and lets you transfer patterns from one project to another.
 
-In practical terms, this chapter helps you avoid three common failures:
+## The Universal Agent Loop
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+Every project that calls Claude in a loop follows the same core pattern: send a message, check the response for tool use blocks, execute the tools, append the results to the conversation, and repeat until Claude sends a response with no tool use blocks.
 
-After working through this chapter, you should be able to reason about `Chapter 2: Skill Categories` as an operating subsystem inside **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, with explicit contracts for inputs, state transitions, and outputs.
+```mermaid
+sequenceDiagram
+    participant User
+    participant Loop as sampling_loop / _agent_loop
+    participant Claude as Claude API
+    participant Tools as Tool Handlers
 
-Use the implementation notes around execution and reliability details as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 2: Skill Categories` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `core component`.
-2. **Input normalization**: shape incoming data so `execution layer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `state model`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [anthropics/skills repository](https://github.com/anthropics/skills)
-  Why it matters: authoritative reference on `anthropics/skills repository` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `Skill` and `Categories` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
-- [Next Chapter: Chapter 3: Advanced Skill Design](03-advanced-skill-design.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
-
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `skills/skill-creator/scripts/run_eval.py`
-
-The `main` function in [`skills/skill-creator/scripts/run_eval.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/run_eval.py) handles a key part of this chapter's functionality:
-
-```py
-            while time.time() - start_time < timeout:
-                if process.poll() is not None:
-                    remaining = process.stdout.read()
-                    if remaining:
-                        buffer += remaining.decode("utf-8", errors="replace")
-                    break
-
-                ready, _, _ = select.select([process.stdout], [], [], 1.0)
-                if not ready:
-                    continue
-
-                chunk = os.read(process.stdout.fileno(), 8192)
-                if not chunk:
-                    break
-                buffer += chunk.decode("utf-8", errors="replace")
-
-                while "\n" in buffer:
-                    line, buffer = buffer.split("\n", 1)
-                    line = line.strip()
-                    if not line:
-                        continue
-
-                    try:
-                        event = json.loads(line)
-                    except json.JSONDecodeError:
-                        continue
-
-                    # Early detection via stream events
-                    if event.get("type") == "stream_event":
-                        se = event.get("event", {})
-                        se_type = se.get("type", "")
-
+    User->>Loop: initial message
+    loop Until no tool_use in response
+        Loop->>Claude: messages + tools + system prompt
+        Claude-->>Loop: response (may contain tool_use blocks)
+        alt response contains tool_use
+            Loop->>Tools: execute each tool_use block
+            Tools-->>Loop: ToolResult (output | base64_image | error)
+            Loop->>Loop: append tool_result to messages
+        end
+    end
+    Loop-->>User: final text response
 ```
 
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
+The computer-use-demo implements this in `computer_use_demo/loop.py` as `sampling_loop()`. The agents quickstart implements it in `agents/agent.py` as `Agent._agent_loop()`. The browser-use-demo has its own `loop.py` following the same structure.
 
-### `skills/skill-creator/scripts/aggregate_benchmark.py`
+## Project Anatomy Comparison
 
-The `calculate_stats` function in [`skills/skill-creator/scripts/aggregate_benchmark.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/aggregate_benchmark.py) handles a key part of this chapter's functionality:
+### computer-use-demo
 
-```py
+The most architecturally complete quickstart. Key files:
 
+```text
+computer_use_demo/
+├── loop.py          # Core: async sampling_loop(), prompt caching, image truncation
+├── streamlit.py     # UI: sidebar config, chat display, callback wiring
+└── tools/
+    ├── base.py      # ToolResult dataclass, BaseAnthropicTool ABC, ToolCollection
+    ├── bash.py      # BashTool20250124: persistent subprocess with sentinel pattern
+    ├── computer.py  # ComputerTool: screenshot, keyboard, mouse with coord scaling
+    └── edit.py      # EditTool20250728: view/create/str_replace/insert
+```
 
-def calculate_stats(values: list[float]) -> dict:
-    """Calculate mean, stddev, min, max for a list of values."""
-    if not values:
-        return {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0}
+The `ToolCollection` in `base.py` is the glue: it holds all three tools, provides `to_params()` for the API call, and dispatches `run(tool_name, tool_input)` to the correct tool instance.
 
-    n = len(values)
-    mean = sum(values) / n
+### agents/
 
-    if n > 1:
-        variance = sum((x - mean) ** 2 for x in values) / (n - 1)
-        stddev = math.sqrt(variance)
+A deliberately minimal reference. The goal is clarity, not features: < 300 lines total.
+
+```text
+agents/
+├── agent.py         # Agent class: _agent_loop, execute_tools, run/run_async
+├── tools/           # ThinkTool and MCP tool wrappers
+└── utils/           # Message history management, MCP connection setup
+```
+
+Key principle stated in the README: this is "NOT an SDK, but a reference implementation of key concepts." Do not try to use it as a production library — read it to understand the pattern, then implement your own.
+
+### autonomous-coding/
+
+Unique two-agent architecture. Uses Claude Code CLI (`@anthropic-ai/claude-code`) for the actual coding work, with a Python orchestrator that manages state across sessions.
+
+```text
+autonomous-coding/
+├── autonomous_agent_demo.py  # Orchestrator: launches initializer, then iterates coding agents
+├── prompts/                  # System prompts for initializer and coding agents
+└── feature_list.json         # State file: source of truth for completed features
+```
+
+The initializer agent reads a specification and writes a comprehensive test suite plus `feature_list.json`. Subsequent coding-agent sessions each implement a batch of features, commit to git, and update `feature_list.json`. Sessions can be interrupted and resumed without data loss because all state is in files.
+
+### customer-support-agent/
+
+A Next.js 14 app demonstrating real-time streaming, extended thinking display, and Bedrock knowledge base integration.
+
+```text
+customer-support-agent/
+├── app/
+│   ├── api/chat/route.ts    # Edge Runtime: streams Claude responses to the frontend
+│   └── components/
+│       └── ChatArea.tsx     # Main chat component: knowledge base config, mood detection
+└── package.json
+```
+
+### financial-data-analyst/
+
+Next.js 14 app demonstrating file upload, multi-format parsing, and dynamic chart generation.
+
+```text
+financial-data-analyst/
+├── app/
+│   ├── api/analyze/route.ts  # Parses uploaded files, sends to Claude, streams JSON
+│   └── components/           # Chat, FileUpload, ChartRenderer (Recharts)
+└── package.json
+```
+
+## Shared Patterns
+
+### Pattern 1: Provider Abstraction
+
+Both `computer-use-demo` and `browser-use-demo` support three API providers through environment-variable-driven client selection:
+
+```python
+# From computer_use_demo/loop.py (simplified)
+if provider == APIProvider.ANTHROPIC:
+    client = Anthropic(api_key=api_key)
+elif provider == APIProvider.BEDROCK:
+    client = AnthropicBedrock()
+elif provider == APIProvider.VERTEX:
+    client = AnthropicVertex()
+```
+
+This pattern lets you switch from Anthropic's direct API to enterprise-managed AWS Bedrock or Google Vertex deployments without changing any other code.
+
+### Pattern 2: Tool Result → API Message Translation
+
+Tool execution results must be translated into the exact message format the API expects before being appended to the conversation. In `computer_use_demo/loop.py`:
+
+```python
+def _make_api_tool_result(
+    result: ToolResult, tool_use_id: str
+) -> BetaToolResultBlockParam:
+    tool_result_content: list[BetaTextBlockParam | BetaImageBlockParam] | str = []
+
+    if result.error:
+        tool_result_content = _maybe_prepend_system_tool_result(result, result.error)
     else:
-        stddev = 0.0
+        if result.output:
+            tool_result_content.append({
+                "type": "text",
+                "text": _maybe_prepend_system_tool_result(result, result.output),
+            })
+        if result.base64_image:
+            tool_result_content.append({
+                "type": "image",
+                "source": {
+                    "type": "base64",
+                    "media_type": "image/png",
+                    "data": result.base64_image,
+                },
+            })
 
     return {
-        "mean": round(mean, 4),
-        "stddev": round(stddev, 4),
-        "min": round(min(values), 4),
-        "max": round(max(values), 4)
+        "type": "tool_result",
+        "content": tool_result_content,
+        "tool_use_id": tool_use_id,
+        "is_error": bool(result.error),
     }
-
-
-def load_run_results(benchmark_dir: Path) -> dict:
-    """
-    Load all run results from a benchmark directory.
-
-    Returns dict keyed by config name (e.g. "with_skill"/"without_skill",
-    or "new_skill"/"old_skill"), each containing a list of run results.
-    """
-    # Support both layouts: eval dirs directly under benchmark_dir, or under runs/
 ```
 
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
+### Pattern 3: Model and Tool Version Pairing
 
-### `skills/skill-creator/scripts/aggregate_benchmark.py`
+The computer use tools have versioned API types that must match a compatible model version. The pairing is explicit in the code:
 
-The `load_run_results` function in [`skills/skill-creator/scripts/aggregate_benchmark.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/aggregate_benchmark.py) handles a key part of this chapter's functionality:
+| Tool Class | `api_type` | Compatible Models |
+|:-----------|:-----------|:------------------|
+| `ComputerTool20241022` | `computer_20241022` | claude-3-5-sonnet-20241022 |
+| `ComputerTool20250124` | `computer_20250124` | claude-3-5-sonnet-20250124+ |
+| `ComputerTool20251124` | `computer_20251124` | claude-opus-4-20250514+ |
+| `EditTool20250728` | `text_editor_20250728` | claude-3-5-sonnet-20250514+ |
 
-```py
+Mixing an old tool version with a new model (or vice versa) will produce API validation errors. The Streamlit sidebar in `computer-use-demo` exposes a "Tool version" selector precisely to manage this.
 
-
-def load_run_results(benchmark_dir: Path) -> dict:
-    """
-    Load all run results from a benchmark directory.
-
-    Returns dict keyed by config name (e.g. "with_skill"/"without_skill",
-    or "new_skill"/"old_skill"), each containing a list of run results.
-    """
-    # Support both layouts: eval dirs directly under benchmark_dir, or under runs/
-    runs_dir = benchmark_dir / "runs"
-    if runs_dir.exists():
-        search_dir = runs_dir
-    elif list(benchmark_dir.glob("eval-*")):
-        search_dir = benchmark_dir
-    else:
-        print(f"No eval directories found in {benchmark_dir} or {benchmark_dir / 'runs'}")
-        return {}
-
-    results: dict[str, list] = {}
-
-    for eval_idx, eval_dir in enumerate(sorted(search_dir.glob("eval-*"))):
-        metadata_path = eval_dir / "eval_metadata.json"
-        if metadata_path.exists():
-            try:
-                with open(metadata_path) as mf:
-                    eval_id = json.load(mf).get("eval_id", eval_idx)
-            except (json.JSONDecodeError, OSError):
-                eval_id = eval_idx
-        else:
-            try:
-                eval_id = int(eval_dir.name.split("-")[1])
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/skill-creator/scripts/aggregate_benchmark.py`
-
-The `aggregate_results` function in [`skills/skill-creator/scripts/aggregate_benchmark.py`](https://github.com/anthropics/skills/blob/HEAD/skills/skill-creator/scripts/aggregate_benchmark.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def aggregate_results(results: dict) -> dict:
-    """
-    Aggregate run results into summary statistics.
-
-    Returns run_summary with stats for each configuration and delta.
-    """
-    run_summary = {}
-    configs = list(results.keys())
-
-    for config in configs:
-        runs = results.get(config, [])
-
-        if not runs:
-            run_summary[config] = {
-                "pass_rate": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
-                "time_seconds": {"mean": 0.0, "stddev": 0.0, "min": 0.0, "max": 0.0},
-                "tokens": {"mean": 0, "stddev": 0, "min": 0, "max": 0}
-            }
-            continue
-
-        pass_rates = [r["pass_rate"] for r in runs]
-        times = [r["time_seconds"] for r in runs]
-        tokens = [r.get("tokens", 0) for r in runs]
-
-        run_summary[config] = {
-            "pass_rate": calculate_stats(pass_rates),
-            "time_seconds": calculate_stats(times),
-            "tokens": calculate_stats(tokens)
-        }
-
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-
-## How These Components Connect
+## How These Patterns Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[calculate_stats]
-    C[load_run_results]
-    D[aggregate_results]
-    E[generate_benchmark]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    subgraph "API Layer"
+        PROV["Provider Abstraction<br/>Anthropic / Bedrock / Vertex"]
+    end
+
+    subgraph "Loop Layer"
+        SL["sampling_loop()"]
+        PC["Prompt Caching<br/>(inject_prompt_caching)"]
+        IT["Image Truncation<br/>(filter_to_n_most_recent)"]
+    end
+
+    subgraph "Tool Layer"
+        TC["ToolCollection"]
+        BT["BashTool"]
+        CT["ComputerTool"]
+        ET["EditTool"]
+    end
+
+    subgraph "Result Layer"
+        TR["ToolResult"]
+        MAPI["_make_api_tool_result()"]
+    end
+
+    PROV --> SL
+    SL --> PC
+    SL --> IT
+    SL --> TC
+    TC --> BT
+    TC --> CT
+    TC --> ET
+    BT --> TR
+    CT --> TR
+    ET --> TR
+    TR --> MAPI
+    MAPI --> SL
 ```
+
+## Summary
+
+All five quickstarts share an agentic loop, a tool-result-to-message translation pattern, and a tool collection dispatch mechanism. The Python projects add provider abstraction and tool version management. Understanding these shared patterns means you only need to learn the details once — the rest is project-specific configuration.
+
+Next: [Chapter 3: Computer Use Deep-Dive](03-advanced-skill-design.md)
+
+---
+
+- [Tutorial Index](README.md)
+- [Previous Chapter: Chapter 1: Getting Started](01-getting-started.md)
+- [Next Chapter: Chapter 3: Computer Use Deep-Dive](03-advanced-skill-design.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)

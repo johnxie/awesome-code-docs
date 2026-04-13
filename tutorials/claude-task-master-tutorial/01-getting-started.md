@@ -482,9 +482,30 @@ task-master config --openai-key your-key-here
 }
 ```
 
+## Task Master Core Flow
+
+```mermaid
+flowchart TD
+    A[PRD or project brief prepared]
+    B[task-master parse-prd generates initial tasks]
+    C[Tasks stored in tasks.json]
+    D[Claude Code or editor reads tasks via MCP]
+    E[Developer selects next task]
+    F[task-master set-status updates progress]
+    G[task-master expand breaks task into subtasks]
+    H[Completed tasks marked done]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    E --> G
+    F --> H
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully:
+You've successfully:
 
 1. **Installed Claude Task Master** and integrated it with your editor
 2. **Created your first AI-managed project** with intelligent task breakdown

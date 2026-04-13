@@ -50,170 +50,168 @@ Next steps:
 - codify verification gates for all workflow changes
 - contribute one focused component with tests and docs
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/status.js`
+### `scripts/catalog.js`
 
-The `printGovernance` function in [`scripts/status.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/status.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function printGovernance(section) {
-  console.log(`Pending governance events: ${section.pendingCount}`);
-  if (section.events.length === 0) {
-    console.log('  - none');
-    return;
-  }
-
-  for (const event of section.events) {
-    console.log(`  - ${event.id} ${event.eventType}`);
-    console.log(`    Session: ${event.sessionId || '(none)'}`);
-    console.log(`    Created: ${event.createdAt}`);
-  }
-}
-
-function printHuman(payload) {
-  console.log('ECC status\n');
-  console.log(`Database: ${payload.dbPath}\n`);
-  printActiveSessions(payload.activeSessions);
-  console.log();
-  printSkillRuns(payload.skillRuns);
-  console.log();
-  printInstallHealth(payload.installHealth);
-  console.log();
-  printGovernance(payload.governance);
-}
-
-async function main() {
-  let store = null;
-
-  try {
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/status.js`
-
-The `printHuman` function in [`scripts/status.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/status.js) handles a key part of this chapter's functionality:
+The `showHelp` function in [`scripts/catalog.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/catalog.js) handles a key part of this chapter's functionality:
 
 ```js
-}
+});
 
-function printHuman(payload) {
-  console.log('ECC status\n');
-  console.log(`Database: ${payload.dbPath}\n`);
-  printActiveSessions(payload.activeSessions);
-  console.log();
-  printSkillRuns(payload.skillRuns);
-  console.log();
-  printInstallHealth(payload.installHealth);
-  console.log();
-  printGovernance(payload.governance);
-}
-
-async function main() {
-  let store = null;
-
-  try {
-    const options = parseArgs(process.argv);
-    if (options.help) {
-      showHelp(0);
-    }
-
-    store = await createStateStore({
-      dbPath: options.dbPath,
-      homeDir: process.env.HOME,
-    });
-
-    const payload = {
-      dbPath: store.dbPath,
-      ...store.getStatus({
-        activeLimit: options.limit,
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/status.js`
-
-The `main` function in [`scripts/status.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/status.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-async function main() {
-  let store = null;
-
-  try {
-    const options = parseArgs(process.argv);
-    if (options.help) {
-      showHelp(0);
-    }
-
-    store = await createStateStore({
-      dbPath: options.dbPath,
-      homeDir: process.env.HOME,
-    });
-
-    const payload = {
-      dbPath: store.dbPath,
-      ...store.getStatus({
-        activeLimit: options.limit,
-        recentSkillRunLimit: 20,
-        pendingLimit: options.limit,
-      }),
-    };
-
-    if (options.json) {
-      console.log(JSON.stringify(payload, null, 2));
-    } else {
-      printHuman(payload);
-    }
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/skills-health.js`
-
-The `showHelp` function in [`scripts/skills-health.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/skills-health.js) handles a key part of this chapter's functionality:
-
-```js
-const { renderDashboard } = require('./lib/skill-evolution/dashboard');
-
-function showHelp() {
+function showHelp(exitCode = 0) {
   console.log(`
-Usage: node scripts/skills-health.js [options]
+Discover ECC install components and profiles
 
-Options:
-  --json                  Emit machine-readable JSON
-  --skills-root <path>    Override curated skills root
-  --learned-root <path>   Override learned skills root
-  --imported-root <path>  Override imported skills root
-  --home <path>           Override home directory for learned/imported skill roots
-  --runs-file <path>      Override skill run JSONL path
-  --now <timestamp>       Override current time for deterministic reports
-  --dashboard             Show rich health dashboard with charts
-  --panel <name>          Show only a specific panel (success-rate, failures, amendments, versions)
-  --warn-threshold <n>    Decline sensitivity threshold (default: 0.1)
-  --help                  Show this help text
+Usage:
+  node scripts/catalog.js profiles [--json]
+  node scripts/catalog.js components [--family <family>] [--target <target>] [--json]
+  node scripts/catalog.js show <component-id> [--json]
+
+Examples:
+  node scripts/catalog.js profiles
+  node scripts/catalog.js components --family language
+  node scripts/catalog.js show framework:nextjs
 `);
+
+  process.exit(exitCode);
 }
 
-function requireValue(argv, index, argName) {
-  const value = argv[index + 1];
-  if (!value || value.startsWith('--')) {
-    throw new Error(`Missing value for ${argName}`);
+function normalizeFamily(value) {
+  if (!value) {
+    return null;
   }
 
-  return value;
+  const normalized = String(value).trim().toLowerCase();
+  return FAMILY_ALIASES[normalized] || normalized;
 }
 
 function parseArgs(argv) {
-  const options = {};
+  const args = argv.slice(2);
+  const parsed = {
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/catalog.js`
+
+The `normalizeFamily` function in [`scripts/catalog.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/catalog.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function normalizeFamily(value) {
+  if (!value) {
+    return null;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+  return FAMILY_ALIASES[normalized] || normalized;
+}
+
+function parseArgs(argv) {
+  const args = argv.slice(2);
+  const parsed = {
+    command: null,
+    componentId: null,
+    family: null,
+    target: null,
+    json: false,
+    help: false,
+  };
+
+  if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
+    parsed.help = true;
+    return parsed;
+  }
+
+  parsed.command = args[0];
+
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/catalog.js`
+
+The `parseArgs` function in [`scripts/catalog.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/catalog.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function parseArgs(argv) {
+  const args = argv.slice(2);
+  const parsed = {
+    command: null,
+    componentId: null,
+    family: null,
+    target: null,
+    json: false,
+    help: false,
+  };
+
+  if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
+    parsed.help = true;
+    return parsed;
+  }
+
+  parsed.command = args[0];
+
+  for (let index = 1; index < args.length; index += 1) {
+    const arg = args[index];
+
+    if (arg === '--help' || arg === '-h') {
+      parsed.help = true;
+    } else if (arg === '--json') {
+      parsed.json = true;
+    } else if (arg === '--family') {
+      if (!args[index + 1]) {
+        throw new Error('Missing value for --family');
+      }
+      parsed.family = normalizeFamily(args[index + 1]);
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/catalog.js`
+
+The `printProfiles` function in [`scripts/catalog.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/catalog.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function printProfiles(profiles) {
+  console.log('Install profiles:\n');
+  for (const profile of profiles) {
+    console.log(`- ${profile.id} (${profile.moduleCount} modules)`);
+    console.log(`  ${profile.description}`);
+  }
+}
+
+function printComponents(components) {
+  console.log('Install components:\n');
+  for (const component of components) {
+    console.log(`- ${component.id} [${component.family}]`);
+    console.log(`  targets=${component.targets.join(', ')} modules=${component.moduleIds.join(', ')}`);
+    console.log(`  ${component.description}`);
+  }
+}
+
+function printComponent(component) {
+  console.log(`Install component: ${component.id}\n`);
+  console.log(`Family: ${component.family}`);
+  console.log(`Targets: ${component.targets.join(', ')}`);
+  console.log(`Modules: ${component.moduleIds.join(', ')}`);
+  console.log(`Description: ${component.description}`);
+
+  if (component.modules.length > 0) {
+    console.log('\nResolved modules:');
+    for (const module of component.modules) {
+      console.log(`- ${module.id} [${module.kind}]`);
+      console.log(
+        `  targets=${module.targets.join(', ')} default=${module.defaultInstall} cost=${module.cost} stability=${module.stability}`
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -223,11 +221,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[printGovernance]
-    B[printHuman]
-    C[main]
-    D[showHelp]
-    E[requireValue]
+    A[showHelp]
+    B[normalizeFamily]
+    C[parseArgs]
+    D[printProfiles]
+    E[printComponents]
     A --> B
     B --> C
     C --> D

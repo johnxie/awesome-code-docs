@@ -14,6 +14,20 @@ Welcome to **Chapter 3: Text Generation**. In this part of **HuggingFace Transfo
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Prompt text] --> B[tokenizer encode]
+    B --> C[input_ids]
+    C --> D[model.generate]
+    D --> E{Decode strategy}
+    E -->|greedy| F[argmax per step]
+    E -->|sampling| G[temperature + top_p]
+    E -->|beam search| H[beam_width candidates]
+    F --> I[output text]
+    G --> I
+    H --> I
+```
+
 This chapter explores text generation capabilities in HuggingFace Transformers, covering everything from creative writing to code generation and conversational AI. You'll learn to use and fine-tune models like GPT, T5, and other generative architectures.
 
 ## 📝 Understanding Text Generation

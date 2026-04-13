@@ -47,128 +47,85 @@ You now have a practical framework for choosing Kotlin MCP transports by workloa
 
 Next: [Chapter 6: Advanced Client Features: Roots, Sampling, and Elicitation](06-advanced-client-features-roots-sampling-and-elicitation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/ServerSession.kt`
 
-The `SubscribeRequestParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+The `ServerSession` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/ServerSession.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/ServerSession.kt) handles a key part of this chapter's functionality:
 
 ```kt
  */
-@Serializable
-public data class SubscribeRequest(override val params: SubscribeRequestParams) : ClientRequest {
-    @EncodeDefault
-    override val method: Method = Method.Defined.ResourcesSubscribe
+@Suppress("TooManyFunctions")
+public open class ServerSession(
+    protected val serverInfo: Implementation,
+    options: ServerOptions,
+    protected val instructions: String?,
+) : Protocol(options) {
+
+    @OptIn(ExperimentalUuidApi::class)
+    public val sessionId: String = Uuid.random().toString()
+
+    private var _onInitialized: (() -> Unit) = {}
+
+    private var _onClose: () -> Unit = {}
+
+    private val _clientCapabilities: AtomicRef<ClientCapabilities?> = atomic(null)
+    private val _clientVersion: AtomicRef<Implementation?> = atomic(null)
 
     /**
-     * The URI of the resource to subscribe to.
+     * The client's reported capabilities after initialization.
      */
-    public val uri: String
-        get() = params.uri
+    public val clientCapabilities: ClientCapabilities? get() = _clientCapabilities.value
 
     /**
-     * Metadata for this request. May include a progressToken for out-of-band progress notifications.
+     * The client's version information after initialization.
      */
-    public val meta: RequestMeta?
-        get() = params.meta
+    public val clientVersion: Implementation? get() = _clientVersion.value
 
-    @Deprecated(
-        message = "Use the constructor with SubscribeRequestParams property instead",
-        replaceWith = ReplaceWith("ReadResourceRequest(SubscribeRequestParams(uri, meta))"),
-        level = DeprecationLevel.ERROR,
-    )
-    public constructor(
-        uri: String,
-        meta: RequestMeta? = null,
-    ) : this(SubscribeRequestParams(uri, meta))
-}
-
-/**
- * Parameters for a resources/subscribe request.
- *
+    /**
+     * The capabilities supported by the server, related to the session.
+     */
+    private val serverCapabilities = options.capabilities
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
 ### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
 
-The `UnsubscribeRequest` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+The `Resource` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
 
 ```kt
  */
 @Serializable
-public data class UnsubscribeRequest(override val params: UnsubscribeRequestParams) : ClientRequest {
-    @EncodeDefault
-    override val method: Method = Method.Defined.ResourcesUnsubscribe
-
-    /**
-     * The URI of the resource to unsubscribe from.
-     */
-    public val uri: String
-        get() = params.uri
-
-    /**
-     * Metadata for this request. May include a progressToken for out-of-band progress notifications.
-     */
-    public val meta: RequestMeta?
-        get() = params.meta
-
-    public constructor(
-        uri: String,
-        meta: RequestMeta? = null,
-    ) : this(UnsubscribeRequestParams(uri, meta))
-}
+public sealed interface ResourceLike : WithMeta
 
 /**
- * Parameters for a resources/unsubscribe request.
+ * A known resource that the server is capable of reading.
  *
- * @property uri The URI of the resource to unsubscribe from. This should match
- * a URI from a previous [SubscribeRequest].
- * @property meta Optional metadata for this request. May include a progressToken for
- * out-of-band progress notifications.
- */
-```
-
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
-
-The `UnsubscribeRequestParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
-
-```kt
- */
-@Serializable
-public data class UnsubscribeRequest(override val params: UnsubscribeRequestParams) : ClientRequest {
-    @EncodeDefault
-    override val method: Method = Method.Defined.ResourcesUnsubscribe
-
-    /**
-     * The URI of the resource to unsubscribe from.
-     */
-    public val uri: String
-        get() = params.uri
-
-    /**
-     * Metadata for this request. May include a progressToken for out-of-band progress notifications.
-     */
-    public val meta: RequestMeta?
-        get() = params.meta
-
-    public constructor(
-        uri: String,
-        meta: RequestMeta? = null,
-    ) : this(UnsubscribeRequestParams(uri, meta))
-}
-
-/**
- * Parameters for a resources/unsubscribe request.
+ * Resources represent data sources such as files, database entries, API responses,
+ * or other structured data that can be read by clients.
  *
- * @property uri The URI of the resource to unsubscribe from. This should match
- * a URI from a previous [SubscribeRequest].
- * @property meta Optional metadata for this request. May include a progressToken for
- * out-of-band progress notifications.
+ * @property uri The URI of this resource. Can use any protocol scheme (`file://`, `http://`, etc.).
+ * @property name The programmatic identifier for this resource.
+ * Intended for logical use and API identification. If [title] is not provided,
+ * this should be used as a fallback display name.
+ * @property description A description of what this resource represents.
+ * Clients can use this to improve the LLM's understanding of available resources.
+ * It can be thought of like a "hint" to the model.
+ * @property mimeType The MIME type of this resource, if known (e.g., "text/plain", "application/json", "image/png").
+ * @property size The size of the raw resource content in bytes
+ * (i.e., before base64 encoding or any tokenization), if known.
+ * Hosts can use this to display file sizes and estimate context window usage.
+ * @property title Optional human-readable display name for this resource.
+ * Intended for UI and end-user contexts, optimized to be easily understood
+ * even by those unfamiliar with domain-specific terminology.
+ * If not provided, [name] should be used for display purposes.
+ * @property annotations Optional annotations for the client. Provides additional metadata and hints
+ * about how to use or display this resource.
+ * @property icons Optional set of sized icons that clients can display in their user interface.
+ * Clients MUST support at least PNG and JPEG formats.
+ * Clients SHOULD also support SVG and WebP formats.
+ * @property meta Optional metadata for this resource.
  */
 ```
 
@@ -176,41 +133,82 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
 
-The `ListResourceTemplatesRequest` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+The `ResourceTemplate` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
 
 ```kt
  */
 @Serializable
-public data class ListResourceTemplatesRequest(override val params: PaginatedRequestParams? = null) :
-    ClientRequest,
-    PaginatedRequest {
-    @EncodeDefault
-    override val method: Method = Method.Defined.ResourcesTemplatesList
+public data class ResourceTemplate(
+    val uriTemplate: String,
+    val name: String,
+    val description: String? = null,
+    val mimeType: String? = null,
+    val title: String? = null,
+    val annotations: Annotations? = null,
+    val icons: List<Icon>? = null,
+    @SerialName("_meta")
+    override val meta: JsonObject? = null,
+) : WithMeta
 
-    /**
-     * Secondary constructor for creating a [ListResourceTemplatesRequest] instance
-     * using optional cursor and metadata parameters.
-     *
-     * This constructor simplifies the creation of the [ListResourceTemplatesRequest] by allowing a cursor
-     * and metadata to be provided.
-     *
-     * @param cursor Optional cursor string to specify the starting point of the paginated request.
-     * @param meta Optional metadata associated with the request.
-     */
-    @Deprecated(
-        message = "Use the constructor with PaginatedRequestParams property instead",
-        replaceWith = ReplaceWith("ListResourceTemplatesRequest(PaginatedRequestParams(cursor, meta))"),
-        level = DeprecationLevel.ERROR,
-    )
-    public constructor(
-        cursor: String?,
-        meta: RequestMeta? = null,
-    ) : this(paginatedRequestParams(cursor, meta))
+/**
+ * A reference to a resource or resource template definition.
+ *
+ * Used in completion requests and other contexts where a resource needs to be referenced
+ * without including its full definition. The URI can be either a specific resource URI
+ * or a URI template pattern.
+ *
+ * @property uri The URI or URI template of the resource.
+ * Can be a specific resource URI (e.g., `file:///home/user/doc.txt`)
+ * or a URI template with parameters (e.g., `file:///{path}`).
+ */
+@Serializable
+public data class ResourceTemplateReference(val uri: String) : Reference {
+    @EncodeDefault
+    public override val type: ReferenceType = ReferenceType.ResourceTemplate
 }
 
 /**
- * The server's response to a [ListResourceTemplatesRequest] from the client.
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+
+The `ResourceTemplateReference` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+
+```kt
+ */
+@Serializable
+public data class ResourceTemplateReference(val uri: String) : Reference {
+    @EncodeDefault
+    public override val type: ReferenceType = ReferenceType.ResourceTemplate
+}
+
+/**
+ * The contents of a specific resource or sub-resource.
  *
+ * @property uri The URI of this resource.
+ * @property mimeType The MIME type of this resource, if known.
+ * @property meta Optional metadata for this response.
+ */
+@Serializable(with = ResourceContentsPolymorphicSerializer::class)
+public sealed interface ResourceContents : WithMeta {
+    public val uri: String
+    public val mimeType: String?
+}
+
+/**
+ * Represents the text contents of a resource.
+ *
+ * @property text The text of the item.
+ * This must only be set if the item can actually be represented as text (not binary data).
+ * @property uri The URI of this resource.
+ * @property mimeType The MIME type of this resource, if known.
+ */
+@Serializable
+public data class TextResourceContents(
+    val text: String,
+    override val uri: String,
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
@@ -220,11 +218,11 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ```mermaid
 flowchart TD
-    A[SubscribeRequestParams]
-    B[UnsubscribeRequest]
-    C[UnsubscribeRequestParams]
-    D[ListResourceTemplatesRequest]
-    E[ListResourceTemplatesResult]
+    A[ServerSession]
+    B[Resource]
+    C[ResourceTemplate]
+    D[ResourceTemplateReference]
+    E[TextResourceContents]
     A --> B
     B --> C
     C --> D

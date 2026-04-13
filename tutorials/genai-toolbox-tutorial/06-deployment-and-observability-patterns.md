@@ -36,170 +36,168 @@ You now have a deployment model that balances speed with operational controls.
 
 Next: [Chapter 7: CLI, Testing, and Development Workflow](07-cli-testing-and-development-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/tools/tools.go`
+### `internal/log/log.go`
 
-The `NewDestructiveAnnotations` function in [`internal/tools/tools.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/tools/tools.go) handles a key part of this chapter's functionality:
+The `NewStructuredLogger` function in [`internal/log/log.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/log/log.go) handles a key part of this chapter's functionality:
+
+```go
+	switch strings.ToLower(format) {
+	case "json":
+		return NewStructuredLogger(out, err, level)
+	case "standard":
+		return NewStdLogger(out, err, level)
+	default:
+		return nil, fmt.Errorf("logging format invalid: %s", format)
+	}
+}
+
+// StdLogger is the standard logger
+type StdLogger struct {
+	outLogger *slog.Logger
+	errLogger *slog.Logger
+}
+
+// NewStdLogger create a Logger that uses out and err for informational and error messages.
+func NewStdLogger(outW, errW io.Writer, logLevel string) (Logger, error) {
+	//Set log level
+	var programLevel = new(slog.LevelVar)
+	slogLevel, err := SeverityToLevel(logLevel)
+	if err != nil {
+		return nil, err
+	}
+	programLevel.Set(slogLevel)
+
+	handlerOptions := &slog.HandlerOptions{Level: programLevel}
+
+	return &StdLogger{
+		outLogger: slog.New(NewValueTextHandler(outW, handlerOptions)),
+		errLogger: slog.New(NewValueTextHandler(errW, handlerOptions)),
+	}, nil
+```
+
+This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
+
+### `internal/log/log.go`
+
+The `DebugContext` function in [`internal/log/log.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/log/log.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// NewDestructiveAnnotations creates default annotations for a destructive tool.
-// Use this for tools that create, update, or delete data.
-func NewDestructiveAnnotations() *ToolAnnotations {
-	readOnly := false
-	destructive := true
-	return &ToolAnnotations{
-		ReadOnlyHint:    &readOnly,
-		DestructiveHint: &destructive,
-	}
+// DebugContext logs debug messages
+func (sl *StdLogger) DebugContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.outLogger.DebugContext(ctx, msg, keysAndValues...)
 }
 
-// GetAnnotationsOrDefault returns the provided annotations if non-nil,
-// otherwise returns the result of calling defaultFn.
-func GetAnnotationsOrDefault(annotations *ToolAnnotations, defaultFn func() *ToolAnnotations) *ToolAnnotations {
-	if annotations != nil {
-		return annotations
-	}
-	return defaultFn()
+// InfoContext logs debug messages
+func (sl *StdLogger) InfoContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.outLogger.InfoContext(ctx, msg, keysAndValues...)
 }
 
-type AccessToken string
+// WarnContext logs warning messages
+func (sl *StdLogger) WarnContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.errLogger.WarnContext(ctx, msg, keysAndValues...)
+}
 
-func (token AccessToken) ParseBearerToken() (string, error) {
-	headerParts := strings.Split(string(token), " ")
-	if len(headerParts) != 2 || strings.ToLower(headerParts[0]) != "bearer" {
-		return "", util.NewClientServerError("authorization header must be in the format 'Bearer <token>'", http.StatusUnauthorized, nil)
+// ErrorContext logs error messages
+func (sl *StdLogger) ErrorContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.errLogger.ErrorContext(ctx, msg, keysAndValues...)
+}
+
+// SlogLogger returns a single standard *slog.Logger that routes
+// records to the outLogger or errLogger based on the log level.
+func (sl *StdLogger) SlogLogger() *slog.Logger {
+	splitHandler := &SplitHandler{
+		OutHandler: sl.outLogger.Handler(),
+		ErrHandler: sl.errLogger.Handler(),
 	}
-	return headerParts[1], nil
+	return slog.New(splitHandler)
 }
 
 ```
 
 This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
 
-### `internal/tools/tools.go`
+### `internal/log/log.go`
 
-The `GetAnnotationsOrDefault` function in [`internal/tools/tools.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/tools/tools.go) handles a key part of this chapter's functionality:
+The `InfoContext` function in [`internal/log/log.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/log/log.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// GetAnnotationsOrDefault returns the provided annotations if non-nil,
-// otherwise returns the result of calling defaultFn.
-func GetAnnotationsOrDefault(annotations *ToolAnnotations, defaultFn func() *ToolAnnotations) *ToolAnnotations {
-	if annotations != nil {
-		return annotations
+// InfoContext logs debug messages
+func (sl *StdLogger) InfoContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.outLogger.InfoContext(ctx, msg, keysAndValues...)
+}
+
+// WarnContext logs warning messages
+func (sl *StdLogger) WarnContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.errLogger.WarnContext(ctx, msg, keysAndValues...)
+}
+
+// ErrorContext logs error messages
+func (sl *StdLogger) ErrorContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.errLogger.ErrorContext(ctx, msg, keysAndValues...)
+}
+
+// SlogLogger returns a single standard *slog.Logger that routes
+// records to the outLogger or errLogger based on the log level.
+func (sl *StdLogger) SlogLogger() *slog.Logger {
+	splitHandler := &SplitHandler{
+		OutHandler: sl.outLogger.Handler(),
+		ErrHandler: sl.errLogger.Handler(),
 	}
-	return defaultFn()
+	return slog.New(splitHandler)
 }
 
-type AccessToken string
-
-func (token AccessToken) ParseBearerToken() (string, error) {
-	headerParts := strings.Split(string(token), " ")
-	if len(headerParts) != 2 || strings.ToLower(headerParts[0]) != "bearer" {
-		return "", util.NewClientServerError("authorization header must be in the format 'Bearer <token>'", http.StatusUnauthorized, nil)
-	}
-	return headerParts[1], nil
-}
-
-type Tool interface {
-	Invoke(context.Context, SourceProvider, parameters.ParamValues, AccessToken) (any, util.ToolboxError)
-	EmbedParams(context.Context, parameters.ParamValues, map[string]embeddingmodels.EmbeddingModel) (parameters.ParamValues, error)
-	Manifest() Manifest
-	McpManifest() McpManifest
-	Authorized([]string) bool
-	RequiresClientAuthorization(SourceProvider) (bool, error)
-	ToConfig() ToolConfig
-	GetAuthTokenHeaderName(SourceProvider) (string, error)
-	GetParameters() parameters.Parameters
-}
+const (
+	Debug = "DEBUG"
+	Info  = "INFO"
+	Warn  = "WARN"
+	Error = "ERROR"
 ```
 
 This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
 
-### `internal/tools/tools.go`
+### `internal/log/log.go`
 
-The `ParseBearerToken` function in [`internal/tools/tools.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/tools/tools.go) handles a key part of this chapter's functionality:
-
-```go
-type AccessToken string
-
-func (token AccessToken) ParseBearerToken() (string, error) {
-	headerParts := strings.Split(string(token), " ")
-	if len(headerParts) != 2 || strings.ToLower(headerParts[0]) != "bearer" {
-		return "", util.NewClientServerError("authorization header must be in the format 'Bearer <token>'", http.StatusUnauthorized, nil)
-	}
-	return headerParts[1], nil
-}
-
-type Tool interface {
-	Invoke(context.Context, SourceProvider, parameters.ParamValues, AccessToken) (any, util.ToolboxError)
-	EmbedParams(context.Context, parameters.ParamValues, map[string]embeddingmodels.EmbeddingModel) (parameters.ParamValues, error)
-	Manifest() Manifest
-	McpManifest() McpManifest
-	Authorized([]string) bool
-	RequiresClientAuthorization(SourceProvider) (bool, error)
-	ToConfig() ToolConfig
-	GetAuthTokenHeaderName(SourceProvider) (string, error)
-	GetParameters() parameters.Parameters
-}
-
-// SourceProvider defines the minimal view of the server.ResourceManager
-// that the Tool package needs.
-// This is implemented to prevent import cycles.
-type SourceProvider interface {
-	GetSource(sourceName string) (sources.Source, bool)
-}
-
-// Manifest is the representation of tools sent to Client SDKs.
-type Manifest struct {
-	Description  string                         `json:"description"`
-```
-
-This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
-
-### `internal/tools/tools.go`
-
-The `GetMcpManifest` function in [`internal/tools/tools.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/tools/tools.go) handles a key part of this chapter's functionality:
+The `WarnContext` function in [`internal/log/log.go`](https://github.com/googleapis/genai-toolbox/blob/HEAD/internal/log/log.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func GetMcpManifest(name, desc string, authInvoke []string, params parameters.Parameters, annotations *ToolAnnotations) McpManifest {
-	inputSchema, authParams := params.McpManifest()
-	mcpManifest := McpManifest{
-		Name:        name,
-		Description: desc,
-		InputSchema: inputSchema,
-		Annotations: annotations,
-	}
-
-	// construct metadata, if applicable
-	metadata := make(map[string]any)
-	if len(authInvoke) > 0 {
-		metadata["toolbox/authInvoke"] = authInvoke
-	}
-	if len(authParams) > 0 {
-		metadata["toolbox/authParam"] = authParams
-	}
-	if len(metadata) > 0 {
-		mcpManifest.Metadata = metadata
-	}
-	return mcpManifest
+// WarnContext logs warning messages
+func (sl *StdLogger) WarnContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.errLogger.WarnContext(ctx, msg, keysAndValues...)
 }
 
-// Helper function that returns if a tool invocation request is authorized
-func IsAuthorized(authRequiredSources []string, verifiedAuthServices []string) bool {
-	if len(authRequiredSources) == 0 {
-		// no authorization requirement
-		return true
+// ErrorContext logs error messages
+func (sl *StdLogger) ErrorContext(ctx context.Context, msg string, keysAndValues ...any) {
+	sl.errLogger.ErrorContext(ctx, msg, keysAndValues...)
+}
+
+// SlogLogger returns a single standard *slog.Logger that routes
+// records to the outLogger or errLogger based on the log level.
+func (sl *StdLogger) SlogLogger() *slog.Logger {
+	splitHandler := &SplitHandler{
+		OutHandler: sl.outLogger.Handler(),
+		ErrHandler: sl.errLogger.Handler(),
 	}
-	for _, a := range authRequiredSources {
+	return slog.New(splitHandler)
+}
+
+const (
+	Debug = "DEBUG"
+	Info  = "INFO"
+	Warn  = "WARN"
+	Error = "ERROR"
+)
+
+// Returns severity level based on string.
+func SeverityToLevel(s string) (slog.Level, error) {
+	switch strings.ToUpper(s) {
 ```
 
 This function is important because it defines how GenAI Toolbox Tutorial: MCP-First Database Tooling with Config-Driven Control Planes implements the patterns covered in this chapter.
@@ -209,11 +207,11 @@ This function is important because it defines how GenAI Toolbox Tutorial: MCP-Fi
 
 ```mermaid
 flowchart TD
-    A[NewDestructiveAnnotations]
-    B[GetAnnotationsOrDefault]
-    C[ParseBearerToken]
-    D[GetMcpManifest]
-    E[IsAuthorized]
+    A[NewStructuredLogger]
+    B[DebugContext]
+    C[InfoContext]
+    D[WarnContext]
+    E[ErrorContext]
     A --> B
     B --> C
     C --> D

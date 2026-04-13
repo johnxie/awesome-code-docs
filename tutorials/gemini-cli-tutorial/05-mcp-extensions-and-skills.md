@@ -52,15 +52,17 @@ You now have an extensibility model that balances capability and control.
 
 Next: [Chapter 6: Headless Mode and CI Automation](06-headless-mode-and-ci-automation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/generate-settings-schema.ts`
 
-The `generateSettingsSchema` function in [`scripts/generate-settings-schema.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/generate-settings-schema.ts) handles a key part of this chapter's functionality:
+The `GenerateOptions` interface in [`scripts/generate-settings-schema.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/generate-settings-schema.ts) handles a key part of this chapter's functionality:
 
 ```ts
+}
+
+interface GenerateOptions {
+  checkOnly: boolean;
 }
 
 export async function generateSettingsSchema(
@@ -89,133 +91,129 @@ export async function generateSettingsSchema(
   }
 
   if (
-    existing &&
-    normalizeForCompare(existing) === normalizeForCompare(formatted)
-  ) {
-    if (!options.checkOnly) {
+```
+
+This interface is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
+
+### `evals/subagents.eval.ts`
+
+The `readProjectFile` function in [`evals/subagents.eval.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/evals/subagents.eval.ts) handles a key part of this chapter's functionality:
+
+```ts
+);
+
+function readProjectFile(
+  rig: { testDir: string | null },
+  relativePath: string,
+): string {
+  return fs.readFileSync(path.join(rig.testDir!, relativePath), 'utf8');
+}
+
+describe('subagent eval test cases', () => {
+  /**
+   * Checks whether the outer agent reliably utilizes an expert subagent to
+   * accomplish a task when one is available.
+   *
+   * Note that the test is intentionally crafted to avoid the word "document"
+   * or "docs". We want to see the outer agent make the connection even when
+   * the prompt indirectly implies need of expertise.
+   *
+   * This tests the system prompt's subagent specific clauses.
+   */
+  evalTest('USUALLY_PASSES', {
+    name: 'should delegate to user provided agent with relevant expertise',
+    params: {
+      settings: {
+        experimental: {
+          enableAgents: true,
+        },
+      },
+    },
+    prompt: 'Please update README.md with a description of this library.',
+    files: {
+      ...TEST_AGENTS.DOCS_AGENT.asFile(),
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/generate-settings-schema.ts`
+### `scripts/run_regression_check.js`
 
-The `main` function in [`scripts/generate-settings-schema.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/generate-settings-schema.ts) handles a key part of this chapter's functionality:
+The `runTests` function in [`scripts/run_regression_check.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/run_regression_check.js) handles a key part of this chapter's functionality:
 
-```ts
-const OUTPUT_RELATIVE_PATH = ['schemas', 'settings.schema.json'];
-const SCHEMA_ID =
-  'https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json';
+```js
+ * Runs a set of tests using Vitest and returns the results.
+ */
+function runTests(files, pattern, model) {
+  const outputDir = path.resolve(
+    process.cwd(),
+    `evals/logs/pr-run-${Date.now()}`,
+  );
+  fs.mkdirSync(outputDir, { recursive: true });
 
-type JsonPrimitive = string | number | boolean | null;
-type JsonValue = JsonPrimitive | JsonValue[] | { [key: string]: JsonValue };
-
-interface JsonSchema {
-  [key: string]: JsonValue | JsonSchema | JsonSchema[] | undefined;
-  $schema?: string;
-  $id?: string;
-  title?: string;
-  description?: string;
-  markdownDescription?: string;
-  type?: string | string[];
-  enum?: JsonPrimitive[];
-  default?: JsonValue;
-  properties?: Record<string, JsonSchema>;
-  items?: JsonSchema;
-  additionalProperties?: boolean | JsonSchema;
-  required?: string[];
-  $ref?: string;
-  anyOf?: JsonSchema[];
-}
-
-interface GenerateOptions {
-  checkOnly: boolean;
-}
-
-export async function generateSettingsSchema(
-  options: GenerateOptions,
-): Promise<void> {
-```
-
-This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
-
-### `scripts/generate-settings-schema.ts`
-
-The `buildSchemaObject` function in [`scripts/generate-settings-schema.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/generate-settings-schema.ts) handles a key part of this chapter's functionality:
-
-```ts
-  await mkdir(path.dirname(outputPath), { recursive: true });
-
-  const schemaObject = buildSchemaObject(getSettingsSchema());
-  const formatted = await formatWithPrettier(
-    JSON.stringify(schemaObject, null, 2),
-    outputPath,
+  const filesToRun = files || 'evals/';
+  console.log(
+    `🚀 Running tests in ${filesToRun} with pattern: ${pattern?.slice(0, 100)}...`,
   );
 
-  let existing: string | undefined;
   try {
-    existing = await readFile(outputPath, 'utf8');
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
-      throw error;
-    }
+    const cmd = `npx vitest run --config evals/vitest.config.ts ${filesToRun} -t "${pattern}" --reporter=json --reporter=default --outputFile="${path.join(outputDir, 'report.json')}"`;
+    execSync(cmd, {
+      stdio: 'inherit',
+      env: { ...process.env, RUN_EVALS: '1', GEMINI_MODEL: model },
+    });
+  } catch {
+    // Vitest returns a non-zero exit code when tests fail. This is expected.
+    // We continue execution and handle the failures by parsing the JSON report.
   }
 
-  if (
-    existing &&
-    normalizeForCompare(existing) === normalizeForCompare(formatted)
-  ) {
-    if (!options.checkOnly) {
-      console.log('Settings JSON schema already up to date.');
-    }
-    return;
-  }
+  const reportPath = path.join(outputDir, 'report.json');
+  return fs.existsSync(reportPath)
+    ? JSON.parse(fs.readFileSync(reportPath, 'utf-8'))
+    : null;
+}
 
-  if (options.checkOnly) {
-    console.error(
-      'Settings JSON schema is out of date. Run `npm run schema:settings` to regenerate.',
-    );
-    process.exitCode = 1;
+/**
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/generate-settings-schema.ts`
+### `scripts/run_regression_check.js`
 
-The `buildSettingSchema` function in [`scripts/generate-settings-schema.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/generate-settings-schema.ts) handles a key part of this chapter's functionality:
+The `findAssertion` function in [`scripts/run_regression_check.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/run_regression_check.js) handles a key part of this chapter's functionality:
 
-```ts
-
-  for (const [key, definition] of Object.entries(schema)) {
-    root.properties![key] = buildSettingSchema(definition, [key], defs);
+```js
+ * Helper to find a specific assertion by name across all test files.
+ */
+function findAssertion(report, testName) {
+  if (!report?.testResults) return null;
+  for (const fileResult of report.testResults) {
+    const assertion = fileResult.assertionResults.find(
+      (a) => a.title === testName,
+    );
+    if (assertion) return assertion;
   }
-
-  if (defs.size > 0) {
-    root.$defs = Object.fromEntries(defs.entries());
-  }
-
-  return root;
+  return null;
 }
 
-function buildSettingSchema(
-  definition: SettingDefinition,
-  pathSegments: string[],
-  defs: Map<string, JsonSchema>,
-): JsonSchema {
-  const base: JsonSchema = {
-    title: definition.label,
-    description: definition.description,
-    markdownDescription: buildMarkdownDescription(definition),
-  };
+/**
+ * Parses command line arguments to identify model, files, and test pattern.
+ */
+function parseArgs() {
+  const modelArg = process.argv[2];
+  const remainingArgs = process.argv.slice(3);
+  const fullArgsString = remainingArgs.join(' ');
+  const testPatternIndex = remainingArgs.indexOf('--test-pattern');
 
-  if (definition.default !== undefined) {
-    base.default = definition.default as JsonValue;
+  if (testPatternIndex !== -1) {
+    return {
+      model: modelArg,
+      files: remainingArgs.slice(0, testPatternIndex).join(' '),
+      pattern: remainingArgs.slice(testPatternIndex + 1).join(' '),
+    };
   }
 
-  const schemaShape = definition.ref
-    ? buildRefSchema(definition.ref, defs)
-    : buildSchemaForType(definition, pathSegments, defs);
-
-  return { ...base, ...schemaShape };
+  if (fullArgsString.includes('--test-pattern')) {
+    const parts = fullArgsString.split('--test-pattern');
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
@@ -225,11 +223,11 @@ This function is important because it defines how Gemini CLI Tutorial: Terminal-
 
 ```mermaid
 flowchart TD
-    A[generateSettingsSchema]
-    B[main]
-    C[buildSchemaObject]
-    D[buildSettingSchema]
-    E[buildCollectionSchema]
+    A[GenerateOptions]
+    B[readProjectFile]
+    C[runTests]
+    D[findAssertion]
+    E[parseArgs]
     A --> B
     B --> C
     C --> D

@@ -12,6 +12,19 @@ Welcome to **Chapter 6: Custom Components**. In this part of **LlamaIndex Tutori
 
 > Build custom loaders, indexes, query engines, and other components for specialized LlamaIndex applications.
 
+## Custom Component Extension Points
+
+```mermaid
+flowchart TD
+    LLAMA[LlamaIndex] --> EXT[Extension Points]
+    EXT --> CL[Custom BaseReader\nload_data method]
+    EXT --> CNP[Custom NodeParser\nget_nodes_from_documents]
+    EXT --> CE[Custom Embedding\nBaseEmbedding]
+    EXT --> CQE[Custom QueryEngine\nquery method]
+    EXT --> CR[Custom Retriever\nretrieve method]
+    CL --> HUB[Publish to LlamaHub]
+```
+
 ## 🎯 Overview
 
 This chapter covers creating custom components in LlamaIndex to extend functionality for specific use cases, including custom data loaders, specialized indexes, query engines, and processing pipelines.
@@ -957,12 +970,25 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/embeddings/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/embeddings/base.py)
+  `BaseEmbedding` abstract class defining `_get_text_embedding()` and `_get_query_embedding()`. Subclass this to implement a custom embedding model by providing a local model or proprietary API.
+
+- [`llama_index/core/llms/llm.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/llms/llm.py)
+  `LLM` base class with `chat()`, `complete()`, and `stream_chat()` abstract methods. Implement these to integrate any custom LLM provider or local model into LlamaIndex pipelines.
+
+- [`llama_index/core/node_parser/interface.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/node_parser/interface.py)
+  `NodeParser` base class and `TextSplitter` mixin. Subclass to implement custom chunking strategies (e.g., code-aware splitting by function boundaries, or domain-specific segmentation).
+
+- [`llama_index/core/postprocessor/types.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/postprocessor/types.py)
+  `BaseNodePostprocessor` interface with `_postprocess_nodes()` method. Implement custom filtering, scoring, or augmentation of retrieved nodes before they reach the response synthesizer.
+
+- [`llama_index/core/storage/kvstore/`](https://github.com/run-llama/llama_index/tree/main/llama-index-core/llama_index/core/storage/kvstore)
+  Key-value store interface used by DocStore and IndexStore. Implement `BaseKVStore` to add a custom persistence backend (e.g., DynamoDB, Cassandra) without changing higher-level components.
 
 Suggested trace strategy:
-- search upstream code for `self` and `node` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Implement a minimal `BaseEmbedding` subclass and register it via `Settings.embed_model` to see how the custom embedding integrates with `VectorStoreIndex`
+- Trace `NodeParser._parse_nodes()` to understand the `Document` → `TextNode` boundary contract any custom splitter must satisfy
+- Check `BaseNodePostprocessor._postprocess_nodes()` signature to see what metadata and scores are available for custom re-ranking logic
 
 ## Chapter Connections
 

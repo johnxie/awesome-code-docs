@@ -39,151 +39,15 @@ You now have a complete production governance framework for Devika covering secu
 
 Return to: [Tutorial Index](README.md)
 
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `src/apis/project.py`
-
-The `create_project` function in [`src/apis/project.py`](https://github.com/stitionai/devika/blob/HEAD/src/apis/project.py) handles a key part of this chapter's functionality:
-
-```py
-@project_bp.route("/api/create-project", methods=["POST"])
-@route_logger(logger)
-def create_project():
-    data = request.json
-    project_name = data.get("project_name")
-    manager.create_project(secure_filename(project_name))
-    return jsonify({"message": "Project created"})
-
-
-@project_bp.route("/api/delete-project", methods=["POST"])
-@route_logger(logger)
-def delete_project():
-    data = request.json
-    project_name = secure_filename(data.get("project_name"))
-    manager.delete_project(project_name)
-    AgentState().delete_state(project_name)
-    return jsonify({"message": "Project deleted"})
-
-
-@project_bp.route("/api/download-project", methods=["GET"])
-@route_logger(logger)
-def download_project():
-    project_name = secure_filename(request.args.get("project_name"))
-    manager.project_to_zip(project_name)
-    project_path = manager.get_zip_path(project_name)
-    return send_file(project_path, as_attachment=False)
-
-
-@project_bp.route("/api/download-project-pdf", methods=["GET"])
-@route_logger(logger)
-def download_project_pdf():
-    project_name = secure_filename(request.args.get("project_name"))
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-### `src/apis/project.py`
-
-The `delete_project` function in [`src/apis/project.py`](https://github.com/stitionai/devika/blob/HEAD/src/apis/project.py) handles a key part of this chapter's functionality:
-
-```py
-@project_bp.route("/api/delete-project", methods=["POST"])
-@route_logger(logger)
-def delete_project():
-    data = request.json
-    project_name = secure_filename(data.get("project_name"))
-    manager.delete_project(project_name)
-    AgentState().delete_state(project_name)
-    return jsonify({"message": "Project deleted"})
-
-
-@project_bp.route("/api/download-project", methods=["GET"])
-@route_logger(logger)
-def download_project():
-    project_name = secure_filename(request.args.get("project_name"))
-    manager.project_to_zip(project_name)
-    project_path = manager.get_zip_path(project_name)
-    return send_file(project_path, as_attachment=False)
-
-
-@project_bp.route("/api/download-project-pdf", methods=["GET"])
-@route_logger(logger)
-def download_project_pdf():
-    project_name = secure_filename(request.args.get("project_name"))
-    pdf_dir = Config().get_pdfs_dir()
-    pdf_path = os.path.join(pdf_dir, f"{project_name}.pdf")
-
-    response = make_response(send_file(pdf_path))
-    response.headers['Content-Type'] = 'project_bplication/pdf'
-    return response
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-### `src/apis/project.py`
-
-The `download_project` function in [`src/apis/project.py`](https://github.com/stitionai/devika/blob/HEAD/src/apis/project.py) handles a key part of this chapter's functionality:
-
-```py
-@project_bp.route("/api/download-project", methods=["GET"])
-@route_logger(logger)
-def download_project():
-    project_name = secure_filename(request.args.get("project_name"))
-    manager.project_to_zip(project_name)
-    project_path = manager.get_zip_path(project_name)
-    return send_file(project_path, as_attachment=False)
-
-
-@project_bp.route("/api/download-project-pdf", methods=["GET"])
-@route_logger(logger)
-def download_project_pdf():
-    project_name = secure_filename(request.args.get("project_name"))
-    pdf_dir = Config().get_pdfs_dir()
-    pdf_path = os.path.join(pdf_dir, f"{project_name}.pdf")
-
-    response = make_response(send_file(pdf_path))
-    response.headers['Content-Type'] = 'project_bplication/pdf'
-    return response
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-### `src/apis/project.py`
-
-The `download_project_pdf` function in [`src/apis/project.py`](https://github.com/stitionai/devika/blob/HEAD/src/apis/project.py) handles a key part of this chapter's functionality:
-
-```py
-@project_bp.route("/api/download-project-pdf", methods=["GET"])
-@route_logger(logger)
-def download_project_pdf():
-    project_name = secure_filename(request.args.get("project_name"))
-    pdf_dir = Config().get_pdfs_dir()
-    pdf_path = os.path.join(pdf_dir, f"{project_name}.pdf")
-
-    response = make_response(send_file(pdf_path))
-    response.headers['Content-Type'] = 'project_bplication/pdf'
-    return response
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[create_project]
-    B[delete_project]
-    C[download_project]
-    D[download_project_pdf]
-    E[Gemini]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    A[Devika instance] --> B[Reverse proxy / auth]
+    B --> C[Rate limiting per user]
+    C --> D[Task queue]
+    D --> E[Agent pipeline execution]
+    E --> F[Cost tracking via token counts]
+    F --> G[Audit log]
+    G --> H[Team review cadence]
 ```

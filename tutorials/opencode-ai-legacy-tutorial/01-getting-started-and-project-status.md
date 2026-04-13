@@ -35,9 +35,31 @@ You now have the right baseline context for responsible legacy usage.
 
 Next: [Chapter 2: Legacy Architecture and Feature Model](02-legacy-architecture-and-feature-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `main.go`
+
+The `main` function in [`main.go`](https://github.com/opencode-ai/opencode/blob/HEAD/main.go) handles a key part of this chapter's functionality:
+
+```go
+package main
+
+import (
+	"github.com/opencode-ai/opencode/cmd"
+	"github.com/opencode-ai/opencode/internal/logging"
+)
+
+func main() {
+	defer logging.RecoverPanic("main", func() {
+		logging.ErrorPersist("Application terminated due to unhandled panic")
+	})
+
+	cmd.Execute()
+}
+
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
 ### `internal/lsp/methods.go`
 
@@ -162,57 +184,16 @@ func (c *Client) Declaration(ctx context.Context, params protocol.DeclarationPar
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
-### `internal/lsp/methods.go`
-
-The `ColorPresentation` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// ColorPresentation sends a textDocument/colorPresentation request to the LSP server.
-// A request to list all presentation for a color. The request's parameter is of type ColorPresentationParams the response is of type ColorInformation ColorInformation[] or a Thenable that resolves to such.
-func (c *Client) ColorPresentation(ctx context.Context, params protocol.ColorPresentationParams) ([]protocol.ColorPresentation, error) {
-	var result []protocol.ColorPresentation
-	err := c.Call(ctx, "textDocument/colorPresentation", params, &result)
-	return result, err
-}
-
-// FoldingRange sends a textDocument/foldingRange request to the LSP server.
-// A request to provide folding ranges in a document. The request's parameter is of type FoldingRangeParams, the response is of type FoldingRangeList or a Thenable that resolves to such.
-func (c *Client) FoldingRange(ctx context.Context, params protocol.FoldingRangeParams) ([]protocol.FoldingRange, error) {
-	var result []protocol.FoldingRange
-	err := c.Call(ctx, "textDocument/foldingRange", params, &result)
-	return result, err
-}
-
-// Declaration sends a textDocument/declaration request to the LSP server.
-// A request to resolve the type definition locations of a symbol at a given text document position. The request's parameter is of type TextDocumentPositionParams the response is of type Declaration or a typed array of DeclarationLink or a Thenable that resolves to such.
-func (c *Client) Declaration(ctx context.Context, params protocol.DeclarationParams) (protocol.Or_Result_textDocument_declaration, error) {
-	var result protocol.Or_Result_textDocument_declaration
-	err := c.Call(ctx, "textDocument/declaration", params, &result)
-	return result, err
-}
-
-// SelectionRange sends a textDocument/selectionRange request to the LSP server.
-// A request to provide selection ranges in a document. The request's parameter is of type SelectionRangeParams, the response is of type SelectionRange SelectionRange[] or a Thenable that resolves to such.
-func (c *Client) SelectionRange(ctx context.Context, params protocol.SelectionRangeParams) ([]protocol.SelectionRange, error) {
-	var result []protocol.SelectionRange
-	err := c.Call(ctx, "textDocument/selectionRange", params, &result)
-	return result, err
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Implementation]
-    B[TypeDefinition]
-    C[DocumentColor]
-    D[ColorPresentation]
-    E[FoldingRange]
+    A[main]
+    B[Implementation]
+    C[TypeDefinition]
+    D[DocumentColor]
+    E[ColorPresentation]
     A --> B
     B --> C
     C --> D

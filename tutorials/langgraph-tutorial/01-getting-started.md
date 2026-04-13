@@ -386,6 +386,20 @@ Now that you understand LangGraph basics, let's explore state management in dept
 
 *What kind of AI application will you build first with LangGraph?* 🤖
 
+## LangGraph Core Model
+
+```mermaid
+flowchart TD
+    A[StateGraph definition] --> B[Add nodes: functions or runnables]
+    B --> C[Add edges: node to node]
+    C --> D[Set entry point]
+    D --> E[graph.compile]
+    E --> F[Runnable graph]
+    F --> G[graph.invoke with initial state]
+    G --> H[Nodes execute in order]
+    H --> I[Final state returned]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `state`, `graph`, `messages` so behavior stays predictable as complexity grows.

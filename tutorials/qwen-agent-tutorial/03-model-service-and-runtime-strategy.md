@@ -38,8 +38,6 @@ You now can pick model service and parser strategies with fewer integration surp
 
 Next: [Chapter 4: Tool Calling and MCP Integration](04-tool-calling-and-mcp-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `examples/qwen2vl_assistant_tooluse.py`

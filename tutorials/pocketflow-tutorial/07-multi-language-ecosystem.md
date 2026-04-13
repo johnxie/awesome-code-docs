@@ -25,170 +25,168 @@ You now understand how PocketFlow patterns can transfer across language stacks.
 
 Next: [Chapter 8: Production Usage and Scaling](08-production-usage-and-scaling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cookbook/pocketflow-chat-guardrail/main.py`
+### `cookbook/pocketflow-supervisor/nodes.py`
 
-The `GuardrailNode` class in [`cookbook/pocketflow-chat-guardrail/main.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-chat-guardrail/main.py) handles a key part of this chapter's functionality:
+The `DecideAction` class in [`cookbook/pocketflow-supervisor/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-supervisor/nodes.py) handles a key part of this chapter's functionality:
 
 ```py
-        return "validate"
+import random
 
-class GuardrailNode(Node):
+class DecideAction(Node):
     def prep(self, shared):
-        # Get the user input from shared data
-        user_input = shared.get("user_input", "")
-        return user_input
-    
-    def exec(self, user_input):
-        # Basic validation checks
-        if not user_input or user_input.strip() == "":
-            return False, "Your query is empty. Please provide a travel-related question."
+        """Prepare the context and question for the decision-making process."""
+        # Get the current context (default to "No previous search" if none exists)
+        context = shared.get("context", "No previous search")
+        # Get the question from the shared store
+        question = shared["question"]
+        # Return both for the exec step
+        return question, context
         
-        if len(user_input.strip()) < 3:
-            return False, "Your query is too short. Please provide more details about your travel question."
+    def exec(self, inputs):
+        """Call the LLM to decide whether to search or answer."""
+        question, context = inputs
         
-        # LLM-based validation for travel topics
+        print(f"🤔 Agent deciding what to do next...")
+        
+        # Create a prompt to help the LLM decide what to do next
         prompt = f"""
-Evaluate if the following user query is related to travel advice, destinations, planning, or other travel topics.
-The chat should ONLY answer travel-related questions and reject any off-topic, harmful, or inappropriate queries.
-User query: {user_input}
-Return your evaluation in YAML format:
-```yaml
-valid: true/false
-reason: [Explain why the query is valid or invalid]
-```"""
-        
-        # Call LLM with the validation prompt
-        messages = [{"role": "user", "content": prompt}]
-        response = call_llm(messages)
-        
-        # Extract YAML content
+### CONTEXT
+You are a research assistant that can search the web.
+Question: {question}
+Previous Research: {context}
+
+### ACTION SPACE
+[1] search
+  Description: Look up more information on the web
+  Parameters:
+    - query (str): What to search for
+
+[2] answer
 ```
 
 This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
 
-### `cookbook/pocketflow-chat-guardrail/main.py`
+### `cookbook/pocketflow-supervisor/nodes.py`
 
-The `LLMNode` class in [`cookbook/pocketflow-chat-guardrail/main.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-chat-guardrail/main.py) handles a key part of this chapter's functionality:
+The `SearchWeb` class in [`cookbook/pocketflow-supervisor/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-supervisor/nodes.py) handles a key part of this chapter's functionality:
 
 ```py
-        return "process"
+        return exec_res["action"]
 
-class LLMNode(Node):
+class SearchWeb(Node):
     def prep(self, shared):
-        # Add system message if not present
-        if not any(msg.get("role") == "system" for msg in shared["messages"]):
-            shared["messages"].insert(0, {
-                "role": "system", 
-                "content": "You are a helpful travel advisor that provides information about destinations, travel planning, accommodations, transportation, activities, and other travel-related topics. Only respond to travel-related queries and keep responses informative and friendly. Your response are concise in 100 words."
-            })
+        """Get the search query from the shared store."""
+        return shared["search_query"]
         
-        # Return all messages for the LLM
-        return shared["messages"]
-
-    def exec(self, messages):
-        # Call LLM with the entire conversation history
-        response = call_llm(messages)
-        return response
-
+    def exec(self, search_query):
+        """Search the web for the given query."""
+        # Call the search utility function
+        print(f"🌐 Searching the web for: {search_query}")
+        results = search_web(search_query)
+        return results
+    
     def post(self, shared, prep_res, exec_res):
-        # Print the assistant's response
-        print(f"\nTravel Advisor: {exec_res}")
+        """Save the search results and go back to the decision node."""
+        # Add the search results to the context in the shared store
+        previous = shared.get("context", "")
+        shared["context"] = previous + "\n\nSEARCH: " + shared["search_query"] + "\nRESULTS: " + exec_res
         
-        # Add assistant message to history
-        shared["messages"].append({"role": "assistant", "content": exec_res})
+        print(f"📚 Found information, analyzing results...")
         
-        # Loop back to continue the conversation
-        return "continue"
+        # Always go back to the decision node after searching
+        return "decide"
 
-# Create the flow with nodes and connections
-user_input_node = UserInputNode()
-guardrail_node = GuardrailNode()
+class UnreliableAnswerNode(Node):
+    def prep(self, shared):
+        """Get the question and context for answering."""
+        return shared["question"], shared.get("context", "")
+        
+    def exec(self, inputs):
+        """Call the LLM to generate a final answer with 50% chance of returning a dummy answer."""
 ```
 
 This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
 
-### `cookbook/pocketflow-mcp/main.py`
+### `cookbook/pocketflow-supervisor/nodes.py`
 
-The `GetToolsNode` class in [`cookbook/pocketflow-mcp/main.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-mcp/main.py) handles a key part of this chapter's functionality:
-
-```py
-import sys
-
-class GetToolsNode(Node):
-    def prep(self, shared):
-        """Initialize and get tools"""
-        # The question is now passed from main via shared
-        print("🔍 Getting available tools...")
-        return "simple_server.py"
-
-    def exec(self, server_path):
-        """Retrieve tools from the MCP server"""
-        tools = get_tools(server_path)
-        return tools
-
-    def post(self, shared, prep_res, exec_res):
-        """Store tools and process to decision node"""
-        tools = exec_res
-        shared["tools"] = tools
-        
-        # Format tool information for later use
-        tool_info = []
-        for i, tool in enumerate(tools, 1):
-            properties = tool.inputSchema.get('properties', {})
-            required = tool.inputSchema.get('required', [])
-            
-            params = []
-            for param_name, param_info in properties.items():
-                param_type = param_info.get('type', 'unknown')
-                req_status = "(Required)" if param_name in required else "(Optional)"
-                params.append(f"    - {param_name} ({param_type}): {req_status}")
-            
-            tool_info.append(f"[{i}] {tool.name}\n  Description: {tool.description}\n  Parameters:\n" + "\n".join(params))
-```
-
-This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
-
-### `cookbook/pocketflow-mcp/main.py`
-
-The `DecideToolNode` class in [`cookbook/pocketflow-mcp/main.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-mcp/main.py) handles a key part of this chapter's functionality:
+The `UnreliableAnswerNode` class in [`cookbook/pocketflow-supervisor/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-supervisor/nodes.py) handles a key part of this chapter's functionality:
 
 ```py
         return "decide"
 
-class DecideToolNode(Node):
+class UnreliableAnswerNode(Node):
     def prep(self, shared):
-        """Prepare the prompt for LLM to process the question"""
-        tool_info = shared["tool_info"]
-        question = shared["question"]
+        """Get the question and context for answering."""
+        return shared["question"], shared.get("context", "")
         
+    def exec(self, inputs):
+        """Call the LLM to generate a final answer with 50% chance of returning a dummy answer."""
+        question, context = inputs
+        
+        # 50% chance to return a dummy answer
+        if random.random() < 0.5:
+            print(f"🤪 Generating unreliable dummy answer...")
+            return "Sorry, I'm on a coffee break right now. All information I provide is completely made up anyway. The answer to your question is 42, or maybe purple unicorns. Who knows? Certainly not me!"
+        
+        print(f"✍️ Crafting final answer...")
+        
+        # Create a prompt for the LLM to answer the question
         prompt = f"""
 ### CONTEXT
-You are an assistant that can use tools via Model Context Protocol (MCP).
+Based on the following information, answer the question.
+Question: {question}
+Research: {context}
 
-### ACTION SPACE
-{tool_info}
-
-### TASK
-Answer this question: "{question}"
-
-## NEXT ACTION
-Analyze the question, extract any numbers or parameters, and decide which tool to use.
-Return your response in this format:
-
-```yaml
-thinking: |
-    <your step-by-step reasoning about what the question is asking and what numbers to extract>
-tool: <name of the tool to use>
-reason: <why you chose this tool>
-parameters:
-    <parameter_name>: <parameter_value>
-    <parameter_name>: <parameter_value>
+## YOUR ANSWER:
+Provide a comprehensive answer using the research results.
+"""
+        # Call the LLM to generate an answer
+        answer = call_llm(prompt)
+        return answer
+    
 ```
-IMPORTANT: 
+
+This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
+
+### `cookbook/pocketflow-supervisor/nodes.py`
+
+The `SupervisorNode` class in [`cookbook/pocketflow-supervisor/nodes.py`](https://github.com/The-Pocket/PocketFlow/blob/HEAD/cookbook/pocketflow-supervisor/nodes.py) handles a key part of this chapter's functionality:
+
+```py
+        print(f"✅ Answer generated successfully")
+
+class SupervisorNode(Node):
+    def prep(self, shared):
+        """Get the current answer for evaluation."""
+        return shared["answer"]
+    
+    def exec(self, answer):
+        """Check if the answer is valid or nonsensical."""
+        print(f"    🔍 Supervisor checking answer quality...")
+        
+        # Check for obvious markers of the nonsense answers
+        nonsense_markers = [
+            "coffee break", 
+            "purple unicorns", 
+            "made up", 
+            "42", 
+            "Who knows?"
+        ]
+        
+        # Check if the answer contains any nonsense markers
+        is_nonsense = any(marker in answer for marker in nonsense_markers)
+        
+        if is_nonsense:
+            return {"valid": False, "reason": "Answer appears to be nonsensical or unhelpful"}
+        else:
+            return {"valid": True, "reason": "Answer appears to be legitimate"}
+    
+    def post(self, shared, prep_res, exec_res):
+        """Decide whether to accept the answer or restart the process."""
+        if exec_res["valid"]:
+            print(f"    ✅ Supervisor approved answer: {exec_res['reason']}")
 ```
 
 This class is important because it defines how PocketFlow Tutorial: Minimal LLM Framework with Graph-Based Power implements the patterns covered in this chapter.
@@ -198,11 +196,11 @@ This class is important because it defines how PocketFlow Tutorial: Minimal LLM 
 
 ```mermaid
 flowchart TD
-    A[GuardrailNode]
-    B[LLMNode]
-    C[GetToolsNode]
-    D[DecideToolNode]
-    E[ExecuteToolNode]
+    A[DecideAction]
+    B[SearchWeb]
+    C[UnreliableAnswerNode]
+    D[SupervisorNode]
+    E[colorize]
     A --> B
     B --> C
     C --> D

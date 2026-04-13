@@ -39,91 +39,7 @@ You now have a full mini-swe-agent track from first run to sustainable contribut
 
 Next tutorial: [Qwen-Agent Tutorial](../qwen-agent-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src/minisweagent/run/mini.py`
-
-The `main` function in [`src/minisweagent/run/mini.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/run/mini.py) handles a key part of this chapter's functionality:
-
-```py
-# fmt: off
-@app.command(help=_HELP_TEXT)
-def main(
-    model_name: str | None = typer.Option(None, "-m", "--model", help="Model to use",),
-    model_class: str | None = typer.Option(None, "--model-class", help="Model class to use (e.g., 'litellm' or 'minisweagent.models.litellm_model.LitellmModel')", rich_help_panel="Advanced"),
-    agent_class: str | None = typer.Option(None, "--agent-class", help="Agent class to use (e.g., 'interactive' or 'minisweagent.agents.interactive.InteractiveAgent')", rich_help_panel="Advanced"),
-    environment_class: str | None = typer.Option(None, "--environment-class", help="Environment class to use (e.g., 'local' or 'minisweagent.environments.local.LocalEnvironment')", rich_help_panel="Advanced"),
-    task: str | None = typer.Option(None, "-t", "--task", help="Task/problem statement", show_default=False),
-    yolo: bool = typer.Option(False, "-y", "--yolo", help="Run without confirmation"),
-    cost_limit: float | None = typer.Option(None, "-l", "--cost-limit", help="Cost limit. Set to 0 to disable."),
-    config_spec: list[str] = typer.Option([str(DEFAULT_CONFIG_FILE)], "-c", "--config", help=_CONFIG_SPEC_HELP_TEXT),
-    output: Path | None = typer.Option(DEFAULT_OUTPUT_FILE, "-o", "--output", help="Output trajectory file"),
-    exit_immediately: bool = typer.Option(False, "--exit-immediately", help="Exit immediately when the agent wants to finish instead of prompting.", rich_help_panel="Advanced"),
-) -> Any:
-    # fmt: on
-    configure_if_first_time()
-
-    # Build the config from the command line arguments
-    console.print(f"Building agent config from specs: [bold green]{config_spec}[/bold green]")
-    configs = [get_config_from_spec(spec) for spec in config_spec]
-    configs.append({
-        "run": {
-            "task": task or UNSET,
-        },
-        "agent": {
-            "agent_class": agent_class or UNSET,
-            "mode": "yolo" if yolo else UNSET,
-            "cost_limit": cost_limit or UNSET,
-            "confirm_exit": False if exit_immediately else UNSET,
-            "output_path": output or UNSET,
-        },
-        "model": {
-```
-
-This function is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
-
-### `src/minisweagent/environments/local.py`
-
-The `LocalEnvironmentConfig` class in [`src/minisweagent/environments/local.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/environments/local.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class LocalEnvironmentConfig(BaseModel):
-    cwd: str = ""
-    env: dict[str, str] = {}
-    timeout: int = 30
-
-
-class LocalEnvironment:
-    def __init__(self, *, config_class: type = LocalEnvironmentConfig, **kwargs):
-        """This class executes bash commands directly on the local machine."""
-        self.config = config_class(**kwargs)
-
-    def execute(self, action: dict, cwd: str = "", *, timeout: int | None = None) -> dict[str, Any]:
-        """Execute a command in the local environment and return the result as a dict."""
-        command = action.get("command", "")
-        cwd = cwd or self.config.cwd or os.getcwd()
-        try:
-            result = subprocess.run(
-                command,
-                shell=True,
-                text=True,
-                cwd=cwd,
-                env=os.environ | self.config.env,
-                timeout=timeout or self.config.timeout,
-                encoding="utf-8",
-                errors="replace",
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-            )
-            output = {"output": result.stdout, "returncode": result.returncode, "exception_info": ""}
-        except Exception as e:
-```
-
-This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
 ### `src/minisweagent/environments/local.py`
 
@@ -207,16 +123,98 @@ class LocalEnvironment:
 
 This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
 
+### `src/minisweagent/models/portkey_response_model.py`
+
+The `PortkeyResponseAPIModelConfig` class in [`src/minisweagent/models/portkey_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_response_model.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class PortkeyResponseAPIModelConfig(BaseModel):
+    model_name: str
+    model_kwargs: dict[str, Any] = {}
+    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
+    litellm_model_name_override: str = ""
+    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
+    format_error_template: str = "{{ error }}"
+    observation_template: str = (
+        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
+        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
+    )
+    multimodal_regex: str = ""
+
+
+class PortkeyResponseAPIModel:
+    """Portkey model using the Responses API with native tool calling.
+
+    Note: This implementation is stateless - each request must include
+    the full conversation history. previous_response_id is not used.
+    """
+
+    abort_exceptions: list[type[Exception]] = [KeyboardInterrupt, TypeError, ValueError]
+
+    def __init__(self, **kwargs):
+        self.config = PortkeyResponseAPIModelConfig(**kwargs)
+        if self.config.litellm_model_registry and Path(self.config.litellm_model_registry).is_file():
+            litellm.utils.register_model(json.loads(Path(self.config.litellm_model_registry).read_text()))
+
+        self._api_key = os.getenv("PORTKEY_API_KEY")
+        if not self._api_key:
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
+### `src/minisweagent/models/portkey_response_model.py`
+
+The `PortkeyResponseAPIModel` class in [`src/minisweagent/models/portkey_response_model.py`](https://github.com/SWE-agent/mini-swe-agent/blob/HEAD/src/minisweagent/models/portkey_response_model.py) handles a key part of this chapter's functionality:
+
+```py
+except ImportError:
+    raise ImportError(
+        "The portkey-ai package is required to use PortkeyResponseAPIModel. Please install it with: pip install portkey-ai"
+    )
+
+
+class PortkeyResponseAPIModelConfig(BaseModel):
+    model_name: str
+    model_kwargs: dict[str, Any] = {}
+    litellm_model_registry: Path | str | None = os.getenv("LITELLM_MODEL_REGISTRY_PATH")
+    litellm_model_name_override: str = ""
+    cost_tracking: Literal["default", "ignore_errors"] = os.getenv("MSWEA_COST_TRACKING", "default")
+    format_error_template: str = "{{ error }}"
+    observation_template: str = (
+        "{% if output.exception_info %}<exception>{{output.exception_info}}</exception>\n{% endif %}"
+        "<returncode>{{output.returncode}}</returncode>\n<output>\n{{output.output}}</output>"
+    )
+    multimodal_regex: str = ""
+
+
+class PortkeyResponseAPIModel:
+    """Portkey model using the Responses API with native tool calling.
+
+    Note: This implementation is stateless - each request must include
+    the full conversation history. previous_response_id is not used.
+    """
+
+    abort_exceptions: list[type[Exception]] = [KeyboardInterrupt, TypeError, ValueError]
+
+    def __init__(self, **kwargs):
+        self.config = PortkeyResponseAPIModelConfig(**kwargs)
+        if self.config.litellm_model_registry and Path(self.config.litellm_model_registry).is_file():
+```
+
+This class is important because it defines how Mini-SWE-Agent Tutorial: Minimal Autonomous Code Agent Design at Benchmark Scale implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[LocalEnvironmentConfig]
-    C[LocalEnvironment]
-    D[executes]
-    E[LitellmResponseModelConfig]
+    A[LocalEnvironment]
+    B[executes]
+    C[PortkeyResponseAPIModelConfig]
+    D[PortkeyResponseAPIModel]
+    E[RequestyModelConfig]
     A --> B
     B --> C
     C --> D

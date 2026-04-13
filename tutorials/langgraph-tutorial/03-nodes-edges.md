@@ -568,6 +568,21 @@ Ready for conditional logic and decision-making? In [Chapter 4: Conditional Logi
 
 *What's the most complex graph structure you'll build?* 🔀
 
+## Node and Edge Architecture
+
+```mermaid
+flowchart TD
+    A[StateGraph] --> B[Node: Python function]
+    B --> C[Receives state dict]
+    C --> D[Returns state updates]
+    A --> E[Edge: node_a to node_b]
+    A --> F[Conditional edge: router function]
+    F --> G{Routing decision}
+    G -->|Condition A| H[Node A]
+    G -->|Condition B| I[Node B]
+    G -->|END| J[Graph terminates]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `state`, `graph`, `GraphState` so behavior stays predictable as complexity grows.

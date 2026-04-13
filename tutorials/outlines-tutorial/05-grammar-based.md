@@ -693,11 +693,24 @@ Under the hood, `Chapter 5: Grammar-Based Generation & Context-Free Grammars` us
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Grammar-Based Generation Flow
+
+```mermaid
+flowchart TD
+    A[EBNF Grammar Definition] --> B[Parse Grammar Rules]
+    B --> C[Build Earley / LL Parser]
+    C --> D[Compute Allowed Tokens at Each Position]
+    D --> E[LLM Sampling]
+    E --> F[Grammar Check]
+    F -->|Valid Continuation| D
+    F -->|Complete| G[Parsed Output]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

@@ -50,47 +50,81 @@ You now have a pragmatic fine-tuning workflow from data curation to job monitori
 
 Next: [Chapter 7: Advanced Patterns](07-advanced-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/responses_input_tokens.py`
+### `examples/streaming.py`
 
-The `main` function in [`examples/responses_input_tokens.py`](https://github.com/openai/openai-python/blob/HEAD/examples/responses_input_tokens.py) handles a key part of this chapter's functionality:
+The `sync_main` function in [`examples/streaming.py`](https://github.com/openai/openai-python/blob/HEAD/examples/streaming.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main() -> None:
+def sync_main() -> None:
     client = OpenAI()
-    tools: List[ToolParam] = [
-        {
-            "type": "function",
-            "name": "get_current_weather",
-            "description": "Get current weather in a given location",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "location": {
-                        "type": "string",
-                        "description": "City and state, e.g. San Francisco, CA",
-                    },
-                    "unit": {
-                        "type": "string",
-                        "enum": ["c", "f"],
-                        "description": "Temperature unit to use",
-                    },
-                },
-                "required": ["location", "unit"],
-                "additionalProperties": False,
-            },
-            "strict": True,
-        }
-    ]
+    response = client.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt="1,2,3,",
+        max_tokens=5,
+        temperature=0,
+        stream=True,
+    )
 
-    input_items: List[ResponseInputItemParam] = [
-        {
-            "type": "message",
+    # You can manually control iteration over the response
+    first = next(response)
+    print(f"got response data: {first.to_json()}")
+
+    # Or you could automatically iterate through all of data.
+    # Note that the for loop will not exit until *all* of the data has been processed.
+    for data in response:
+        print(data.to_json())
+
+
+async def async_main() -> None:
+    client = AsyncOpenAI()
+    response = await client.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt="1,2,3,",
+        max_tokens=5,
+        temperature=0,
+        stream=True,
+    )
+
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+
+### `examples/streaming.py`
+
+The `async_main` function in [`examples/streaming.py`](https://github.com/openai/openai-python/blob/HEAD/examples/streaming.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+async def async_main() -> None:
+    client = AsyncOpenAI()
+    response = await client.completions.create(
+        model="gpt-3.5-turbo-instruct",
+        prompt="1,2,3,",
+        max_tokens=5,
+        temperature=0,
+        stream=True,
+    )
+
+    # You can manually control iteration over the response.
+    # In Python 3.10+ you can also use the `await anext(response)` builtin instead
+    first = await response.__anext__()
+    print(f"got response data: {first.to_json()}")
+
+    # Or you could automatically iterate through all of data.
+    # Note that the for loop will not exit until *all* of the data has been processed.
+    async for data in response:
+        print(data.to_json())
+
+
+sync_main()
+
+asyncio.run(async_main())
+
 ```
 
 This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
@@ -136,55 +170,14 @@ with client.chat.completions.stream(
 
 This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
-### `examples/parsing_stream.py`
-
-The `MathResponse` class in [`examples/parsing_stream.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_stream.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class MathResponse(BaseModel):
-    steps: List[Step]
-    final_answer: str
-
-
-client = OpenAI()
-
-with client.chat.completions.stream(
-    model="gpt-4o-2024-08-06",
-    messages=[
-        {"role": "system", "content": "You are a helpful math tutor."},
-        {"role": "user", "content": "solve 8x + 31 = 2"},
-    ],
-    response_format=MathResponse,
-) as stream:
-    for event in stream:
-        if event.type == "content.delta":
-            print(event.delta, end="", flush=True)
-        elif event.type == "content.done":
-            print("\n")
-            if event.parsed is not None:
-                print(f"answer: {event.parsed.final_answer}")
-        elif event.type == "refusal.delta":
-            print(event.delta, end="", flush=True)
-        elif event.type == "refusal.done":
-            print()
-
-print("---------------")
-rich.print(stream.get_final_completion())
-
-```
-
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[Step]
-    C[MathResponse]
+    A[sync_main]
+    B[async_main]
+    C[Step]
     A --> B
     B --> C
 ```

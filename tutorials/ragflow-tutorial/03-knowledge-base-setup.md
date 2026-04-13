@@ -678,6 +678,20 @@ Under the hood, `Chapter 3: Knowledge Base Setup` usually follows a repeatable c
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Knowledge Base Architecture
+
+```mermaid
+flowchart LR
+    A[Documents] --> B[RAGFlow Knowledge Base]
+    B --> C[Chunk Strategy Config]
+    C --> D[Embedding Model]
+    D --> E[Vector Index]
+    B --> F[Full-text Index]
+    E --> G[Hybrid Search]
+    F --> G
+    G --> H[Ranked Chunks]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

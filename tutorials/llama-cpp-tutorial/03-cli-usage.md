@@ -13,6 +13,21 @@ Welcome to **Chapter 3: Command Line Interface**. In this part of **llama.cpp Tu
 
 > Master llama-cli with advanced options, interactive modes, and conversation management.
 
+## CLI Execution Modes
+
+```mermaid
+flowchart TD
+    CLI[llama-cli] --> M1[Single Prompt Mode\n-p text -n tokens]
+    CLI --> M2[Interactive Mode\n--interactive]
+    CLI --> M3[Instruction Mode\n--instruct]
+    CLI --> M4[Conversation Mode\n--conversation]
+
+    M1 --> O1[Generate and exit]
+    M2 --> O2[REPL loop with user input]
+    M3 --> O3[Instruction-tuned chat loop]
+    M4 --> O4[Multi-turn with full history]
+```
+
 ## Overview
 
 The llama-cli tool provides comprehensive control over model inference. This chapter covers all major options, interactive modes, and advanced usage patterns.
@@ -523,16 +538,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`examples/main/main.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/main.cpp) -- argument parsing for all `llama-cli` flags; shows which params map to which `llama_context_params` fields
+- [`common/arg.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/common/arg.cpp) -- full CLI argument registry; authoritative reference for all flags and their defaults
+- [`common/sampling.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/common/sampling.cpp) -- sampling pipeline: top-k, top-p, temperature, repetition penalty logic
 
-Suggested trace strategy:
-- search upstream code for `model` and `llama` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: search `arg.cpp` for any flag (e.g., `--temp`) to find its default, type, and description, then find how it flows into the sampling or context params struct.
 
 ## Chapter Connections
 

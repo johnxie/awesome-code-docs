@@ -699,9 +699,28 @@ class TeamPerformanceDashboard {
 }
 ```
 
+## Team Collaboration Architecture
+
+```mermaid
+flowchart TD
+    A[Team shares .continue/ config in repository]
+    B[config.json defines shared models and prompts]
+    C[Custom slash commands committed to .continue/prompts/]
+    D[Team members get consistent AI behavior]
+    E[New member clones repo and gets config automatically]
+    F[Team-specific context docs added to @codebase index]
+    G[Shared prompt library reduces duplicate work]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## What's Next?
 
-Excellent! You've mastered the art of collaborative AI development with Continue. The ability to share configurations, workflows, and knowledge across teams creates a powerful collaborative environment that scales with your organization.
+You've mastered the art of collaborative AI development with Continue. The ability to share configurations, workflows, and knowledge across teams creates a powerful collaborative environment that scales with your organization.
 
 In [Chapter 8: Advanced Enterprise Features](08-advanced-enterprise.md), we'll explore enterprise-grade features including security, compliance, audit trails, and advanced deployment strategies.
 

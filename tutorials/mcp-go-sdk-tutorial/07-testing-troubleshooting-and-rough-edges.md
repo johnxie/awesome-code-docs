@@ -45,170 +45,168 @@ You now have a disciplined debugging approach and awareness of v1 API edges that
 
 Next: [Chapter 8: Conformance, Operations, and Upgrade Strategy](08-conformance-operations-and-upgrade-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `oauthex/resource_meta.go`
+### `mcp/event.go`
 
-The `ParseWWWAuthenticate` function in [`oauthex/resource_meta.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/oauthex/resource_meta.go) handles a key part of this chapter's functionality:
+The `NewMemoryEventStore` function in [`mcp/event.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/event.go) handles a key part of this chapter's functionality:
 
 ```go
-		return nil, nil
+const defaultMaxBytes = 10 << 20 // 10 MiB
+
+// NewMemoryEventStore creates a [MemoryEventStore] with the default value
+// for MaxBytes.
+func NewMemoryEventStore(opts *MemoryEventStoreOptions) *MemoryEventStore {
+	return &MemoryEventStore{
+		maxBytes: defaultMaxBytes,
+		store:    make(map[string]map[string]*dataList),
 	}
-	cs, err := ParseWWWAuthenticate(headers)
-	if err != nil {
-		return nil, err
-	}
-	metadataURL := resourceMetadataURL(cs)
-	if metadataURL == "" {
-		return nil, nil
-	}
-	return GetProtectedResourceMetadata(ctx, metadataURL, serverURL, c)
 }
 
-// resourceMetadataURL returns a resource metadata URL from the given "WWW-Authenticate" header challenges,
-// or the empty string if there is none.
-func resourceMetadataURL(cs []Challenge) string {
-	for _, c := range cs {
-		if u := c.Params["resource_metadata"]; u != "" {
-			return u
-		}
-	}
-	return ""
+// Open implements [EventStore.Open]. It ensures that the underlying data
+// structures for the given session are initialized and ready for use.
+func (s *MemoryEventStore) Open(_ context.Context, sessionID, streamID string) error {
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	s.init(sessionID, streamID)
+	return nil
 }
 
-// GetProtectedResourceMetadataFromID issues a GET request to retrieve protected resource
-// metadata from a resource server.
-// The metadataURL is typically a URL with a host:port and possibly a path.
-// The resourceURL is the resource URI the metadataURL is for.
-// The following checks are performed:
-//   - The metadataURL must use HTTPS or be a local address.
-//   - The resource field of the resulting metadata must match the resourceURL.
-//   - The authorization_servers field of the resulting metadata is checked for dangerous URL schemes.
+// init is an internal helper function that ensures the nested map structure for a
+// given sessionID and streamID exists, creating it if necessary. It returns the
+// dataList associated with the specified IDs.
+// Requires s.mu.
+func (s *MemoryEventStore) init(sessionID, streamID string) *dataList {
+	streamMap, ok := s.store[sessionID]
+	if !ok {
+		streamMap = make(map[string]*dataList)
+		s.store[sessionID] = streamMap
+	}
+	dl, ok := streamMap[streamID]
+	if !ok {
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `oauthex/resource_meta.go`
+### `mcp/event.go`
 
-The `splitChallenges` function in [`oauthex/resource_meta.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/oauthex/resource_meta.go) handles a key part of this chapter's functionality:
+The `Open` function in [`mcp/event.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/event.go) handles a key part of this chapter's functionality:
 
 ```go
-	var challenges []Challenge
-	for _, h := range headers {
-		challengeStrings, err := splitChallenges(h)
-		if err != nil {
-			return nil, err
-		}
-		for _, cs := range challengeStrings {
-			if strings.TrimSpace(cs) == "" {
-				continue
-			}
-			challenge, err := parseSingleChallenge(cs)
-			if err != nil {
-				return nil, fmt.Errorf("failed to parse challenge %q: %w", cs, err)
-			}
-			challenges = append(challenges, challenge)
-		}
-	}
-	return challenges, nil
+// All of an EventStore's methods must be safe for use by multiple goroutines.
+type EventStore interface {
+	// Open is called when a new stream is created. It may be used to ensure that
+	// the underlying data structure for the stream is initialized, making it
+	// ready to store and replay event streams.
+	Open(_ context.Context, sessionID, streamID string) error
+
+	// Append appends data for an outgoing event to given stream, which is part of the
+	// given session.
+	Append(_ context.Context, sessionID, streamID string, data []byte) error
+
+	// After returns an iterator over the data for the given session and stream, beginning
+	// just after the given index.
+	//
+	// Once the iterator yields a non-nil error, it will stop.
+	// After's iterator must return an error immediately if any data after index was
+	// dropped; it must not return partial results.
+	// The stream must have been opened previously (see [EventStore.Open]).
+	After(_ context.Context, sessionID, streamID string, index int) iter.Seq2[[]byte, error]
+
+	// SessionClosed informs the store that the given session is finished, along
+	// with all of its streams.
+	//
+	// A store cannot rely on this method being called for cleanup. It should institute
+	// additional mechanisms, such as timeouts, to reclaim storage.
+	SessionClosed(_ context.Context, sessionID string) error
+
+	// There is no StreamClosed method. A server doesn't know when a stream is finished, because
+	// the client can always send a GET with a Last-Event-ID referring to the stream.
 }
 
-// splitChallenges splits a header value containing one or more challenges.
-// It correctly handles commas within quoted strings and distinguishes between
-// commas separating auth-params and commas separating challenges.
-func splitChallenges(header string) ([]string, error) {
-	var challenges []string
-	inQuotes := false
-	start := 0
-	for i, r := range header {
-		if r == '"' {
-			if i > 0 && header[i-1] != '\\' {
-				inQuotes = !inQuotes
-			} else if i == 0 {
+// A dataList is a list of []byte.
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `oauthex/resource_meta.go`
+### `mcp/event.go`
 
-The `parseSingleChallenge` function in [`oauthex/resource_meta.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/oauthex/resource_meta.go) handles a key part of this chapter's functionality:
+The `init` function in [`mcp/event.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/event.go) handles a key part of this chapter's functionality:
 
 ```go
-				continue
-			}
-			challenge, err := parseSingleChallenge(cs)
-			if err != nil {
-				return nil, fmt.Errorf("failed to parse challenge %q: %w", cs, err)
-			}
-			challenges = append(challenges, challenge)
-		}
-	}
-	return challenges, nil
+type EventStore interface {
+	// Open is called when a new stream is created. It may be used to ensure that
+	// the underlying data structure for the stream is initialized, making it
+	// ready to store and replay event streams.
+	Open(_ context.Context, sessionID, streamID string) error
+
+	// Append appends data for an outgoing event to given stream, which is part of the
+	// given session.
+	Append(_ context.Context, sessionID, streamID string, data []byte) error
+
+	// After returns an iterator over the data for the given session and stream, beginning
+	// just after the given index.
+	//
+	// Once the iterator yields a non-nil error, it will stop.
+	// After's iterator must return an error immediately if any data after index was
+	// dropped; it must not return partial results.
+	// The stream must have been opened previously (see [EventStore.Open]).
+	After(_ context.Context, sessionID, streamID string, index int) iter.Seq2[[]byte, error]
+
+	// SessionClosed informs the store that the given session is finished, along
+	// with all of its streams.
+	//
+	// A store cannot rely on this method being called for cleanup. It should institute
+	// additional mechanisms, such as timeouts, to reclaim storage.
+	SessionClosed(_ context.Context, sessionID string) error
+
+	// There is no StreamClosed method. A server doesn't know when a stream is finished, because
+	// the client can always send a GET with a Last-Event-ID referring to the stream.
 }
 
-// splitChallenges splits a header value containing one or more challenges.
-// It correctly handles commas within quoted strings and distinguishes between
-// commas separating auth-params and commas separating challenges.
-func splitChallenges(header string) ([]string, error) {
-	var challenges []string
-	inQuotes := false
-	start := 0
-	for i, r := range header {
-		if r == '"' {
-			if i > 0 && header[i-1] != '\\' {
-				inQuotes = !inQuotes
-			} else if i == 0 {
-				// A challenge begins with an auth-scheme, which is a token, which cannot contain
-				// a quote.
-				return nil, errors.New(`challenge begins with '"'`)
-			}
-		} else if r == ',' && !inQuotes {
-			// This is a potential challenge separator.
-			// A new challenge does not start with `key=value`.
-			// We check if the part after the comma looks like a parameter.
+// A dataList is a list of []byte.
+// The zero dataList is ready to use.
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `oauthex/auth_meta.go`
+### `mcp/event.go`
 
-The `GetAuthServerMeta` function in [`oauthex/auth_meta.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/oauthex/auth_meta.go) handles a key part of this chapter's functionality:
+The `Append` function in [`mcp/event.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/event.go) handles a key part of this chapter's functionality:
 
 ```go
+	Open(_ context.Context, sessionID, streamID string) error
+
+	// Append appends data for an outgoing event to given stream, which is part of the
+	// given session.
+	Append(_ context.Context, sessionID, streamID string, data []byte) error
+
+	// After returns an iterator over the data for the given session and stream, beginning
+	// just after the given index.
+	//
+	// Once the iterator yields a non-nil error, it will stop.
+	// After's iterator must return an error immediately if any data after index was
+	// dropped; it must not return partial results.
+	// The stream must have been opened previously (see [EventStore.Open]).
+	After(_ context.Context, sessionID, streamID string, index int) iter.Seq2[[]byte, error]
+
+	// SessionClosed informs the store that the given session is finished, along
+	// with all of its streams.
+	//
+	// A store cannot rely on this method being called for cleanup. It should institute
+	// additional mechanisms, such as timeouts, to reclaim storage.
+	SessionClosed(_ context.Context, sessionID string) error
+
+	// There is no StreamClosed method. A server doesn't know when a stream is finished, because
+	// the client can always send a GET with a Last-Event-ID referring to the stream.
 }
 
-// GetAuthServerMeta issues a GET request to retrieve authorization server metadata
-// from an OAuth authorization server with the given metadataURL.
-//
-// It follows [RFC 8414]:
-//   - The metadataURL must use HTTPS or be a local address.
-//   - The Issuer field is checked against metadataURL.Issuer.
-//
-// It also verifies that the authorization server supports PKCE and that the URLs
-// in the metadata don't use dangerous schemes.
-//
-// It returns an error if the request fails with a non-4xx status code or the fetched
-// metadata doesn't pass security validations.
-// It returns nil if the request fails with a 4xx status code.
-//
-// [RFC 8414]: https://tools.ietf.org/html/rfc8414
-func GetAuthServerMeta(ctx context.Context, metadataURL, issuer string, c *http.Client) (*AuthServerMeta, error) {
-	// Only allow HTTP for local addresses (testing or development purposes).
-	if err := checkHTTPSOrLoopback(metadataURL); err != nil {
-		return nil, fmt.Errorf("metadataURL: %v", err)
-	}
-	asm, err := getJSON[AuthServerMeta](ctx, c, metadataURL, 1<<20)
-	if err != nil {
-		var httpErr *httpStatusError
-		if errors.As(err, &httpErr) {
-			if 400 <= httpErr.StatusCode && httpErr.StatusCode < 500 {
-				return nil, nil
-			}
-		}
-		return nil, fmt.Errorf("%v", err) // Do not expose error types.
-	}
+// A dataList is a list of []byte.
+// The zero dataList is ready to use.
+type dataList struct {
+	size  int // total size of data bytes
+	first int // the stream index of the first element in data
+	data  [][]byte
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how MCP Go SDK Tutorial: Building 
 
 ```mermaid
 flowchart TD
-    A[ParseWWWAuthenticate]
-    B[splitChallenges]
-    C[parseSingleChallenge]
-    D[GetAuthServerMeta]
-    E[validateAuthServerMetaURLs]
+    A[NewMemoryEventStore]
+    B[Open]
+    C[init]
+    D[Append]
+    E[After]
     A --> B
     B --> C
     C --> D

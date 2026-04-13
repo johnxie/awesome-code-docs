@@ -13,6 +13,19 @@ Welcome to **Chapter 5: Audio Processing - Whisper & TTS**. In this part of **Lo
 
 > Transcribe speech to text with Whisper and generate speech with text-to-speech models.
 
+## Audio Processing Capabilities
+
+```mermaid
+flowchart TD
+    AUDIO[Audio Capabilities] --> STT[Speech-to-Text\nPOST /v1/audio/transcriptions]
+    AUDIO --> TTS[Text-to-Speech\nPOST /v1/audio/speech]
+    STT --> WHISPER[Whisper model\ntiny/base/small/medium/large]
+    TTS --> PIPER[Piper TTS\nlocal neural TTS]
+    TTS --> BARK[Bark\nhigh-quality generative]
+    WHISPER --> TRANSCRIPT[Transcription JSON]
+    PIPER --> MP3[Audio file response]
+```
+
 ## Overview
 
 LocalAI supports audio processing through Whisper (speech-to-text) and various TTS (text-to-speech) models, all running locally.
@@ -551,14 +564,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/http/endpoints/openai/transcription.go`](https://github.com/mudler/LocalAI/blob/master/core/http/endpoints/openai/transcription.go)
+  HTTP handler for `POST /v1/audio/transcriptions`. Receives multipart audio file upload, saves to temp file, dispatches to the whisper backend, and returns a JSON transcript matching the OpenAI Audio API format.
+
+- [`backend/go/whisper/`](https://github.com/mudler/LocalAI/tree/master/backend/go/whisper)
+  Go-native Whisper backend using the `go-whisper` library (bindings to whisper.cpp). The `whisper.go` file shows how audio is decoded and passed to the C++ Whisper model for speech-to-text transcription.
+
+- [`core/backend/transcription.go`](https://github.com/mudler/LocalAI/blob/master/core/backend/transcription.go)
+  Transcription backend dispatcher that routes audio transcription requests to the appropriate backend based on the model config's `Backend` field (whisper, faster-whisper, etc.).
+
+- [`core/http/endpoints/localai/tts.go`](https://github.com/mudler/LocalAI/blob/master/core/http/endpoints/localai/tts.go)
+  Text-to-speech endpoint (`POST /tts`). Shows how LocalAI extends the OpenAI API with a TTS endpoint, routing to backends like piper or bark for speech synthesis from text prompts.
 
 Suggested trace strategy:
-- search upstream code for `model` and `audio` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `core/http/endpoints/openai/transcription.go` → `core/backend/transcription.go` → `backend/go/whisper/whisper.go` for a complete audio transcription request lifecycle
+- Check the whisper model YAML config for `language`, `threads`, and `translate` parameters that control transcription behavior
+- Compare the whisper Go backend with any Python faster-whisper backend to understand backend selection for latency vs accuracy tradeoffs
 
 ## Chapter Connections
 

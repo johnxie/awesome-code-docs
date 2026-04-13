@@ -44,170 +44,168 @@ You now have a guardrail framework for assigning tasks Sweep can complete with h
 
 Next: [Chapter 8: Migration Strategy and Long-Term Operations](08-migration-strategy-and-long-term-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `test` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `webhook` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
 
-@app.command()
-def test():
-    cprint("Sweep AI is installed correctly and ready to go!", style="yellow")
+templates = Jinja2Templates(directory="sweepai/web")
+logger.bind(application="webhook")
 
-@app.command()
-def watch(
-    repo_name: str,
-    debug: bool = False,
-    record_events: bool = False,
-    max_events: int = 30,
-):
-    if not os.path.exists(config_path):
-        cprint(
-            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
-            style="yellow",
-        )
-        raise ValueError(
-            "Configuration not found, please run 'sweep init' to initialize the CLI."
-        )
-    posthog_capture(
-        "sweep_watch_started",
-        {
-            "repo": repo_name,
-            "debug": debug,
-            "record_events": record_events,
-            "max_events": max_events,
-        },
-    )
-    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
-    if GITHUB_PAT is None:
-        raise ValueError("GITHUB_PAT environment variable must be set")
+def run_on_ticket(*args, **kwargs):
+    tracking_id = get_hash()
+    with logger.contextualize(
+        **kwargs,
+        name="ticket_" + kwargs["username"],
+        tracking_id=tracking_id,
+    ):
+        return on_ticket(*args, **kwargs, tracking_id=tracking_id)
+
+
+def run_on_comment(*args, **kwargs):
+    tracking_id = get_hash()
+    with logger.contextualize(
+        **kwargs,
+        name="comment_" + kwargs["username"],
+        tracking_id=tracking_id,
+    ):
+        on_comment(*args, **kwargs, tracking_id=tracking_id)
+
+def run_review_pr(*args, **kwargs):
+    tracking_id = get_hash()
+    with logger.contextualize(
+        **kwargs,
+        name="review_" + kwargs["username"],
+        tracking_id=tracking_id,
+    ):
+        review_pr(*args, **kwargs, tracking_id=tracking_id)
+
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `watch` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `jira_webhook` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
 
-@app.command()
-def watch(
-    repo_name: str,
-    debug: bool = False,
-    record_events: bool = False,
-    max_events: int = 30,
-):
-    if not os.path.exists(config_path):
-        cprint(
-            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
-            style="yellow",
-        )
-        raise ValueError(
-            "Configuration not found, please run 'sweep init' to initialize the CLI."
-        )
-    posthog_capture(
-        "sweep_watch_started",
-        {
-            "repo": repo_name,
-            "debug": debug,
-            "record_events": record_events,
-            "max_events": max_events,
-        },
-    )
-    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
-    if GITHUB_PAT is None:
-        raise ValueError("GITHUB_PAT environment variable must be set")
-    g = Github(os.environ["GITHUB_PAT"])
-    repo = g.get_repo(repo_name)
-    if debug:
-        logger.debug("Debug mode enabled")
+@app.post("/jira")
+def jira_webhook(
+    request_dict: dict = Body(...),
+) -> None:
+    def call_jira_ticket(*args, **kwargs):
+        thread = threading.Thread(target=handle_jira_ticket, args=args, kwargs=kwargs)
+        thread.start()
+    call_jira_ticket(event=request_dict)
+
+# Set up cronjob for this
+@app.get("/update_sweep_prs_v2")
+def update_sweep_prs_v2(repo_full_name: str, installation_id: int):
+    # Get a Github client
+    _, g = get_github_client(installation_id)
+
+    # Get the repository
+    repo = g.get_repo(repo_full_name)
+    config = SweepConfig.get_config(repo)
+
+    try:
+        branch_ttl = int(config.get("branch_ttl", 7))
+    except Exception:
+        branch_ttl = 7
+    branch_ttl = max(branch_ttl, 1)
+
+    # Get all open pull requests created by Sweep
+    pulls = repo.get_pulls(
+        state="open", head="sweep", sort="updated", direction="desc"
+    )[:5]
+
+    # For each pull request, attempt to merge the changes from the default branch into the pull request branch
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `init` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `update_sweep_prs_v2` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
-    if not os.path.exists(config_path):
-        cprint(
-            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
-            style="yellow",
-        )
-        raise ValueError(
-            "Configuration not found, please run 'sweep init' to initialize the CLI."
-        )
-    posthog_capture(
-        "sweep_watch_started",
-        {
-            "repo": repo_name,
-            "debug": debug,
-            "record_events": record_events,
-            "max_events": max_events,
-        },
-    )
-    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
-    if GITHUB_PAT is None:
-        raise ValueError("GITHUB_PAT environment variable must be set")
-    g = Github(os.environ["GITHUB_PAT"])
-    repo = g.get_repo(repo_name)
-    if debug:
-        logger.debug("Debug mode enabled")
 
-    def stream_events(repo: Repository, timeout: int = 2, offset: int = 2 * 60):
-        processed_event_ids = set()
-        current_time = time.time() - offset
-        current_time = datetime.datetime.fromtimestamp(current_time)
-        local_tz = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
+# Set up cronjob for this
+@app.get("/update_sweep_prs_v2")
+def update_sweep_prs_v2(repo_full_name: str, installation_id: int):
+    # Get a Github client
+    _, g = get_github_client(installation_id)
 
-        while True:
+    # Get the repository
+    repo = g.get_repo(repo_full_name)
+    config = SweepConfig.get_config(repo)
+
+    try:
+        branch_ttl = int(config.get("branch_ttl", 7))
+    except Exception:
+        branch_ttl = 7
+    branch_ttl = max(branch_ttl, 1)
+
+    # Get all open pull requests created by Sweep
+    pulls = repo.get_pulls(
+        state="open", head="sweep", sort="updated", direction="desc"
+    )[:5]
+
+    # For each pull request, attempt to merge the changes from the default branch into the pull request branch
+    try:
+        for pr in pulls:
+            try:
+                # make sure it's a sweep ticket
+                feature_branch = pr.head.ref
+                if not feature_branch.startswith(
+                    "sweep/"
+                ) and not feature_branch.startswith("sweep_"):
+                    continue
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/cli.py`
+### `sweepai/api.py`
 
-The `run` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+The `should_handle_comment` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
 
 ```py
-    if not os.path.exists(config_path):
-        cprint(
-            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
-            style="yellow",
+        logger.warning("Failed to update sweep PRs")
+
+def should_handle_comment(request: CommentCreatedRequest | IssueCommentRequest):
+    comment = request.comment.body
+    return (
+        (
+            comment.lower().startswith("sweep:") # we will handle all comments (with or without label) that start with "sweep:"
         )
-        raise ValueError(
-            "Configuration not found, please run 'sweep init' to initialize the CLI."
-        )
-    posthog_capture(
-        "sweep_watch_started",
-        {
-            "repo": repo_name,
-            "debug": debug,
-            "record_events": record_events,
-            "max_events": max_events,
-        },
+        and request.comment.user.type == "User" # ensure it's a user comment
+        and request.comment.user.login not in BLACKLISTED_USERS # ensure it's not a blacklisted user
+        and BOT_SUFFIX not in comment # we don't handle bot commnents
     )
-    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
-    if GITHUB_PAT is None:
-        raise ValueError("GITHUB_PAT environment variable must be set")
-    g = Github(os.environ["GITHUB_PAT"])
-    repo = g.get_repo(repo_name)
-    if debug:
-        logger.debug("Debug mode enabled")
 
-    def stream_events(repo: Repository, timeout: int = 2, offset: int = 2 * 60):
-        processed_event_ids = set()
-        current_time = time.time() - offset
-        current_time = datetime.datetime.fromtimestamp(current_time)
-        local_tz = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
+def handle_event(request_dict, event):
+    action = request_dict.get("action")
+    
+    username = request_dict.get("sender", {}).get("login")
+    if username:
+        set_user({"username": username})
 
-        while True:
+    if repo_full_name := request_dict.get("repository", {}).get("full_name"):
+        if repo_full_name in DISABLED_REPOS:
+            logger.warning(f"Repo {repo_full_name} is disabled")
+            return {"success": False, "error_message": "Repo is disabled"}
+
+    with logger.contextualize(tracking_id="main", env=ENV):
+        match event, action:
+            case "check_run", "completed":
+                request = CheckRunCompleted(**request_dict)
+                _, g = get_github_client(request.installation.id)
+                repo = g.get_repo(request.repository.full_name)
+                pull_requests = request.check_run.pull_requests
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
@@ -217,10 +215,10 @@ This function is important because it defines how Sweep Tutorial: Issue-to-PR AI
 
 ```mermaid
 flowchart TD
-    A[test]
-    B[watch]
-    C[init]
-    D[run]
+    A[webhook]
+    B[jira_webhook]
+    C[update_sweep_prs_v2]
+    D[should_handle_comment]
     A --> B
     B --> C
     C --> D

@@ -14,6 +14,16 @@ Welcome to **Chapter 3: Vector Operations**. In this part of **LanceDB Tutorial:
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A[Embedding model] --> B[query vector float32]
+    B --> C[table.search vector]
+    C --> D[ANN search IVF_PQ]
+    D --> E[Top-K candidates]
+    E --> F[Reranking optional]
+    F --> G[Results with distance score]
+```
+
 Vector operations are at the heart of LanceDB. This chapter covers indexing strategies, distance metrics, approximate nearest neighbor (ANN) search, and advanced query patterns for building high-performance vector search applications.
 
 ## Vector Indexing

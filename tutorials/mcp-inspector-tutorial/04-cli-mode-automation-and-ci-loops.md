@@ -53,9 +53,89 @@ You can now automate Inspector-based checks in build and release pipelines.
 
 Next: [Chapter 5: Security, Auth, and Network Hardening](05-security-auth-and-network-hardening.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `client/bin/start.js`
+
+The `getClientUrl` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+function getClientUrl(port, authDisabled, sessionToken, serverPort) {
+  const host = process.env.HOST || "localhost";
+  const baseUrl = `http://${host}:${port}`;
+
+  const params = new URLSearchParams();
+  if (serverPort && serverPort !== DEFAULT_MCP_PROXY_LISTEN_PORT) {
+    params.set("MCP_PROXY_PORT", serverPort);
+  }
+  if (!authDisabled) {
+    params.set("MCP_PROXY_AUTH_TOKEN", sessionToken);
+  }
+  return params.size > 0 ? `${baseUrl}/?${params.toString()}` : baseUrl;
+}
+
+async function startDevServer(serverOptions) {
+  const {
+    SERVER_PORT,
+    CLIENT_PORT,
+    sessionToken,
+    envVars,
+    abort,
+    transport,
+    serverUrl,
+  } = serverOptions;
+  const serverCommand = "npx";
+  const serverArgs = ["tsx", "watch", "--clear-screen=false", "src/index.ts"];
+  const isWindows = process.platform === "win32";
+
+  const spawnOptions = {
+    cwd: resolve(__dirname, "../..", "server"),
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
+
+### `client/bin/start.js`
+
+The `startDevServer` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+async function startDevServer(serverOptions) {
+  const {
+    SERVER_PORT,
+    CLIENT_PORT,
+    sessionToken,
+    envVars,
+    abort,
+    transport,
+    serverUrl,
+  } = serverOptions;
+  const serverCommand = "npx";
+  const serverArgs = ["tsx", "watch", "--clear-screen=false", "src/index.ts"];
+  const isWindows = process.platform === "win32";
+
+  const spawnOptions = {
+    cwd: resolve(__dirname, "../..", "server"),
+    env: {
+      ...process.env,
+      SERVER_PORT,
+      CLIENT_PORT,
+      MCP_PROXY_AUTH_TOKEN: sessionToken,
+      MCP_ENV_VARS: JSON.stringify(envVars),
+      ...(transport ? { MCP_TRANSPORT: transport } : {}),
+      ...(serverUrl ? { MCP_SERVER_URL: serverUrl } : {}),
+    },
+    signal: abort.signal,
+    echoOutput: true,
+  };
+
+  // For Windows, we need to ignore stdin to simulate < NUL
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
 ### `client/bin/start.js`
 
@@ -98,96 +178,14 @@ async function startProdServer(serverOptions) {
 
 This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
-### `client/bin/start.js`
-
-The `startDevClient` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-async function startDevClient(clientOptions) {
-  const {
-    CLIENT_PORT,
-    SERVER_PORT,
-    authDisabled,
-    sessionToken,
-    abort,
-    cancelled,
-  } = clientOptions;
-  const clientCommand = "npx";
-  const host = process.env.HOST || "localhost";
-  const clientArgs = ["vite", "--port", CLIENT_PORT, "--host", host];
-  const isWindows = process.platform === "win32";
-
-  const spawnOptions = {
-    cwd: resolve(__dirname, ".."),
-    env: { ...process.env, CLIENT_PORT },
-    signal: abort.signal,
-    echoOutput: true,
-  };
-
-  // For Windows, we need to ignore stdin to prevent hanging
-  if (isWindows) {
-    spawnOptions.stdio = ["ignore", "pipe", "pipe"];
-  }
-
-  const client = spawn(clientCommand, clientArgs, spawnOptions);
-
-  const url = getClientUrl(
-    CLIENT_PORT,
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
-### `client/bin/start.js`
-
-The `startProdClient` function in [`client/bin/start.js`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/client/bin/start.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-async function startProdClient(clientOptions) {
-  const {
-    CLIENT_PORT,
-    SERVER_PORT,
-    authDisabled,
-    sessionToken,
-    abort,
-    cancelled,
-  } = clientOptions;
-  const inspectorClientPath = resolve(
-    __dirname,
-    "../..",
-    "client",
-    "bin",
-    "client.js",
-  );
-
-  const url = getClientUrl(
-    CLIENT_PORT,
-    authDisabled,
-    sessionToken,
-    SERVER_PORT,
-  );
-
-  await spawnPromise("node", [inspectorClientPath], {
-    env: {
-      ...process.env,
-      CLIENT_PORT,
-      INSPECTOR_URL: url,
-    },
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[startProdServer]
-    B[startDevClient]
-    C[startProdClient]
+    A[getClientUrl]
+    B[startDevServer]
+    C[startProdServer]
     A --> B
     B --> C
 ```

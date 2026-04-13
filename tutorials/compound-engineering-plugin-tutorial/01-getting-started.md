@@ -46,8 +46,6 @@ You now have a working compound-engineering baseline in Claude Code.
 
 Next: [Chapter 2: Compound Engineering Philosophy and Workflow Loop](02-compound-engineering-philosophy-and-workflow-loop.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/commands/install.ts`
@@ -55,9 +53,9 @@ Next: [Chapter 2: Compound Engineering Philosophy and Workflow Loop](02-compound
 The `resolvePluginPath` function in [`src/commands/install.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    }
 
-    const resolvedPlugin = await resolvePluginPath(String(args.plugin))
+    const branch = args.branch ? String(args.branch) : undefined
+    const resolvedPlugin = await resolvePluginPath(String(args.plugin), branch)
 
     try {
       const plugin = await loadClaudePlugin(resolvedPlugin.path)
@@ -175,12 +173,19 @@ This function is important because it defines how Compound Engineering Plugin Tu
 
 ### `src/commands/install.ts`
 
-The `resolveGitHubPluginPath` function in [`src/commands/install.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+The `resolveBundledPluginPath` function in [`src/commands/install.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
 
 ```ts
+  // Skip bundled plugins when a branch is specified — the user wants a specific remote version
+  if (!branch) {
+    const bundledPluginPath = await resolveBundledPluginPath(input)
+    if (bundledPluginPath) {
+      return { path: bundledPluginPath }
+    }
+  }
 
-  // Otherwise, always fetch the latest from GitHub
-  return await resolveGitHubPluginPath(input)
+  // Otherwise, fetch from GitHub (optionally from a specific branch)
+  return await resolveGitHubPluginPath(input, branch)
 }
 
 function parseExtraTargets(value: unknown): string[] {
@@ -201,15 +206,8 @@ function resolveOutputRoot(value: unknown): string {
   return path.join(os.homedir(), ".config", "opencode")
 }
 
-async function resolveGitHubPluginPath(pluginName: string): Promise<ResolvedPluginPath> {
-  const tempRoot = await fs.mkdtemp(path.join(os.tmpdir(), "compound-plugin-"))
-  const source = resolveGitHubSource()
-  try {
-    await cloneGitHubRepo(source, tempRoot)
-  } catch (error) {
-    await fs.rm(tempRoot, { recursive: true, force: true })
-    throw error
-  }
+async function resolveBundledPluginPath(pluginName: string): Promise<string | null> {
+  const bundledRoot = fileURLToPath(new URL("../../plugins/", import.meta.url))
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -222,8 +220,8 @@ flowchart TD
     A[resolvePluginPath]
     B[parseExtraTargets]
     C[resolveOutputRoot]
-    D[resolveGitHubPluginPath]
-    E[resolveGitHubSource]
+    D[resolveBundledPluginPath]
+    E[resolveGitHubPluginPath]
     A --> B
     B --> C
     C --> D

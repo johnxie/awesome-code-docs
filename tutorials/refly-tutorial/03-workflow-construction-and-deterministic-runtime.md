@@ -49,88 +49,65 @@ You now have a practical pattern for building stable workflows and iterating saf
 
 Next: [Chapter 4: API and Webhook Integrations](04-api-and-webhook-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/cleanup-node-modules.js`
+### `scripts/upload-config.js`
 
-The `getDirectorySize` function in [`scripts/cleanup-node-modules.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/cleanup-node-modules.js) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/upload-config.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/upload-config.js) handles a key part of this chapter's functionality:
 
 ```js
- * @param {string} dirPath - Path to directory
- */
-function getDirectorySize(dirPath) {
-  let totalSize = 0;
-
-  try {
-    const items = fs.readdirSync(dirPath, { withFileTypes: true });
-
-    for (const item of items) {
-      const fullPath = path.join(dirPath, item.name);
-
-      if (item.isDirectory()) {
-        totalSize += getDirectorySize(fullPath);
-      } else {
-        try {
-          const stats = fs.statSync(fullPath);
-          totalSize += stats.size;
-        } catch (_error) {
-          // Skip files we can't stat
-        }
-      }
-    }
-  } catch (_error) {
-    // Skip directories we can't read
-  }
-
-  return totalSize;
 }
 
 async function main() {
-  console.log('🔍 Searching for node_modules directories...\n');
+  // upload mcp catalog
+  await uploadState('config/mcp-catalog.json', 'mcp-config/mcp-catalog.json');
+
+  await uploadState('config/provider-catalog.json', 'mcp-config/provider-catalog.json');
+}
+
+main();
 
 ```
 
 This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
-### `scripts/cleanup-node-modules.js`
+### `docs/.vitepress/config.ts`
 
-The `main` function in [`scripts/cleanup-node-modules.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/cleanup-node-modules.js) handles a key part of this chapter's functionality:
+The `gtag` function in [`docs/.vitepress/config.ts`](https://github.com/refly-ai/refly/blob/HEAD/docs/.vitepress/config.ts) handles a key part of this chapter's functionality:
 
-```js
-}
+```ts
+      {
+        async: '',
+        src: 'https://www.googletagmanager.com/gtag/js?id=G-RS0SJYDFJF',
+      },
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-RS0SJYDFJF');`,
+    ],
+  ],
 
-async function main() {
-  console.log('🔍 Searching for node_modules directories...\n');
+  // File path rewrites to map /en/* files to root URLs
+  rewrites: {
+    'en/index.md': 'index.md',
+    'en/:path*': ':path*',
+  },
 
-  const startTime = Date.now();
-  const rootDir = process.cwd();
-
-  // Find all node_modules directories
-  const nodeModulesPaths = findNodeModules(rootDir);
-
-  if (nodeModulesPaths.length === 0) {
-    console.log('✨ No node_modules directories found!');
-    return;
-  }
-
-  console.log(`\n📊 Found ${nodeModulesPaths.length} node_modules directories`);
-
-  // Calculate total size before deletion
-  let totalSize = 0;
-  console.log('\n📏 Calculating sizes...');
-  for (const dirPath of nodeModulesPaths) {
-    const size = getDirectorySize(dirPath);
-    totalSize += size;
-    console.log(`  ${path.relative(rootDir, dirPath)}: ${formatBytes(size)}`);
-  }
-
-  console.log(`\n💾 Total size to be freed: ${formatBytes(totalSize)}`);
-  console.log('\n🗑️  Starting deletion...\n');
-
-  // Delete all found node_modules directories
-  let deletedCount = 0;
+  // i18n configuration
+  locales: {
+    root: {
+      label: 'English',
+      lang: 'en',
+      title: 'Refly Docs',
+      description: 'Refly Documentation',
+      themeConfig: {
+        nav: enNav,
+        sidebar: sidebar.en,
+        siteTitle: 'Refly Docs',
 ```
 
 This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
@@ -140,7 +117,7 @@ This function is important because it defines how Refly Tutorial: Build Determin
 
 ```mermaid
 flowchart TD
-    A[getDirectorySize]
-    B[main]
+    A[main]
+    B[gtag]
     A --> B
 ```

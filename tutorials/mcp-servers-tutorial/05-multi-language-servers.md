@@ -103,184 +103,182 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `getFileStats` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `GitHashParamType` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
+```py
 
-// File Operations
-export async function getFileStats(filePath: string): Promise<FileInfo> {
-  const stats = await fs.stat(filePath);
-  return {
-    size: stats.size,
-    created: stats.birthtime,
-    modified: stats.mtime,
-    accessed: stats.atime,
-    isDirectory: stats.isDirectory(),
-    isFile: stats.isFile(),
-    permissions: stats.mode.toString(8).slice(-3),
-  };
-}
 
-export async function readFileContent(filePath: string, encoding: string = 'utf-8'): Promise<string> {
-  return await fs.readFile(filePath, encoding as BufferEncoding);
-}
+class GitHashParamType(click.ParamType):
+    name = "git_hash"
 
-export async function writeFileContent(filePath: string, content: string): Promise<void> {
-  try {
-    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,
-    // preventing writes through pre-existing symlinks
-    await fs.writeFile(filePath, content, { encoding: "utf-8", flag: 'wx' });
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
-      // Security: Use atomic rename to prevent race conditions where symlinks
-      // could be created between validation and write. Rename operations
-      // replace the target file atomically and don't follow symlinks.
-      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;
-      try {
-        await fs.writeFile(tempPath, content, 'utf-8');
+    def convert(
+        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
+    ) -> GitHash | None:
+        if value is None:
+            return None
+
+        if not (8 <= len(value) <= 40):
+            self.fail(f"Git hash must be between 8 and 40 characters, got {len(value)}")
+
+        if not re.match(r"^[0-9a-fA-F]+$", value):
+            self.fail("Git hash must contain only hex digits (0-9, a-f)")
+
+        try:
+            # Verify hash exists in repo
+            subprocess.run(
+                ["git", "rev-parse", "--verify", value], check=True, capture_output=True
+            )
+        except subprocess.CalledProcessError:
+            self.fail(f"Git hash {value} not found in repository")
+
+        return GitHash(value.lower())
+
+
+GIT_HASH = GitHashParamType()
+
+
+class Package(Protocol):
 ```
 
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `readFileContent` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `Package` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
-}
+```py
 
-export async function readFileContent(filePath: string, encoding: string = 'utf-8'): Promise<string> {
-  return await fs.readFile(filePath, encoding as BufferEncoding);
-}
 
-export async function writeFileContent(filePath: string, content: string): Promise<void> {
-  try {
-    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,
-    // preventing writes through pre-existing symlinks
-    await fs.writeFile(filePath, content, { encoding: "utf-8", flag: 'wx' });
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
-      // Security: Use atomic rename to prevent race conditions where symlinks
-      // could be created between validation and write. Rename operations
-      // replace the target file atomically and don't follow symlinks.
-      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;
-      try {
-        await fs.writeFile(tempPath, content, 'utf-8');
-        await fs.rename(tempPath, filePath);
-      } catch (renameError) {
-        try {
-          await fs.unlink(tempPath);
-        } catch {}
-        throw renameError;
-      }
-    } else {
-      throw error;
-    }
-  }
-}
+class Package(Protocol):
+    path: Path
 
+    def package_name(self) -> str: ...
+
+    def update_version(self, version: Version) -> None: ...
+
+
+@dataclass
+class NpmPackage:
+    path: Path
+
+    def package_name(self) -> str:
+        with open(self.path / "package.json", "r") as f:
+            return json.load(f)["name"]
+
+    def update_version(self, version: Version):
+        with open(self.path / "package.json", "r+") as f:
+            data = json.load(f)
+            data["version"] = version
+            f.seek(0)
+            json.dump(data, f, indent=2)
+            f.truncate()
+
+
+@dataclass
+class PyPiPackage:
+    path: Path
+
+    def package_name(self) -> str:
 ```
 
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `writeFileContent` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `class` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
-}
-
-export async function writeFileContent(filePath: string, content: string): Promise<void> {
-  try {
-    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,
-    // preventing writes through pre-existing symlinks
-    await fs.writeFile(filePath, content, { encoding: "utf-8", flag: 'wx' });
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
-      // Security: Use atomic rename to prevent race conditions where symlinks
-      // could be created between validation and write. Rename operations
-      // replace the target file atomically and don't follow symlinks.
-      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;
-      try {
-        await fs.writeFile(tempPath, content, 'utf-8');
-        await fs.rename(tempPath, filePath);
-      } catch (renameError) {
-        try {
-          await fs.unlink(tempPath);
-        } catch {}
-        throw renameError;
-      }
-    } else {
-      throw error;
-    }
-  }
-}
+```py
+import datetime
+import subprocess
+from dataclasses import dataclass
+from typing import Any, Iterator, NewType, Protocol
 
 
-// File Editing Functions
-interface FileEdit {
-  oldText: string;
+Version = NewType("Version", str)
+GitHash = NewType("GitHash", str)
+
+
+class GitHashParamType(click.ParamType):
+    name = "git_hash"
+
+    def convert(
+        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
+    ) -> GitHash | None:
+        if value is None:
+            return None
+
+        if not (8 <= len(value) <= 40):
+            self.fail(f"Git hash must be between 8 and 40 characters, got {len(value)}")
+
+        if not re.match(r"^[0-9a-fA-F]+$", value):
+            self.fail("Git hash must contain only hex digits (0-9, a-f)")
+
+        try:
+            # Verify hash exists in repo
+            subprocess.run(
+                ["git", "rev-parse", "--verify", value], check=True, capture_output=True
+            )
+        except subprocess.CalledProcessError:
+            self.fail(f"Git hash {value} not found in repository")
 ```
 
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `applyFileEdits` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `class` class in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
-}
+```py
+import datetime
+import subprocess
+from dataclasses import dataclass
+from typing import Any, Iterator, NewType, Protocol
 
-export async function applyFileEdits(
-  filePath: string,
-  edits: FileEdit[],
-  dryRun: boolean = false
-): Promise<string> {
-  // Read file content and normalize line endings
-  const content = normalizeLineEndings(await fs.readFile(filePath, 'utf-8'));
 
-  // Apply edits sequentially
-  let modifiedContent = content;
-  for (const edit of edits) {
-    const normalizedOld = normalizeLineEndings(edit.oldText);
-    const normalizedNew = normalizeLineEndings(edit.newText);
+Version = NewType("Version", str)
+GitHash = NewType("GitHash", str)
 
-    // If exact match exists, use it
-    if (modifiedContent.includes(normalizedOld)) {
-      modifiedContent = modifiedContent.replace(normalizedOld, normalizedNew);
-      continue;
-    }
 
-    // Otherwise, try line-by-line matching with flexibility for whitespace
-    const oldLines = normalizedOld.split('\n');
-    const contentLines = modifiedContent.split('\n');
-    let matchFound = false;
+class GitHashParamType(click.ParamType):
+    name = "git_hash"
 
-    for (let i = 0; i <= contentLines.length - oldLines.length; i++) {
-      const potentialMatch = contentLines.slice(i, i + oldLines.length);
+    def convert(
+        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
+    ) -> GitHash | None:
+        if value is None:
+            return None
 
-      // Compare lines with normalized whitespace
-      const isMatch = oldLines.every((oldLine, j) => {
+        if not (8 <= len(value) <= 40):
+            self.fail(f"Git hash must be between 8 and 40 characters, got {len(value)}")
+
+        if not re.match(r"^[0-9a-fA-F]+$", value):
+            self.fail("Git hash must contain only hex digits (0-9, a-f)")
+
+        try:
+            # Verify hash exists in repo
+            subprocess.run(
+                ["git", "rev-parse", "--verify", value], check=True, capture_output=True
+            )
+        except subprocess.CalledProcessError:
+            self.fail(f"Git hash {value} not found in repository")
 ```
 
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This class is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getFileStats]
-    B[readFileContent]
-    C[writeFileContent]
-    D[applyFileEdits]
-    E[tailFile]
+    A[GitHashParamType]
+    B[Package]
+    C[class]
+    D[class]
+    E[has_changes]
     A --> B
     B --> C
     C --> D

@@ -75,36 +75,22 @@ Next: [Chapter 2: Architecture and Runtime Components](02-architecture-and-runti
 
 ## Source Code Walkthrough
 
-### `rules/use-schema-result.yml`
+Use the following upstream sources to verify getting started and first server details while reading this chapter:
 
-The `severity` interface in [`rules/use-schema-result.yml`](https://github.com/TabbyML/tabby/blob/HEAD/rules/use-schema-result.yml) handles a key part of this chapter's functionality:
+- [`crates/tabby/src/main.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby/src/main.rs) — the Rust binary entry point for the Tabby server, handling CLI argument parsing, configuration loading, and the HTTP server startup sequence.
+- [`crates/tabby/src/serve.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby/src/serve.rs) — the primary server initialization module that wires together the completion API, chat API, health endpoint, and model backend into a running Axum HTTP service.
 
-```yml
-id: use-schema-result
-message: Use schema::Result as API interface
-severity: error
-language: rust
-files:
-- ./ee/tabby-schema/src/**
-ignores:
-- ./ee/tabby-schema/src/lib.rs
-- ./ee/tabby-schema/src/dao.rs
-rule:
-  any:
-    - pattern: anyhow
-      not:
-        inside:
-          kind: enum_variant
-          stopBy: end
-    - pattern: FieldResult
-```
-
-This interface is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace `main.rs` to understand the startup flags (model path, port, device) and how they map to server behavior
+- review `serve.rs` to see how the completion and chat routes are registered and which middleware is applied
+- check `ee/tabby-webserver/` for the enterprise web server layer that adds authentication and UI
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[severity]
+flowchart LR
+    A[tabby serve command] --> B[main.rs CLI parsing]
+    B --> C[serve.rs server init]
+    C --> D[Completion and chat routes registered]
+    D --> E[Server accepting requests on configured port]
 ```

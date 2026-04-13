@@ -60,8 +60,6 @@ You now have a governance model that keeps Taskade MCP useful without sacrificin
 
 Next: [Chapter 8: Contribution, Testing, and Release Operations](08-contribution-testing-and-release-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `packages/server/src/cli.ts`

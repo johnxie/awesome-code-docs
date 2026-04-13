@@ -38,170 +38,168 @@ You now understand the isolation model that powers Claude Squad parallelism.
 
 Next: [Chapter 3: Session Lifecycle and Task Parallelism](03-session-lifecycle-and-task-parallelism.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/app.go`
+### `session/instance.go`
 
-The `handleMenuHighlighting` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
+The `ToInstanceData` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (m *home) handleMenuHighlighting(msg tea.KeyMsg) (cmd tea.Cmd, returnEarly bool) {
-	// Handle menu highlighting when you press a button. We intercept it here and immediately return to
-	// update the ui while re-sending the keypress. Then, on the next call to this, we actually handle the keypress.
-	if m.keySent {
-		m.keySent = false
-		return nil, false
-	}
-	if m.state == statePrompt || m.state == stateHelp || m.state == stateConfirm {
-		return nil, false
-	}
-	// If it's in the global keymap, we should try to highlight it.
-	name, ok := keys.GlobalKeyStringsMap[msg.String()]
-	if !ok {
-		return nil, false
-	}
-
-	if m.list.GetSelectedInstance() != nil && m.list.GetSelectedInstance().Paused() && name == keys.KeyEnter {
-		return nil, false
-	}
-	if name == keys.KeyShiftDown || name == keys.KeyShiftUp {
-		return nil, false
+// ToInstanceData converts an Instance to its serializable form
+func (i *Instance) ToInstanceData() InstanceData {
+	data := InstanceData{
+		Title:     i.Title,
+		Path:      i.Path,
+		Branch:    i.Branch,
+		Status:    i.Status,
+		Height:    i.Height,
+		Width:     i.Width,
+		CreatedAt: i.CreatedAt,
+		UpdatedAt: time.Now(),
+		Program:   i.Program,
+		AutoYes:   i.AutoYes,
 	}
 
-	// Skip the menu highlighting if the key is not in the map or we are using the shift up and down keys.
-	// TODO: cleanup: when you press enter on stateNew, we use keys.KeySubmitName. We should unify the keymap.
-	if name == keys.KeyEnter && m.state == stateNew {
-		name = keys.KeySubmitName
+	// Only include worktree data if gitWorktree is initialized
+	if i.gitWorktree != nil {
+		data.Worktree = GitWorktreeData{
+			RepoPath:         i.gitWorktree.GetRepoPath(),
+			WorktreePath:     i.gitWorktree.GetWorktreePath(),
+			SessionName:      i.Title,
+			BranchName:       i.gitWorktree.GetBranchName(),
+			BaseCommitSHA:    i.gitWorktree.GetBaseCommitSHA(),
+			IsExistingBranch: i.gitWorktree.IsExistingBranch(),
+		}
 	}
-	m.keySent = true
-	return tea.Batch(
+
+	// Only include diff stats if they exist
+	if i.diffStats != nil {
+		data.DiffStats = DiffStatsData{
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `app/app.go`
+### `session/instance.go`
 
-The `handleKeyPress` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
-
-```go
-		return m, nil
-	case tea.KeyMsg:
-		return m.handleKeyPress(msg)
-	case tea.WindowSizeMsg:
-		m.updateHandleWindowSizeEvent(msg)
-		return m, nil
-	case error:
-		// Handle errors from confirmation actions
-		return m, m.handleError(msg)
-	case instanceChangedMsg:
-		// Handle instance changed after confirmation action
-		return m, m.instanceChanged()
-	case instanceStartedMsg:
-		// Select the instance that just started (or failed)
-		m.list.SelectInstance(msg.instance)
-
-		if msg.err != nil {
-			m.list.Kill()
-			return m, tea.Batch(m.handleError(msg.err), m.instanceChanged())
-		}
-
-		// Save after successful start
-		if err := m.storage.SaveInstances(m.list.GetInstances()); err != nil {
-			return m, m.handleError(err)
-		}
-		if m.autoYes {
-			msg.instance.AutoYes = true
-		}
-
-		if msg.promptAfterName {
-			m.state = statePrompt
-			m.menu.SetState(ui.StatePrompt)
-```
-
-This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
-
-### `app/app.go`
-
-The `instanceChanged` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
+The `FromInstanceData` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
 
 ```go
-		m.errBox.Clear()
-	case previewTickMsg:
-		cmd := m.instanceChanged()
-		return m, tea.Batch(
-			cmd,
-			func() tea.Msg {
-				time.Sleep(100 * time.Millisecond)
-				return previewTickMsg{}
-			},
-		)
-	case keyupMsg:
-		m.menu.ClearKeydown()
-		return m, nil
-	case tickUpdateMetadataMessage:
-		for _, instance := range m.list.GetInstances() {
-			if !instance.Started() || instance.Paused() {
-				continue
-			}
-			instance.CheckAndHandleTrustPrompt()
-			updated, prompt := instance.HasUpdated()
-			if updated {
-				instance.SetStatus(session.Running)
-			} else {
-				if prompt {
-					instance.TapEnter()
-				} else {
-					instance.SetStatus(session.Ready)
-				}
-			}
-			if err := instance.UpdateDiffStats(); err != nil {
-				log.WarningLog.Printf("could not update diff stats: %v", err)
-			}
-```
-
-This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
-
-### `app/app.go`
-
-The `keydownCallback` function in [`app/app.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/app.go) handles a key part of this chapter's functionality:
-
-```go
-	return tea.Batch(
-		func() tea.Msg { return msg },
-		m.keydownCallback(name)), true
 }
 
-func (m *home) handleKeyPress(msg tea.KeyMsg) (mod tea.Model, cmd tea.Cmd) {
-	cmd, returnEarly := m.handleMenuHighlighting(msg)
-	if returnEarly {
-		return m, cmd
+// FromInstanceData creates a new Instance from serialized data
+func FromInstanceData(data InstanceData) (*Instance, error) {
+	instance := &Instance{
+		Title:     data.Title,
+		Path:      data.Path,
+		Branch:    data.Branch,
+		Status:    data.Status,
+		Height:    data.Height,
+		Width:     data.Width,
+		CreatedAt: data.CreatedAt,
+		UpdatedAt: data.UpdatedAt,
+		Program:   data.Program,
+		gitWorktree: git.NewGitWorktreeFromStorage(
+			data.Worktree.RepoPath,
+			data.Worktree.WorktreePath,
+			data.Worktree.SessionName,
+			data.Worktree.BranchName,
+			data.Worktree.BaseCommitSHA,
+			data.Worktree.IsExistingBranch,
+		),
+		diffStats: &git.DiffStats{
+			Added:   data.DiffStats.Added,
+			Removed: data.DiffStats.Removed,
+			Content: data.DiffStats.Content,
+		},
 	}
 
-	if m.state == stateHelp {
-		return m.handleHelpState(msg)
+	if instance.Paused() {
+		instance.started = true
+		instance.tmuxSession = tmux.NewTmuxSession(instance.Title, instance.Program)
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `session/instance.go`
+
+The `NewInstance` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func NewInstance(opts InstanceOptions) (*Instance, error) {
+	t := time.Now()
+
+	// Convert path to absolute
+	absPath, err := filepath.Abs(opts.Path)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get absolute path: %w", err)
 	}
 
-	if m.state == stateNew {
-		// Handle quit commands first. Don't handle q because the user might want to type that.
-		if msg.String() == "ctrl+c" {
-			m.state = stateDefault
-			m.promptAfterName = false
-			m.list.Kill()
-			return m, tea.Sequence(
-				tea.WindowSize(),
-				func() tea.Msg {
-					m.menu.SetState(ui.StateDefault)
-					return nil
-				},
-			)
-		}
+	return &Instance{
+		Title:          opts.Title,
+		Status:         Ready,
+		Path:           absPath,
+		Program:        opts.Program,
+		Height:         0,
+		Width:          0,
+		CreatedAt:      t,
+		UpdatedAt:      t,
+		AutoYes:        false,
+		selectedBranch: opts.Branch,
+	}, nil
+}
 
-		instance := m.list.GetInstances()[m.list.NumInstances()-1]
-		switch msg.Type {
+func (i *Instance) RepoName() (string, error) {
+	if !i.started {
+		return "", fmt.Errorf("cannot get repo name for instance that has not been started")
+	}
+	return i.gitWorktree.GetRepoName(), nil
+}
+
+```
+
+This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
+
+### `session/instance.go`
+
+The `RepoName` function in [`session/instance.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/session/instance.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (i *Instance) RepoName() (string, error) {
+	if !i.started {
+		return "", fmt.Errorf("cannot get repo name for instance that has not been started")
+	}
+	return i.gitWorktree.GetRepoName(), nil
+}
+
+func (i *Instance) SetStatus(status Status) {
+	i.Status = status
+}
+
+// SetSelectedBranch sets the branch to use when starting the instance.
+func (i *Instance) SetSelectedBranch(branch string) {
+	i.selectedBranch = branch
+}
+
+// firstTimeSetup is true if this is a new instance. Otherwise, it's one loaded from storage.
+func (i *Instance) Start(firstTimeSetup bool) error {
+	if i.Title == "" {
+		return fmt.Errorf("instance title cannot be empty")
+	}
+
+	var tmuxSession *tmux.TmuxSession
+	if i.tmuxSession != nil {
+		// Use existing tmux session (useful for testing)
+		tmuxSession = i.tmuxSession
+	} else {
+		// Create new tmux session
+		tmuxSession = tmux.NewTmuxSession(i.Title, i.Program)
+	}
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 
 ```mermaid
 flowchart TD
-    A[handleMenuHighlighting]
-    B[handleKeyPress]
-    C[instanceChanged]
-    D[keydownCallback]
-    E[scheduleBranchSearch]
+    A[ToInstanceData]
+    B[FromInstanceData]
+    C[NewInstance]
+    D[RepoName]
+    E[SetStatus]
     A --> B
     B --> C
     C --> D

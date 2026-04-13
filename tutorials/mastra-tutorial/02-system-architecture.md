@@ -50,184 +50,181 @@ You now understand where to place logic in Mastra without mixing concerns.
 
 Next: [Chapter 3: Agents and Tools](03-agents-and-tools.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `explorations/network-validation-bridge.ts`
+### `explorations/ralph-wiggum-loop-prototype.ts`
 
-The `fileContains` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+The `executeAutonomousLoop` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * File contains pattern check
+ * Executes an autonomous loop with the given agent and configuration.
  */
-export function fileContains(path: string, pattern: string | RegExp): ValidationCheck {
-  return {
-    id: `file-contains-${path}`,
-    name: `File Contains Pattern: ${path}`,
-    async check() {
-      const start = Date.now();
-      try {
-        const fs = await import('fs/promises');
-        const content = await fs.readFile(path, 'utf-8');
-        const matches = typeof pattern === 'string' ? content.includes(pattern) : pattern.test(content);
+export async function executeAutonomousLoop(
+  agent: Agent,
+  config: AutonomousLoopConfig,
+  mastra?: Mastra,
+): Promise<AutonomousLoopResult> {
+  const iterations: IterationResult[] = [];
+  let totalTokens = 0;
+  const startTime = Date.now();
 
-        return {
-          success: matches,
-          message: matches
-            ? `File ${path} contains expected pattern`
-            : `File ${path} does not contain expected pattern`,
-          duration: Date.now() - start,
-        };
-      } catch (error: any) {
-        return {
-          success: false,
-          message: `Could not read file ${path}: ${error.message}`,
-          duration: Date.now() - start,
-        };
+  const contextWindow = config.contextWindow ?? 5;
+
+  for (let i = 0; i < config.maxIterations; i++) {
+    const iterationStartTime = Date.now();
+
+    // Notify iteration start
+    await config.onIterationStart?.(i + 1);
+
+    // Build context from previous iterations
+    const previousResults = iterations.slice(-contextWindow).map(r => ({
+      iteration: r.iteration,
+      success: r.success,
+      output: r.agentOutput,
+      error: r.error?.message,
+    }));
+
+    let contextualPrompt = config.prompt;
+    if (previousResults.length > 0) {
+      const historyContext = previousResults
+        .map(
+          r => `
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `explorations/ralph-wiggum-loop-prototype.ts`
+
+The `main` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+
+```ts
+});
+
+async function main() {
+  const result = await executeAutonomousLoop(migrationAgent, {
+    prompt: 'Migrate all tests in src/__tests__ from Jest to Vitest',
+    completion: testsPassing('npm run test'),
+    maxIterations: 20,
+    iterationDelay: 1000,
+    onIterationStart: (i) => console.log(`\n🔄 Starting iteration ${i}...`),
+    onIteration: (r) => {
+      console.log(`   ${r.success ? '✅' : '❌'} Iteration ${r.iteration}`);
+      console.log(`   Tokens: ${r.tokensUsed}, Duration: ${r.duration}ms`);
+      if (r.completionCheck.message) {
+        console.log(`   Message: ${r.completionCheck.message}`);
       }
     },
-  };
-}
+  });
 
-// ============================================================================
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/network-validation-bridge.ts`
-
-The `runValidation` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
-
-```ts
-// ============================================================================
-
-async function runValidation(
-  config: NetworkValidationConfig,
-): Promise<{ passed: boolean; results: ValidationResult[] }> {
-  const results: ValidationResult[] = [];
-
-  if (config.parallel) {
-    // Run all checks in parallel
-    const checkResults = await Promise.all(config.checks.map(check => check.check()));
-    results.push(...checkResults);
-  } else {
-    // Run checks sequentially (can short-circuit on failure for 'all' strategy)
-    for (const check of config.checks) {
-      const result = await check.check();
-      results.push(result);
-
-      // Short-circuit for 'all' strategy if a check fails
-      if (config.strategy === 'all' && !result.success) {
-        break;
-      }
-      // Short-circuit for 'any' strategy if a check passes
-      if (config.strategy === 'any' && result.success) {
-        break;
-      }
-    }
+  console.log('\n' + '='.repeat(50));
+  console.log(`Result: ${result.success ? '✅ SUCCESS' : '❌ FAILED'}`);
+  console.log(`Total iterations: ${result.iterations.length}`);
+  console.log(`Total tokens: ${result.totalTokens}`);
+  console.log(`Total duration: ${result.totalDuration}ms`);
+  if (result.completionMessage) {
+    console.log(`Message: ${result.completionMessage}`);
   }
-
-  const passed = config.strategy === 'all' ? results.every(r => r.success) : results.some(r => r.success);
-
-  return { passed, results };
 }
+
+main().catch(console.error);
+*/
+
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/network-validation-bridge.ts`
+### `explorations/ralph-wiggum-loop-prototype.ts`
 
-The `createValidationTools` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+The `CompletionChecker` interface in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * This allows the routing agent to call validation as a primitive
- */
-export function createValidationTools() {
-  return {
-    runTests: createTool({
-      id: 'run-tests',
-      description:
-        'Run the project test suite to verify changes work correctly. Call this after making code changes to ensure tests pass.',
-      inputSchema: z.object({
-        command: z.string().default('npm test').describe('The test command to run'),
-        timeout: z.number().default(300000).describe('Timeout in milliseconds'),
-      }),
-      execute: async ({ command, timeout }) => {
-        const check = testsPass(command, { timeout });
-        return check.check();
-      },
-    }),
+// ============================================================================
 
-    runBuild: createTool({
-      id: 'run-build',
-      description: 'Build the project to verify there are no compilation errors. Call this after making code changes.',
-      inputSchema: z.object({
-        command: z.string().default('npm run build').describe('The build command to run'),
-        timeout: z.number().default(600000).describe('Timeout in milliseconds'),
-      }),
-      execute: async ({ command, timeout }) => {
-        const check = buildSucceeds(command, { timeout });
-        return check.check();
-      },
-    }),
+export interface CompletionChecker {
+  check: () => Promise<{ success: boolean; message?: string; data?: any }>;
+}
 
-    runLint: createTool({
+export interface AutonomousLoopConfig {
+  /** The task prompt to send to the agent */
+  prompt: string;
+
+  /** How to determine if the task is complete */
+  completion: CompletionChecker;
+
+  /** Maximum number of iterations before giving up */
+  maxIterations: number;
+
+  /** Optional: Maximum tokens to spend */
+  maxTokens?: number;
+
+  /** Optional: Delay between iterations in ms */
+  iterationDelay?: number;
+
+  /** Optional: How many previous iteration results to include in context */
+  contextWindow?: number;
+
+  /** Optional: Called after each iteration */
+  onIteration?: (result: IterationResult) => void | Promise<void>;
+
+  /** Optional: Called when starting an iteration */
+  onIterationStart?: (iteration: number) => void | Promise<void>;
+}
+
 ```
 
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/network-validation-bridge.ts`
+### `explorations/ralph-wiggum-loop-prototype.ts`
 
-The `networkWithValidation` function in [`explorations/network-validation-bridge.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/network-validation-bridge.ts) handles a key part of this chapter's functionality:
+The `AutonomousLoopConfig` interface in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * to the existing Agent Network loop.
- */
-export async function networkWithValidation(
-  agent: Agent,
-  messages: MessageListInput,
-  options: ValidatedNetworkOptions,
-) {
-  const { maxIterations, validation, onIteration, ...networkOptions } = options;
+}
 
-  let iteration = 0;
-  let isComplete = false;
-  let lastResult: any = null;
+export interface AutonomousLoopConfig {
+  /** The task prompt to send to the agent */
+  prompt: string;
 
-  // Track validation feedback to pass to next iteration
-  let validationFeedback: string | null = null;
+  /** How to determine if the task is complete */
+  completion: CompletionChecker;
 
-  while (!isComplete && iteration < maxIterations) {
-    iteration++;
-    const iterationStart = Date.now();
+  /** Maximum number of iterations before giving up */
+  maxIterations: number;
 
-    // Prepare messages with validation feedback from previous iteration
-    let iterationMessages = messages;
-    if (validationFeedback && iteration > 1) {
-      // Append validation feedback to help the agent learn from failures
-      const feedbackMessage = `
-[VALIDATION FEEDBACK FROM PREVIOUS ITERATION]
-The previous attempt was reviewed with automated validation.
-${validationFeedback}
+  /** Optional: Maximum tokens to spend */
+  maxTokens?: number;
 
-Please address these issues and continue working on the task.
-`;
+  /** Optional: Delay between iterations in ms */
+  iterationDelay?: number;
 
+  /** Optional: How many previous iteration results to include in context */
+  contextWindow?: number;
+
+  /** Optional: Called after each iteration */
+  onIteration?: (result: IterationResult) => void | Promise<void>;
+
+  /** Optional: Called when starting an iteration */
+  onIterationStart?: (iteration: number) => void | Promise<void>;
+}
+
+export interface IterationResult {
+  iteration: number;
+  success: boolean;
+  agentOutput: string;
 ```
 
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[fileContains]
-    B[runValidation]
-    C[createValidationTools]
-    D[networkWithValidation]
-    E[ValidationCheck]
+    A[executeAutonomousLoop]
+    B[main]
+    C[CompletionChecker]
+    D[AutonomousLoopConfig]
+    E[IterationResult]
     A --> B
     B --> C
     C --> D

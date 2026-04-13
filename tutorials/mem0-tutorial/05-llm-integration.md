@@ -14,6 +14,17 @@ Welcome to **Chapter 5: Integrating with LLMs**. In this part of **Mem0 Tutorial
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[Provider config] --> B{LLM backend}
+    B -->|OpenAI| C[gpt-4o]
+    B -->|Anthropic| D[claude-3-5-sonnet]
+    B -->|Ollama| E[local model]
+    C --> F[Memory-augmented completion]
+    D --> F
+    E --> F
+```
+
 This chapter covers integrating Mem0 with different LLM providers, implementing memory-augmented conversations, and building sophisticated AI agents that leverage persistent memory for more intelligent and personalized interactions.
 
 ## 🤖 LLM Provider Integration

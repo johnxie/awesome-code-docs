@@ -58,98 +58,27 @@ Next steps:
 - codify command templates for repeatable workflows
 - contribute one focused plugin or documentation improvement
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` contribution process centers on authoring plugin definition files (Markdown/YAML), not compiled code. The contribution workflow and quality gates are defined in the contributing guide and architecture documentation.
 
-The `build_markdown` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `.github/CONTRIBUTING.md`
 
-```py
+The [CONTRIBUTING.md](https://github.com/wshobson/agents/blob/main/.github/CONTRIBUTING.md) defines the end-to-end contribution flow: issue → feature branch → focused changes → updated docs → PR with rationale. This file is the authoritative reference for the Contribution Flow section of this chapter.
 
+### `docs/architecture.md`
 
-def build_markdown(
-    meta: dict,
-    transcript: list[dict] | None,
-    interval_frames: list[Path],
-    scene_frames: list[Path],
-    out_dir: Path,
-    interval: int,
-    ocr_results: Optional[dict[Path, str]] = None,
-    color_analysis: Optional[dict] = None,
-) -> Path:
-    """Assemble the final reference markdown document."""
-    title = meta.get("title", "Untitled Video")
-    channel = meta.get("channel", meta.get("uploader", "Unknown"))
-    duration = meta.get("duration", 0)
-    description = meta.get("description", "")
-    chapters = meta.get("chapters") or []
-    video_url = meta.get("webpage_url", "")
-    tags = meta.get("tags") or []
-
-    ocr_results = ocr_results or {}
-    color_analysis = color_analysis or {}
-
-    lines: list[str] = []
-
-    # --- Header ---
-    lines.append(f"# {title}\n")
-    lines.append(f"> **Source:** [{channel}]({video_url})  ")
-    lines.append(f"> **Duration:** {fmt_timestamp(duration)}  ")
-    lines.append(f"> **Extracted:** {datetime.now().strftime('%Y-%m-%d %H:%M')}  ")
-    if tags:
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `main` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Extract design concepts from a YouTube video into a "
-        "structured markdown reference document.",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=textwrap.dedent("""\
-            Examples:
-              %(prog)s "https://youtu.be/eVnQFWGDEdY"
-              %(prog)s "https://youtu.be/eVnQFWGDEdY" --full
-              %(prog)s "https://youtu.be/eVnQFWGDEdY" --interval 15 --scene-detect --ocr
-              %(prog)s "https://youtu.be/eVnQFWGDEdY" --ocr --ocr-engine easyocr --colors
-              %(prog)s "https://youtu.be/eVnQFWGDEdY" -o ./my-output
-        """),
-    )
-    parser.add_argument("url", help="YouTube video URL or ID")
-    parser.add_argument(
-        "-o",
-        "--output-dir",
-        help="Output directory (default: ./yt-extract-<video_id>)",
-    )
-    parser.add_argument(
-        "--interval",
-        type=int,
-        default=30,
-        help="Seconds between keyframe captures (default: 30)",
-    )
-    parser.add_argument(
-        "--scene-detect",
-        action="store_true",
-        help="Also extract frames on scene changes (good for visual-heavy videos)",
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+The [architecture guide](https://github.com/wshobson/agents/blob/main/docs/architecture.md) specifies the plugin authoring heuristics this chapter covers: single plugin purpose, explicit naming, minimal overlap, and required usage examples. Reviewing this file before authoring a plugin prevents the most common quality pitfalls.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[build_markdown]
-    B[main]
-    A --> B
+    A[Identify issue or gap] --> B[Feature branch]
+    B -->|author new plugin| C[plugins/name/agents/ + commands/ + skills/]
+    C -->|follow| D[docs/architecture.md design principles]
+    D -->|single responsibility| E[Plugin quality check]
+    E -->|update docs| F[docs/plugins.md catalog entry]
+    F -->|PR with rationale| G[Review against .github/CONTRIBUTING.md]
+    G --> H[Merge]
 ```

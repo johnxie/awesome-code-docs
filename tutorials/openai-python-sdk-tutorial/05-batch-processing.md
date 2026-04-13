@@ -69,89 +69,46 @@ You now have a scalable asynchronous processing pattern for bulk OpenAI workload
 
 Next: [Chapter 6: Fine-Tuning](06-fine-tuning.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/azure_ad.py`
+### `examples/parsing_tools.py`
 
-The `sync_main` function in [`examples/azure_ad.py`](https://github.com/openai/openai-python/blob/HEAD/examples/azure_ad.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def sync_main() -> None:
-    from azure.identity import DefaultAzureCredential, get_bearer_token_provider
-
-    token_provider: AzureADTokenProvider = get_bearer_token_provider(DefaultAzureCredential(), scopes)
-
-    client = AzureOpenAI(
-        api_version=api_version,
-        azure_endpoint=endpoint,
-        azure_ad_token_provider=token_provider,
-    )
-
-    completion = client.chat.completions.create(
-        model=deployment_name,
-        messages=[
-            {
-                "role": "user",
-                "content": "How do I output all files in a directory using Python?",
-            }
-        ],
-    )
-
-    print(completion.to_json())
-
-
-async def async_main() -> None:
-    from azure.identity.aio import DefaultAzureCredential, get_bearer_token_provider
-
-    token_provider: AsyncAzureADTokenProvider = get_bearer_token_provider(DefaultAzureCredential(), scopes)
-
-    client = AsyncAzureOpenAI(
-```
-
-This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
-
-### `examples/azure_ad.py`
-
-The `async_main` function in [`examples/azure_ad.py`](https://github.com/openai/openai-python/blob/HEAD/examples/azure_ad.py) handles a key part of this chapter's functionality:
+The `import` interface in [`examples/parsing_tools.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools.py) handles a key part of this chapter's functionality:
 
 ```py
+from enum import Enum
+from typing import List, Union
+
+import rich
+from pydantic import BaseModel
+
+import openai
+from openai import OpenAI
 
 
-async def async_main() -> None:
-    from azure.identity.aio import DefaultAzureCredential, get_bearer_token_provider
-
-    token_provider: AsyncAzureADTokenProvider = get_bearer_token_provider(DefaultAzureCredential(), scopes)
-
-    client = AsyncAzureOpenAI(
-        api_version=api_version,
-        azure_endpoint=endpoint,
-        azure_ad_token_provider=token_provider,
-    )
-
-    completion = await client.chat.completions.create(
-        model=deployment_name,
-        messages=[
-            {
-                "role": "user",
-                "content": "How do I output all files in a directory using Python?",
-            }
-        ],
-    )
-
-    print(completion.to_json())
+class Table(str, Enum):
+    orders = "orders"
+    customers = "customers"
+    products = "products"
 
 
-sync_main()
+class Column(str, Enum):
+    id = "id"
+    status = "status"
+    expected_delivery_date = "expected_delivery_date"
+    delivered_at = "delivered_at"
+    shipped_at = "shipped_at"
+    ordered_at = "ordered_at"
+    canceled_at = "canceled_at"
 
-asyncio.run(async_main())
 
+class Operator(str, Enum):
+    eq = "="
+    gt = ">"
+    lt = "<"
 ```
 
-This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+This interface is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
 ### `examples/image_stream.py`
 
@@ -194,13 +151,54 @@ def main() -> None:
 
 This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
+### `examples/responses_input_tokens.py`
+
+The `main` function in [`examples/responses_input_tokens.py`](https://github.com/openai/openai-python/blob/HEAD/examples/responses_input_tokens.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def main() -> None:
+    client = OpenAI()
+    tools: List[ToolParam] = [
+        {
+            "type": "function",
+            "name": "get_current_weather",
+            "description": "Get current weather in a given location",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "type": "string",
+                        "description": "City and state, e.g. San Francisco, CA",
+                    },
+                    "unit": {
+                        "type": "string",
+                        "enum": ["c", "f"],
+                        "description": "Temperature unit to use",
+                    },
+                },
+                "required": ["location", "unit"],
+                "additionalProperties": False,
+            },
+            "strict": True,
+        }
+    ]
+
+    input_items: List[ResponseInputItemParam] = [
+        {
+            "type": "message",
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[sync_main]
-    B[async_main]
+    A[import]
+    B[main]
     C[main]
     A --> B
     B --> C

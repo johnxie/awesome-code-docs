@@ -681,6 +681,23 @@ With retrieval mastered, you're ready to:
 
 **Ready to integrate LLMs with your search system? Continue to [Chapter 4: Generators & LLMs](04-generators-llms.md)!** 🚀
 
+## Retrieval Architecture
+
+```mermaid
+flowchart TD
+    A[Query] --> B{Retrieval strategy}
+    B -->|Keyword| C[BM25Retriever]
+    B -->|Semantic| D[EmbeddingRetriever]
+    B -->|Hybrid| E[BM25 + Embedding join]
+    C --> F[InMemoryDocumentStore BM25]
+    D --> G[Vector-indexed document store]
+    E --> F
+    E --> G
+    F --> H[Top-k documents]
+    G --> H
+    H --> I[Generator / downstream component]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `query`, `retriever` so behavior stays predictable as complexity grows.

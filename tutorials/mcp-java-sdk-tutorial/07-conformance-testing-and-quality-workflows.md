@@ -39,129 +39,127 @@ You now have a repeatable testing process for preventing protocol regressions in
 
 Next: [Chapter 8: Spring Integration and Upgrade Strategy](08-spring-integration-and-upgrade-strategy.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`
 
-The `McpStatelessSyncServer` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpStatelessSyncServer.java) handles a key part of this chapter's functionality:
+The `providing` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java) handles a key part of this chapter's functionality:
 
 ```java
- * @author Dariusz Jędrzejczyk
+
+/**
+ * Utility class providing assertion methods for parameter validation.
  */
-public class McpStatelessSyncServer {
-
-	private static final Logger logger = LoggerFactory.getLogger(McpStatelessSyncServer.class);
-
-	private final McpStatelessAsyncServer asyncServer;
-
-	private final boolean immediateExecution;
-
-	McpStatelessSyncServer(McpStatelessAsyncServer asyncServer, boolean immediateExecution) {
-		this.asyncServer = asyncServer;
-		this.immediateExecution = immediateExecution;
-	}
+public final class Assert {
 
 	/**
-	 * Get the server capabilities that define the supported features and functionality.
-	 * @return The server capabilities
+	 * Assert that the collection is not {@code null} and not empty.
+	 * @param collection the collection to check
+	 * @param message the exception message to use if the assertion fails
+	 * @throws IllegalArgumentException if the collection is {@code null} or empty
 	 */
-	public McpSchema.ServerCapabilities getServerCapabilities() {
-		return this.asyncServer.getServerCapabilities();
+	public static void notEmpty(@Nullable Collection<?> collection, String message) {
+		if (collection == null || collection.isEmpty()) {
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 	/**
-	 * Get the server implementation information.
-	 * @return The server implementation details
+	 * Assert that an object is not {@code null}.
+	 *
+	 * <pre class="code">
+	 * Assert.notNull(clazz, "The class must not be null");
+	 * </pre>
+	 * @param object the object to check
+	 * @param message the exception message to use if the assertion fails
+	 * @throws IllegalArgumentException if the object is {@code null}
 	 */
-	public McpSchema.Implementation getServerInfo() {
-		return this.asyncServer.getServerInfo();
-	}
-
-	/**
+	public static void notNull(@Nullable Object object, String message) {
+		if (object == null) {
+			throw new IllegalArgumentException(message);
+		}
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`
 
-The `McpSyncServerExchange` class in [`mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/server/McpSyncServerExchange.java) handles a key part of this chapter's functionality:
+The `Assert` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java) handles a key part of this chapter's functionality:
 
 ```java
+
+/**
+ * Assertion utility class that assists in validating arguments.
+ *
  * @author Christian Tzolov
  */
-public class McpSyncServerExchange {
 
-	private final McpAsyncServerExchange exchange;
+/**
+ * Utility class providing assertion methods for parameter validation.
+ */
+public final class Assert {
 
 	/**
-	 * Create a new synchronous exchange with the client using the provided asynchronous
-	 * implementation as a delegate.
-	 * @param exchange The asynchronous exchange to delegate to.
+	 * Assert that the collection is not {@code null} and not empty.
+	 * @param collection the collection to check
+	 * @param message the exception message to use if the assertion fails
+	 * @throws IllegalArgumentException if the collection is {@code null} or empty
 	 */
-	public McpSyncServerExchange(McpAsyncServerExchange exchange) {
-		this.exchange = exchange;
+	public static void notEmpty(@Nullable Collection<?> collection, String message) {
+		if (collection == null || collection.isEmpty()) {
+			throw new IllegalArgumentException(message);
+		}
 	}
 
 	/**
-	 * Provides the Session ID
-	 * @return session ID
-	 */
-	public String sessionId() {
-		return this.exchange.sessionId();
-	}
-
-	/**
-	 * Get the client capabilities that define the supported features and functionality.
-	 * @return The client capabilities
-	 */
-	public McpSchema.ClientCapabilities getClientCapabilities() {
-		return this.exchange.getClientCapabilities();
-	}
-
-	/**
+	 * Assert that an object is not {@code null}.
+	 *
+	 * <pre class="code">
+	 * Assert.notNull(clazz, "The class must not be null");
+	 * </pre>
+	 * @param object the object to check
+	 * @param message the exception message to use if the assertion fails
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
 
-### `mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java`
+### `mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`
 
-The `Utils` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Utils.java) handles a key part of this chapter's functionality:
+The `must` class in [`mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java`](https://github.com/modelcontextprotocol/java-sdk/blob/HEAD/mcp-core/src/main/java/io/modelcontextprotocol/util/Assert.java) handles a key part of this chapter's functionality:
 
 ```java
- */
+	 *
+	 * <pre class="code">
+	 * Assert.notNull(clazz, "The class must not be null");
+	 * </pre>
+	 * @param object the object to check
+	 * @param message the exception message to use if the assertion fails
+	 * @throws IllegalArgumentException if the object is {@code null}
+	 */
+	public static void notNull(@Nullable Object object, String message) {
+		if (object == null) {
+			throw new IllegalArgumentException(message);
+		}
+	}
 
-public final class Utils {
+	/**
+	 * Assert that the given String contains valid text content; that is, it must not be
+	 * {@code null} and must contain at least one non-whitespace character.
+	 * <pre class="code">Assert.hasText(name, "'name' must not be empty");</pre>
+	 * @param text the String to check
+	 * @param message the exception message to use if the assertion fails
+	 * @throws IllegalArgumentException if the text does not contain valid text content
+	 */
+	public static void hasText(@Nullable String text, String message) {
+		if (!hasText(text)) {
+			throw new IllegalArgumentException(message);
+		}
+	}
 
 	/**
 	 * Check whether the given {@code String} contains actual <em>text</em>.
 	 * <p>
 	 * More specifically, this method returns {@code true} if the {@code String} is not
-	 * {@code null}, its length is greater than 0, and it contains at least one
-	 * non-whitespace character.
-	 * @param str the {@code String} to check (may be {@code null})
-	 * @return {@code true} if the {@code String} is not {@code null}, its length is
-	 * greater than 0, and it does not contain whitespace only
-	 * @see Character#isWhitespace
-	 */
-	public static boolean hasText(@Nullable String str) {
-		return (str != null && !str.isBlank());
-	}
-
-	/**
-	 * Return {@code true} if the supplied Collection is {@code null} or empty. Otherwise,
-	 * return {@code false}.
-	 * @param collection the Collection to check
-	 * @return whether the given Collection is empty
-	 */
-	public static boolean isEmpty(@Nullable Collection<?> collection) {
-		return (collection == null || collection.isEmpty());
-	}
-
-	/**
-	 * Return {@code true} if the supplied Map is {@code null} or empty. Otherwise, return
-	 * {@code false}.
 ```
 
 This class is important because it defines how MCP Java SDK Tutorial: Building MCP Clients and Servers with Reactor, Servlet, and Spring implements the patterns covered in this chapter.
@@ -212,9 +210,9 @@ This class is important because it defines how MCP Java SDK Tutorial: Building M
 
 ```mermaid
 flowchart TD
-    A[McpStatelessSyncServer]
-    B[McpSyncServerExchange]
-    C[Utils]
+    A[providing]
+    B[Assert]
+    C[must]
     D[is]
     E[is]
     A --> B

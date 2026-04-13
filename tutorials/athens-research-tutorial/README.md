@@ -8,6 +8,8 @@ format_version: v2
 
 # Athens Research: Deep Dive Tutorial
 
+> **Project Status**: The Athens Research repository was **archived in August 2022** and is no longer actively maintained. This tutorial covers the final v2.0.0 release as a historical reference for ClojureScript/Datascript architectural patterns. Do not use Athens as the basis for new production projects.
+
 > **Project**: [Athens Research](https://github.com/athensresearch/athens) — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
 
 [![Stars](https://img.shields.io/github/stars/athensresearch/athens?style=social)](https://github.com/athensresearch/athens)

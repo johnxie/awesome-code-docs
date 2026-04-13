@@ -32,170 +32,168 @@ You now have a clear model for how Kilo preserves user context over time.
 
 Next: [Chapter 6: Extensions, MCP, and Custom Modes](06-extensions-mcp-and-custom-modes.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `script/stats.ts`
+### `script/changelog.ts`
 
-The `NpmDownloadsRange` interface in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+The `getCommits` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-interface NpmDownloadsRange {
-  start: string
-  end: string
-  package: string
-  downloads: Array<{
-    downloads: number
-    day: string
-  }>
+export async function getCommits(from: string, to: string): Promise<Commit[]> {
+  const fromRef = from.startsWith("v") ? from : `v${from}`
+  const toRef = to === "HEAD" ? to : to.startsWith("v") ? to : `v${to}`
+
+  // Get commit data with GitHub usernames from the API
+  const compare =
+    await $`gh api "/repos/Kilo-Org/kilocode/compare/${fromRef}...${toRef}" --jq '.commits[] | {sha: .sha, login: .author.login, message: .commit.message}'`.text()
+
+  const commitData = new Map<string, { login: string | null; message: string }>()
+  for (const line of compare.split("\n").filter(Boolean)) {
+    const data = JSON.parse(line) as { sha: string; login: string | null; message: string }
+    commitData.set(data.sha, { login: data.login, message: data.message.split("\n")[0] ?? "" })
+  }
+
+  // Get commits that touch the relevant packages
+  const log =
+    await $`git log ${fromRef}..${toRef} --oneline --format="%H" -- packages/opencode packages/sdk packages/plugin packages/desktop packages/app sdks/vscode packages/extensions github`.text()
+  const hashes = log.split("\n").filter(Boolean)
+
+  const commits: Commit[] = []
+  for (const hash of hashes) {
+    const data = commitData.get(hash)
+    if (!data) continue
+
+    const message = data.message
+    if (message.match(/^(ignore:|test:|chore:|ci:|release:)/i)) continue
+
+    const files = await $`git diff-tree --no-commit-id --name-only -r ${hash}`.text()
+    const areas = new Set<string>()
+
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/changelog.ts`
+
+The `filterRevertedCommits` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
+
+```ts
+  }
+
+  return filterRevertedCommits(commits)
 }
 
-async function fetchNpmDownloads(packageName: string): Promise<number> {
-  try {
-    // Use a range from 2020 to current year + 5 years to ensure it works forever
-    const currentYear = new Date().getFullYear()
-    const endYear = currentYear + 5
-    const response = await fetch(`https://api.npmjs.org/downloads/range/2020-01-01:${endYear}-12-31/${packageName}`)
-    if (!response.ok) {
-      console.warn(`Failed to fetch npm downloads for ${packageName}: ${response.status}`)
-      return 0
+function filterRevertedCommits(commits: Commit[]): Commit[] {
+  const revertPattern = /^Revert "(.+)"$/
+  const seen = new Map<string, Commit>()
+
+  for (const commit of commits) {
+    const match = commit.message.match(revertPattern)
+    if (match) {
+      // It's a revert - remove the original if we've seen it
+      const original = match[1]!
+      if (seen.has(original)) seen.delete(original)
+      else seen.set(commit.message, commit) // Keep revert if original not in range
+    } else {
+      // Regular commit - remove if its revert exists, otherwise add
+      const revertMsg = `Revert "${commit.message}"`
+      if (seen.has(revertMsg)) seen.delete(revertMsg)
+      else seen.set(commit.message, commit)
     }
-    const data: NpmDownloadsRange = await response.json()
-    return data.downloads.reduce((total, day) => total + day.downloads, 0)
-  } catch (error) {
-    console.warn(`Error fetching npm downloads for ${packageName}:`, error)
-    return 0
   }
+
+  return [...seen.values()]
 }
 
-async function fetchReleases(): Promise<Release[]> {
-  const releases: Release[] = []
-```
-
-This interface is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
-
-### `script/beta.ts`
-
-The `commentOnPR` function in [`script/beta.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/beta.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function commentOnPR(prNumber: number, reason: string) {
-  const body = `⚠️ **Blocking Beta Release**
-
-This PR cannot be merged into the beta branch due to: **${reason}**
-
-Please resolve this issue to include this PR in the next beta release.`
-
-  try {
-    await $`gh pr comment ${prNumber} --body ${body}`
-    console.log(`  Posted comment on PR #${prNumber}`)
-  } catch (err) {
-    console.log(`  Failed to post comment on PR #${prNumber}: ${err}`)
-  }
-}
-
-async function conflicts() {
-  const out = await $`git diff --name-only --diff-filter=U`.text().catch(() => "")
-  return out
-    .split("\n")
-    .map((x) => x.trim())
-    .filter(Boolean)
-}
-
-async function cleanup() {
-  try {
-    await $`git merge --abort`
-  } catch {}
-  try {
-    await $`git checkout -- .`
-  } catch {}
+const sections = {
+  core: "Core",
+  tui: "TUI",
+  app: "Desktop",
+  tauri: "Desktop",
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/beta.ts`
+### `script/changelog.ts`
 
-The `conflicts` function in [`script/beta.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/beta.ts) handles a key part of this chapter's functionality:
+The `getSection` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
 
 ```ts
+} as const
+
+function getSection(areas: Set<string>): string {
+  // Priority order for multi-area commits
+  const priority = ["core", "tui", "app", "tauri", "sdk", "plugin", "extensions/zed", "extensions/vscode", "github"]
+  for (const area of priority) {
+    if (areas.has(area)) return sections[area as keyof typeof sections]
+  }
+  return "Core"
 }
 
-async function conflicts() {
-  const out = await $`git diff --name-only --diff-filter=U`.text().catch(() => "")
-  return out
-    .split("\n")
-    .map((x) => x.trim())
-    .filter(Boolean)
-}
+async function summarizeCommit(opencode: Awaited<ReturnType<typeof createKilo>>, message: string): Promise<string> {
+  console.log("summarizing commit:", message)
+  const session = await opencode.client.session.create()
+  const result = await opencode.client.session
+    .prompt(
+      {
+        sessionID: session.data!.id,
+        model: { providerID: "kilo", modelID: "anthropic/claude-sonnet-4.5" }, // kilocode_change
+        tools: {
+          "*": false,
+        },
+        parts: [
+          {
+            type: "text",
+            text: `Summarize this commit message for a changelog entry. Return ONLY a single line summary starting with a capital letter. Be concise but specific. If the commit message is already well-written, just clean it up (capitalize, fix typos, proper grammar). Do not include any prefixes like "fix:" or "feat:".
 
-async function cleanup() {
-  try {
-    await $`git merge --abort`
-  } catch {}
-  try {
-    await $`git checkout -- .`
-  } catch {}
-  try {
-    await $`git clean -fd`
-  } catch {}
-}
-
-async function fix(pr: PR, files: string[]) {
-  console.log(`  Trying to auto-resolve ${files.length} conflict(s) with opencode...`)
-  const prompt = [
-    `Resolve the current git merge conflicts while merging PR #${pr.number} into the beta branch.`,
-    `Only touch these files: ${files.join(", ")}.`,
-    "Keep the merge in progress, do not abort the merge, and do not create a commit.",
-    "When done, leave the working tree with no unmerged files.",
-  ].join("\n")
-
-  try {
+Commit: ${message}`,
+          },
+        ],
+      },
+      {
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
-### `script/beta.ts`
+### `script/changelog.ts`
 
-The `cleanup` function in [`script/beta.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/beta.ts) handles a key part of this chapter's functionality:
+The `summarizeCommit` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-async function cleanup() {
-  try {
-    await $`git merge --abort`
-  } catch {}
-  try {
-    await $`git checkout -- .`
-  } catch {}
-  try {
-    await $`git clean -fd`
-  } catch {}
+async function summarizeCommit(opencode: Awaited<ReturnType<typeof createKilo>>, message: string): Promise<string> {
+  console.log("summarizing commit:", message)
+  const session = await opencode.client.session.create()
+  const result = await opencode.client.session
+    .prompt(
+      {
+        sessionID: session.data!.id,
+        model: { providerID: "kilo", modelID: "anthropic/claude-sonnet-4.5" }, // kilocode_change
+        tools: {
+          "*": false,
+        },
+        parts: [
+          {
+            type: "text",
+            text: `Summarize this commit message for a changelog entry. Return ONLY a single line summary starting with a capital letter. Be concise but specific. If the commit message is already well-written, just clean it up (capitalize, fix typos, proper grammar). Do not include any prefixes like "fix:" or "feat:".
+
+Commit: ${message}`,
+          },
+        ],
+      },
+      {
+        signal: AbortSignal.timeout(120_000),
+      },
+    )
+    .then((x) => x.data?.parts?.find((y) => y.type === "text")?.text ?? message)
+  return result.trim()
 }
 
-async function fix(pr: PR, files: string[]) {
-  console.log(`  Trying to auto-resolve ${files.length} conflict(s) with opencode...`)
-  const prompt = [
-    `Resolve the current git merge conflicts while merging PR #${pr.number} into the beta branch.`,
-    `Only touch these files: ${files.join(", ")}.`,
-    "Keep the merge in progress, do not abort the merge, and do not create a commit.",
-    "When done, leave the working tree with no unmerged files.",
-  ].join("\n")
-
-  try {
-    await $`opencode run -m opencode/gpt-5.3-codex ${prompt}`
-  } catch (err) {
-    console.log(`  opencode failed: ${err}`)
-    return false
-  }
-
-  const left = await conflicts()
-  if (left.length > 0) {
+export async function generateChangelog(commits: Commit[], opencode: Awaited<ReturnType<typeof createKilo>>) {
+  // Summarize commits in parallel with max 10 concurrent requests
 ```
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
@@ -205,10 +203,10 @@ This function is important because it defines how Kilo Code Tutorial: Agentic En
 
 ```mermaid
 flowchart TD
-    A[NpmDownloadsRange]
-    B[commentOnPR]
-    C[conflicts]
-    D[cleanup]
+    A[getCommits]
+    B[filterRevertedCommits]
+    C[getSection]
+    D[summarizeCommit]
     A --> B
     B --> C
     C --> D

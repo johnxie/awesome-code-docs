@@ -48,183 +48,182 @@ You now have a framework-aware way to choose Composio provider integrations.
 
 Next: [Chapter 4: Authentication and Connected Accounts](04-authentication-and-connected-accounts.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs/scripts/generate-toolkits.ts`
 
-The `Trigger` interface in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
+The `fetchToolkitChangelog` function in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-interface Trigger {
-  slug: string;
-  name: string;
-  description: string;
-}
+async function fetchToolkitChangelog(): Promise<Map<string, string>> {
+  console.log('Fetching toolkit changelog...');
 
-interface AuthConfigField {
-  name: string;
-  displayName: string;
-  type: string;
-  description: string;
-  required: boolean;
-  default?: string | null;
-}
+  const response = await fetch(`${API_BASE}/toolkits/changelog`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY!,
+    },
+  });
 
-interface AuthConfigDetail {
-  mode: string;
-  name: string;
-  fields: {
-    auth_config_creation: {
-      required: AuthConfigField[];
-      optional: AuthConfigField[];
-    };
-    connected_account_initiation: {
-      required: AuthConfigField[];
-      optional: AuthConfigField[];
-    };
-  };
-}
+  if (!response.ok) {
+    console.warn(`Failed to fetch changelog: ${response.status}`);
+    return new Map();
+  }
 
+  const data = await response.json();
+  const versionMap = new Map<string, string>();
+
+  // Response format: { items: [{ slug, name, display_name, versions: [{ version, changelog }] }] }
+  const items = data.items || [];
+  for (const entry of items) {
+    const slug = entry.slug?.toLowerCase();
+    const latestVersion = entry.versions?.[0]?.version;
+    if (slug && latestVersion) {
+      versionMap.set(slug, latestVersion);
+    }
+  }
+
+  console.log(`Found versions for ${versionMap.size} toolkits`);
+  return versionMap;
 ```
 
-This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
 ### `docs/scripts/generate-toolkits.ts`
 
-The `AuthConfigField` interface in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
+The `fetchToolsForToolkit` function in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-interface AuthConfigField {
-  name: string;
-  displayName: string;
-  type: string;
-  description: string;
-  required: boolean;
-  default?: string | null;
+async function fetchToolsForToolkit(slug: string): Promise<Tool[]> {
+  const response = await fetch(`${API_BASE}/tools?toolkit_slug=${slug}&toolkit_versions=latest&limit=1000`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY!,
+    },
+  });
+
+  if (!response.ok) return [];
+
+  const data = await response.json();
+  const rawItems = data.items || data;
+  const items = Array.isArray(rawItems) ? rawItems : [];
+
+  return items.filter((raw: any) => raw && typeof raw === 'object').map((raw: any) => ({
+    slug: raw.slug || '',
+    name: raw.name || raw.display_name || raw.slug || '',
+    description: raw.description || '',
+  }));
 }
 
-interface AuthConfigDetail {
-  mode: string;
-  name: string;
-  fields: {
-    auth_config_creation: {
-      required: AuthConfigField[];
-      optional: AuthConfigField[];
-    };
-    connected_account_initiation: {
-      required: AuthConfigField[];
-      optional: AuthConfigField[];
-    };
-  };
-}
+async function fetchTriggersForToolkit(slug: string): Promise<Trigger[]> {
+  const response = await fetch(`${API_BASE}/triggers_types?toolkit_slugs=${slug}&toolkit_versions=latest`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY!,
+    },
+  });
 
-interface Toolkit {
-  slug: string;
-  name: string;
-  logo: string | null;
-  description: string;
-  category: string | null;
+  if (!response.ok) return [];
 ```
 
-This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
 ### `docs/scripts/generate-toolkits.ts`
 
-The `AuthConfigDetail` interface in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
+The `fetchTriggersForToolkit` function in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-interface AuthConfigDetail {
-  mode: string;
-  name: string;
-  fields: {
-    auth_config_creation: {
-      required: AuthConfigField[];
-      optional: AuthConfigField[];
-    };
-    connected_account_initiation: {
-      required: AuthConfigField[];
-      optional: AuthConfigField[];
-    };
-  };
+async function fetchTriggersForToolkit(slug: string): Promise<Trigger[]> {
+  const response = await fetch(`${API_BASE}/triggers_types?toolkit_slugs=${slug}&toolkit_versions=latest`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY!,
+    },
+  });
+
+  if (!response.ok) return [];
+
+  const data = await response.json();
+  const rawItems = data.items || data;
+  const items = Array.isArray(rawItems) ? rawItems : [];
+
+  return items.filter((raw: any) => raw && typeof raw === 'object').map((raw: any) => ({
+    slug: raw.slug || '',
+    name: raw.name || raw.display_name || raw.slug || '',
+    description: raw.description || '',
+  }));
 }
 
-interface Toolkit {
-  slug: string;
-  name: string;
-  logo: string | null;
-  description: string;
-  category: string | null;
-  authSchemes: string[];
-  composioManagedAuthSchemes?: string[];
-  toolCount: number;
-  triggerCount: number;
-  version: string | null;
-  tools: Tool[];
-  triggers: Trigger[];
-  authConfigDetails?: AuthConfigDetail[];
-}
+async function fetchAuthConfigDetails(slug: string): Promise<AuthConfigDetail[]> {
+  const response = await fetch(`${API_BASE}/toolkits/${slug}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY!,
+    },
+  });
+
+  if (!response.ok) return [];
 ```
 
-This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
 ### `docs/scripts/generate-toolkits.ts`
 
-The `Toolkit` interface in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
+The `fetchAuthConfigDetails` function in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
 
 ```ts
-/**
- * Toolkit Generator Script
- *
- * Fetches all toolkits from Composio API and generates:
- * - /public/data/toolkits.json (full data with tools & triggers - for detail pages)
- * - /public/data/toolkits-list.json (light version without tools/triggers - for landing page)
- *
- * Run: bun run generate:toolkits
- */
-
-import { mkdir, writeFile } from 'fs/promises';
-import { join } from 'path';
-
-const API_BASE = process.env.COMPOSIO_API_BASE || 'https://backend.composio.dev/api/v3';
-const API_KEY = process.env.COMPOSIO_API_KEY;
-
-if (!API_KEY) {
-  console.error('Error: COMPOSIO_API_KEY environment variable is required');
-  process.exit(1);
 }
 
-const OUTPUT_DIR = join(process.cwd(), 'public/data');
+async function fetchAuthConfigDetails(slug: string): Promise<AuthConfigDetail[]> {
+  const response = await fetch(`${API_BASE}/toolkits/${slug}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': API_KEY!,
+    },
+  });
 
-interface Tool {
-  slug: string;
-  name: string;
-  description: string;
-}
+  if (!response.ok) return [];
 
-interface Trigger {
-  slug: string;
+  const data = await response.json();
+  const authConfigDetails = data.auth_config_details || [];
+
+  return authConfigDetails.map((raw: any) => ({
+    mode: raw.mode || '',
+    name: raw.name || raw.mode || '',
+    fields: {
+      auth_config_creation: {
+        required: (raw.fields?.auth_config_creation?.required || []).map((f: any) => ({
+          name: f.name || '',
+          displayName: f.displayName || f.name || '',
+          type: f.type || 'string',
+          description: f.description || '',
+          required: f.required ?? true,
+          default: f.default ?? null,
+        })),
+        optional: (raw.fields?.auth_config_creation?.optional || []).map((f: any) => ({
+          name: f.name || '',
+          displayName: f.displayName || f.name || '',
+          type: f.type || 'string',
 ```
 
-This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Trigger]
-    B[AuthConfigField]
-    C[AuthConfigDetail]
-    D[Toolkit]
-    E[ClientIcon]
+    A[fetchToolkitChangelog]
+    B[fetchToolsForToolkit]
+    C[fetchTriggersForToolkit]
+    D[fetchAuthConfigDetails]
+    E[transformToolkit]
     A --> B
     B --> C
     C --> D

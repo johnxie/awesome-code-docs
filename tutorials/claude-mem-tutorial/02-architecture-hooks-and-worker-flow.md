@@ -57,184 +57,182 @@ You now understand how events flow through Claude-Mem from capture to reuse.
 
 Next: [Chapter 3: Installation, Upgrade, and Runtime Environment](03-installation-upgrade-and-runtime-environment.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/fix-corrupted-timestamps.ts`
+### `ragtime/ragtime.ts`
 
-The `main` function in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
+The `processFile` function in [`ragtime/ragtime.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/ragtime/ragtime.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-function main() {
-  const args = process.argv.slice(2);
-  const dryRun = args.includes('--dry-run');
-  const autoYes = args.includes('--yes') || args.includes('-y');
-
-  console.log('🔍 Analyzing corrupted observation timestamps...\n');
-  if (dryRun) {
-    console.log('🏃 DRY RUN MODE - No changes will be made\n');
-  }
-
-  const db = new Database(DB_PATH);
+ * Context is injected by Claude-mem hooks, not conversation continuation
+ */
+async function processFile(file: string, index: number, total: number): Promise<void> {
+  const filename = path.basename(file);
+  console.log(`\n[${ index + 1}/${total}] Processing: ${filename}`);
 
   try {
-    // Step 1: Find affected observations
-    console.log('Step 1: Finding observations created during bad window...');
-    const affectedObs = db.query<AffectedObservation, []>(`
-      SELECT id, memory_session_id, created_at_epoch, title
-      FROM observations
-      WHERE created_at_epoch >= ${BAD_WINDOW_START}
-        AND created_at_epoch <= ${BAD_WINDOW_END}
-      ORDER BY id
-    `).all();
-
-    console.log(`Found ${affectedObs.length} observations in bad window\n`);
-
-    if (affectedObs.length === 0) {
-      console.log('✅ No affected observations found!');
-      return;
-    }
+    for await (const message of query({
+      prompt: `Read ${file} and analyze it in the context of the investigation. Look for entities, relationships, timeline events, and any anomalies. Cross-reference with what you know from the injected context above.`,
+      options: {
+        cwd: CONFIG.corpusPath,
+        plugins: [{ type: "local", path: CONFIG.pluginPath }],
+      },
+    })) {
+      // Log assistant responses
+      if (message.type === "assistant") {
+        const content = message.message.content;
+        if (Array.isArray(content)) {
+          for (const block of content) {
+            if (block.type === "text" && block.text) {
+              // Truncate long responses for console
+              const text = block.text.length > 500
+                ? block.text.substring(0, 500) + "..."
+                : block.text;
+              console.log("Assistant:", text);
+            }
+          }
+        } else if (typeof content === "string") {
+          console.log("Assistant:", content);
+        }
+      }
 
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/fix-corrupted-timestamps.ts`
+### `ragtime/ragtime.ts`
 
-The `applyFixes` function in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
+The `main` function in [`ragtime/ragtime.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/ragtime/ragtime.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    if (autoYes) {
-      console.log('Auto-confirming with --yes flag...\n');
-      applyFixes(db, fixes);
-      return;
+
+      // Remove empty project directories
+      const remaining = fs.readdirSync(projectPath);
+      if (remaining.length === 0) {
+        try {
+          fs.rmdirSync(projectPath);
+        } catch {
+          // Ignore - may have race condition
+        }
+      }
     }
 
-    console.log('Apply these fixes? (y/n): ');
-
-    const stdin = Bun.stdin.stream();
-    const reader = stdin.getReader();
-
-    reader.read().then(({ value }) => {
-      const response = new TextDecoder().decode(value).trim().toLowerCase();
-
-      if (response === 'y' || response === 'yes') {
-        applyFixes(db, fixes);
-      } else {
-        console.log('\n❌ Fixes cancelled. No changes made.');
-        db.close();
-      }
-    });
-
-  } catch (error) {
-    console.error('❌ Error:', error);
-    db.close();
-    process.exit(1);
+    if (cleaned > 0) {
+      console.log(`Cleaned up ${cleaned} old transcript(s)`);
+    }
+  } catch (err) {
+    console.warn("Transcript cleanup error:", err);
   }
 }
 
-function applyFixes(db: Database, fixes: TimestampFix[]) {
-  console.log('\n🔧 Applying fixes...\n');
+/**
+ * Poll the worker's processing status endpoint until the queue is empty
+ */
+async function waitForQueueToEmpty(): Promise<void> {
+  const maxWaitTimeMs = 5 * 60 * 1000; // 5 minutes maximum
+  const pollIntervalMs = 500;
+  const startTime = Date.now();
 
+  while (true) {
+    try {
+      const response = await fetch(
+        `http://localhost:${CONFIG.workerPort}/api/processing-status`
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/fix-corrupted-timestamps.ts`
+### `scripts/analyze-transformations-smart.js`
 
-The `AffectedObservation` interface in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
+The `discoverAgentFiles` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
 
-```ts
-const BAD_WINDOW_END = 1766626260000;   // Dec 24 20:31 PST
+```js
 
-interface AffectedObservation {
-  id: number;
-  memory_session_id: string;
-  created_at_epoch: number;
-  title: string;
-}
+// Auto-discover agent transcripts linked to main session
+async function discoverAgentFiles(mainTranscriptPath) {
+  console.log('Discovering linked agent transcripts...');
 
-interface ProcessedMessage {
-  id: number;
-  session_db_id: number;
-  tool_name: string;
-  created_at_epoch: number;
-  completed_at_epoch: number;
-}
+  const agentIds = new Set();
+  const fileStream = fs.createReadStream(mainTranscriptPath);
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity
+  });
 
-interface SessionMapping {
-  session_db_id: number;
-  memory_session_id: string;
-}
+  for await (const line of rl) {
+    if (!line.includes('agentId')) continue;
 
-interface TimestampFix {
-  observation_id: number;
-  observation_title: string;
-  wrong_timestamp: number;
-  correct_timestamp: number;
-  session_db_id: number;
-  pending_message_id: number;
-}
+    try {
+      const obj = JSON.parse(line);
 
-function formatTimestamp(epoch: number): string {
+      // Check for agentId in toolUseResult
+      if (obj.toolUseResult?.agentId) {
+        agentIds.add(obj.toolUseResult.agentId);
+      }
+    } catch (e) {
+      // Skip malformed lines
+    }
+  }
+
+  // Build agent file paths
+  const directory = path.dirname(mainTranscriptPath);
+  const agentFiles = Array.from(agentIds).map(id =>
+    path.join(directory, `agent-${id}.jsonl`)
+  ).filter(filePath => fs.existsSync(filePath));
 ```
 
-This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/fix-corrupted-timestamps.ts`
+### `scripts/analyze-transformations-smart.js`
 
-The `ProcessedMessage` interface in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
+The `loadOriginalContentFromFile` function in [`scripts/analyze-transformations-smart.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/analyze-transformations-smart.js) handles a key part of this chapter's functionality:
 
-```ts
-}
+```js
+// Parse transcript to get BOTH tool_use (inputs) and tool_result (outputs) content
+// Returns true if transcript is clean, false if contaminated (already transformed)
+async function loadOriginalContentFromFile(filePath, fileLabel) {
+  const fileStream = fs.createReadStream(filePath);
+  const rl = readline.createInterface({
+    input: fileStream,
+    crlfDelay: Infinity
+  });
 
-interface ProcessedMessage {
-  id: number;
-  session_db_id: number;
-  tool_name: string;
-  created_at_epoch: number;
-  completed_at_epoch: number;
-}
+  let count = 0;
+  let isContaminated = false;
+  const toolUseIdsFromThisFile = new Set();
 
-interface SessionMapping {
-  session_db_id: number;
-  memory_session_id: string;
-}
+  for await (const line of rl) {
+    if (!line.includes('toolu_')) continue;
 
-interface TimestampFix {
-  observation_id: number;
-  observation_title: string;
-  wrong_timestamp: number;
-  correct_timestamp: number;
-  session_db_id: number;
-  pending_message_id: number;
-}
+    try {
+      const obj = JSON.parse(line);
 
-function formatTimestamp(epoch: number): string {
-  return new Date(epoch).toLocaleString('en-US', {
-    timeZone: 'America/Los_Angeles',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+      if (obj.message?.content) {
+        for (const item of obj.message.content) {
+          // Capture tool_use (inputs)
+          if (item.type === 'tool_use' && item.id) {
+            const existing = originalContent.get(item.id) || { input: '', output: '', name: '' };
+            existing.input = JSON.stringify(item.input || {});
+            existing.name = item.name;
+            originalContent.set(item.id, existing);
+            toolUseIdsFromThisFile.add(item.id);
+            count++;
+          }
+
+          // Capture tool_result (outputs)
 ```
 
-This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[applyFixes]
-    C[AffectedObservation]
-    D[ProcessedMessage]
-    E[SessionMapping]
+    A[processFile]
+    B[main]
+    C[discoverAgentFiles]
+    D[loadOriginalContentFromFile]
+    E[loadOriginalContent]
     A --> B
     B --> C
     C --> D

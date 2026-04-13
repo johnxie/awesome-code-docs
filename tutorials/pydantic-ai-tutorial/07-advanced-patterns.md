@@ -1007,6 +1007,20 @@ Under the hood, `Chapter 7: Advanced Patterns & Multi-Step Workflows` usually fo
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Advanced Agent Patterns
+
+```mermaid
+flowchart TD
+    A[Complex Query] --> B[Orchestrator Agent]
+    B --> C[Sub-agent 1]
+    B --> D[Sub-agent 2]
+    C --> E[Structured Result 1]
+    D --> F[Structured Result 2]
+    E --> G[Final Agent]
+    F --> G
+    G --> H[Combined Typed Output]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

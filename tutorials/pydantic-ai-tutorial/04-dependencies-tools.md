@@ -1014,6 +1014,18 @@ Under the hood, `Chapter 4: Dependencies, Tools & External Integrations` usually
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Dependency Injection and Tools
+
+```mermaid
+flowchart LR
+    A[Agent.run] --> B[Deps Context]
+    B --> C[@tool Functions]
+    C --> D[External Service Call]
+    D --> E[Tool Result]
+    E --> F[Back to LLM]
+    F --> G[Final Answer]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

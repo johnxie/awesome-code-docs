@@ -498,6 +498,28 @@ class ProcessController:
         await self.monitor.record_scaling_event(process_id, scale_type, scale_factor)
 ```
 
+## Process Management Architecture
+
+```mermaid
+flowchart TD
+    A[Crew kickoff called]
+    B{Process type}
+    C[Sequential: tasks run one by one]
+    D[Hierarchical: manager delegates to agents]
+    E[Task A completes]
+    F[Output passed to Task B context]
+    G[Manager reviews all results]
+    H[Final synthesized output]
+    A --> B
+    B -- sequential --> C
+    B -- hierarchical --> D
+    C --> E
+    E --> F
+    F --> H
+    D --> G
+    G --> H
+```
+
 ## What We've Accomplished
 
 ✅ **Implemented sequential processing** for dependent tasks

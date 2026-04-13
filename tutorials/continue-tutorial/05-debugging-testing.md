@@ -674,9 +674,30 @@ describe('PasswordValidator', () => {
 - Implement error tracking and alerting
 - Use profiling tools for performance issues
 
+## Debugging and Testing Flow
+
+```mermaid
+flowchart TD
+    A[Error occurs or test fails]
+    B[Paste error stack trace into Continue chat]
+    C[LLM analyzes error context and codebase]
+    D[Root cause explanation provided]
+    E[Fix suggestion shown]
+    F[Developer applies fix]
+    G[Continue generates test for the fixed scenario]
+    H[Test run confirms fix]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```
+
 ## What's Next?
 
-Fantastic! You've mastered Continue's debugging and testing capabilities. The ability to generate comprehensive tests and provide intelligent debugging guidance is incredibly powerful for ensuring code quality and reliability.
+You've mastered Continue's debugging and testing capabilities. The ability to generate comprehensive tests and provide intelligent debugging guidance is incredibly powerful for ensuring code quality and reliability.
 
 In [Chapter 6: Custom Models & Configuration](06-custom-models.md), we'll explore how to configure Continue with custom AI models and create personalized development environments.
 

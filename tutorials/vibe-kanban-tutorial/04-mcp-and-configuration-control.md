@@ -46,184 +46,182 @@ You now have a practical model for MCP/runtime configuration governance in Vibe 
 
 Next: [Chapter 5: Review and Quality Gates](05-review-and-quality-gates.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `shared/types.ts`
+### `scripts/setup-dev-environment.js`
 
-The `EditorType` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+The `copyDevAssets` function in [`scripts/setup-dev-environment.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/setup-dev-environment.js) handles a key part of this chapter's functionality:
 
-```ts
-export type GetMcpServerResponse = { mcp_config: McpConfig, config_path: string, };
+```js
+async function getPorts() {
+  const ports = await allocatePorts();
+  copyDevAssets();
+  return ports;
+}
 
-export type CheckEditorAvailabilityQuery = { editor_type: EditorType, };
-
-export type CheckEditorAvailabilityResponse = { available: boolean, };
-
-export type CheckAgentAvailabilityQuery = { executor: BaseCodingAgent, };
-
-export type AgentPresetOptionsQuery = { executor: BaseCodingAgent, variant: string | null, };
-
-export type CurrentUserResponse = { user_id: string, };
-
-export type StartSpake2EnrollmentRequest = { enrollment_code: string, client_message_b64: string, };
-
-export type FinishSpake2EnrollmentRequest = { enrollment_id: string, client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, public_key_b64: string, client_proof_b64: string, };
-
-export type StartSpake2EnrollmentResponse = { enrollment_id: string, server_message_b64: string, };
-
-export type FinishSpake2EnrollmentResponse = { signing_session_id: string, server_public_key_b64: string, server_proof_b64: string, };
-
-export type RelayPairedClient = { client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, };
-
-export type ListRelayPairedClientsResponse = { clients: Array<RelayPairedClient>, };
-
-export type RemoveRelayPairedClientResponse = { removed: boolean, };
-
-export type RefreshRelaySigningSessionRequest = { client_id: string, timestamp: bigint, nonce: string, signature_b64: string, };
-
-export type RefreshRelaySigningSessionResponse = { signing_session_id: string, };
-
-export type CreateFollowUpAttempt = { prompt: string, executor_config: ExecutorConfig, retry_process_id: string | null, force_when_dirty: boolean | null, perform_git_reset: boolean | null, };
-
-```
-
-This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
-
-### `shared/types.ts`
-
-The `SoundFile` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
-
-```ts
-export type Config = { config_version: string, theme: ThemeMode, executor_profile: ExecutorProfileId, disclaimer_acknowledged: boolean, onboarding_acknowledged: boolean, remote_onboarding_acknowledged: boolean, notifications: NotificationConfig, editor: EditorConfig, github: GitHubConfig, analytics_enabled: boolean, workspace_dir: string | null, last_app_version: string | null, show_release_notes: boolean, language: UiLanguage, git_branch_prefix: string, showcases: ShowcaseState, pr_auto_description_enabled: boolean, pr_auto_description_prompt: string | null, commit_reminder_enabled: boolean, commit_reminder_prompt: string | null, send_message_shortcut: SendMessageShortcut, relay_enabled: boolean, host_nickname: string | null, };
-
-export type NotificationConfig = { sound_enabled: boolean, push_enabled: boolean, sound_file: SoundFile, };
-
-export enum ThemeMode { LIGHT = "LIGHT", DARK = "DARK", SYSTEM = "SYSTEM" }
-
-export type EditorConfig = { editor_type: EditorType, custom_command: string | null, remote_ssh_host: string | null, remote_ssh_user: string | null, auto_install_extension: boolean, };
-
-export enum EditorType { VS_CODE = "VS_CODE", VS_CODE_INSIDERS = "VS_CODE_INSIDERS", CURSOR = "CURSOR", WINDSURF = "WINDSURF", INTELLI_J = "INTELLI_J", ZED = "ZED", XCODE = "XCODE", GOOGLE_ANTIGRAVITY = "GOOGLE_ANTIGRAVITY", CUSTOM = "CUSTOM" }
-
-export type EditorOpenError = { "type": "executable_not_found", executable: string, editor_type: EditorType, } | { "type": "invalid_command", details: string, editor_type: EditorType, } | { "type": "launch_failed", executable: string, details: string, editor_type: EditorType, };
-
-export type GitHubConfig = { pat: string | null, oauth_token: string | null, username: string | null, primary_email: string | null, default_pr_base: string | null, };
-
-export enum SoundFile { ABSTRACT_SOUND1 = "ABSTRACT_SOUND1", ABSTRACT_SOUND2 = "ABSTRACT_SOUND2", ABSTRACT_SOUND3 = "ABSTRACT_SOUND3", ABSTRACT_SOUND4 = "ABSTRACT_SOUND4", COW_MOOING = "COW_MOOING", FAHHHHH = "FAHHHHH", PHONE_VIBRATION = "PHONE_VIBRATION", ROOSTER = "ROOSTER" }
-
-export type UiLanguage = "BROWSER" | "EN" | "FR" | "JA" | "ES" | "KO" | "ZH_HANS" | "ZH_HANT";
-
-export type ShowcaseState = { seen_features: Array<string>, };
-
-export type SendMessageShortcut = "ModifierEnter" | "Enter";
-
-export type GitBranch = { name: string, is_current: boolean, is_remote: boolean, last_commit_date: Date, };
-
-export type QueuedMessage = { 
 /**
- * The session this message is queued for
+ * Copy dev_assets_seed to dev_assets
  */
-session_id: string, 
+function copyDevAssets() {
+  try {
+    if (!fs.existsSync(DEV_ASSETS)) {
+      // Copy dev_assets_seed to dev_assets
+      fs.cpSync(DEV_ASSETS_SEED, DEV_ASSETS, { recursive: true });
+
+      if (process.argv[2] === "get") {
+        console.log("Copied dev_assets_seed to dev_assets");
+      }
+    }
+  } catch (error) {
+    console.error("Failed to copy dev assets:", error.message);
+  }
+}
+
 /**
- * The follow-up data (message + variant)
+ * Clear saved ports
+ */
+function clearPorts() {
+  try {
+    if (fs.existsSync(PORTS_FILE)) {
+      fs.unlinkSync(PORTS_FILE);
+      console.log("Cleared saved dev ports");
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `scripts/setup-dev-environment.js`
+
+The `clearPorts` function in [`scripts/setup-dev-environment.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/setup-dev-environment.js) handles a key part of this chapter's functionality:
+
+```js
+ * Clear saved ports
+ */
+function clearPorts() {
+  try {
+    if (fs.existsSync(PORTS_FILE)) {
+      fs.unlinkSync(PORTS_FILE);
+      console.log("Cleared saved dev ports");
+    } else {
+      console.log("No saved ports to clear");
+    }
+  } catch (error) {
+    console.error("Failed to clear ports:", error.message);
+  }
+}
+
+// CLI interface
+if (require.main === module) {
+  const command = process.argv[2];
+
+  switch (command) {
+    case "get":
+      getPorts()
+        .then((ports) => {
+          console.log(JSON.stringify(ports));
+        })
+        .catch(console.error);
+      break;
+
+    case "clear":
+      clearPorts();
+      break;
+
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `scripts/setup-dev-environment.js`
+
+The `if` interface in [`scripts/setup-dev-environment.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/setup-dev-environment.js) handles a key part of this chapter's functionality:
+
+```js
+
+/**
+ * Check if a port is available
+ */
+function isPortAvailable(port) {
+  return new Promise((resolve) => {
+    const sock = net.createConnection({ port, host: "localhost" });
+    sock.on("connect", () => {
+      sock.destroy();
+      resolve(false);
+    });
+    sock.on("error", () => resolve(true));
+  });
+}
+
+/**
+ * Find a free port starting from a given port
+ */
+async function findFreePort(startPort = 3000) {
+  let port = startPort;
+  while (!(await isPortAvailable(port))) {
+    port++;
+    if (port > 65535) {
+      throw new Error("No available ports found");
+    }
+  }
+  return port;
+}
+
+/**
+ * Load existing ports from file
  */
 ```
 
 This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
-### `shared/types.ts`
+### `scripts/generate-desktop-manifest.js`
 
-The `BaseCodingAgent` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
+The `parseArgs` function in [`scripts/generate-desktop-manifest.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/scripts/generate-desktop-manifest.js) handles a key part of this chapter's functionality:
 
-```ts
- * Capabilities supported per executor (e.g., { "CLAUDE_CODE": ["SESSION_FORK"] })
- */
-capabilities: { [key in string]?: Array<BaseAgentCapability> }, shared_api_base: string | null, preview_proxy_port: number | null, executors: { [key in BaseCodingAgent]?: ExecutorProfile }, };
+```js
+const crypto = require('crypto');
 
-export type Environment = { os_type: string, os_version: string, os_architecture: string, bitness: string, };
+function parseArgs() {
+  const args = process.argv.slice(2);
+  const parsed = {};
+  for (let i = 0; i < args.length; i += 2) {
+    const key = args[i].replace(/^--/, '');
+    parsed[key] = args[i + 1];
+  }
+  return parsed;
+}
 
-export type McpServerQuery = { executor: BaseCodingAgent, };
+// Find the main bundle artifact for a platform (skip .sig and installer-only files)
+function findBundleArtifact(dir) {
+  if (!fs.existsSync(dir)) return null;
 
-export type UpdateMcpServersBody = { servers: { [key in string]?: JsonValue }, };
+  const files = fs.readdirSync(dir);
 
-export type GetMcpServerResponse = { mcp_config: McpConfig, config_path: string, };
-
-export type CheckEditorAvailabilityQuery = { editor_type: EditorType, };
-
-export type CheckEditorAvailabilityResponse = { available: boolean, };
-
-export type CheckAgentAvailabilityQuery = { executor: BaseCodingAgent, };
-
-export type AgentPresetOptionsQuery = { executor: BaseCodingAgent, variant: string | null, };
-
-export type CurrentUserResponse = { user_id: string, };
-
-export type StartSpake2EnrollmentRequest = { enrollment_code: string, client_message_b64: string, };
-
-export type FinishSpake2EnrollmentRequest = { enrollment_id: string, client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, public_key_b64: string, client_proof_b64: string, };
-
-export type StartSpake2EnrollmentResponse = { enrollment_id: string, server_message_b64: string, };
-
-export type FinishSpake2EnrollmentResponse = { signing_session_id: string, server_public_key_b64: string, server_proof_b64: string, };
-
-export type RelayPairedClient = { client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, };
-
-```
-
-This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
-
-### `shared/types.ts`
-
-The `BaseAgentCapability` interface in [`shared/types.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/shared/types.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Capabilities supported per executor (e.g., { "CLAUDE_CODE": ["SESSION_FORK"] })
- */
-capabilities: { [key in string]?: Array<BaseAgentCapability> }, shared_api_base: string | null, preview_proxy_port: number | null, executors: { [key in BaseCodingAgent]?: ExecutorProfile }, };
-
-export type Environment = { os_type: string, os_version: string, os_architecture: string, bitness: string, };
-
-export type McpServerQuery = { executor: BaseCodingAgent, };
-
-export type UpdateMcpServersBody = { servers: { [key in string]?: JsonValue }, };
-
-export type GetMcpServerResponse = { mcp_config: McpConfig, config_path: string, };
-
-export type CheckEditorAvailabilityQuery = { editor_type: EditorType, };
-
-export type CheckEditorAvailabilityResponse = { available: boolean, };
-
-export type CheckAgentAvailabilityQuery = { executor: BaseCodingAgent, };
-
-export type AgentPresetOptionsQuery = { executor: BaseCodingAgent, variant: string | null, };
-
-export type CurrentUserResponse = { user_id: string, };
-
-export type StartSpake2EnrollmentRequest = { enrollment_code: string, client_message_b64: string, };
-
-export type FinishSpake2EnrollmentRequest = { enrollment_id: string, client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, public_key_b64: string, client_proof_b64: string, };
-
-export type StartSpake2EnrollmentResponse = { enrollment_id: string, server_message_b64: string, };
-
-export type FinishSpake2EnrollmentResponse = { signing_session_id: string, server_public_key_b64: string, server_proof_b64: string, };
-
-export type RelayPairedClient = { client_id: string, client_name: string, client_browser: string, client_os: string, client_device: string, };
+  // Look for updater artifacts in priority order
+  // macOS: .app.tar.gz, Linux: .AppImage.tar.gz, Windows: *-setup.exe
+  const tarGz = files.find(
+    (f) =>
+      (f.endsWith('.app.tar.gz') || f.endsWith('.AppImage.tar.gz')) &&
+      !f.endsWith('.sig')
+  );
+  if (tarGz) {
+    const type = tarGz.endsWith('.app.tar.gz')
+      ? 'app-tar-gz'
+      : 'appimage-tar-gz';
+    return { file: tarGz, type };
+  }
 
 ```
 
-This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[EditorType]
-    B[SoundFile]
-    C[BaseCodingAgent]
-    D[BaseAgentCapability]
-    E[PermissionPolicy]
+    A[copyDevAssets]
+    B[clearPorts]
+    C[if]
+    D[parseArgs]
+    E[findBundleArtifact]
     A --> B
     B --> C
     C --> D

@@ -15,6 +15,16 @@ Welcome to **Chapter 2: Custom Resource Definitions - Designing Robust APIs**. I
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[CRD YAML] --> B[apiextensions.k8s.io]
+    B --> C[API Server registers type]
+    C --> D[kubectl apply MyApp]
+    D --> E[CR stored in etcd]
+    E --> F[Controller cache notified]
+    F --> G[Reconcile enqueued]
+```
+
 Custom Resource Definitions (CRDs) are the foundation of Kubernetes operators. This chapter covers designing, implementing, and managing CRDs with proper validation, versioning, and API design principles.
 
 ## CRD Fundamentals

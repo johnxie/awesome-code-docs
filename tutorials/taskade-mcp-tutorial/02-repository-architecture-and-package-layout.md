@@ -86,47 +86,45 @@ You now know where generation happens, where runtime happens, and which scripts 
 
 Next: [Chapter 3: MCP Server Tools, Auth, and API Surface](03-mcp-server-tools-auth-and-api-surface.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `packages/server/src/server.ts`
+### `packages/server/src/tools.generated.ts`
 
-The `TaskadeMCPServer` class in [`packages/server/src/server.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/server/src/server.ts) handles a key part of this chapter's functionality:
+The `OpenAPIToolRuntimeConfig` class in [`packages/server/src/tools.generated.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/server/src/tools.generated.ts) handles a key part of this chapter's functionality:
 
 ```ts
 };
 
-export class TaskadeMCPServer extends McpServer {
-  readonly config: TaskadeServerOpts;
+export type OpenAPIToolRuntimeConfigOpts = {
+  // basic configuration
+  url?: string;
+  fetch?: (...args: any[]) => Promise<any>;
+  headers?: Record<string, string>;
 
-  constructor(opts: TaskadeServerOpts) {
-    super({
-      name: 'taskade',
-      version: '0.0.1',
-      capabilities: {
-        resources: {},
-        tools: {},
+  // custom implementation of the tool call
+  executeToolCall?: ExecuteToolCallOpenApiOperationCb;
+  normalizeResponse?: Record<string, (response: any) => CallToolResult>;
+};
+
+export class OpenAPIToolRuntimeConfig {
+  config: OpenAPIToolRuntimeConfigOpts;
+
+  constructor(config: OpenAPIToolRuntimeConfigOpts) {
+    this.config = config;
+  }
+
+  private async defaultExecuteToolCall(payload: ExecuteToolCallOpenApiOperationCbPayload) {
+    const response = await this.fetch(`${this.baseUrl}${payload.url}`, {
+      method: payload.method,
+      body: payload.body,
+      headers: {
+        ...payload.headers,
+        ...this.config.headers,
       },
     });
 
-    this.config = opts;
-
-    setupTools(this, {
-      url: 'https://www.taskade.com/api/v1',
-      fetch,
-      headers: {
-        Authorization: `Bearer ${this.config.accessToken}`,
-      },
-      normalizeResponse: {
-        folderProjectsGet: (response) => {
-          return {
-            content: [
-              {
-                type: 'text',
-                text: JSON.stringify(response),
-              },
-              {
+    return await response.json();
+  }
 ```
 
 This class is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
@@ -136,5 +134,5 @@ This class is important because it defines how Taskade MCP Tutorial: OpenAPI-Dri
 
 ```mermaid
 flowchart TD
-    A[TaskadeMCPServer]
+    A[OpenAPIToolRuntimeConfig]
 ```

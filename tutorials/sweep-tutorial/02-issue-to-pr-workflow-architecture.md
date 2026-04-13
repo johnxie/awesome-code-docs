@@ -57,170 +57,168 @@ You now have a lifecycle map for how Sweep executes issue-driven coding work.
 
 Next: [Chapter 3: Repository Configuration and Governance](03-repository-configuration-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `terminate_thread` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `get_event_type` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def terminate_thread(thread):
-    """Terminate a python threading.Thread."""
-    try:
-        if not thread.is_alive():
-            return
+def get_event_type(event: Event | IssueEvent):
+    if isinstance(event, IssueEvent):
+        return "issues"
+    else:
+        return pascal_to_snake(event.type)[: -len("_event")]
 
-        exc = ctypes.py_object(SystemExit)
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
-            ctypes.c_long(thread.ident), exc
+@app.command()
+def test():
+    cprint("Sweep AI is installed correctly and ready to go!", style="yellow")
+
+@app.command()
+def watch(
+    repo_name: str,
+    debug: bool = False,
+    record_events: bool = False,
+    max_events: int = 30,
+):
+    if not os.path.exists(config_path):
+        cprint(
+            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
+            style="yellow",
         )
-        if res == 0:
-            raise ValueError("Invalid thread ID")
-        elif res != 1:
-            # Call with exception set to 0 is needed to cleanup properly.
-            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread.ident, 0)
-            raise SystemError("PyThreadState_SetAsyncExc failed")
-    except Exception as e:
-        logger.exception(f"Failed to terminate thread: {e}")
-
-
-# def delayed_kill(thread: threading.Thread, delay: int = 60 * 60):
-#     time.sleep(delay)
-#     terminate_thread(thread)
-
-
-def call_on_ticket(*args, **kwargs):
-    global on_ticket_events
-    key = f"{kwargs['repo_full_name']}-{kwargs['issue_number']}"  # Full name, issue number as key
-
-    # Use multithreading
+        raise ValueError(
+            "Configuration not found, please run 'sweep init' to initialize the CLI."
+        )
+    posthog_capture(
+        "sweep_watch_started",
+        {
+            "repo": repo_name,
+            "debug": debug,
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `call_on_ticket` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `test` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
 
+@app.command()
+def test():
+    cprint("Sweep AI is installed correctly and ready to go!", style="yellow")
 
-def call_on_ticket(*args, **kwargs):
-    global on_ticket_events
-    key = f"{kwargs['repo_full_name']}-{kwargs['issue_number']}"  # Full name, issue number as key
-
-    # Use multithreading
-    # Check if a previous process exists for the same key, cancel it
-    e = on_ticket_events.get(key, None)
-    if e:
-        logger.info(f"Found previous thread for key {key} and cancelling it")
-        terminate_thread(e)
-
-    thread = threading.Thread(target=run_on_ticket, args=args, kwargs=kwargs)
-    on_ticket_events[key] = thread
-    thread.start()
-    global_threads.append(thread)
-
-def call_on_comment(
-    *args, **kwargs
-):  # TODO: if its a GHA delete all previous GHA and append to the end
-    def worker():
-        while not events[key].empty():
-            task_args, task_kwargs = events[key].get()
-            run_on_comment(*task_args, **task_kwargs)
-
-    global events
-    repo_full_name = kwargs["repo_full_name"]
-    pr_id = kwargs["pr_number"]
-    key = f"{repo_full_name}-{pr_id}"  # Full name, comment number as key
-
-    comment_type = kwargs["comment_type"]
+@app.command()
+def watch(
+    repo_name: str,
+    debug: bool = False,
+    record_events: bool = False,
+    max_events: int = 30,
+):
+    if not os.path.exists(config_path):
+        cprint(
+            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
+            style="yellow",
+        )
+        raise ValueError(
+            "Configuration not found, please run 'sweep init' to initialize the CLI."
+        )
+    posthog_capture(
+        "sweep_watch_started",
+        {
+            "repo": repo_name,
+            "debug": debug,
+            "record_events": record_events,
+            "max_events": max_events,
+        },
+    )
+    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
+    if GITHUB_PAT is None:
+        raise ValueError("GITHUB_PAT environment variable must be set")
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `call_on_comment` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `watch` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
-    global_threads.append(thread)
 
-def call_on_comment(
-    *args, **kwargs
-):  # TODO: if its a GHA delete all previous GHA and append to the end
-    def worker():
-        while not events[key].empty():
-            task_args, task_kwargs = events[key].get()
-            run_on_comment(*task_args, **task_kwargs)
-
-    global events
-    repo_full_name = kwargs["repo_full_name"]
-    pr_id = kwargs["pr_number"]
-    key = f"{repo_full_name}-{pr_id}"  # Full name, comment number as key
-
-    comment_type = kwargs["comment_type"]
-    logger.info(f"Received comment type: {comment_type}")
-
-    if key not in events:
-        events[key] = SafePriorityQueue()
-
-    events[key].put(0, (args, kwargs))
-
-    # If a thread isn't running, start one
-    if not any(
-        thread.name == key and thread.is_alive() for thread in threading.enumerate()
-    ):
-        thread = threading.Thread(target=worker, name=key)
-        thread.start()
-        global_threads.append(thread)
-
-# add a review by sweep on the pr
+@app.command()
+def watch(
+    repo_name: str,
+    debug: bool = False,
+    record_events: bool = False,
+    max_events: int = 30,
+):
+    if not os.path.exists(config_path):
+        cprint(
+            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
+            style="yellow",
+        )
+        raise ValueError(
+            "Configuration not found, please run 'sweep init' to initialize the CLI."
+        )
+    posthog_capture(
+        "sweep_watch_started",
+        {
+            "repo": repo_name,
+            "debug": debug,
+            "record_events": record_events,
+            "max_events": max_events,
+        },
+    )
+    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
+    if GITHUB_PAT is None:
+        raise ValueError("GITHUB_PAT environment variable must be set")
+    g = Github(os.environ["GITHUB_PAT"])
+    repo = g.get_repo(repo_name)
+    if debug:
+        logger.debug("Debug mode enabled")
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `call_review_pr` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `init` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
+    if not os.path.exists(config_path):
+        cprint(
+            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
+            style="yellow",
+        )
+        raise ValueError(
+            "Configuration not found, please run 'sweep init' to initialize the CLI."
+        )
+    posthog_capture(
+        "sweep_watch_started",
+        {
+            "repo": repo_name,
+            "debug": debug,
+            "record_events": record_events,
+            "max_events": max_events,
+        },
+    )
+    GITHUB_PAT = os.environ.get("GITHUB_PAT", None)
+    if GITHUB_PAT is None:
+        raise ValueError("GITHUB_PAT environment variable must be set")
+    g = Github(os.environ["GITHUB_PAT"])
+    repo = g.get_repo(repo_name)
+    if debug:
+        logger.debug("Debug mode enabled")
 
-# add a review by sweep on the pr
-def call_review_pr(*args, **kwargs):
-    global review_pr_events
-    key = f"{kwargs['repository'].full_name}-{kwargs['pr'].number}"  # Full name, issue number as key
+    def stream_events(repo: Repository, timeout: int = 2, offset: int = 2 * 60):
+        processed_event_ids = set()
+        current_time = time.time() - offset
+        current_time = datetime.datetime.fromtimestamp(current_time)
+        local_tz = datetime.datetime.now(datetime.timezone.utc).astimezone().tzinfo
 
-    # Use multithreading
-    # Check if a previous process exists for the same key, cancel it
-    e = review_pr_events.get(key, None)
-    if e:
-        logger.info(f"Found previous thread for key {key} and cancelling it")
-        terminate_thread(e)
-
-    thread = threading.Thread(target=run_review_pr, args=args, kwargs=kwargs)
-    review_pr_events[key] = thread
-    thread.start()
-    global_threads.append(thread)
-
-
-@app.get("/health")
-def redirect_to_health():
-    return health_check()
-
-
-@app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    try:
-        validate_license()
-        license_expired = False
-    except Exception as e:
-        logger.warning(e)
-        license_expired = True
+        while True:
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
@@ -230,10 +228,10 @@ This function is important because it defines how Sweep Tutorial: Issue-to-PR AI
 
 ```mermaid
 flowchart TD
-    A[terminate_thread]
-    B[call_on_ticket]
-    C[call_on_comment]
-    D[call_review_pr]
+    A[get_event_type]
+    B[test]
+    C[watch]
+    D[init]
     A --> B
     B --> C
     C --> D

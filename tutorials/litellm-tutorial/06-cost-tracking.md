@@ -13,6 +13,19 @@ Welcome to **Chapter 6: Cost Tracking**. In this part of **LiteLLM Tutorial: Uni
 
 > Monitor, analyze, and optimize your LLM spending across all providers with detailed cost insights.
 
+## Cost Tracking Architecture
+
+```mermaid
+flowchart LR
+    REQ[LLM Request] --> LITE[LiteLLM]
+    LITE --> PROV[Provider API\nOpenAI / Anthropic / etc.]
+    PROV --> RESP[Response + Usage]
+    RESP --> CALC[litellm.completion_cost\nprice per token lookup]
+    CALC --> LOG[Cost Logger\ncallback: success_callback]
+    LOG --> DB[(Cost Database\nSQLite / Postgres)]
+    LOG --> DASH[Dashboard / Alerts]
+```
+
 ## Overview
 
 Understanding and controlling costs is crucial for production LLM applications. LiteLLM provides comprehensive cost tracking that works across all providers, giving you detailed insights into your spending patterns.

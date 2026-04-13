@@ -647,22 +647,27 @@ Under the hood, `Chapter 6: Scaling & Distributed Training -- Model Parallelism,
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `train.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The DDP initialization block in [`train.py`](https://github.com/karpathy/nanoGPT/blob/master/train.py) demonstrates how nanoGPT scales to multi-GPU via `torchrun`:
+
+```python
+# To run with DDP on 4 gpus on 1 node, example:
+# $ torchrun --standalone --nproc_per_node=4 train.py
+
+# To run with DDP on 4 gpus across 2 nodes, example:
+# - Run on the first (master) node:
+# $ torchrun --nproc_per_node=8 --nnodes=2 --node_rank=0 --master_addr=123.456.123.456 train.py
+# - Run on the worker node:
+# $ torchrun --nproc_per_node=8 --nnodes=2 --node_rank=1 --master_addr=123.456.123.456 train.py
+
+from torch.nn.parallel import DistributedDataParallel as DDP
+from torch.distributed import init_process_group, destroy_process_group
+```
+
+`gradient_accumulation_steps = 5 * 8` effectively trains with batch size `12 * 40 = 480` tokens per step without needing 40x more GPU memory. The `bench.py` script in nanoGPT provides a simple MFU (Model FLOPs Utilization) benchmark for measuring hardware efficiency.
 
 Suggested trace strategy:
 - search upstream code for `self` and `model` to map concrete implementation paths

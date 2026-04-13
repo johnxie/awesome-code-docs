@@ -801,6 +801,20 @@ Ready to coordinate multiple agents? In [Chapter 5: Multi-Agent Systems](05-mult
 
 *What's the most sophisticated decision system you'll build?* 🤔
 
+## Conditional Routing
+
+```mermaid
+flowchart TD
+    A[Current state] --> B[Router function]
+    B --> C{Evaluate condition}
+    C -->|should_continue| D[Continue node]
+    C -->|need_tools| E[Tool node]
+    C -->|END| F[Terminal state]
+    D --> G[Next processing]
+    E --> H[Tool execution]
+    H --> A
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `state`, `graph`, `dict` so behavior stays predictable as complexity grows.

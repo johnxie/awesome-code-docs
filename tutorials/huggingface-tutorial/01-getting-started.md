@@ -11,6 +11,18 @@ Welcome to the world of state-of-the-art AI with HuggingFace Transformers! If yo
 
 ## What Makes Transformers Special?
 
+```mermaid
+flowchart LR
+    A[Task description] --> B[pipeline]
+    B --> C{Task type}
+    C -->|text-classification| D[AutoModel + tokenizer]
+    C -->|text-generation| E[AutoModelForCausalLM]
+    C -->|question-answering| F[AutoModelForQA]
+    D --> G[Prediction]
+    E --> G
+    F --> G
+```
+
 Transformers revolutionizes AI development by:
 - **100,000+ Pre-trained Models** - Ready-to-use AI for any task
 - **Simple APIs** - Just a few lines of code to add AI capabilities

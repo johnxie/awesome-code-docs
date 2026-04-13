@@ -901,6 +901,21 @@ Under the hood, `Chapter 2: Understanding Phidata Agent Architecture` usually fo
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Agent Component Architecture
+
+```mermaid
+flowchart LR
+    A[Agent Definition] --> B[Model Provider]
+    A --> C[Tool Registry]
+    A --> D[Memory Store]
+    A --> E[Instructions / System Prompt]
+    B --> F[LLM Calls]
+    C --> G[Tool Calls]
+    D --> H[Context Retrieval]
+    F --> I[Agent Response]
+    G --> I
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

@@ -689,18 +689,32 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Git workflows in Claude Code use the Bash tool to run `git` commands directly. The [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code) describe how Claude integrates with version control: it reads git status, creates branches, stages files, and writes commit messages. Claude Code does not have a separate git tool — all git operations go through the Bash tool.
 
-- [Claude Code Repository](https://github.com/anthropics/claude-code)
-  Why it matters: authoritative reference on `Claude Code Repository` (github.com).
-- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
-  Why it matters: authoritative reference on `Claude Code Releases` (github.com).
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-  Why it matters: authoritative reference on `Claude Code Docs` (docs.anthropic.com).
+The [Claude Code Repository](https://github.com/anthropics/claude-code) README's workflow section describes the recommended pattern: commit before major changes so you have a clean rollback point, let Claude propose and apply changes, then review the git diff before accepting the commit.
 
-Suggested trace strategy:
-- search upstream code for `branch` and `Claude` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+For hooks-based git governance, the `PreToolUse` hook on the `Bash` tool (see [`examples/hooks/bash_command_validator_example.py`](https://github.com/anthropics/claude-code/blob/HEAD/examples/hooks/bash_command_validator_example.py)) can be extended to intercept destructive git commands like `git reset --hard` or `git push --force` and require explicit confirmation.
+
+## Git Workflow
+
+```mermaid
+flowchart TD
+    A[User requests: create branch and implement feature]
+    B[Claude runs: git checkout -b feature-name]
+    C[Claude reads and edits relevant files]
+    D[Claude stages changes: git add -p or git add files]
+    E[Claude proposes commit message]
+    F[User reviews and approves commit]
+    G[Claude runs: git commit -m message]
+    H[User reviews: git log and git diff]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```
 
 ## Chapter Connections
 

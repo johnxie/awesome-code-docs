@@ -37,170 +37,168 @@ You now have an integration baseline for predictable agent behavior with Beads.
 
 Next: [Chapter 6: Multi-Branch Collaboration and Protected Flows](06-multi-branch-collaboration-and-protected-flows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/types/types.go`
+### `cmd/bd/dolt.go`
 
-The `IsValid` function in [`internal/types/types.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/types/types.go) handles a key part of this chapter's functionality:
+The `isTimeoutError` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
 
 ```go
-		return fmt.Errorf("priority must be between 0 and 4 (got %d)", i.Priority)
-	}
-	if !i.Status.IsValidWithCustom(customStatuses) {
-		return fmt.Errorf("invalid status: %s", i.Status)
-	}
-	if !i.IssueType.IsValidWithCustom(customTypes) {
-		return fmt.Errorf("invalid issue type: %s", i.IssueType)
-	}
-	if i.EstimatedMinutes != nil && *i.EstimatedMinutes < 0 {
-		return fmt.Errorf("estimated_minutes cannot be negative")
-	}
-	// Enforce closed_at invariant: closed_at should be set if and only if status is closed
-	if i.Status == StatusClosed && i.ClosedAt == nil {
-		return fmt.Errorf("closed issues must have closed_at timestamp")
-	}
-	if i.Status != StatusClosed && i.ClosedAt != nil {
-		return fmt.Errorf("non-closed issues cannot have closed_at timestamp")
-	}
-	// Validate metadata is well-formed JSON if set (GH#1406)
-	if len(i.Metadata) > 0 {
-		if !json.Valid(i.Metadata) {
-			return fmt.Errorf("metadata must be valid JSON")
+				fmt.Fprintf(os.Stderr, "  FAIL: %s: %v\n", name, err)
+				failures++
+				if isTimeoutError(err) {
+					consecutiveTimeouts++
+				}
+			} else {
+				fmt.Printf("  Dropped: %s\n", name)
+				dropped++
+				failures = 0
+				consecutiveTimeouts = 0
+			}
+
+			// Rate limiting: pause between batches to let the server breathe
+			if (i+1)%batchSize == 0 && i+1 < len(stale) {
+				fmt.Printf("  [%d/%d] pausing %s...\n", i+1, len(stale), batchPause)
+				time.Sleep(batchPause)
+			}
 		}
-	}
-	// Ephemeral and NoHistory are mutually exclusive (GH#2619)
-	if i.Ephemeral && i.NoHistory {
-		return fmt.Errorf("ephemeral and no_history are mutually exclusive")
-	}
-	return nil
+		fmt.Printf("\nDropped %d/%d stale databases.\n", dropped, len(stale))
+	},
 }
 
-// ValidateForImport validates the issue for multi-repo import (federation trust model).
-```
-
-This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
-
-### `internal/types/types.go`
-
-The `IsValid` function in [`internal/types/types.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/types/types.go) handles a key part of this chapter's functionality:
-
-```go
-		return fmt.Errorf("priority must be between 0 and 4 (got %d)", i.Priority)
-	}
-	if !i.Status.IsValidWithCustom(customStatuses) {
-		return fmt.Errorf("invalid status: %s", i.Status)
-	}
-	if !i.IssueType.IsValidWithCustom(customTypes) {
-		return fmt.Errorf("invalid issue type: %s", i.IssueType)
-	}
-	if i.EstimatedMinutes != nil && *i.EstimatedMinutes < 0 {
-		return fmt.Errorf("estimated_minutes cannot be negative")
-	}
-	// Enforce closed_at invariant: closed_at should be set if and only if status is closed
-	if i.Status == StatusClosed && i.ClosedAt == nil {
-		return fmt.Errorf("closed issues must have closed_at timestamp")
-	}
-	if i.Status != StatusClosed && i.ClosedAt != nil {
-		return fmt.Errorf("non-closed issues cannot have closed_at timestamp")
-	}
-	// Validate metadata is well-formed JSON if set (GH#1406)
-	if len(i.Metadata) > 0 {
-		if !json.Valid(i.Metadata) {
-			return fmt.Errorf("metadata must be valid JSON")
-		}
-	}
-	// Ephemeral and NoHistory are mutually exclusive (GH#2619)
-	if i.Ephemeral && i.NoHistory {
-		return fmt.Errorf("ephemeral and no_history are mutually exclusive")
-	}
-	return nil
-}
-
-// ValidateForImport validates the issue for multi-repo import (federation trust model).
-```
-
-This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
-
-### `internal/types/types.go`
-
-The `IsWellKnown` function in [`internal/types/types.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/types/types.go) handles a key part of this chapter's functionality:
-
-```go
-// IsValid checks if the dependency type value is valid.
-// Accepts any non-empty string up to 50 characters.
-// Use IsWellKnown() to check if it's a built-in type.
-func (d DependencyType) IsValid() bool {
-	return len(d) > 0 && len(d) <= 50
-}
-
-// IsWellKnown checks if the dependency type is a well-known constant.
-// Returns false for custom/user-defined types (which are still valid).
-func (d DependencyType) IsWellKnown() bool {
-	switch d {
-	case DepBlocks, DepParentChild, DepConditionalBlocks, DepWaitsFor, DepRelated, DepDiscoveredFrom,
-		DepRepliesTo, DepRelatesTo, DepDuplicates, DepSupersedes,
-		DepAuthoredBy, DepAssignedTo, DepApprovedBy, DepAttests, DepTracks,
-		DepUntil, DepCausedBy, DepValidates, DepDelegatedFrom:
+// confirmOverwrite prompts the user to confirm overwriting an existing remote.
+// Returns true if the user confirms. Returns true without prompting if stdin is
+// not a terminal (non-interactive/CI contexts).
+func confirmOverwrite(surface, name, existingURL, newURL string) bool {
+	if !term.IsTerminal(int(os.Stdin.Fd())) {
 		return true
 	}
-	return false
-}
-
-// AffectsReadyWork returns true if this dependency type blocks work.
-// Only blocking types affect the ready work calculation.
-func (d DependencyType) AffectsReadyWork() bool {
-	return d == DepBlocks || d == DepParentChild || d == DepConditionalBlocks || d == DepWaitsFor
-}
-
-// WaitsForMeta holds metadata for waits-for dependencies (fanout gates).
-// Stored as JSON in the Dependency.Metadata field.
-type WaitsForMeta struct {
-	// Gate type: "all-children" (wait for all), "any-children" (wait for first)
-	Gate string `json:"gate"`
-	// SpawnerID identifies which step/issue spawns the children to wait for.
+	fmt.Printf("  Remote %q already exists on %s: %s\n", name, surface, existingURL)
+	fmt.Printf("  Overwrite with: %s\n", newURL)
+	fmt.Print("  Overwrite? (y/N): ")
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `internal/types/types.go`
+### `cmd/bd/dolt.go`
 
-The `AffectsReadyWork` function in [`internal/types/types.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/types/types.go) handles a key part of this chapter's functionality:
+The `init` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
 
 ```go
-}
-
-// AffectsReadyWork returns true if this dependency type blocks work.
-// Only blocking types affect the ready work calculation.
-func (d DependencyType) AffectsReadyWork() bool {
-	return d == DepBlocks || d == DepParentChild || d == DepConditionalBlocks || d == DepWaitsFor
-}
-
-// WaitsForMeta holds metadata for waits-for dependencies (fanout gates).
-// Stored as JSON in the Dependency.Metadata field.
-type WaitsForMeta struct {
-	// Gate type: "all-children" (wait for all), "any-children" (wait for first)
-	Gate string `json:"gate"`
-	// SpawnerID identifies which step/issue spawns the children to wait for.
-	// If empty, waits for all direct children of the depends_on_id issue.
-	SpawnerID string `json:"spawner_id,omitempty"`
-}
-
-// WaitsForGate constants
-const (
-	WaitsForAllChildren = "all-children" // Wait for all dynamic children to complete
-	WaitsForAnyChildren = "any-children" // Proceed when first child completes (future)
-)
-
-// ParseWaitsForGateMetadata extracts the waits-for gate type from dependency metadata.
-// Note: spawner identity comes from dependencies.depends_on_id in storage/query paths;
-// metadata.spawner_id is parsed for compatibility/future explicit targeting.
-// Returns WaitsForAllChildren on empty/invalid metadata for backward compatibility.
-func ParseWaitsForGateMetadata(metadata string) string {
-	if strings.TrimSpace(metadata) == "" {
-		return WaitsForAllChildren
+// separate commit histories with no common merge base (e.g., two agents
+// bootstrapping from scratch and pushing to the same remote, or a local
+// database being re-initialized while the remote retains the old history).
+func isDivergedHistoryErr(err error) bool {
+	if err == nil {
+		return false
 	}
+	msg := strings.ToLower(err.Error())
+	return strings.Contains(msg, "no common ancestor") ||
+		strings.Contains(msg, "can't find common ancestor") ||
+		strings.Contains(msg, "cannot find common ancestor")
+}
+
+// printDivergedHistoryGuidance prints recovery guidance when push/pull fails
+// due to diverged local and remote histories.
+func printDivergedHistoryGuidance(operation string) {
+	fmt.Fprintln(os.Stderr, "")
+	fmt.Fprintln(os.Stderr, "Local and remote Dolt histories have diverged.")
+	fmt.Fprintln(os.Stderr, "This means the local database and the remote have independent commit")
+	fmt.Fprintln(os.Stderr, "histories with no common merge base.")
+	fmt.Fprintln(os.Stderr, "")
+	fmt.Fprintln(os.Stderr, "Recovery options:")
+	fmt.Fprintln(os.Stderr, "")
+	fmt.Fprintln(os.Stderr, "  1. Keep remote, discard local (recommended if remote is authoritative):")
+	fmt.Fprintln(os.Stderr, "       bd bootstrap              # re-clone from remote")
+	fmt.Fprintln(os.Stderr, "")
+	fmt.Fprintln(os.Stderr, "  2. Keep local, overwrite remote (if local is authoritative):")
+	fmt.Fprintln(os.Stderr, "       bd dolt push --force       # force-push local history to remote")
+	fmt.Fprintln(os.Stderr, "")
+	fmt.Fprintln(os.Stderr, "  3. Manual recovery (re-initialize local database):")
+	fmt.Fprintln(os.Stderr, "       rm -rf .beads/dolt         # delete local Dolt database")
+	fmt.Fprintln(os.Stderr, "       bd bootstrap              # re-clone from remote")
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+### `cmd/bd/dolt.go`
+
+The `selectedDoltBeadsDir` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
+
+```go
+			os.Exit(1)
+		}
+		beadsDir := selectedDoltBeadsDir()
+		if beadsDir == "" {
+			fmt.Fprintf(os.Stderr, "Error: not in a beads repository (no .beads directory found)\n")
+			os.Exit(1)
+		}
+		serverDir := doltserver.ResolveServerDir(beadsDir)
+
+		state, err := doltserver.Start(serverDir)
+		if err != nil {
+			if strings.Contains(err.Error(), "already running") {
+				fmt.Println(err)
+				return
+			}
+			fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Dolt server started (PID %d, port %d)\n", state.PID, state.Port)
+		fmt.Printf("  Data: %s\n", state.DataDir)
+		fmt.Printf("  Logs: %s\n", doltserver.LogPath(serverDir))
+		if doltserver.IsSharedServerMode() {
+			fmt.Println("  Mode: shared server")
+		}
+	},
+}
+
+var doltStopCmd = &cobra.Command{
+	Use:   "stop",
+	Short: "Stop the Dolt SQL server for this project",
+	Long: `Stop the dolt sql-server managed by beads for the current project.
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
+
+### `cmd/bd/dolt.go`
+
+The `showDoltConfig` function in [`cmd/bd/dolt.go`](https://github.com/steveyegge/beads/blob/HEAD/cmd/bd/dolt.go) handles a key part of this chapter's functionality:
+
+```go
+			os.Exit(1)
+		}
+		showDoltConfig(true)
+	},
+}
+
+var doltSetCmd = &cobra.Command{
+	Use:   "set <key> <value>",
+	Short: "Set a Dolt configuration value",
+	Long: `Set a Dolt configuration value in metadata.json.
+
+Keys:
+  database  Database name (default: issue prefix or "beads")
+  host      Server host (default: 127.0.0.1)
+  port      Server port (auto-detected; override with bd dolt set port <N>)
+  user      MySQL user (default: root)
+  data-dir  Custom dolt data directory (absolute path; default: .beads/dolt)
+
+Use --update-config to also write to config.yaml for team-wide defaults.
+
+Examples:
+  bd dolt set database myproject
+  bd dolt set host 192.168.1.100
+  bd dolt set port 3307 --update-config
+  bd dolt set data-dir /home/user/.beads-dolt/myproject`,
+	Args: cobra.ExactArgs(2),
+	Run: func(cmd *cobra.Command, args []string) {
+		if isEmbeddedMode() {
+			fmt.Fprintln(os.Stderr, "Error: 'bd dolt set' is not supported in embedded mode (no Dolt server)")
+			os.Exit(1)
+		}
+		key := args[0]
 ```
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
@@ -210,11 +208,11 @@ This function is important because it defines how Beads Tutorial: Git-Backed Tas
 
 ```mermaid
 flowchart TD
-    A[IsValid]
-    B[IsValid]
-    C[IsWellKnown]
-    D[AffectsReadyWork]
-    E[ParseWaitsForGateMetadata]
+    A[isTimeoutError]
+    B[init]
+    C[selectedDoltBeadsDir]
+    D[showDoltConfig]
+    E[setDoltConfig]
     A --> B
     B --> C
     C --> D

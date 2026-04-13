@@ -40,163 +40,168 @@ You now know how to run Vibe Kanban beyond a single local machine safely.
 
 Next: [Chapter 7: Development and Source Build Workflow](07-development-and-source-build-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `npx-cli/src/desktop.ts`
+### `npx-cli/src/cli.ts`
 
-The `installAndLaunch` function in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// macOS: extract .app.tar.gz, copy to /Applications, remove quarantine, launch with `open`
-async function installAndLaunchMacOS(
-  bundleInfo: DesktopBundleInfo
-): Promise<number> {
-  const { archivePath, dir } = bundleInfo;
-
-  const sentinel = readSentinel(dir);
-  if (sentinel?.appPath && fs.existsSync(sentinel.appPath)) {
-    return launchMacOSApp(sentinel.appPath);
-  }
-
-  if (!archivePath || !fs.existsSync(archivePath)) {
-    throw new Error('No archive to extract for macOS desktop app');
-  }
-
-  extractTarGz(archivePath, dir);
-
-  const appName = fs.readdirSync(dir).find((f) => f.endsWith('.app'));
-  if (!appName) {
-    throw new Error(
-      `No .app bundle found in ${dir} after extraction`
-    );
-  }
-
-  const extractedAppPath = path.join(dir, appName);
-
-  // Try to install to /Applications, then ~/Applications, then fall back to cache dir
-  const userApplications = path.join(os.homedir(), 'Applications');
-  const finalAppPath =
-    tryCopyApp(extractedAppPath, '/Applications') ??
-    tryCopyApp(extractedAppPath, userApplications) ??
-```
-
-This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
-
-### `npx-cli/src/desktop.ts`
-
-The `cleanOldDesktopVersions` function in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
+The `normalizeArgv` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export function cleanOldDesktopVersions(
-  desktopBaseDir: string,
-  currentTag: string
-): void {
-  try {
-    const entries = fs.readdirSync(desktopBaseDir, {
-      withFileTypes: true,
-    });
-    for (const entry of entries) {
-      if (entry.isDirectory() && entry.name !== currentTag) {
-        const oldDir = path.join(desktopBaseDir, entry.name);
-        try {
-          fs.rmSync(oldDir, { recursive: true, force: true });
-        } catch {
-          // Ignore errors (e.g. EBUSY on Windows if app is running)
-        }
-      }
+function normalizeArgv(argv: string[]): string[] {
+  const args = argv.slice(2);
+  const mcpFlagIndex = args.indexOf("--mcp");
+  if (mcpFlagIndex === -1) {
+    return argv;
+  }
+
+  const normalizedArgs = [
+    ...args.slice(0, mcpFlagIndex),
+    "mcp",
+    ...args.slice(mcpFlagIndex + 1),
+  ];
+
+  return [...argv.slice(0, 2), ...normalizedArgs];
+}
+
+function runOrExit(task: Promise<void>): void {
+  void task.catch((err: unknown) => {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Fatal error:", msg);
+    if (process.env.VIBE_KANBAN_DEBUG && err instanceof Error) {
+      console.error(err.stack);
     }
-  } catch {
-    // Ignore cleanup errors
-  }
-}
-
-```
-
-This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
-
-### `npx-cli/src/desktop.ts`
-
-The `SentinelMeta` interface in [`npx-cli/src/desktop.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/desktop.ts) handles a key part of this chapter's functionality:
-
-```ts
-type TauriPlatform = string | null;
-
-interface SentinelMeta {
-  type: string;
-  appPath: string;
-}
-
-const PLATFORM_MAP: Record<string, string> = {
-  'macos-arm64': 'darwin-aarch64',
-  'macos-x64': 'darwin-x86_64',
-  'linux-x64': 'linux-x86_64',
-  'linux-arm64': 'linux-aarch64',
-  'windows-x64': 'windows-x86_64',
-  'windows-arm64': 'windows-aarch64',
-};
-
-// Map NPX-style platform names to Tauri-style platform names
-export function getTauriPlatform(
-  npxPlatformDir: string
-): TauriPlatform {
-  return PLATFORM_MAP[npxPlatformDir] || null;
-}
-
-// Extract .tar.gz using system tar (available on macOS, Linux, and Windows 10+)
-function extractTarGz(archivePath: string, destDir: string): void {
-  execSync(`tar -xzf "${archivePath}" -C "${destDir}"`, {
-    stdio: 'pipe',
+    process.exit(1);
   });
 }
 
-function writeSentinel(dir: string, meta: SentinelMeta): void {
-  fs.writeFileSync(
+async function main(): Promise<void> {
+  fs.mkdirSync(versionCacheDir, { recursive: true });
+  const cli = cac("vibe-kanban");
 ```
 
-This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
-### `packages/local-web/tailwind.new.config.js`
+### `npx-cli/src/cli.ts`
 
-The `getSize` function in [`packages/local-web/tailwind.new.config.js`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/packages/local-web/tailwind.new.config.js) handles a key part of this chapter's functionality:
+The `runOrExit` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
 
-```js
-const chatMaxWidth = '48rem';
-
-function getSize(sizeLabel, multiplier = 1) {
-
-  return sizes[sizeLabel] * multiplier + "rem";
+```ts
 }
 
-module.exports = {
-  darkMode: ["class"],
-  important: false,
-  content: [
-    './pages/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-    './app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
-    '../web-core/src/**/*.{ts,tsx}',
-    '../remote-web/src/**/*.{ts,tsx}',
-    '../ui/src/**/*.{ts,tsx}',
-    "node_modules/@rjsf/shadcn/src/**/*.{js,ts,jsx,tsx,mdx}"
-  ],
-  safelist: [
-    'xl:hidden',
-    'xl:relative',
-    'xl:inset-auto',
-    'xl:z-auto',
-    'xl:h-full',
-    'xl:w-[800px]',
-    'xl:flex',
-    'xl:flex-1',
-    'xl:min-w-0',
-    'xl:overflow-y-auto',
-    'xl:opacity-100',
+function runOrExit(task: Promise<void>): void {
+  void task.catch((err: unknown) => {
+    const msg = err instanceof Error ? err.message : String(err);
+    console.error("Fatal error:", msg);
+    if (process.env.VIBE_KANBAN_DEBUG && err instanceof Error) {
+      console.error(err.stack);
+    }
+    process.exit(1);
+  });
+}
+
+async function main(): Promise<void> {
+  fs.mkdirSync(versionCacheDir, { recursive: true });
+  const cli = cac("vibe-kanban");
+
+  cli
+    .command("[...args]", "Launch the local vibe-kanban app")
+    .option("--desktop", "Launch the desktop app instead of browser mode")
+    .allowUnknownOptions()
+    .action((_args: string[], options: RootOptions) => {
+      runOrExit(runMain(Boolean(options.desktop)));
+    });
+
+  cli
+    .command("review [...args]", "Run the review CLI")
+    .allowUnknownOptions()
+    .action((args: string[]) => {
+      runOrExit(runReview(args));
+    });
+
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `npx-cli/src/cli.ts`
+
+The `main` function in [`npx-cli/src/cli.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/cli.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function main(): Promise<void> {
+  fs.mkdirSync(versionCacheDir, { recursive: true });
+  const cli = cac("vibe-kanban");
+
+  cli
+    .command("[...args]", "Launch the local vibe-kanban app")
+    .option("--desktop", "Launch the desktop app instead of browser mode")
+    .allowUnknownOptions()
+    .action((_args: string[], options: RootOptions) => {
+      runOrExit(runMain(Boolean(options.desktop)));
+    });
+
+  cli
+    .command("review [...args]", "Run the review CLI")
+    .allowUnknownOptions()
+    .action((args: string[]) => {
+      runOrExit(runReview(args));
+    });
+
+  cli
+    .command("mcp [...args]", "Run the MCP server")
+    .allowUnknownOptions()
+    .action((args: string[]) => {
+      runOrExit(runMcp(args));
+    });
+
+  cli.help();
+  cli.version(CLI_VERSION);
+  cli.parse(normalizeArgv(process.argv));
+}
+```
+
+This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
+### `npx-cli/src/download.ts`
+
+The `downloadFile` function in [`npx-cli/src/download.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/download.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function downloadFile(
+  url: string,
+  destPath: string,
+  expectedSha256: string | undefined,
+  onProgress?: ProgressCallback
+): Promise<string> {
+  const tempPath = destPath + '.tmp';
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(tempPath);
+    const hash = crypto.createHash('sha256');
+
+    const cleanup = () => {
+      try {
+        fs.unlinkSync(tempPath);
+      } catch {}
+    };
+
+    https
+      .get(url, (res) => {
+        if (res.statusCode === 301 || res.statusCode === 302) {
+          file.close();
+          cleanup();
+          return downloadFile(
+            res.headers.location!,
+            destPath,
+            expectedSha256,
+            onProgress
+          )
+            .then(resolve)
+            .catch(reject);
 ```
 
 This function is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
@@ -206,11 +211,11 @@ This function is important because it defines how Vibe Kanban Tutorial: Multi-Ag
 
 ```mermaid
 flowchart TD
-    A[installAndLaunch]
-    B[cleanOldDesktopVersions]
-    C[SentinelMeta]
-    D[getSize]
-    E[downloadFile]
+    A[normalizeArgv]
+    B[runOrExit]
+    C[main]
+    D[downloadFile]
+    E[ensureBinary]
     A --> B
     B --> C
     C --> D

@@ -39,159 +39,168 @@ You now understand runtime-specific install patterns and validation points.
 
 Next: [Chapter 4: Skill Authoring Template and Quality Standards](04-skill-authoring-template-and-quality-standards.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `slack-gif-creator/core/typography.py`
+### `slack-gif-creator/templates/zoom.py`
 
-The `draw_text_in_box` function in [`slack-gif-creator/core/typography.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/typography.py) handles a key part of this chapter's functionality:
+The `create_zoom_animation` function in [`slack-gif-creator/templates/zoom.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/zoom.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def draw_text_in_box(
-    frame: Image.Image,
-    text: str,
-    position: tuple[int, int],
-    font_size: int = 40,
-    text_color: tuple[int, int, int] = (255, 255, 255),
-    box_color: tuple[int, int, int] = (0, 0, 0),
-    box_alpha: float = 0.7,
-    padding: int = 10,
-    centered: bool = True,
-    bold: bool = True
-) -> Image.Image:
+def create_zoom_animation(
+    object_type: str = 'emoji',
+    object_data: dict | None = None,
+    num_frames: int = 30,
+    zoom_type: str = 'in',  # 'in', 'out', 'in_out', 'punch'
+    scale_range: tuple[float, float] = (0.1, 2.0),
+    easing: str = 'ease_out',
+    add_motion_blur: bool = False,
+    center_pos: tuple[int, int] = (240, 240),
+    frame_width: int = 480,
+    frame_height: int = 480,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Draw text in a semi-transparent box for guaranteed readability.
+    Create zoom animation.
 
     Args:
-        frame: PIL Image to draw on
-        text: Text to draw
-        position: (x, y) position
-        font_size: Font size in pixels
-        text_color: RGB color for text
-        box_color: RGB color for background box
-        box_alpha: Opacity of box (0.0-1.0)
-        padding: Padding around text in pixels
-        centered: If True, center at position
-        bold: Use bold font variant
+        object_type: 'emoji', 'text', 'image'
+        object_data: Object configuration
+        num_frames: Number of frames
+        zoom_type: Type of zoom effect
+        scale_range: (start_scale, end_scale) tuple
+        easing: Easing function
+        add_motion_blur: Add blur for speed effect
+        center_pos: Center position
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
 
     Returns:
-        Modified frame
-    """
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/typography.py`
+### `slack-gif-creator/templates/zoom.py`
 
-The `get_text_size` function in [`slack-gif-creator/core/typography.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/typography.py) handles a key part of this chapter's functionality:
+The `create_explosion_zoom` function in [`slack-gif-creator/templates/zoom.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/zoom.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_text_size(text: str, font_size: int, bold: bool = True) -> tuple[int, int]:
+def create_explosion_zoom(
+    emoji: str = '💥',
+    num_frames: int = 20,
+    frame_width: int = 480,
+    frame_height: int = 480,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Get the dimensions of text without drawing it.
+    Create dramatic explosion zoom effect.
 
     Args:
-        text: Text to measure
-        font_size: Font size in pixels
-        bold: Use bold font variant
+        emoji: Emoji to explode
+        num_frames: Number of frames
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
 
     Returns:
-        (width, height) tuple
+        List of frames
     """
-    font = get_font(font_size, bold=bold)
-    # Create temporary image to measure
-    temp_img = Image.new('RGB', (1, 1))
-    draw = ImageDraw.Draw(temp_img)
-    bbox = draw.textbbox((0, 0), text, font=font)
-    width = bbox[2] - bbox[0]
-    height = bbox[3] - bbox[1]
-    return (width, height)
+    frames = []
 
+    for i in range(num_frames):
+        t = i / (num_frames - 1) if num_frames > 1 else 0
 
-def get_optimal_font_size(text: str, max_width: int, max_height: int,
-                          start_size: int = 60) -> int:
-    """
-    Find the largest font size that fits within given dimensions.
+        # Exponential zoom
+        scale = 0.1 * math.exp(t * 5)
 
-    Args:
-        text: Text to size
-        max_width: Maximum width in pixels
+        # Add rotation for drama
+        angle = t * 360 * 2
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/typography.py`
+### `slack-gif-creator/templates/zoom.py`
 
-The `get_optimal_font_size` function in [`slack-gif-creator/core/typography.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/typography.py) handles a key part of this chapter's functionality:
+The `create_mind_blown_zoom` function in [`slack-gif-creator/templates/zoom.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/zoom.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_optimal_font_size(text: str, max_width: int, max_height: int,
-                          start_size: int = 60) -> int:
+def create_mind_blown_zoom(
+    emoji: str = '🤯',
+    num_frames: int = 30,
+    frame_width: int = 480,
+    frame_height: int = 480,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Find the largest font size that fits within given dimensions.
+    Create "mind blown" dramatic zoom with shake.
 
     Args:
-        text: Text to size
-        max_width: Maximum width in pixels
-        max_height: Maximum height in pixels
-        start_size: Starting font size to try
+        emoji: Emoji to use
+        num_frames: Number of frames
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
 
     Returns:
-        Optimal font size
+        List of frames
     """
-    font_size = start_size
-    while font_size > 10:
-        width, height = get_text_size(text, font_size)
-        if width <= max_width and height <= max_height:
-            return font_size
-        font_size -= 2
-    return 10  # Minimum font size
+    frames = []
 
+    for i in range(num_frames):
+        t = i / (num_frames - 1) if num_frames > 1 else 0
 
-def scale_font_for_frame(base_size: int, frame_width: int, frame_height: int) -> int:
-    """
-    Scale font size proportionally to frame dimensions.
-
-    Useful for maintaining relative text size across different GIF dimensions.
-
-    Args:
+        # Zoom in then shake
+        if t < 0.5:
+            scale = interpolate(0.3, 1.2, t * 2, 'ease_out')
+            shake_x = 0
+            shake_y = 0
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
-### `slack-gif-creator/core/typography.py`
+### `slack-gif-creator/templates/wiggle.py`
 
-The `scale_font_for_frame` function in [`slack-gif-creator/core/typography.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/typography.py) handles a key part of this chapter's functionality:
+The `create_wiggle_animation` function in [`slack-gif-creator/templates/wiggle.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/templates/wiggle.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def scale_font_for_frame(base_size: int, frame_width: int, frame_height: int) -> int:
+def create_wiggle_animation(
+    object_type: str = 'emoji',
+    object_data: dict | None = None,
+    num_frames: int = 30,
+    wiggle_type: str = 'jello',  # 'jello', 'wave', 'bounce', 'sway'
+    intensity: float = 1.0,
+    cycles: float = 2.0,
+    center_pos: tuple[int, int] = (240, 240),
+    frame_width: int = 480,
+    frame_height: int = 480,
+    bg_color: tuple[int, int, int] = (255, 255, 255)
+) -> list[Image.Image]:
     """
-    Scale font size proportionally to frame dimensions.
-
-    Useful for maintaining relative text size across different GIF dimensions.
+    Create wiggle/wobble animation.
 
     Args:
-        base_size: Base font size for 480x480 frame
-        frame_width: Actual frame width
-        frame_height: Actual frame height
+        object_type: 'emoji', 'text'
+        object_data: Object configuration
+        num_frames: Number of frames
+        wiggle_type: Type of wiggle motion
+        intensity: Wiggle intensity multiplier
+        cycles: Number of wiggle cycles
+        center_pos: Center position
+        frame_width: Frame width
+        frame_height: Frame height
+        bg_color: Background color
 
     Returns:
-        Scaled font size
+        List of frames
     """
-    # Use average dimension for scaling
-    avg_dimension = (frame_width + frame_height) / 2
-    base_dimension = 480  # Reference dimension
-    scale_factor = avg_dimension / base_dimension
-    return max(10, int(base_size * scale_factor))
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -201,11 +210,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[draw_text_in_box]
-    B[get_text_size]
-    C[get_optimal_font_size]
-    D[scale_font_for_frame]
-    E[create_blank_frame]
+    A[create_zoom_animation]
+    B[create_explosion_zoom]
+    C[create_mind_blown_zoom]
+    D[create_wiggle_animation]
+    E[create_excited_wiggle]
     A --> B
     B --> C
     C --> D

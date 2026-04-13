@@ -39,8 +39,6 @@ You now have a manifest-first strategy for bundle interoperability and lifecycle
 
 Next: [Chapter 3: Server Configuration and Runtime Packaging](03-server-configuration-and-runtime-packaging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/cli/init.ts`

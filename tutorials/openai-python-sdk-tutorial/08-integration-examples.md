@@ -62,76 +62,7 @@ Related:
 - [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
 - [OpenAI Whisper Tutorial](../openai-whisper-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `examples/parsing_tools_stream.py`
-
-The `GetWeather` class in [`examples/parsing_tools_stream.py`](https://github.com/openai/openai-python/blob/HEAD/examples/parsing_tools_stream.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class GetWeather(BaseModel):
-    city: str
-    country: str
-
-
-client = OpenAI()
-
-
-with client.chat.completions.stream(
-    model="gpt-4o-2024-08-06",
-    messages=[
-        {
-            "role": "user",
-            "content": "What's the weather like in SF and New York?",
-        },
-    ],
-    tools=[
-        # because we're using `.parse_stream()`, the returned tool calls
-        # will be automatically deserialized into this `GetWeather` type
-        openai.pydantic_function_tool(GetWeather, name="get_weather"),
-    ],
-    parallel_tool_calls=True,
-) as stream:
-    for event in stream:
-        if event.type == "tool_calls.function.arguments.delta" or event.type == "tool_calls.function.arguments.done":
-            rich.get_console().print(event, width=80)
-
-print("----\n")
-rich.print(stream.get_final_completion())
-
-```
-
-This class is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
-
-### `examples/speech_to_text.py`
-
-The `main` function in [`examples/speech_to_text.py`](https://github.com/openai/openai-python/blob/HEAD/examples/speech_to_text.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-async def main() -> None:
-    print("Recording for the next 10 seconds...")
-    recording = await Microphone(timeout=10).record()
-    print("Recording complete")
-    transcription = await openai.audio.transcriptions.create(
-        model="whisper-1",
-        file=recording,
-    )
-
-    print(transcription.text)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
-
-```
-
-This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
 ### `examples/audio.py`
 
@@ -171,14 +102,89 @@ if __name__ == "__main__":
 
 This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
 
+### `examples/uploads.py`
+
+The `from_disk` function in [`examples/uploads.py`](https://github.com/openai/openai-python/blob/HEAD/examples/uploads.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def from_disk() -> None:
+    print("uploading file from disk")
+
+    upload = client.uploads.upload_file_chunked(
+        file=file,
+        mime_type="txt",
+        purpose="batch",
+    )
+    rich.print(upload)
+
+
+def from_in_memory() -> None:
+    print("uploading file from memory")
+
+    # read the data into memory ourselves to simulate
+    # it coming from somewhere else
+    data = file.read_bytes()
+    filename = "my_file.txt"
+
+    upload = client.uploads.upload_file_chunked(
+        file=data,
+        filename=filename,
+        bytes=len(data),
+        mime_type="txt",
+        purpose="batch",
+    )
+    rich.print(upload)
+
+
+if "memory" in sys.argv:
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+
+### `examples/uploads.py`
+
+The `from_in_memory` function in [`examples/uploads.py`](https://github.com/openai/openai-python/blob/HEAD/examples/uploads.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def from_in_memory() -> None:
+    print("uploading file from memory")
+
+    # read the data into memory ourselves to simulate
+    # it coming from somewhere else
+    data = file.read_bytes()
+    filename = "my_file.txt"
+
+    upload = client.uploads.upload_file_chunked(
+        file=data,
+        filename=filename,
+        bytes=len(data),
+        mime_type="txt",
+        purpose="batch",
+    )
+    rich.print(upload)
+
+
+if "memory" in sys.argv:
+    from_in_memory()
+else:
+    from_disk()
+
+```
+
+This function is important because it defines how OpenAI Python SDK Tutorial: Production API Patterns implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[GetWeather]
-    B[main]
-    C[main]
+    A[main]
+    B[from_disk]
+    C[from_in_memory]
     A --> B
     B --> C
 ```

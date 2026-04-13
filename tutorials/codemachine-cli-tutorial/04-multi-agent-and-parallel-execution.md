@@ -25,9 +25,89 @@ You now understand how to leverage parallelism without losing control.
 
 Next: [Chapter 5: Context Engineering and State Control](05-context-engineering-and-state-control.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `scripts/import-telemetry.ts`
+
+The `Config` interface in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { join, basename } from 'node:path';
+
+// Configuration
+interface Config {
+  lokiUrl: string;
+  tempoUrl: string;
+  logsOnly: boolean;
+  tracesOnly: boolean;
+  sourcePath: string;
+}
+
+// Our serialized formats (from the exporters)
+interface SerializedSpan {
+  name: string;
+  traceId: string;
+  spanId: string;
+  parentSpanId?: string;
+  startTime: number; // ms
+  endTime: number; // ms
+  duration: number; // ms
+  status: {
+    code: number;
+    message?: string;
+  };
+  attributes: Record<string, unknown>;
+  events: Array<{
+    name: string;
+    time: number;
+    attributes?: Record<string, unknown>;
+  }>;
+}
+
+```
+
+This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `scripts/import-telemetry.ts`
+
+The `SerializedSpan` interface in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Our serialized formats (from the exporters)
+interface SerializedSpan {
+  name: string;
+  traceId: string;
+  spanId: string;
+  parentSpanId?: string;
+  startTime: number; // ms
+  endTime: number; // ms
+  duration: number; // ms
+  status: {
+    code: number;
+    message?: string;
+  };
+  attributes: Record<string, unknown>;
+  events: Array<{
+    name: string;
+    time: number;
+    attributes?: Record<string, unknown>;
+  }>;
+}
+
+interface TraceFile {
+  version: number;
+  service: string;
+  exportedAt: string;
+  spanCount: number;
+  spans: SerializedSpan[];
+}
+
+interface SerializedLog {
+  timestamp: [number, number]; // [seconds, nanoseconds]
+```
+
+This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
 ### `scripts/import-telemetry.ts`
 
@@ -111,97 +191,15 @@ function parseArgs(): Config {
 
 This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `scripts/import-telemetry.ts`
-
-The `LogFile` interface in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface LogFile {
-  version: number;
-  service: string;
-  exportedAt: string;
-  logCount: number;
-  logs: SerializedLog[];
-}
-
-// Parse command line arguments
-function parseArgs(): Config {
-  const args = process.argv.slice(2);
-  const config: Config = {
-    lokiUrl: 'http://localhost:3100',
-    tempoUrl: 'http://localhost:4318',
-    logsOnly: false,
-    tracesOnly: false,
-    sourcePath: '',
-  };
-
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (arg === '--loki-url' && args[i + 1]) {
-      config.lokiUrl = args[++i];
-    } else if (arg === '--tempo-url' && args[i + 1]) {
-      config.tempoUrl = args[++i];
-    } else if (arg === '--logs-only') {
-      config.logsOnly = true;
-    } else if (arg === '--traces-only') {
-      config.tracesOnly = true;
-    } else if (!arg.startsWith('-')) {
-```
-
-This interface is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
-
-### `bin/codemachine.js`
-
-The `findPackageRoot` function in [`bin/codemachine.js`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/bin/codemachine.js) handles a key part of this chapter's functionality:
-
-```js
-const ROOT_FALLBACK = join(__dirname, '..');
-
-function findPackageRoot(startDir) {
-  let current = startDir;
-  const maxDepth = 10;
-  let depth = 0;
-
-  while (current && depth < maxDepth) {
-    const candidate = join(current, 'package.json');
-    if (existsSync(candidate)) {
-      try {
-        const pkg = JSON.parse(readFileSync(candidate, 'utf8'));
-        if (pkg?.name === 'codemachine') {
-          return current;
-        }
-      } catch {
-        // ignore malformed package.json
-      }
-    }
-    const parent = dirname(current);
-    if (parent === current) break;
-    current = parent;
-    depth++;
-  }
-  return undefined;
-}
-
-const DEFAULT_PACKAGE_ROOT = findPackageRoot(ROOT_FALLBACK) ?? ROOT_FALLBACK;
-
-function runBinary(binaryPath, packageRoot) {
-  const child = spawn(binaryPath, process.argv.slice(2), {
-    stdio: 'inherit',
-```
-
-This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[TraceFile]
-    B[SerializedLog]
-    C[LogFile]
-    D[findPackageRoot]
+    A[Config]
+    B[SerializedSpan]
+    C[TraceFile]
+    D[SerializedLog]
     A --> B
     B --> C
     C --> D

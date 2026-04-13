@@ -12,6 +12,20 @@ Welcome to **Chapter 2: Core Concepts - Resources, Tools, and Prompts**. In this
 
 > Master the three fundamental primitives of MCP: Resources for data access, Tools for AI actions, and Prompts for reusable templates.
 
+## MCP Server Primitives
+
+```mermaid
+flowchart TD
+    SERVER[MCP Server] --> R[Resources\nURI-addressed read-only data]
+    SERVER --> T[Tools\nCallable functions with schema]
+    SERVER --> P[Prompts\nReusable prompt templates]
+
+    R --> R1[file:///path/to/file]
+    R --> R2[db://table/row]
+    T --> T1[search_documents\ncreate_issue\nrun_query]
+    P --> P1[code_review_template\nanalysis_prompt]
+```
+
 ## Overview
 
 MCP servers expose three types of capabilities to AI clients:

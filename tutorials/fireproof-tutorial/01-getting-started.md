@@ -51,184 +51,182 @@ You now have Fireproof running with a minimal document lifecycle.
 
 Next: [Chapter 2: Core Document API and Query Lifecycle](02-core-document-api-and-query-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `cli/version-pinner.ts`
+### `cli/cmd-evento.ts`
 
-The `VersionPinner` class in [`cli/version-pinner.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/version-pinner.ts) handles a key part of this chapter's functionality:
+The `isCmdTSMsg` function in [`cli/cmd-evento.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/cmd-evento.ts) handles a key part of this chapter's functionality:
+
+```ts
+});
+export type CmdTSMsg = typeof CmdTSMsg.infer;
+export function isCmdTSMsg(u: unknown): u is CmdTSMsg {
+  return !(CmdTSMsg(u) instanceof type.errors);
+}
+export type WrapCmdTSMsg<T> = Omit<CmdTSMsg, "result"> & { result: T };
+
+export const CmdProgress = type({
+  type: "'core-cli.progress'",
+  level: "'info'|'warn'|'error'",
+  message: "string",
+});
+export type CmdProgress = typeof CmdProgress.infer;
+
+export function isCmdProgress(u: unknown): u is CmdProgress {
+  return !(CmdProgress(u) instanceof type.errors);
+}
+
+export async function sendMsg<Q, S>(
+  ctx: HandleTriggerCtx<WrapCmdTSMsg<unknown>, Q, S>,
+  result: S,
+): Promise<Result<EventoResultType>> {
+  await ctx.send.send(ctx, {
+    ...ctx.request,
+    result,
+  } satisfies WrapCmdTSMsg<S>);
+  return Result.Ok(EventoResult.Continue);
+}
+
+export async function sendProgress<Q, S>(
+  ctx: HandleTriggerCtx<WrapCmdTSMsg<unknown>, Q, S>,
+  level: CmdProgress["level"],
+```
+
+This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `cli/cmd-evento.ts`
+
+The `isCmdProgress` function in [`cli/cmd-evento.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/cmd-evento.ts) handles a key part of this chapter's functionality:
+
+```ts
+export type CmdProgress = typeof CmdProgress.infer;
+
+export function isCmdProgress(u: unknown): u is CmdProgress {
+  return !(CmdProgress(u) instanceof type.errors);
+}
+
+export async function sendMsg<Q, S>(
+  ctx: HandleTriggerCtx<WrapCmdTSMsg<unknown>, Q, S>,
+  result: S,
+): Promise<Result<EventoResultType>> {
+  await ctx.send.send(ctx, {
+    ...ctx.request,
+    result,
+  } satisfies WrapCmdTSMsg<S>);
+  return Result.Ok(EventoResult.Continue);
+}
+
+export async function sendProgress<Q, S>(
+  ctx: HandleTriggerCtx<WrapCmdTSMsg<unknown>, Q, S>,
+  level: CmdProgress["level"],
+  message: string,
+): Promise<void> {
+  await ctx.send.send(ctx, {
+    ...ctx.request,
+    result: {
+      type: "core-cli.progress",
+      level,
+      message,
+    } satisfies CmdProgress,
+  } satisfies WrapCmdTSMsg<CmdProgress>);
+}
+
+```
+
+This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `cli/cmd-evento.ts`
+
+The `cmdTsEvento` function in [`cli/cmd-evento.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/cmd-evento.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export class VersionPinner {
-  private allDeps: Record<string, string> = {};
+export function cmdTsEvento() {
+  const evento = new Evento({
+    encode: (i) => {
+      if (isCmdTSMsg(i)) {
+        return Promise.resolve(Result.Ok(i.result));
+      }
+      return Promise.resolve(Result.Err("not a cmd-ts-msg"));
+    },
+    decode: (i) => Promise.resolve(Result.Ok(i)),
+  });
+  evento.push([
+    wellKnownEvento,
+    writeEnvEvento,
+    keyEvento,
+    preSignedUrlEvento,
+    retryEvento,
+    dependabotEvento,
+    updateDepsEvento,
+    setScriptsEvento,
+    setDependenciesEvento,
+    tscEvento,
+    testContainerBuildEvento,
+    testContainerTemplateEvento,
+    testContainerPublishEvento,
+    deviceIdCreateEvento,
+    deviceIdCsrEvento,
+    deviceIdExportEvento,
+    deviceIdCertEvento,
+    deviceIdCaCertEvento,
+    deviceIdRegisterEvento,
+```
 
-  private constructor(allDeps: Record<string, string>) {
-    this.allDeps = allDeps;
+This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `cli/main.ts`
+
+The `OutputSelector` class in [`cli/main.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/main.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { updateDepsCmd, isResUpdateDeps } from "./cmds/update-deps-cmd.js";
+
+class OutputSelector implements EventoSendProvider<unknown, unknown, unknown> {
+  readonly tstream = new TransformStream<unknown, WrapCmdTSMsg<unknown>>();
+  readonly outputStream: ReadableStream<WrapCmdTSMsg<unknown>> = this.tstream.readable;
+  readonly writer = this.tstream.writable.getWriter();
+  async send<IS, OS>(_trigger: HandleTriggerCtx<unknown, unknown, unknown>, data: IS): Promise<Result<OS, Error>> {
+    await this.writer.write(data);
+    return Promise.resolve(Result.Ok());
+  }
+  done(_trigger: HandleTriggerCtx<unknown, unknown, unknown>): Promise<Result<void>> {
+    this.writer.releaseLock();
+    this.tstream.writable.close();
+    return Promise.resolve(Result.Ok());
+  }
+}
+
+async function main() {
+  dotenv.config(process.env.FP_ENV ?? ".env");
+  const sthis = ensureSuperThis();
+
+  // tsc bypass: called directly before cmd-ts runs
+  if (process.argv[2] === "tsc") {
+    return handleTsc(process.argv.slice(3), sthis);
   }
 
-  /**
-   * Helper function to pin dependencies
-   */
-  private pinDependencies(
-    deps: Record<string, string> | undefined,
-    workspaceVersion: string,
-    _3rdPartyVersionModifier: "~" | "^" | "" | undefined,
-  ): Record<string, string> {
-    const pinnedDeps: Record<string, string> = {};
+  const ctx: CliCtx = {
+    sthis,
+    cliStream: createCliStream(),
+  };
 
-    if (!deps) {
-      return pinnedDeps;
-    }
-
-    for (const [name, version] of Object.entries(deps)) {
-      // Check if version is not pinned (starts with ^ or ~ or *)
-      // Note: Also catch malformed versions like "1-beta" that should be resolved from lockfile
-      if (version.startsWith("workspace:")) {
-        // Replace workspace dependencies with the workspace version
-        pinnedDeps[name] = workspaceVersion;
-      } else {
-        // Look up the exact version in lockfile
-        if (this.allDeps[name]) {
+  const rs = await runSafely(
 ```
 
 This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `cli/version-pinner.ts`
-
-The `getPackageDependencies` function in [`cli/version-pinner.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/version-pinner.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @returns Package dependencies information or null if not found
- */
-export async function getPackageDependencies(packageName: string, lockfilePath: string): Promise<PackageDependencies | null> {
-  const projectDir = lockfilePath.replace(/\/[^/]+$/, "");
-  const lockfile = await readWantedLockfile(projectDir, { ignoreIncompatible: false });
-
-  if (!lockfile?.packages) {
-    throw new Error(`No lockfile found at ${lockfilePath}`);
-  }
-
-  // Find the package in the lockfile
-  // Key format examples:
-  // - "/@adviser/cement@0.5.2"
-  // - "/@adviser/cement@0.5.2(typescript@5.9.3)"
-  for (const [key, pkgInfo] of Object.entries(lockfile.packages)) {
-    const match = key.match(/^\/?(@?[^@]+)@(.+?)(?:\(|$)/);
-    if (match) {
-      const [, name, version] = match;
-      if (name === packageName) {
-        return {
-          name,
-          version,
-          dependencies: pkgInfo.dependencies || {},
-          peerDependencies: pkgInfo.peerDependencies || {},
-          transitivePeerDependencies: pkgInfo.transitivePeerDependencies || [],
-        };
-      }
-    }
-  }
-
-  return null;
-}
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `cli/version-pinner.ts`
-
-The `getAllTransitiveDependencies` function in [`cli/version-pinner.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/version-pinner.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @returns Map of package name to version
- */
-export async function getAllTransitiveDependencies(
-  packageName: string,
-  lockfilePath: string,
-  depth = Infinity,
-): Promise<Map<string, string>> {
-  const result = new Map<string, string>();
-  const visited = new Set<string>();
-
-  async function traverse(pkgName: string, currentDepth: number) {
-    if (currentDepth > depth || visited.has(pkgName)) {
-      return;
-    }
-    visited.add(pkgName);
-
-    const pkgInfo = await getPackageDependencies(pkgName, lockfilePath);
-    if (!pkgInfo) {
-      return;
-    }
-
-    result.set(pkgName, pkgInfo.version);
-
-    // Traverse dependencies
-    for (const [depName] of Object.entries(pkgInfo.dependencies)) {
-      await traverse(depName, currentDepth + 1);
-    }
-  }
-
-  await traverse(packageName, 0);
-  return result;
-}
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `cli/version-pinner.ts`
-
-The `traverse` function in [`cli/version-pinner.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/cli/version-pinner.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @param packageName - Name of the package
- * @param lockfilePath - Path to the directory containing pnpm-lock.yaml
- * @param depth - Maximum depth to traverse (default: Infinity)
- * @returns Map of package name to version
- */
-export async function getAllTransitiveDependencies(
-  packageName: string,
-  lockfilePath: string,
-  depth = Infinity,
-): Promise<Map<string, string>> {
-  const result = new Map<string, string>();
-  const visited = new Set<string>();
-
-  async function traverse(pkgName: string, currentDepth: number) {
-    if (currentDepth > depth || visited.has(pkgName)) {
-      return;
-    }
-    visited.add(pkgName);
-
-    const pkgInfo = await getPackageDependencies(pkgName, lockfilePath);
-    if (!pkgInfo) {
-      return;
-    }
-
-    result.set(pkgName, pkgInfo.version);
-
-    // Traverse dependencies
-    for (const [depName] of Object.entries(pkgInfo.dependencies)) {
-      await traverse(depName, currentDepth + 1);
-    }
-  }
-
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[VersionPinner]
-    B[getPackageDependencies]
-    C[getAllTransitiveDependencies]
-    D[traverse]
-    E[PinVersionOptions]
+    A[isCmdTSMsg]
+    B[isCmdProgress]
+    C[cmdTsEvento]
+    D[OutputSelector]
+    E[main]
     A --> B
     B --> C
     C --> D

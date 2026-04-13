@@ -27,79 +27,123 @@ You now understand how OpenSkills maps skill files into runtime-usable metadata.
 
 Next: [Chapter 3: Installation Sources and Trust Model](03-installation-sources-and-trust-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/commands/install.ts`
+### `src/types.ts`
 
-The `isGitUrl` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+The `SkillMetadata` interface in [`src/types.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Check if source is a git URL (SSH, git://, or HTTPS)
- */
-function isGitUrl(source: string): boolean {
-  return (
-    source.startsWith('git@') ||
-    source.startsWith('git://') ||
-    source.startsWith('http://') ||
-    source.startsWith('https://') ||
-    source.endsWith('.git')
-  );
 }
 
-/**
- * Extract repo name from a git URL
- */
-function getRepoName(repoUrl: string): string | null {
-  const cleaned = repoUrl.replace(/\.git$/, '');
-  const lastPart = cleaned.split('/').pop();
-  if (!lastPart) return null;
-  const maybeRepo = lastPart.includes(':') ? lastPart.split(':').pop() : lastPart;
-  return maybeRepo || null;
+export interface SkillMetadata {
+  name: string;
+  description: string;
+  context?: string;
 }
 
-/**
- * Expand ~ to home directory
+```
+
+This interface is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/update.ts`
+
+The `updateSkills` function in [`src/commands/update.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/update.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Update installed skills from their recorded source metadata.
  */
-function expandPath(source: string): string {
-  if (source.startsWith('~/')) {
-    return join(homedir(), source.slice(2));
+export async function updateSkills(skillNames: string[] | string | undefined): Promise<void> {
+  const requested = normalizeSkillNames(skillNames);
+  const skills = findAllSkills();
+
+  if (skills.length === 0) {
+    console.log('No skills installed.\n');
+    console.log('Install skills:');
+    console.log(`  ${chalk.cyan('npx openskills install anthropics/skills')}         ${chalk.dim('# Project (default)')}`);
+    console.log(`  ${chalk.cyan('npx openskills install owner/skill --global')}     ${chalk.dim('# Global (advanced)')}`);
+    return;
   }
-  return resolve(source);
-}
+
+  let targets = skills;
+
+  if (requested.length > 0) {
+    const requestedSet = new Set(requested);
+    targets = skills.filter((skill) => requestedSet.has(skill.name));
+
+    const missing = requested.filter((name) => !skills.some((skill) => skill.name === name));
+    if (missing.length > 0) {
+      console.log(chalk.yellow(`Skipping missing skills: ${missing.join(', ')}`));
+    }
+  } else {
+    // Default to updating all installed skills
+    targets = skills;
+  }
+
+  if (targets.length === 0) {
+    console.log(chalk.yellow('No matching skills to update.'));
+    return;
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
 
-### `src/commands/install.ts`
+### `src/commands/update.ts`
 
-The `getRepoName` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
+The `updateSkillFromDir` function in [`src/commands/update.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/update.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Extract repo name from a git URL
- */
-function getRepoName(repoUrl: string): string | null {
-  const cleaned = repoUrl.replace(/\.git$/, '');
-  const lastPart = cleaned.split('/').pop();
-  if (!lastPart) return null;
-  const maybeRepo = lastPart.includes(':') ? lastPart.split(':').pop() : lastPart;
-  return maybeRepo || null;
-}
+        continue;
+      }
+      updateSkillFromDir(skill.path, localPath);
+      writeSkillMetadata(skill.path, { ...metadata, installedAt: new Date().toISOString() });
+      console.log(chalk.green(`✅ Updated: ${skill.name}`));
+      updated++;
+      continue;
+    }
 
-/**
- * Expand ~ to home directory
- */
-function expandPath(source: string): string {
-  if (source.startsWith('~/')) {
-    return join(homedir(), source.slice(2));
+    if (!metadata.repoUrl) {
+      console.log(chalk.yellow(`Skipped: ${skill.name} (missing repo URL metadata)`));
+      missingRepoUrl.push(skill.name);
+      skipped++;
+      continue;
+    }
+
+    const tempDir = join(homedir(), `.openskills-temp-${Date.now()}`);
+    mkdirSync(tempDir, { recursive: true });
+
+    const spinner = ora(`Updating ${skill.name}...`).start();
+    try {
+      execSync(`git clone --depth 1 --quiet "${metadata.repoUrl}" "${tempDir}/repo"`, { stdio: 'pipe' });
+      const repoDir = join(tempDir, 'repo');
+      const subpath = metadata.subpath && metadata.subpath !== '.' ? metadata.subpath : '';
+      const sourceDir = subpath ? join(repoDir, subpath) : repoDir;
+
+      if (!existsSync(join(sourceDir, 'SKILL.md'))) {
+        spinner.fail(`SKILL.md missing for ${skill.name}`);
+        console.log(chalk.yellow(`Skipped: ${skill.name} (SKILL.md not found in repo at ${subpath || '.'})`));
+        missingRepoSkillFile.push({ name: skill.name, subpath: subpath || '.' });
+        skipped++;
+        continue;
+```
+
+This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/update.ts`
+
+The `isPathInside` function in [`src/commands/update.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/update.ts) handles a key part of this chapter's functionality:
+
+```ts
+  mkdirSync(targetDir, { recursive: true });
+
+  if (!isPathInside(targetPath, targetDir)) {
+    console.error(chalk.red('Security error: Installation path outside target directory'));
+    process.exit(1);
   }
-  return resolve(source);
+
+  rmSync(targetPath, { recursive: true, force: true });
+  cpSync(sourceDir, targetPath, { recursive: true, dereference: true });
 }
 
-/**
- * Ensure target path stays within target directory
- */
 function isPathInside(targetPath: string, targetDir: string): boolean {
   const resolvedTargetPath = resolve(targetPath);
   const resolvedTargetDir = resolve(targetDir);
@@ -109,88 +153,6 @@ function isPathInside(targetPath: string, targetDir: string): boolean {
   return resolvedTargetPath.startsWith(resolvedTargetDirWithSep);
 }
 
-```
-
-This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/install.ts`
-
-The `expandPath` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Expand ~ to home directory
- */
-function expandPath(source: string): string {
-  if (source.startsWith('~/')) {
-    return join(homedir(), source.slice(2));
-  }
-  return resolve(source);
-}
-
-/**
- * Ensure target path stays within target directory
- */
-function isPathInside(targetPath: string, targetDir: string): boolean {
-  const resolvedTargetPath = resolve(targetPath);
-  const resolvedTargetDir = resolve(targetDir);
-  const resolvedTargetDirWithSep = resolvedTargetDir.endsWith(sep)
-    ? resolvedTargetDir
-    : resolvedTargetDir + sep;
-  return resolvedTargetPath.startsWith(resolvedTargetDirWithSep);
-}
-
-/**
- * Install skill from local path, GitHub, or Git URL
- */
-export async function installSkill(source: string, options: InstallOptions): Promise<void> {
-  const folder = options.universal ? '.agent/skills' : '.claude/skills';
-  const isProject = !options.global; // Default to project unless --global specified
-  const targetDir = isProject
-    ? join(process.cwd(), folder)
-    : join(homedir(), folder);
-
-  const location = isProject
-```
-
-This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/install.ts`
-
-The `isPathInside` function in [`src/commands/install.ts`](https://github.com/numman-ali/openskills/blob/HEAD/src/commands/install.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Ensure target path stays within target directory
- */
-function isPathInside(targetPath: string, targetDir: string): boolean {
-  const resolvedTargetPath = resolve(targetPath);
-  const resolvedTargetDir = resolve(targetDir);
-  const resolvedTargetDirWithSep = resolvedTargetDir.endsWith(sep)
-    ? resolvedTargetDir
-    : resolvedTargetDir + sep;
-  return resolvedTargetPath.startsWith(resolvedTargetDirWithSep);
-}
-
-/**
- * Install skill from local path, GitHub, or Git URL
- */
-export async function installSkill(source: string, options: InstallOptions): Promise<void> {
-  const folder = options.universal ? '.agent/skills' : '.claude/skills';
-  const isProject = !options.global; // Default to project unless --global specified
-  const targetDir = isProject
-    ? join(process.cwd(), folder)
-    : join(homedir(), folder);
-
-  const location = isProject
-    ? chalk.blue(`project (${folder})`)
-    : chalk.dim(`global (~/${folder})`);
-
-  const projectLocation = `./${folder}`;
-  const globalLocation = `~/${folder}`;
-
-  console.log(`Installing from: ${chalk.cyan(source)}`);
-  console.log(`Location: ${location}`);
-  if (isProject) {
-    console.log(
 ```
 
 This function is important because it defines how OpenSkills Tutorial: Universal Skill Loading for Coding Agents implements the patterns covered in this chapter.
@@ -200,11 +162,11 @@ This function is important because it defines how OpenSkills Tutorial: Universal
 
 ```mermaid
 flowchart TD
-    A[isGitUrl]
-    B[getRepoName]
-    C[expandPath]
+    A[SkillMetadata]
+    B[updateSkills]
+    C[updateSkillFromDir]
     D[isPathInside]
-    E[installSkill]
+    E[isLocalPath]
     A --> B
     B --> C
     C --> D

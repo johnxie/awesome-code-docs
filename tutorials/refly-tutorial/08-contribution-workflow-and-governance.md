@@ -50,50 +50,7 @@ Next steps:
 - export and test one skill in your Claude Code environment
 - contribute one focused improvement with docs and validation notes
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `packages/cli/tsup.config.ts`
-
-The `getDefaultWebUrl` function in [`packages/cli/tsup.config.ts`](https://github.com/refly-ai/refly/blob/HEAD/packages/cli/tsup.config.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Determine the default Web URL based on build environment
-function getDefaultWebUrl(): string {
-  if (customWebUrl) return customWebUrl;
-  if (customEndpoint) return customEndpoint; // Assume same domain if only endpoint specified
-  return ENV_CONFIG[buildEnv]?.webUrl ?? ENV_CONFIG.production.webUrl;
-}
-
-// Determine the npm tag based on build environment
-function getNpmTag(): string {
-  return ENV_CONFIG[buildEnv]?.npmTag ?? 'latest';
-}
-
-const defaultEndpoint = getDefaultEndpoint();
-const defaultWebUrl = getDefaultWebUrl();
-const npmTag = getNpmTag();
-
-console.log(`[tsup] Building CLI for environment: ${buildEnv}`);
-console.log(`[tsup] CLI version: ${cliVersion}`);
-console.log(`[tsup] NPM tag: ${npmTag}`);
-console.log(`[tsup] Default API endpoint: ${defaultEndpoint}`);
-console.log(`[tsup] Default Web URL: ${defaultWebUrl}`);
-
-export default defineConfig({
-  entry: {
-    'bin/refly': 'src/bin/refly.ts',
-    index: 'src/index.ts',
-  },
-  format: ['cjs'],
-  target: 'node18',
-  clean: true,
-  dts: true,
-```
-
-This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
 ### `packages/cli/tsup.config.ts`
 
@@ -136,12 +93,53 @@ export default defineConfig({
 
 This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
+### `scripts/cleanup-node-modules.js`
+
+The `findNodeModules` function in [`scripts/cleanup-node-modules.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/cleanup-node-modules.js) handles a key part of this chapter's functionality:
+
+```js
+ * @param {string[]} nodeModulesPaths - Array to collect found paths
+ */
+function findNodeModules(dir, nodeModulesPaths = []) {
+  try {
+    const items = fs.readdirSync(dir, { withFileTypes: true });
+
+    for (const item of items) {
+      if (item.isDirectory()) {
+        const fullPath = path.join(dir, item.name);
+
+        if (item.name === 'node_modules') {
+          nodeModulesPaths.push(fullPath);
+          console.log(`Found: ${fullPath}`);
+        } else {
+          // Skip common directories that shouldn't contain node_modules we want to delete
+          const skipDirs = ['.git', '.turbo', 'dist', 'build', 'coverage', '.next', '.nuxt'];
+          if (!skipDirs.includes(item.name)) {
+            findNodeModules(fullPath, nodeModulesPaths);
+          }
+        }
+      }
+    }
+  } catch (error) {
+    // Skip directories we can't read (permission issues, etc.)
+    console.warn(`Warning: Could not read directory ${dir}: ${error.message}`);
+  }
+
+  return nodeModulesPaths;
+}
+
+/**
+ * Delete a directory recursively
+```
+
+This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getDefaultWebUrl]
-    B[getNpmTag]
+    A[getNpmTag]
+    B[findNodeModules]
     A --> B
 ```

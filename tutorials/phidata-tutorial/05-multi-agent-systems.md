@@ -881,6 +881,23 @@ Under the hood, `Chapter 5: Multi-Agent Systems - Coordinating Teams of AI Agent
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Multi-Agent Coordination
+
+```mermaid
+flowchart TD
+    A[Task] --> B[Orchestrator Agent]
+    B --> C[Specialist Agent 1]
+    B --> D[Specialist Agent 2]
+    B --> E[Specialist Agent 3]
+    C --> F[Sub-result 1]
+    D --> G[Sub-result 2]
+    E --> H[Sub-result 3]
+    F --> I[Aggregator]
+    G --> I
+    H --> I
+    I --> J[Final Response]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

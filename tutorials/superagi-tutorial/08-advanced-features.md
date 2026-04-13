@@ -1123,6 +1123,16 @@ Under the hood, `Chapter 8: Advanced Features` usually follows a repeatable cont
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Custom plugin defined] --> B[Plugin registry]
+    B --> C[Agent runtime loads plugin]
+    C --> D[Plugin hooks called during execution]
+    D --> E[Enhanced agent behavior]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

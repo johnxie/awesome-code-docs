@@ -41,170 +41,168 @@ You now have a host-bridge model for secure MCP Apps embedding.
 
 Next: [Chapter 5: Patterns, Security, and Performance](05-patterns-security-and-performance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/sync-snippets.ts`
 
-The `LabeledCodeFence` interface in [`scripts/sync-snippets.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/sync-snippets.ts) handles a key part of this chapter's functionality:
+The `processFile` function in [`scripts/sync-snippets.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/sync-snippets.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Represents a labeled code fence found in a source file.
+ * @returns The processing result
  */
-interface LabeledCodeFence {
-  /** Optional display filename (e.g., "my-app.ts") */
-  displayName?: string;
-  /** Relative path to the example file (e.g., "./app.examples.ts") */
-  examplePath: string;
-  /** Region name (e.g., "App_basicUsage"), or undefined for whole file */
-  regionName?: string;
-  /** Language from the code fence (e.g., "ts", "json", "yaml") */
-  language: string;
-  /** Character index of the opening fence line start */
-  openingFenceStart: number;
-  /** Character index after the opening fence line (after newline) */
-  openingFenceEnd: number;
-  /** Character index of the closing fence line start */
-  closingFenceStart: number;
-  /** The JSDoc line prefix extracted from context (e.g., " * ") */
-  linePrefix: string;
-}
+function processFile(
+  filePath: string,
+  cache: RegionCache,
+  mode: FileMode,
+): FileProcessingResult {
+  const result: FileProcessingResult = {
+    filePath,
+    modified: false,
+    snippetsProcessed: 0,
+    errors: [],
+  };
 
-/**
- * Cache for example file regions to avoid re-reading files.
- * Key: `${absoluteExamplePath}#${regionName}` (empty regionName for whole file)
- * Value: extracted code string
- */
-type RegionCache = Map<string, string>;
+  let content: string;
+  try {
+    content = readFileSync(filePath, "utf-8");
+  } catch (err) {
+    result.errors.push(`Failed to read file: ${err}`);
+    return result;
+  }
 
-/**
- * Processing result for a source file.
- */
-interface FileProcessingResult {
+  let fences: LabeledCodeFence[];
+  try {
+    fences = findLabeledCodeFences(content, filePath, mode);
+  } catch (err) {
+    result.errors.push(err instanceof Error ? err.message : String(err));
+    return result;
+  }
+
+  if (fences.length === 0) {
+    return result;
 ```
 
-This interface is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
 ### `scripts/sync-snippets.ts`
 
-The `FileProcessingResult` interface in [`scripts/sync-snippets.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/sync-snippets.ts) handles a key part of this chapter's functionality:
+The `findSourceFiles` function in [`scripts/sync-snippets.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/sync-snippets.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Processing result for a source file.
+ * @returns Array of absolute file paths
  */
-interface FileProcessingResult {
-  filePath: string;
-  modified: boolean;
-  snippetsProcessed: number;
-  errors: string[];
+function findSourceFiles(dir: string): string[] {
+  const files: string[] = [];
+  const entries = readdirSync(dir, { withFileTypes: true, recursive: true });
+
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+
+    const name = entry.name;
+
+    // Only process .ts and .tsx files
+    if (!name.endsWith(".ts") && !name.endsWith(".tsx")) continue;
+
+    // Exclude example files, test files
+    if (name.endsWith(".examples.ts") || name.endsWith(".examples.tsx"))
+      continue;
+    if (name.endsWith(".test.ts")) continue;
+
+    // Get the relative path from the parent directory
+    const parentPath = entry.parentPath;
+
+    // Exclude generated directory
+    if (parentPath.includes("/generated") || parentPath.includes("\\generated"))
+      continue;
+
+    const fullPath = join(parentPath, name);
+    files.push(fullPath);
+  }
+
+  return files;
 }
-
-// JSDoc patterns - for code fences inside JSDoc comments with " * " prefix
-// Matches: <prefix>```<lang> [displayName] source="<path>" or source="<path>#<region>"
-// Example: " * ```ts my-app.ts source="./app.examples.ts#App_basicUsage""
-// Example: " * ```ts source="./app.examples.ts#App_basicUsage""
-// Example: " * ```ts source="./complete-example.ts"" (whole file)
-const JSDOC_LABELED_FENCE_PATTERN =
-  /^(\s*\*\s*)```(\w+)(?:\s+(\S+))?\s+source="([^"#]+)(?:#([^"]+))?"/;
-const JSDOC_CLOSING_FENCE_PATTERN = /^(\s*\*\s*)```\s*$/;
-
-// Markdown patterns - for plain code fences in markdown files (no prefix)
-// Matches: ```<lang> [displayName] source="<path>" or source="<path>#<region>"
-// Example: ```tsx source="./patterns.tsx#chunkedDataServer"
-// Example: ```tsx source="./complete-example.tsx" (whole file)
-const MARKDOWN_LABELED_FENCE_PATTERN =
-  /^```(\w+)(?:\s+(\S+))?\s+source="([^"#]+)(?:#([^"]+))?"/;
-const MARKDOWN_CLOSING_FENCE_PATTERN = /^```\s*$/;
-
-/**
- * Find all labeled code fences in a source file.
- * @param content The file content
- * @param filePath The file path (for error messages)
- * @param mode The processing mode (jsdoc or markdown)
- * @returns Array of labeled code fence references
 ```
 
-This interface is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `src/app.examples.ts`
+### `scripts/sync-snippets.ts`
 
-The `with` class in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
+The `findMarkdownFiles` function in [`scripts/sync-snippets.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/sync-snippets.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-/**
- * Example: Modern format for registering tools with UI (recommended).
+ * @returns Array of absolute file paths
  */
-function RESOURCE_URI_META_KEY_modernFormat(
-  server: McpServer,
-  handler: ToolCallback,
-) {
-  //#region RESOURCE_URI_META_KEY_modernFormat
-  // Preferred: Use registerAppTool with nested ui.resourceUri
-  registerAppTool(
-    server,
-    "weather",
-    {
-      description: "Get weather forecast",
-      _meta: {
-        ui: { resourceUri: "ui://weather/forecast" },
-      },
-    },
-    handler,
-  );
-  //#endregion RESOURCE_URI_META_KEY_modernFormat
+function findMarkdownFiles(dir: string): string[] {
+  const files: string[] = [];
+  const entries = readdirSync(dir, { withFileTypes: true, recursive: true });
+
+  for (const entry of entries) {
+    if (!entry.isFile()) continue;
+
+    // Only process .md files
+    if (!entry.name.endsWith(".md")) continue;
+
+    const fullPath = join(entry.parentPath, entry.name);
+    files.push(fullPath);
+  }
+
+  return files;
 }
 
-/**
- * Example: Legacy format using RESOURCE_URI_META_KEY (deprecated).
- */
-function RESOURCE_URI_META_KEY_legacyFormat(
-  server: McpServer,
-  handler: ToolCallback,
-) {
-  //#region RESOURCE_URI_META_KEY_legacyFormat
+async function main() {
+  console.log("🔧 Syncing code snippets from example files...\n");
+
+  const cache: RegionCache = new Map();
+  const results: FileProcessingResult[] = [];
+
+  // Process TypeScript source files (JSDoc mode)
+  const sourceFiles = findSourceFiles(SRC_DIR);
+  for (const filePath of sourceFiles) {
+    const result = processFile(filePath, cache, "jsdoc");
+    results.push(result);
+  }
+
 ```
 
-This class is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `src/app.examples.ts`
+### `scripts/sync-snippets.ts`
 
-The `RESOURCE_URI_META_KEY_modernFormat` function in [`src/app.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app.examples.ts) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/sync-snippets.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/sync-snippets.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Example: Modern format for registering tools with UI (recommended).
- */
-function RESOURCE_URI_META_KEY_modernFormat(
-  server: McpServer,
-  handler: ToolCallback,
-) {
-  //#region RESOURCE_URI_META_KEY_modernFormat
-  // Preferred: Use registerAppTool with nested ui.resourceUri
-  registerAppTool(
-    server,
-    "weather",
-    {
-      description: "Get weather forecast",
-      _meta: {
-        ui: { resourceUri: "ui://weather/forecast" },
-      },
-    },
-    handler,
-  );
-  //#endregion RESOURCE_URI_META_KEY_modernFormat
 }
 
-/**
- * Example: Legacy format using RESOURCE_URI_META_KEY (deprecated).
- */
-function RESOURCE_URI_META_KEY_legacyFormat(
-  server: McpServer,
-  handler: ToolCallback,
-) {
-  //#region RESOURCE_URI_META_KEY_legacyFormat
-  // Deprecated: Direct use of RESOURCE_URI_META_KEY
-  server.registerTool(
+async function main() {
+  console.log("🔧 Syncing code snippets from example files...\n");
+
+  const cache: RegionCache = new Map();
+  const results: FileProcessingResult[] = [];
+
+  // Process TypeScript source files (JSDoc mode)
+  const sourceFiles = findSourceFiles(SRC_DIR);
+  for (const filePath of sourceFiles) {
+    const result = processFile(filePath, cache, "jsdoc");
+    results.push(result);
+  }
+
+  // Process markdown documentation files
+  const markdownFiles = findMarkdownFiles(DOCS_DIR);
+  for (const filePath of markdownFiles) {
+    const result = processFile(filePath, cache, "markdown");
+    results.push(result);
+  }
+
+  // Report results
+  const modified = results.filter((r) => r.modified);
+  const errors = results.flatMap((r) => r.errors);
+
+  if (modified.length > 0) {
+    console.log(`✅ Modified ${modified.length} file(s):`);
+    for (const r of modified) {
+      console.log(`   ${r.filePath} (${r.snippetsProcessed} snippet(s))`);
+    }
+  } else {
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
@@ -214,11 +212,11 @@ This function is important because it defines how MCP Ext Apps Tutorial: Buildin
 
 ```mermaid
 flowchart TD
-    A[LabeledCodeFence]
-    B[FileProcessingResult]
-    C[with]
-    D[RESOURCE_URI_META_KEY_modernFormat]
-    E[RESOURCE_URI_META_KEY_legacyFormat]
+    A[processFile]
+    B[findSourceFiles]
+    C[findMarkdownFiles]
+    D[main]
+    E[LabeledCodeFence]
     A --> B
     B --> C
     C --> D

@@ -36,169 +36,167 @@ You now have a clear starting point for learning the active and legacy parts of 
 
 Next: [Chapter 2: Architecture and Monorepo Layout](02-architecture-and-monorepo-layout.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `hack/visualize.ts`
+### `claudecode-go/client.go`
 
-The `getTypeColor` function in [`hack/visualize.ts`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/visualize.ts) handles a key part of this chapter's functionality:
+The `isClosedPipeError` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
-```ts
-};
+```go
+)
 
-function getTypeColor(type: string): string {
-  switch (type) {
-    case 'system':
-      return colors.magenta;
-    case 'user':
-      return colors.blue;
-    case 'assistant':
-      return colors.green;
-    case 'tool_use':
-      return colors.cyan;
-    case 'tool_result':
-      return colors.yellow;
-    case 'message':
-      return colors.dim;
-    case 'text':
-      return colors.reset;
-    default:
-      return colors.reset;
-  }
+// isClosedPipeError checks if an error is due to a closed pipe (expected when process exits)
+func isClosedPipeError(err error) bool {
+	if err == nil {
+		return false
+	}
+
+	// Check for common closed pipe error patterns
+	errStr := err.Error()
+	if strings.Contains(errStr, "file already closed") ||
+		strings.Contains(errStr, "broken pipe") ||
+		strings.Contains(errStr, "use of closed network connection") {
+		return true
+	}
+
+	// Check for syscall errors indicating closed pipe
+	var syscallErr *os.SyscallError
+	if errors.As(err, &syscallErr) {
+		return syscallErr.Err == syscall.EPIPE || syscallErr.Err == syscall.EBADF
+	}
+
+	// Check for EOF (which can happen when pipe closes)
+	return errors.Is(err, io.EOF)
 }
 
-function _formatHeader(json: any, lineNumber: number): string {
-  const type = json.type || 'unknown';
-  const typeColor = getTypeColor(type);
+// Client provides methods to interact with the Claude Code SDK
+type Client struct {
+	claudePath string
+}
 
-  let header = `${colors.dim}--- Line ${lineNumber} ${typeColor}[${type.toUpperCase()}]${colors.reset}`;
-
-  // Add context based on type
-  if (json.message?.role) {
-    header += ` ${colors.dim}(${json.message.role})${colors.reset}`;
+// shouldSkipPath checks if a path should be skipped during search
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `hack/visualize.ts`
+### `claudecode-go/client.go`
 
-The `_formatHeader` function in [`hack/visualize.ts`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/visualize.ts) handles a key part of this chapter's functionality:
+The `shouldSkipPath` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
-```ts
+```go
 }
 
-function _formatHeader(json: any, lineNumber: number): string {
-  const type = json.type || 'unknown';
-  const typeColor = getTypeColor(type);
-
-  let header = `${colors.dim}--- Line ${lineNumber} ${typeColor}[${type.toUpperCase()}]${colors.reset}`;
-
-  // Add context based on type
-  if (json.message?.role) {
-    header += ` ${colors.dim}(${json.message.role})${colors.reset}`;
-  }
-
-  if (json.message?.content?.[0]?.name) {
-    header += ` ${colors.cyan}${json.message.content[0].name}${colors.reset}`;
-  }
-
-  if (json.name) {
-    header += ` ${colors.cyan}${json.name}${colors.reset}`;
-  }
-
-  if (json.subtype) {
-    header += ` ${colors.dim}${json.subtype}${colors.reset}`;
-  }
-
-  return `${header} ${colors.dim}---${colors.reset}`;
+// shouldSkipPath checks if a path should be skipped during search
+func shouldSkipPath(path string) bool {
+	// Skip node_modules directories
+	if strings.Contains(path, "/node_modules/") {
+		return true
+	}
+	// Skip backup files
+	if strings.HasSuffix(path, ".bak") {
+		return true
+	}
+	return false
 }
 
-function _colorizeJson(obj: any, indent = 0, path: string[] = []): string {
-  const spaces = '  '.repeat(indent);
+// ShouldSkipPath checks if a path should be skipped during search (exported version)
+func ShouldSkipPath(path string) bool {
+	return shouldSkipPath(path)
+}
 
-  if (obj === null) return `${colors.dim}null${colors.reset}`;
+// NewClient creates a new Claude Code client
+func NewClient() (*Client, error) {
+	// First try standard PATH
+	path, err := exec.LookPath("claude")
+	if err == nil && !shouldSkipPath(path) {
+		return &Client{claudePath: path}, nil
+	}
+
+	// Try common installation paths
+	commonPaths := []string{
+		filepath.Join(os.Getenv("HOME"), ".claude/local/claude"), // Add Claude's own directory
+		filepath.Join(os.Getenv("HOME"), ".npm/bin/claude"),
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `hack/visualize.ts`
+### `claudecode-go/client.go`
 
-The `_colorizeJson` function in [`hack/visualize.ts`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/visualize.ts) handles a key part of this chapter's functionality:
+The `ShouldSkipPath` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
-```ts
+```go
 }
 
-function _colorizeJson(obj: any, indent = 0, path: string[] = []): string {
-  const spaces = '  '.repeat(indent);
+// ShouldSkipPath checks if a path should be skipped during search (exported version)
+func ShouldSkipPath(path string) bool {
+	return shouldSkipPath(path)
+}
 
-  if (obj === null) return `${colors.dim}null${colors.reset}`;
-  if (typeof obj === 'boolean') return `${colors.yellow}${obj}${colors.reset}`;
-  if (typeof obj === 'number') return `${colors.cyan}${obj}${colors.reset}`;
-  if (typeof obj === 'string') {
-    // Truncate very long strings
-    if (obj.length > 200) {
-      return `${colors.green}"${obj.substring(0, 197)}..."${colors.reset}`;
-    }
-    return `${colors.green}"${obj}"${colors.reset}`;
-  }
+// NewClient creates a new Claude Code client
+func NewClient() (*Client, error) {
+	// First try standard PATH
+	path, err := exec.LookPath("claude")
+	if err == nil && !shouldSkipPath(path) {
+		return &Client{claudePath: path}, nil
+	}
 
-  if (Array.isArray(obj)) {
-    if (obj.length === 0) return '[]';
+	// Try common installation paths
+	commonPaths := []string{
+		filepath.Join(os.Getenv("HOME"), ".claude/local/claude"), // Add Claude's own directory
+		filepath.Join(os.Getenv("HOME"), ".npm/bin/claude"),
+		filepath.Join(os.Getenv("HOME"), ".bun/bin/claude"),
+		filepath.Join(os.Getenv("HOME"), ".local/bin/claude"),
+		"/usr/local/bin/claude",
+		"/opt/homebrew/bin/claude",
+	}
 
-    // For content arrays, show summary
-    if (path.includes('content') && obj.length > 3) {
-      const summary = obj.slice(0, 2).map((item) => _colorizeJson(item, indent + 1, [...path]));
-      return `[\n${summary.join(',\n')},\n${spaces}  ${colors.dim}... ${obj.length - 2} more items${colors.reset}\n${spaces}]`;
-    }
-
-    const items = obj.map((item) => `${spaces}  ${_colorizeJson(item, indent + 1, [...path])}`);
-    return `[\n${items.join(',\n')}\n${spaces}]`;
-  }
-
-  if (typeof obj === 'object') {
-    const keys = Object.keys(obj);
-    if (keys.length === 0) return '{}';
+	for _, candidatePath := range commonPaths {
+		if shouldSkipPath(candidatePath) {
+			continue
+		}
+		if _, err := os.Stat(candidatePath); err == nil {
+			// Verify it's executable
+			if err := isExecutable(candidatePath); err == nil {
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `hack/visualize.ts`
+### `claudecode-go/client.go`
 
-The `formatTodoList` function in [`hack/visualize.ts`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/visualize.ts) handles a key part of this chapter's functionality:
+The `NewClient` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
-```ts
+```go
 }
 
-function formatTodoList(todos: any[]): string {
-  let output = `📋 ${colors.bright}${colors.cyan}Todo List Update${colors.reset}\n`;
+// NewClient creates a new Claude Code client
+func NewClient() (*Client, error) {
+	// First try standard PATH
+	path, err := exec.LookPath("claude")
+	if err == nil && !shouldSkipPath(path) {
+		return &Client{claudePath: path}, nil
+	}
 
-  const statusColors = {
-    completed: colors.dim + colors.green,
-    in_progress: colors.bright + colors.yellow,
-    pending: colors.reset,
-  };
+	// Try common installation paths
+	commonPaths := []string{
+		filepath.Join(os.Getenv("HOME"), ".claude/local/claude"), // Add Claude's own directory
+		filepath.Join(os.Getenv("HOME"), ".npm/bin/claude"),
+		filepath.Join(os.Getenv("HOME"), ".bun/bin/claude"),
+		filepath.Join(os.Getenv("HOME"), ".local/bin/claude"),
+		"/usr/local/bin/claude",
+		"/opt/homebrew/bin/claude",
+	}
 
-  const statusIcons = {
-    completed: '✅',
-    in_progress: '🔄',
-    pending: '⏸️',
-  };
-
-  const priorityColors = {
-    high: colors.red,
-    medium: colors.yellow,
-    low: colors.dim,
-  };
-
-  todos.forEach((todo, index) => {
-    const statusColor = statusColors[todo.status] || colors.reset;
-    const statusIcon = statusIcons[todo.status] || '❓';
-    const priorityColor = priorityColors[todo.priority] || colors.reset;
-    const checkbox = todo.status === 'completed' ? '☑️' : '☐';
-
-    output += `  ${checkbox} ${statusIcon} ${statusColor}${todo.content}${colors.reset}`;
-    output += ` ${priorityColor}[${todo.priority}]${colors.reset}`;
+	for _, candidatePath := range commonPaths {
+		if shouldSkipPath(candidatePath) {
+			continue
+		}
+		if _, err := os.Stat(candidatePath); err == nil {
+			// Verify it's executable
+			if err := isExecutable(candidatePath); err == nil {
+				return &Client{claudePath: candidatePath}, nil
+			}
+		}
+	}
 
 ```
 
@@ -209,11 +207,11 @@ This function is important because it defines how HumanLayer Tutorial: Context E
 
 ```mermaid
 flowchart TD
-    A[getTypeColor]
-    B[_formatHeader]
-    C[_colorizeJson]
-    D[formatTodoList]
-    E[formatConcise]
+    A[isClosedPipeError]
+    B[shouldSkipPath]
+    C[ShouldSkipPath]
+    D[NewClient]
+    E[NewClientWithPath]
     A --> B
     B --> C
     C --> D

@@ -60,58 +60,24 @@ You now have a pragmatic way to consume API docs safely and in the right sequenc
 
 Next: [Chapter 5: AI Agents and Automation Documentation Patterns](05-ai-agents-and-automation-documentation-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `archive/help-center/_imported/CLEANUP_SUMMARY.json`
+Use the following upstream sources to verify API documentation surface details while reading this chapter:
 
-The `CLEANUP_SUMMARY` module in [`archive/help-center/_imported/CLEANUP_SUMMARY.json`](https://github.com/taskade/docs/blob/HEAD/archive/help-center/_imported/CLEANUP_SUMMARY.json) handles a key part of this chapter's functionality:
+- [`SUMMARY.md`](https://github.com/taskade/docs/blob/HEAD/SUMMARY.md) — navigate to the API and developer reference sections to understand how endpoint coverage is organized across authentication, workspace, project, task, and agent surfaces.
+- [`README.md`](https://github.com/taskade/docs/blob/HEAD/README.md) — the developer quickstart section points to primary API entry points and links to the `developers.taskade.com` reference site.
 
-```json
-{
-  "cleanup_date": "2025-09-14T01:11:04.798Z",
-  "total_unique_articles": 1145,
-  "duplicates_removed": 0,
-  "published_articles": 1057,
-  "unpublished_articles": 88,
-  "categories": [
-    "ai-agents",
-    "ai-automation",
-    "ai-basics",
-    "ai-features",
-    "automations",
-    "collaboration",
-    "essentials",
-    "folders",
-    "general",
-    "genesis",
-    "getting-started",
-    "integrations",
-    "known-urls",
-    "mobile",
-    "overview",
-    "productivity",
-    "project-views",
-    "projects",
-    "sharing",
-    "structure",
-    "taskade-ai",
-    "tasks",
-    "templates",
-    "tips",
-    "workspaces"
-  ],
-  "published_by_category": {
-    "ai-agents": 22,
-```
-
-This module is important because it defines how Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- scan the API sections in `SUMMARY.md` to assess breadth of endpoint coverage
+- compare the docs API surface against the live `developers.taskade.com` OpenAPI spec to identify gaps
+- check if webhook documentation, pagination patterns, and error codes are covered in separate dedicated pages
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[CLEANUP_SUMMARY]
+flowchart LR
+    A[Developer reader] --> B[README.md quickstart]
+    B --> C[API section in SUMMARY.md]
+    C --> D[Endpoint reference pages]
+    D --> E[developers.taskade.com full spec]
 ```

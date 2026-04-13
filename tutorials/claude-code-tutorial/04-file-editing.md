@@ -654,18 +654,32 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+The file editing workflow is governed by the Write and Edit tools documented in the [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code). The approval flow (show diff → user accepts or rejects → apply) is the core safety mechanism: Claude proposes changes as structured diffs and waits for explicit confirmation before writing to disk.
 
-- [Claude Code Repository](https://github.com/anthropics/claude-code)
-  Why it matters: authoritative reference on `Claude Code Repository` (github.com).
-- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
-  Why it matters: authoritative reference on `Claude Code Releases` (github.com).
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-  Why it matters: authoritative reference on `Claude Code Docs` (docs.anthropic.com).
+For hooks-based enforcement, the [`examples/hooks/bash_command_validator_example.py`](https://github.com/anthropics/claude-code/blob/HEAD/examples/hooks/bash_command_validator_example.py) shows the PreToolUse pattern you can adapt to intercept Write operations on protected files before they are applied.
 
-Suggested trace strategy:
-- search upstream code for `Claude` and `email` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+The [Claude Code Repository](https://github.com/anthropics/claude-code) and [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code) are the authoritative references for how file editing integrates with permissions, settings, and the broader tool approval model.
+
+## File Editing Flow
+
+```mermaid
+flowchart TD
+    A[User requests file change]
+    B[Claude reads current file content]
+    C[Claude generates proposed diff]
+    D[Diff shown to user for review]
+    E{User decision}
+    F[Change written to disk]
+    G[Change rejected, feedback given]
+    H[PostToolUse hook runs if configured]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E -- approve --> F
+    E -- reject --> G
+    F --> H
+```
 
 ## Chapter Connections
 

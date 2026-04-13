@@ -791,9 +791,28 @@ class CostOptimizationEngine {
 }
 ```
 
+## Enterprise Architecture
+
+```mermaid
+flowchart TD
+    A[Enterprise Continue deployment]
+    B[Private LLM endpoint or gateway]
+    C[All AI requests routed through approved gateway]
+    D[Audit logs capture prompts and completions]
+    E[Data residency controls enforced]
+    F[SSO and permission policies applied]
+    G[Usage metrics and cost tracking per team]
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    C --> G
+```
+
 ## What's Next?
 
-🎉 **Congratulations!** You've completed the comprehensive Continue tutorial and reached the pinnacle of enterprise-grade AI development capabilities. You've mastered everything from basic setup to advanced enterprise features including security, compliance, audit trails, multi-cloud deployment, and cost optimization.
+You've completed the comprehensive Continue tutorial and reached the pinnacle of enterprise-grade AI development capabilities. You've mastered everything from basic setup to advanced enterprise features including security, compliance, audit trails, multi-cloud deployment, and cost optimization.
 
 ## Your Continue Journey Summary
 

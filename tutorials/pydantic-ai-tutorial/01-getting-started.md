@@ -584,6 +584,19 @@ Under the hood, `Chapter 1: Getting Started with Pydantic AI` usually follows a 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Overview
+
+```mermaid
+flowchart TD
+    A[User Input] --> B[PydanticAI Agent]
+    B --> C[LLM Provider]
+    C --> D[Raw Response]
+    D --> E[Pydantic Validation]
+    E --> F[Typed Result Object]
+    F --> G[Application Code]
+    E -->|Validation Error| H[Retry / Raise]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

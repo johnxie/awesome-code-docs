@@ -417,6 +417,20 @@ Ready to build complex graphs? In [Chapter 3: Nodes and Edges](03-nodes-edges.md
 
 *How will you manage state in your AI applications?* 🧠
 
+## State Management Flow
+
+```mermaid
+flowchart TD
+    A[TypedDict State schema] --> B[Initial state dict]
+    B --> C[Node receives state]
+    C --> D[Node returns partial state update]
+    D --> E[Reducer merges update into state]
+    E --> F[Updated state passed to next node]
+    F --> C
+    G[Checkpoint] --> B
+    F --> G
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `state`, `Dict` so behavior stays predictable as complexity grows.

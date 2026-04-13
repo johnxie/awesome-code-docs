@@ -37,8 +37,6 @@ You now understand how Beads persists and structures long-horizon task state.
 
 Next: [Chapter 3: Core Workflow Commands](03-core-workflow-commands.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/generate-newsletter.py`

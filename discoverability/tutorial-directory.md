@@ -2,7 +2,7 @@
 
 This page is auto-generated from the tutorial index and is intended as a fast browse surface for contributors and search crawlers.
 
-- Total tutorials: **201**
+- Total tutorials: **203**
 - Source: `scripts/generate_discoverability_assets.py`
 
 ## A
@@ -29,16 +29,18 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn to use Aider-AI/aider for real file edits, git-native workflows, model routing, and reliable day-to-day coding loops.
 - [Anthropic API Tutorial: Build Production Apps with Claude](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-code-tutorial/README.md)
   - A practical guide to building with Anthropic's API and official SDKs, including messages, tools, vision, streaming, and production operations.
-- [Anthropic Skills Tutorial: Reusable AI Agent Capabilities](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/README.md)
-  - Build and operate production-quality skills for Claude Code, Claude.ai, and the Claude API.
+- [Anthropic Quickstarts Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anthropic-skills-tutorial/README.md)
+  - A deep-dive into every project in the official anthropics/anthropic-quickstarts repository — computer use, autonomous coding, customer support, financial analysis, and the agents reference implementation.
 - [AnythingLLM Tutorial: Self-Hosted RAG and Agents Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/anything-llm-tutorial/README.md)
   - Learn how to deploy and operate Mintplex-Labs/anything-llm for document-grounded chat, workspace management, agent workflows, and production use.
 - [Appsmith Tutorial: Low-Code Internal Tools](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/appsmith-tutorial/README.md)
   - Open-source low-code platform for building internal tools with drag-and-drop UI, 25+ database integrations, JavaScript logic, and Git sync.
 - [Athens Research: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/athens-research-tutorial/README.md)
-  - Athens Research — An open-source, Roam-like knowledge management system built with ClojureScript and graph databases.
-- [AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md)
-  - Learn how to use HKUDS/AutoAgent to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
+  - Project Status: The Athens Research repository was archived in August 2022 and is no longer actively maintained. This tutorial covers the final v2.0.0 release as a historical reference for ClojureScript/Datascript architectural patterns. Do not use Athens as the basis for new production projects.
+- [AutoAgent Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoagent-tutorial/README.md)
+  - AutoAgent (formerly MetaChain) is a zero-code autonomous agent framework from HKUDS that lets you describe agents in plain English and have them generated, tested, and deployed automatically. With 9,116 GitHub stars and an academic paper (arxiv:2502.05957), it represents a significant step toward democratizing multi-agent system development.
+- [autoresearch Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/autoresearch-tutorial/README.md)
+  - The overnight ML research agent that runs ~100 GPU experiments while you sleep.
 - [Awesome Claude Code Tutorial: Curated Claude Code Resource Discovery and Evaluation](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-code-tutorial/README.md)
   - Learn how to use hesreallyhim/awesome-claude-code as a high-signal discovery and decision system for skills, commands, hooks, tooling, and CLAUDE.md patterns.
 - [Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/awesome-claude-skills-tutorial/README.md)
@@ -128,8 +130,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
 
 - [Daytona Tutorial: Secure Sandbox Infrastructure for AI-Generated Code](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/daytona-tutorial/README.md)
   - Learn how to use daytonaio/daytona to run AI-generated code in isolated sandboxes, integrate coding agents through MCP, and operate sandbox infrastructure with stronger security and resource controls.
-- [Deer Flow Tutorial: Distributed Workflow Orchestration Platform](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/README.md)
-  - Orchestrate complex distributed workflows with Deer Flow's powerful task coordination and execution platform.
+- [DeerFlow Tutorial: Open-Source Super Agent Harness](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/deer-flow-tutorial/README.md)
+  - DeerFlow is a LangGraph-powered multi-agent runtime by ByteDance that orchestrates a lead agent, specialized sub-agents, persistent memory, sandboxed code execution, and a modular skills system to tackle complex, long-horizon research and automation tasks.
 - [Devika Tutorial: Open-Source Autonomous AI Software Engineer](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/devika-tutorial/README.md)
   - Learn how to deploy and operate stitionai/devika — a multi-agent autonomous coding system that plans, researches, writes, and debugs code end-to-end.
 - [Dify Platform: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/dify-tutorial/README.md)
@@ -188,6 +190,8 @@ This page is auto-generated from the tutorial index and is intended as a fast br
   - Learn tiann/hapi, a local-first hub that lets you run Claude Code/Codex/Gemini/OpenCode sessions locally while controlling and approving them remotely.
 - [Haystack: Deep Dive Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/haystack-tutorial/README.md)
   - Haystack — An open-source framework for building production-ready LLM applications, RAG pipelines, and intelligent search systems.
+- [Hermes Agent Tutorial](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/hermes-agent-tutorial/README.md)
+  - NousResearch's self-hosted personal AI agent with persistent memory, autonomous skill creation, 20+ platform gateway, and a closed reinforcement-learning loop that turns every conversation into fine-tuning data.
 - [HuggingFace Transformers Tutorial: Building State-of-the-Art AI Models](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/huggingface-tutorial/README.md)
   - A deep technical walkthrough of HuggingFace Transformers covering Building State-of-the-Art AI Models.
 - [HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents](https://github.com/johnxie/awesome-code-docs/blob/main/tutorials/humanlayer-tutorial/README.md)

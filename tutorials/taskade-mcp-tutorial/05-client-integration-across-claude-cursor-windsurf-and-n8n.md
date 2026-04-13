@@ -69,8 +69,6 @@ You now have a clear client integration strategy with transport and validation p
 
 Next: [Chapter 6: Deployment, Configuration, and Operations](06-deployment-configuration-and-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `packages/openapi-codegen/src/runtime.ts`

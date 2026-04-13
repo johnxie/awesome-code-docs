@@ -40,148 +40,166 @@ You now have a cross-language pattern model for MCP weather-server implementatio
 
 Next: [Chapter 3: MCP Client Patterns and LLM Chat Loops](03-mcp-client-patterns-and-llm-chat-loops.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `weather-server-python/weather.py`
+### `mcp-client-go/main.go`
 
-The `get_forecast` function in [`weather-server-python/weather.py`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-python/weather.py) handles a key part of this chapter's functionality:
+The `ProcessQuery` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
 
-```py
+```go
+}
 
-@mcp.tool()
-async def get_forecast(latitude: float, longitude: float) -> str:
-    """Get weather forecast for a location.
+func (c *MCPClient) ProcessQuery(ctx context.Context, query string) (string, error) {
+	if c.session == nil {
+		return "", fmt.Errorf("client is not connected to any server")
+	}
 
-    Args:
-        latitude: Latitude of the location
-        longitude: Longitude of the location
-    """
-    # First get the forecast grid endpoint
-    points_url = f"{NWS_API_BASE}/points/{latitude},{longitude}"
-    points_data = await make_nws_request(points_url)
+	messages := []anthropic.MessageParam{
+		anthropic.NewUserMessage(anthropic.NewTextBlock(query)),
+	}
 
-    if not points_data:
-        return "Unable to fetch forecast data for this location."
+	// Initial Claude API call with tools
+	response, err := c.anthropic.Messages.New(ctx, anthropic.MessageNewParams{
+		Model:     model,
+		MaxTokens: 1024,
+		Messages:  messages,
+		Tools:     c.tools,
+	})
+	if err != nil {
+		return "", fmt.Errorf("anthropic API request failed: %w", err)
+	}
 
-    # Get the forecast URL from the points response
-    forecast_url = points_data["properties"]["forecast"]
-    forecast_data = await make_nws_request(forecast_url)
-
-    if not forecast_data:
-        return "Unable to fetch detailed forecast."
-
-    # Format the periods into a readable forecast
-    periods = forecast_data["properties"]["periods"]
-    forecasts = []
-    for period in periods[:5]:  # Only show next 5 periods
-        forecast = f"""
-{period["name"]}:
-Temperature: {period["temperature"]}°{period["temperatureUnit"]}
-Wind: {period["windSpeed"]} {period["windDirection"]}
-Forecast: {period["detailedForecast"]}
-```
-
-This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
-
-### `weather-server-python/weather.py`
-
-The `main` function in [`weather-server-python/weather.py`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-python/weather.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def main():
-    # Initialize and run the server
-    mcp.run(transport="stdio")
-
-
-if __name__ == "__main__":
-    main()
-
+	var toolUseBlocks []anthropic.ToolUseBlock
+	var finalText []string
+	for _, block := range response.Content {
+		switch b := block.AsAny().(type) {
+		case anthropic.TextBlock:
+			finalText = append(finalText, b.Text)
+		case anthropic.ToolUseBlock:
+			toolUseBlocks = append(toolUseBlocks, b)
+		}
+	}
 ```
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
 ### `mcp-client-go/main.go`
 
-The `NewMCPClient` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
+The `ChatLoop` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
 
 ```go
+}
+
+func (c *MCPClient) ChatLoop(ctx context.Context) error {
+	fmt.Println("\nMCP Client Started!")
+	fmt.Println("Type your queries or 'quit' to exit.")
+
+	scanner := bufio.NewScanner(os.Stdin)
+
+	for {
+		fmt.Print("\nQuery: ")
+		if !scanner.Scan() {
+			break // EOF
+		}
+
+		query := strings.TrimSpace(scanner.Text())
+		if strings.EqualFold(query, "quit") {
+			break
+		}
+		if query == "" {
+			continue
+		}
+
+		response, err := c.ProcessQuery(ctx, query)
+		if err != nil {
+			fmt.Printf("\nError: %v\n", err)
+			continue
+		}
+
+		fmt.Printf("\n%s\n", response)
+	}
+
+	return scanner.Err()
+```
+
+This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
+### `mcp-client-go/main.go`
+
+The `Cleanup` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (c *MCPClient) Cleanup() error {
+	if c.session != nil {
+		if err := c.session.Close(); err != nil {
+			return fmt.Errorf("failed to close session: %w", err)
+		}
+		c.session = nil
+	}
+	return nil
+}
+
+func main() {
+	if len(os.Args) < 2 {
+		fmt.Fprintln(os.Stderr, "Usage: go run main.go <server_script_or_binary> [args...]")
+		os.Exit(1)
+	}
+
+	serverArgs := os.Args[1:]
+
+	client, err := NewMCPClient()
+	if err != nil {
+		log.Fatalf("Failed to create MCP client: %v", err)
+	}
+
+	ctx := context.Background()
+
+	if err := client.ConnectToServer(ctx, serverArgs); err != nil {
+		log.Fatalf("Failed to connect to MCP server: %v", err)
+	}
+
+	if err := client.ChatLoop(ctx); err != nil {
+```
+
+This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
+### `mcp-client-go/main.go`
+
+The `main` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
+
+```go
+package main
+
+import (
+	"bufio"
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+	"os"
+	"os/exec"
+	"strings"
+
+	"github.com/anthropics/anthropic-sdk-go"
+	"github.com/anthropics/anthropic-sdk-go/option"
+	"github.com/joho/godotenv"
+	"github.com/modelcontextprotocol/go-sdk/mcp"
+)
+
+var model anthropic.Model = anthropic.ModelClaudeSonnet4_5_20250929
+
+type MCPClient struct {
+	anthropic *anthropic.Client
+	session   *mcp.ClientSession
+	tools     []anthropic.ToolUnionParam
 }
 
 func NewMCPClient() (*MCPClient, error) {
 	// Load .env file
 	if err := godotenv.Load(); err != nil {
 		return nil, fmt.Errorf("failed to load .env file: %w", err)
-	}
-
-	apiKey := os.Getenv("ANTHROPIC_API_KEY")
-	if apiKey == "" {
-		return nil, fmt.Errorf("ANTHROPIC_API_KEY environment variable not set")
-	}
-
-	client := anthropic.NewClient(option.WithAPIKey(apiKey))
-
-	return &MCPClient{
-		anthropic: &client,
-	}, nil
-}
-
-func (c *MCPClient) ConnectToServer(ctx context.Context, serverArgs []string) error {
-	if len(serverArgs) == 0 {
-		return fmt.Errorf("no server command provided")
-	}
-
-	// Create command to spawn server process
-	cmd := exec.CommandContext(ctx, serverArgs[0], serverArgs[1:]...)
-
-	// Create MCP client
-	client := mcp.NewClient(
-		&mcp.Implementation{
-			Name:    "mcp-client-go",
-```
-
-This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
-
-### `mcp-client-go/main.go`
-
-The `ConnectToServer` function in [`mcp-client-go/main.go`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/mcp-client-go/main.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (c *MCPClient) ConnectToServer(ctx context.Context, serverArgs []string) error {
-	if len(serverArgs) == 0 {
-		return fmt.Errorf("no server command provided")
-	}
-
-	// Create command to spawn server process
-	cmd := exec.CommandContext(ctx, serverArgs[0], serverArgs[1:]...)
-
-	// Create MCP client
-	client := mcp.NewClient(
-		&mcp.Implementation{
-			Name:    "mcp-client-go",
-			Version: "0.1.0",
-		},
-		nil,
-	)
-
-	// Connect using CommandTransport
-	transport := &mcp.CommandTransport{
-		Command: cmd,
-	}
-
-	session, err := client.Connect(ctx, transport, nil)
-	if err != nil {
-		return fmt.Errorf("failed to connect to server: %w", err)
-	}
-
-	c.session = session
-
-	// List available tools
 ```
 
 This function is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
@@ -191,11 +209,11 @@ This function is important because it defines how MCP Quickstart Resources Tutor
 
 ```mermaid
 flowchart TD
-    A[get_forecast]
-    B[main]
-    C[NewMCPClient]
-    D[ConnectToServer]
-    E[mcpToolToAnthropicTool]
+    A[ProcessQuery]
+    B[ChatLoop]
+    C[Cleanup]
+    D[main]
+    E[MCPClient]
     A --> B
     B --> C
     C --> D

@@ -13,6 +13,24 @@ Welcome to **Chapter 7: REST API**. In this part of **Letta Tutorial: Stateful L
 
 > Deploy Letta agents as REST API services for integration with applications.
 
+## REST API Architecture
+
+```mermaid
+flowchart LR
+    C[Client App] -->|HTTP POST /v1/agents/{id}/messages| S[Letta Server :8283]
+    S --> AG[Agent Engine]
+    AG --> LLM[LLM Provider]
+    AG --> DB[(PostgreSQL / SQLite)]
+    S -->|JSON response| C
+
+    subgraph Endpoints
+        E1[POST /v1/agents]
+        E2[POST /v1/agents/{id}/messages]
+        E3[GET /v1/agents/{id}/memory]
+        E4[PATCH /v1/agents/{id}/memory/blocks]
+    end
+```
+
 ## Overview
 
 Letta provides a REST API for programmatic access to agents. This chapter covers API endpoints, authentication, deployment options, and building applications that integrate with Letta agents.
@@ -497,16 +515,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/server/rest_api/app.py`](https://github.com/letta-ai/letta/blob/main/letta/server/rest_api/app.py) -- FastAPI app setup; mounts all API routers
+- [`letta/server/rest_api/routers/v1/agents.py`](https://github.com/letta-ai/letta/blob/main/letta/server/rest_api/routers/v1/agents.py) -- REST endpoints for agent CRUD and messaging (`POST /v1/agents/{agent_id}/messages`)
+- [`letta/client/client.py`](https://github.com/letta-ai/letta/blob/main/letta/client/client.py) -- `RESTClient` class: wraps HTTP calls to match `LocalClient` API surface; useful reference for building custom API clients
 
-Suggested trace strategy:
-- search upstream code for `response` and `json` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `RESTClient.send_message()` → HTTP POST to `/v1/agents/{id}/messages` → `agents.py` router → `SyncServer.user_message()`.
 
 ## Chapter Connections
 

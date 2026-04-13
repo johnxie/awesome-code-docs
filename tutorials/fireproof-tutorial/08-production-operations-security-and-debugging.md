@@ -41,170 +41,158 @@ Production Fireproof deployments need explicit practices for observability, key 
 
 You now have a practical baseline for operating Fireproof in production-grade app workflows.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `core/runtime/utils.ts`
+### `dashboard/backend/create-handler.ts`
 
-The `setPresetEnv` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `DefaultHttpHeaders` function in [`dashboard/backend/create-handler.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/dashboard/backend/create-handler.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    ...Array.from(
-      Object.entries({
-        ...setPresetEnv({}),
-        ...preset,
-      }),
-    ), // .map(([k, v]) => [k, v as string])
-  ]);
-  // console.log(">>>>>>", penv)
-  return penv;
+);
+
+export function DefaultHttpHeaders(...h: CoercedHeadersInit[]): HeadersInit {
+  return defaultHttpHeaders()
+    .Merge(...h)
+    .AsHeaderInit();
 }
-// const envImpl = envFactory({
-//   symbol: "FP_ENV",
-//   presetEnv: presetEnv(),
-// });
-class pathOpsImpl implements PathOps {
-  join(...paths: string[]): string {
-    return paths.map((i) => i.replace(/\/+$/, "")).join("/");
+
+export type DashSqlite = BaseSQLiteDatabase<"async", ResultSet | D1Result, Record<string, never>>;
+
+export type BindPromise<T> = (promise: Promise<T>) => Promise<T>;
+
+class ReqResEventoEnDecoder implements EventoEnDecoder<Request, string> {
+  async encode(args: Request): Promise<Result<unknown>> {
+    if (args.method === "POST" || args.method === "PUT") {
+      const body = (await args.json()) as unknown;
+      return Result.Ok(body);
+    }
+    return Result.Ok(null);
   }
-  dirname(path: string) {
-    return path.split("/").slice(0, -1).join("/");
+  decode(data: unknown): Promise<Result<string>> {
+    return Promise.resolve(Result.Ok(JSON.stringify(data)));
   }
-  basename(path: string): string {
-    return path.split("/").pop() || "";
-  }
-  // homedir() {
-  //     throw new Error("SysContainer:homedir is not available in seeded state");
-  //   }
 }
-const pathOps = new pathOpsImpl();
-const txtOps = ((txtEncoder, txtDecoder) => ({
-  id: () => "fp-txtOps",
-  encode: (input: string) => txtEncoder.encode(input),
+
+interface ResponseType {
+  type: "Response";
+  payload: {
+    status: number;
+    headers: HeadersInit;
+    body: BodyInit;
+  };
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `core/runtime/utils.ts`
+### `dashboard/backend/create-handler.ts`
 
-The `hashStringAsync` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `isResponseType` function in [`dashboard/backend/create-handler.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/dashboard/backend/create-handler.ts) handles a key part of this chapter's functionality:
 
 ```ts
+}
+
+function isResponseType(obj: unknown): obj is ResponseType {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
   }
-}
-export async function hashStringAsync(str: string): Promise<string> {
-  const bytes = json.encode(str);
-  const hash = await sha256.digest(bytes);
-  return CID.create(1, json.code, hash).toString();
+  return (obj as ResponseType).type === "Response";
 }
 
-export function hashStringSync(str: string): string {
-  return new Hasher().update(str).digest();
-}
-
-export function hashObjectSync<T extends NonNullable<S>, S>(o: T): string {
-  const hasher = new Hasher();
-  toSorted(o, (x, key) => {
-    switch (key) {
-      case "Null":
-      case "Array":
-      case "Function":
-        break;
-      case "Date":
-        hasher.update(`D:${(x as Date).toISOString()}`);
-        break;
-      case "Symbol":
-        hasher.update(`S:(x as symbol).toString()}`);
-        break;
-      case "Key":
-        hasher.update(`K:${x as string}`);
-        break;
-      case "String":
-        hasher.update(`S:${x as string}`);
-        break;
+export const fpApiEvento = Lazy(() => {
+  const evento = new Evento(new ReqResEventoEnDecoder());
+  evento.push(
+    {
+      hash: "cors-preflight",
+      validate: (ctx: ValidateTriggerCtx<Request, unknown, unknown>) => {
+        const { request: req } = ctx;
+        if (req && req.method === "OPTIONS") {
+          return Promise.resolve(Result.Ok(Option.Some("Send CORS preflight response")));
+        }
+        return Promise.resolve(Result.Ok(Option.None()));
+      },
+      handle: async (ctx: HandleTriggerCtx<Request, string, unknown>): Promise<Result<EventoResultType>> => {
+        await ctx.send.send(ctx, {
+          type: "Response",
+          payload: {
+            status: 200,
+            headers: DefaultHttpHeaders({ "Content-Type": "application/json" }),
+            body: JSON.stringify({ type: "ok", message: "CORS preflight" }),
+          },
+        } satisfies ResponseType);
+        return Result.Ok(EventoResult.Stop);
+      },
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `core/runtime/utils.ts`
+### `dashboard/backend/create-handler.ts`
 
-The `hashStringSync` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `ResponseType` interface in [`dashboard/backend/create-handler.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/dashboard/backend/create-handler.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export function hashStringSync(str: string): string {
-  return new Hasher().update(str).digest();
+interface ResponseType {
+  type: "Response";
+  payload: {
+    status: number;
+    headers: HeadersInit;
+    body: BodyInit;
+  };
 }
 
-export function hashObjectSync<T extends NonNullable<S>, S>(o: T): string {
-  const hasher = new Hasher();
-  toSorted(o, (x, key) => {
-    switch (key) {
-      case "Null":
-      case "Array":
-      case "Function":
-        break;
-      case "Date":
-        hasher.update(`D:${(x as Date).toISOString()}`);
-        break;
-      case "Symbol":
-        hasher.update(`S:(x as symbol).toString()}`);
-        break;
-      case "Key":
-        hasher.update(`K:${x as string}`);
-        break;
-      case "String":
-        hasher.update(`S:${x as string}`);
-        break;
-      case "Boolean":
-        hasher.update(`B:${x ? "true" : "false"}`);
-        break;
-      case "Number":
-        hasher.update(`N:${(x as number).toString()}`);
-        break;
+function isResponseType(obj: unknown): obj is ResponseType {
+  if (typeof obj !== "object" || obj === null) {
+    return false;
+  }
+  return (obj as ResponseType).type === "Response";
+}
+
+export const fpApiEvento = Lazy(() => {
+  const evento = new Evento(new ReqResEventoEnDecoder());
+  evento.push(
+    {
+      hash: "cors-preflight",
+      validate: (ctx: ValidateTriggerCtx<Request, unknown, unknown>) => {
+        const { request: req } = ctx;
+        if (req && req.method === "OPTIONS") {
+          return Promise.resolve(Result.Ok(Option.Some("Send CORS preflight response")));
+        }
+        return Promise.resolve(Result.Ok(Option.None()));
+      },
+      handle: async (ctx: HandleTriggerCtx<Request, string, unknown>): Promise<Result<EventoResultType>> => {
+        await ctx.send.send(ctx, {
 ```
 
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+This interface is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `core/runtime/utils.ts`
+### `smoke/get-fp-version.js`
 
-The `sleep` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `getVersion` function in [`smoke/get-fp-version.js`](https://github.com/fireproof-storage/fireproof/blob/HEAD/smoke/get-fp-version.js) handles a key part of this chapter's functionality:
 
-```ts
-}
+```js
+import * as process from "node:process";
 
-export function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/**
- * Deep clone a value
- */
-export function deepClone<T>(value: T): T {
-  return (structuredClone ?? ((v: T) => JSON.parse(JSON.stringify(v))))(value);
-}
-
-function coerceLogger(loggerOrHasLogger: Logger | HasLogger): Logger {
-  if (IsLogger(loggerOrHasLogger)) {
-    return loggerOrHasLogger;
-  } else {
-    return loggerOrHasLogger.logger;
+function getVersion(version = "refs/tags/v0.0.0-smoke") {
+  if (process.env.GITHUB_REF && process.env.GITHUB_REF.startsWith("refs/tags/v")) {
+    version = process.env.GITHUB_REF;
   }
+  return version.split("/").slice(-1)[0].replace(/^v/, "");
 }
 
-export function timerStart(loggerOrHasLogger: Logger | HasLogger, tag: string) {
-  coerceLogger(loggerOrHasLogger).Debug().TimerStart(tag).Msg("Timing started");
+async function main() {
+  const gitHead = (await $`git rev-parse --short HEAD`).stdout.trim();
+  const dateTick = (await $`date +%s`).stdout.trim();
+  // eslint-disable-next-line no-console, no-undef
+  console.log(getVersion(`refs/tags/v0.0.0-smoke-${gitHead}-${dateTick}`));
 }
 
-export function timerEnd(loggerOrHasLogger: Logger | HasLogger, tag: string) {
-  coerceLogger(loggerOrHasLogger).Debug().TimerEnd(tag).Msg("Timing ended");
-}
+main().catch((e) => {
+  // eslint-disable-next-line no-console, no-undef
+  console.error(e);
+  process.exit(1);
+});
 
-export function deepFreeze<T extends object>(o?: T): T | undefined {
-  if (!o) return undefined;
-  Object.freeze(o);
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
@@ -214,11 +202,11 @@ This function is important because it defines how Fireproof Tutorial: Local-Firs
 
 ```mermaid
 flowchart TD
-    A[setPresetEnv]
-    B[hashStringAsync]
-    C[hashStringSync]
-    D[sleep]
-    E[coerceLogger]
+    A[DefaultHttpHeaders]
+    B[isResponseType]
+    C[ResponseType]
+    D[getVersion]
+    E[main]
     A --> B
     B --> C
     C --> D

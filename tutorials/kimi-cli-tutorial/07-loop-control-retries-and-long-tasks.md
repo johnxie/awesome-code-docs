@@ -38,141 +38,139 @@ You now have an execution-bounding strategy for larger autonomous task loops.
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/kimi-psql/main.py`
+### `vis/src/App.tsx`
 
-The `PsqlShell` class in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
+The `App` function in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+export function App() {
+  const { theme, toggleTheme } = useTheme();
+  const [sessionId, setSessionId] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("session");
+  });
+  const [activeTab, setActiveTab] = useState<Tab>("wire");
+  const [explorerView, setExplorerView] = useState<"sessions" | "statistics">("sessions");
+  const [showShortcutHelp, setShowShortcutHelp] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+  const [openInSupported, setOpenInSupported] = useState(false);
+  // Agent scope: null = main agent, string = sub-agent ID
+  const [agentScope, setAgentScope] = useState<string | null>(null);
+  // Cross-reference navigation targets
+  const [contextScrollTarget, setContextScrollTarget] = useState<string | null>(null);
+  const [wireScrollTarget, setWireScrollTarget] = useState<string | null>(null);
+
+  const handleNavigateToContext = useCallback((toolCallId: string) => {
+    setContextScrollTarget(toolCallId);
+    setActiveTab("context");
+  }, []);
+
+  const handleNavigateToWire = useCallback((toolCallId: string) => {
+    setWireScrollTarget(toolCallId);
+    setActiveTab("wire");
+  }, []);
+
+  const handleSessionChange = useCallback((id: string | null) => {
+    setSessionId(id);
+```
+
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+
+### `vis/src/App.tsx`
+
+The `SessionStatsData` interface in [`vis/src/App.tsx`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/vis/src/App.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+type Tab = "wire" | "context" | "state" | "dual" | "agents";
+
+interface SessionStatsData {
+  turns: number;
+  steps: number;
+  toolCalls: number;
+  errors: number;
+  compactions: number;
+  durationSec: number;
+  inputTokens: number;
+  outputTokens: number;
+  cacheRate: number;
+}
+
+function computeStats(events: WireEvent[]): SessionStatsData {
+  let turns = 0;
+  let steps = 0;
+  let toolCalls = 0;
+  let errors = 0;
+  let compactions = 0;
+  let inputTokens = 0;
+  let outputTokens = 0;
+  let totalCacheRead = 0;
+  let totalInputOther = 0;
+  let totalCacheCreation = 0;
+
+  for (const e of events) {
+    if (e.type === "TurnBegin") turns++;
+    if (e.type === "StepBegin") steps++;
+    if (e.type === "ToolCall") toolCalls++;
+    if (e.type === "CompactionBegin") compactions++;
+    if (isErrorEvent(e)) errors++;
+```
+
+This interface is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+
+### `src/kimi_cli/app.py`
+
+The `KimiCLI` class in [`src/kimi_cli/app.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/src/kimi_cli/app.py) handles a key part of this chapter's functionality:
 
 ```py
 
-# ============================================================================
-# PsqlShell: Main TUI orchestrator
-# ============================================================================
 
+class KimiCLI:
+    @staticmethod
+    async def create(
+        session: Session,
+        *,
+        # Basic configuration
+        config: Config | Path | None = None,
+        model_name: str | None = None,
+        thinking: bool | None = None,
+        # Run mode
+        yolo: bool = False,
+        plan_mode: bool = False,
+        resumed: bool = False,
+        # Extensions
+        agent_file: Path | None = None,
+        mcp_configs: list[MCPConfig] | list[dict[str, Any]] | None = None,
+        skills_dirs: list[KaosPath] | None = None,
+        # Loop control
+        max_steps_per_turn: int | None = None,
+        max_retries_per_step: int | None = None,
+        max_ralph_iterations: int | None = None,
+        startup_progress: Callable[[str], None] | None = None,
+        defer_mcp_loading: bool = False,
+    ) -> KimiCLI:
+        """
+        Create a KimiCLI instance.
 
-class PsqlShell:
-    """Main TUI orchestrator for kimi-psql."""
-
-    PROMPT_SYMBOL_AI = "✨"
-    PROMPT_SYMBOL_PSQL = "$"
-
-    def __init__(self, soul: KimiSoul, psql_process: PsqlProcess):
-        self.soul = soul
-        self._psql_process = psql_process
-        self._mode = PsqlMode.AI
-        self._switch_requested = False
-        self._prompt_session: PromptSession[str] | None = None
-        self._psql_entered_before = False  # Track if we've entered PSQL mode before
-
-    def _create_prompt_session(self) -> PromptSession[str]:
-        """Create a prompt_toolkit session with Ctrl-X binding."""
-        kb = KeyBindings()
-
-        @kb.add("c-x", eager=True)
-        def _(event) -> None:
-            """Switch to PSQL mode on Ctrl-X."""
-            self._switch_requested = True
-            event.app.exit(result="")
-
-        def get_prompt() -> FormattedText:
-            symbol = self.PROMPT_SYMBOL_AI if self._mode == PsqlMode.AI else self.PROMPT_SYMBOL_PSQL
+        Args:
+            session (Session): A session created by `Session.create` or `Session.continue_`.
+            config (Config | Path | None, optional): Configuration to use, or path to config file.
 ```
 
 This class is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
-### `examples/kimi-psql/main.py`
-
-The `create_psql_soul` function in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-async def create_psql_soul(llm: LLM | None, conninfo: str) -> KimiSoul:
-    """Create a KimiSoul configured for PostgreSQL with ExecuteSql tool
-    and standard kimi-cli tools."""
-    from typing import cast
-
-    from kimi_cli.config import load_config
-    from kimi_cli.soul.agent import load_agent
-    from kimi_cli.soul.toolset import KimiToolset
-
-    config = load_config()
-    kaos_work_dir = KaosPath.cwd()
-    session = await Session.create(kaos_work_dir)
-    runtime = await Runtime.create(
-        config=config,
-        oauth=OAuthManager(config),
-        llm=llm,
-        session=session,
-        yolo=True,  # Auto-approve read-only SQL queries
-    )
-
-    # Load agent from configuration
-    agent_file = Path(__file__).parent / "agent.yaml"
-    agent = await load_agent(agent_file, runtime, mcp_configs=[])
-
-    # Add custom ExecuteSql tool to the loaded agent
-    cast(KimiToolset, agent.toolset).add(ExecuteSql(conninfo))
-
-    context = Context(session.context_file)
-    return KimiSoul(agent, context=context)
-
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
-### `examples/kimi-psql/main.py`
-
-The `main` function in [`examples/kimi-psql/main.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/examples/kimi-psql/main.py) handles a key part of this chapter's functionality:
-
-```py
-
-Usage:
-    uv run main.py -h localhost -p 5432 -U postgres -d mydb
-"""
-
-import asyncio
-import contextlib
-import fcntl
-import os
-import pty
-import select
-import signal
-import sys
-import termios
-import tty
-from enum import Enum
-from pathlib import Path
-from typing import LiteralString, cast
-
-import psycopg
-import typer
-from kaos.path import KaosPath
-from kosong.tooling import CallableTool2, ToolError, ToolOk, ToolReturnValue
-from prompt_toolkit import PromptSession
-from prompt_toolkit.formatted_text import FormattedText
-from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.patch_stdout import patch_stdout
-from pydantic import BaseModel, Field, SecretStr
-from rich.console import Console
-from rich.panel import Panel
-from rich.text import Text
-
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[PsqlShell]
-    B[create_psql_soul]
-    C[main]
+    A[App]
+    B[SessionStatsData]
+    C[KimiCLI]
     A --> B
     B --> C
 ```

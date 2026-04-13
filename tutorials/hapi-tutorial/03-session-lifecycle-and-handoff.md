@@ -70,21 +70,6 @@ Under the hood, `Chapter 3: Session Lifecycle and Handoff` usually follows a rep
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HAPI Repository](https://github.com/tiann/hapi)
-  Why it matters: authoritative reference on `HAPI Repository` (github.com).
-- [HAPI Releases](https://github.com/tiann/hapi/releases)
-  Why it matters: authoritative reference on `HAPI Releases` (github.com).
-- [HAPI Docs](https://hapi.run)
-  Why it matters: authoritative reference on `HAPI Docs` (hapi.run).
-
-Suggested trace strategy:
-- search upstream code for `graph` and `Start` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
@@ -93,170 +78,168 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `hub/scripts/cleanup-sessions.ts`
 
-The `deleteSessions` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `formatDate` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
 
 ```ts
 
-// Delete sessions by IDs
-function deleteSessions(db: Database, ids: string[]): number {
-    if (ids.length === 0) return 0
-
-    const placeholders = ids.map(() => '?').join(', ')
-    db.run(`DELETE FROM sessions WHERE id IN (${placeholders})`, ids)
-    return ids.length
+// Format timestamp as human-readable date
+function formatDate(timestamp: number): string {
+    const date = new Date(timestamp)
+    return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    })
 }
 
-// Main function
-async function main(): Promise<void> {
-    const { minMessages, pathPattern, messagePattern, orphaned, force, help } = parseArgs()
+// Truncate string to max length with ellipsis
+function truncate(str: string, maxLen: number): string {
+    if (str.length <= maxLen) return str
+    return str.slice(0, maxLen - 3) + '...'
+}
 
-    if (help) {
-        console.log(`
-Usage: bun run hub/scripts/cleanup-sessions.ts [options]
-
-Options:
-  --min-messages=N   Delete sessions with fewer than N messages (default: 5)
-  --path=PATTERN     Delete sessions matching path pattern (glob supported)
-  --message=PATTERN  Delete sessions whose first message contains PATTERN (case-insensitive)
-  --orphaned         Delete sessions whose path no longer exists
-  --force            Skip confirmation prompt
-  --help             Show this help message
-
-Filtering logic:
-  - Only --min-messages: Delete sessions with message count < N
-  - Only --path: Delete ALL sessions matching the path pattern
-  - Only --message: Delete sessions whose first user message contains the pattern
-  - Only --orphaned: Delete sessions whose path does not exist on filesystem
-  - Multiple filters: Delete sessions matching ALL conditions (AND)
+// Extract text from user message content
+function extractUserText(content: unknown): string | null {
+    if (!content || typeof content !== 'object') return null
+    const c = content as Record<string, unknown>
+    if (c.role !== 'user') return null
+    const inner = c.content
+    // Handle { content: { type: 'text', text: '...' } }
+    if (inner && typeof inner === 'object') {
+        const textObj = inner as Record<string, unknown>
+        if (textObj.type === 'text' && typeof textObj.text === 'string') {
+            return textObj.text
+        }
+    }
+    // Handle { content: '...' } (string)
+    if (typeof inner === 'string') {
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
 ### `hub/scripts/cleanup-sessions.ts`
 
-The `main` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `truncate` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
 
 ```ts
 
-// Main function
-async function main(): Promise<void> {
-    const { minMessages, pathPattern, messagePattern, orphaned, force, help } = parseArgs()
+// Truncate string to max length with ellipsis
+function truncate(str: string, maxLen: number): string {
+    if (str.length <= maxLen) return str
+    return str.slice(0, maxLen - 3) + '...'
+}
 
-    if (help) {
-        console.log(`
-Usage: bun run hub/scripts/cleanup-sessions.ts [options]
+// Extract text from user message content
+function extractUserText(content: unknown): string | null {
+    if (!content || typeof content !== 'object') return null
+    const c = content as Record<string, unknown>
+    if (c.role !== 'user') return null
+    const inner = c.content
+    // Handle { content: { type: 'text', text: '...' } }
+    if (inner && typeof inner === 'object') {
+        const textObj = inner as Record<string, unknown>
+        if (textObj.type === 'text' && typeof textObj.text === 'string') {
+            return textObj.text
+        }
+    }
+    // Handle { content: '...' } (string)
+    if (typeof inner === 'string') {
+        return inner
+    }
+    return null
+}
 
-Options:
-  --min-messages=N   Delete sessions with fewer than N messages (default: 5)
-  --path=PATTERN     Delete sessions matching path pattern (glob supported)
-  --message=PATTERN  Delete sessions whose first message contains PATTERN (case-insensitive)
-  --orphaned         Delete sessions whose path no longer exists
-  --force            Skip confirmation prompt
-  --help             Show this help message
-
-Filtering logic:
-  - Only --min-messages: Delete sessions with message count < N
-  - Only --path: Delete ALL sessions matching the path pattern
-  - Only --message: Delete sessions whose first user message contains the pattern
-  - Only --orphaned: Delete sessions whose path does not exist on filesystem
-  - Multiple filters: Delete sessions matching ALL conditions (AND)
-
-Examples:
-  bun run hub/scripts/cleanup-sessions.ts
-  bun run hub/scripts/cleanup-sessions.ts --min-messages=3
-  bun run hub/scripts/cleanup-sessions.ts --path="/tmp/*"
-  bun run hub/scripts/cleanup-sessions.ts --message="hello"
-  bun run hub/scripts/cleanup-sessions.ts --orphaned
-  bun run hub/scripts/cleanup-sessions.ts --orphaned --min-messages=5 --force
-`)
+// Parse command line arguments
+function parseArgs(): { minMessages: number | null; pathPattern: string | null; messagePattern: string | null; orphaned: boolean; force: boolean; help: boolean } {
+    const args = process.argv.slice(2)
+    let minMessages: number | null = null
+    let pathPattern: string | null = null
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
 ### `hub/scripts/cleanup-sessions.ts`
 
-The `SessionInfo` interface in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `extractUserText` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
 
 ```ts
 
-// Session info for display
-interface SessionInfo {
-    id: string
-    title: string | null
-    firstUserMessage: string | null
-    path: string | null
-    updatedAt: number
-    messageCount: number
+// Extract text from user message content
+function extractUserText(content: unknown): string | null {
+    if (!content || typeof content !== 'object') return null
+    const c = content as Record<string, unknown>
+    if (c.role !== 'user') return null
+    const inner = c.content
+    // Handle { content: { type: 'text', text: '...' } }
+    if (inner && typeof inner === 'object') {
+        const textObj = inner as Record<string, unknown>
+        if (textObj.type === 'text' && typeof textObj.text === 'string') {
+            return textObj.text
+        }
+    }
+    // Handle { content: '...' } (string)
+    if (typeof inner === 'string') {
+        return inner
+    }
+    return null
 }
 
-// Query sessions with message counts
-function querySessions(db: Database): SessionInfo[] {
-    // Get basic session info
-    const sessionRows = db.query<
-        { id: string; metadata: string | null; updated_at: number; message_count: number },
-        []
-    >(`
-        SELECT
-            s.id,
-            s.metadata,
-            s.updated_at,
-            COUNT(m.id) as message_count
-        FROM sessions s
-        LEFT JOIN messages m ON m.session_id = s.id
-        GROUP BY s.id
-    `).all()
+// Parse command line arguments
+function parseArgs(): { minMessages: number | null; pathPattern: string | null; messagePattern: string | null; orphaned: boolean; force: boolean; help: boolean } {
+    const args = process.argv.slice(2)
+    let minMessages: number | null = null
+    let pathPattern: string | null = null
+    let messagePattern: string | null = null
+    let orphaned = false
+    let force = false
+    let help = false
 
-    // Get all messages for processing
-    const messageRows = db.query<
-        { session_id: string; content: string; seq: number },
-        []
+    for (const arg of args) {
 ```
 
-This interface is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `web/src/router.tsx`
+### `hub/scripts/cleanup-sessions.ts`
 
-The `BackIcon` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
+The `parseArgs` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
 
-```tsx
-import SettingsPage from '@/routes/settings'
+```ts
 
-function BackIcon(props: { className?: string }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={props.className}
-        >
-            <polyline points="15 18 9 12 15 6" />
-        </svg>
-    )
-}
+// Parse command line arguments
+function parseArgs(): { minMessages: number | null; pathPattern: string | null; messagePattern: string | null; orphaned: boolean; force: boolean; help: boolean } {
+    const args = process.argv.slice(2)
+    let minMessages: number | null = null
+    let pathPattern: string | null = null
+    let messagePattern: string | null = null
+    let orphaned = false
+    let force = false
+    let help = false
 
-function PlusIcon(props: { className?: string }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
+    for (const arg of args) {
+        if (arg === '--help' || arg === '-h') {
+            help = true
+        } else if (arg === '--force' || arg === '-f') {
+            force = true
+        } else if (arg === '--orphaned') {
+            orphaned = true
+        } else if (arg.startsWith('--min-messages=')) {
+            const value = parseInt(arg.split('=')[1], 10)
+            if (isNaN(value) || value < 0) {
+                console.error('Error: --min-messages must be a non-negative integer')
+                process.exit(1)
+            }
+            minMessages = value
+        } else if (arg.startsWith('--path=')) {
+            pathPattern = arg.split('=').slice(1).join('=') // Handle paths with '='
+        } else if (arg.startsWith('--message=')) {
+            messagePattern = arg.split('=').slice(1).join('=').toLowerCase()
+        } else {
+            console.error(`Unknown argument: ${arg}`)
+            console.error('Use --help for usage information')
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
@@ -266,11 +249,11 @@ This function is important because it defines how HAPI Tutorial: Remote Control 
 
 ```mermaid
 flowchart TD
-    A[deleteSessions]
-    B[main]
-    C[SessionInfo]
-    D[BackIcon]
-    E[PlusIcon]
+    A[formatDate]
+    B[truncate]
+    C[extractUserText]
+    D[parseArgs]
+    E[getDbPath]
     A --> B
     B --> C
     C --> D

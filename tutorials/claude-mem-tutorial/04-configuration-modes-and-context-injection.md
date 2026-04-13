@@ -45,184 +45,182 @@ You now know how to tune Claude-Mem behavior for accurate, low-noise context inj
 
 Next: [Chapter 5: Search Tools and Progressive Disclosure](05-search-tools-and-progressive-disclosure.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/smart-install.js`
+### `scripts/fix-corrupted-timestamps.ts`
 
-The `getBunVersion` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
 
-```js
- * Get Bun version if installed
- */
-function getBunVersion() {
-  const bunPath = getBunPath();
-  if (!bunPath) return null;
-
-  try {
-    const result = spawnSync(bunPath, ['--version'], {
-      encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-      shell: IS_WINDOWS
-    });
-    return result.status === 0 ? result.stdout.trim() : null;
-  } catch {
-    return null;
-  }
+```ts
 }
 
-/**
- * Get the uv executable path (from PATH or common install locations)
- */
-function getUvPath() {
-  // Try PATH first
+function main() {
+  const args = process.argv.slice(2);
+  const dryRun = args.includes('--dry-run');
+  const autoYes = args.includes('--yes') || args.includes('-y');
+
+  console.log('🔍 Analyzing corrupted observation timestamps...\n');
+  if (dryRun) {
+    console.log('🏃 DRY RUN MODE - No changes will be made\n');
+  }
+
+  const db = new Database(DB_PATH);
+
   try {
-    const result = spawnSync('uv', ['--version'], {
-      encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-      shell: IS_WINDOWS
-    });
-    if (result.status === 0) return 'uv';
-  } catch {
-    // Not in PATH
+    // Step 1: Find affected observations
+    console.log('Step 1: Finding observations created during bad window...');
+    const affectedObs = db.query<AffectedObservation, []>(`
+      SELECT id, memory_session_id, created_at_epoch, title
+      FROM observations
+      WHERE created_at_epoch >= ${BAD_WINDOW_START}
+        AND created_at_epoch <= ${BAD_WINDOW_END}
+      ORDER BY id
+    `).all();
+
+    console.log(`Found ${affectedObs.length} observations in bad window\n`);
+
+    if (affectedObs.length === 0) {
+      console.log('✅ No affected observations found!');
+      return;
+    }
+
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/smart-install.js`
+### `scripts/fix-corrupted-timestamps.ts`
 
-The `getUvPath` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+The `applyFixes` function in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
 
-```js
- * Get the uv executable path (from PATH or common install locations)
- */
-function getUvPath() {
-  // Try PATH first
-  try {
-    const result = spawnSync('uv', ['--version'], {
-      encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-      shell: IS_WINDOWS
+```ts
+    if (autoYes) {
+      console.log('Auto-confirming with --yes flag...\n');
+      applyFixes(db, fixes);
+      return;
+    }
+
+    console.log('Apply these fixes? (y/n): ');
+
+    const stdin = Bun.stdin.stream();
+    const reader = stdin.getReader();
+
+    reader.read().then(({ value }) => {
+      const response = new TextDecoder().decode(value).trim().toLowerCase();
+
+      if (response === 'y' || response === 'yes') {
+        applyFixes(db, fixes);
+      } else {
+        console.log('\n❌ Fixes cancelled. No changes made.');
+        db.close();
+      }
     });
-    if (result.status === 0) return 'uv';
-  } catch {
-    // Not in PATH
+
+  } catch (error) {
+    console.error('❌ Error:', error);
+    db.close();
+    process.exit(1);
   }
-
-  // Check common installation paths
-  return UV_COMMON_PATHS.find(existsSync) || null;
 }
 
-/**
- * Check if uv is installed and accessible
- */
-function isUvInstalled() {
-  return getUvPath() !== null;
-}
+function applyFixes(db: Database, fixes: TimestampFix[]) {
+  console.log('\n🔧 Applying fixes...\n');
 
-/**
- * Get uv version if installed
- */
-function getUvVersion() {
-  const uvPath = getUvPath();
-  if (!uvPath) return null;
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/smart-install.js`
+### `scripts/fix-corrupted-timestamps.ts`
 
-The `isUvInstalled` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+The `AffectedObservation` interface in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
 
-```js
- * Check if uv is installed and accessible
- */
-function isUvInstalled() {
-  return getUvPath() !== null;
+```ts
+const BAD_WINDOW_END = 1766626260000;   // Dec 24 20:31 PST
+
+interface AffectedObservation {
+  id: number;
+  memory_session_id: string;
+  created_at_epoch: number;
+  title: string;
 }
 
-/**
- * Get uv version if installed
- */
-function getUvVersion() {
-  const uvPath = getUvPath();
-  if (!uvPath) return null;
-
-  try {
-    const result = spawnSync(uvPath, ['--version'], {
-      encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-      shell: IS_WINDOWS
-    });
-    return result.status === 0 ? result.stdout.trim() : null;
-  } catch {
-    return null;
-  }
+interface ProcessedMessage {
+  id: number;
+  session_db_id: number;
+  tool_name: string;
+  created_at_epoch: number;
+  completed_at_epoch: number;
 }
 
-/**
- * Install Bun automatically based on platform
- */
-function installBun() {
-  console.error('🔧 Bun not found. Installing Bun runtime...');
+interface SessionMapping {
+  session_db_id: number;
+  memory_session_id: string;
+}
 
-  try {
+interface TimestampFix {
+  observation_id: number;
+  observation_title: string;
+  wrong_timestamp: number;
+  correct_timestamp: number;
+  session_db_id: number;
+  pending_message_id: number;
+}
+
+function formatTimestamp(epoch: number): string {
 ```
 
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/smart-install.js`
+### `scripts/fix-corrupted-timestamps.ts`
 
-The `getUvVersion` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+The `ProcessedMessage` interface in [`scripts/fix-corrupted-timestamps.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/fix-corrupted-timestamps.ts) handles a key part of this chapter's functionality:
 
-```js
- * Get uv version if installed
- */
-function getUvVersion() {
-  const uvPath = getUvPath();
-  if (!uvPath) return null;
-
-  try {
-    const result = spawnSync(uvPath, ['--version'], {
-      encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe'],
-      shell: IS_WINDOWS
-    });
-    return result.status === 0 ? result.stdout.trim() : null;
-  } catch {
-    return null;
-  }
+```ts
 }
 
-/**
- * Install Bun automatically based on platform
- */
-function installBun() {
-  console.error('🔧 Bun not found. Installing Bun runtime...');
+interface ProcessedMessage {
+  id: number;
+  session_db_id: number;
+  tool_name: string;
+  created_at_epoch: number;
+  completed_at_epoch: number;
+}
 
-  try {
-    if (IS_WINDOWS) {
-      console.error('   Installing via PowerShell...');
-      execSync('powershell -c "irm bun.sh/install.ps1 | iex"', {
-        stdio: 'inherit',
-        shell: true
-      });
-    } else {
+interface SessionMapping {
+  session_db_id: number;
+  memory_session_id: string;
+}
+
+interface TimestampFix {
+  observation_id: number;
+  observation_title: string;
+  wrong_timestamp: number;
+  correct_timestamp: number;
+  session_db_id: number;
+  pending_message_id: number;
+}
+
+function formatTimestamp(epoch: number): string {
+  return new Date(epoch).toLocaleString('en-US', {
+    timeZone: 'America/Los_Angeles',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
 ```
 
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getBunVersion]
-    B[getUvPath]
-    C[isUvInstalled]
-    D[getUvVersion]
-    E[installBun]
+    A[main]
+    B[applyFixes]
+    C[AffectedObservation]
+    D[ProcessedMessage]
+    E[SessionMapping]
     A --> B
     B --> C
     C --> D

@@ -47,170 +47,168 @@ You now have a clear module-level mental model for Kotlin MCP architecture decis
 
 Next: [Chapter 3: Client Runtime and Capability Negotiation](03-client-runtime-and-capability-negotiation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`
 
-The `StreamableHttpServerTransport` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt) handles a key part of this chapter's functionality:
+The `RequestOptions` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt) handles a key part of this chapter's functionality:
 
 ```kt
-/**
- * A holder for an active request call.
- * If [StreamableHttpServerTransport.Configuration.enableJsonResponse] is true, the session is null.
- * Otherwise, the session is not null.
+ * If not specified, `DEFAULT_REQUEST_TIMEOUT` will be used as the timeout.
  */
-private data class SessionContext(val session: ServerSSESession?, val call: ApplicationCall)
+public class RequestOptions(
+    relatedRequestId: RequestId? = null,
+    resumptionToken: String? = null,
+    onResumptionToken: ((String) -> Unit)? = null,
+    public val onProgress: ProgressCallback? = null,
+    public val timeout: Duration = DEFAULT_REQUEST_TIMEOUT,
+) : TransportSendOptions(relatedRequestId, resumptionToken, onResumptionToken) {
+    /** Destructuring component for [onProgress]. */
+    public operator fun component4(): ProgressCallback? = onProgress
+
+    /** Destructuring component for [timeout]. */
+    public operator fun component5(): Duration = timeout
+
+    /** Creates a copy of this [RequestOptions] with the specified fields replaced. */
+    public fun copy(
+        relatedRequestId: RequestId? = this.relatedRequestId,
+        resumptionToken: String? = this.resumptionToken,
+        onResumptionToken: ((String) -> Unit)? = this.onResumptionToken,
+        onProgress: ProgressCallback? = this.onProgress,
+        timeout: Duration = this.timeout,
+    ): RequestOptions = RequestOptions(relatedRequestId, resumptionToken, onResumptionToken, onProgress, timeout)
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other == null || this::class != other::class) return false
+        if (!super.equals(other)) return false
+
+        other as RequestOptions
+
+        return onProgress == other.onProgress && timeout == other.timeout
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`
+
+The `RequestHandlerExtra` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt) handles a key part of this chapter's functionality:
+
+```kt
+ * Extra data given to request handlers.
+ */
+public class RequestHandlerExtra
+
+internal val COMPLETED = CompletableDeferred(Unit).also { it.complete(Unit) }
 
 /**
- * Server transport for Streamable HTTP: this implements the MCP Streamable HTTP transport specification.
- * It supports both SSE streaming and direct HTTP responses.
+ * Implements MCP protocol framing on top of a pluggable transport, including
+ * features like request/response linking, notifications, and progress.
  *
- * In stateful mode:
- * - Session ID is generated and included in response headers
- * - Session ID is always included in initialization responses
- * - Requests with invalid session IDs are rejected with 404 Not Found
- * - Non-initialization requests without a session ID are rejected with 400 Bad Request
- * - State is maintained in-memory (connections, message history)
- *
- * In stateless mode:
- * - No Session ID is included in any responses
- * - No session validation is performed
- *
- * @param configuration Transport configuration. See [Configuration] for available options.
+ * @property transport the active transport, or `null` if not connected
+ * @property requestHandlers registered request handlers keyed by method name
+ * @property notificationHandlers registered notification handlers keyed by method name
+ * @property responseHandlers pending response handlers keyed by request ID
+ * @property progressHandlers registered progress callbacks keyed by progress token
  */
-@OptIn(ExperimentalUuidApi::class, ExperimentalAtomicApi::class)
-@Suppress("TooManyFunctions")
-public class StreamableHttpServerTransport(private val configuration: Configuration) : AbstractTransport() {
+public abstract class Protocol(@PublishedApi internal val options: ProtocolOptions?) {
+    public var transport: Transport? = null
+        private set
 
-    @Deprecated("Use default constructor with explicit Configuration()")
-    public constructor() : this(configuration = Configuration())
+    private val _requestHandlers:
+        AtomicRef<PersistentMap<String, suspend (JSONRPCRequest, RequestHandlerExtra) -> RequestResult?>> =
+        atomic(persistentMapOf())
+    public val requestHandlers: Map<
+        String,
+        suspend (
+            request: JSONRPCRequest,
+            extra: RequestHandlerExtra,
+        ) -> RequestResult?,
+        >
+        get() = _requestHandlers.value
 
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`
+
+The `Protocol` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/shared/Protocol.kt) handles a key part of this chapter's functionality:
+
+```kt
+ * @property timeout default timeout for outgoing requests
+ */
+public open class ProtocolOptions(
     /**
+     * Whether to restrict emitted requests to only those that the remote side has indicated
+     * that they can handle, through their advertised capabilities.
+     *
+     * Note that this DOES NOT affect checking of _local_ side capabilities, as it is
+     * considered a logic error to mis-specify those.
+     *
+     * Currently, this defaults to false, for backwards compatibility with SDK versions
+     * that did not advertise capabilities correctly.
+     * In the future, this will default to true.
+     */
+    public var enforceStrictCapabilities: Boolean = false,
+
+    public var timeout: Duration = DEFAULT_REQUEST_TIMEOUT,
+)
+
+/**
+ * The default request timeout.
+ */
+public val DEFAULT_REQUEST_TIMEOUT: Duration = 60.seconds
+
+/**
+ * Options that can be given per request.
+ *
+ * @property relatedRequestId if present,
+ * `relatedRequestId` is used to indicate to the transport which incoming request to associate this outgoing message with.
+ * @property resumptionToken the resumption token used to continue long-running requests that were interrupted.
+ * This allows clients to reconnect and continue from where they left off, if supported by the transport.
+ * @property onResumptionToken a callback that is invoked when the resumption token changes, if supported by the transport.
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `Configuration` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/StreamableHttpServerTransport.kt) handles a key part of this chapter's functionality:
-
-```kt
-/**
- * A holder for an active request call.
- * If [StreamableHttpServerTransport.Configuration.enableJsonResponse] is true, the session is null.
- * Otherwise, the session is not null.
- */
-private data class SessionContext(val session: ServerSSESession?, val call: ApplicationCall)
-
-/**
- * Server transport for Streamable HTTP: this implements the MCP Streamable HTTP transport specification.
- * It supports both SSE streaming and direct HTTP responses.
- *
- * In stateful mode:
- * - Session ID is generated and included in response headers
- * - Session ID is always included in initialization responses
- * - Requests with invalid session IDs are rejected with 404 Not Found
- * - Non-initialization requests without a session ID are rejected with 400 Bad Request
- * - State is maintained in-memory (connections, message history)
- *
- * In stateless mode:
- * - No Session ID is included in any responses
- * - No session validation is performed
- *
- * @param configuration Transport configuration. See [Configuration] for available options.
- */
-@OptIn(ExperimentalUuidApi::class, ExperimentalAtomicApi::class)
-@Suppress("TooManyFunctions")
-public class StreamableHttpServerTransport(private val configuration: Configuration) : AbstractTransport() {
-
-    @Deprecated("Use default constructor with explicit Configuration()")
-    public constructor() : this(configuration = Configuration())
-
-    /**
-```
-
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/Server.kt`
-
-The `ServerOptions` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/Server.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/Server.kt) handles a key part of this chapter's functionality:
+The `BaseNotificationParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
- *   for matching resource URIs against registered templates. Defaults to [PathSegmentTemplateMatcher.factory].
  */
-public class ServerOptions(
-    public val capabilities: ServerCapabilities,
-    enforceStrictCapabilities: Boolean = true,
-    public val resourceTemplateMatcherFactory: ResourceTemplateMatcherFactory = PathSegmentTemplateMatcher.factory,
-) : ProtocolOptions(enforceStrictCapabilities = enforceStrictCapabilities) {
-    @JvmOverloads
-    public constructor(
-        capabilities: ServerCapabilities,
-        enforceStrictCapabilities: Boolean = true,
-    ) : this(capabilities, enforceStrictCapabilities, PathSegmentTemplateMatcher.factory)
-}
+@Serializable
+public data class BaseNotificationParams(@SerialName("_meta") override val meta: JsonObject? = null) :
+    NotificationParams
 
 /**
- * An MCP server is responsible for storing features and handling new connections.
+ * Represents a progress notification.
  *
- * This server automatically responds to the initialization flow as initiated by the client.
- * You can register tools, prompts, and resources using [addTool], [addPrompt], and [addResource].
- * The server will then automatically handle listing and retrieval requests from the client.
- *
- * In case the server supports feature list notification or resource substitution,
- * the server will automatically send notifications for all connected clients.
- * Currently, after subscription to a resource, the server will NOT send the subscription confirmation
- * as this response schema is not defined in the protocol.
- *
- * @param serverInfo Information about this server implementation (name, version).
- * @param options Configuration options for the server.
- * @param instructionsProvider Optional provider for instructions from the server to the client about how to use
- * this server. The provider is called each time a new session is started to support dynamic instructions.
- * @param block A block to configure the mcp server.
+ * @property progress The progress thus far. This should increase every time progress is made,
+ * even if the total is unknown.
+ * @property total Total number of items to a process (or total progress required), if known.
+ * @property message An optional message describing the current progress.
  */
-```
+@Serializable
+public class Progress(
+    public val progress: Double,
+    public val total: Double? = null,
+    public val message: String? = null,
+)
 
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/Server.kt`
-
-The `Server` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/Server.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/Server.kt) handles a key part of this chapter's functionality:
-
-```kt
-import io.modelcontextprotocol.kotlin.sdk.types.ResourceTemplate
-import io.modelcontextprotocol.kotlin.sdk.types.ResourceUpdatedNotification
-import io.modelcontextprotocol.kotlin.sdk.types.ServerCapabilities
-import io.modelcontextprotocol.kotlin.sdk.types.SubscribeRequest
-import io.modelcontextprotocol.kotlin.sdk.types.TextContent
-import io.modelcontextprotocol.kotlin.sdk.types.Tool
-import io.modelcontextprotocol.kotlin.sdk.types.ToolAnnotations
-import io.modelcontextprotocol.kotlin.sdk.types.ToolExecution
-import io.modelcontextprotocol.kotlin.sdk.types.ToolSchema
-import io.modelcontextprotocol.kotlin.sdk.types.UnsubscribeRequest
-import io.modelcontextprotocol.kotlin.sdk.utils.MatchResult
-import io.modelcontextprotocol.kotlin.sdk.utils.PathSegmentTemplateMatcher
-import io.modelcontextprotocol.kotlin.sdk.utils.ResourceTemplateMatcher
-import io.modelcontextprotocol.kotlin.sdk.utils.ResourceTemplateMatcherFactory
-import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Deferred
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
-import kotlin.jvm.JvmOverloads
-import kotlin.time.ExperimentalTime
-
-private val logger = KotlinLogging.logger {}
+// ============================================================================
+// Custom Notification
+// ============================================================================
 
 /**
- * Configuration options for the MCP server.
+ * Represents a custom notification method that is not part of the core MCP specification.
  *
- * @property capabilities The capabilities this server supports.
- * @property enforceStrictCapabilities Whether to strictly enforce capabilities when interacting with clients.
- * @property resourceTemplateMatcherFactory The factory used to create [ResourceTemplateMatcher] instances
- *   for matching resource URIs against registered templates. Defaults to [PathSegmentTemplateMatcher.factory].
- */
+ * The MCP protocol allows implementations to define custom methods for extending functionality.
+ * This class captures such custom notifications while preserving all their data.
+ *
+ * @property method The custom method name. By convention, custom methods often contain
+ * organization-specific prefixes (e.g., "mycompany/custom_event").
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
@@ -220,11 +218,11 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ```mermaid
 flowchart TD
-    A[StreamableHttpServerTransport]
-    B[Configuration]
-    C[ServerOptions]
-    D[Server]
-    E[ServerSession]
+    A[RequestOptions]
+    B[RequestHandlerExtra]
+    C[Protocol]
+    D[BaseNotificationParams]
+    E[Progress]
     A --> B
     B --> C
     C --> D

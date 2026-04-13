@@ -7,7 +7,21 @@ nav_order: 8
 
 # Chapter 8: Production Case Studies
 
-Welcome to the grand finale! 🎉 This chapter showcases real-world production deployments of LLaMA Factory, complete with challenges faced, solutions implemented, and lessons learned. These case studies demonstrate how to apply everything you've learned in a production environment.
+Welcome to the grand finale! This chapter showcases real-world production deployments of LLaMA Factory, complete with challenges faced, solutions implemented, and lessons learned. These case studies demonstrate how to apply everything you've learned in a production environment.
+
+## Production Workflow Summary
+
+```mermaid
+flowchart LR
+    REQ[Business Requirement] --> DATA[Curate Domain Dataset]
+    DATA --> TRAIN[Fine-tune with LLaMA-Factory\nLoRA or QLoRA]
+    TRAIN --> EVAL[Evaluate: task-specific benchmarks]
+    EVAL --> OK{Quality Gate?}
+    OK -->|Pass| DEPLOY[Deploy: vLLM / llama.cpp / API]
+    OK -->|Fail| DATA
+    DEPLOY --> MON[Monitor: latency, quality, cost]
+    MON -->|Drift detected| DATA
+```
 
 ## Case Study 1: AI Customer Support System
 
@@ -827,12 +841,28 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/api/app.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/api/app.py)
+  FastAPI application implementing an OpenAI-compatible REST API (`/v1/chat/completions`, `/v1/models`). This is the production serving layer used when deploying fine-tuned models as an API endpoint. Shows model loading, streaming response generation, and error handling.
+
+- [`src/llamafactory/chat/hf_engine.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/chat/hf_engine.py)
+  HuggingFace inference engine used by the API server and chat interface. Handles tokenization, generation parameters (temperature, top-p, repetition penalty), and streaming token output. Key file for understanding production inference throughput.
+
+- [`src/llamafactory/train/sft/workflow.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/sft/workflow.py)
+  Contains `run_sft()` and `run_export()`. The `run_export()` function implements LoRA adapter merging into the base model weights for deployment - critical for the case study pattern of train-then-export-then-serve.
+
+- [`examples/`](https://github.com/hiyouga/LLaMA-Factory/tree/main/examples)
+  Production-ready YAML configuration examples for common fine-tuning recipes: `full_multi_gpu/`, `lora_single_gpu/`, `qlora_deepspeed/`. These reference configs align with the case study training patterns shown in this chapter.
+
+- [`src/llamafactory/extras/callbacks.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/extras/callbacks.py)
+  Training callbacks for logging loss curves, saving checkpoints, and triggering early stopping. In production pipelines, these callbacks feed metrics into monitoring systems and enable the continuous learning cycle.
+
+- [`src/llamafactory/eval/evaluator.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/eval/evaluator.py)
+  Evaluation pipeline for benchmarking fine-tuned models on standard datasets (MMLU, C-Eval, etc.). Used in the production quality gate step before deploying a new model version.
 
 Suggested trace strategy:
-- search upstream code for `self` and `Step` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `src/llamafactory/api/app.py` → `create_app()` to understand production API bootstrapping with adapter loading
+- Compare `src/llamafactory/chat/hf_engine.py` `ChatModel.stream_chat()` with vLLM async engine for throughput differences
+- Review `examples/lora_single_gpu/llama3_lora_sft.yaml` as a concrete template before adapting configs for domain-specific deployments
 
 ## Chapter Connections
 

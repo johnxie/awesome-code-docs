@@ -91,98 +91,96 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `agents/agent.py`
+### `autonomous-coding/security.py`
 
-The `from` class in [`agents/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/agents/agent.py) handles a key part of this chapter's functionality:
-
-```py
-import asyncio
-import os
-from contextlib import AsyncExitStack
-from dataclasses import dataclass
-from typing import Any
-
-from anthropic import Anthropic
-
-from .tools.base import Tool
-from .utils.connections import setup_mcp_connections
-from .utils.history_util import MessageHistory
-from .utils.tool_util import execute_tools
-
-
-@dataclass
-class ModelConfig:
-    """Configuration settings for Claude model parameters."""
-
-    # Available models include:
-    # - claude-sonnet-4-20250514 (default)
-    # - claude-opus-4-20250514
-    # - claude-haiku-4-5-20251001
-    # - claude-3-5-sonnet-20240620
-    # - claude-3-haiku-20240307
-    model: str = "claude-sonnet-4-20250514"
-    max_tokens: int = 4096
-    temperature: float = 1.0
-    context_window_tokens: int = 180000
-
-
-class Agent:
-    """Claude-powered agent with tool use capabilities."""
-```
-
-This class is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
-
-### `agents/agent.py`
-
-The `class` class in [`agents/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/agents/agent.py) handles a key part of this chapter's functionality:
+The `split_command_segments` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
 
 ```py
-import os
-from contextlib import AsyncExitStack
-from dataclasses import dataclass
-from typing import Any
-
-from anthropic import Anthropic
-
-from .tools.base import Tool
-from .utils.connections import setup_mcp_connections
-from .utils.history_util import MessageHistory
-from .utils.tool_util import execute_tools
 
 
-@dataclass
-class ModelConfig:
-    """Configuration settings for Claude model parameters."""
+def split_command_segments(command_string: str) -> list[str]:
+    """
+    Split a compound command into individual command segments.
 
-    # Available models include:
-    # - claude-sonnet-4-20250514 (default)
-    # - claude-opus-4-20250514
-    # - claude-haiku-4-5-20251001
-    # - claude-3-5-sonnet-20240620
-    # - claude-3-haiku-20240307
-    model: str = "claude-sonnet-4-20250514"
-    max_tokens: int = 4096
-    temperature: float = 1.0
-    context_window_tokens: int = 180000
+    Handles command chaining (&&, ||, ;) but not pipes (those are single commands).
 
+    Args:
+        command_string: The full shell command
 
-class Agent:
-    """Claude-powered agent with tool use capabilities."""
+    Returns:
+        List of individual command segments
+    """
+    import re
+
+    # Split on && and || while preserving the ability to handle each segment
+    # This regex splits on && or || that aren't inside quotes
+    segments = re.split(r"\s*(?:&&|\|\|)\s*", command_string)
+
+    # Further split on semicolons
+    result = []
+    for segment in segments:
+        sub_segments = re.split(r'(?<!["\'])\s*;\s*(?!["\'])', segment)
+        for sub in sub_segments:
+            sub = sub.strip()
+            if sub:
+                result.append(sub)
+
+    return result
+
 
 ```
 
-This class is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
+This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
+
+### `autonomous-coding/security.py`
+
+The `extract_commands` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def extract_commands(command_string: str) -> list[str]:
+    """
+    Extract command names from a shell command string.
+
+    Handles pipes, command chaining (&&, ||, ;), and subshells.
+    Returns the base command names (without paths).
+
+    Args:
+        command_string: The full shell command
+
+    Returns:
+        List of command names found in the string
+    """
+    commands = []
+
+    # shlex doesn't treat ; as a separator, so we need to pre-process
+    import re
+
+    # Split on semicolons that aren't inside quotes (simple heuristic)
+    # This handles common cases like "echo hello; ls"
+    segments = re.split(r'(?<!["\'])\s*;\s*(?!["\'])', command_string)
+
+    for segment in segments:
+        segment = segment.strip()
+        if not segment:
+            continue
+
+        try:
+            tokens = shlex.split(segment)
+        except ValueError:
+```
+
+This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[from]
-    B[class]
+    A[split_command_segments]
+    B[extract_commands]
     A --> B
 ```

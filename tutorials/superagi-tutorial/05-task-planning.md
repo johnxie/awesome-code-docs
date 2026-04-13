@@ -716,6 +716,17 @@ Under the hood, `Chapter 5: Task Planning` usually follows a repeatable control 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[High-level goal] --> B[Task planner]
+    B --> C[Sub-task decomposition]
+    C --> D[Execution queue]
+    D --> E[Agent executes each sub-task]
+    E --> F[Results aggregated]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

@@ -53,98 +53,27 @@ You now have a governance model for scaling plugin-based agent operations.
 
 Next: [Chapter 8: Contribution Workflow and Plugin Authoring Patterns](08-contribution-workflow-and-plugin-authoring-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `tools/yt-design-extractor.py`
+> **Note:** `wshobson/agents` governance patterns are expressed through documentation conventions and contributing guidelines, not executable source code. The relevant sources for this chapter are the contributing guide and plugin design principles docs.
 
-The `fmt_timestamp` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
+### `.github/CONTRIBUTING.md`
 
-```py
+The [contributing guidelines](https://github.com/wshobson/agents/blob/main/.github/CONTRIBUTING.md) document the change-management process for plugin additions — the organizational equivalent of the approved-plugin-list and review checkpoint patterns described in this chapter.
 
+### `docs/plugins.md` — Plugin design principles
 
-def fmt_timestamp(seconds: float) -> str:
-    m, s = divmod(int(seconds), 60)
-    h, m = divmod(m, 60)
-    if h:
-        return f"{h}:{m:02d}:{s:02d}"
-    return f"{m}:{s:02d}"
-
-
-def group_transcript(entries: list[dict], chunk_seconds: int = 60) -> list[dict]:
-    """Merge transcript snippets into chunks of at least `chunk_seconds` duration."""
-    if not entries:
-        return []
-    groups = []
-    current = {"start": entries[0]["start"], "text": ""}
-    for e in entries:
-        if e["start"] - current["start"] >= chunk_seconds and current["text"]:
-            groups.append(current)
-            current = {"start": e["start"], "text": ""}
-        current["text"] += " " + e["text"]
-    if current["text"]:
-        groups.append(current)
-    for g in groups:
-        g["text"] = g["text"].strip()
-    return groups
-
-
-def build_markdown(
-    meta: dict,
-    transcript: list[dict] | None,
-    interval_frames: list[Path],
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
-### `tools/yt-design-extractor.py`
-
-The `group_transcript` function in [`tools/yt-design-extractor.py`](https://github.com/wshobson/agents/blob/HEAD/tools/yt-design-extractor.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def group_transcript(entries: list[dict], chunk_seconds: int = 60) -> list[dict]:
-    """Merge transcript snippets into chunks of at least `chunk_seconds` duration."""
-    if not entries:
-        return []
-    groups = []
-    current = {"start": entries[0]["start"], "text": ""}
-    for e in entries:
-        if e["start"] - current["start"] >= chunk_seconds and current["text"]:
-            groups.append(current)
-            current = {"start": e["start"], "text": ""}
-        current["text"] += " " + e["text"]
-    if current["text"]:
-        groups.append(current)
-    for g in groups:
-        g["text"] = g["text"].strip()
-    return groups
-
-
-def build_markdown(
-    meta: dict,
-    transcript: list[dict] | None,
-    interval_frames: list[Path],
-    scene_frames: list[Path],
-    out_dir: Path,
-    interval: int,
-    ocr_results: Optional[dict[Path, str]] = None,
-    color_analysis: Optional[dict] = None,
-) -> Path:
-    """Assemble the final reference markdown document."""
-    title = meta.get("title", "Untitled Video")
-```
-
-This function is important because it defines how Wshobson Agents Tutorial: Pluginized Multi-Agent Workflows for Claude Code implements the patterns covered in this chapter.
-
+The [plugin design principles section](https://github.com/wshobson/agents/blob/main/docs/plugins.md#plugin-design-principles) specifies the single-responsibility requirement, overlap prevention, and explicit naming conventions that form the governance baseline. Following these principles prevents the plugin drift and command-surface sprawl this chapter guards against.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[fmt_timestamp]
-    B[group_transcript]
-    A --> B
+    A[.github/CONTRIBUTING.md] -->|change management| B[Plugin Addition Review]
+    C[docs/plugins.md design principles] -->|single-responsibility| D[Plugin Quality Gate]
+    B --> E[Approved Plugin List]
+    D --> E
+    E -->|enforce| F[Security scanning on prod-bound changes]
+    E -->|enforce| G[Explicit commands in sensitive workflows]
+    E -->|enforce| H[Periodic plugin pruning]
 ```

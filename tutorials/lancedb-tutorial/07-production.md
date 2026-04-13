@@ -14,6 +14,18 @@ Welcome to **Chapter 7: Production Deployment**. In this part of **LanceDB Tutor
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A[Local Lance files] --> B{Storage backend}
+    B -->|S3| C[s3://bucket/db]
+    B -->|GCS| D[gs://bucket/db]
+    B -->|Azure| E[az://container/db]
+    C --> F[lancedb.connect uri]
+    D --> F
+    E --> F
+    F --> G[Same API as local]
+```
+
 This chapter covers deploying LanceDB in production environments, including cloud storage backends, scaling strategies, monitoring, backup and recovery, and operational best practices.
 
 ## Cloud Storage Backends

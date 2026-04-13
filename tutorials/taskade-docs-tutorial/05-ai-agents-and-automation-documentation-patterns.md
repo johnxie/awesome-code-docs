@@ -55,58 +55,24 @@ You now have a repeatable pattern to combine agent and automation docs into exec
 
 Next: [Chapter 6: Release Notes, Changelog, and Timeline Operations](06-release-notes-changelog-and-timeline-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `archive/help-center/_imported/CLEANUP_SUMMARY.json`
+Use the following upstream sources to verify AI agent and automation documentation details while reading this chapter:
 
-The `CLEANUP_SUMMARY` module in [`archive/help-center/_imported/CLEANUP_SUMMARY.json`](https://github.com/taskade/docs/blob/HEAD/archive/help-center/_imported/CLEANUP_SUMMARY.json) handles a key part of this chapter's functionality:
+- [`SUMMARY.md`](https://github.com/taskade/docs/blob/HEAD/SUMMARY.md) — navigate to the AI Agents and Automations sections to see how these two capability pillars are separated and cross-linked in the documentation tree.
+- [`README.md`](https://github.com/taskade/docs/blob/HEAD/README.md) — the main product narrative that positions AI agents (Intelligence pillar) and Automations (Execution pillar) relative to other platform capabilities.
 
-```json
-{
-  "cleanup_date": "2025-09-14T01:11:04.798Z",
-  "total_unique_articles": 1145,
-  "duplicates_removed": 0,
-  "published_articles": 1057,
-  "unpublished_articles": 88,
-  "categories": [
-    "ai-agents",
-    "ai-automation",
-    "ai-basics",
-    "ai-features",
-    "automations",
-    "collaboration",
-    "essentials",
-    "folders",
-    "general",
-    "genesis",
-    "getting-started",
-    "integrations",
-    "known-urls",
-    "mobile",
-    "overview",
-    "productivity",
-    "project-views",
-    "projects",
-    "sharing",
-    "structure",
-    "taskade-ai",
-    "tasks",
-    "templates",
-    "tips",
-    "workspaces"
-  ],
-  "published_by_category": {
-    "ai-agents": 22,
-```
-
-This module is important because it defines how Taskade Docs Tutorial: Operating the Living-DNA Documentation Stack implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- identify the AI Agents and Automations leaf pages in `SUMMARY.md` to assess documentation depth per feature
+- check whether trigger/action/condition concepts appear in both the automation docs and the agent training docs for consistency
+- compare docs coverage against the `help.taskade.com` articles for agents and automations to spot content drift
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[CLEANUP_SUMMARY]
+flowchart LR
+    A[AI Agents section in SUMMARY.md] --> B[Agent creation and training pages]
+    C[Automations section in SUMMARY.md] --> D[Trigger and action reference pages]
+    B --> E[Cross-links between agents and automations]
+    D --> E
 ```

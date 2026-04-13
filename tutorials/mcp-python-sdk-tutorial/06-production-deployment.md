@@ -12,6 +12,20 @@ Welcome to **Chapter 6: Production Deployment**. In this part of **MCP Python SD
 
 > Deploy MCP servers to production with Docker, monitoring, error handling, and scaling strategies.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart TD
+    SERVER[MCP Python Server] --> T{Transport Mode}
+    T -->|stdio| LOCAL[Local subprocess\nClaude Desktop / Code]
+    T -->|HTTP + SSE| DOCKER[Docker Container]
+    DOCKER --> K8S[Kubernetes / Cloud Run]
+    K8S --> LB[Load Balancer]
+    LB --> I1[Instance 1]
+    LB --> I2[Instance 2]
+    I1 --> MON[Monitoring: Prometheus + Grafana]
+```
+
 ## Docker Deployment
 
 ### Dockerfile

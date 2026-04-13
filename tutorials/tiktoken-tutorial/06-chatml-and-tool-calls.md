@@ -103,8 +103,6 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `tiktoken/model.py`
@@ -125,125 +123,125 @@ def encoding_for_model(model_name: str) -> Encoding:
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
-### `scripts/wheel_download.py`
+### `tiktoken_ext/openai_public.py`
 
-The `download_artifacts` function in [`scripts/wheel_download.py`](https://github.com/openai/tiktoken/blob/HEAD/scripts/wheel_download.py) handles a key part of this chapter's functionality:
+The `gpt2` function in [`tiktoken_ext/openai_public.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken_ext/openai_public.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def download_artifacts(token, owner, repo, run_id, output_dir):
-    headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
+def gpt2():
+    mergeable_ranks = data_gym_to_mergeable_bpe_ranks(
+        vocab_bpe_file="https://openaipublic.blob.core.windows.net/gpt-2/encodings/main/vocab.bpe",
+        encoder_json_file="https://openaipublic.blob.core.windows.net/gpt-2/encodings/main/encoder.json",
+        vocab_bpe_hash="1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+        encoder_json_hash="196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783",
+    )
+    return {
+        "name": "gpt2",
+        "explicit_n_vocab": 50257,
+        "pat_str": r50k_pat_str,
+        "mergeable_ranks": mergeable_ranks,
+        "special_tokens": {ENDOFTEXT: 50256},
+    }
 
-    # Get list of artifacts
-    artifacts_url = f"https://api.github.com/repos/{owner}/{repo}/actions/runs/{run_id}/artifacts"
-    response = requests.get(artifacts_url, headers=headers)
-    response.raise_for_status()
-    artifacts = response.json()["artifacts"]
 
-    if not artifacts:
-        print(f"No artifacts found for run ID: {run_id}")
-        return
+def r50k_base():
+    mergeable_ranks = load_tiktoken_bpe(
+        "https://openaipublic.blob.core.windows.net/encodings/r50k_base.tiktoken",
+        expected_hash="306cd27f03c1a714eca7108e03d66b7dc042abe8c258b44c199a7ed9838dd930",
+    )
+    return {
+        "name": "r50k_base",
+        "explicit_n_vocab": 50257,
+        "pat_str": r50k_pat_str,
+        "mergeable_ranks": mergeable_ranks,
+        "special_tokens": {ENDOFTEXT: 50256},
+    }
 
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"Found {len(artifacts)} artifacts")
-    for artifact in artifacts:
-        name = artifact["name"]
-        download_url = artifact["archive_download_url"]
-
-        print(f"Downloading {name}...")
-
-        response = requests.get(download_url, headers=headers, stream=True)
-        response.raise_for_status()
-
-        temp_zip = output_dir / f"{name}.zip"
-        with open(temp_zip, "wb") as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
 ```
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
-### `scripts/redact.py`
+### `tiktoken_ext/openai_public.py`
 
-The `redact_file` function in [`scripts/redact.py`](https://github.com/openai/tiktoken/blob/HEAD/scripts/redact.py) handles a key part of this chapter's functionality:
+The `r50k_base` function in [`tiktoken_ext/openai_public.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken_ext/openai_public.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def redact_file(path: Path, dry_run: bool) -> None:
-    if not path.exists() or path.is_dir():
-        return
-
-    text = path.read_text()
-    if not text:
-        return
-
-    first_line = text.splitlines()[0]
-    if "redact" in first_line:
-        if not dry_run:
-            path.unlink()
-        print(f"Deleted {path}")
-        return
-
-    pattern = "|".join(
-        r" *" + re.escape(x)
-        for x in [
-            "# ===== redact-beg =====\n",
-            "# ===== redact-end =====\n",
-            "<!--- redact-beg -->\n",
-            "<!--- redact-end -->\n",
-        ]
+def r50k_base():
+    mergeable_ranks = load_tiktoken_bpe(
+        "https://openaipublic.blob.core.windows.net/encodings/r50k_base.tiktoken",
+        expected_hash="306cd27f03c1a714eca7108e03d66b7dc042abe8c258b44c199a7ed9838dd930",
     )
+    return {
+        "name": "r50k_base",
+        "explicit_n_vocab": 50257,
+        "pat_str": r50k_pat_str,
+        "mergeable_ranks": mergeable_ranks,
+        "special_tokens": {ENDOFTEXT: 50256},
+    }
 
-    if re.search(pattern, text):
-        redacted_text = "".join(re.split(pattern, text)[::2])
-        if not dry_run:
-            path.write_text(redacted_text)
-        print(f"Redacted {path}")
+
+def p50k_base():
+    mergeable_ranks = load_tiktoken_bpe(
+        "https://openaipublic.blob.core.windows.net/encodings/p50k_base.tiktoken",
+        expected_hash="94b5ca7dff4d00767bc256fdd1b27e5b17361d7b8a5f968547f9f23eb70d2069",
+    )
+    return {
+        "name": "p50k_base",
+        "explicit_n_vocab": 50281,
+        "pat_str": r50k_pat_str,
+        "mergeable_ranks": mergeable_ranks,
+        "special_tokens": {ENDOFTEXT: 50256},
+    }
+
+
+def p50k_edit():
+    mergeable_ranks = load_tiktoken_bpe(
 ```
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
-### `scripts/redact.py`
+### `tiktoken_ext/openai_public.py`
 
-The `redact` function in [`scripts/redact.py`](https://github.com/openai/tiktoken/blob/HEAD/scripts/redact.py) handles a key part of this chapter's functionality:
+The `p50k_base` function in [`tiktoken_ext/openai_public.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken_ext/openai_public.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def redact_file(path: Path, dry_run: bool) -> None:
-    if not path.exists() or path.is_dir():
-        return
-
-    text = path.read_text()
-    if not text:
-        return
-
-    first_line = text.splitlines()[0]
-    if "redact" in first_line:
-        if not dry_run:
-            path.unlink()
-        print(f"Deleted {path}")
-        return
-
-    pattern = "|".join(
-        r" *" + re.escape(x)
-        for x in [
-            "# ===== redact-beg =====\n",
-            "# ===== redact-end =====\n",
-            "<!--- redact-beg -->\n",
-            "<!--- redact-end -->\n",
-        ]
+def p50k_base():
+    mergeable_ranks = load_tiktoken_bpe(
+        "https://openaipublic.blob.core.windows.net/encodings/p50k_base.tiktoken",
+        expected_hash="94b5ca7dff4d00767bc256fdd1b27e5b17361d7b8a5f968547f9f23eb70d2069",
     )
+    return {
+        "name": "p50k_base",
+        "explicit_n_vocab": 50281,
+        "pat_str": r50k_pat_str,
+        "mergeable_ranks": mergeable_ranks,
+        "special_tokens": {ENDOFTEXT: 50256},
+    }
 
-    if re.search(pattern, text):
-        redacted_text = "".join(re.split(pattern, text)[::2])
-        if not dry_run:
-            path.write_text(redacted_text)
-        print(f"Redacted {path}")
+
+def p50k_edit():
+    mergeable_ranks = load_tiktoken_bpe(
+        "https://openaipublic.blob.core.windows.net/encodings/p50k_base.tiktoken",
+        expected_hash="94b5ca7dff4d00767bc256fdd1b27e5b17361d7b8a5f968547f9f23eb70d2069",
+    )
+    special_tokens = {ENDOFTEXT: 50256, FIM_PREFIX: 50281, FIM_MIDDLE: 50282, FIM_SUFFIX: 50283}
+    return {
+        "name": "p50k_edit",
+        "pat_str": r50k_pat_str,
+        "mergeable_ranks": mergeable_ranks,
+        "special_tokens": special_tokens,
+    }
+
+
+def cl100k_base():
+    mergeable_ranks = load_tiktoken_bpe(
 ```
 
 This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
@@ -254,10 +252,10 @@ This function is important because it defines how tiktoken Tutorial: OpenAI Toke
 ```mermaid
 flowchart TD
     A[encoding_for_model]
-    B[download_artifacts]
-    C[redact_file]
-    D[redact]
-    E[main]
+    B[gpt2]
+    C[r50k_base]
+    D[p50k_base]
+    E[p50k_edit]
     A --> B
     B --> C
     C --> D

@@ -45,9 +45,89 @@ You now have a runtime tuning approach that reduces false failures and stalled s
 
 Next: [Chapter 7: Inspector in Server Development Lifecycle](07-inspector-in-server-development-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `cli/src/cli.ts`
+
+The `handleError` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
+
+```ts
+    };
+
+function handleError(error: unknown): never {
+  let message: string;
+
+  if (error instanceof Error) {
+    message = error.message;
+  } else if (typeof error === "string") {
+    message = error;
+  } else {
+    message = "Unknown error";
+  }
+
+  console.error(message);
+
+  process.exit(1);
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms, true));
+}
+
+async function runWebClient(args: Args): Promise<void> {
+  // Path to the client entry point
+  const inspectorClientPath = resolve(
+    __dirname,
+    "../../",
+    "client",
+    "bin",
+    "start.js",
+  );
+
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
+
+### `cli/src/cli.ts`
+
+The `delay` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms, true));
+}
+
+async function runWebClient(args: Args): Promise<void> {
+  // Path to the client entry point
+  const inspectorClientPath = resolve(
+    __dirname,
+    "../../",
+    "client",
+    "bin",
+    "start.js",
+  );
+
+  const abort = new AbortController();
+  let cancelled: boolean = false;
+  process.on("SIGINT", () => {
+    cancelled = true;
+    abort.abort();
+  });
+
+  // Build arguments to pass to start.js
+  const startArgs: string[] = [];
+
+  // Pass environment variables
+  for (const [key, value] of Object.entries(args.envArgs)) {
+    startArgs.push("-e", `${key}=${value}`);
+  }
+
+  // Pass transport type if specified
+```
+
+This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
 ### `cli/src/cli.ts`
 
@@ -90,96 +170,14 @@ async function runWebClient(args: Args): Promise<void> {
 
 This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
 
-### `cli/src/cli.ts`
-
-The `runCli` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function runCli(args: Args): Promise<void> {
-  const projectRoot = resolve(__dirname, "..");
-  const cliPath = resolve(projectRoot, "build", "index.js");
-
-  const abort = new AbortController();
-
-  let cancelled = false;
-
-  process.on("SIGINT", () => {
-    cancelled = true;
-    abort.abort();
-  });
-
-  try {
-    // Build CLI arguments
-    const cliArgs = [cliPath];
-
-    // Add target URL/command first
-    cliArgs.push(args.command, ...args.args);
-
-    // Add transport flag if specified
-    if (args.transport && args.transport !== "stdio") {
-      // Convert streamable-http back to http for CLI mode
-      const cliTransport =
-        args.transport === "streamable-http" ? "http" : args.transport;
-      cliArgs.push("--transport", cliTransport);
-    }
-
-    // Add headers if specified
-    if (args.headers) {
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
-### `cli/src/cli.ts`
-
-The `loadConfigFile` function in [`cli/src/cli.ts`](https://github.com/modelcontextprotocol/inspector/blob/HEAD/cli/src/cli.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function loadConfigFile(configPath: string, serverName: string): ServerConfig {
-  try {
-    const resolvedConfigPath = path.isAbsolute(configPath)
-      ? configPath
-      : path.resolve(process.cwd(), configPath);
-
-    if (!fs.existsSync(resolvedConfigPath)) {
-      throw new Error(`Config file not found: ${resolvedConfigPath}`);
-    }
-
-    const configContent = fs.readFileSync(resolvedConfigPath, "utf8");
-    const parsedConfig = JSON.parse(configContent);
-
-    if (!parsedConfig.mcpServers || !parsedConfig.mcpServers[serverName]) {
-      const availableServers = Object.keys(parsedConfig.mcpServers || {}).join(
-        ", ",
-      );
-      throw new Error(
-        `Server '${serverName}' not found in config file. Available servers: ${availableServers}`,
-      );
-    }
-
-    const serverConfig = parsedConfig.mcpServers[serverName];
-
-    return serverConfig;
-  } catch (err: unknown) {
-    if (err instanceof SyntaxError) {
-      throw new Error(`Invalid JSON in config file: ${err.message}`);
-    }
-
-```
-
-This function is important because it defines how MCP Inspector Tutorial: Debugging and Validating MCP Servers implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[runWebClient]
-    B[runCli]
-    C[loadConfigFile]
+    A[handleError]
+    B[delay]
+    C[runWebClient]
     A --> B
     B --> C
 ```

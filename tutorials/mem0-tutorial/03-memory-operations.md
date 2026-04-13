@@ -14,6 +14,18 @@ Welcome to **Chapter 3: Core Memory Operations**. In this part of **Mem0 Tutoria
 
 ## 🎯 Overview
 
+```mermaid
+flowchart LR
+    A[memory.add text user_id] --> B[Embed text]
+    B --> C[Store vector]
+    C --> D[(Vector DB)]
+    E[memory.search query user_id] --> F[Embed query]
+    F --> G[ANN search]
+    G --> D
+    D --> H[Relevant memories]
+    I[memory.delete mem_id] --> D
+```
+
 This chapter covers the core operations you can perform with Mem0 memories, including creating, retrieving, updating, and deleting memories. You'll learn how to effectively manage memory content and metadata for optimal AI agent performance.
 
 ## ➕ Adding Memories

@@ -40,170 +40,168 @@ You now have a defensible framework for safer skill adoption.
 
 Next: [Chapter 8: Team Adoption and Ongoing Maintenance](08-team-adoption-and-ongoing-maintenance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `slack-gif-creator/core/easing.py`
 
-The `ease_in_cubic` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
+The `interpolate` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def ease_in_cubic(t: float) -> float:
-    """Cubic ease-in (slow start)."""
-    return t * t * t
+def interpolate(start: float, end: float, t: float, easing: str = 'linear') -> float:
+    """
+    Interpolate between two values with easing.
+
+    Args:
+        start: Start value
+        end: End value
+        t: Progress from 0.0 to 1.0
+        easing: Name of easing function
+
+    Returns:
+        Interpolated value
+    """
+    ease_func = get_easing(easing)
+    eased_t = ease_func(t)
+    return start + (end - start) * eased_t
 
 
-def ease_out_cubic(t: float) -> float:
-    """Cubic ease-out (fast start)."""
-    return (t - 1) * (t - 1) * (t - 1) + 1
+def ease_back_in(t: float) -> float:
+    """Back ease-in (slight overshoot backward before forward motion)."""
+    c1 = 1.70158
+    c3 = c1 + 1
+    return c3 * t * t * t - c1 * t * t
 
 
-def ease_in_out_cubic(t: float) -> float:
-    """Cubic ease-in-out."""
-    if t < 0.5:
-        return 4 * t * t * t
-    return (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
-
-
-def ease_in_bounce(t: float) -> float:
-    """Bounce ease-in (bouncy start)."""
-    return 1 - ease_out_bounce(1 - t)
-
-
-def ease_out_bounce(t: float) -> float:
-    """Bounce ease-out (bouncy end)."""
-    if t < 1 / 2.75:
-        return 7.5625 * t * t
-    elif t < 2 / 2.75:
-        t -= 1.5 / 2.75
-        return 7.5625 * t * t + 0.75
-    elif t < 2.5 / 2.75:
+def ease_back_out(t: float) -> float:
+    """Back ease-out (overshoot forward then settle back)."""
+    c1 = 1.70158
+    c3 = c1 + 1
+    return 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2)
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
 ### `slack-gif-creator/core/easing.py`
 
-The `ease_out_cubic` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
+The `ease_back_in` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def ease_out_cubic(t: float) -> float:
-    """Cubic ease-out (fast start)."""
-    return (t - 1) * (t - 1) * (t - 1) + 1
+def ease_back_in(t: float) -> float:
+    """Back ease-in (slight overshoot backward before forward motion)."""
+    c1 = 1.70158
+    c3 = c1 + 1
+    return c3 * t * t * t - c1 * t * t
 
 
-def ease_in_out_cubic(t: float) -> float:
-    """Cubic ease-in-out."""
+def ease_back_out(t: float) -> float:
+    """Back ease-out (overshoot forward then settle back)."""
+    c1 = 1.70158
+    c3 = c1 + 1
+    return 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2)
+
+
+def ease_back_in_out(t: float) -> float:
+    """Back ease-in-out (overshoot at both ends)."""
+    c1 = 1.70158
+    c2 = c1 * 1.525
     if t < 0.5:
-        return 4 * t * t * t
-    return (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+        return (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+    return (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
 
 
-def ease_in_bounce(t: float) -> float:
-    """Bounce ease-in (bouncy start)."""
-    return 1 - ease_out_bounce(1 - t)
+def apply_squash_stretch(base_scale: tuple[float, float], intensity: float,
+                         direction: str = 'vertical') -> tuple[float, float]:
+    """
+    Calculate squash and stretch scales for more dynamic animation.
 
-
-def ease_out_bounce(t: float) -> float:
-    """Bounce ease-out (bouncy end)."""
-    if t < 1 / 2.75:
-        return 7.5625 * t * t
-    elif t < 2 / 2.75:
-        t -= 1.5 / 2.75
-        return 7.5625 * t * t + 0.75
-    elif t < 2.5 / 2.75:
-        t -= 2.25 / 2.75
-        return 7.5625 * t * t + 0.9375
-    else:
-        t -= 2.625 / 2.75
-        return 7.5625 * t * t + 0.984375
+    Args:
+        base_scale: (width_scale, height_scale) base scales
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
 ### `slack-gif-creator/core/easing.py`
 
-The `ease_in_out_cubic` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
+The `ease_back_out` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def ease_in_out_cubic(t: float) -> float:
-    """Cubic ease-in-out."""
+def ease_back_out(t: float) -> float:
+    """Back ease-out (overshoot forward then settle back)."""
+    c1 = 1.70158
+    c3 = c1 + 1
+    return 1 + c3 * pow(t - 1, 3) + c1 * pow(t - 1, 2)
+
+
+def ease_back_in_out(t: float) -> float:
+    """Back ease-in-out (overshoot at both ends)."""
+    c1 = 1.70158
+    c2 = c1 * 1.525
     if t < 0.5:
-        return 4 * t * t * t
-    return (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+        return (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+    return (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
 
 
-def ease_in_bounce(t: float) -> float:
-    """Bounce ease-in (bouncy start)."""
-    return 1 - ease_out_bounce(1 - t)
+def apply_squash_stretch(base_scale: tuple[float, float], intensity: float,
+                         direction: str = 'vertical') -> tuple[float, float]:
+    """
+    Calculate squash and stretch scales for more dynamic animation.
 
+    Args:
+        base_scale: (width_scale, height_scale) base scales
+        intensity: Squash/stretch intensity (0.0-1.0)
+        direction: 'vertical', 'horizontal', or 'both'
 
-def ease_out_bounce(t: float) -> float:
-    """Bounce ease-out (bouncy end)."""
-    if t < 1 / 2.75:
-        return 7.5625 * t * t
-    elif t < 2 / 2.75:
-        t -= 1.5 / 2.75
-        return 7.5625 * t * t + 0.75
-    elif t < 2.5 / 2.75:
-        t -= 2.25 / 2.75
-        return 7.5625 * t * t + 0.9375
-    else:
-        t -= 2.625 / 2.75
-        return 7.5625 * t * t + 0.984375
-
-
-def ease_in_out_bounce(t: float) -> float:
-    """Bounce ease-in-out."""
-    if t < 0.5:
+    Returns:
+        (width_scale, height_scale) with squash/stretch applied
+    """
+    width_scale, height_scale = base_scale
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
 
 ### `slack-gif-creator/core/easing.py`
 
-The `ease_in_bounce` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
+The `ease_back_in_out` function in [`slack-gif-creator/core/easing.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/slack-gif-creator/core/easing.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def ease_in_bounce(t: float) -> float:
-    """Bounce ease-in (bouncy start)."""
-    return 1 - ease_out_bounce(1 - t)
-
-
-def ease_out_bounce(t: float) -> float:
-    """Bounce ease-out (bouncy end)."""
-    if t < 1 / 2.75:
-        return 7.5625 * t * t
-    elif t < 2 / 2.75:
-        t -= 1.5 / 2.75
-        return 7.5625 * t * t + 0.75
-    elif t < 2.5 / 2.75:
-        t -= 2.25 / 2.75
-        return 7.5625 * t * t + 0.9375
-    else:
-        t -= 2.625 / 2.75
-        return 7.5625 * t * t + 0.984375
-
-
-def ease_in_out_bounce(t: float) -> float:
-    """Bounce ease-in-out."""
+def ease_back_in_out(t: float) -> float:
+    """Back ease-in-out (overshoot at both ends)."""
+    c1 = 1.70158
+    c2 = c1 * 1.525
     if t < 0.5:
-        return ease_in_bounce(t * 2) * 0.5
-    return ease_out_bounce(t * 2 - 1) * 0.5 + 0.5
+        return (pow(2 * t, 2) * ((c2 + 1) * 2 * t - c2)) / 2
+    return (pow(2 * t - 2, 2) * ((c2 + 1) * (t * 2 - 2) + c2) + 2) / 2
 
 
-def ease_in_elastic(t: float) -> float:
-    """Elastic ease-in (spring effect)."""
-    if t == 0 or t == 1:
+def apply_squash_stretch(base_scale: tuple[float, float], intensity: float,
+                         direction: str = 'vertical') -> tuple[float, float]:
+    """
+    Calculate squash and stretch scales for more dynamic animation.
+
+    Args:
+        base_scale: (width_scale, height_scale) base scales
+        intensity: Squash/stretch intensity (0.0-1.0)
+        direction: 'vertical', 'horizontal', or 'both'
+
+    Returns:
+        (width_scale, height_scale) with squash/stretch applied
+    """
+    width_scale, height_scale = base_scale
+
+    if direction == 'vertical':
+        # Compress vertically, expand horizontally (preserve volume)
+        height_scale *= (1 - intensity * 0.5)
+        width_scale *= (1 + intensity * 0.5)
+    elif direction == 'horizontal':
+        # Compress horizontally, expand vertically
 ```
 
 This function is important because it defines how Awesome Claude Skills Tutorial: High-Signal Skill Discovery and Reuse for Claude Workflows implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This function is important because it defines how Awesome Claude Skills Tutorial
 
 ```mermaid
 flowchart TD
-    A[ease_in_cubic]
-    B[ease_out_cubic]
-    C[ease_in_out_cubic]
-    D[ease_in_bounce]
-    E[ease_out_bounce]
+    A[interpolate]
+    B[ease_back_in]
+    C[ease_back_out]
+    D[ease_back_in_out]
+    E[apply_squash_stretch]
     A --> B
     B --> C
     C --> D

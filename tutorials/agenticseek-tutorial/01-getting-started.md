@@ -72,8 +72,6 @@ You now have a working AgenticSeek baseline in web mode.
 
 Next: [Chapter 2: Architecture and Routing System](02-architecture-and-routing-system.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `cli.py`
@@ -117,88 +115,6 @@ async def main():
 
 This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
 
-### `sources/router.py`
-
-The `AgentRouter` class in [`sources/router.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/router.py) handles a key part of this chapter's functionality:
-
-```py
-from sources.logger import Logger
-
-class AgentRouter:
-    """
-    AgentRouter is a class that selects the appropriate agent based on the user query.
-    """
-    def __init__(self, agents: list, supported_language: List[str] = ["en", "fr", "zh"]):
-        self.agents = agents
-        self.logger = Logger("router.log")
-        self.lang_analysis = LanguageUtility(supported_language=supported_language)
-        self.pipelines = self.load_pipelines()
-        self.talk_classifier = self.load_llm_router()
-        self.complexity_classifier = self.load_llm_router()
-        self.learn_few_shots_tasks()
-        self.learn_few_shots_complexity()
-        self.asked_clarify = False
-    
-    def load_pipelines(self) -> Dict[str, Type[pipeline]]:
-        """
-        Load the pipelines for the text classification used for routing.
-        returns:
-            Dict[str, Type[pipeline]]: The loaded pipelines
-        """
-        animate_thinking("Loading zero-shot pipeline...", color="status")
-        return {
-            "bart": pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-        }
-
-    def load_llm_router(self) -> AdaptiveClassifier:
-        """
-        Load the LLM router model.
-        returns:
-```
-
-This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
-
-### `sources/router.py`
-
-The `that` class in [`sources/router.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/router.py) handles a key part of this chapter's functionality:
-
-```py
-class AgentRouter:
-    """
-    AgentRouter is a class that selects the appropriate agent based on the user query.
-    """
-    def __init__(self, agents: list, supported_language: List[str] = ["en", "fr", "zh"]):
-        self.agents = agents
-        self.logger = Logger("router.log")
-        self.lang_analysis = LanguageUtility(supported_language=supported_language)
-        self.pipelines = self.load_pipelines()
-        self.talk_classifier = self.load_llm_router()
-        self.complexity_classifier = self.load_llm_router()
-        self.learn_few_shots_tasks()
-        self.learn_few_shots_complexity()
-        self.asked_clarify = False
-    
-    def load_pipelines(self) -> Dict[str, Type[pipeline]]:
-        """
-        Load the pipelines for the text classification used for routing.
-        returns:
-            Dict[str, Type[pipeline]]: The loaded pipelines
-        """
-        animate_thinking("Loading zero-shot pipeline...", color="status")
-        return {
-            "bart": pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
-        }
-
-    def load_llm_router(self) -> AdaptiveClassifier:
-        """
-        Load the LLM router model.
-        returns:
-            AdaptiveClassifier: The loaded model
-        exceptions:
-```
-
-This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
-
 ### `api.py`
 
 The `is_running_in_docker` function in [`api.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/api.py) handles a key part of this chapter's functionality:
@@ -240,16 +156,98 @@ api.add_middleware(
 
 This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
 
+### `api.py`
+
+The `initialize_system` function in [`api.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/api.py) handles a key part of this chapter's functionality:
+
+```py
+api.mount("/screenshots", StaticFiles(directory=".screenshots"), name="screenshots")
+
+def initialize_system():
+    stealth_mode = config.getboolean('BROWSER', 'stealth_mode')
+    personality_folder = "jarvis" if config.getboolean('MAIN', 'jarvis_personality') else "base"
+    languages = config["MAIN"]["languages"].split(' ')
+    
+    # Force headless mode in Docker containers
+    headless = config.getboolean('BROWSER', 'headless_browser')
+    if is_running_in_docker() and not headless:
+        # Print prominent warning to console (visible in docker-compose output)
+        print("\n" + "*" * 70)
+        print("*** WARNING: Detected Docker environment - forcing headless_browser=True ***")
+        print("*** INFO: To see the browser, run 'python cli.py' on your host machine ***")
+        print("*" * 70 + "\n")
+        
+        # Flush to ensure it's displayed immediately
+        sys.stdout.flush()
+        
+        # Also log to file
+        logger.warning("Detected Docker environment - forcing headless_browser=True")
+        logger.info("To see the browser, run 'python cli.py' on your host machine instead")
+        
+        headless = True
+    
+    provider = Provider(
+        provider_name=config["MAIN"]["provider_name"],
+        model=config["MAIN"]["provider_model"],
+        server_address=config["MAIN"]["provider_server_address"],
+        is_local=config.getboolean('MAIN', 'is_local')
+    )
+    logger.info(f"Provider initialized: {provider.provider_name} ({provider.model})")
+```
+
+This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+
+### `api.py`
+
+The `get_screenshot` function in [`api.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/api.py) handles a key part of this chapter's functionality:
+
+```py
+
+@api.get("/screenshot")
+async def get_screenshot():
+    logger.info("Screenshot endpoint called")
+    screenshot_path = ".screenshots/updated_screen.png"
+    if os.path.exists(screenshot_path):
+        return FileResponse(screenshot_path)
+    logger.error("No screenshot available")
+    return JSONResponse(
+        status_code=404,
+        content={"error": "No screenshot available"}
+    )
+
+@api.get("/health")
+async def health_check():
+    logger.info("Health check endpoint called")
+    return {"status": "healthy", "version": "0.1.0"}
+
+@api.get("/is_active")
+async def is_active():
+    logger.info("Is active endpoint called")
+    return {"is_active": interaction.is_active}
+
+@api.get("/stop")
+async def stop():
+    logger.info("Stop endpoint called")
+    interaction.current_agent.request_stop()
+    return JSONResponse(status_code=200, content={"status": "stopped"})
+
+@api.get("/latest_answer")
+async def get_latest_answer():
+    global query_resp_history
+```
+
+This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
     A[main]
-    B[AgentRouter]
-    C[that]
-    D[is_running_in_docker]
-    E[initialize_system]
+    B[is_running_in_docker]
+    C[initialize_system]
+    D[get_screenshot]
+    E[health_check]
     A --> B
     B --> C
     C --> D

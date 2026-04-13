@@ -48,88 +48,86 @@ You now have a production-style pattern for calling and monitoring Refly workflo
 
 Next: [Chapter 5: Refly CLI and Claude Code Skill Export](05-refly-cli-and-claude-code-skill-export.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `config/provider-catalog.json`
+### `cypress/support/commands.ts`
 
-The `for` interface in [`config/provider-catalog.json`](https://github.com/refly-ai/refly/blob/HEAD/config/provider-catalog.json) handles a key part of this chapter's functionality:
+The `Chainable` interface in [`cypress/support/commands.ts`](https://github.com/refly-ai/refly/blob/HEAD/cypress/support/commands.ts) handles a key part of this chapter's functionality:
 
-```json
-      "baseUrl": "https://api.siliconflow.cn/v1",
-      "description": {
-        "en": "SiliconFlow provides a one-stop cloud service platform with high-performance inference for top-tier large language and embedding models.",
-        "zh-CN": "SiliconFlow 提供一站式云服务平台，为顶级大语言模型和嵌入模型提供高性能推理服务。"
-      },
-      "categories": ["llm", "embedding"],
-      "documentation": "https://docs.siliconflow.cn/",
-      "icon": "https://static.refly.ai/icons/providers/siliconflow.png"
-    },
-    {
-      "name": "litellm",
-      "providerKey": "openai",
-      "baseUrl": "https://litellm.powerformer.net/v1",
-      "description": {
-        "en": "LiteLLM is a lightweight library to simplify LLM completion and embedding calls, providing a consistent interface for over 100 LLMs.",
-        "zh-CN": "LiteLLM 是一个轻量级库，用于简化 LLM 的补全和嵌入调用，为 100 多个 LLM 提供一致的接口。"
-      },
-      "categories": ["llm", "embedding"],
-      "documentation": "https://docs.litellm.ai/",
-      "icon": "https://static.refly.ai/icons/providers/litellm.png"
-    },
-    {
-      "name": "七牛云AI",
-      "providerKey": "openai",
-      "baseUrl": "https://api.qnaigc.com/v1",
-      "description": {
-        "en": "Qiniu AI provides efficient, stable, and secure model inference services, supporting mainstream open-source large models.",
-        "zh-CN": "七牛云AI 提供高效、稳定、安全的模型推理服务，支持主流开源大模型。"
-      },
-      "categories": ["llm"],
-      "documentation": "https://developer.qiniu.com/aitokenapi",
-      "icon": "https://static.refly.ai/icons/providers/qiniu.png"
+```ts
+// declare global {
+//   namespace Cypress {
+//     interface Chainable {
+//       login(email: string, password: string): Chainable<void>
+//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+//     }
+//   }
+// }
+
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Execute SQL query through Docker container
+     * @param query - SQL query to execute
+     * @example
+     * cy.execSQL('SELECT * FROM users')
+     */
+    execSQL(query: string): Chainable<string>;
+    /**
+     * Login to the app
+     * @param email - Email to login with
+     * @param password - Password to login with
+     * @example
+     * cy.login('test@example.com', 'testPassword123')
+     */
+    login(email: string, password: string): Chainable<void>;
+  }
+}
+
+Cypress.Commands.add('execSQL', (query: string) => {
 ```
 
 This interface is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
-### `config/provider-catalog.json`
+### `cypress/support/commands.ts`
 
-The `for` interface in [`config/provider-catalog.json`](https://github.com/refly-ai/refly/blob/HEAD/config/provider-catalog.json) handles a key part of this chapter's functionality:
+The `Chainable` interface in [`cypress/support/commands.ts`](https://github.com/refly-ai/refly/blob/HEAD/cypress/support/commands.ts) handles a key part of this chapter's functionality:
 
-```json
-      "baseUrl": "https://api.siliconflow.cn/v1",
-      "description": {
-        "en": "SiliconFlow provides a one-stop cloud service platform with high-performance inference for top-tier large language and embedding models.",
-        "zh-CN": "SiliconFlow 提供一站式云服务平台，为顶级大语言模型和嵌入模型提供高性能推理服务。"
-      },
-      "categories": ["llm", "embedding"],
-      "documentation": "https://docs.siliconflow.cn/",
-      "icon": "https://static.refly.ai/icons/providers/siliconflow.png"
-    },
-    {
-      "name": "litellm",
-      "providerKey": "openai",
-      "baseUrl": "https://litellm.powerformer.net/v1",
-      "description": {
-        "en": "LiteLLM is a lightweight library to simplify LLM completion and embedding calls, providing a consistent interface for over 100 LLMs.",
-        "zh-CN": "LiteLLM 是一个轻量级库，用于简化 LLM 的补全和嵌入调用，为 100 多个 LLM 提供一致的接口。"
-      },
-      "categories": ["llm", "embedding"],
-      "documentation": "https://docs.litellm.ai/",
-      "icon": "https://static.refly.ai/icons/providers/litellm.png"
-    },
-    {
-      "name": "七牛云AI",
-      "providerKey": "openai",
-      "baseUrl": "https://api.qnaigc.com/v1",
-      "description": {
-        "en": "Qiniu AI provides efficient, stable, and secure model inference services, supporting mainstream open-source large models.",
-        "zh-CN": "七牛云AI 提供高效、稳定、安全的模型推理服务，支持主流开源大模型。"
-      },
-      "categories": ["llm"],
-      "documentation": "https://developer.qiniu.com/aitokenapi",
-      "icon": "https://static.refly.ai/icons/providers/qiniu.png"
+```ts
+// declare global {
+//   namespace Cypress {
+//     interface Chainable {
+//       login(email: string, password: string): Chainable<void>
+//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
+//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
+//     }
+//   }
+// }
+
+declare namespace Cypress {
+  interface Chainable {
+    /**
+     * Execute SQL query through Docker container
+     * @param query - SQL query to execute
+     * @example
+     * cy.execSQL('SELECT * FROM users')
+     */
+    execSQL(query: string): Chainable<string>;
+    /**
+     * Login to the app
+     * @param email - Email to login with
+     * @param password - Password to login with
+     * @example
+     * cy.login('test@example.com', 'testPassword123')
+     */
+    login(email: string, password: string): Chainable<void>;
+  }
+}
+
+Cypress.Commands.add('execSQL', (query: string) => {
 ```
 
 This interface is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
@@ -139,7 +137,7 @@ This interface is important because it defines how Refly Tutorial: Build Determi
 
 ```mermaid
 flowchart TD
-    A[for]
-    B[for]
+    A[Chainable]
+    B[Chainable]
     A --> B
 ```

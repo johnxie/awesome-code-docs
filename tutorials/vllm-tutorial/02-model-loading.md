@@ -786,6 +786,16 @@ Under the hood, `Chapter 2: Model Loading and Management` usually follows a repe
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[HuggingFace model ID or local path] --> B[vLLM model loader]
+    B --> C[Quantization applied if configured]
+    C --> D[Model weights in GPU VRAM]
+    D --> E[Ready for inference]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

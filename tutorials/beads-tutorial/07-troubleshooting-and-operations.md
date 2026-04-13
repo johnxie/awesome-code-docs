@@ -37,9 +37,48 @@ You now have an operations runbook baseline for Beads troubleshooting.
 
 Next: [Chapter 8: Contribution Workflow and Ecosystem Extensions](08-contribution-workflow-and-ecosystem-extensions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `internal/doltserver/doltserver.go`
+
+The `DefaultConfig` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// DefaultConfig returns config with sensible defaults.
+// Priority: env var > port file > config.yaml / global config > metadata.json.
+// Returns port 0 when no source provides a port, meaning Start() should
+// allocate an ephemeral port from the OS.
+//
+// The port file (dolt-server.port) is written by Start() with the actual port
+// the server is listening on. Consulting it here ensures that commands
+// connecting to an already-running server use the correct port.
+func DefaultConfig(beadsDir string) *Config {
+	// In shared mode, use the shared server directory for port resolution
+	if IsSharedServerMode() {
+		if sharedDir, err := SharedServerDir(); err == nil {
+			beadsDir = sharedDir
+		}
+	}
+
+	cfg := &Config{
+		BeadsDir: beadsDir,
+		Host:     "127.0.0.1",
+		Mode:     ResolveServerMode(beadsDir),
+	}
+
+	// Check env var override first (used by tests and manual overrides)
+	if p := os.Getenv("BEADS_DOLT_SERVER_PORT"); p != "" {
+		if port, err := strconv.Atoi(p); err == nil {
+			cfg.Port = port
+			return cfg
+		}
+	}
+
+```
+
+This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
 ### `internal/doltserver/doltserver.go`
 
@@ -164,57 +203,16 @@ func EnsureRunningDetailed(beadsDir string) (port int, startedByUs bool, err err
 
 This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
 
-### `internal/doltserver/doltserver.go`
-
-The `Start` function in [`internal/doltserver/doltserver.go`](https://github.com/steveyegge/beads/blob/HEAD/internal/doltserver/doltserver.go) handles a key part of this chapter's functionality:
-
-```go
-//
-// Port assignment uses OS-assigned ephemeral ports by default. When no explicit
-// port is configured (env var, config.yaml, metadata.json), Start() asks the OS
-// for a free port via net.Listen(":0"), passes it to dolt sql-server, and writes
-// the actual port to dolt-server.port. This eliminates the birthday-problem
-// collisions that plagued the old hash-derived port scheme (GH#2098, GH#2372).
-//
-// Users with explicit port config via BEADS_DOLT_SERVER_PORT env var or
-// config.yaml always use that port instead, with conflict detection via
-// reclaimPort.
-//
-// Server state files (PID, port, log, lock) live in the .beads/ directory.
-package doltserver
-
-import (
-	"context"
-	"database/sql"
-	"fmt"
-	"net"
-	"os"
-	"os/exec"
-	"path/filepath"
-	"strconv"
-	"strings"
-	"time"
-
-	_ "github.com/go-sql-driver/mysql"
-
-	"github.com/steveyegge/beads/internal/config"
-	"github.com/steveyegge/beads/internal/configfile"
-	"github.com/steveyegge/beads/internal/lockfile"
-)
-```
-
-This function is important because it defines how Beads Tutorial: Git-Backed Task Graph Memory for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[IsRunning]
-    B[EnsureRunning]
-    C[EnsureRunningDetailed]
-    D[Start]
-    E[FlushWorkingSet]
+    A[DefaultConfig]
+    B[IsRunning]
+    C[EnsureRunning]
+    D[EnsureRunningDetailed]
+    E[Start]
     A --> B
     B --> C
     C --> D

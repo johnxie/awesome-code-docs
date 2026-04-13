@@ -522,9 +522,28 @@ def test_error_handling():
         assert data["status"] == 400
 ```
 
+## Model Packaging Architecture
+
+```mermaid
+flowchart TD
+    A[Train or load model]
+    B[Create BentoML Runner for model]
+    C[Define Service with runner dependency]
+    D[Add API endpoints to Service]
+    E[bentoml build produces Bento artifact]
+    F[Bento contains model, code, and dependencies]
+    G[Bento ready for deployment]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully learned:
+You've successfully learned:
 
 1. **Advanced Service Creation** - Multi-model services with runners
 2. **Model Management** - Versioning, optimization, and metadata

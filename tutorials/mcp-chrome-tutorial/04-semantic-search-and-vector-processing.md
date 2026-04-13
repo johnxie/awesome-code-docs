@@ -48,170 +48,168 @@ You now have a functional mental model for how semantic tab search works and whe
 
 Next: [Chapter 5: Transport Modes and Client Configuration](05-transport-modes-and-client-configuration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `UpdateAgentSessionInput` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `DebugSource` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Options for updating a session.
+ * Extracted from React Fiber or Vue component instance
  */
-export interface UpdateAgentSessionInput {
-  name?: string | null;
-  model?: string | null;
-  permissionMode?: string | null;
-  allowDangerouslySkipPermissions?: boolean | null;
-  systemPromptConfig?: AgentSystemPromptConfig | null;
-  optionsConfig?: AgentSessionOptionsConfig | null;
+export interface DebugSource {
+  /** Source file path */
+  file: string;
+  /** Line number (1-based) */
+  line?: number;
+  /** Column number (1-based) */
+  column?: number;
+  /** Component name (if available) */
+  componentName?: string;
 }
 
-// ============================================================
-// Stored Message (for persistence)
-// ============================================================
-
-export interface AgentStoredMessage {
-  id: string;
-  projectId: string;
-  sessionId: string;
-  conversationId?: string | null;
-  role: AgentRole;
-  content: string;
-  messageType: AgentMessage['messageType'];
-  metadata?: Record<string, unknown>;
-  cliSource?: string | null;
-  createdAt?: string;
-  requestId?: string;
-}
-
-// ============================================================
-// Codex Engine Configuration
-// ============================================================
+/**
+ * Element Locator - Primary key for element identification
+ *
+ * Uses multiple strategies to locate elements, supporting:
+ * - HMR/DOM changes recovery
+ * - Cross-session persistence
+ * - Framework-agnostic identification
+ */
+export interface ElementLocator {
+  /** CSS selector candidates (ordered by specificity) */
+  selectors: string[];
+  /** Structural fingerprint for similarity matching */
+  fingerprint: string;
+  /** Framework debug information (React/Vue) */
+  debugSource?: DebugSource;
+  /** DOM tree path (child indices from root) */
+  path: number[];
+  /** iframe selector chain (from top to target frame) - Phase 4 */
+  frameChain?: string[];
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `AgentStoredMessage` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `ElementLocator` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
-// ============================================================
-
-export interface AgentStoredMessage {
-  id: string;
-  projectId: string;
-  sessionId: string;
-  conversationId?: string | null;
-  role: AgentRole;
-  content: string;
-  messageType: AgentMessage['messageType'];
-  metadata?: Record<string, unknown>;
-  cliSource?: string | null;
-  createdAt?: string;
-  requestId?: string;
+ * - Framework-agnostic identification
+ */
+export interface ElementLocator {
+  /** CSS selector candidates (ordered by specificity) */
+  selectors: string[];
+  /** Structural fingerprint for similarity matching */
+  fingerprint: string;
+  /** Framework debug information (React/Vue) */
+  debugSource?: DebugSource;
+  /** DOM tree path (child indices from root) */
+  path: number[];
+  /** iframe selector chain (from top to target frame) - Phase 4 */
+  frameChain?: string[];
+  /** Shadow DOM host selector chain - Phase 2 */
+  shadowHostChain?: string[];
 }
 
-// ============================================================
-// Codex Engine Configuration
-// ============================================================
+// =============================================================================
+// Transaction System (Phase 1 - Basic Structure, Low Priority)
+// =============================================================================
+
+/** Transaction operation types */
+export type TransactionType = 'style' | 'text' | 'class' | 'move' | 'structure';
 
 /**
- * Sandbox mode for Codex CLI execution.
+ * Transaction snapshot for undo/redo
+ * Captures element state before/after changes
  */
-export type CodexSandboxMode = 'read-only' | 'workspace-write' | 'danger-full-access';
-
-/**
- * Reasoning effort for Codex models.
- * - low/medium/high: supported by all models
- * - xhigh: only supported by gpt-5.2 and gpt-5.1-codex-max
- */
-export type CodexReasoningEffort = 'low' | 'medium' | 'high' | 'xhigh';
-
+export interface TransactionSnapshot {
+  /** Element locator for re-identification */
+  locator: ElementLocator;
+  /** innerHTML snapshot (for structure changes) */
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `CodexEngineConfig` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `TransactionSnapshot` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
-   * Only applicable when using CodexEngine.
-   */
-  codexConfig?: Partial<CodexEngineConfig>;
+ * Captures element state before/after changes
+ */
+export interface TransactionSnapshot {
+  /** Element locator for re-identification */
+  locator: ElementLocator;
+  /** innerHTML snapshot (for structure changes) */
+  html?: string;
+  /** Changed style properties */
+  styles?: Record<string, string>;
+  /** Class list tokens (from `class` attribute) */
+  classes?: string[];
+  /** Text content */
+  text?: string;
 }
 
 /**
- * Cached management information from Claude SDK.
+ * Move position data
+ * Captures a concrete insertion point under a parent element
  */
-export interface AgentManagementInfo {
-  tools?: string[];
-  agents?: string[];
-  plugins?: Array<{ name: string; path?: string }>;
-  skills?: string[];
-  mcpServers?: Array<{ name: string; status: string }>;
-  slashCommands?: string[];
-  model?: string;
-  permissionMode?: string;
-  cwd?: string;
-  outputStyle?: string;
-  betas?: string[];
-  claudeCodeVersion?: string;
-  apiKeySource?: string;
-  lastUpdated?: string;
+export interface MoveOperationData {
+  /** Target parent element locator */
+  parentLocator: ElementLocator;
+  /** Insert position index (among element children) */
+  insertIndex: number;
+  /** Anchor sibling element locator (for stable positioning) */
+  anchorLocator?: ElementLocator;
+  /** Position relative to anchor */
+  anchorPosition: 'before' | 'after';
 }
 
 /**
- * Agent session - represents an independent conversation within a project.
- */
-export interface AgentSession {
-  id: string;
-  projectId: string;
-  engineName: AgentCliPreference;
+ * Move transaction data
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `packages/shared/src/agent-types.ts`
+### `app/chrome-extension/common/web-editor-types.ts`
 
-The `AttachmentMetadata` interface in [`packages/shared/src/agent-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/packages/shared/src/agent-types.ts) handles a key part of this chapter's functionality:
+The `MoveOperationData` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Metadata for a persisted attachment file.
+ * Captures a concrete insertion point under a parent element
  */
-export interface AttachmentMetadata {
-  /** Schema version for forward compatibility */
-  version: number;
-  /** Kind of attachment (e.g., 'image', 'file') */
-  kind: string;
-  /** Project ID this attachment belongs to */
-  projectId: string;
-  /** Message ID this attachment is associated with */
-  messageId: string;
-  /** Index of this attachment in the message */
-  index: number;
-  /** Persisted filename under project dir */
-  filename: string;
-  /** URL path to access this attachment */
-  urlPath: string;
-  /** MIME type of the attachment */
-  mimeType: string;
-  /** File size in bytes */
-  sizeBytes: number;
-  /** Original filename from upload */
-  originalName: string;
-  /** Timestamp when attachment was created */
-  createdAt: string;
+export interface MoveOperationData {
+  /** Target parent element locator */
+  parentLocator: ElementLocator;
+  /** Insert position index (among element children) */
+  insertIndex: number;
+  /** Anchor sibling element locator (for stable positioning) */
+  anchorLocator?: ElementLocator;
+  /** Position relative to anchor */
+  anchorPosition: 'before' | 'after';
 }
 
 /**
- * Statistics for attachments in a single project.
+ * Move transaction data
+ * Captures both source and destination for undo/redo
  */
-export interface AttachmentProjectStats {
-  projectId: string;
+export interface MoveTransactionData {
+  /** Original location before move */
+  from: MoveOperationData;
+  /** Target location after move */
+  to: MoveOperationData;
+}
+
+/**
+ * Structure operation data
+ * For wrap/unwrap/delete/duplicate operations (Phase 5.5)
+ */
+export interface StructureOperationData {
+  /** Structure action type */
+  action: 'wrap' | 'unwrap' | 'delete' | 'duplicate';
+  /** Wrapper tag for wrap/unwrap actions */
 ```
 
 This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
@@ -221,11 +219,11 @@ This interface is important because it defines how MCP Chrome Tutorial: Control 
 
 ```mermaid
 flowchart TD
-    A[UpdateAgentSessionInput]
-    B[AgentStoredMessage]
-    C[CodexEngineConfig]
-    D[AttachmentMetadata]
-    E[AttachmentProjectStats]
+    A[DebugSource]
+    B[ElementLocator]
+    C[TransactionSnapshot]
+    D[MoveOperationData]
+    E[MoveTransactionData]
     A --> B
     B --> C
     C --> D

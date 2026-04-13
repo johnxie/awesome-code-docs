@@ -107,8 +107,6 @@ You now have a practical bootstrap playbook for VibeSDK and a clear path from lo
 
 Next: [Chapter 2: System Architecture](02-system-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `worker-configuration.d.ts`

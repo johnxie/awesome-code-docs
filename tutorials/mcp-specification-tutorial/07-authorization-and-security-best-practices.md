@@ -49,8 +49,6 @@ You now have a concrete security baseline for authorization, session handling, a
 
 Next: [Chapter 8: Governance, SEPs, and Contribution Workflow](08-governance-seps-and-contribution-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `schema/2024-11-05/schema.ts`

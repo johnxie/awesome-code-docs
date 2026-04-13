@@ -67,91 +67,7 @@ You now understand where routing, agent logic, and tool execution boundaries sit
 
 Next: [Chapter 3: Installation, Runtime, and Provider Setup](03-installation-runtime-and-provider-setup.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `api.py`
-
-The `is_active` function in [`api.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/api.py) handles a key part of this chapter's functionality:
-
-```py
-    return {"status": "healthy", "version": "0.1.0"}
-
-@api.get("/is_active")
-async def is_active():
-    logger.info("Is active endpoint called")
-    return {"is_active": interaction.is_active}
-
-@api.get("/stop")
-async def stop():
-    logger.info("Stop endpoint called")
-    interaction.current_agent.request_stop()
-    return JSONResponse(status_code=200, content={"status": "stopped"})
-
-@api.get("/latest_answer")
-async def get_latest_answer():
-    global query_resp_history
-    if interaction.current_agent is None:
-        return JSONResponse(status_code=404, content={"error": "No agent available"})
-    uid = str(uuid.uuid4())
-    if not any(q["answer"] == interaction.current_agent.last_answer for q in query_resp_history):
-        query_resp = {
-            "done": "false",
-            "answer": interaction.current_agent.last_answer,
-            "reasoning": interaction.current_agent.last_reasoning,
-            "agent_name": interaction.current_agent.agent_name if interaction.current_agent else "None",
-            "success": interaction.current_agent.success,
-            "blocks": {f'{i}': block.jsonify() for i, block in enumerate(interaction.get_last_blocks_result())} if interaction.current_agent else {},
-            "status": interaction.current_agent.get_status_message if interaction.current_agent else "No status available",
-            "uid": uid
-        }
-        interaction.current_agent.last_answer = ""
-        interaction.current_agent.last_reasoning = ""
-```
-
-This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
-
-### `api.py`
-
-The `stop` function in [`api.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/api.py) handles a key part of this chapter's functionality:
-
-```py
-    return {"is_active": interaction.is_active}
-
-@api.get("/stop")
-async def stop():
-    logger.info("Stop endpoint called")
-    interaction.current_agent.request_stop()
-    return JSONResponse(status_code=200, content={"status": "stopped"})
-
-@api.get("/latest_answer")
-async def get_latest_answer():
-    global query_resp_history
-    if interaction.current_agent is None:
-        return JSONResponse(status_code=404, content={"error": "No agent available"})
-    uid = str(uuid.uuid4())
-    if not any(q["answer"] == interaction.current_agent.last_answer for q in query_resp_history):
-        query_resp = {
-            "done": "false",
-            "answer": interaction.current_agent.last_answer,
-            "reasoning": interaction.current_agent.last_reasoning,
-            "agent_name": interaction.current_agent.agent_name if interaction.current_agent else "None",
-            "success": interaction.current_agent.success,
-            "blocks": {f'{i}': block.jsonify() for i, block in enumerate(interaction.get_last_blocks_result())} if interaction.current_agent else {},
-            "status": interaction.current_agent.get_status_message if interaction.current_agent else "No status available",
-            "uid": uid
-        }
-        interaction.current_agent.last_answer = ""
-        interaction.current_agent.last_reasoning = ""
-        query_resp_history.append(query_resp)
-        return JSONResponse(status_code=200, content=query_resp)
-    if query_resp_history:
-        return JSONResponse(status_code=200, content=query_resp_history[-1])
-    return JSONResponse(status_code=404, content={"error": "No answer available"})
-```
-
-This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
 
 ### `api.py`
 
@@ -235,16 +151,98 @@ async def process_query(request: QueryRequest):
 
 This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
 
+### `api.py`
+
+The `process_query` function in [`api.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/api.py) handles a key part of this chapter's functionality:
+
+```py
+
+@api.post("/query", response_model=QueryResponse)
+async def process_query(request: QueryRequest):
+    global is_generating, query_resp_history
+    logger.info(f"Processing query: {request.query}")
+    query_resp = QueryResponse(
+        done="false",
+        answer="",
+        reasoning="",
+        agent_name="Unknown",
+        success="false",
+        blocks={},
+        status="Ready",
+        uid=str(uuid.uuid4())
+    )
+    if is_generating:
+        logger.warning("Another query is being processed, please wait.")
+        return JSONResponse(status_code=429, content=query_resp.jsonify())
+
+    try:
+        is_generating = True
+        success = await think_wrapper(interaction, request.query)
+        is_generating = False
+
+        if not success:
+            query_resp.answer = interaction.last_answer
+            query_resp.reasoning = interaction.last_reasoning
+            return JSONResponse(status_code=400, content=query_resp.jsonify())
+
+        if interaction.current_agent:
+            blocks_json = {f'{i}': block.jsonify() for i, block in enumerate(interaction.current_agent.get_blocks_result())}
+        else:
+```
+
+This function is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+
+### `sources/router.py`
+
+The `AgentRouter` class in [`sources/router.py`](https://github.com/Fosowl/agenticSeek/blob/HEAD/sources/router.py) handles a key part of this chapter's functionality:
+
+```py
+from sources.logger import Logger
+
+class AgentRouter:
+    """
+    AgentRouter is a class that selects the appropriate agent based on the user query.
+    """
+    def __init__(self, agents: list, supported_language: List[str] = ["en", "fr", "zh"]):
+        self.agents = agents
+        self.logger = Logger("router.log")
+        self.lang_analysis = LanguageUtility(supported_language=supported_language)
+        self.pipelines = self.load_pipelines()
+        self.talk_classifier = self.load_llm_router()
+        self.complexity_classifier = self.load_llm_router()
+        self.learn_few_shots_tasks()
+        self.learn_few_shots_complexity()
+        self.asked_clarify = False
+    
+    def load_pipelines(self) -> Dict[str, Type[pipeline]]:
+        """
+        Load the pipelines for the text classification used for routing.
+        returns:
+            Dict[str, Type[pipeline]]: The loaded pipelines
+        """
+        animate_thinking("Loading zero-shot pipeline...", color="status")
+        return {
+            "bart": pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
+        }
+
+    def load_llm_router(self) -> AdaptiveClassifier:
+        """
+        Load the LLM router model.
+        returns:
+```
+
+This class is important because it defines how AgenticSeek Tutorial: Local-First Autonomous Agent Operations implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[is_active]
-    B[stop]
-    C[get_latest_answer]
-    D[think_wrapper]
-    E[process_query]
+    A[get_latest_answer]
+    B[think_wrapper]
+    C[process_query]
+    D[AgentRouter]
+    E[that]
     A --> B
     B --> C
     C --> D

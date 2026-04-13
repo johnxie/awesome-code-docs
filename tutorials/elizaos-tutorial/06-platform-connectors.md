@@ -547,16 +547,33 @@ Under the hood, `Chapter 6: Platform Connectors` usually follows a repeatable co
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/commands/create.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+Platform connector templates for Discord, Telegram, Twitter, and Web are available as project categories in [`packages/elizaos/src/commands/create.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/commands/create.ts). Each template includes the connector plugin registration and environment variable scaffolding:
 
-Suggested trace strategy:
-- search upstream code for `text` and `content` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+const SKIP_PATTERNS = [
+  "node_modules",
+  ".git",
+  "target",
+  "__pycache__",
+  ".venv",
+  "dist",
+];
+
+function copyDir(src: string, dest: string): void {
+  fs.mkdirSync(dest, { recursive: true });
+  const entries = fs.readdirSync(src, { withFileTypes: true });
+  for (const entry of entries) {
+    if (shouldSkip(entry.name)) continue;
+    // copy template files
+  }
+}
+```
+
+Platform connectors in elizaOS are plugins that register a `Client` interface — the `elizaos start` command instantiates each configured client and wires it to the agent runtime's message handler.
 
 ## Chapter Connections
 

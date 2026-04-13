@@ -1206,6 +1206,21 @@ After working through this chapter, you should be able to reason about `Chapter 
 
 Use the implementation notes around `description`, `requirements`, `provider` as your checklist when adapting these patterns to your own repository.
 
+## Advanced Integration Architecture
+
+```mermaid
+flowchart TD
+    A[Flowise flow] --> B{Integration type}
+    B -->|Multiple LLMs| C[Provider nodes: OpenAI, Anthropic, etc.]
+    B -->|Vector stores| D[Pinecone, Weaviate, Chroma nodes]
+    B -->|External APIs| E[Custom tool nodes]
+    C --> F[Conditional routing node]
+    D --> F
+    E --> F
+    F --> G[Merged output]
+    G --> H[Response node]
+```
+
 ## How it Works Under the Hood
 
 Under the hood, `Chapter 4: Advanced Integrations` usually follows a repeatable control path:

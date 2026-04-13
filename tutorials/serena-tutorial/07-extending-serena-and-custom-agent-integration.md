@@ -44,91 +44,113 @@ You now know how to plug Serena into bespoke agent systems and extend it safely.
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/serena/dashboard.py`
+### `src/solidlsp/ls_utils.py`
 
-The `QueuedExecution` class in [`src/serena/dashboard.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/dashboard.py) handles a key part of this chapter's functionality:
+The `_S` class in [`src/solidlsp/ls_utils.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_utils.py) handles a key part of this chapter's functionality:
 
 ```py
+                    shutil.copyfileobj(source_file, output_file)
+
+                ZIP_SYSTEM_UNIX = 3
+                if zip_info.create_system == ZIP_SYSTEM_UNIX:
+                    attrs = (zip_info.external_attr >> 16) & 0o777
+                    if attrs:
+                        os.chmod(extracted_path, attrs)
+
+    @staticmethod
+    def _extract_tar_archive(archive_path: str, target_path: str, archive_type: str) -> None:
+        """
+        Extracts a tar archive safely into the target directory.
+        """
+        archive_mode_by_type = {
+            "tar": "r:",
+            "gztar": "r:gz",
+            "bztar": "r:bz2",
+            "xztar": "r:xz",
+        }
+        tar_mode = cast(Literal["r:", "r:gz", "r:bz2", "r:xz"], archive_mode_by_type[archive_type])
+
+        with tarfile.open(archive_path, tar_mode) as tar_ref:
+            for tar_member in tar_ref.getmembers():
+                FileUtils._validate_extraction_path(tar_member.name, target_path)
+
+            tar_ref.extractall(target_path)
 
 
-class QueuedExecution(BaseModel):
-    task_id: int
-    is_running: bool
-    name: str
-    finished_successfully: bool
-    logged: bool
-
-    @classmethod
-    def from_task_info(cls, task_info: TaskExecutor.TaskInfo) -> Self:
-        return cls(
-            task_id=task_info.task_id,
-            is_running=task_info.is_running,
-            name=task_info.name,
-            finished_successfully=task_info.finished_successfully(),
-            logged=task_info.logged,
-        )
-
-
-class SerenaDashboardAPI:
-    log = logging.getLogger(__qualname__)
-
-    def __init__(
-        self,
-        memory_log_handler: MemoryLogHandler,
-        tool_names: list[str],
-        agent: "SerenaAgent",
-        shutdown_callback: Callable[[], None] | None = None,
-        tool_usage_stats: ToolUsageStats | None = None,
-    ) -> None:
-        self._memory_log_handler = memory_log_handler
+class PlatformId(str, Enum):
+    WIN_x86 = "win-x86"
+    WIN_x64 = "win-x64"
+    WIN_arm64 = "win-arm64"
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/dashboard.py`
+### `src/solidlsp/ls_utils.py`
 
-The `SerenaDashboardAPI` class in [`src/serena/dashboard.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/dashboard.py) handles a key part of this chapter's functionality:
+The `SymbolUtils` class in [`src/solidlsp/ls_utils.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class SerenaDashboardAPI:
-    log = logging.getLogger(__qualname__)
+class SymbolUtils:
+    @staticmethod
+    def symbol_tree_contains_name(roots: list[UnifiedSymbolInformation], name: str) -> bool:
+        """
+        Check if any symbol in the tree has a name matching the given name.
+        """
+        for symbol in roots:
+            if symbol["name"] == name:
+                return True
+            if SymbolUtils.symbol_tree_contains_name(symbol["children"], name):
+                return True
+        return False
 
-    def __init__(
-        self,
-        memory_log_handler: MemoryLogHandler,
-        tool_names: list[str],
-        agent: "SerenaAgent",
-        shutdown_callback: Callable[[], None] | None = None,
-        tool_usage_stats: ToolUsageStats | None = None,
-    ) -> None:
-        self._memory_log_handler = memory_log_handler
-        self._tool_names = tool_names
-        self._agent = agent
-        self._shutdown_callback = shutdown_callback
-        self._app = Flask(__name__)
-        self._tool_usage_stats = tool_usage_stats
-        self._setup_routes()
-
-    @property
-    def memory_log_handler(self) -> MemoryLogHandler:
-        return self._memory_log_handler
-
-    def _setup_routes(self) -> None:
-        # Static files
-        @self._app.route("/dashboard/<path:filename>")
-        def serve_dashboard(filename: str) -> Response:
-            return send_from_directory(SERENA_DASHBOARD_DIR, filename)
-
-        @self._app.route("/dashboard/")
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `src/solidlsp/ls_utils.py`
+
+The `import` interface in [`src/solidlsp/ls_utils.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_utils.py) handles a key part of this chapter's functionality:
+
+```py
+"""
+
+import gzip
+import hashlib
+import logging
+import os
+import platform
+import shutil
+import subprocess
+import tarfile
+import uuid
+import zipfile
+from enum import Enum
+from pathlib import Path, PurePath
+from typing import Literal, cast
+from urllib.parse import urlparse
+
+import charset_normalizer
+import requests
+
+from solidlsp.ls_exceptions import SolidLSPException
+from solidlsp.ls_types import UnifiedSymbolInformation
+
+log = logging.getLogger(__name__)
+
+
+class InvalidTextLocationError(Exception):
+    pass
+
+
+class TextUtils:
+    """
+```
+
+This interface is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
 ### `src/solidlsp/ls_config.py`
 
@@ -171,57 +193,16 @@ class Language(str, Enum):
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/solidlsp/ls_config.py`
-
-The `Language` class in [`src/solidlsp/ls_config.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_config.py) handles a key part of this chapter's functionality:
-
-```py
-
-if TYPE_CHECKING:
-    from solidlsp import SolidLanguageServer
-
-
-class FilenameMatcher:
-    def __init__(self, *patterns: str) -> None:
-        """
-        :param patterns: fnmatch-compatible patterns
-        """
-        self.patterns = patterns
-
-    def is_relevant_filename(self, fn: str) -> bool:
-        for pattern in self.patterns:
-            if fnmatch.fnmatch(fn, pattern):
-                return True
-        return False
-
-
-class Language(str, Enum):
-    """
-    Enumeration of language servers supported by SolidLSP.
-    """
-
-    CSHARP = "csharp"
-    PYTHON = "python"
-    RUST = "rust"
-    JAVA = "java"
-    KOTLIN = "kotlin"
-    TYPESCRIPT = "typescript"
-    GO = "go"
-    RUBY = "ruby"
-```
-
-This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[QueuedExecution]
-    B[SerenaDashboardAPI]
-    C[FilenameMatcher]
-    D[Language]
-    E[to]
+    A[_S]
+    B[SymbolUtils]
+    C[import]
+    D[FilenameMatcher]
+    E[Language]
     A --> B
     B --> C
     C --> D

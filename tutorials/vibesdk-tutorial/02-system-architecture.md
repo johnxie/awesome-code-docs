@@ -96,8 +96,6 @@ You now have a clear system map for VibeSDK and can reason about where to implem
 
 Next: [Chapter 3: AI Pipeline and Phase Engine](03-ai-pipeline-and-phase-engine.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `container/cli-tools.ts`

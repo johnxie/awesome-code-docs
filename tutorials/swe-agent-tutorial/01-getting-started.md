@@ -39,8 +39,6 @@ You now have a working SWE-agent baseline and can execute initial issue workflow
 
 Next: [Chapter 2: Core Architecture and YAML Configuration](02-core-architecture-and-yaml-configuration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `config/coding_challenge.yaml`

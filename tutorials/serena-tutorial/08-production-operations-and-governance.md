@@ -48,170 +48,168 @@ You now have a complete operational model for deploying Serena as a production-g
 
 Continue with the [Onlook Tutorial](../onlook-tutorial/) for visual-first coding workflows.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/serena/code_editor.py`
+### `src/serena/symbol.py`
 
-The `CodeEditor` class in [`src/serena/code_editor.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/code_editor.py) handles a key part of this chapter's functionality:
+The `from` class in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
 
 ```py
+import logging
+import os
+from abc import ABC, abstractmethod
+from collections.abc import Callable, Iterable, Iterator, Sequence
+from dataclasses import asdict, dataclass
+from time import perf_counter
+from typing import Any, Generic, Literal, NotRequired, Self, TypedDict, TypeVar
+
+from sensai.util.string import ToStringMixin
+
+import serena.jetbrains.jetbrains_types as jb
+from solidlsp import SolidLanguageServer
+from solidlsp.ls import LSPFileBuffer
+from solidlsp.ls import ReferenceInSymbol as LSPReferenceInSymbol
+from solidlsp.ls_types import Position, SymbolKind, UnifiedSymbolInformation
+
+from .ls_manager import LanguageServerManager
+from .project import Project
+
+log = logging.getLogger(__name__)
+NAME_PATH_SEP = "/"
 
 
-class CodeEditor(Generic[TSymbol], ABC):
-    def __init__(self, project: Project) -> None:
-        self.project_root = project.project_root
-        self.encoding = project.project_config.encoding
-        self.newline = project.line_ending.newline_str
+@dataclass
+class LanguageServerSymbolLocation:
+    """
+    Represents the (start) location of a symbol identifier, which, within Serena, uniquely identifies the symbol.
+    """
 
-    class EditedFile(ABC):
-        def __init__(self, relative_path: str) -> None:
-            self.relative_path = relative_path
-
-        @abstractmethod
-        def get_contents(self) -> str:
-            """
-            :return: the contents of the file.
-            """
-
-        @abstractmethod
-        def set_contents(self, contents: str) -> None:
-            """
-            Fully resets the contents of the file.
-
-            :param contents: the new contents
-            """
-
-        @abstractmethod
-        def delete_text_between_positions(self, start_pos: PositionInFile, end_pos: PositionInFile) -> None:
-            pass
-
-        @abstractmethod
-        def insert_text_at_position(self, pos: PositionInFile, text: str) -> None:
+    relative_path: str | None
+    """
+    the relative path of the file containing the symbol; if None, the symbol is defined outside of the project's scope
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/code_editor.py`
+### `src/serena/symbol.py`
 
-The `EditedFile` class in [`src/serena/code_editor.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/code_editor.py) handles a key part of this chapter's functionality:
+The `class` class in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
 
 ```py
-        self.newline = project.line_ending.newline_str
+from abc import ABC, abstractmethod
+from collections.abc import Callable, Iterable, Iterator, Sequence
+from dataclasses import asdict, dataclass
+from time import perf_counter
+from typing import Any, Generic, Literal, NotRequired, Self, TypedDict, TypeVar
 
-    class EditedFile(ABC):
-        def __init__(self, relative_path: str) -> None:
-            self.relative_path = relative_path
+from sensai.util.string import ToStringMixin
 
-        @abstractmethod
-        def get_contents(self) -> str:
-            """
-            :return: the contents of the file.
-            """
+import serena.jetbrains.jetbrains_types as jb
+from solidlsp import SolidLanguageServer
+from solidlsp.ls import LSPFileBuffer
+from solidlsp.ls import ReferenceInSymbol as LSPReferenceInSymbol
+from solidlsp.ls_types import Position, SymbolKind, UnifiedSymbolInformation
 
-        @abstractmethod
-        def set_contents(self, contents: str) -> None:
-            """
-            Fully resets the contents of the file.
+from .ls_manager import LanguageServerManager
+from .project import Project
 
-            :param contents: the new contents
-            """
+log = logging.getLogger(__name__)
+NAME_PATH_SEP = "/"
 
-        @abstractmethod
-        def delete_text_between_positions(self, start_pos: PositionInFile, end_pos: PositionInFile) -> None:
-            pass
 
-        @abstractmethod
-        def insert_text_at_position(self, pos: PositionInFile, text: str) -> None:
-            pass
+@dataclass
+class LanguageServerSymbolLocation:
+    """
+    Represents the (start) location of a symbol identifier, which, within Serena, uniquely identifies the symbol.
+    """
 
-    @contextmanager
-    def _open_file_context(self, relative_path: str) -> Iterator["CodeEditor.EditedFile"]:
-        """
-        Context manager for opening a file
+    relative_path: str | None
+    """
+    the relative path of the file containing the symbol; if None, the symbol is defined outside of the project's scope
+    """
+    line: int | None
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/code_editor.py`
+### `src/serena/symbol.py`
 
-The `LanguageServerCodeEditor` class in [`src/serena/code_editor.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/code_editor.py) handles a key part of this chapter's functionality:
+The `class` class in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
 
 ```py
+from abc import ABC, abstractmethod
+from collections.abc import Callable, Iterable, Iterator, Sequence
+from dataclasses import asdict, dataclass
+from time import perf_counter
+from typing import Any, Generic, Literal, NotRequired, Self, TypedDict, TypeVar
+
+from sensai.util.string import ToStringMixin
+
+import serena.jetbrains.jetbrains_types as jb
+from solidlsp import SolidLanguageServer
+from solidlsp.ls import LSPFileBuffer
+from solidlsp.ls import ReferenceInSymbol as LSPReferenceInSymbol
+from solidlsp.ls_types import Position, SymbolKind, UnifiedSymbolInformation
+
+from .ls_manager import LanguageServerManager
+from .project import Project
+
+log = logging.getLogger(__name__)
+NAME_PATH_SEP = "/"
 
 
-class LanguageServerCodeEditor(CodeEditor[LanguageServerSymbol]):
-    def __init__(self, symbol_retriever: LanguageServerSymbolRetriever):
-        super().__init__(project=symbol_retriever.project)
-        self._symbol_retriever = symbol_retriever
+@dataclass
+class LanguageServerSymbolLocation:
+    """
+    Represents the (start) location of a symbol identifier, which, within Serena, uniquely identifies the symbol.
+    """
 
-    def _get_language_server(self, relative_path: str) -> SolidLanguageServer:
-        return self._symbol_retriever.get_language_server(relative_path)
-
-    class EditedFile(CodeEditor.EditedFile):
-        def __init__(self, lang_server: SolidLanguageServer, relative_path: str, file_buffer: LSPFileBuffer):
-            super().__init__(relative_path)
-            self._lang_server = lang_server
-            self._file_buffer = file_buffer
-
-        def get_contents(self) -> str:
-            return self._file_buffer.contents
-
-        def set_contents(self, contents: str) -> None:
-            self._file_buffer.contents = contents
-
-        def delete_text_between_positions(self, start_pos: PositionInFile, end_pos: PositionInFile) -> None:
-            self._lang_server.delete_text_between_positions(self.relative_path, start_pos.to_lsp_position(), end_pos.to_lsp_position())
-
-        def insert_text_at_position(self, pos: PositionInFile, text: str) -> None:
-            self._lang_server.insert_text_at_position(self.relative_path, pos.line, pos.col, text)
-
-        def apply_text_edits(self, text_edits: list[ls_types.TextEdit]) -> None:
-            return self._lang_server.apply_text_edits_to_file(self.relative_path, text_edits)
-
-    @contextmanager
+    relative_path: str | None
+    """
+    the relative path of the file containing the symbol; if None, the symbol is defined outside of the project's scope
+    """
+    line: int | None
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/code_editor.py`
+### `src/serena/symbol.py`
 
-The `EditedFile` class in [`src/serena/code_editor.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/code_editor.py) handles a key part of this chapter's functionality:
+The `Symbol` class in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
 
 ```py
-        self.newline = project.line_ending.newline_str
+from solidlsp import SolidLanguageServer
+from solidlsp.ls import LSPFileBuffer
+from solidlsp.ls import ReferenceInSymbol as LSPReferenceInSymbol
+from solidlsp.ls_types import Position, SymbolKind, UnifiedSymbolInformation
 
-    class EditedFile(ABC):
-        def __init__(self, relative_path: str) -> None:
-            self.relative_path = relative_path
+from .ls_manager import LanguageServerManager
+from .project import Project
 
-        @abstractmethod
-        def get_contents(self) -> str:
-            """
-            :return: the contents of the file.
-            """
+log = logging.getLogger(__name__)
+NAME_PATH_SEP = "/"
 
-        @abstractmethod
-        def set_contents(self, contents: str) -> None:
-            """
-            Fully resets the contents of the file.
 
-            :param contents: the new contents
-            """
+@dataclass
+class LanguageServerSymbolLocation:
+    """
+    Represents the (start) location of a symbol identifier, which, within Serena, uniquely identifies the symbol.
+    """
 
-        @abstractmethod
-        def delete_text_between_positions(self, start_pos: PositionInFile, end_pos: PositionInFile) -> None:
-            pass
-
-        @abstractmethod
-        def insert_text_at_position(self, pos: PositionInFile, text: str) -> None:
-            pass
-
-    @contextmanager
-    def _open_file_context(self, relative_path: str) -> Iterator["CodeEditor.EditedFile"]:
-        """
-        Context manager for opening a file
+    relative_path: str | None
+    """
+    the relative path of the file containing the symbol; if None, the symbol is defined outside of the project's scope
+    """
+    line: int | None
+    """
+    the line number in which the symbol identifier is defined (if the symbol is a function, class, etc.);
+    may be None for some types of symbols (e.g. SymbolKind.File)
+    """
+    column: int | None
+    """
+    the column number in which the symbol identifier is defined (if the symbol is a function, class, etc.);
+    may be None for some types of symbols (e.g. SymbolKind.File)
+    """
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
@@ -221,11 +219,11 @@ This class is important because it defines how Serena Tutorial: Semantic Code Re
 
 ```mermaid
 flowchart TD
-    A[CodeEditor]
-    B[EditedFile]
-    C[LanguageServerCodeEditor]
-    D[EditedFile]
-    E[EditOperation]
+    A[from]
+    B[class]
+    C[class]
+    D[Symbol]
+    E[NamePathComponent]
     A --> B
     B --> C
     C --> D

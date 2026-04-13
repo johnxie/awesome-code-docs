@@ -627,6 +627,28 @@ if __name__ == "__main__":
     asyncio.run(api_data_integration())
 ```
 
+## Data Extraction Flow
+
+```mermaid
+flowchart TD
+    A[Agent navigates to target page]
+    B[Page content captured as DOM and text]
+    C[Agent identifies data patterns]
+    D[extract_content action with schema]
+    E[LLM parses structured data from page text]
+    F[Data validated against expected schema]
+    G[Extracted data returned as structured output]
+    H[Pagination: navigate to next page and repeat]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> B
+```
+
 ## Summary
 
 In this chapter, we've covered:

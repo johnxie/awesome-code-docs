@@ -930,9 +930,30 @@ class CachedBentoService:
         return self.cache.get_stats()
 ```
 
+## Production Scaling Architecture
+
+```mermaid
+flowchart TD
+    A[Production traffic arrives]
+    B[Load balancer distributes requests]
+    C[Multiple service replicas running]
+    D[Each replica has runner pool]
+    E[Autoscaler monitors queue depth]
+    F[New replicas added on high load]
+    G[Replicas removed when idle]
+    H[Metrics exported to monitoring]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    E --> G
+    D --> H
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've completed the comprehensive BentoML tutorial:
+You've completed the comprehensive BentoML tutorial:
 
 1. **Getting Started** - Basic BentoML concepts and service creation
 2. **Model Packaging** - Advanced model packaging and versioning

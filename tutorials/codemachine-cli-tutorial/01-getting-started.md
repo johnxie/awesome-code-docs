@@ -36,9 +36,89 @@ You now have a working CodeMachine baseline.
 
 Next: [Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `bin/codemachine.js`
+
+The `findPackageRoot` function in [`bin/codemachine.js`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/bin/codemachine.js) handles a key part of this chapter's functionality:
+
+```js
+const ROOT_FALLBACK = join(__dirname, '..');
+
+function findPackageRoot(startDir) {
+  let current = startDir;
+  const maxDepth = 10;
+  let depth = 0;
+
+  while (current && depth < maxDepth) {
+    const candidate = join(current, 'package.json');
+    if (existsSync(candidate)) {
+      try {
+        const pkg = JSON.parse(readFileSync(candidate, 'utf8'));
+        if (pkg?.name === 'codemachine') {
+          return current;
+        }
+      } catch {
+        // ignore malformed package.json
+      }
+    }
+    const parent = dirname(current);
+    if (parent === current) break;
+    current = parent;
+    depth++;
+  }
+  return undefined;
+}
+
+const DEFAULT_PACKAGE_ROOT = findPackageRoot(ROOT_FALLBACK) ?? ROOT_FALLBACK;
+
+function runBinary(binaryPath, packageRoot) {
+  const child = spawn(binaryPath, process.argv.slice(2), {
+    stdio: 'inherit',
+```
+
+This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `bin/codemachine.js`
+
+The `runBinary` function in [`bin/codemachine.js`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/bin/codemachine.js) handles a key part of this chapter's functionality:
+
+```js
+const DEFAULT_PACKAGE_ROOT = findPackageRoot(ROOT_FALLBACK) ?? ROOT_FALLBACK;
+
+function runBinary(binaryPath, packageRoot) {
+  const child = spawn(binaryPath, process.argv.slice(2), {
+    stdio: 'inherit',
+    windowsHide: false,
+    env: {
+      ...process.env,
+      CODEMACHINE_PACKAGE_ROOT: packageRoot,
+      CODEMACHINE_PACKAGE_JSON: join(packageRoot, 'package.json'),
+    },
+  });
+
+  child.on('exit', (code, signal) => {
+    if (signal) {
+      process.kill(process.pid, signal);
+    } else {
+      process.exit(code ?? 1);
+    }
+  });
+
+  child.on('error', (error) => {
+    console.error('Error spawning binary:', error.message);
+    process.exit(1);
+  });
+}
+
+// Map Node.js platform/arch to our package names
+const platformMap = {
+  'linux-x64': { pkg: 'codemachine-linux-x64', bin: 'codemachine' },
+  'linux-arm64': { pkg: 'codemachine-linux-arm64', bin: 'codemachine' },
+  'darwin-arm64': { pkg: 'codemachine-darwin-arm64', bin: 'codemachine' },
+```
+
+This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
 ### `scripts/import-telemetry.ts`
 
@@ -122,97 +202,15 @@ function spansToOTLP(spans: SerializedSpan[], serviceName: string): object {
 
 This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `scripts/import-telemetry.ts`
-
-The `scan` function in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
-
-```ts
-  const logFiles: string[] = [];
-
-  function scan(path: string) {
-    const stat = statSync(path);
-    if (stat.isDirectory()) {
-      for (const entry of readdirSync(path)) {
-        scan(join(path, entry));
-      }
-    } else if (stat.isFile() && path.endsWith('.json')) {
-      const name = basename(path);
-      if (name.includes('-logs') || name === 'latest-logs.json') {
-        logFiles.push(path);
-      } else if (!name.includes('-logs')) {
-        traceFiles.push(path);
-      }
-    }
-  }
-
-  scan(dir);
-  return { traceFiles, logFiles };
-}
-
-// Convert our span format to OTLP JSON format
-function spansToOTLP(spans: SerializedSpan[], serviceName: string): object {
-  // Group spans by trace ID
-  const spansByTrace = new Map<string, SerializedSpan[]>();
-  for (const span of spans) {
-    const existing = spansByTrace.get(span.traceId) || [];
-    existing.push(span);
-    spansByTrace.set(span.traceId, existing);
-  }
-
-```
-
-This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
-
-### `scripts/import-telemetry.ts`
-
-The `spansToOTLP` function in [`scripts/import-telemetry.ts`](https://github.com/moazbuilds/CodeMachine-CLI/blob/HEAD/scripts/import-telemetry.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Convert our span format to OTLP JSON format
-function spansToOTLP(spans: SerializedSpan[], serviceName: string): object {
-  // Group spans by trace ID
-  const spansByTrace = new Map<string, SerializedSpan[]>();
-  for (const span of spans) {
-    const existing = spansByTrace.get(span.traceId) || [];
-    existing.push(span);
-    spansByTrace.set(span.traceId, existing);
-  }
-
-  // Convert to OTLP format
-  const resourceSpans = [
-    {
-      resource: {
-        attributes: [
-          { key: 'service.name', value: { stringValue: serviceName } },
-          { key: 'telemetry.sdk.name', value: { stringValue: 'codemachine-import' } },
-        ],
-      },
-      scopeSpans: [
-        {
-          scope: { name: 'codemachine.import' },
-          spans: spans.map((span) => ({
-            traceId: hexToBytes(span.traceId),
-            spanId: hexToBytes(span.spanId),
-            parentSpanId: span.parentSpanId ? hexToBytes(span.parentSpanId) : undefined,
-            name: span.name,
-            kind: 1, // INTERNAL
-            startTimeUnixNano: String(Math.floor(span.startTime * 1_000_000)),
-            endTimeUnixNano: String(Math.floor(span.endTime * 1_000_000)),
-            attributes: Object.entries(span.attributes || {}).map(([key, value]) => ({
-```
-
-This function is important because it defines how CodeMachine CLI Tutorial: Orchestrating Long-Running Coding Agent Workflows implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[parseArgs]
-    B[findFiles]
-    C[scan]
-    D[spansToOTLP]
+    A[findPackageRoot]
+    B[runBinary]
+    C[parseArgs]
+    D[findFiles]
     A --> B
     B --> C
     C --> D

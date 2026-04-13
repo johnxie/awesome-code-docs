@@ -928,6 +928,20 @@ Your LangChain journey is complete! You now have the knowledge and tools to buil
 
 *What production LangChain application will you build first?* 🚀
 
+## Production Deployment
+
+```mermaid
+flowchart TD
+    A[LangChain app] --> B[LangServe REST API]
+    B --> C[POST /chain/invoke]
+    C --> D[Chain executes]
+    D --> E[LangSmith tracing]
+    E --> F[Trace stored]
+    D --> G[Response]
+    A --> H[Docker container]
+    H --> I[Cloud deployment]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `time`, `metrics` so behavior stays predictable as complexity grows.

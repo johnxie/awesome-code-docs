@@ -417,9 +417,28 @@ class VersionedService:
         }
 ```
 
+## Framework Integration Flow
+
+```mermaid
+flowchart TD
+    A[ML framework model trained]
+    B[Save model with framework-native format]
+    C[Load into BentoML Runner]
+    D[Runner wraps framework inference call]
+    E[Service exposes API endpoint]
+    F[Request routed to runner]
+    G[Framework model produces prediction]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully learned:
+You've successfully learned:
 
 1. **TensorFlow Integration** - Basic and optimized TensorFlow models
 2. **PyTorch Integration** - CPU and GPU-accelerated PyTorch models

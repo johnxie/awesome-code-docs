@@ -46,152 +46,13 @@ You now have a repeatable operations checklist for ongoing Claude-Mem usage.
 
 Next: [Chapter 7: Troubleshooting, Recovery, and Reliability](07-troubleshooting-recovery-and-reliability.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/clear-failed-queue.ts`
 
-The `main` function in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
+The `getQueueStatus` function in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-async function main() {
-  const args = process.argv.slice(2);
-
-  // Help flag
-  if (args.includes('--help') || args.includes('-h')) {
-    console.log(`
-Claude-Mem Queue Clearer
-
-Clear messages from the observation queue.
-
-Usage:
-  bun scripts/clear-failed-queue.ts [options]
-
-Options:
-  --help, -h     Show this help message
-  --all          Clear ALL messages (pending, processing, and failed)
-  --force        Clear without prompting for confirmation
-
-Examples:
-  # Clear failed messages interactively
-  bun scripts/clear-failed-queue.ts
-
-  # Clear ALL messages (pending, processing, failed)
-  bun scripts/clear-failed-queue.ts --all
-
-  # Clear without confirmation (non-interactive)
-  bun scripts/clear-failed-queue.ts --force
-
-  # Clear all messages without confirmation
-  bun scripts/clear-failed-queue.ts --all --force
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/clear-failed-queue.ts`
-
-The `QueueMessage` interface in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
-
-```ts
-const WORKER_URL = 'http://localhost:37777';
-
-interface QueueMessage {
-  id: number;
-  session_db_id: number;
-  message_type: string;
-  tool_name: string | null;
-  status: 'pending' | 'processing' | 'failed';
-  retry_count: number;
-  created_at_epoch: number;
-  project: string | null;
-}
-
-interface QueueResponse {
-  queue: {
-    messages: QueueMessage[];
-    totalPending: number;
-    totalProcessing: number;
-    totalFailed: number;
-    stuckCount: number;
-  };
-  recentlyProcessed: QueueMessage[];
-  sessionsWithPendingWork: number[];
-}
-
-interface ClearResponse {
-  success: boolean;
-  clearedCount: number;
-}
-
-async function checkWorkerHealth(): Promise<boolean> {
-  try {
-```
-
-This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/clear-failed-queue.ts`
-
-The `QueueResponse` interface in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface QueueResponse {
-  queue: {
-    messages: QueueMessage[];
-    totalPending: number;
-    totalProcessing: number;
-    totalFailed: number;
-    stuckCount: number;
-  };
-  recentlyProcessed: QueueMessage[];
-  sessionsWithPendingWork: number[];
-}
-
-interface ClearResponse {
-  success: boolean;
-  clearedCount: number;
-}
-
-async function checkWorkerHealth(): Promise<boolean> {
-  try {
-    const res = await fetch(`${WORKER_URL}/api/health`);
-    return res.ok;
-  } catch {
-    return false;
-  }
-}
-
-async function getQueueStatus(): Promise<QueueResponse> {
-  const res = await fetch(`${WORKER_URL}/api/pending-queue`);
-  if (!res.ok) {
-    throw new Error(`Failed to get queue status: ${res.status}`);
-```
-
-This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/clear-failed-queue.ts`
-
-The `ClearResponse` interface in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface ClearResponse {
-  success: boolean;
-  clearedCount: number;
-}
-
-async function checkWorkerHealth(): Promise<boolean> {
-  try {
-    const res = await fetch(`${WORKER_URL}/api/health`);
-    return res.ok;
-  } catch {
-    return false;
-  }
 }
 
 async function getQueueStatus(): Promise<QueueResponse> {
@@ -210,20 +71,157 @@ async function clearFailedQueue(): Promise<ClearResponse> {
     throw new Error(`Failed to clear failed queue: ${res.status}`);
   }
   return res.json();
+}
+
+async function clearAllQueue(): Promise<ClearResponse> {
+  const res = await fetch(`${WORKER_URL}/api/pending-queue/all`, {
+    method: 'DELETE'
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to clear queue: ${res.status}`);
+  }
+  return res.json();
+}
+
+function formatAge(epochMs: number): string {
+  const ageMs = Date.now() - epochMs;
 ```
 
-This interface is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/clear-failed-queue.ts`
+
+The `clearFailedQueue` function in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function clearFailedQueue(): Promise<ClearResponse> {
+  const res = await fetch(`${WORKER_URL}/api/pending-queue/failed`, {
+    method: 'DELETE'
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to clear failed queue: ${res.status}`);
+  }
+  return res.json();
+}
+
+async function clearAllQueue(): Promise<ClearResponse> {
+  const res = await fetch(`${WORKER_URL}/api/pending-queue/all`, {
+    method: 'DELETE'
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to clear queue: ${res.status}`);
+  }
+  return res.json();
+}
+
+function formatAge(epochMs: number): string {
+  const ageMs = Date.now() - epochMs;
+  const minutes = Math.floor(ageMs / 60000);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) return `${days}d ${hours % 24}h ago`;
+  if (hours > 0) return `${hours}h ${minutes % 60}m ago`;
+  return `${minutes}m ago`;
+}
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/clear-failed-queue.ts`
+
+The `clearAllQueue` function in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function clearAllQueue(): Promise<ClearResponse> {
+  const res = await fetch(`${WORKER_URL}/api/pending-queue/all`, {
+    method: 'DELETE'
+  });
+  if (!res.ok) {
+    throw new Error(`Failed to clear queue: ${res.status}`);
+  }
+  return res.json();
+}
+
+function formatAge(epochMs: number): string {
+  const ageMs = Date.now() - epochMs;
+  const minutes = Math.floor(ageMs / 60000);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) return `${days}d ${hours % 24}h ago`;
+  if (hours > 0) return `${hours}h ${minutes % 60}m ago`;
+  return `${minutes}m ago`;
+}
+
+async function prompt(question: string): Promise<string> {
+  // Check if we have a TTY for interactive input
+  if (!process.stdin.isTTY) {
+    console.log(question + '(no TTY, use --force flag for non-interactive mode)');
+    return 'n';
+  }
+
+  return new Promise((resolve) => {
+    process.stdout.write(question);
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/clear-failed-queue.ts`
+
+The `formatAge` function in [`scripts/clear-failed-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/clear-failed-queue.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function formatAge(epochMs: number): string {
+  const ageMs = Date.now() - epochMs;
+  const minutes = Math.floor(ageMs / 60000);
+  const hours = Math.floor(minutes / 60);
+  const days = Math.floor(hours / 24);
+
+  if (days > 0) return `${days}d ${hours % 24}h ago`;
+  if (hours > 0) return `${hours}h ${minutes % 60}m ago`;
+  return `${minutes}m ago`;
+}
+
+async function prompt(question: string): Promise<string> {
+  // Check if we have a TTY for interactive input
+  if (!process.stdin.isTTY) {
+    console.log(question + '(no TTY, use --force flag for non-interactive mode)');
+    return 'n';
+  }
+
+  return new Promise((resolve) => {
+    process.stdout.write(question);
+    process.stdin.setRawMode(false);
+    process.stdin.resume();
+    process.stdin.once('data', (data) => {
+      process.stdin.pause();
+      resolve(data.toString().trim());
+    });
+  });
+}
+
+async function main() {
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[QueueMessage]
-    C[QueueResponse]
-    D[ClearResponse]
-    E[getTypeIcon]
+    A[getQueueStatus]
+    B[clearFailedQueue]
+    C[clearAllQueue]
+    D[formatAge]
+    E[prompt]
     A --> B
     B --> C
     C --> D

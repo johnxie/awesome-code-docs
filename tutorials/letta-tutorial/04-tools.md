@@ -13,6 +13,25 @@ Welcome to **Chapter 4: Tool Integration**. In this part of **Letta Tutorial: St
 
 > Extend agent capabilities with custom tools, functions, and external integrations.
 
+## Tool Execution Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as Letta Agent
+    participant L as LLM
+    participant T as Tool Function
+
+    U->>A: send_message("Get weather in NYC")
+    A->>L: Context + available tools (schema)
+    L->>A: Tool call: get_weather(city="NYC")
+    A->>T: Execute get_weather("NYC")
+    T->>A: "Sunny, 72°F"
+    A->>L: Tool result injected into context
+    L->>A: Final response text
+    A->>U: "The weather in NYC is sunny and 72°F"
+```
+
 ## Overview
 
 Tools allow agents to interact with the external world - calling APIs, running code, accessing databases, and more. This chapter covers creating and integrating tools with Letta agents.
@@ -425,16 +444,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/functions/functions.py`](https://github.com/letta-ai/letta/blob/main/letta/functions/functions.py) -- `derive_openai_json_schema()` converts Python function signatures to JSON Schema for the LLM tool spec
+- [`letta/agent.py`](https://github.com/letta-ai/letta/blob/main/letta/agent.py) -- `_execute_tool()` method: dispatches tool calls, captures results, and appends them to the message chain
+- [`letta/server/server.py`](https://github.com/letta-ai/letta/blob/main/letta/server/server.py) -- `create_tool()` and `attach_tool()` methods for registering custom tools with an agent
 
-Suggested trace strategy:
-- search upstream code for `client` and `result` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `Agent._execute_tool()` receives the LLM's tool call → looks up the function by name → executes with arguments → returns result as a tool message.
 
 ## Chapter Connections
 

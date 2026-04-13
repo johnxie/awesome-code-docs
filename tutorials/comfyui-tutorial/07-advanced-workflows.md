@@ -760,16 +760,23 @@ Under the hood, `Chapter 7: Advanced Workflows & Automation` usually follows a r
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `comfy_execution/graph.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `DynamicPrompt` and `ExecutionList` classes in [`comfy_execution/graph.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/comfy_execution/graph.py) handle the advanced graph features that power complex workflows. `ExecutionBlocker` enables conditional execution — nodes can output a "blocked" signal that prevents downstream nodes from running:
 
-Suggested trace strategy:
-- search upstream code for `inputs` and `class_type` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from comfy_execution.graph import (
+    DynamicPrompt,
+    ExecutionBlocker,
+    ExecutionList,
+    get_input_info,
+)
+from comfy_execution.graph_utils import GraphBuilder, is_link
+```
+
+`GraphBuilder` allows custom nodes to dynamically construct sub-graphs at runtime, enabling recursive and looping workflow patterns. The `is_link` helper identifies which node inputs are connections (vs. literal values) during graph traversal.
 
 ## Chapter Connections
 

@@ -38,144 +38,136 @@ You now have a practical cross-platform portability model.
 
 Next: [Chapter 7: Testing, Verification, and Troubleshooting](07-testing-verification-and-troubleshooting.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/setup-package-manager.js`
+### `scripts/skill-create-output.js`
 
-The `detectAndShow` function in [`scripts/setup-package-manager.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/setup-package-manager.js) handles a key part of this chapter's functionality:
+The `sleep` function in [`scripts/skill-create-output.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/skill-create-output.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function detectAndShow() {
-  const pm = getPackageManager();
-  const available = getAvailablePackageManagers();
-  const fromLock = detectFromLockFile();
-  const fromPkg = detectFromPackageJson();
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-  console.log('\n=== Package Manager Detection ===\n');
+async function animateProgress(label, steps, callback) {
+  process.stdout.write(`\n${chalk.cyan('[RUN]')} ${label}...\n`);
 
-  console.log('Current selection:');
-  console.log(`  Package Manager: ${pm.name}`);
-  console.log(`  Source: ${pm.source}`);
-  console.log('');
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    process.stdout.write(`   ${chalk.gray(SPINNER[i % SPINNER.length])} ${step.name}`);
+    await sleep(step.duration || 500);
+    process.stdout.clearLine?.(0) || process.stdout.write('\r');
+    process.stdout.cursorTo?.(0) || process.stdout.write('\r');
+    process.stdout.write(`   ${chalk.green('[DONE]')} ${step.name}\n`);
+    if (callback) callback(step, i);
+  }
+}
 
-  console.log('Detection results:');
-  console.log(`  From package.json: ${fromPkg || 'not specified'}`);
-  console.log(`  From lock file: ${fromLock || 'not found'}`);
-  console.log(`  Environment var: ${process.env.CLAUDE_PACKAGE_MANAGER || 'not set'}`);
-  console.log('');
-
-  console.log('Available package managers:');
-  for (const pmName of Object.keys(PACKAGE_MANAGERS)) {
-    const installed = available.includes(pmName);
-    const indicator = installed ? '✓' : '✗';
-    const current = pmName === pm.name ? ' (current)' : '';
-    console.log(`  ${indicator} ${pmName}${current}`);
+// Main output formatter
+class SkillCreateOutput {
+  constructor(repoName, options = {}) {
+    this.repoName = repoName;
+    this.options = options;
+    this.width = options.width || 70;
   }
 
-  console.log('');
-  console.log('Commands:');
-  console.log(`  Install: ${pm.config.installCmd}`);
+  header() {
+    const subtitle = `Extracting patterns from ${chalk.cyan(this.repoName)}`;
+
+    console.log('\n');
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/skill-create-output.js`
+
+The `animateProgress` function in [`scripts/skill-create-output.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/skill-create-output.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+async function animateProgress(label, steps, callback) {
+  process.stdout.write(`\n${chalk.cyan('[RUN]')} ${label}...\n`);
+
+  for (let i = 0; i < steps.length; i++) {
+    const step = steps[i];
+    process.stdout.write(`   ${chalk.gray(SPINNER[i % SPINNER.length])} ${step.name}`);
+    await sleep(step.duration || 500);
+    process.stdout.clearLine?.(0) || process.stdout.write('\r');
+    process.stdout.cursorTo?.(0) || process.stdout.write('\r');
+    process.stdout.write(`   ${chalk.green('[DONE]')} ${step.name}\n`);
+    if (callback) callback(step, i);
+  }
+}
+
+// Main output formatter
+class SkillCreateOutput {
+  constructor(repoName, options = {}) {
+    this.repoName = repoName;
+    this.options = options;
+    this.width = options.width || 70;
+  }
+
+  header() {
+    const subtitle = `Extracting patterns from ${chalk.cyan(this.repoName)}`;
+
+    console.log('\n');
+    console.log(chalk.bold(chalk.magenta('╔════════════════════════════════════════════════════════════════╗')));
+    console.log(chalk.bold(chalk.magenta('║')) + chalk.bold('  ECC Skill Creator                                             ') + chalk.bold(chalk.magenta('║')));
+    console.log(chalk.bold(chalk.magenta('║')) + `     ${subtitle}${' '.repeat(Math.max(0, 59 - stripAnsi(subtitle).length))}` + chalk.bold(chalk.magenta('║')));
+    console.log(chalk.bold(chalk.magenta('╚════════════════════════════════════════════════════════════════╝')));
+```
+
+This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/skill-create-output.js`
+
+The `demo` function in [`scripts/skill-create-output.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/skill-create-output.js) handles a key part of this chapter's functionality:
+
+```js
+
+// Demo function to show the output
+async function demo() {
+  const output = new SkillCreateOutput('PMX');
+
+  output.header();
+
+  await output.analyzePhase({
+    commits: 200,
+  });
+
+  output.analysisResults({
+    commits: 200,
+    timeRange: 'Nov 2024 - Jan 2025',
+    contributors: 4,
+    files: 847,
+  });
+
+  output.patterns([
+    {
+      name: 'Conventional Commits',
+      trigger: 'when writing commit messages',
+      confidence: 0.85,
+      evidence: 'Found in 150/200 commits (feat:, fix:, refactor:)',
+    },
+    {
+      name: 'Client/Server Component Split',
+      trigger: 'when creating Next.js pages',
+      confidence: 0.90,
+      evidence: 'Observed in markets/, premarkets/, portfolio/',
+    },
+    {
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
 ### `scripts/setup-package-manager.js`
 
-The `listAvailable` function in [`scripts/setup-package-manager.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/setup-package-manager.js) handles a key part of this chapter's functionality:
+The `showHelp` function in [`scripts/setup-package-manager.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/setup-package-manager.js) handles a key part of this chapter's functionality:
 
 ```js
-}
-
-function listAvailable() {
-  const available = getAvailablePackageManagers();
-  const pm = getPackageManager();
-
-  console.log('\nAvailable Package Managers:\n');
-
-  for (const pmName of Object.keys(PACKAGE_MANAGERS)) {
-    const config = PACKAGE_MANAGERS[pmName];
-    const installed = available.includes(pmName);
-    const current = pmName === pm.name ? ' (current)' : '';
-
-    console.log(`${pmName}${current}`);
-    console.log(`  Installed: ${installed ? 'Yes' : 'No'}`);
-    console.log(`  Lock file: ${config.lockFile}`);
-    console.log(`  Install: ${config.installCmd}`);
-    console.log(`  Run: ${config.runCmd}`);
-    console.log('');
-  }
-}
-
-function setGlobal(pmName) {
-  if (!PACKAGE_MANAGERS[pmName]) {
-    console.error(`Error: Unknown package manager "${pmName}"`);
-    console.error(`Available: ${Object.keys(PACKAGE_MANAGERS).join(', ')}`);
-    process.exit(1);
-  }
-
-  const available = getAvailablePackageManagers();
-  if (!available.includes(pmName)) {
-    console.warn(`Warning: ${pmName} is not installed on your system`);
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/setup-package-manager.js`
-
-The `setGlobal` function in [`scripts/setup-package-manager.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/setup-package-manager.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-function setGlobal(pmName) {
-  if (!PACKAGE_MANAGERS[pmName]) {
-    console.error(`Error: Unknown package manager "${pmName}"`);
-    console.error(`Available: ${Object.keys(PACKAGE_MANAGERS).join(', ')}`);
-    process.exit(1);
-  }
-
-  const available = getAvailablePackageManagers();
-  if (!available.includes(pmName)) {
-    console.warn(`Warning: ${pmName} is not installed on your system`);
-  }
-
-  try {
-    setPreferredPackageManager(pmName);
-    console.log(`\n✓ Global preference set to: ${pmName}`);
-    console.log('  Saved to: ~/.claude/package-manager.json');
-    console.log('');
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
-    process.exit(1);
-  }
-}
-
-function setProject(pmName) {
-  if (!PACKAGE_MANAGERS[pmName]) {
-    console.error(`Error: Unknown package manager "${pmName}"`);
-    console.error(`Available: ${Object.keys(PACKAGE_MANAGERS).join(', ')}`);
-    process.exit(1);
-  }
-
-```
-
-This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/setup-package-manager.js`
-
-The `setProject` function in [`scripts/setup-package-manager.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/setup-package-manager.js) handles a key part of this chapter's functionality:
-
-```js
-  getPackageManager,
-  setPreferredPackageManager,
-  setProjectPackageManager,
-  getAvailablePackageManagers,
-  detectFromLockFile,
-  detectFromPackageJson
 } = require('./lib/package-manager');
 
 function showHelp() {
@@ -202,6 +194,12 @@ Examples:
   # Detect current package manager
   node scripts/setup-package-manager.js --detect
 
+  # Set pnpm as global preference
+  node scripts/setup-package-manager.js --global pnpm
+
+  # Set bun for current project
+  node scripts/setup-package-manager.js --project bun
+
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[detectAndShow]
-    B[listAvailable]
-    C[setGlobal]
-    D[setProject]
-    E[showHelp]
+    A[sleep]
+    B[animateProgress]
+    C[demo]
+    D[showHelp]
+    E[detectAndShow]
     A --> B
     B --> C
     C --> D

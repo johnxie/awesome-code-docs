@@ -26,170 +26,168 @@ You now have a team governance baseline for consistent design-to-code execution.
 
 Next: [Chapter 8: Production Security and Operations](08-production-security-and-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/transformers/layout.ts`
+### `src/extractors/node-walker.ts`
 
-The `convertAlignItems` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
+The `shouldTraverseChildren` function in [`src/extractors/node-walker.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/extractors/node-walker.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
 
-function convertAlignItems(
-  align: HasFramePropertiesTrait["counterAxisAlignItems"] | undefined,
-  children: FigmaDocumentNode[],
-  mode: "row" | "column",
-) {
-  // Row cross-axis is vertical; column cross-axis is horizontal
-  const crossSizing = mode === "row" ? "layoutSizingVertical" : "layoutSizingHorizontal";
-  const allStretch =
-    children.length > 0 &&
-    children.every(
-      (c) =>
-        ("layoutPositioning" in c && c.layoutPositioning === "ABSOLUTE") ||
-        (crossSizing in c && (c as Record<string, unknown>)[crossSizing] === "FILL"),
-    );
-  if (allStretch) return "stretch";
+  // Handle children recursively
+  if (shouldTraverseChildren(node, context, options)) {
+    const childContext: TraversalContext = {
+      ...context,
+      currentDepth: context.currentDepth + 1,
+      parent: node,
+    };
 
-  switch (align) {
-    case "MIN":
-      return undefined;
-    case "MAX":
-      return "flex-end";
-    case "CENTER":
-      return "center";
-    case "BASELINE":
-      return "baseline";
-    default:
-      return undefined;
+    // Use the same pattern as the existing parseNode function
+    if (hasValue("children", node) && node.children.length > 0) {
+      const children: SimplifiedNode[] = [];
+      for (const child of node.children) {
+        if (!shouldProcessNode(child, options)) continue;
+        const processed = await processNodeWithExtractors(child, extractors, childContext, options);
+        if (processed !== null) children.push(processed);
+      }
+
+      if (children.length > 0) {
+        // Allow custom logic to modify parent and control which children to include
+        const childrenToInclude = options.afterChildren
+          ? options.afterChildren(node, result, children)
+          : children;
+
+        if (childrenToInclude.length > 0) {
+          result.children = childrenToInclude;
+        }
+      }
+    }
   }
-}
+
+  return result;
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `src/utils/common.ts`
+
+The `downloadFigmaImage` function in [`src/utils/common.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/utils/common.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @throws Error if download fails
+ */
+export async function downloadFigmaImage(
+  fileName: string,
+  localPath: string,
+  imageUrl: string,
+): Promise<string> {
+  try {
+    // Ensure local path exists
+    if (!fs.existsSync(localPath)) {
+      fs.mkdirSync(localPath, { recursive: true });
+    }
+
+    // Build the complete file path and verify it stays within localPath
+    const fullPath = path.resolve(path.join(localPath, fileName));
+    const resolvedLocalPath = path.resolve(localPath);
+    if (!fullPath.startsWith(resolvedLocalPath + path.sep)) {
+      throw new Error(`File path escapes target directory: ${fileName}`);
+    }
+
+    // Use fetch to download the image
+    const response = await fetch(imageUrl, {
+      method: "GET",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to download image: ${response.statusText}`);
+    }
+
+    // Create write stream
+    const writer = fs.createWriteStream(fullPath);
 
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
-### `src/transformers/layout.ts`
+### `src/utils/common.ts`
 
-The `convertSelfAlign` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
+The `generateVarId` function in [`src/utils/common.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/utils/common.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+ * @returns A 6-character random ID string with prefix
+ */
+export function generateVarId(prefix: string = "var"): StyleId {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let result = "";
 
-function convertSelfAlign(align?: HasLayoutTrait["layoutAlign"]) {
-  switch (align) {
-    case "MIN":
-      // MIN, AKA flex-start, is the default alignment
-      return undefined;
-    case "MAX":
-      return "flex-end";
-    case "CENTER":
-      return "center";
-    case "STRETCH":
-      return "stretch";
-    default:
-      return undefined;
+  for (let i = 0; i < 6; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    result += chars[randomIndex];
   }
+
+  return `${prefix}_${result}` as StyleId;
 }
 
-// interpret sizing
-function convertSizing(
-  s?: HasLayoutTrait["layoutSizingHorizontal"] | HasLayoutTrait["layoutSizingVertical"],
-) {
-  if (s === "FIXED") return "fixed";
-  if (s === "FILL") return "fill";
-  if (s === "HUG") return "hug";
-  return undefined;
-}
-
-function buildSimplifiedFrameValues(n: FigmaDocumentNode): SimplifiedLayout | { mode: "none" } {
-  if (!isFrame(n)) {
-    return { mode: "none" };
-  }
+/**
+ * Generate a CSS shorthand for values that come with top, right, bottom, and left
+ *
+ * input: { top: 10, right: 10, bottom: 10, left: 10 }
+ * output: "10px"
+ *
+ * input: { top: 10, right: 20, bottom: 10, left: 20 }
+ * output: "10px 20px"
+ *
+ * input: { top: 10, right: 20, bottom: 30, left: 40 }
+ * output: "10px 20px 30px 40px"
+ *
+ * @param values - The values to generate the shorthand for
+ * @returns The generated shorthand
+ */
+export function generateCSSShorthand(
+  values: {
+    top: number;
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
-### `src/transformers/layout.ts`
+### `src/utils/common.ts`
 
-The `convertSizing` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// interpret sizing
-function convertSizing(
-  s?: HasLayoutTrait["layoutSizingHorizontal"] | HasLayoutTrait["layoutSizingVertical"],
-) {
-  if (s === "FIXED") return "fixed";
-  if (s === "FILL") return "fill";
-  if (s === "HUG") return "hug";
-  return undefined;
-}
-
-function buildSimplifiedFrameValues(n: FigmaDocumentNode): SimplifiedLayout | { mode: "none" } {
-  if (!isFrame(n)) {
-    return { mode: "none" };
-  }
-
-  const frameValues: SimplifiedLayout = {
-    mode:
-      !n.layoutMode || n.layoutMode === "NONE"
-        ? "none"
-        : n.layoutMode === "HORIZONTAL"
-          ? "row"
-          : "column",
-  };
-
-  const overflowScroll: SimplifiedLayout["overflowScroll"] = [];
-  if (n.overflowDirection?.includes("HORIZONTAL")) overflowScroll.push("x");
-  if (n.overflowDirection?.includes("VERTICAL")) overflowScroll.push("y");
-  if (overflowScroll.length > 0) frameValues.overflowScroll = overflowScroll;
-
-  if (frameValues.mode === "none") {
-    return frameValues;
-```
-
-This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
-
-### `src/transformers/layout.ts`
-
-The `buildSimplifiedFrameValues` function in [`src/transformers/layout.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/transformers/layout.ts) handles a key part of this chapter's functionality:
+The `generateCSSShorthand` function in [`src/utils/common.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/utils/common.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  parent?: FigmaDocumentNode,
-): SimplifiedLayout {
-  const frameValues = buildSimplifiedFrameValues(n);
-  const layoutValues = buildSimplifiedLayoutValues(n, parent, frameValues.mode) || {};
-
-  return { ...frameValues, ...layoutValues };
-}
-
-function convertJustifyContent(align?: HasFramePropertiesTrait["primaryAxisAlignItems"]) {
-  switch (align) {
-    case "MIN":
-      return undefined;
-    case "MAX":
-      return "flex-end";
-    case "CENTER":
-      return "center";
-    case "SPACE_BETWEEN":
-      return "space-between";
-    default:
-      return undefined;
-  }
-}
-
-function convertAlignItems(
-  align: HasFramePropertiesTrait["counterAxisAlignItems"] | undefined,
-  children: FigmaDocumentNode[],
-  mode: "row" | "column",
+ * @returns The generated shorthand
+ */
+export function generateCSSShorthand(
+  values: {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+  },
+  {
+    ignoreZero = true,
+    suffix = "px",
+  }: {
+    /**
+     * If true and all values are 0, return undefined. Defaults to true.
+     */
+    ignoreZero?: boolean;
+    /**
+     * The suffix to add to the shorthand. Defaults to "px".
+     */
+    suffix?: string;
+  } = {},
 ) {
-  // Row cross-axis is vertical; column cross-axis is horizontal
-  const crossSizing = mode === "row" ? "layoutSizingVertical" : "layoutSizingHorizontal";
-  const allStretch =
-    children.length > 0 &&
+  const { top, right, bottom, left } = values;
+  if (ignoreZero && top === 0 && right === 0 && bottom === 0 && left === 0) {
+    return undefined;
+  }
+  if (top === right && right === bottom && bottom === left) {
+    return `${top}${suffix}`;
+  }
+  if (right === left) {
+    if (top === bottom) {
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
@@ -199,11 +197,11 @@ This function is important because it defines how Figma Context MCP Tutorial: De
 
 ```mermaid
 flowchart TD
-    A[convertAlignItems]
-    B[convertSelfAlign]
-    C[convertSizing]
-    D[buildSimplifiedFrameValues]
-    E[buildSimplifiedLayoutValues]
+    A[shouldTraverseChildren]
+    B[downloadFigmaImage]
+    C[generateVarId]
+    D[generateCSSShorthand]
+    E[isVisible]
     A --> B
     B --> C
     C --> D

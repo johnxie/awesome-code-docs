@@ -92,170 +92,168 @@ You now have a practical integration model for embedding VibeSDK into programmat
 
 Next: [Chapter 7: Security, Auth, and Governance](07-security-auth-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `debug-tools/state_analyzer.py`
+### `debug-tools/ai_request_analyzer_v2.py`
 
-The `class` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
-
-```py
-import os
-from typing import Dict, Any, List, Tuple, Union
-from dataclasses import dataclass
-from collections import defaultdict
-import difflib
-
-
-@dataclass
-class PropertyAnalysis:
-    """Analysis results for a single property"""
-    name: str
-    old_size: int
-    new_size: int
-    old_serialized_length: int
-    new_serialized_length: int
-    growth_bytes: int
-    growth_chars: int
-    has_changed: bool
-    old_type: str
-    new_type: str
-
-
-@dataclass
-class StateAnalysis:
-    """Complete analysis of state comparison"""
-    total_old_size: int
-    total_new_size: int
-    total_old_serialized_length: int
-    total_new_serialized_length: int
-    total_growth_bytes: int
-    total_growth_chars: int
-    property_analyses: List[PropertyAnalysis]
-```
-
-This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
-
-### `debug-tools/state_analyzer.py`
-
-The `class` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
-
-```py
-import os
-from typing import Dict, Any, List, Tuple, Union
-from dataclasses import dataclass
-from collections import defaultdict
-import difflib
-
-
-@dataclass
-class PropertyAnalysis:
-    """Analysis results for a single property"""
-    name: str
-    old_size: int
-    new_size: int
-    old_serialized_length: int
-    new_serialized_length: int
-    growth_bytes: int
-    growth_chars: int
-    has_changed: bool
-    old_type: str
-    new_type: str
-
-
-@dataclass
-class StateAnalysis:
-    """Complete analysis of state comparison"""
-    total_old_size: int
-    total_new_size: int
-    total_old_serialized_length: int
-    total_new_serialized_length: int
-    total_growth_bytes: int
-    total_growth_chars: int
-    property_analyses: List[PropertyAnalysis]
-```
-
-This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
-
-### `debug-tools/state_analyzer.py`
-
-The `StateAnalyzer` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
+The `TemplateParser` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class StateAnalyzer:
-    """Main analyzer class for state debugging"""
+class TemplateParser(BaseAnalyzer):
+    """Type-safe template analysis parser."""
     
-    def __init__(self):
-        self.known_large_properties = {
-            'generatedFilesMap', 'templateDetails', 'conversationMessages', 
-            'generatedPhases', 'blueprint', 'commandsHistory'
-        }
+    TEMPLATE_VAR_PATTERN = re.compile(r'\{\{(\w+)\}\}')
+    MARKDOWN_SECTION_PATTERN = re.compile(r'^#{2,6}\s+(.+)$', re.MULTILINE)
     
-    def extract_states_from_error(self, error_content: str) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        """Extract original and new states from WebSocket error message"""
-        print("🔍 Extracting states from WebSocket error message...")
+    def analyze(self, content: str) -> TemplateAnalysis:
+        """Analyze template usage and efficiency."""
+        # Find template variables
+        template_vars = list(set(self.TEMPLATE_VAR_PATTERN.findall(content)))
         
-        # First, try to parse as WebSocket JSON message
-        websocket_message = None
-        try:
-            websocket_message = json.loads(error_content)
-            print("✅ Successfully parsed WebSocket message")
-        except json.JSONDecodeError:
-            print("⚠️  Not a JSON WebSocket message, trying as plain text...")
+        # Count markdown sections
+        markdown_sections = len(self.MARKDOWN_SECTION_PATTERN.findall(content))
         
-        # Extract the error text
-        if websocket_message and isinstance(websocket_message, dict):
-            # Handle WebSocket message format: {"type": "error", "error": "..."}
-            if 'error' in websocket_message:
-                error_text = websocket_message['error']
-                print(f"📄 Extracted error text from WebSocket message: {len(error_text):,} chars")
-            else:
-                # Maybe the whole message is the error text
-                error_text = str(websocket_message)
+        # Calculate overheads
+        substitution_overhead = len(template_vars) * 20  # Estimated overhead per variable
+        markdown_overhead = markdown_sections * 50  # Estimated overhead per section
+        
+        # Detect unused sections (simplified heuristic)
+        unused_sections = []
+        if 'placeholder' in content.lower() or 'example' in content.lower():
+            unused_sections.append('example_content')
+        
+        return TemplateAnalysis(
+            template_variables=template_vars,
+            substitution_overhead=substitution_overhead,
+            markdown_sections=markdown_sections,
+            markdown_overhead=markdown_overhead,
+            unused_sections=unused_sections,
+            total_template_size=len(content)
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
 
-### `debug-tools/state_analyzer.py`
+### `debug-tools/ai_request_analyzer_v2.py`
 
-The `for` class in [`debug-tools/state_analyzer.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/state_analyzer.py) handles a key part of this chapter's functionality:
+The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
 
 ```py
-#!/usr/bin/env python3
-"""
-State Analyzer for SimpleGeneratorAgent setState debugging
-
-This script parses error messages from setState failures and analyzes:
-1. Size of each state property when serialized
-2. Differences between old and new states
-3. Main contributors to state growth
-4. Detailed breakdown for debugging SQL storage issues
-
-Usage: python state_analyzer.py <error_file_path>
-"""
-
-import json
 import sys
 import re
-import os
-from typing import Dict, Any, List, Tuple, Union
-from dataclasses import dataclass
-from collections import defaultdict
-import difflib
+from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional, Tuple, Union, TypedDict, Protocol
+from pathlib import Path
+import argparse
+from collections import defaultdict, Counter
+import math
+from enum import Enum
+from abc import ABC, abstractmethod
 
 
-@dataclass
-class PropertyAnalysis:
-    """Analysis results for a single property"""
-    name: str
-    old_size: int
-    new_size: int
-    old_serialized_length: int
-    new_serialized_length: int
-    growth_bytes: int
+class ContentType(Enum):
+    """Enumeration for content types."""
+    SOURCE_CODE = "source_code"
+    JSON_DATA = "json_data" 
+    MARKDOWN_STRUCTURED = "markdown_structured"
+    LARGE_TEXT = "large_text"
+    METADATA = "metadata"
+    PROSE = "prose"
+
+
+class ComponentName(Enum):
+    """Enumeration for component names."""
+    ROLE_SECTION = "role_section"
+    GOAL_SECTION = "goal_section"
+    CONTEXT_SECTION = "context_section"
+    CLIENT_REQUEST = "client_request"
+    BLUEPRINT = "blueprint"
+    DEPENDENCIES = "dependencies"
+    UI_GUIDELINES = "ui_guidelines"
+    STRATEGY = "strategy"
+```
+
+This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
+
+### `debug-tools/ai_request_analyzer_v2.py`
+
+The `class` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+
+```py
+import sys
+import re
+from dataclasses import dataclass, field
+from typing import Dict, List, Any, Optional, Tuple, Union, TypedDict, Protocol
+from pathlib import Path
+import argparse
+from collections import defaultdict, Counter
+import math
+from enum import Enum
+from abc import ABC, abstractmethod
+
+
+class ContentType(Enum):
+    """Enumeration for content types."""
+    SOURCE_CODE = "source_code"
+    JSON_DATA = "json_data" 
+    MARKDOWN_STRUCTURED = "markdown_structured"
+    LARGE_TEXT = "large_text"
+    METADATA = "metadata"
+    PROSE = "prose"
+
+
+class ComponentName(Enum):
+    """Enumeration for component names."""
+    ROLE_SECTION = "role_section"
+    GOAL_SECTION = "goal_section"
+    CONTEXT_SECTION = "context_section"
+    CLIENT_REQUEST = "client_request"
+    BLUEPRINT = "blueprint"
+    DEPENDENCIES = "dependencies"
+    UI_GUIDELINES = "ui_guidelines"
+    STRATEGY = "strategy"
+```
+
+This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
+
+### `debug-tools/ai_request_analyzer_v2.py`
+
+The `PhaseImplementationAnalyzer` class in [`debug-tools/ai_request_analyzer_v2.py`](https://github.com/cloudflare/vibesdk/blob/HEAD/debug-tools/ai_request_analyzer_v2.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class PhaseImplementationAnalyzer:
+    """Main type-safe analyzer for Phase Implementation requests."""
+    
+    def __init__(self):
+        self.scof_parser = SCOFParser()
+        self.dependency_parser = DependencyParser()
+        self.template_parser = TemplateParser()
+        
+        self.prompt_patterns = self._get_prompt_patterns()
+    
+    def _get_prompt_patterns(self) -> Dict[ComponentName, Tuple[str, str]]:
+        """Get prompt component patterns."""
+        return {
+            ComponentName.ROLE_SECTION: ('<ROLE>', '</ROLE>'),
+            ComponentName.GOAL_SECTION: ('<GOAL>', '</GOAL>'),
+            ComponentName.CONTEXT_SECTION: ('<CONTEXT>', '</CONTEXT>'),
+            ComponentName.CLIENT_REQUEST: ('<CLIENT REQUEST>', '</CLIENT REQUEST>'),
+            ComponentName.BLUEPRINT: ('<BLUEPRINT>', '</BLUEPRINT>'),
+            # Use more specific pattern for DEPENDENCIES to avoid matching references
+            ComponentName.DEPENDENCIES: ('<DEPENDENCIES>\n**Available Dependencies:**', '</DEPENDENCIES>'),
+            ComponentName.STRATEGY: ('<PHASES GENERATION STRATEGY>', '</PHASES GENERATION STRATEGY>'),
+            ComponentName.PROJECT_CONTEXT: ('<PROJECT CONTEXT>', '</PROJECT CONTEXT>'),
+            ComponentName.COMPLETED_PHASES: ('<COMPLETED PHASES>', '</COMPLETED PHASES>'),
+            ComponentName.CODEBASE: ('<CODEBASE>', '</CODEBASE>'),
+            ComponentName.CURRENT_PHASE: ('<CURRENT_PHASE>', '</CURRENT_PHASE>'),
+            ComponentName.INSTRUCTIONS: ('<INSTRUCTIONS & CODE QUALITY STANDARDS>', '</INSTRUCTIONS & CODE QUALITY STANDARDS>'),
+        }
+    
+    def analyze_request(self, json_path: str) -> RequestAnalysis:
+        """Analyze AI request with full type safety."""
 ```
 
 This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Coding Platform on Cloudflare implements the patterns covered in this chapter.
@@ -265,10 +263,10 @@ This class is important because it defines how VibeSDK Tutorial: Build a Vibe-Co
 
 ```mermaid
 flowchart TD
-    A[class]
+    A[TemplateParser]
     B[class]
-    C[StateAnalyzer]
-    D[for]
+    C[class]
+    D[PhaseImplementationAnalyzer]
     E[main]
     A --> B
     B --> C

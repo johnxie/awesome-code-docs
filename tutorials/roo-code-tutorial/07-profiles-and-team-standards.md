@@ -81,88 +81,86 @@ You now have a profile-driven scaling model for Roo Code:
 
 Next: [Chapter 8: Enterprise Operations](08-enterprise-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-translations.js`
+### `src/extension.ts`
 
-The `outputResults` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
+The `checkWorktreeAutoOpen` function in [`src/extension.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
-	)
-
-	return { missingTranslations, hasMissingTranslations: outputResults(missingTranslations, area) }
-}
-
-// Function to output results for an area
-function outputResults(missingTranslations, area) {
-	let hasMissingTranslations = false
-
-	console.log(`\n${area === "core" ? "BACKEND" : "FRONTEND"} Missing Translations Report:\n`)
-
-	for (const [locale, files] of Object.entries(missingTranslations)) {
-		if (Object.keys(files).length === 0) {
-			console.log(`✅ ${locale}: No missing translations`)
-			continue
+```ts
+ * This is called during extension activation to handle the worktree auto-open flow.
+ */
+async function checkWorktreeAutoOpen(
+	context: vscode.ExtensionContext,
+	outputChannel: vscode.OutputChannel,
+): Promise<void> {
+	try {
+		const worktreeAutoOpenPath = context.globalState.get<string>("worktreeAutoOpenPath")
+		if (!worktreeAutoOpenPath) {
+			return
 		}
 
-		hasMissingTranslations = true
-		console.log(`📝 ${locale}:`)
-
-		for (const [fileName, missingItems] of Object.entries(files)) {
-			if (missingItems.file) {
-				console.log(`  - ${fileName}: ${missingItems.file}`)
-				continue
-			}
-
-			console.log(`  - ${fileName}: ${missingItems.length} missing translations`)
-
-			for (const { key, englishValue } of missingItems) {
-				console.log(`      ${key}: "${englishValue}"`)
-			}
+		const workspaceFolders = vscode.workspace.workspaceFolders
+		if (!workspaceFolders || workspaceFolders.length === 0) {
+			return
 		}
+
+		const currentPath = workspaceFolders[0].uri.fsPath
+
+		// Normalize paths for comparison
+		const normalizePath = (p: string) => p.replace(/\/+$/, "").replace(/\\+/g, "/").toLowerCase()
+
+		// Check if current workspace matches the worktree path
+		if (normalizePath(currentPath) === normalizePath(worktreeAutoOpenPath)) {
+			// Clear the state first to prevent re-triggering
+			await context.globalState.update("worktreeAutoOpenPath", undefined)
+
+			outputChannel.appendLine(`[Worktree] Auto-opening Roo Code sidebar for worktree: ${worktreeAutoOpenPath}`)
+
+			// Open the Roo Code sidebar with a slight delay to ensure UI is ready
+			setTimeout(async () => {
+				try {
 ```
 
 This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
 
-### `scripts/find-missing-translations.js`
+### `src/extension.ts`
 
-The `checkPackageNlsTranslations` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
+The `activate` function in [`src/extension.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
+```ts
+	registerTerminalActions,
+	CodeActionProvider,
+} from "./activate"
+import { initializeI18n } from "./i18n"
+import { flushModels, initializeModelCacheRefresh, refreshModels } from "./api/providers/fetchers/modelCache"
 
-// Function to check package.nls.json translations
-async function checkPackageNlsTranslations() {
-	const SRC_DIR = path.join(__dirname, "../src")
+/**
+ * Built using https://github.com/microsoft/vscode-webview-ui-toolkit
+ *
+ * Inspired by:
+ *  - https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/default/weather-webview
+ *  - https://github.com/microsoft/vscode-webview-ui-toolkit-samples/tree/main/frameworks/hello-world-react-cra
+ */
 
-	// Read the base package.nls.json file
-	const baseFilePath = path.join(SRC_DIR, "package.nls.json")
-	const baseContent = await parseJsonFile(baseFilePath)
+let outputChannel: vscode.OutputChannel
+let extensionContext: vscode.ExtensionContext
+let cloudService: CloudService | undefined
 
-	if (!baseContent) {
-		console.warn(`Warning: Base package.nls.json not found at ${baseFilePath} - skipping package.nls checks`)
-		return { missingTranslations: {}, hasMissingTranslations: false }
-	}
+let authStateChangedHandler: ((data: { state: AuthState; previousState: AuthState }) => Promise<void>) | undefined
+let settingsUpdatedHandler: (() => void) | undefined
+let userInfoHandler: ((data: { userInfo: CloudUserInfo }) => Promise<void>) | undefined
 
-	// Validate that the base file has a flat structure
-	validateFlatStructure(baseContent, baseFilePath)
-
-	// Get all package.nls.*.json files
-	const srcDirContents = await readdir(SRC_DIR)
-	const nlsFiles = srcDirContents
-		.filter((file) => file.startsWith("package.nls.") && file.endsWith(".json"))
-		.filter((file) => file !== "package.nls.json") // Exclude the base file
-
-	// Filter to the specified locale if provided
-	const filesToCheck = args.locale
-		? nlsFiles.filter((file) => {
-				const locale = file.replace("package.nls.", "").replace(".json", "")
-				return locale === args.locale
-			})
-		: nlsFiles
-
-	if (args.locale && filesToCheck.length === 0) {
+/**
+ * Check if we should auto-open the Roo Code sidebar after switching to a worktree.
+ * This is called during extension activation to handle the worktree auto-open flow.
+ */
+async function checkWorktreeAutoOpen(
+	context: vscode.ExtensionContext,
+	outputChannel: vscode.OutputChannel,
+): Promise<void> {
+	try {
+		const worktreeAutoOpenPath = context.globalState.get<string>("worktreeAutoOpenPath")
 ```
 
 This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
@@ -172,7 +170,7 @@ This function is important because it defines how Roo Code Tutorial: Run an AI D
 
 ```mermaid
 flowchart TD
-    A[outputResults]
-    B[checkPackageNlsTranslations]
+    A[checkWorktreeAutoOpen]
+    B[activate]
     A --> B
 ```

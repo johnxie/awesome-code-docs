@@ -15,16 +15,18 @@ format_version: v2
 [![Docs](https://img.shields.io/badge/docs-docs.sweep.dev-blue)](https://docs.sweep.dev/)
 [![Website](https://img.shields.io/badge/site-sweep.dev-blue)](https://sweep.dev)
 
+> **Product Status Notice**: The original Sweep GitHub issue-to-PR product has been abandoned. The `sweepai/sweep` README now redirects users to a new JetBrains AI coding plugin. The hosted Sweep GitHub App and the issue-to-PR workflow documented in this tutorial are no longer actively supported. This tutorial is preserved as a reference for the architecture patterns and operational workflows Sweep introduced. Teams building new automation should evaluate current alternatives such as SWE-agent, Aider, or OpenHands.
+
 ## Why This Track Matters
 
-Sweep popularized an issue-to-PR coding-agent workflow on GitHub. Even with product evolution over time, the repository and docs still provide strong patterns for asynchronous AI delivery loops, feedback handling, and operational controls.
+Sweep popularized an issue-to-PR coding-agent workflow on GitHub. The repository and docs still provide strong reference patterns for asynchronous AI delivery loops, feedback handling, and operational controls even though the original hosted product is no longer active.
 
 This track focuses on:
 
-- running Sweep issue and PR workflows effectively
+- understanding the original Sweep issue-to-PR architecture and config model
 - configuring repository-level behavior through `sweep.yaml`
 - operating review, CI, and retry loops for higher output quality
-- understanding self-hosted and local CLI deployment paths
+- understanding self-hosted and local CLI deployment paths as legacy reference
 
 ## Current Snapshot (auto-updated)
 

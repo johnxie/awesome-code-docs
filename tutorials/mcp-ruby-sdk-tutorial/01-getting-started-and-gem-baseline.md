@@ -47,8 +47,6 @@ You now have a stable Ruby MCP baseline for deeper server/client implementation.
 
 Next: [Chapter 2: Server Architecture and Capability Negotiation](02-server-architecture-and-capability-negotiation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `conformance/server.rb`

@@ -335,6 +335,19 @@ Ready to add memory to your applications? In [Chapter 3: Memory Systems](03-memo
 
 *What's the most interesting chain you can think of building?* 🚀
 
+## Prompt Template Flow
+
+```mermaid
+flowchart TD
+    A[ChatPromptTemplate] --> B[SystemMessagePromptTemplate]
+    A --> C[HumanMessagePromptTemplate]
+    B --> D[Format with variables]
+    C --> D
+    D --> E[List of messages]
+    E --> F[ChatModel.invoke]
+    F --> G[AIMessage response]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `ChatPromptTemplate`, `from_template`, `query` so behavior stays predictable as complexity grows.

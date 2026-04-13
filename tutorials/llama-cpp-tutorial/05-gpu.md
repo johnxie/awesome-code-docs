@@ -13,6 +13,23 @@ Welcome to **Chapter 5: GPU Acceleration**. In this part of **llama.cpp Tutorial
 
 > Enable GPU acceleration with CUDA, Metal, and ROCm for dramatically faster inference.
 
+## GPU Offloading Architecture
+
+```mermaid
+flowchart TD
+    M[GGUF Model] --> CPU[CPU RAM: non-offloaded layers]
+    M --> GPU[GPU VRAM: -ngl N layers]
+    CPU --> INF[Inference Engine]
+    GPU --> INF
+    INF --> OUT[Generated Tokens]
+
+    subgraph Platforms
+        P1[NVIDIA CUDA: -DGGML_CUDA=ON]
+        P2[Apple Metal: -DGGML_METAL=ON auto on macOS]
+        P3[AMD ROCm: -DGGML_HIPBLAS=ON]
+    end
+```
+
 ## Overview
 
 GPU acceleration can provide 5-10x speed improvements over CPU-only inference. llama.cpp supports multiple GPU platforms: NVIDIA CUDA, Apple Metal, and AMD ROCm.
@@ -530,16 +547,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`CMakeLists.txt`](https://github.com/ggerganov/llama.cpp/blob/master/CMakeLists.txt) -- `GGML_CUDA`, `GGML_METAL`, `GGML_HIPBLAS` cmake options; controls which GPU backends are compiled
+- [`ggml/src/ggml-cuda/`](https://github.com/ggerganov/llama.cpp/tree/master/ggml/src/ggml-cuda) -- CUDA backend: kernel implementations for matrix multiplication and attention
+- [`ggml/src/ggml-metal.m`](https://github.com/ggerganov/llama.cpp/blob/master/ggml/src/ggml-metal.m) -- Apple Metal backend: MSL shaders for M-series GPU acceleration
 
-Suggested trace strategy:
-- search upstream code for `layers` and `llama` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: in `src/llama.cpp` search for `n_gpu_layers` to see how the `-ngl` flag controls how many transformer layers are offloaded to GPU VRAM.
 
 ## Chapter Connections
 

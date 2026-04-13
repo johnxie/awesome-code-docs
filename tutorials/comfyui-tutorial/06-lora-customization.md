@@ -649,16 +649,18 @@ Under the hood, `Chapter 6: LoRA & Model Customization` usually follows a repeat
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `comfy/lora.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The LoRA loading and patching code in [`comfy/lora.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/comfy/lora.py) applies low-rank adapter weights to a loaded checkpoint model. The `LoraLoader` node in `nodes.py` calls this module with a `strength_model` and `strength_clip` float — these control how strongly the LoRA influences the UNet and text encoder respectively:
 
-Suggested trace strategy:
-- search upstream code for `LoRA` and `safetensors` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+import comfy.lora
+import comfy.lora_convert
+```
+
+LoRA files are resolved via `folder_paths` from the `models/loras/` directory and loaded with `safetensors.torch`. The `ModelPatcher` class in `comfy/model_patcher.py` applies the adapter weights as temporary patches that are cleanly removed when switching to a different workflow, avoiding GPU memory fragmentation.
 
 ## Chapter Connections
 

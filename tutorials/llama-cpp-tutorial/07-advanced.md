@@ -13,6 +13,21 @@ Welcome to **Chapter 7: Advanced Features**. In this part of **llama.cpp Tutoria
 
 > Explore grammar-based generation, embeddings, multimodal models, and custom extensions.
 
+## Advanced Features Map
+
+```mermaid
+flowchart TD
+    LLAMA[llama.cpp] --> G[Grammar-Constrained Generation\n--grammar / --grammar-file]
+    LLAMA --> E[Embeddings\nllama-embedding tool]
+    LLAMA --> MM[Multimodal\nllava / MobileVLM support]
+    LLAMA --> SP[Speculative Decoding\n--model-draft flag]
+
+    G --> J[JSON Schema Output]
+    G --> R[GBNF Grammar Rules]
+    E --> RAG[RAG Pipelines]
+    MM --> V[Vision + Text Input]
+```
+
 ## Overview
 
 Beyond basic text generation, llama.cpp supports advanced features like structured output, embeddings, and multimodal capabilities. This chapter covers these advanced use cases.
@@ -548,16 +563,14 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`examples/grammar-based-sampling/`](https://github.com/ggerganov/llama.cpp/tree/master/examples/grammar-based-sampling) -- grammar-constrained sampling examples with GBNF grammar files
+- [`common/grammar-parser.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/common/grammar-parser.cpp) -- parses GBNF grammar notation into a finite-state machine for constrained decoding
+- [`examples/embedding/embedding.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/embedding/embedding.cpp) -- `llama-embedding` tool: runs a model in embedding mode and outputs float vectors
+- [`examples/llava/`](https://github.com/ggerganov/llama.cpp/tree/master/examples/llava) -- LLaVA multimodal support: vision encoder integration with the language model
 
-Suggested trace strategy:
-- search upstream code for `self` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: for grammar sampling, follow `llama_grammar_init()` → `llama_sample_grammar()` to see how grammar constraints prune the token probability distribution.
 
 ## Chapter Connections
 

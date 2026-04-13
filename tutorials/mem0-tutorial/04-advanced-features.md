@@ -14,6 +14,17 @@ Welcome to **Chapter 4: Advanced Memory Features**. In this part of **Mem0 Tutor
 
 ## 🎯 Overview
 
+```mermaid
+flowchart TD
+    A[New memory candidate] --> B{Duplicate check}
+    B -->|duplicate| C[Skip]
+    B -->|new| D[Semantic dedup]
+    D --> E[Store memory]
+    E --> F[Consolidation job]
+    F --> G[Merged memories]
+    G --> H[(Optimized store)]
+```
+
 This chapter explores Mem0's advanced features including semantic search capabilities, memory consolidation algorithms, intelligent memory optimization, and adaptive learning systems that make AI agents truly intelligent and personalized.
 
 ## 🔍 Semantic Search and Retrieval

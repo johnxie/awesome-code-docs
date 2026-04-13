@@ -603,16 +603,17 @@ Under the hood, `Chapter 7: Multi-Agent Orchestration` usually follows a repeata
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/commands/info.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The `info` command in [`packages/elizaos/src/commands/info.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/commands/info.ts) exposes runtime metadata about the running elizaOS instance — including active agents, loaded plugins, and registered clients. This is the diagnostic entrypoint for multi-agent deployments:
 
-Suggested trace strategy:
-- search upstream code for `group` and `agent` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export { create, info, version } from "./commands/index.js";
+```
+
+The `a2a` (agent-to-agent) template category in the elizaOS manifest demonstrates how multiple agents communicate via the A2A protocol. Each agent runs as an independent process supervised by the `daemon` package, and agents communicate through a shared message bus or direct HTTP calls.
 
 ## Chapter Connections
 

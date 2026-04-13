@@ -36,184 +36,182 @@ You now understand how OpenSrc behaves under common failure modes and how to des
 
 Next: [Chapter 8: Team Operations and Governance](08-team-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib/agents.ts`
+### `src/commands/clean.ts`
 
-The `updateAgentsMd` function in [`src/lib/agents.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/agents.ts) handles a key part of this chapter's functionality:
+The `CleanOptions` interface in [`src/commands/clean.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/commands/clean.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Update AGENTS.md and the package index
- */
-export async function updateAgentsMd(
-  sources: {
-    packages: PackageEntry[];
-    repos: RepoEntry[];
-  },
-  cwd: string = process.cwd(),
-): Promise<boolean> {
-  // Always update the index file
-  await updatePackageIndex(sources, cwd);
+import type { Registry } from "../types.js";
 
-  if (sources.packages.length > 0 || sources.repos.length > 0) {
-    return ensureAgentsMd(cwd);
-  }
-
-  return removeOpensrcSection(cwd);
+export interface CleanOptions {
+  cwd?: string;
+  /** Only clean packages (all registries) */
+  packages?: boolean;
+  /** Only clean repos */
+  repos?: boolean;
+  /** Only clean specific registry */
+  registry?: Registry;
 }
 
 /**
- * Remove the opensrc section from AGENTS.md
+ * Remove all fetched packages and/or repositories
  */
-export async function removeOpensrcSection(
-  cwd: string = process.cwd(),
-): Promise<boolean> {
-  const agentsPath = join(cwd, AGENTS_FILE);
+export async function cleanCommand(options: CleanOptions = {}): Promise<void> {
+  const cwd = options.cwd || process.cwd();
+  const cleanPackages =
+    options.packages || (!options.packages && !options.repos);
+  const cleanRepos =
+    options.repos || (!options.packages && !options.repos && !options.registry);
 
-  if (!existsSync(agentsPath)) {
-    return false;
-  }
+  let packagesRemoved = 0;
+  let reposRemoved = 0;
 
-  try {
-```
+  // Get current sources
+  const sources = await listSources(cwd);
 
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+  // Remaining after clean
+  let remainingPackages: PackageEntry[] = [...sources.packages];
+  let remainingRepos: RepoEntry[] = [...sources.repos];
 
-### `src/lib/agents.ts`
-
-The `removeOpensrcSection` function in [`src/lib/agents.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/agents.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-
-  return removeOpensrcSection(cwd);
-}
-
-/**
- * Remove the opensrc section from AGENTS.md
- */
-export async function removeOpensrcSection(
-  cwd: string = process.cwd(),
-): Promise<boolean> {
-  const agentsPath = join(cwd, AGENTS_FILE);
-
-  if (!existsSync(agentsPath)) {
-    return false;
-  }
-
-  try {
-    const content = await readFile(agentsPath, "utf-8");
-
-    if (!content.includes(SECTION_MARKER)) {
-      return false;
-    }
-
-    const startIdx = content.indexOf(SECTION_MARKER);
-    const endIdx = content.indexOf(SECTION_END_MARKER);
-
-    if (startIdx === -1 || endIdx === -1) {
-      return false;
-    }
-
-    const before = content.slice(0, startIdx).trimEnd();
-```
-
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/agents.ts`
-
-The `PackageEntry` interface in [`src/lib/agents.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/agents.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export interface PackageEntry {
-  name: string;
-  version: string;
-  registry: Registry;
-  path: string;
-  fetchedAt: string;
-}
-
-export interface RepoEntry {
-  name: string;
-  version: string;
-  path: string;
-  fetchedAt: string;
-}
-
-export interface SourcesIndex {
-  packages?: PackageEntry[];
-  repos?: RepoEntry[];
-  updatedAt: string;
-}
-
-/**
- * Update the sources.json file in opensrc/
- */
-export async function updatePackageIndex(
-  sources: {
-    packages: PackageEntry[];
-    repos: RepoEntry[];
-  },
-  cwd: string = process.cwd(),
 ```
 
 This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/lib/agents.ts`
+### `src/lib/tsconfig.ts`
 
-The `RepoEntry` interface in [`src/lib/agents.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/agents.ts) handles a key part of this chapter's functionality:
+The `hasTsConfig` function in [`src/lib/tsconfig.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/tsconfig.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-export interface RepoEntry {
-  name: string;
-  version: string;
-  path: string;
-  fetchedAt: string;
-}
-
-export interface SourcesIndex {
-  packages?: PackageEntry[];
-  repos?: RepoEntry[];
-  updatedAt: string;
+ * Check if tsconfig.json exists
+ */
+export function hasTsConfig(cwd: string = process.cwd()): boolean {
+  return existsSync(join(cwd, "tsconfig.json"));
 }
 
 /**
- * Update the sources.json file in opensrc/
+ * Check if tsconfig.json already excludes opensrc/
  */
-export async function updatePackageIndex(
-  sources: {
-    packages: PackageEntry[];
-    repos: RepoEntry[];
-  },
+export async function hasOpensrcExclude(
   cwd: string = process.cwd(),
-): Promise<void> {
-  const opensrcDir = join(cwd, OPENSRC_DIR);
-  const sourcesPath = join(opensrcDir, SOURCES_FILE);
+): Promise<boolean> {
+  const tsconfigPath = join(cwd, "tsconfig.json");
 
-  if (sources.packages.length === 0 && sources.repos.length === 0) {
-    // Remove index file if no sources
-    if (existsSync(sourcesPath)) {
-      const { rm } = await import("fs/promises");
+  if (!existsSync(tsconfigPath)) {
+    return false;
+  }
+
+  try {
+    const content = await readFile(tsconfigPath, "utf-8");
+    const config = JSON.parse(content) as TsConfig;
+
+    if (!config.exclude) {
+      return false;
+    }
+
+    return config.exclude.some(
+      (entry) =>
+        entry === OPENSRC_DIR ||
+        entry === `${OPENSRC_DIR}/` ||
+        entry === `./${OPENSRC_DIR}`,
+    );
 ```
 
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/tsconfig.ts`
+
+The `hasOpensrcExclude` function in [`src/lib/tsconfig.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/tsconfig.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Check if tsconfig.json already excludes opensrc/
+ */
+export async function hasOpensrcExclude(
+  cwd: string = process.cwd(),
+): Promise<boolean> {
+  const tsconfigPath = join(cwd, "tsconfig.json");
+
+  if (!existsSync(tsconfigPath)) {
+    return false;
+  }
+
+  try {
+    const content = await readFile(tsconfigPath, "utf-8");
+    const config = JSON.parse(content) as TsConfig;
+
+    if (!config.exclude) {
+      return false;
+    }
+
+    return config.exclude.some(
+      (entry) =>
+        entry === OPENSRC_DIR ||
+        entry === `${OPENSRC_DIR}/` ||
+        entry === `./${OPENSRC_DIR}`,
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Add opensrc/ to tsconfig.json exclude array
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/tsconfig.ts`
+
+The `ensureTsconfigExclude` function in [`src/lib/tsconfig.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/tsconfig.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Add opensrc/ to tsconfig.json exclude array
+ */
+export async function ensureTsconfigExclude(
+  cwd: string = process.cwd(),
+): Promise<boolean> {
+  const tsconfigPath = join(cwd, "tsconfig.json");
+
+  if (!existsSync(tsconfigPath)) {
+    return false;
+  }
+
+  // Already excluded
+  if (await hasOpensrcExclude(cwd)) {
+    return false;
+  }
+
+  try {
+    const content = await readFile(tsconfigPath, "utf-8");
+    const config = JSON.parse(content) as TsConfig;
+
+    if (!config.exclude) {
+      config.exclude = [];
+    }
+
+    config.exclude.push(OPENSRC_DIR);
+
+    // Preserve formatting by using 2-space indent (most common for tsconfig)
+    await writeFile(
+      tsconfigPath,
+      JSON.stringify(config, null, 2) + "\n",
+      "utf-8",
+    );
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[updateAgentsMd]
-    B[removeOpensrcSection]
-    C[PackageEntry]
-    D[RepoEntry]
-    E[SourcesIndex]
+    A[CleanOptions]
+    B[hasTsConfig]
+    C[hasOpensrcExclude]
+    D[ensureTsconfigExclude]
+    E[TsConfig]
     A --> B
     B --> C
     C --> D

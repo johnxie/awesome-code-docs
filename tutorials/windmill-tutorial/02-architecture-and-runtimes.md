@@ -291,6 +291,17 @@ console.log(job.result);  // the return value of your script
 - **Throughput**: a single worker handles ~26 million jobs/month (Windmill benchmark)
 - **Horizontal scaling**: add more workers to increase throughput linearly
 
+## Source Code Walkthrough
+
+### Worker dispatcher — `backend/windmill-worker/src/worker.rs`
+
+The central dispatch logic in [`backend/windmill-worker/src/worker.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/worker.rs) routes jobs to language-specific execution handlers. The match on `language` field shows exactly how TypeScript jobs go to the Deno runtime, Python to the Python subprocess executor, Go to the Go compiler, etc.
+
+### Job queue — `backend/windmill-queue/src/queues.rs`
+
+[`backend/windmill-queue/src/queues.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-queue/src/queues.rs) implements the PostgreSQL-backed job queue: `push_job`, `pull_job`, and the polling loop that workers use to claim new work. This is the core of Windmill's distributed execution model.
+
+
 ## What You Learned
 
 In this chapter you:

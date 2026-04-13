@@ -750,6 +750,24 @@ export function useVersionedCopilotReadable(data: any, description: string) {
 }
 ```
 
+## App Context Flow
+
+```mermaid
+flowchart TD
+    A[React component has state]
+    B[useCopilotReadable registers state with AI]
+    C[User sends message to Copilot]
+    D[CopilotKit includes readable context in LLM prompt]
+    E[LLM responds with awareness of app state]
+    F[Context updates when state changes]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    B --> F
+    F --> D
+```
+
 ## Summary
 
 In this chapter, we've covered:

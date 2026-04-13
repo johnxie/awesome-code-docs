@@ -49,9 +49,89 @@ You now understand Serena's core leverage: semantic precision instead of file-wi
 
 Next: [Chapter 3: MCP Client Integrations](03-mcp-client-integrations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `repo_dir_sync.py`
+
+The `call` function in [`repo_dir_sync.py`](https://github.com/oraios/serena/blob/HEAD/repo_dir_sync.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def call(cmd):
+    p = popen(cmd)
+    return p.stdout.read().decode("utf-8")
+
+
+def execute(cmd, exceptionOnError=True):
+    """
+    :param cmd: the command to execute
+    :param exceptionOnError: if True, raise on exception on error (return code not 0); if False return
+        whether the call was successful
+    :return: True if the call was successful, False otherwise (if exceptionOnError==False)
+    """
+    p = popen(cmd)
+    p.wait()
+    success = p.returncode == 0
+    if exceptionOnError:
+        if not success:
+            raise Exception("Command failed: %s" % cmd)
+    else:
+        return success
+
+
+def gitLog(path, arg):
+    oldPath = os.getcwd()
+    os.chdir(path)
+    lg = call("git log --no-merges " + arg)
+    os.chdir(oldPath)
+    return lg
+
+
+```
+
+This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `repo_dir_sync.py`
+
+The `execute` function in [`repo_dir_sync.py`](https://github.com/oraios/serena/blob/HEAD/repo_dir_sync.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def execute(cmd, exceptionOnError=True):
+    """
+    :param cmd: the command to execute
+    :param exceptionOnError: if True, raise on exception on error (return code not 0); if False return
+        whether the call was successful
+    :return: True if the call was successful, False otherwise (if exceptionOnError==False)
+    """
+    p = popen(cmd)
+    p.wait()
+    success = p.returncode == 0
+    if exceptionOnError:
+        if not success:
+            raise Exception("Command failed: %s" % cmd)
+    else:
+        return success
+
+
+def gitLog(path, arg):
+    oldPath = os.getcwd()
+    os.chdir(path)
+    lg = call("git log --no-merges " + arg)
+    os.chdir(oldPath)
+    return lg
+
+
+def gitCommit(msg):
+    with open(COMMIT_MSG_FILENAME, "wb") as f:
+        f.write(msg.encode("utf-8"))
+    gitCommitWithMessageFromFile(COMMIT_MSG_FILENAME)
+
+```
+
+This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
 ### `repo_dir_sync.py`
 
@@ -135,98 +215,16 @@ class OtherRepo:
 
 This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `repo_dir_sync.py`
-
-The `gitCommitWithMessageFromFile` function in [`repo_dir_sync.py`](https://github.com/oraios/serena/blob/HEAD/repo_dir_sync.py) handles a key part of this chapter's functionality:
-
-```py
-    with open(COMMIT_MSG_FILENAME, "wb") as f:
-        f.write(msg.encode("utf-8"))
-    gitCommitWithMessageFromFile(COMMIT_MSG_FILENAME)
-
-
-def gitCommitWithMessageFromFile(commitMsgFilename):
-    if not os.path.exists(commitMsgFilename):
-        raise FileNotFoundError(f"{commitMsgFilename} not found in {os.path.abspath(os.getcwd())}")
-    os.system(f"git commit --file={commitMsgFilename}")
-    os.unlink(commitMsgFilename)
-
-
-COMMIT_MSG_FILENAME = "commitmsg.txt"
-
-
-class OtherRepo:
-    SYNC_COMMIT_ID_FILE_LIB_REPO = ".syncCommitId.remote"
-    SYNC_COMMIT_ID_FILE_THIS_REPO = ".syncCommitId.this"
-    SYNC_COMMIT_MESSAGE = f"Updated %s sync commit identifiers"
-    SYNC_BACKUP_DIR = ".syncBackup"
-    
-    def __init__(self, name, branch, pathToLib):
-        self.pathToLibInThisRepo = os.path.abspath(pathToLib)
-        if not os.path.exists(self.pathToLibInThisRepo):
-            raise ValueError(f"Repository directory '{self.pathToLibInThisRepo}' does not exist")
-        self.name = name
-        self.branch = branch
-        self.libRepo: Optional[LibRepo] = None
-
-    def isSyncEstablished(self):
-        return os.path.exists(os.path.join(self.pathToLibInThisRepo, self.SYNC_COMMIT_ID_FILE_LIB_REPO))
-    
-```
-
-This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
-
-### `.serena/project.yml`
-
-The `here` interface in [`.serena/project.yml`](https://github.com/oraios/serena/blob/HEAD/.serena/project.yml) handles a key part of this chapter's functionality:
-
-```yml
-#   terraform           toml                typescript          typescript_vts      vue
-#   yaml                zig
-#   (This list may be outdated. For the current list, see values of Language enum here:
-#   https://github.com/oraios/serena/blob/main/src/solidlsp/ls_config.py
-#   For some languages, there are alternative language servers, e.g. csharp_omnisharp, ruby_solargraph.)
-# Note:
-#   - For C, use cpp
-#   - For JavaScript, use typescript
-#   - For Free Pascal/Lazarus, use pascal
-# Special requirements:
-#   - csharp: Requires the presence of a .sln file in the project folder.
-#   - pascal: Requires Free Pascal Compiler (fpc) and optionally Lazarus.
-# When using multiple languages, the first language server that supports a given file will be used for that file.
-# The first language is the default language and the respective language server will be used as a fallback.
-# Note that when using the JetBrains backend, language servers are not used and this list is correspondingly ignored.
-languages:
-- python
-- typescript
-
-# whether to use project's .gitignore files to ignore files
-ignore_all_files_in_gitignore: true
-
-
-# list of additional paths to ignore in all projects
-# same syntax as gitignore, so you can use * and **
-ignored_paths: []
-
-# whether the project is in read-only mode
-# If set to true, all editing tools will be disabled and attempts to use them will result in an error
-read_only: false
-
-
-```
-
-This interface is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[gitLog]
-    B[gitCommit]
-    C[gitCommitWithMessageFromFile]
-    D[here]
-    E[interactive]
+    A[call]
+    B[execute]
+    C[gitLog]
+    D[gitCommit]
+    E[gitCommitWithMessageFromFile]
     A --> B
     B --> C
     C --> D

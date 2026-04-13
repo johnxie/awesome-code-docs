@@ -436,6 +436,27 @@ critical_path_pattern = {
 }
 ```
 
+## Task Planning Architecture
+
+```mermaid
+flowchart TD
+    A[Complex objective received]
+    B[Break into sequential tasks]
+    C[Each Task gets description and expected_output]
+    D[Assign task to specialized agent]
+    E[Define task dependencies via context]
+    F[Crew executes tasks in order]
+    G[Output of each task feeds next task]
+    H[Final output synthesized]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+```
+
 ## What We've Accomplished
 
 ✅ **Mastered task definition** with structured frameworks

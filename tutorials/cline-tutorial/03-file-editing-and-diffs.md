@@ -104,184 +104,40 @@ You now have a diff governance model that supports:
 
 Next: [Chapter 4: Terminal and Runtime Tools](04-terminal-and-runtime-tools.md)
 
-## Depth Expansion Playbook
 
 ## Source Code Walkthrough
 
-### `src/extension.ts`
+### `src/integrations/editor/DiffViewProvider.ts`
 
-The `openClineSidebarForTaskUri` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+The `DiffViewProvider` in [`src/integrations/editor/DiffViewProvider.ts`](https://github.com/cline/cline/blob/HEAD/src/integrations/editor/DiffViewProvider.ts) is the core of Cline's file-editing UX. It implements VS Code's `TextDocumentContentProvider` to render a side-by-side diff of proposed changes before the user accepts or rejects them.
 
-```ts
+This file is directly relevant to understanding how Cline presents edits: it creates a virtual "before" document from the current file state and a "after" document from the proposed changes, then opens a standard VS Code diff editor. The accept/reject decision the user makes in the diff view determines whether the file is actually written.
 
-		if (isTaskUri) {
-			await openClineSidebarForTaskUri()
-		}
+### `src/core/Cline.ts`
 
-		let success = await SharedUriHandler.handleUri(url)
+The `Cline` class in [`src/core/Cline.ts`](https://github.com/cline/cline/blob/HEAD/src/core/Cline.ts) is the main agent loop. It handles the `write_to_file` and `replace_in_file` tool calls that Claude proposes, delegates to `DiffViewProvider` to show the diff, and waits for user approval before applying the change to disk.
 
-		// Task deeplinks can race with first-time sidebar initialization.
-		if (!success && isTaskUri) {
-			await openClineSidebarForTaskUri()
-			success = await SharedUriHandler.handleUri(url)
-		}
+For file editing governance, this is the control plane: tracing the tool-call handling in this class reveals exactly where file-lock checks, scope constraints, and audit logging should be inserted.
 
-		if (!success) {
-			Logger.warn("Extension URI handler: Failed to process URI:", uri.toString())
-		}
-	}
-	context.subscriptions.push(vscode.window.registerUriHandler({ handleUri }))
+### `src/services/glob/list-files.ts`
 
-	// Register size testing commands in development mode
-	if (IS_DEV) {
-		vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV)
-		// Use dynamic import to avoid loading the module in production
-		import("./dev/commands/tasks")
-			.then((module) => {
-				const devTaskCommands = module.registerTaskCommands(webview.controller)
-				context.subscriptions.push(...devTaskCommands)
-				Logger.log("[Cline Dev] Dev mode activated & dev commands registered")
-			})
-			.catch((error) => {
-				Logger.log("[Cline Dev] Failed to register dev commands: " + error)
-			})
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/extension.ts`
-
-The `getBinaryLocation` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
-
-```ts
-		() => {}, // No-op logger, logging is handled via HostProvider.env.debugLog
-		getCallbackUrl,
-		getBinaryLocation,
-		context.extensionUri.fsPath,
-		context.globalStorageUri.fsPath,
-	)
-}
-
-function getUriPath(url: string): string | undefined {
-	try {
-		return new URL(url).pathname
-	} catch {
-		return undefined
-	}
-}
-
-async function openClineSidebarForTaskUri(): Promise<void> {
-	const sidebarWaitTimeoutMs = 3000
-	const sidebarWaitIntervalMs = 50
-
-	await vscode.commands.executeCommand(`${ExtensionRegistryInfo.views.Sidebar}.focus`)
-
-	const startedAt = Date.now()
-	while (Date.now() - startedAt < sidebarWaitTimeoutMs) {
-		if (WebviewProvider.getVisibleInstance()) {
-			return
-		}
-		await new Promise((resolve) => setTimeout(resolve, sidebarWaitIntervalMs))
-	}
-
-	Logger.warn("Task URI handling timed out waiting for Cline sidebar visibility")
-}
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/extension.ts`
-
-The `deactivate` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
-
-```ts
-				const pattern = new vscode.RelativePattern(dir, "*")
-				const watcher = vscode.workspace.createFileSystemWatcher(pattern)
-				// Ensure watcher is disposed when extension is deactivated
-				context.subscriptions.push(watcher)
-				// Adapt VSCode FileSystemWatcher to generic interface
-				return {
-					onDidCreate: (listener: () => void) => watcher.onDidCreate(listener),
-					onDidChange: (listener: () => void) => watcher.onDidChange(listener),
-					onDidDelete: (listener: () => void) => watcher.onDidDelete(listener),
-					dispose: () => watcher.dispose(),
-				}
-			} catch {
-				return null
-			}
-		},
-		(callback: () => void) => {
-			// Adapt VSCode Disposable to generic interface
-			const disposable = vscode.workspace.onDidChangeWorkspaceFolders(callback)
-			context.subscriptions.push(disposable)
-			return disposable
-		},
-	)
-
-	context.subscriptions.push(
-		vscode.window.registerWebviewViewProvider(VscodeWebviewProvider.SIDEBAR_ID, webview, {
-			webviewOptions: { retainContextWhenHidden: true },
-		}),
-	)
-
-	// NOTE: Commands must be added to the internal registry before registering them with VSCode
-	const { commands } = ExtensionRegistryInfo
-
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/extension.ts`
-
-The `cleanupLegacyVSCodeStorage` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
-
-```ts
-	// Moves workspace→global keys, task history→file, custom instructions→rules, etc.
-	// Must run BEFORE the file export so we copy clean state.
-	await cleanupLegacyVSCodeStorage(context)
-
-	// 3. One-time export of VSCode's native storage to shared file-backed stores.
-	// After this, all platforms (VSCode, CLI, JetBrains) read from ~/.cline/data/.
-	const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
-	const storageContext = createStorageContext({ workspacePath })
-	await exportVSCodeStorageToSharedFiles(context, storageContext)
-
-	// 4. Register services and perform common initialization
-	// IMPORTANT: Must be done after host provider is setup and migrations are complete
-	const webview = (await initialize(storageContext)) as VscodeWebviewProvider
-
-	// 5. Register services and commands specific to VS Code
-	// Initialize test mode and add disposables to context
-	const testModeWatchers = await initializeTestMode(webview)
-	context.subscriptions.push(...testModeWatchers)
-
-	// Initialize hook discovery cache for performance optimization
-	HookDiscoveryCache.getInstance().initialize(
-		context as any, // Adapt VSCode ExtensionContext to generic interface
-		(dir: string) => {
-			try {
-				const pattern = new vscode.RelativePattern(dir, "*")
-				const watcher = vscode.workspace.createFileSystemWatcher(pattern)
-				// Ensure watcher is disposed when extension is deactivated
-				context.subscriptions.push(watcher)
-				// Adapt VSCode FileSystemWatcher to generic interface
-				return {
-					onDidCreate: (listener: () => void) => watcher.onDidCreate(listener),
-					onDidChange: (listener: () => void) => watcher.onDidChange(listener),
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
+The file listing service in [`src/services/glob/list-files.ts`](https://github.com/cline/cline/blob/HEAD/src/services/glob/list-files.ts) enumerates the files Cline can read and propose edits on. It respects `.gitignore` and other exclusion patterns, which is the first line of defense for keeping sensitive files out of the edit scope.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[openClineSidebarForTaskUri]
-    B[getBinaryLocation]
-    C[deactivate]
-    D[cleanupLegacyVSCodeStorage]
+    A[Cline.ts receives write_to_file tool call]
+    B[Current file content read]
+    C[DiffViewProvider creates before and after documents]
+    D[VS Code diff editor opens for user review]
+    E{User accepts or rejects}
+    F[File written to disk]
+    G[Change discarded]
     A --> B
     B --> C
     C --> D
+    D --> E
+    E -- accept --> F
+    E -- reject --> G
 ```

@@ -32,170 +32,168 @@ You now understand which Cipher mode to run for each workflow type.
 
 Next: [Chapter 3: Memory Architecture and Data Model](03-memory-architecture-and-data-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/core/utils/service-initializer.ts`
+### `src/tui/components/selectable-list.tsx`
 
-The `createAgentServices` function in [`src/core/utils/service-initializer.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/utils/service-initializer.ts) handles a key part of this chapter's functionality:
+The `SelectableListProps` interface in [`src/tui/components/selectable-list.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/selectable-list.tsx) handles a key part of this chapter's functionality:
 
-```ts
-};
-
-export async function createAgentServices(
-	agentConfig: AgentConfig,
-	appMode?: 'cli' | 'mcp' | 'api'
-): Promise<AgentServices> {
-	let contextManager: ContextManager | undefined = undefined;
-	// 1. Initialize agent config
-	const config = agentConfig;
-
-	// 1.1. Initialize event manager first (other services will use it)
-	logger.debug('Initializing event manager...');
-
-	// Use eventPersistence config if present, with environment variable overrides
-	const eventPersistenceConfig = {
-		...config.eventPersistence,
-		// Support EVENT_PERSISTENCE_ENABLED env variable
-		enabled:
-			process.env.EVENT_PERSISTENCE_ENABLED === 'true' ||
-			(config.eventPersistence?.enabled ?? false),
-		// Support EVENT_PERSISTENCE_PATH env variable
-		filePath: process.env.EVENT_PERSISTENCE_PATH || config.eventPersistence?.filePath,
-	};
-
-	// Support EVENT_FILTERING_ENABLED env variable
-	const enableFiltering = process.env.EVENT_FILTERING_ENABLED === 'true';
-
-	// Support EVENT_FILTERED_TYPES env variable (comma-separated)
-	const filteredTypes = (process.env.EVENT_FILTERED_TYPES || '')
-		.split(',')
-		.map(s => s.trim())
-		.filter(Boolean);
+```tsx
+ * Props for SelectableList component.
+ */
+export interface SelectableListProps<T> {
+  /** Available height in lines */
+  availableHeight?: number
+  /** Current/selected item (shows ● indicator) */
+  currentItem?: T
+  /** Keys to use for filtering (searched with fuzzy match) */
+  filterKeys: (item: T) => string[]
+  /** Function to get item key for comparison with currentItem */
+  getCurrentKey?: (item: T) => string
+  /** Optional grouping function */
+  groupBy?: (item: T) => string
+  /** Hide the Cancel keybind hint and disable Esc to cancel */
+  hideCancelButton?: boolean
+  /** Initial search value */
+  initialSearch?: string
+  /** Whether keyboard input is active */
+  isActive?: boolean
+  /** Array of items to display */
+  items: T[]
+  /** Custom keybinds */
+  keybinds?: Array<{
+    action: (item: T) => void
+    key: string
+    label: string
+  }>
+  /** Function to get unique key for each item */
+  keyExtractor: (item: T) => string
+  /** Callback when selection is cancelled (Esc) */
+  onCancel?: () => void
+  /** Callback when an item is selected */
 ```
 
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/vector_storage/factory.ts`
+### `src/oclif/commands/restart.ts`
 
-The `createVectorStore` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `Restart` class in [`src/oclif/commands/restart.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/commands/restart.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * ```typescript
- * // Basic usage with Qdrant
- * const { manager, store } = await createVectorStore({
- *   type: 'qdrant',
- *   host: 'localhost',
- *   port: 6333,
- *   collectionName: 'documents',
- *   dimension: 1536
- * });
- *
- * // Use the vector store
- * await store.insert([vector], ['doc1'], [{ title: 'Document' }]);
- * const results = await store.search(queryVector, 5);
- *
- * // Cleanup when done
- * await manager.disconnect();
- * ```
- *
- * @example
- * ```typescript
- * // Development configuration with in-memory
- * const { manager, store } = await createVectorStore({
- *   type: 'in-memory',
- *   collectionName: 'test',
- *   dimension: 1536,
- *   maxVectors: 1000
- * });
- * ```
- */
-export async function createVectorStore(config: VectorStoreConfig): Promise<VectorStoreFactory> {
-	const logger = createLogger({ level: env.CIPHER_LOG_LEVEL });
+const SIGTERM_BUDGET_MS = 8000
 
+export default class Restart extends Command {
+  static description = `Restart ByteRover — stop everything and start fresh.
+
+Run this when ByteRover is unresponsive, stuck, or after installing an update.
+All open sessions and background processes are stopped.
+The daemon will restart automatically on the next brv command.`
+  static examples = ['<%= config.bin %> <%= command.id %>']
+  /** Commands whose processes must not be killed (e.g. `brv update` calls `brv restart`). */
+  private static readonly PROTECTED_COMMANDS = ['update']
+  /** Server/agent patterns — cannot match CLI processes, no self-kill risk. */
+  private static readonly SERVER_AGENT_PATTERNS = ['brv-server.js', 'agent-process.js']
+
+  /**
+   * Builds the list of CLI script patterns used to identify brv client processes.
+   *
+   * All patterns are absolute paths or specific filenames to avoid false-positive matches
+   * against other oclif CLIs (which also use bin/run.js and bin/dev.js conventions).
+   *
+   * CLI script patterns (covers all installations):
+   *   dev mode (bin/dev.js):       join(brvBinDir, 'dev.js') — absolute path, same installation only
+   *   build/dev (bin/run.js):      join(brvBinDir, 'run.js')
+   *   global install (npm / tgz):  byterover-cli/bin/run.js — package name in node_modules is fixed
+   *   bundled binary (oclif pack): join('bin', 'brv') + argv1
+   *   nvm / system global:         cmdline = node .../bin/brv  ← caught by 'bin/brv' substring
+   *   curl install (/.brv-cli/):   join(brvBinDir, 'run') — entry point named 'run' without .js
+   *
+   * Set deduplicates when paths overlap (e.g. process.argv[1] is already run.js).
+   */
+  static buildCliPatterns(): string[] {
+    const argv1 = resolve(process.argv[1])
 ```
 
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/vector_storage/factory.ts`
+### `src/tui/components/init.tsx`
 
-The `createDefaultVectorStore` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `countOutputLines` function in [`src/tui/components/init.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/init.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * @example
- * ```typescript
- * const { manager, store } = await createDefaultVectorStore();
- * // Uses in-memory backend with default settings
- *
- * const { manager, store } = await createDefaultVectorStore('my_collection', 768);
- * // Uses in-memory backend with custom collection and dimension
- * ```
+```tsx
+ * @returns Total number of lines across all messages
  */
-export async function createDefaultVectorStore(
-	collectionName: string = 'knowledge_memory',
-	dimension: number = 1536
-): Promise<VectorStoreFactory> {
-	return createVectorStore({
-		type: 'in-memory',
-		collectionName,
-		dimension,
-		maxVectors: 10000,
-	});
+function countOutputLines(messages: StreamingMessage[]): number {
+  let total = 0
+  for (const msg of messages) {
+    total += msg.content.split('\n').length
+  }
+
+  return total
 }
 
 /**
- * Creates vector storage from environment variables
+ * Get messages from the end that fit within maxLines, truncating from the beginning
  *
- * Reads vector storage configuration from environment variables and creates
- * the vector storage system. Falls back to in-memory if not configured.
- *
- * Environment variables:
- * - VECTOR_STORE_TYPE: Backend type (qdrant, in-memory)
- * - VECTOR_STORE_HOST: Qdrant host (if using Qdrant)
- * - VECTOR_STORE_PORT: Qdrant port (if using Qdrant)
- * - VECTOR_STORE_URL: Qdrant URL (if using Qdrant)
+ * @param messages - Array of streaming messages
+ * @param maxLines - Maximum number of lines to display
+ * @returns Object containing display messages, skipped lines count, and total lines
+ */
+function getMessagesFromEnd(
+  messages: StreamingMessage[],
+  maxLines: number,
+): {displayMessages: StreamingMessage[]; skippedLines: number; totalLines: number} {
+  const totalLines = countOutputLines(messages)
+
+  if (totalLines <= maxLines) {
+    return {displayMessages: messages, skippedLines: 0, totalLines}
+  }
+
+  const displayMessages: StreamingMessage[] = []
+  let lineCount = 0
+
+  // Iterate from the end (newest messages first)
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/core/vector_storage/factory.ts`
+### `src/tui/components/init.tsx`
 
-The `createVectorStoreFromEnv` function in [`src/core/vector_storage/factory.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/vector_storage/factory.ts) handles a key part of this chapter's functionality:
+The `getMessagesFromEnd` function in [`src/tui/components/init.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/components/init.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * process.env.VECTOR_STORE_COLLECTION = 'documents';
- *
- * const { manager, store } = await createVectorStoreFromEnv();
- * ```
+```tsx
+ * @returns Object containing display messages, skipped lines count, and total lines
  */
-export async function createVectorStoreFromEnv(agentConfig?: any): Promise<VectorStoreFactory> {
-	const logger = createLogger({ level: env.CIPHER_LOG_LEVEL });
+function getMessagesFromEnd(
+  messages: StreamingMessage[],
+  maxLines: number,
+): {displayMessages: StreamingMessage[]; skippedLines: number; totalLines: number} {
+  const totalLines = countOutputLines(messages)
 
-	// Get configuration from environment variables
-	const config = getVectorStoreConfigFromEnv(agentConfig);
-	// console.log('config', config);
-	logger.info(`${LOG_PREFIXES.FACTORY} Creating vector storage from environment`, {
-		type: config.type,
-		collection: config.collectionName,
-		dimension: config.dimension,
-	});
+  if (totalLines <= maxLines) {
+    return {displayMessages: messages, skippedLines: 0, totalLines}
+  }
 
-	return createVectorStore(config);
-}
+  const displayMessages: StreamingMessage[] = []
+  let lineCount = 0
 
-/**
- * Creates dual collection vector storage from environment variables
- *
- * Creates a dual collection manager that handles both knowledge and reflection
- * memory collections. Reflection collection is only created if REFLECTION_VECTOR_STORE_COLLECTION
- * is set and the model supports reasoning.
- *
- * @param agentConfig - Optional agent configuration to override dimension from embedding config
- * @returns Promise resolving to dual collection manager and stores
- *
- * @example
- * ```typescript
+  // Iterate from the end (newest messages first)
+  for (let i = messages.length - 1; i >= 0; i--) {
+    const msg = messages[i]
+    const msgLineArray = msg.content.split('\n')
+    const msgLineCount = msgLineArray.length
+
+    if (lineCount + msgLineCount <= maxLines) {
+      displayMessages.unshift(msg)
+      lineCount += msgLineCount
+    } else {
+      const remainingSpace = maxLines - lineCount
+      if (remainingSpace > 0) {
+        const truncatedContent = msgLineArray.slice(-remainingSpace).join('\n')
+        displayMessages.unshift({
+          ...msg,
+          content: truncatedContent,
+        })
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
@@ -205,11 +203,13 @@ This function is important because it defines how Cipher Tutorial: Shared Memory
 
 ```mermaid
 flowchart TD
-    A[createAgentServices]
-    B[createVectorStore]
-    C[createDefaultVectorStore]
-    D[createVectorStoreFromEnv]
+    A[SelectableListProps]
+    B[Restart]
+    C[countOutputLines]
+    D[getMessagesFromEnd]
+    E[processMessagesForActions]
     A --> B
     B --> C
     C --> D
+    D --> E
 ```

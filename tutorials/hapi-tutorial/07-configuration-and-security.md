@@ -68,17 +68,6 @@ Under the hood, `Chapter 7: Configuration and Security` usually follows a repeat
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HAPI Repository](https://github.com/tiann/hapi)
-  Why it matters: authoritative reference on `HAPI Repository` (github.com).
-- [HAPI Releases](https://github.com/tiann/hapi/releases)
-  Why it matters: authoritative reference on `HAPI Releases` (github.com).
-- [HAPI Docs](https://hapi.run)
-  Why it matters: authoritative reference on `HAPI Docs` (hapi.run).
-
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
@@ -87,15 +76,26 @@ Use the following upstream sources to verify implementation details while readin
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `cli/src/persistence.ts`
 
-The `readSettings` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+The `RunnerLocallyPersistedState` interface in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
 
 ```ts
+ * This is written to disk by the runner to track its local process state
+ */
+export interface RunnerLocallyPersistedState {
+  pid: number;
+  httpPort: number;
+  startTime: string;
+  startedWithCliVersion: string;
+  startedWithCliMtimeMs?: number;
+  startedWithApiUrl?: string;
+  startedWithMachineId?: string;
+  startedWithCliApiTokenHash?: string;
+  lastHeartbeat?: string;
+  runnerLogPath?: string;
 }
 
 export async function readSettings(): Promise<Settings> {
@@ -115,142 +115,129 @@ export async function writeSettings(settings: Settings): Promise<void> {
   if (!existsSync(configuration.happyHomeDir)) {
     await mkdir(configuration.happyHomeDir, { recursive: true })
   }
+```
 
-  await writeFile(configuration.settingsFile, JSON.stringify(settings, null, 2))
-}
+This interface is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-/**
- * Atomically update settings with multi-process safety via file locking
- * @param updater Function that takes current settings and returns updated settings
- * @returns The updated settings
- */
-export async function updateSettings(
-  updater: (current: Settings) => Settings | Promise<Settings>
-): Promise<Settings> {
-  // Timing constants
+### `web/src/App.tsx`
+
+The `App` function in [`web/src/App.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/App.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+import { Outlet, useLocation, useMatchRoute, useRouter } from '@tanstack/react-router'
+import { useQueryClient } from '@tanstack/react-query'
+import { getTelegramWebApp, isTelegramApp } from '@/hooks/useTelegram'
+import { initializeTheme } from '@/hooks/useTheme'
+import { useAuth } from '@/hooks/useAuth'
+import { useAuthSource } from '@/hooks/useAuthSource'
+import { useServerUrl } from '@/hooks/useServerUrl'
+import { useSSE } from '@/hooks/useSSE'
+import { useSyncingState } from '@/hooks/useSyncingState'
+import { usePushNotifications } from '@/hooks/usePushNotifications'
+import { useVisibilityReporter } from '@/hooks/useVisibilityReporter'
+import { queryKeys } from '@/lib/query-keys'
+import { AppContextProvider } from '@/lib/app-context'
+import { fetchLatestMessages } from '@/lib/message-window-store'
+import { useAppGoBack } from '@/hooks/useAppGoBack'
+import { useTranslation } from '@/lib/use-translation'
+import { VoiceProvider } from '@/lib/voice-context'
+import { requireHubUrlForLogin } from '@/lib/runtime-config'
+import { LoginPrompt } from '@/components/LoginPrompt'
+import { InstallPrompt } from '@/components/InstallPrompt'
+import { OfflineBanner } from '@/components/OfflineBanner'
+import { SyncingBanner } from '@/components/SyncingBanner'
+import { ReconnectingBanner } from '@/components/ReconnectingBanner'
+import { VoiceErrorBanner } from '@/components/VoiceErrorBanner'
+import { LoadingState } from '@/components/LoadingState'
+import { ToastContainer } from '@/components/ToastContainer'
+import { ToastProvider, useToast } from '@/lib/toast-context'
+import type { SyncEvent } from '@/types/api'
+
+type ToastEvent = Extract<SyncEvent, { type: 'toast' }>
+
+const REQUIRE_SERVER_URL = requireHubUrlForLogin()
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `cli/src/persistence.ts`
+### `web/src/App.tsx`
 
-The `writeSettings` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+The `AppInner` function in [`web/src/App.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/App.tsx) handles a key part of this chapter's functionality:
 
-```ts
+```tsx
+    return (
+        <ToastProvider>
+            <AppInner />
+        </ToastProvider>
+    )
 }
 
-export async function writeSettings(settings: Settings): Promise<void> {
-  if (!existsSync(configuration.happyHomeDir)) {
-    await mkdir(configuration.happyHomeDir, { recursive: true })
-  }
+function AppInner() {
+    const { t } = useTranslation()
+    const { serverUrl, baseUrl, setServerUrl, clearServerUrl } = useServerUrl()
+    const { authSource, isLoading: isAuthSourceLoading, setAccessToken } = useAuthSource(baseUrl)
+    const { token, api, isLoading: isAuthLoading, error: authError, needsBinding, bind } = useAuth(authSource, baseUrl)
+    const goBack = useAppGoBack()
+    const pathname = useLocation({ select: (location) => location.pathname })
+    const matchRoute = useMatchRoute()
+    const router = useRouter()
+    const { addToast } = useToast()
 
-  await writeFile(configuration.settingsFile, JSON.stringify(settings, null, 2))
-}
+    useEffect(() => {
+        const tg = getTelegramWebApp()
+        tg?.ready()
+        tg?.expand()
+        initializeTheme()
+    }, [])
 
-/**
- * Atomically update settings with multi-process safety via file locking
- * @param updater Function that takes current settings and returns updated settings
- * @returns The updated settings
- */
-export async function updateSettings(
-  updater: (current: Settings) => Settings | Promise<Settings>
-): Promise<Settings> {
-  // Timing constants
-  const LOCK_RETRY_INTERVAL_MS = 100;  // How long to wait between lock attempts
-  const MAX_LOCK_ATTEMPTS = 50;        // Maximum number of attempts (5 seconds total)
-  const STALE_LOCK_TIMEOUT_MS = 10000; // Consider lock stale after 10 seconds
+    useEffect(() => {
+        const preventDefault = (event: Event) => {
+            event.preventDefault()
+        }
 
-  if (!existsSync(configuration.happyHomeDir)) {
-    await mkdir(configuration.happyHomeDir, { recursive: true });
-  }
-
-  const lockFile = configuration.settingsFile + '.lock';
-  const tmpFile = configuration.settingsFile + '.tmp';
-  let fileHandle;
-  let attempts = 0;
-
+        const onWheel = (event: WheelEvent) => {
+            if (event.ctrlKey) {
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `cli/src/persistence.ts`
+### `hub/src/index.ts`
 
-The `updateSettings` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @returns The updated settings
- */
-export async function updateSettings(
-  updater: (current: Settings) => Settings | Promise<Settings>
-): Promise<Settings> {
-  // Timing constants
-  const LOCK_RETRY_INTERVAL_MS = 100;  // How long to wait between lock attempts
-  const MAX_LOCK_ATTEMPTS = 50;        // Maximum number of attempts (5 seconds total)
-  const STALE_LOCK_TIMEOUT_MS = 10000; // Consider lock stale after 10 seconds
-
-  if (!existsSync(configuration.happyHomeDir)) {
-    await mkdir(configuration.happyHomeDir, { recursive: true });
-  }
-
-  const lockFile = configuration.settingsFile + '.lock';
-  const tmpFile = configuration.settingsFile + '.tmp';
-  let fileHandle;
-  let attempts = 0;
-
-  // Acquire exclusive lock with retries
-  while (attempts < MAX_LOCK_ATTEMPTS) {
-    try {
-      // 'wx' = create exclusively, fail if exists (cross-platform compatible)
-      fileHandle = await open(lockFile, 'wx');
-      break;
-    } catch (err: any) {
-      if (err.code === 'EEXIST') {
-        // Lock file exists, wait and retry
-        attempts++;
-        await new Promise(resolve => setTimeout(resolve, LOCK_RETRY_INTERVAL_MS));
-
-        // Check for stale lock
-```
-
-This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `cli/src/persistence.ts`
-
-The `writeCredentialsDataKey` function in [`cli/src/persistence.ts`](https://github.com/tiann/hapi/blob/HEAD/cli/src/persistence.ts) handles a key part of this chapter's functionality:
+The `formatSource` function in [`hub/src/index.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/src/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
-//
 
-export async function writeCredentialsDataKey(credentials: { publicKey: Uint8Array, machineKey: Uint8Array, token: string }): Promise<void> {
-  if (!existsSync(configuration.happyHomeDir)) {
-    await mkdir(configuration.happyHomeDir, { recursive: true })
-  }
-  await writeFile(configuration.privateKeyFile, JSON.stringify({
-    encryption: { publicKey: Buffer.from(credentials.publicKey).toString('base64'), machineKey: Buffer.from(credentials.machineKey).toString('base64') },
-    token: credentials.token
-  }, null, 2));
+/** Format config source for logging */
+function formatSource(source: ConfigSource | 'generated'): string {
+    switch (source) {
+        case 'env':
+            return 'environment'
+        case 'file':
+            return 'settings.json'
+        case 'default':
+            return 'default'
+        case 'generated':
+            return 'generated'
+    }
 }
 
-export async function clearCredentials(): Promise<void> {
-  if (existsSync(configuration.privateKeyFile)) {
-    await unlink(configuration.privateKeyFile);
-  }
-}
+type RelayFlagSource = 'default' | '--relay' | '--no-relay'
 
-export async function clearMachineId(): Promise<void> {
-  await updateSettings(settings => ({
-    ...settings,
-    machineId: undefined
-  }));
-}
+function resolveRelayFlag(args: string[]): { enabled: boolean; source: RelayFlagSource } {
+    let enabled = false
+    let source: RelayFlagSource = 'default'
 
-/**
- * Read runner state from local file
- */
-export async function readRunnerState(): Promise<RunnerLocallyPersistedState | null> {
-  try {
-    if (!existsSync(configuration.runnerStateFile)) {
-      return null;
+    for (const arg of args) {
+        if (arg === '--relay') {
+            enabled = true
+            source = '--relay'
+        } else if (arg === '--no-relay') {
+            enabled = false
+            source = '--no-relay'
+        }
+    }
+
+    return { enabled, source }
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
@@ -260,11 +247,11 @@ This function is important because it defines how HAPI Tutorial: Remote Control 
 
 ```mermaid
 flowchart TD
-    A[readSettings]
-    B[writeSettings]
-    C[updateSettings]
-    D[writeCredentialsDataKey]
-    E[clearCredentials]
+    A[RunnerLocallyPersistedState]
+    B[App]
+    C[AppInner]
+    D[formatSource]
+    E[resolveRelayFlag]
     A --> B
     B --> C
     C --> D

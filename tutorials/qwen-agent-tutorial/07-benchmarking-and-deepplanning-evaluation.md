@@ -38,107 +38,95 @@ You now have a benchmark-driven evaluation model for long-horizon Qwen-Agent tas
 
 Next: [Chapter 8: Contribution Workflow and Production Governance](08-contribution-workflow-and-production-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/assistant_add_custom_tool.py`
+### `examples/multi_agent_router.py`
 
-The `MyImageGen` class in [`examples/assistant_add_custom_tool.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_add_custom_tool.py) handles a key part of this chapter's functionality:
-
-```py
-# Add a custom tool named my_image_gen：
-@register_tool('my_image_gen')
-class MyImageGen(BaseTool):
-    description = 'AI painting (image generation) service, input text description, and return the image URL drawn based on text information.'
-    parameters = [{
-        'name': 'prompt',
-        'type': 'string',
-        'description': 'Detailed description of the desired image content, in English',
-        'required': True,
-    }]
-
-    def call(self, params: str, **kwargs) -> str:
-        prompt = json5.loads(params)['prompt']
-        prompt = urllib.parse.quote(prompt)
-        return json.dumps(
-            {'image_url': f'https://image.pollinations.ai/prompt/{prompt}'},
-            ensure_ascii=False,
-        )
-
-
-def init_agent_service():
-    llm_cfg = {'model': 'qwen-max'}
-    system = ("According to the user's request, you first draw a picture and then automatically "
-              'run code to download the picture and select an image operation from the given document '
-              'to process the image')
-
-    tools = [
-        'my_image_gen',
-        'code_interpreter',
-    ]  # code_interpreter is a built-in tool in Qwen-Agent
-    bot = Assistant(
-        llm=llm_cfg,
-```
-
-This class is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
-
-### `examples/assistant_add_custom_tool.py`
-
-The `init_agent_service` function in [`examples/assistant_add_custom_tool.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_add_custom_tool.py) handles a key part of this chapter's functionality:
+The `init_agent_service` function in [`examples/multi_agent_router.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/multi_agent_router.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
 def init_agent_service():
+    # settings
     llm_cfg = {'model': 'qwen-max'}
-    system = ("According to the user's request, you first draw a picture and then automatically "
-              'run code to download the picture and select an image operation from the given document '
-              'to process the image')
+    llm_cfg_vl = {'model': 'qwen-vl-max'}
+    tools = ['image_gen', 'code_interpreter']
 
-    tools = [
-        'my_image_gen',
-        'code_interpreter',
-    ]  # code_interpreter is a built-in tool in Qwen-Agent
-    bot = Assistant(
+    # Define a vl agent
+    bot_vl = Assistant(llm=llm_cfg_vl, name='多模态助手', description='可以理解图像内容。')
+
+    # Define a tool agent
+    bot_tool = ReActChat(
         llm=llm_cfg,
-        name='AI painting',
-        description='AI painting service',
-        system_message=system,
+        name='工具助手',
+        description='可以使用画图工具和运行代码来解决问题',
         function_list=tools,
-        files=[os.path.join(ROOT_RESOURCE, 'doc.pdf')],
     )
 
+    # Define a router (simultaneously serving as a text agent)
+    bot = Router(
+        llm=llm_cfg,
+        agents=[bot_vl, bot_tool],
+    )
     return bot
 
 
-def test(query: str = 'draw a dog'):
-    # Define the agent
-    bot = init_agent_service()
-
-    # Chat
-    messages = [{'role': 'user', 'content': query}]
-    for response in bot.run(messages=messages):
-        print('bot response:', response)
+def test(
+        query: str = 'hello',
+        image: str = 'https://dashscope.oss-cn-beijing.aliyuncs.com/images/dog_and_girl.jpeg',
+        file: Optional[str] = os.path.join(ROOT_RESOURCE, 'poem.pdf'),
+):
 ```
 
 This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
 
-### `examples/assistant_add_custom_tool.py`
+### `examples/multi_agent_router.py`
 
-The `test` function in [`examples/assistant_add_custom_tool.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_add_custom_tool.py) handles a key part of this chapter's functionality:
+The `test` function in [`examples/multi_agent_router.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/multi_agent_router.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def test(query: str = 'draw a dog'):
+def test(
+        query: str = 'hello',
+        image: str = 'https://dashscope.oss-cn-beijing.aliyuncs.com/images/dog_and_girl.jpeg',
+        file: Optional[str] = os.path.join(ROOT_RESOURCE, 'poem.pdf'),
+):
     # Define the agent
     bot = init_agent_service()
 
     # Chat
-    messages = [{'role': 'user', 'content': query}]
-    for response in bot.run(messages=messages):
+    messages = []
+
+    if not image and not file:
+        messages.append({'role': 'user', 'content': query})
+    else:
+        messages.append({'role': 'user', 'content': [{'text': query}]})
+        if image:
+            messages[-1]['content'].append({'image': image})
+        if file:
+            messages[-1]['content'].append({'file': file})
+
+    for response in bot.run(messages):
         print('bot response:', response)
+
+
+def app_tui():
+    # Define the agent
+    bot = init_agent_service()
+
+    # Chat
+    messages = []
+```
+
+This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
+
+### `examples/multi_agent_router.py`
+
+The `app_tui` function in [`examples/multi_agent_router.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/multi_agent_router.py) handles a key part of this chapter's functionality:
+
+```py
 
 
 def app_tui():
@@ -149,58 +137,51 @@ def app_tui():
     messages = []
     while True:
         query = input('user question: ')
-        messages.append({'role': 'user', 'content': query})
+        # Image example: https://dashscope.oss-cn-beijing.aliyuncs.com/images/dog_and_girl.jpeg
+        image = input('image url (press enter if no image): ')
+        # File example: resource/poem.pdf
+        file = input('file url (press enter if no file): ').strip()
+        if not query:
+            print('user question cannot be empty！')
+            continue
+        if not image and not file:
+            messages.append({'role': 'user', 'content': query})
+        else:
+            messages.append({'role': 'user', 'content': [{'text': query}]})
+            if image:
+                messages[-1]['content'].append({'image': image})
+            if file:
+                messages[-1]['content'].append({'file': file})
+
         response = []
-        for response in bot.run(messages=messages):
+        for response in bot.run(messages):
             print('bot response:', response)
         messages.extend(response)
 
 
-def app_gui():
-    # Define the agent
-    bot = init_agent_service()
-    chatbot_config = {
-        'prompt.suggestions': [
 ```
 
 This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
 
-### `examples/assistant_add_custom_tool.py`
+### `examples/multi_agent_router.py`
 
-The `app_tui` function in [`examples/assistant_add_custom_tool.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_add_custom_tool.py) handles a key part of this chapter's functionality:
+The `app_gui` function in [`examples/multi_agent_router.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/multi_agent_router.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def app_tui():
-    # Define the agent
-    bot = init_agent_service()
-
-    # Chat
-    messages = []
-    while True:
-        query = input('user question: ')
-        messages.append({'role': 'user', 'content': query})
-        response = []
-        for response in bot.run(messages=messages):
-            print('bot response:', response)
-        messages.extend(response)
-
-
 def app_gui():
-    # Define the agent
     bot = init_agent_service()
     chatbot_config = {
-        'prompt.suggestions': [
-            '画一只猫的图片',
-            '画一只可爱的小腊肠狗',
-            '画一幅风景画，有湖有山有树',
-        ]
+        'verbose': True,
     }
-    WebUI(
-        bot,
-        chatbot_config=chatbot_config,
-    ).run()
+    WebUI(bot, chatbot_config=chatbot_config).run()
+
+
+if __name__ == '__main__':
+    # test()
+    # app_tui()
+    app_gui()
 
 ```
 
@@ -211,11 +192,11 @@ This function is important because it defines how Qwen-Agent Tutorial: Tool-Enab
 
 ```mermaid
 flowchart TD
-    A[MyImageGen]
-    B[init_agent_service]
-    C[test]
-    D[app_tui]
-    E[app_gui]
+    A[init_agent_service]
+    B[test]
+    C[app_tui]
+    D[app_gui]
+    E[test]
     A --> B
     B --> C
     C --> D

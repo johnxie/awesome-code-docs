@@ -5,88 +5,130 @@ nav_order: 1
 parent: awslabs/mcp Tutorial
 ---
 
-
 # Chapter 1: Getting Started
 
-Welcome to **Chapter 1: Getting Started**. In this part of **awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
-
-
-This chapter gives a practical first-run path through the AWS MCP ecosystem.
+The `awslabs/mcp` repository is a monorepo containing 65+ production-grade MCP servers for AWS services, maintained by AWS Labs. Each server wraps one or more AWS service APIs as MCP tools, allowing LLM agents in Claude Desktop, Cursor, Amazon Q Developer, and other MCP clients to perform AWS operations through natural language.
 
 ## Learning Goals
 
-- identify one or two servers that match immediate needs
-- configure installation for your primary MCP host client
-- validate first tool calls with minimal environment risk
-- establish baseline profiles and runtime settings
+- Identify one or two servers that match your immediate needs
+- Configure installation for your primary MCP host client
+- Validate first tool calls with minimal environment risk
+- Establish baseline profiles and runtime settings
+
+## Repository Overview
+
+```mermaid
+graph TD
+    REPO[awslabs/mcp monorepo]
+    REPO --> SRC[src/ — 65+ MCP servers\none directory per server]
+    REPO --> DOCS[docusaurus/ — documentation site]
+    REPO --> SCRIPTS[scripts/ — CI tooling\nverify_tool_names.py]
+    REPO --> VIBE[VIBE_CODING_TIPS_TRICKS.md]
+    REPO --> DESIGN[DESIGN_GUIDELINES.md]
+    REPO --> DEV[DEVELOPER_GUIDE.md]
+
+    SRC --> CORE[core-mcp-server\nOrchestration + meta-server]
+    SRC --> DOCS_SRV[aws-documentation-mcp-server\nAWS service docs + search]
+    SRC --> API[aws-api-mcp-server\nAWS API discovery + execution]
+    SRC --> IaC[terraform-mcp-server\ncdk-mcp-server · cfn-mcp-server]
+    SRC --> DATA[Multiple DB servers\ndynamodb · postgres · mysql · redis...]
+```
+
+## Server Categories at a Glance
+
+| Category | Example Servers |
+|:---------|:---------------|
+| Documentation & discovery | `aws-documentation-mcp-server`, `aws-api-mcp-server`, `aws-knowledge-mcp-server` |
+| Infrastructure as Code | `terraform-mcp-server`, `cdk-mcp-server`, `cfn-mcp-server`, `aws-iac-mcp-server` |
+| Compute | `eks-mcp-server`, `ecs-mcp-server`, `lambda-tool-mcp-server` |
+| Data stores | `dynamodb-mcp-server`, `postgres-mcp-server`, `mysql-mcp-server`, `aurora-dsql-mcp-server` |
+| AI/ML | `bedrock-kb-retrieval-mcp-server`, `amazon-bedrock-agentcore-mcp-server`, `sagemaker-ai-mcp-server` |
+| Observability | `cloudwatch-mcp-server`, `cloudtrail-mcp-server`, `prometheus-mcp-server` |
+| Cost & billing | `cost-explorer-mcp-server`, `billing-cost-management-mcp-server`, `aws-pricing-mcp-server` |
+| Security | `iam-mcp-server`, `well-architected-security-mcp-server` |
 
 ## Fast Start Loop
 
-1. select an initial server (for example documentation, API, or IaC)
-2. install via your MCP host pattern (`uvx`-based paths are common)
-3. set minimal environment variables (region/profile/log level)
-4. run a low-risk read-only query end to end
-5. capture this configuration as your baseline template
+```mermaid
+flowchart TD
+    SELECT[1. Select a server for your task]
+    SELECT --> INSTALL[2. Install via uvx pattern\nor Docker]
+    INSTALL --> AUTH[3. Configure AWS credentials\nor profile]
+    AUTH --> TEST[4. Run a low-risk read-only query]
+    TEST --> BASELINE[5. Capture config as team baseline]
+    BASELINE --> EXPAND[Expand to more servers as needed]
+```
+
+### Step 1: Select Your First Server
+
+For most AWS users, start with:
+- **`aws-documentation-mcp-server`**: Search AWS service documentation — safe, read-only, no AWS credentials needed for basic usage
+- **`aws-api-mcp-server`**: Discover and call AWS APIs directly — requires AWS credentials
+- **`core-mcp-server`**: Meta-server for orchestrating other servers
+
+### Step 2: Install
+
+All servers follow the same `uvx` pattern:
+
+```bash
+# Run directly (no install step)
+uvx awslabs.aws-documentation-mcp-server
+
+# Or install into a project
+uv add awslabs.aws-documentation-mcp-server
+```
+
+### Step 3: Configure Claude Desktop
+
+```json
+{
+  "mcpServers": {
+    "awslabs-docs": {
+      "command": "uvx",
+      "args": ["awslabs.aws-documentation-mcp-server"],
+      "env": {
+        "AWS_PROFILE": "your-profile",
+        "AWS_REGION": "us-east-1",
+        "MCP_LOG_LEVEL": "WARNING"
+      }
+    }
+  }
+}
+```
+
+### Step 4: Validate with a Read-Only Query
+
+```
+User: "Search AWS documentation for Lambda function timeout limits"
+→ aws-documentation-mcp-server uses search tools to find relevant docs
+→ Returns documentation content as markdown
+
+User: "What AWS APIs are available for ECS task management?"
+→ aws-api-mcp-server discovers relevant API operations
+→ Returns API names, parameters, and documentation
+```
+
+## Fully Qualified Tool Names
+
+The repository enforces a naming convention for all tool names. The `scripts/verify_tool_names.py` CI tool validates this:
+
+```
+Format: awslabs<server_name_underscored>___<tool_name>
+Example: awslabsaws_documentation_mcp_server___search_documentation
+```
+
+This prevents tool name collisions when multiple AWS MCP servers are loaded simultaneously in the same MCP client.
 
 ## Source References
 
 - [Repository README](https://github.com/awslabs/mcp/blob/main/README.md)
 - [AWS Documentation MCP Server README](https://github.com/awslabs/mcp/blob/main/src/aws-documentation-mcp-server/README.md)
 - [AWS API MCP Server README](https://github.com/awslabs/mcp/blob/main/src/aws-api-mcp-server/README.md)
+- [Core MCP Server README](https://github.com/awslabs/mcp/blob/main/src/core-mcp-server/README.md)
 
 ## Summary
 
-You now have a stable onboarding path for first AWS MCP server usage.
+The `awslabs/mcp` repo provides a catalog of 65+ AWS-focused MCP servers, each installable via `uvx`. Start with the documentation or API discovery servers for read-only exploration. Use the fully qualified tool name convention (`awslabs<server>___<tool>`) to understand how tools are namespaced when multiple servers are active simultaneously.
 
 Next: [Chapter 2: Server Catalog and Role Composition](02-server-catalog-and-role-composition.md)
-
-## Source Code Walkthrough
-
-### `scripts/verify_tool_names.py`
-
-The `extract_package_name` function in [`scripts/verify_tool_names.py`](https://github.com/awslabs/mcp/blob/HEAD/scripts/verify_tool_names.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def extract_package_name(pyproject_path: Path) -> str:
-    """Extract the package name from pyproject.toml file."""
-    try:
-        with open(pyproject_path, 'rb') as f:
-            data = tomllib.load(f)
-        return data['project']['name']
-    except (FileNotFoundError, KeyError) as e:
-        raise ValueError(f'Failed to extract package name from {pyproject_path}: {e}')
-    except Exception as e:
-        if 'TOML' in str(type(e).__name__):
-            raise ValueError(f'Failed to parse TOML file {pyproject_path}: {e}')
-        else:
-            raise ValueError(f'Failed to extract package name from {pyproject_path}: {e}')
-
-
-def convert_package_name_to_server_format(package_name: str) -> str:
-    """Convert package name to the format used in fully qualified tool names.
-
-    Examples:
-        awslabs.git-repo-research-mcp-server -> git_repo_research_mcp_server
-        awslabs.nova-canvas-mcp-server -> nova_canvas_mcp_server
-    """
-    # Remove 'awslabs.' prefix if present
-    if package_name.startswith('awslabs.'):
-        package_name = package_name[8:]
-
-    # Replace hyphens with underscores
-    return package_name.replace('-', '_')
-
-
-```
-
-This function is important because it defines how awslabs/mcp Tutorial: Operating a Large-Scale MCP Server Ecosystem for AWS Workloads implements the patterns covered in this chapter.
-
-
-## How These Components Connect
-
-```mermaid
-flowchart TD
-    A[extract_package_name]
-```

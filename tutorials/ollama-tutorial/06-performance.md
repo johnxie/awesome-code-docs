@@ -6,6 +6,7 @@ has_children: false
 parent: Ollama Tutorial
 ---
 
+
 # Chapter 6: Performance, GPU Tuning, and Quantization
 
 Welcome to **Chapter 6: Performance, GPU Tuning, and Quantization**. In this part of **Ollama Tutorial: Running and Serving LLMs Locally**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -505,151 +506,184 @@ Here are ready-to-use option sets for common scenarios.
 | Next | [Chapter 7: Integrations](./07-integrations.md) |
 | Index | [Ollama Tutorial Home](./README.md) |
 
-## Depth Expansion Playbook
+## Source Code Walkthrough
 
-<!-- depth-expansion-v2 -->
+### `server/sched.go`
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+The `processPending` function in [`server/sched.go`](https://github.com/ollama/ollama/blob/HEAD/server/sched.go) handles a key part of this chapter's functionality:
 
-### Strategic Context
+```go
+	slog.Debug("starting llm scheduler")
+	go func() {
+		s.processPending(ctx)
+	}()
 
-- tutorial: **Ollama Tutorial: Running and Serving LLMs Locally**
-- tutorial slug: **ollama-tutorial**
-- chapter focus: **Chapter 6: Performance, GPU Tuning, and Quantization**
-- system context: **Ollama Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+	go func() {
+		s.processCompleted(ctx)
+	}()
+}
 
-### Architecture Decomposition
+func (s *Scheduler) processPending(ctx context.Context) {
+	maxRunners := envconfig.MaxRunners()
 
-1. Define the runtime boundary for `Chapter 6: Performance, GPU Tuning, and Quantization`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+	for {
+		select {
+		case <-ctx.Done():
+			slog.Debug("shutting down scheduler pending loop")
+			return
+		case pending := <-s.pendingReqCh:
+			// Block other requests until we get this pending request running
+			pending.schedAttempts++
 
-### Operator Decision Matrix
+			if pending.ctx.Err() != nil {
+				slog.Debug("pending request cancelled or timed out, skipping scheduling")
+				continue
+			}
+			logutil.Trace("processing incoming request", "model", pending.model.ModelPath)
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+			for {
+				var runnerToExpire *runnerRef
+				pendingKey := schedulerModelKey(pending.model)
+				s.loadedMu.Lock()
+```
 
-### Failure Modes and Countermeasures
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+### `server/sched.go`
 
-### Implementation Runbook
+The `processCompleted` function in [`server/sched.go`](https://github.com/ollama/ollama/blob/HEAD/server/sched.go) handles a key part of this chapter's functionality:
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+```go
 
-### Quality Gate Checklist
+	go func() {
+		s.processCompleted(ctx)
+	}()
+}
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+func (s *Scheduler) processPending(ctx context.Context) {
+	maxRunners := envconfig.MaxRunners()
 
-### Source Alignment
+	for {
+		select {
+		case <-ctx.Done():
+			slog.Debug("shutting down scheduler pending loop")
+			return
+		case pending := <-s.pendingReqCh:
+			// Block other requests until we get this pending request running
+			pending.schedAttempts++
 
-- [Ollama Repository](https://github.com/ollama/ollama)
-- [Ollama Releases](https://github.com/ollama/ollama/releases)
-- [Ollama Website and Docs](https://ollama.com/)
+			if pending.ctx.Err() != nil {
+				slog.Debug("pending request cancelled or timed out, skipping scheduling")
+				continue
+			}
+			logutil.Trace("processing incoming request", "model", pending.model.ModelPath)
 
-### Cross-Tutorial Connection Map
+			for {
+				var runnerToExpire *runnerRef
+				pendingKey := schedulerModelKey(pending.model)
+				s.loadedMu.Lock()
+				runner := s.loaded[pendingKey]
+				loadedCount := len(s.loaded)
+				runnersSnapshot := make([]ml.FilteredRunnerDiscovery, 0, len(s.loaded))
+				for _, r := range s.loaded {
+```
 
-- [Open WebUI Tutorial](../open-webui-tutorial/)
-- [LiteLLM Tutorial](../litellm-tutorial/)
-- [Llama.cpp Tutorial](../llama-cpp-tutorial/)
-- [VLLM Tutorial](../vllm-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-### Advanced Practice Exercises
+### `server/sched.go`
 
-1. Build a minimal end-to-end implementation for `Chapter 6: Performance, GPU Tuning, and Quantization`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+The `useLoadedRunner` function in [`server/sched.go`](https://github.com/ollama/ollama/blob/HEAD/server/sched.go) handles a key part of this chapter's functionality:
 
-### Review Questions
+```go
+	s.loadedMu.Unlock()
+	if runner != nil && !runner.needsReload(c, req) {
+		req.useLoadedRunner(runner, s.finishedReqCh)
+	} else {
+		select {
+		case s.pendingReqCh <- req:
+		default:
+			req.errCh <- ErrMaxQueue
+		}
+	}
+	return req.successCh, req.errCh
+}
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+// Returns immediately, spawns go routines for the scheduler which will shutdown when ctx is done
+func (s *Scheduler) Run(ctx context.Context) {
+	slog.Debug("starting llm scheduler")
+	go func() {
+		s.processPending(ctx)
+	}()
 
-## What Problem Does This Solve?
+	go func() {
+		s.processCompleted(ctx)
+	}()
+}
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `ollama`, `num_ctx`, `llama3` so behavior stays predictable as complexity grows.
+func (s *Scheduler) processPending(ctx context.Context) {
+	maxRunners := envconfig.MaxRunners()
 
-In practical terms, this chapter helps you avoid three common failures:
+	for {
+		select {
+		case <-ctx.Done():
+			slog.Debug("shutting down scheduler pending loop")
+```
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-After working through this chapter, you should be able to reason about `Chapter 6: Performance, GPU Tuning, and Quantization` as an operating subsystem inside **Ollama Tutorial: Running and Serving LLMs Locally**, with explicit contracts for inputs, state transitions, and outputs.
+### `server/sched.go`
 
-Use the implementation notes around `eval`, `echo`, `num_batch` as your checklist when adapting these patterns to your own repository.
+The `load` function in [`server/sched.go`](https://github.com/ollama/ollama/blob/HEAD/server/sched.go) handles a key part of this chapter's functionality:
 
-## How it Works Under the Hood
+```go
+	finishedReqCh chan *LlmRequest
+	expiredCh     chan *runnerRef
+	unloadedCh    chan any
 
-Under the hood, `Chapter 6: Performance, GPU Tuning, and Quantization` usually follows a repeatable control path:
+	// loadedMu protects loaded and activeLoading
+	loadedMu sync.Mutex
 
-1. **Context bootstrap**: initialize runtime config and prerequisites for `ollama`.
-2. **Input normalization**: shape incoming data so `num_ctx` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `llama3`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+	// activeLoading is the model that we are currently working on loading,
+	// including by evicting one or more other models. We can only load
+	// one model at a time but new requests to models that already loaded can
+	// happen in parallel
+	activeLoading llm.LlamaServer
+	loaded        map[string]*runnerRef
 
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+	loadFn          func(req *LlmRequest, systemInfo ml.SystemInfo, gpus []ml.DeviceInfo, requireFull bool) bool
+	newServerFn     func(systemInfo ml.SystemInfo, gpus []ml.DeviceInfo, model string, f *ggml.GGML, adapters []string, projectors []string, opts api.Options, numParallel int) (llm.LlamaServer, error)
+	getGpuFn        func(ctx context.Context, runners []ml.FilteredRunnerDiscovery) []ml.DeviceInfo
+	getSystemInfoFn func() ml.SystemInfo
+	waitForRecovery time.Duration
+}
 
-## Source Walkthrough
+// Default automatic value for number of models we allow per GPU
+// Model will still need to fit in VRAM, but loading many small models
+// on a large GPU can cause stalling
+var defaultModelsPerGPU = 3
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+var ErrMaxQueue = errors.New("server busy, please try again.  maximum pending requests exceeded")
 
-- [Ollama Repository](https://github.com/ollama/ollama)
-  Why it matters: authoritative reference on `Ollama Repository` (github.com).
-- [Ollama Releases](https://github.com/ollama/ollama/releases)
-  Why it matters: authoritative reference on `Ollama Releases` (github.com).
-- [Ollama Website and Docs](https://ollama.com/)
-  Why it matters: authoritative reference on `Ollama Website and Docs` (ollama.com).
+func InitScheduler(ctx context.Context) *Scheduler {
+	maxQueue := envconfig.MaxQueue()
+	sched := &Scheduler{
+		pendingReqCh:    make(chan *LlmRequest, maxQueue),
+```
 
-Suggested trace strategy:
-- search upstream code for `ollama` and `num_ctx` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+This function is important because it defines how Ollama Tutorial: Running and Serving LLMs Locally implements the patterns covered in this chapter.
 
-## Chapter Connections
 
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 5: Modelfiles, Templates, and Custom Models](05-modelfiles-custom.md)
-- [Next Chapter: Chapter 7: Integrations with OpenAI API, LangChain, and LlamaIndex](07-integrations.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+## How These Components Connect
+
+```mermaid
+flowchart TD
+    A[processPending]
+    B[processCompleted]
+    C[useLoadedRunner]
+    D[load]
+    E[updateFreeSpace]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

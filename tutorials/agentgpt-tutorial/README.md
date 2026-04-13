@@ -15,9 +15,9 @@ format_version: v2
 [![TypeScript](https://img.shields.io/badge/TypeScript-blue)](https://github.com/reworkd/AgentGPT)
 
 
-AgentGPT<sup>[View Repo](https://github.com/reworkd/AgentGPT)</sup> is a platform for creating and deploying autonomous AI agents that can perform complex tasks, make decisions, and execute actions independently. It demonstrates advanced patterns in AI agent development, including goal-oriented planning, tool integration, and autonomous execution.
+AgentGPT<sup>[View Repo](https://github.com/reworkd/AgentGPT)</sup> is a **web-based AutoGPT-style platform** where users enter a goal in a browser UI and the system autonomously generates tasks, executes them in sequence, and reports results — without requiring any coding. Built with Next.js (frontend) and Python/FastAPI (backend), it is one of the earliest and most widely forked "agents in the browser" implementations.
 
-AgentGPT shows how to build AI systems that can break down complex objectives into manageable tasks, use various tools and APIs, and execute plans autonomously while maintaining safety and reliability.
+> **Note**: The AgentGPT repository is **archived** (last release v1.0.0, November 2023) and is no longer actively maintained. This tutorial covers the final stable codebase as a historical reference for goal-decomposition agent architecture.
 
 
 ## Mental Model

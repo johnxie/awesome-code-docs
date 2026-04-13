@@ -36,184 +36,184 @@ You now have deployment and operations patterns for running Cipher in developer 
 
 Next: [Chapter 8: Security and Team Governance](08-security-and-team-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app/api/server.ts`
+### `src/oclif/lib/daemon-client.ts`
 
-The `full` interface in [`src/app/api/server.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/api/server.ts) handles a key part of this chapter's functionality:
+The `hasLeakedHandles` function in [`src/oclif/lib/daemon-client.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/lib/daemon-client.ts) handles a key part of this chapter's functionality:
 
 ```ts
+  if (error instanceof DaemonSpawnError || error instanceof ConnectionFailedError) return true
+  if (error instanceof TransportRequestTimeoutError) return true
+  return hasLeakedHandles(error)
+}
 
-	/**
-	 * Helper method to construct full path including proxy context path
-	 * Used for SSE transport endpoint configuration when behind reverse proxy
-	 */
-	private buildFullPath(req: Request, path: string): string {
-		const contextPath = (req as any).contextPath || '';
-		const fullPath = contextPath + this.buildApiRoute(path);
+/**
+ * Checks if an error left leaked Socket.IO handles that prevent Node.js from exiting.
+ */
+export function hasLeakedHandles(error: unknown): boolean {
+  if (!(error instanceof Error)) return false
+  if (!('code' in error)) return false
+  return error.code === TaskErrorCode.AGENT_DISCONNECTED || error.code === TaskErrorCode.AGENT_NOT_AVAILABLE
+}
 
-		logger.debug('[API Server] Built full path', {
-			path,
-			contextPath,
-			apiPrefix: this.apiPrefix,
-			fullPath,
-		});
+/**
+ * Builds a user-friendly message when provider credentials are missing from storage.
+ */
+export function providerMissingMessage(activeProvider: string, authMethod?: 'api-key' | 'oauth'): string {
+  return authMethod === 'oauth'
+    ? `${activeProvider} authentication has expired.\nPlease reconnect: brv providers connect ${activeProvider} --oauth`
+    : `${activeProvider} API key is missing from storage.\nPlease reconnect: brv providers connect ${activeProvider} --api-key <your-key>`
+}
 
-		return fullPath;
-	}
+export interface ProviderErrorContext {
+  activeModel?: string
+  activeProvider?: string
+}
 
-	private async setupMcpServer(
-		transportType: 'stdio' | 'sse' | 'http',
-		_port?: number
-	): Promise<void> {
-		logger.info(`[API Server] Setting up MCP server with transport type: ${transportType}`);
-		try {
-			// Initialize agent card data
-			const agentCard = this.agent.getEffectiveConfig().agentCard;
-			const agentCardInput = agentCard
-				? Object.fromEntries(Object.entries(agentCard).filter(([, value]) => value !== undefined))
-				: {};
-			const agentCardData = initializeAgentCardResource(agentCardInput);
+/**
+ * Formats a connection error into a user-friendly message.
+ */
+export function formatConnectionError(error: unknown, providerContext?: ProviderErrorContext): string {
+```
 
+This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/oclif/lib/daemon-client.ts`
+
+The `providerMissingMessage` function in [`src/oclif/lib/daemon-client.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/lib/daemon-client.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Builds a user-friendly message when provider credentials are missing from storage.
+ */
+export function providerMissingMessage(activeProvider: string, authMethod?: 'api-key' | 'oauth'): string {
+  return authMethod === 'oauth'
+    ? `${activeProvider} authentication has expired.\nPlease reconnect: brv providers connect ${activeProvider} --oauth`
+    : `${activeProvider} API key is missing from storage.\nPlease reconnect: brv providers connect ${activeProvider} --api-key <your-key>`
+}
+
+export interface ProviderErrorContext {
+  activeModel?: string
+  activeProvider?: string
+}
+
+/**
+ * Formats a connection error into a user-friendly message.
+ */
+export function formatConnectionError(error: unknown, providerContext?: ProviderErrorContext): string {
+  if (error instanceof NoInstanceRunningError) {
+    if (isSandboxEnvironment()) {
+      const sandboxName = getSandboxEnvironmentName()
+      return (
+        `Daemon failed to start automatically.\n` +
+        `⚠️  Sandbox environment detected (${sandboxName}).\n\n` +
+        `Run 'brv' in a terminal outside the sandbox, then allow network access so this sandbox can connect.`
+      )
+    }
+
+    return 'Daemon failed to start automatically.\n\nRestart your terminal and retry the command.'
+  }
+
+  if (error instanceof InstanceCrashedError) {
+    return "Daemon crashed unexpectedly.\n\nRun 'brv restart' to force a clean restart."
+```
+
+This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/oclif/lib/daemon-client.ts`
+
+The `formatConnectionError` function in [`src/oclif/lib/daemon-client.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/lib/daemon-client.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Formats a connection error into a user-friendly message.
+ */
+export function formatConnectionError(error: unknown, providerContext?: ProviderErrorContext): string {
+  if (error instanceof NoInstanceRunningError) {
+    if (isSandboxEnvironment()) {
+      const sandboxName = getSandboxEnvironmentName()
+      return (
+        `Daemon failed to start automatically.\n` +
+        `⚠️  Sandbox environment detected (${sandboxName}).\n\n` +
+        `Run 'brv' in a terminal outside the sandbox, then allow network access so this sandbox can connect.`
+      )
+    }
+
+    return 'Daemon failed to start automatically.\n\nRestart your terminal and retry the command.'
+  }
+
+  if (error instanceof InstanceCrashedError) {
+    return "Daemon crashed unexpectedly.\n\nRun 'brv restart' to force a clean restart."
+  }
+
+  if (error instanceof ConnectionFailedError) {
+    const isSandboxError = isSandboxNetworkError(error.originalError ?? error)
+
+    if (isSandboxError) {
+      const sandboxName = getSandboxEnvironmentName()
+      return (
+        `Failed to connect to the daemon.\n` +
+        `Port: ${error.port ?? 'unknown'}\n` +
+        `⚠️  Sandbox network restriction detected (${sandboxName}).\n\n` +
+        `Please allow network access in the sandbox and retry the command.`
+      )
+    }
+```
+
+This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/oclif/lib/daemon-client.ts`
+
+The `DaemonClientOptions` interface in [`src/oclif/lib/daemon-client.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/oclif/lib/daemon-client.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export interface DaemonClientOptions {
+  /** Max retry attempts. Default: 3 */
+  maxRetries?: number
+  /** Delay between retries in ms. Default: 2000. Set to 0 in tests. */
+  retryDelayMs?: number
+  /** Optional transport connector for DI/testing */
+  transportConnector?: TransportConnector
+}
+
+/**
+ * Connects to the daemon, auto-starting it if needed.
+ */
+export async function connectToDaemonClient(
+  options?: Pick<DaemonClientOptions, 'transportConnector'>,
+): Promise<ConnectionResult> {
+  const connector = options?.transportConnector ?? createDaemonAwareConnector()
+  return connector()
+}
+
+/**
+ * Executes an operation against the daemon with retry logic.
+ *
+ * Retries on infrastructure failures (daemon spawn timeout, connection dropped,
+ * agent disconnected). Does NOT retry on business errors (auth, validation, etc.).
+ */
+export async function withDaemonRetry<T>(
+  fn: (client: ITransportClient, projectRoot?: string) => Promise<T>,
+  options?: DaemonClientOptions & {
+    /** Called before each retry with attempt number (1-indexed) */
+    onRetry?: (attempt: number, maxRetries: number) => void
 ```
 
 This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
-
-### `src/app/mcp/mcp_handler.ts`
-
-The `initializeMcpServer` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
-
-```ts
- * @param aggregatorConfig - Configuration for aggregator mode (optional)
- */
-export async function initializeMcpServer(
-	agent: MemAgent,
-	agentCard: AgentCard,
-	mode: 'default' | 'aggregator' = 'default',
-	aggregatorConfig?: AggregatorConfig
-): Promise<Server> {
-	logger.info(`[MCP Handler] Initializing MCP server with agent capabilities (mode: ${mode})`);
-
-	// Remove or update the call to agent.promptManager.load
-	// if (mode === 'default') {
-	// 	agent.promptManager.load(
-	// 		`When running as an MCP server, Cipher should focus solely on EITHER storage OR retrieval using its own tools. For each interaction, perform ONLY ONE operation: either retrieval OR storage. For storage tasks, do NOT use retrieval tools. For retrieval tasks, use search tools as needed. This behavior is only expected in MCP server mode.`
-	// 	);
-	// }
-
-	// Create MCP server instance
-	const server = new Server(
-		{
-			name: agentCard.name || 'cipher',
-			version: agentCard.version || '1.0.0',
-		},
-		{
-			capabilities: {
-				tools: {},
-				resources: {},
-				prompts: {},
-			},
-		}
-	);
-
-```
-
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
-
-### `src/app/mcp/mcp_handler.ts`
-
-The `registerAgentTools` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
-
-```ts
-		await registerAggregatedTools(server, agent, aggregatorConfig);
-	} else {
-		await registerAgentTools(server, agent);
-	}
-	await registerAgentResources(server, agent, agentCard);
-	await registerAgentPrompts(server, agent);
-
-	logger.info(`[MCP Handler] MCP server initialized successfully (mode: ${mode})`);
-	logger.info('[MCP Handler] Agent is now available as MCP server for external clients');
-
-	return server;
-}
-
-/**
- * Register agent tools as MCP tools (default mode - ask_cipher only)
- */
-async function registerAgentTools(server: Server, agent: MemAgent): Promise<void> {
-	logger.debug('[MCP Handler] Registering agent tools (default mode - ask_cipher only)');
-
-	// Default mode: Only expose ask_cipher tool (simplified)
-	const mcpTools = [
-		{
-			name: 'ask_cipher',
-			description:
-				'Use this tool to store new information or search existing information. When you encounter information not yet seen in the current conversation, call ask_cipher to store it. For questions outside the current context, use ask_cipher to search relevant memory. Users may not explicitly request it, but ask_cipher should be your first choice in these cases.',
-			inputSchema: {
-				type: 'object',
-				properties: {
-					message: {
-						type: 'string',
-						description: 'The message or question to send to the Cipher agent',
-					},
-```
-
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
-
-### `src/app/mcp/mcp_handler.ts`
-
-The `registerAggregatedTools` function in [`src/app/mcp/mcp_handler.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/mcp/mcp_handler.ts) handles a key part of this chapter's functionality:
-
-```ts
-	// Register agent capabilities as MCP tools, resources, and prompts
-	if (mode === 'aggregator') {
-		await registerAggregatedTools(server, agent, aggregatorConfig);
-	} else {
-		await registerAgentTools(server, agent);
-	}
-	await registerAgentResources(server, agent, agentCard);
-	await registerAgentPrompts(server, agent);
-
-	logger.info(`[MCP Handler] MCP server initialized successfully (mode: ${mode})`);
-	logger.info('[MCP Handler] Agent is now available as MCP server for external clients');
-
-	return server;
-}
-
-/**
- * Register agent tools as MCP tools (default mode - ask_cipher only)
- */
-async function registerAgentTools(server: Server, agent: MemAgent): Promise<void> {
-	logger.debug('[MCP Handler] Registering agent tools (default mode - ask_cipher only)');
-
-	// Default mode: Only expose ask_cipher tool (simplified)
-	const mcpTools = [
-		{
-			name: 'ask_cipher',
-			description:
-				'Use this tool to store new information or search existing information. When you encounter information not yet seen in the current conversation, call ask_cipher to store it. For questions outside the current context, use ask_cipher to search relevant memory. Users may not explicitly request it, but ask_cipher should be your first choice in these cases.',
-			inputSchema: {
-				type: 'object',
-				properties: {
-					message: {
-						type: 'string',
-```
-
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[full]
-    B[initializeMcpServer]
-    C[registerAgentTools]
-    D[registerAggregatedTools]
+    A[hasLeakedHandles]
+    B[providerMissingMessage]
+    C[formatConnectionError]
+    D[DaemonClientOptions]
+    E[ProviderErrorContext]
     A --> B
     B --> C
     C --> D
+    D --> E
 ```

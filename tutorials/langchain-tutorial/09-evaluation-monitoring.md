@@ -749,6 +749,20 @@ monitor.track_performance("qa_chain", evaluation_score, latency_seconds)
 
 This evaluation and monitoring chapter provides comprehensive tools for maintaining and improving LangChain application performance in production environments. The combination of evaluation frameworks, monitoring systems, and continuous improvement processes ensures your AI applications remain reliable and effective over time.
 
+## Evaluation and Monitoring
+
+```mermaid
+flowchart TD
+    A[LangSmith project] --> B[Trace every LLM call]
+    B --> C[Latency, cost, tokens logged]
+    C --> D{Evaluation}
+    D -->|Automated| E[Evaluator LLM scores outputs]
+    D -->|Human| F[Manual feedback annotations]
+    E --> G[Dataset + scores]
+    F --> G
+    G --> H[Regression testing on new versions]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `self`, `chain_name`, `error` so behavior stays predictable as complexity grows.

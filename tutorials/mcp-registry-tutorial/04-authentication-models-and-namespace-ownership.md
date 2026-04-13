@@ -45,170 +45,168 @@ You now have a reliable mapping from namespace policy to authentication workflow
 
 Next: [Chapter 5: API Consumption, Subregistries, and Sync Strategies](05-api-consumption-subregistries-and-sync-strategies.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/database/postgres.go`
+### `internal/validators/validators.go`
 
-The `ListServers` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func (db *PostgreSQL) ListServers(
-	ctx context.Context,
-	tx pgx.Tx,
-	filter *ServerFilter,
-	cursor string,
-	limit int,
-) ([]*apiv0.ServerResponse, string, error) {
-	if limit <= 0 {
-		limit = 10
-	}
-
-	if ctx.Err() != nil {
-		return nil, "", ctx.Err()
-	}
-
-	// Build WHERE clause conditions
-	argIndex := 1
-	whereConditions, args, argIndex := buildFilterConditions(filter, argIndex)
-
-	// Add cursor pagination
-	cursorCondition, cursorArgs, argIndex := addCursorCondition(cursor, argIndex)
-	if cursorCondition != "" {
-		whereConditions = append(whereConditions, cursorCondition)
-		args = append(args, cursorArgs...)
-	}
-	_ = argIndex // Silence unused variable warning
-
-	// Build the WHERE clause
-	whereClause := ""
-	if len(whereConditions) > 0 {
-```
-
-This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
-
-### `internal/database/postgres.go`
-
-The `GetServerByName` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
+The `ValidatePublishRequest` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// GetServerByName retrieves the latest version of a server by server name
-func (db *PostgreSQL) GetServerByName(ctx context.Context, tx pgx.Tx, serverName string, includeDeleted bool) (*apiv0.ServerResponse, error) {
-	if ctx.Err() != nil {
-		return nil, ctx.Err()
+// ValidatePublishRequest validates a complete publish request including extensions
+// Note: ValidateServerJSON should be called separately before this function
+func ValidatePublishRequest(ctx context.Context, req apiv0.ServerJSON, cfg *config.Config) error {
+	// Validate publisher extensions in _meta
+	if err := validatePublisherExtensions(req); err != nil {
+		return err
 	}
 
-	// Build filter conditions
-	isLatest := true
-	filter := &ServerFilter{
-		Name:           &serverName,
-		IsLatest:       &isLatest,
-		IncludeDeleted: &includeDeleted,
+	// Validate registry ownership for all packages if validation is enabled
+	if cfg.EnableRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
 	}
 
-	argIndex := 1
-	whereConditions, args, _ := buildFilterConditions(filter, argIndex)
+	return nil
+}
 
-	whereClause := ""
-	if len(whereConditions) > 0 {
-		whereClause = "WHERE " + strings.Join(whereConditions, " AND ")
+// ValidateUpdateRequest validates an update request including registry ownership
+// Note: ValidateServerJSON should be called separately before this function
+func ValidateUpdateRequest(ctx context.Context, req apiv0.ServerJSON, cfg *config.Config, skipRegistryValidation bool) error {
+	if cfg.EnableRegistryValidation && !skipRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
 	}
 
-	query := fmt.Sprintf(`
-		SELECT server_name, version, status, status_changed_at, status_message, published_at, updated_at, is_latest, value
-		FROM servers
-		%s
-		ORDER BY published_at DESC
-		LIMIT 1
-	`, whereClause)
+	return nil
+}
 
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/database/postgres.go`
+### `internal/validators/validators.go`
 
-The `GetServerByNameAndVersion` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
+The `ValidateUpdateRequest` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// GetServerByNameAndVersion retrieves a specific version of a server by server name and version
-func (db *PostgreSQL) GetServerByNameAndVersion(ctx context.Context, tx pgx.Tx, serverName string, version string, includeDeleted bool) (*apiv0.ServerResponse, error) {
-	if ctx.Err() != nil {
-		return nil, ctx.Err()
+// ValidateUpdateRequest validates an update request including registry ownership
+// Note: ValidateServerJSON should be called separately before this function
+func ValidateUpdateRequest(ctx context.Context, req apiv0.ServerJSON, cfg *config.Config, skipRegistryValidation bool) error {
+	if cfg.EnableRegistryValidation && !skipRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
 	}
 
-	// Build filter conditions
-	filter := &ServerFilter{
-		Name:           &serverName,
-		Version:        &version,
-		IncludeDeleted: &includeDeleted,
+	return nil
+}
+
+func validateRegistryOwnership(ctx context.Context, req apiv0.ServerJSON) error {
+	for i, pkg := range req.Packages {
+		if err := ValidatePackage(ctx, pkg, req.Name); err != nil {
+			return fmt.Errorf("registry validation failed for package %d (%s): %w", i, pkg.Identifier, err)
+		}
 	}
+	return nil
+}
 
-	argIndex := 1
-	whereConditions, args, _ := buildFilterConditions(filter, argIndex)
+func validatePublisherExtensions(req apiv0.ServerJSON) error {
+	const maxExtensionSize = 4 * 1024 // 4KB limit
 
-	whereClause := ""
-	if len(whereConditions) > 0 {
-		whereClause = "WHERE " + strings.Join(whereConditions, " AND ")
-	}
-
-	query := fmt.Sprintf(`
-		SELECT server_name, version, status, status_changed_at, status_message, published_at, updated_at, is_latest, value
-		FROM servers
-		%s
-		LIMIT 1
-	`, whereClause)
-
-	var name, vers, status string
-	var statusChangedAt, publishedAt, updatedAt time.Time
+	// Check size limit for _meta publisher-provided extension
+	if req.Meta != nil && req.Meta.PublisherProvided != nil {
+		extensionsJSON, err := json.Marshal(req.Meta.PublisherProvided)
+		if err != nil {
+			return fmt.Errorf("failed to marshal _meta.io.modelcontextprotocol.registry/publisher-provided extension: %w", err)
+		}
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/database/postgres.go`
+### `internal/validators/validators.go`
 
-The `GetAllVersionsByServerName` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
+The `validateRegistryOwnership` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
+	// Validate registry ownership for all packages if validation is enabled
+	if cfg.EnableRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
-// GetAllVersionsByServerName retrieves all versions of a server by server name
-func (db *PostgreSQL) GetAllVersionsByServerName(ctx context.Context, tx pgx.Tx, serverName string, includeDeleted bool) ([]*apiv0.ServerResponse, error) {
-	if ctx.Err() != nil {
-		return nil, ctx.Err()
+// ValidateUpdateRequest validates an update request including registry ownership
+// Note: ValidateServerJSON should be called separately before this function
+func ValidateUpdateRequest(ctx context.Context, req apiv0.ServerJSON, cfg *config.Config, skipRegistryValidation bool) error {
+	if cfg.EnableRegistryValidation && !skipRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
 	}
 
-	// Build filter conditions
-	filter := &ServerFilter{
-		Name:           &serverName,
-		IncludeDeleted: &includeDeleted,
+	return nil
+}
+
+func validateRegistryOwnership(ctx context.Context, req apiv0.ServerJSON) error {
+	for i, pkg := range req.Packages {
+		if err := ValidatePackage(ctx, pkg, req.Name); err != nil {
+			return fmt.Errorf("registry validation failed for package %d (%s): %w", i, pkg.Identifier, err)
+		}
+	}
+	return nil
+}
+
+func validatePublisherExtensions(req apiv0.ServerJSON) error {
+```
+
+This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
+
+### `internal/validators/validators.go`
+
+The `validatePublisherExtensions` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
+
+```go
+func ValidatePublishRequest(ctx context.Context, req apiv0.ServerJSON, cfg *config.Config) error {
+	// Validate publisher extensions in _meta
+	if err := validatePublisherExtensions(req); err != nil {
+		return err
 	}
 
-	argIndex := 1
-	whereConditions, args, _ := buildFilterConditions(filter, argIndex)
-
-	whereClause := ""
-	if len(whereConditions) > 0 {
-		whereClause = "WHERE " + strings.Join(whereConditions, " AND ")
+	// Validate registry ownership for all packages if validation is enabled
+	if cfg.EnableRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
 	}
 
-	query := fmt.Sprintf(`
-		SELECT server_name, version, status, status_changed_at, status_message, published_at, updated_at, is_latest, value
-		FROM servers
-		%s
-		ORDER BY published_at DESC
-	`, whereClause)
+	return nil
+}
 
-	rows, err := db.getExecutor(tx).Query(ctx, query, args...)
-	if err != nil {
-		return nil, fmt.Errorf("failed to query server versions: %w", err)
+// ValidateUpdateRequest validates an update request including registry ownership
+// Note: ValidateServerJSON should be called separately before this function
+func ValidateUpdateRequest(ctx context.Context, req apiv0.ServerJSON, cfg *config.Config, skipRegistryValidation bool) error {
+	if cfg.EnableRegistryValidation && !skipRegistryValidation {
+		if err := validateRegistryOwnership(ctx, req); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func validateRegistryOwnership(ctx context.Context, req apiv0.ServerJSON) error {
+	for i, pkg := range req.Packages {
+		if err := ValidatePackage(ctx, pkg, req.Name); err != nil {
+			return fmt.Errorf("registry validation failed for package %d (%s): %w", i, pkg.Identifier, err)
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -218,11 +216,11 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 
 ```mermaid
 flowchart TD
-    A[ListServers]
-    B[GetServerByName]
-    C[GetServerByNameAndVersion]
-    D[GetAllVersionsByServerName]
-    E[CreateServer]
+    A[ValidatePublishRequest]
+    B[ValidateUpdateRequest]
+    C[validateRegistryOwnership]
+    D[validatePublisherExtensions]
+    E[parseServerName]
     A --> B
     B --> C
     C --> D

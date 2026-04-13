@@ -14,9 +14,9 @@ Use this guide to navigate all tutorial tracks, understand structure rules, and 
 
 | Metric | Value |
 |:-------|:------|
-| Tutorial directories | 201 |
-| Tutorial markdown files | 1812 |
-| Tutorial markdown lines | 730,014 |
+| Tutorial directories | 203 |
+| Tutorial markdown files | 1830 |
+| Tutorial markdown lines | 706,049 |
 
 ## Source Verification Snapshot
 
@@ -26,8 +26,8 @@ Repository-source verification run against tutorial index references (GitHub API
 |:-------|------:|
 | Tutorials scanned | 201 |
 | Tutorials with source repos | 201 |
-| Tutorials with unverified source repos | 0 |
-| Unique verified source repos | 214 |
+| Tutorials with unverified source repos | 1 |
+| Unique verified source repos | 212 |
 
 - Report: [../discoverability/tutorial-source-verification.md](../discoverability/tutorial-source-verification.md)
 - JSON: [../discoverability/tutorial-source-verification.json](../discoverability/tutorial-source-verification.json)
@@ -37,7 +37,7 @@ Repository-source verification run against tutorial index references (GitHub API
 
 | Pattern | Count | Description |
 |:--------|:------|:------------|
-| Root chapter files | 201 | `README.md` + top-level `01-...md` to `08-...md` |
+| Root chapter files | 203 | `README.md` + top-level `01-...md` to `08-...md` |
 | `docs/` chapter files | 0 | Deprecated and fully migrated |
 | Index-only roadmap | 0 | All catalog entries publish full chapter sets |
 | Mixed root + `docs/` | 0 | Legacy hybrid layout removed |

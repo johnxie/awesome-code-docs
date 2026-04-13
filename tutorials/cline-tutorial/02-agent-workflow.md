@@ -127,183 +127,173 @@ You now have a reliable task orchestration model:
 
 Next: [Chapter 3: File Editing and Diffs](03-file-editing-and-diffs.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/extension.ts`
+### `src/common.ts`
 
-The `getNotebookCommandContext` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+The `checkWorktreeAutoOpen` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
 
 ```ts
+	showVersionUpdateAnnouncement(stateManager)
+	// Check if this workspace was opened from worktree quick launch
+	await checkWorktreeAutoOpen(stateManager)
 
-	// Helper to get notebook context for Jupyter commands
-	async function getNotebookCommandContext(range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) {
-		const activeNotebook = vscode.window.activeNotebookEditor
-		if (!activeNotebook) {
-			HostProvider.window.showMessage({
-				type: ShowMessageType.ERROR,
-				message: "No active Jupyter notebook found. Please open a .ipynb file first.",
-			})
-			return null
+	// =============== Background sync and cleanup tasks ===============
+	// Use remote config blobStoreConfig if available, otherwise fall back to env vars
+	const blobStoreSettings = stateManager.getRemoteConfigSettings()?.blobStoreConfig ?? getBlobStoreSettingsFromEnv()
+	syncWorker().init({ ...blobStoreSettings, userDistinctId: getDistinctId() })
+	// Clean up old temp files in background (non-blocking) and start periodic cleanup every 24 hours
+	ClineTempManager.startPeriodicCleanup()
+	// Clean up orphaned file context warnings (startup cleanup)
+	FileContextTracker.cleanupOrphanedWarnings(stateManager)
+
+	telemetryService.captureExtensionActivated()
+
+	return webview
+}
+
+async function showVersionUpdateAnnouncement(stateManager: StateManager) {
+	// Version checking for autoupdate notification
+	const currentVersion = ExtensionRegistryInfo.version
+	const previousVersion = stateManager.getGlobalStateKey("clineVersion")
+	// Perform post-update actions if necessary
+	try {
+		if (!previousVersion || currentVersion !== previousVersion) {
+			Logger.log(`Cline version changed: ${previousVersion} -> ${currentVersion}. First run or update detected.`)
+
+			// Check if there's a new announcement to show
+			const lastShownAnnouncementId = stateManager.getGlobalStateKey("lastShownAnnouncementId")
+			const latestAnnouncementId = getLatestAnnouncementId()
+
+			if (lastShownAnnouncementId !== latestAnnouncementId) {
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/common.ts`
+
+The `tearDown` function in [`src/common.ts`](https://github.com/cline/cline/blob/HEAD/src/common.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Performs cleanup when Cline is deactivated that is common to all platforms.
+ */
+export async function tearDown(): Promise<void> {
+	AgentConfigLoader.getInstance()?.dispose()
+	PostHogClientProvider.getInstance().dispose()
+	telemetryService.dispose()
+	ErrorService.get().dispose()
+	featureFlagsService.dispose()
+	// Dispose all webview instances
+	await WebviewProvider.disposeAllInstances()
+	syncWorker().dispose()
+	clearOnboardingModelsCache()
+
+	// Kill any running hook processes to prevent zombies
+	await HookProcessRegistry.terminateAll()
+	// Clean up hook discovery cache
+	HookDiscoveryCache.getInstance().dispose()
+	// Stop periodic temp file cleanup
+	ClineTempManager.stopPeriodicCleanup()
+
+	// Clean up test mode
+	cleanupTestMode()
+}
+
+```
+
+This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+
+### `src/config.ts`
+
+The `ClineConfigurationError` class in [`src/config.ts`](https://github.com/cline/cline/blob/HEAD/src/config.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * This error prevents Cline from starting to avoid misconfiguration in enterprise environments.
+ */
+export class ClineConfigurationError extends Error {
+	constructor(message: string) {
+		super(message)
+		this.name = "ClineConfigurationError"
+	}
+}
+
+class ClineEndpoint {
+	private static _instance: ClineEndpoint | null = null
+	private static _initialized = false
+	private static _extensionFsPath: string
+
+	// On-premise config loaded from file (null if not on-premise)
+	private onPremiseConfig: EndpointsFileSchema | null = null
+	private environment: Environment = Environment.production
+	// Track if config came from bundled file (enterprise distribution)
+	private isBundled: boolean = false
+
+	private constructor() {
+		// Set environment at module load. Use override if provided.
+		const _env = process?.env?.CLINE_ENVIRONMENT_OVERRIDE || process?.env?.CLINE_ENVIRONMENT
+		if (_env && Object.values(Environment).includes(_env as Environment)) {
+			this.environment = _env as Environment
 		}
-
-		const ctx = await getContextForCommand(range, diagnostics)
-		if (!ctx) {
-			return null
-		}
-
-		const filePath = ctx.commandContext.filePath || ""
-		let cellJson: string | null = null
-		if (activeNotebook.notebook.cellCount > 0) {
-			const cellIndex = activeNotebook.notebook.cellAt(activeNotebook.selection.start).index
-			cellJson = await findMatchingNotebookCell(filePath, cellIndex)
-		}
-
-		return { ...ctx, cellJson }
 	}
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand(
-			commands.JupyterGenerateCell,
-			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
-				const userPrompt = await showJupyterPromptInput(
+	/**
+	 * Initializes the ClineEndpoint singleton.
+	 * Must be called before any other methods.
+	 * Reads the endpoints.json file if it exists and validates its schema.
 ```
 
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
-### `src/extension.ts`
+### `src/config.ts`
 
-The `showJupyterPromptInput` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
-
-```ts
-			commands.JupyterGenerateCell,
-			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
-				const userPrompt = await showJupyterPromptInput(
-					"Generate Notebook Cell",
-					"Enter your prompt for generating notebook cell (press Enter to confirm & Esc to cancel)",
-				)
-				if (!userPrompt) return
-
-				const ctx = await getNotebookCommandContext(range, diagnostics)
-				if (!ctx) return
-
-				const notebookContext = `User prompt: ${userPrompt}
-Insert a new Jupyter notebook cell above or below the current cell based on user prompt.
-${NOTEBOOK_EDIT_INSTRUCTIONS}
-
-Current Notebook Cell Context (JSON, sanitized of image data):
-\`\`\`json
-${ctx.cellJson || "{}"}
-\`\`\``
-
-				await addToCline(ctx.controller, ctx.commandContext, notebookContext)
-			},
-		),
-	)
-
-	context.subscriptions.push(
-		vscode.commands.registerCommand(
-			commands.JupyterExplainCell,
-			async (range?: vscode.Range, diagnostics?: vscode.Diagnostic[]) => {
-				const ctx = await getNotebookCommandContext(range, diagnostics)
-				if (!ctx) return
-
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/extension.ts`
-
-The `setupHostProvider` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
+The `ClineEndpoint` class in [`src/config.ts`](https://github.com/cline/cline/blob/HEAD/src/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
-	// 1. Set up HostProvider for VSCode
-	// IMPORTANT: This must be done before any service can be registered
-	setupHostProvider(context)
+}
 
-	// 2. Clean up legacy data patterns within VSCode's native storage.
-	// Moves workspace→global keys, task history→file, custom instructions→rules, etc.
-	// Must run BEFORE the file export so we copy clean state.
-	await cleanupLegacyVSCodeStorage(context)
+class ClineEndpoint {
+	private static _instance: ClineEndpoint | null = null
+	private static _initialized = false
+	private static _extensionFsPath: string
 
-	// 3. One-time export of VSCode's native storage to shared file-backed stores.
-	// After this, all platforms (VSCode, CLI, JetBrains) read from ~/.cline/data/.
-	const workspacePath = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath
-	const storageContext = createStorageContext({ workspacePath })
-	await exportVSCodeStorageToSharedFiles(context, storageContext)
+	// On-premise config loaded from file (null if not on-premise)
+	private onPremiseConfig: EndpointsFileSchema | null = null
+	private environment: Environment = Environment.production
+	// Track if config came from bundled file (enterprise distribution)
+	private isBundled: boolean = false
 
-	// 4. Register services and perform common initialization
-	// IMPORTANT: Must be done after host provider is setup and migrations are complete
-	const webview = (await initialize(storageContext)) as VscodeWebviewProvider
-
-	// 5. Register services and commands specific to VS Code
-	// Initialize test mode and add disposables to context
-	const testModeWatchers = await initializeTestMode(webview)
-	context.subscriptions.push(...testModeWatchers)
-
-	// Initialize hook discovery cache for performance optimization
-	HookDiscoveryCache.getInstance().initialize(
-		context as any, // Adapt VSCode ExtensionContext to generic interface
-		(dir: string) => {
-			try {
-				const pattern = new vscode.RelativePattern(dir, "*")
-				const watcher = vscode.workspace.createFileSystemWatcher(pattern)
-				// Ensure watcher is disposed when extension is deactivated
-```
-
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
-
-### `src/extension.ts`
-
-The `getUriPath` function in [`src/extension.ts`](https://github.com/cline/cline/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
-
-```ts
-	const handleUri = async (uri: vscode.Uri) => {
-		const url = decodeURIComponent(uri.toString())
-		const isTaskUri = getUriPath(url) === TASK_URI_PATH
-
-		if (isTaskUri) {
-			await openClineSidebarForTaskUri()
-		}
-
-		let success = await SharedUriHandler.handleUri(url)
-
-		// Task deeplinks can race with first-time sidebar initialization.
-		if (!success && isTaskUri) {
-			await openClineSidebarForTaskUri()
-			success = await SharedUriHandler.handleUri(url)
-		}
-
-		if (!success) {
-			Logger.warn("Extension URI handler: Failed to process URI:", uri.toString())
+	private constructor() {
+		// Set environment at module load. Use override if provided.
+		const _env = process?.env?.CLINE_ENVIRONMENT_OVERRIDE || process?.env?.CLINE_ENVIRONMENT
+		if (_env && Object.values(Environment).includes(_env as Environment)) {
+			this.environment = _env as Environment
 		}
 	}
-	context.subscriptions.push(vscode.window.registerUriHandler({ handleUri }))
 
-	// Register size testing commands in development mode
-	if (IS_DEV) {
-		vscode.commands.executeCommand("setContext", "cline.isDevMode", IS_DEV)
-		// Use dynamic import to avoid loading the module in production
-		import("./dev/commands/tasks")
-			.then((module) => {
-				const devTaskCommands = module.registerTaskCommands(webview.controller)
-				context.subscriptions.push(...devTaskCommands)
-				Logger.log("[Cline Dev] Dev mode activated & dev commands registered")
-			})
+	/**
+	 * Initializes the ClineEndpoint singleton.
+	 * Must be called before any other methods.
+	 * Reads the endpoints.json file if it exists and validates its schema.
+	 *
+	 * @param extensionFsPath Path to the extension installation directory (for checking bundled endpoints.json)
+	 * @throws ClineConfigurationError if the endpoints.json file exists but is invalid
+	 */
+	public static async initialize(extensionFsPath: string): Promise<void> {
+		if (ClineEndpoint._initialized) {
+			return
 ```
 
-This function is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
+This class is important because it defines how Cline Tutorial: Agentic Coding with Human Control implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getNotebookCommandContext]
-    B[showJupyterPromptInput]
-    C[setupHostProvider]
-    D[getUriPath]
+    A[checkWorktreeAutoOpen]
+    B[tearDown]
+    C[ClineConfigurationError]
+    D[ClineEndpoint]
     A --> B
     B --> C
     C --> D

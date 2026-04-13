@@ -13,6 +13,20 @@ Welcome to **Chapter 7: Building Custom AI Tools and Integrations**. In this par
 
 > Extend n8n's capabilities with custom AI tools, integrations, and specialized functions.
 
+## Custom Tool Types in n8n
+
+```mermaid
+flowchart TD
+    CUSTOM[Custom AI Tools] --> HTTP[HTTP Request Tool\ncall any REST API]
+    CUSTOM --> CODE[Code Tool\nrun JavaScript/Python]
+    CUSTOM --> WF[n8n Workflow Tool\nexpose workflow as tool]
+    CUSTOM --> MCP[MCP Tool Node\nModel Context Protocol servers]
+    HTTP --> AGENT[AI Agent Node]
+    CODE --> AGENT
+    WF --> AGENT
+    MCP --> AGENT
+```
+
 ## Custom Tool Development
 
 ### HTTP Request Tools
@@ -500,16 +514,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/@n8n/nodes-langchain/nodes/tools/ToolHttpRequest/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/tools/ToolHttpRequest) -- HTTP Request Tool node: wraps any REST API call as an AI agent tool
+- [`packages/@n8n/nodes-langchain/nodes/tools/ToolCode/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/tools/ToolCode) -- Code Tool node: runs JavaScript in a sandboxed environment as a callable tool
+- [`packages/@n8n/nodes-langchain/nodes/tools/ToolWorkflow/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/tools/ToolWorkflow) -- Workflow Tool node: exposes any n8n workflow as a tool callable by an agent
 
-Suggested trace strategy:
-- search upstream code for `text` and `json` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: the `ToolWorkflow` node's `supplyData()` creates a LangChain `DynamicTool` that invokes another workflow via `WorkflowRunner.run()` when called.
 
 ## Chapter Connections
 

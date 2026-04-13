@@ -13,6 +13,17 @@ Welcome to **Chapter 8: Integration**. In this part of **llama.cpp Tutorial: Loc
 
 > Integrate llama.cpp with Python applications, web services, and production systems.
 
+## Integration Patterns
+
+```mermaid
+flowchart TD
+    LLAMA[llama.cpp Engine] --> PY[llama-cpp-python\npip install llama-cpp-python]
+    LLAMA --> HTTP[llama-server REST API\nOpenAI-compatible]
+    PY --> APP1[Python Application\ndirect in-process]
+    HTTP --> APP2[Any OpenAI Client\nopenai, langchain, etc.]
+    HTTP --> APP3[Web Service\nFastAPI / Flask proxy]
+```
+
 ## Overview
 
 While llama.cpp is written in C++, it provides excellent Python bindings and can be integrated into various applications. This chapter covers Python integration, web applications, and production deployment patterns.
@@ -733,16 +744,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`llama.h`](https://github.com/ggerganov/llama.cpp/blob/master/llama.h) -- public C API: the stable ABI surface that `llama-cpp-python` binds against
+- [`examples/server/server.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/server/server.cpp) -- HTTP server that enables OpenAI SDK integration without Python bindings
+- Python bindings: [`abetlen/llama-cpp-python`](https://github.com/abetlen/llama-cpp-python) (separate repo) -- ctypes/cffi wrapper around `llama.h`; `Llama` class maps 1-to-1 with the C API
 
-Suggested trace strategy:
-- search upstream code for `self` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: compare the `llama.h` C API with `llama-cpp-python`'s `Llama.__init__()` and `Llama.__call__()` to understand the Python-to-C binding layer.
 
 ## Chapter Connections
 

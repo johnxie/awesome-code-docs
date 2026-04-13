@@ -75,55 +75,53 @@ You now understand how Taskade MCP tool domains and auth context map into runtim
 
 Next: [Chapter 4: OpenAPI to MCP Codegen Pipeline](04-openapi-to-mcp-codegen-pipeline.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `packages/server/src/tools.generated.ts`
 
-The `OpenAPIToolRuntimeConfig` class in [`packages/server/src/tools.generated.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/server/src/tools.generated.ts) handles a key part of this chapter's functionality:
+The `toQueryParams` function in [`packages/server/src/tools.generated.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/server/src/tools.generated.ts) handles a key part of this chapter's functionality:
 
 ```ts
-};
+) => Promise<any>;
 
-export type OpenAPIToolRuntimeConfigOpts = {
-  // basic configuration
-  url?: string;
-  fetch?: (...args: any[]) => Promise<any>;
-  headers?: Record<string, string>;
+function toQueryParams(obj: Record<string, any>): string {
+  const params = new URLSearchParams();
 
-  // custom implementation of the tool call
-  executeToolCall?: ExecuteToolCallOpenApiOperationCb;
-  normalizeResponse?: Record<string, (response: any) => CallToolResult>;
-};
+  for (const key in obj) {
+    const value = obj[key];
 
-export class OpenAPIToolRuntimeConfig {
-  config: OpenAPIToolRuntimeConfigOpts;
+    if (value == null) {
+      continue;
+    }
 
-  constructor(config: OpenAPIToolRuntimeConfigOpts) {
-    this.config = config;
+    if (Array.isArray(value)) {
+      value.forEach((v) => params.append(key, String(v)));
+    } else if (typeof value === 'object') {
+      params.append(key, JSON.stringify(value));
+    } else {
+      params.append(key, String(value));
+    }
   }
 
-  private async defaultExecuteToolCall(payload: ExecuteToolCallOpenApiOperationCbPayload) {
-    const response = await this.fetch(`${this.baseUrl}${payload.url}`, {
-      method: payload.method,
-      body: payload.body,
-      headers: {
-        ...payload.headers,
-        ...this.config.headers,
-      },
-    });
+  const str = params.toString();
 
-    return await response.json();
+  if (str === '') {
+    return '';
   }
+
+  return `?${str}`;
+}
+
+export const prepareToolCallOperation = (
+  operation: ToolCallOpenApiOperation,
 ```
 
-This class is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[OpenAPIToolRuntimeConfig]
+    A[toQueryParams]
 ```

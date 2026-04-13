@@ -48,184 +48,133 @@ You now have an execution and modifier model that can be adapted to both agentic
 
 Next: [Chapter 6: MCP Server Patterns and Toolkit Control](06-mcp-server-patterns-and-toolkit-control.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `docs/components/custom-schema-ui.tsx`
+### `docs/lib/source.ts`
 
-The `isExpandable` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
+The `validateDateFormat` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
 
-```tsx
-}: SchemaUIProps) {
-  const schema = generated.refs[generated.$root];
-  const isProperty = as === 'property' || !isExpandable(schema, generated.refs);
+```ts
+const DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
-  return (
-    <DataContext value={generated}>
-      <ResponseContext value={isResponse}>
-        {isProperty ? (
-          <SchemaProperty
-            name={name}
-            $type={generated.$root}
-            required={required}
-            isRoot
-          />
-        ) : (
-          <SchemaContent $type={generated.$root} />
-        )}
-      </ResponseContext>
-    </DataContext>
-  );
+function validateDateFormat(dateStr: string): void {
+  if (!DATE_REGEX.test(dateStr)) {
+    throw new Error(
+      `Invalid date format: "${dateStr}". Expected YYYY-MM-DD (e.g., "2025-12-29")`
+    );
+  }
 }
 
-function SchemaContent({
-  $type,
-  parentPath = '',
-}: {
-  $type: string;
-  parentPath?: string;
-}) {
-  const { refs } = useData();
-  const schema = refs[$type];
+export function dateToChangelogUrl(dateStr: string): string {
+  // Convert "2025-12-29" to "/docs/changelog/2025/12/29"
+  validateDateFormat(dateStr);
+  const [year, month, day] = dateStr.split('-');
+  return `/docs/changelog/${year}/${month}/${day}`;
+}
+
+export function dateToSlug(dateStr: string): string[] {
+  // Convert "2025-12-29" to ["2025", "12", "29"]
+  validateDateFormat(dateStr);
+  const [year, month, day] = dateStr.split('-');
+  return [year, month, day];
+}
+
+export function slugToDate(slug: string[]): string | null {
+  // Convert ["2025", "12", "29"] to "2025-12-29"
+  if (slug.length !== 3) return null;
+  const [year, month, day] = slug;
+  return `${year}-${month}-${day}`;
+}
 
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/components/custom-schema-ui.tsx`
+### `docs/lib/source.ts`
 
-The `getTypeDisplay` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
+The `dateToChangelogUrl` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
 
-```tsx
+```ts
+}
 
-  const hasChildren = isExpandable(schema, refs);
-  const typeDisplay = getTypeDisplay(schema);
+export function dateToChangelogUrl(dateStr: string): string {
+  // Convert "2025-12-29" to "/docs/changelog/2025/12/29"
+  validateDateFormat(dateStr);
+  const [year, month, day] = dateStr.split('-');
+  return `/docs/changelog/${year}/${month}/${day}`;
+}
 
-  return (
-    <div className={cn('py-4', !isRoot && 'first:pt-0')}>
-      {/* Property header */}
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="font-medium font-mono text-fd-foreground">
-          {name}
-        </span>
-        <span className="text-sm font-mono text-fd-muted-foreground">
-          {typeDisplay}
-        </span>
-        {required && !isResponse && (
-          <span className="text-xs text-red-400 font-medium">Required</span>
-        )}
-        {schema.deprecated && (
-          <span className="text-xs bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 px-1.5 py-0.5 rounded">
-            Deprecated
-          </span>
-        )}
-      </div>
+export function dateToSlug(dateStr: string): string[] {
+  // Convert "2025-12-29" to ["2025", "12", "29"]
+  validateDateFormat(dateStr);
+  const [year, month, day] = dateStr.split('-');
+  return [year, month, day];
+}
 
-      {/* Description */}
-      {schema.description && (
-        <div className="mt-2 text-sm text-fd-muted-foreground prose-no-margin">
-          {schema.description}
-        </div>
-      )}
+export function slugToDate(slug: string[]): string | null {
+  // Convert ["2025", "12", "29"] to "2025-12-29"
+  if (slug.length !== 3) return null;
+  const [year, month, day] = slug;
+  return `${year}-${month}-${day}`;
+}
 
-      {/* Info tags */}
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/components/custom-schema-ui.tsx`
+### `docs/lib/source.ts`
 
-The `getChildCount` function in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
+The `dateToSlug` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
 
-```tsx
-  const schema = refs[$type];
-
-  const childCount = getChildCount(schema);
-  const label = schema.type === 'array' ? 'item properties' : 'child attributes';
-
-  return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen} className="mt-3">
-      <CollapsibleTrigger className="group flex items-center gap-1 px-2 py-1 text-xs text-fd-muted-foreground hover:text-fd-foreground font-medium rounded border border-fd-border hover:bg-fd-accent/30 transition-colors">
-        {isOpen ? (
-          <>
-            <X className="h-3 w-3" />
-            Hide {label}
-          </>
-        ) : (
-          <>
-            <Plus className="h-3 w-3" />
-            Show {childCount > 0 ? `${childCount} ` : ''}{label}
-          </>
-        )}
-      </CollapsibleTrigger>
-      <CollapsibleContent>
-        <div className="mt-2 pl-3 border-l border-fd-border">
-          <SchemaContent $type={$type} parentPath={parentPath} />
-        </div>
-      </CollapsibleContent>
-    </Collapsible>
-  );
+```ts
 }
 
-function isExpandable(
-  schema: SchemaData,
-  refs?: Record<string, SchemaData>,
+export function dateToSlug(dateStr: string): string[] {
+  // Convert "2025-12-29" to ["2025", "12", "29"]
+  validateDateFormat(dateStr);
+  const [year, month, day] = dateStr.split('-');
+  return [year, month, day];
+}
+
+export function slugToDate(slug: string[]): string | null {
+  // Convert ["2025", "12", "29"] to "2025-12-29"
+  if (slug.length !== 3) return null;
+  const [year, month, day] = slug;
+  return `${year}-${month}-${day}`;
+}
+
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/components/custom-schema-ui.tsx`
+### `docs/lib/source.ts`
 
-The `SchemaUIProps` interface in [`docs/components/custom-schema-ui.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/custom-schema-ui.tsx) handles a key part of this chapter's functionality:
+The `slugToDate` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
 
-```tsx
-import type { SchemaData, SchemaUIGeneratedData } from './schema-generator';
-
-interface SchemaUIProps {
-  name: string;
-  required?: boolean;
-  as?: 'property' | 'body';
-  generated: SchemaUIGeneratedData;
-  isResponse?: boolean;
+```ts
 }
 
-const DataContext = createContext<SchemaUIGeneratedData | null>(null);
-const ResponseContext = createContext(false);
-
-function useData() {
-  const ctx = use(DataContext);
-  if (!ctx) throw new Error('Missing DataContext');
-  return ctx;
+export function slugToDate(slug: string[]): string | null {
+  // Convert ["2025", "12", "29"] to "2025-12-29"
+  if (slug.length !== 3) return null;
+  const [year, month, day] = slug;
+  return `${year}-${month}-${day}`;
 }
 
-function useIsResponse() {
-  return use(ResponseContext);
-}
-
-export function CustomSchemaUI({
-  name,
-  required = false,
-  as = 'property',
-  generated,
-  isResponse = false,
-}: SchemaUIProps) {
-  const schema = generated.refs[generated.$root];
-  const isProperty = as === 'property' || !isExpandable(schema, generated.refs);
 ```
 
-This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[isExpandable]
-    B[getTypeDisplay]
-    C[getChildCount]
-    D[SchemaUIProps]
-    E[name]
+    A[validateDateFormat]
+    B[dateToChangelogUrl]
+    C[dateToSlug]
+    D[slugToDate]
+    E[useData]
     A --> B
     B --> C
     C --> D

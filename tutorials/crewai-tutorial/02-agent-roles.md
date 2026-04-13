@@ -506,6 +506,25 @@ hybrid_roles = {
 }
 ```
 
+## Agent Role Architecture
+
+```mermaid
+flowchart TD
+    A[Define Role Config]
+    B[Set role, goal, backstory]
+    C[Assign tools to agent]
+    D[Define expertise and specializations]
+    E[Agent registered in Crew]
+    F[Task routed to best-fit agent]
+    G[Agent executes using tools]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## What We've Accomplished
 
 ✅ **Understood agent role frameworks** and specialization patterns

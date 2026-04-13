@@ -370,6 +370,16 @@ class CodeReviewer(Role):
 
 Every MetaGPT agent is a `Role` with a defined profile, goal, constraints, and set of actions. The built-in roles -- ProductManager, Architect, Engineer, and QA -- form a complete software development pipeline. You can extend this by creating custom roles with their own actions and watch patterns.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/roles/role.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/roles/role.py) -- base `Role` class: `_watch`, `_act`, `_observe` methods; how roles subscribe to messages
+- [`metagpt/roles/product_manager.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/roles/product_manager.py) -- ProductManager role definition and its `PrepareDocuments` + `WritePRD` action set
+- [`metagpt/roles/engineer.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/roles/engineer.py) -- Engineer role with `WriteCode` and `WriteCodeReview` action assignment
+
+Suggested trace: `Role._observe()` reads from the message bus; `Role._think()` selects the next action; `Role._act()` executes it.
+
 **Next:** [Chapter 3: SOPs and Workflows](03-sop-and-workflows.md) -- learn how Standardized Operating Procedures govern role collaboration.
 
 ---

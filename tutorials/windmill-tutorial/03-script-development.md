@@ -464,6 +464,17 @@ export async function main() {
 | `cache_ttl` | Cache results for N seconds |
 | `concurrency_limit` | Max simultaneous executions |
 
+## Source Code Walkthrough
+
+### TypeScript Deno executor — `backend/windmill-worker/src/deno_executor.rs`
+
+[`backend/windmill-worker/src/deno_executor.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/deno_executor.rs) shows how TypeScript scripts are executed via Deno. It handles resource injection (making `Bun.env` available for secrets), import map generation for dependencies, and result capture from stdout.
+
+### Python executor — `backend/windmill-worker/src/python_executor.rs`
+
+[`backend/windmill-worker/src/python_executor.rs`](https://github.com/windmill-labs/windmill/blob/main/backend/windmill-worker/src/python_executor.rs) implements Python script execution: virtual environment creation, `requirements.txt` installation, and how Windmill injects `wmill` client for resources and variables.
+
+
 ## What You Learned
 
 In this chapter you:

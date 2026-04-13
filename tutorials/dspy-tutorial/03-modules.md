@@ -118,7 +118,7 @@ Retrieves relevant passages from a knowledge base:
 ```python
 # Configure retrieval model
 rm = dspy.ColBERTv2(url="http://20.102.90.50:2017/wiki17_abstracts")
-dspy.settings.configure(rm=rm)
+dspy.configure(rm=rm)
 
 # Basic retrieval
 retrieve_module = dspy.Retrieve(k=3)  # Get top 3 passages
@@ -754,6 +754,19 @@ In practical terms, this chapter helps you avoid three common failures:
 After working through this chapter, you should be able to reason about `Chapter 3: Modules - Reusable DSPy Components` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
 
 Use the implementation notes around `result`, `answer`, `desc` as your checklist when adapting these patterns to your own repository.
+
+## Module Architecture
+
+```mermaid
+flowchart TD
+    A[dspy.Module subclass] --> B[Declare predictors in __init__]
+    B --> C[dspy.Predict with Signature]
+    B --> D[dspy.ChainOfThought]
+    B --> E[dspy.ReAct]
+    A --> F[Implement forward method]
+    F --> G[Call predictors with inputs]
+    G --> H[Return Prediction]
+```
 
 ## How it Works Under the Hood
 

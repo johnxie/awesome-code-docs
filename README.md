@@ -1,21 +1,16 @@
+<a name="top"></a>
 <div align="center">
 
-```
-   ___                                         ______          __        ____
-  / _ |_    _____ ___  ___  __ _  ___          / ____/___  ____/ /__     / __ \____  __________
- / __ | |/|/ / -_|_-< / _ \/  ' \/ -_)        / /   / __ \/ __  / _ \   / / / / __ \/ ___/ ___/
-/_/ |_|__,__/\__/___/ \___/_/_/_/\__/        / /___/ /_/ / /_/ /  __/  / /_/ / /_/ / /__(__  )
-                                              \____/\____/\__,_/\___/  /_____/\____/\___/____/
-```
+# Awesome Code Docs
 
-**Deep-dive tutorials for the world's most popular open-source projects**
+**203 deep-dive tutorials for AI agents, LLM frameworks & coding tools**
 
 *Learn how complex systems actually work — not just what they do*
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![GitHub stars](https://img.shields.io/github/stars/johnxie/awesome-code-docs?style=social)](https://github.com/johnxie/awesome-code-docs)
-[![Tutorials](https://img.shields.io/badge/tutorials-191-brightgreen.svg)](#-tutorial-catalog)
-[![Sources](https://img.shields.io/badge/source%20repos-191%2F191%20verified-brightgreen.svg)](discoverability/tutorial-source-verification.md)
+[![Tutorials](https://img.shields.io/badge/tutorials-203-brightgreen.svg)](#-tutorial-catalog)
+[![Sources](https://img.shields.io/badge/source%20repos-203%2F203%20verified-brightgreen.svg)](discoverability/tutorial-source-verification.md)
 [![Content Hours](https://img.shields.io/badge/content-2000%2B%20hours-orange.svg)](#-tutorial-catalog)
 [![Last Updated](https://img.shields.io/github/last-commit/johnxie/awesome-code-docs?label=updated)](https://github.com/johnxie/awesome-code-docs/commits/main)
 
@@ -56,6 +51,8 @@ Every tutorial follows a consistent 8-chapter structure:
 
 Each chapter includes **Mermaid architecture diagrams**, **annotated code examples** from the real codebase, and **summary tables** for quick reference.
 
+[![Star History Chart](https://api.star-history.com/svg?repos=johnxie/awesome-code-docs&type=Date)](https://star-history.com/#johnxie/awesome-code-docs&Date)
+
 ---
 
 ## 🔎 Find Tutorials by Goal
@@ -66,14 +63,17 @@ Use this quick-start map if you searched for a specific outcome.
 |:--------------|:-----------|:-----------|
 | open-source vibe coding tools | [Cline](tutorials/cline-tutorial/) | [Roo Code](tutorials/roo-code-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Sweep](tutorials/sweep-tutorial/) → [Tabby](tutorials/tabby-tutorial/) → [Stagewise](tutorials/stagewise-tutorial/) → [bolt.diy](tutorials/bolt-diy-tutorial/) → [VibeSDK](tutorials/vibesdk-tutorial/) → [HAPI](tutorials/hapi-tutorial/) → [Kiro](tutorials/kiro-tutorial/) |
 | spec-driven AI delivery workflows | [OpenSpec](tutorials/openspec-tutorial/) | [Claude Task Master](tutorials/claude-task-master-tutorial/) → [Codex CLI](tutorials/codex-cli-tutorial/) → [OpenCode](tutorials/opencode-tutorial/) → [Kiro](tutorials/kiro-tutorial/) |
-| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) → [Devika](tutorials/devika-tutorial/) → [BabyAGI](tutorials/babyagi-tutorial/) |
+| build AI agents in production | [LangChain](tutorials/langchain-tutorial/) | [LangGraph](tutorials/langgraph-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [OpenHands](tutorials/openhands-tutorial/) → [Claude Flow](tutorials/claude-flow-tutorial/) → [Hermes Agent](tutorials/hermes-agent-tutorial/) → [AutoAgent](tutorials/autoagent-tutorial/) → [BabyAGI](tutorials/babyagi-tutorial/) |
 | autonomous AI software engineers | [OpenHands](tutorials/openhands-tutorial/) | [Devika](tutorials/devika-tutorial/) → [SWE-agent](tutorials/swe-agent-tutorial/) → [Aider](tutorials/aider-tutorial/) |
 | task-driven autonomous agents | [BabyAGI](tutorials/babyagi-tutorial/) | [AutoGen](tutorials/autogen-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [LangGraph](tutorials/langgraph-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
+| autonomous ML training experiments | [autoresearch](tutorials/autoresearch-tutorial/) | [deer-flow](tutorials/deer-flow-tutorial/) → [Agno](tutorials/agno-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-tutorial/) |
 | taskade ai / genesis / mcp workflows | [Taskade](tutorials/taskade-tutorial/) | [Taskade Docs](tutorials/taskade-docs-tutorial/) → [Taskade MCP](tutorials/taskade-mcp-tutorial/) → [Taskade Awesome Vibe Coding](tutorials/taskade-awesome-vibe-coding-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [MCP Quickstart Resources](tutorials/mcp-quickstart-resources-tutorial/) → [Create Python Server](tutorials/create-python-server-tutorial/) → [MCP Docs Repo](tutorials/mcp-docs-repo-tutorial/) → [Create TypeScript Server](tutorials/create-typescript-server-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [Composio](tutorials/composio-tutorial/) → [Daytona](tutorials/daytona-tutorial/) → [GenAI Toolbox](tutorials/genai-toolbox-tutorial/) → [awslabs/mcp](tutorials/awslabs-mcp-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP Registry](tutorials/mcp-registry-tutorial/) → [MCP Specification](tutorials/mcp-specification-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [MCP Go SDK](tutorials/mcp-go-sdk-tutorial/) → [MCP Rust SDK](tutorials/mcp-rust-sdk-tutorial/) → [MCP Java SDK](tutorials/mcp-java-sdk-tutorial/) → [MCP C# SDK](tutorials/mcp-csharp-sdk-tutorial/) → [MCP Swift SDK](tutorials/mcp-swift-sdk-tutorial/) → [MCP Kotlin SDK](tutorials/mcp-kotlin-sdk-tutorial/) → [MCP Ruby SDK](tutorials/mcp-ruby-sdk-tutorial/) → [MCP PHP SDK](tutorials/mcp-php-sdk-tutorial/) → [MCP Ext Apps](tutorials/mcp-ext-apps-tutorial/) → [MCPB](tutorials/mcpb-tutorial/) → [use-mcp](tutorials/use-mcp-tutorial/) → [MCP Use](tutorials/mcp-use-tutorial/) → [MCP Chrome](tutorials/mcp-chrome-tutorial/) → [Firecrawl MCP Server](tutorials/firecrawl-mcp-server-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [Composio](tutorials/composio-tutorial/) → [see all MCP tutorials →](#mcp-servers--integrations) |
+
+<div align="right"><a href="#top">⬆ Back to top</a></div>
 
 ---
 
@@ -93,22 +93,26 @@ Quick jump links:
 - [Search Intent Map](discoverability/search-intent-map.md)
 - [Category Hubs](#category-hubs)
 
+<div align="right"><a href="#top">⬆ Back to top</a></div>
+
 ---
 
 ## ✅ Source Verification Status
 
-All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-20**:
+All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-04-12**:
 
-- tutorials scanned: **191**
-- tutorials with source repos: **191**
+- tutorials scanned: **203**
+- tutorials with source repos: **203**
 - tutorials with unverified source repos: **0**
-- unique verified source repos: **201**
+- unique verified source repos: **203**
 
 Verification artifacts:
 
 - [Tutorial Source Verification Report](discoverability/tutorial-source-verification.md)
 - [Tutorial Source Verification JSON](discoverability/tutorial-source-verification.json)
 - verification script: [`scripts/verify_tutorial_sources.py`](scripts/verify_tutorial_sources.py)
+
+<div align="right"><a href="#top">⬆ Back to top</a></div>
 
 ---
 
@@ -157,7 +161,7 @@ Data source: GitHub REST API (`stargazers_count`, `pushed_at`) via `scripts/refr
 ```
  ╔════════════════════════════════════════════════════════════╗
  ║  🤖  AI & AGENTS  │  🔧  DEV TOOLS  │  🗄️  DATA  │  🎤 SPEECH  ║
- ║   70+ tutorials    │   46 tutorials  │  14 tutorials │  3 tutorials  ║
+ ║   83+ tutorials    │   50+ tutorials │  14 tutorials │  3 tutorials  ║
  ╚════════════════════════════════════════════════════════════╝
 ```
 
@@ -197,7 +201,9 @@ Build autonomous AI systems that reason, plan, and collaborate.
 | **[BabyAGI](tutorials/babyagi-tutorial/)** | 18K+ | Python | Task-driven autonomous agent patterns, memory, and BabyAGI 2o/3 evolution |
 | **[AgenticSeek](tutorials/agenticseek-tutorial/)** | 25.4K+ | Python | Local-first autonomous agent with multi-agent planning, browsing, and coding workflows |
 | **[Agno](tutorials/agno-tutorial/)** | 38.3K+ | Python | Multi-agent systems with memory, orchestration, and AgentOS runtime |
-| **[AutoAgent](tutorials/autoagent-tutorial/)** | 8.6K+ | Python | Zero-code agent creation through natural-language workflows |
+| **[AutoAgent](tutorials/autoagent-tutorial/)** | 9.1K+ | Python | Zero-code agent creation through natural-language workflows and self-developing pipelines |
+| **[autoresearch](tutorials/autoresearch-tutorial/)** | 71K+ | Python | AI agent that autonomously runs ML training experiments overnight, optimizing val_bpb on a single GPU |
+| **[Hermes Agent](tutorials/hermes-agent-tutorial/)** | 66K+ | Python | Self-hosted personal AI successor to OpenClaw — multi-platform, skill learning, RL trajectory generation |
 | **[ADK Python](tutorials/adk-python-tutorial/)** | 18.1K+ | Python | Production-grade agent engineering with Google's Agent Development Kit |
 | **[Qwen-Agent](tutorials/qwen-agent-tutorial/)** | 13.5K+ | Python | Tool-enabled agent framework with MCP, RAG, and multi-modal workflows |
 | **[Strands Agents](tutorials/strands-agents-tutorial/)** | 5.2K+ | Python | Model-driven agents with native MCP, hooks, and deployment patterns |
@@ -458,6 +464,8 @@ Voice recognition, audio processing, and multimodal AI applications.
 | **[Whisper.cpp](tutorials/whisper-cpp-tutorial/)** | 37K+ | C++ | Speech recognition on edge devices |
 | **[OpenAI Realtime Agents](tutorials/openai-realtime-agents-tutorial/)** | 6.7K+ | TypeScript | Voice-first AI agents with WebRTC |
 
+<div align="right"><a href="#top">⬆ Back to top</a></div>
+
 ---
 
 ## 🗺️ Learning Paths
@@ -594,6 +602,8 @@ Dyad ──→ bolt.diy ──→ Stagewise ──→ Cline ──→ Roo Code �
 
 **Duration:** 35-50 hours | **Difficulty:** Intermediate to Advanced
 
+<div align="right"><a href="#top">⬆ Back to top</a></div>
+
 ---
 
 ## 📊 Collection Stats
@@ -602,9 +612,9 @@ Dyad ──→ bolt.diy ──→ Stagewise ──→ Cline ──→ Roo Code �
 ╔══════════════════════════════════════════════════════════╗
 ║                  COLLECTION OVERVIEW                     ║
 ╠══════════════════════════════════════════════════════════╣
-║  📦 Total Tutorials        191                           ║
-║  📝 Numbered Chapters      1,528+                        ║
-║  📏 Tutorial Markdown      1,048,763 lines               ║
+║  📦 Total Tutorials        203                           ║
+║  📝 Numbered Chapters      1,624+                        ║
+║  📏 Tutorial Markdown      706,049 lines                 ║
 ║  ⏱️  Estimated Hours        2,000+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
@@ -615,6 +625,8 @@ Stats are synchronized against:
 
 - `tutorials/tutorial-manifest.json`
 - `scripts/docs_health.py` baseline checks
+
+<div align="right"><a href="#top">⬆ Back to top</a></div>
 
 ---
 
@@ -641,6 +653,8 @@ Inspired by [Tutorial-Codebase-Knowledge](https://github.com/The-Pocket/Tutorial
 | **[Taskade](https://taskade.com)** | Project planning, AI-powered content generation |
 | **[Claude Code](https://claude.ai)** | Codebase analysis and tutorial writing |
 | **[GitHub Pages](https://pages.github.com)** | Tutorial hosting with Jekyll |
+
+<div align="right"><a href="#top">⬆ Back to top</a></div>
 
 ---
 
@@ -669,6 +683,8 @@ We welcome contributions! Here's how you can help:
 - **Production-focused** — covers deployment, monitoring, scaling
 
 **[Open an Issue](https://github.com/johnxie/awesome-code-docs/issues/new)** to suggest a new tutorial or report a problem.
+
+<div align="right"><a href="#top">⬆ Back to top</a></div>
 
 ---
 

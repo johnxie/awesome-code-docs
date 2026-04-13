@@ -679,6 +679,21 @@ Ready to integrate external tools and APIs? In [Chapter 6: Tool Integration](06-
 
 *What's the most complex multi-agent system you'll create?* 🤝
 
+## Multi-Agent Graph
+
+```mermaid
+flowchart TD
+    A[Supervisor agent] --> B{Route to specialist}
+    B -->|Research task| C[Researcher agent node]
+    B -->|Coding task| D[Coder agent node]
+    B -->|Review| E[Reviewer agent node]
+    C --> F[Update shared state]
+    D --> F
+    E --> F
+    F --> A
+    A -->|FINISH| G[Final output]
+```
+
 ## What Problem Does This Solve?
 
 Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `state`, `self`, `graph` so behavior stays predictable as complexity grows.

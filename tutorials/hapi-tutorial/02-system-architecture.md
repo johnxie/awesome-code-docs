@@ -72,21 +72,6 @@ Under the hood, `Chapter 2: System Architecture` usually follows a repeatable co
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [HAPI Repository](https://github.com/tiann/hapi)
-  Why it matters: authoritative reference on `HAPI Repository` (github.com).
-- [HAPI Releases](https://github.com/tiann/hapi/releases)
-  Why it matters: authoritative reference on `HAPI Releases` (github.com).
-- [HAPI Docs](https://hapi.run)
-  Why it matters: authoritative reference on `HAPI Docs` (hapi.run).
-
-Suggested trace strategy:
-- search upstream code for `graph` and `HAPI` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
@@ -95,170 +80,168 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `hub/scripts/cleanup-sessions.ts`
+### `web/src/router.tsx`
 
-The `parseArgs` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `SessionsIndexPage` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
 
-```ts
-
-// Parse command line arguments
-function parseArgs(): { minMessages: number | null; pathPattern: string | null; messagePattern: string | null; orphaned: boolean; force: boolean; help: boolean } {
-    const args = process.argv.slice(2)
-    let minMessages: number | null = null
-    let pathPattern: string | null = null
-    let messagePattern: string | null = null
-    let orphaned = false
-    let force = false
-    let help = false
-
-    for (const arg of args) {
-        if (arg === '--help' || arg === '-h') {
-            help = true
-        } else if (arg === '--force' || arg === '-f') {
-            force = true
-        } else if (arg === '--orphaned') {
-            orphaned = true
-        } else if (arg.startsWith('--min-messages=')) {
-            const value = parseInt(arg.split('=')[1], 10)
-            if (isNaN(value) || value < 0) {
-                console.error('Error: --min-messages must be a non-negative integer')
-                process.exit(1)
-            }
-            minMessages = value
-        } else if (arg.startsWith('--path=')) {
-            pathPattern = arg.split('=').slice(1).join('=') // Handle paths with '='
-        } else if (arg.startsWith('--message=')) {
-            messagePattern = arg.split('=').slice(1).join('=').toLowerCase()
-        } else {
-            console.error(`Unknown argument: ${arg}`)
-            console.error('Use --help for usage information')
-```
-
-This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
-
-### `hub/scripts/cleanup-sessions.ts`
-
-The `getDbPath` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Get database path (same logic as configuration.ts)
-function getDbPath(): string {
-    if (process.env.DB_PATH) {
-        return process.env.DB_PATH.replace(/^~/, homedir())
-    }
-    const dataDir = process.env.HAPI_HOME
-        ? process.env.HAPI_HOME.replace(/^~/, homedir())
-        : join(homedir(), '.hapi')
-    return join(dataDir, 'hapi.db')
+```tsx
 }
 
-// Session info for display
-interface SessionInfo {
-    id: string
-    title: string | null
-    firstUserMessage: string | null
-    path: string | null
-    updatedAt: number
-    messageCount: number
+function SessionsIndexPage() {
+    return null
 }
 
-// Query sessions with message counts
-function querySessions(db: Database): SessionInfo[] {
-    // Get basic session info
-    const sessionRows = db.query<
-        { id: string; metadata: string | null; updated_at: number; message_count: number },
-        []
-    >(`
-        SELECT
-            s.id,
-            s.metadata,
+function SessionPage() {
+    const { api } = useAppContext()
+    const { t } = useTranslation()
+    const goBack = useAppGoBack()
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+    const { addToast } = useToast()
+    const { sessionId } = useParams({ from: '/sessions/$sessionId' })
+    const {
+        session,
+        refetch: refetchSession,
+    } = useSession(api, sessionId)
+    const {
+        messages,
+        warning: messagesWarning,
+        isLoading: messagesLoading,
+        isLoadingMore: messagesLoadingMore,
+        hasMore: messagesHasMore,
+        loadMore: loadMoreMessages,
+        refetch: refetchMessages,
+        pendingCount,
+        messagesVersion,
+        flushPending,
+        setAtBottom,
+    } = useMessages(api, sessionId)
+    const {
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `hub/scripts/cleanup-sessions.ts`
+### `web/src/router.tsx`
 
-The `querySessions` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `SessionPage` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
 
-```ts
+```tsx
+}
 
-// Query sessions with message counts
-function querySessions(db: Database): SessionInfo[] {
-    // Get basic session info
-    const sessionRows = db.query<
-        { id: string; metadata: string | null; updated_at: number; message_count: number },
-        []
-    >(`
-        SELECT
-            s.id,
-            s.metadata,
-            s.updated_at,
-            COUNT(m.id) as message_count
-        FROM sessions s
-        LEFT JOIN messages m ON m.session_id = s.id
-        GROUP BY s.id
-    `).all()
-
-    // Get all messages for processing
-    const messageRows = db.query<
-        { session_id: string; content: string; seq: number },
-        []
-    >(`
-        SELECT session_id, content, seq
-        FROM messages
-        ORDER BY session_id, seq
-    `).all()
-
-    // Group messages by session
-    const messagesBySession = new Map<string, { content: string; seq: number }[]>()
-    for (const msg of messageRows) {
-        const list = messagesBySession.get(msg.session_id) ?? []
+function SessionPage() {
+    const { api } = useAppContext()
+    const { t } = useTranslation()
+    const goBack = useAppGoBack()
+    const navigate = useNavigate()
+    const queryClient = useQueryClient()
+    const { addToast } = useToast()
+    const { sessionId } = useParams({ from: '/sessions/$sessionId' })
+    const {
+        session,
+        refetch: refetchSession,
+    } = useSession(api, sessionId)
+    const {
+        messages,
+        warning: messagesWarning,
+        isLoading: messagesLoading,
+        isLoadingMore: messagesLoadingMore,
+        hasMore: messagesHasMore,
+        loadMore: loadMoreMessages,
+        refetch: refetchMessages,
+        pendingCount,
+        messagesVersion,
+        flushPending,
+        setAtBottom,
+    } = useMessages(api, sessionId)
+    const {
+        sendMessage,
+        retryMessage,
+        isSending,
+    } = useSendMessage(api, sessionId, {
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
 
-### `hub/scripts/cleanup-sessions.ts`
+### `web/src/router.tsx`
 
-The `filterSessions` function in [`hub/scripts/cleanup-sessions.ts`](https://github.com/tiann/hapi/blob/HEAD/hub/scripts/cleanup-sessions.ts) handles a key part of this chapter's functionality:
+The `SessionDetailRoute` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
 
-```ts
+```tsx
+}
 
-// Filter sessions based on criteria
-function filterSessions(
-    sessions: SessionInfo[],
-    minMessages: number | null,
-    pathPattern: string | null,
-    messagePattern: string | null,
-    orphaned: boolean
-): SessionInfo[] {
-    let filtered = sessions
+function SessionDetailRoute() {
+    const pathname = useLocation({ select: location => location.pathname })
+    const { sessionId } = useParams({ from: '/sessions/$sessionId' })
+    const basePath = `/sessions/${sessionId}`
+    const isChat = pathname === basePath || pathname === `${basePath}/`
 
-    // Filter by message count if specified
-    if (minMessages !== null) {
-        filtered = filtered.filter(s => s.messageCount < minMessages)
-    }
+    return isChat ? <SessionPage /> : <Outlet />
+}
 
-    // Filter by path pattern if specified
-    if (pathPattern !== null) {
-        const glob = new Bun.Glob(pathPattern)
-        filtered = filtered.filter(s => {
-            if (!s.path) return false
-            return glob.match(s.path)
+function NewSessionPage() {
+    const { api } = useAppContext()
+    const navigate = useNavigate()
+    const goBack = useAppGoBack()
+    const queryClient = useQueryClient()
+    const { machines, isLoading: machinesLoading, error: machinesError } = useMachines(api, true)
+    const { t } = useTranslation()
+
+    const handleCancel = useCallback(() => {
+        navigate({ to: '/sessions' })
+    }, [navigate])
+
+    const handleSuccess = useCallback((sessionId: string) => {
+        void queryClient.invalidateQueries({ queryKey: queryKeys.sessions })
+        // Replace current page with /sessions to clear spawn flow from history
+        navigate({ to: '/sessions', replace: true })
+        // Then navigate to new session
+        requestAnimationFrame(() => {
+            navigate({
+                to: '/sessions/$sessionId',
+                params: { sessionId },
+```
+
+This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
+
+### `web/src/router.tsx`
+
+The `NewSessionPage` function in [`web/src/router.tsx`](https://github.com/tiann/hapi/blob/HEAD/web/src/router.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+function NewSessionPage() {
+    const { api } = useAppContext()
+    const navigate = useNavigate()
+    const goBack = useAppGoBack()
+    const queryClient = useQueryClient()
+    const { machines, isLoading: machinesLoading, error: machinesError } = useMachines(api, true)
+    const { t } = useTranslation()
+
+    const handleCancel = useCallback(() => {
+        navigate({ to: '/sessions' })
+    }, [navigate])
+
+    const handleSuccess = useCallback((sessionId: string) => {
+        void queryClient.invalidateQueries({ queryKey: queryKeys.sessions })
+        // Replace current page with /sessions to clear spawn flow from history
+        navigate({ to: '/sessions', replace: true })
+        // Then navigate to new session
+        requestAnimationFrame(() => {
+            navigate({
+                to: '/sessions/$sessionId',
+                params: { sessionId },
+            })
         })
-    }
+    }, [navigate, queryClient])
 
-    // Filter by first message pattern (case-insensitive fuzzy match)
-    if (messagePattern !== null) {
-        filtered = filtered.filter(s => {
-            if (!s.firstUserMessage) return false
-            return s.firstUserMessage.toLowerCase().includes(messagePattern)
-        })
-    }
+    return (
+        <div className="flex h-full min-h-0 flex-col">
+            <div className="flex items-center gap-2 border-b border-[var(--app-border)] bg-[var(--app-bg)] p-3 pt-[calc(0.75rem+env(safe-area-inset-top))]">
+                {!isTelegramApp() && (
+                    <button
 ```
 
 This function is important because it defines how HAPI Tutorial: Remote Control for Local AI Coding Sessions implements the patterns covered in this chapter.
@@ -268,11 +251,11 @@ This function is important because it defines how HAPI Tutorial: Remote Control 
 
 ```mermaid
 flowchart TD
-    A[parseArgs]
-    B[getDbPath]
-    C[querySessions]
-    D[filterSessions]
-    E[displaySessions]
+    A[SessionsIndexPage]
+    B[SessionPage]
+    C[SessionDetailRoute]
+    D[NewSessionPage]
+    E[createAppRouter]
     A --> B
     B --> C
     C --> D

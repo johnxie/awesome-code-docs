@@ -13,6 +13,23 @@ Welcome to **Chapter 3: Agent Configuration**. In this part of **Letta Tutorial:
 
 > Customize agent personalities, system prompts, models, and behavior settings.
 
+## Agent Configuration Model
+
+```mermaid
+flowchart LR
+    A[create_agent call] --> B{Configuration}
+    B --> C[LLM Config\nmodel, provider, context_window]
+    B --> D[Embedding Config\nmodel, endpoint]
+    B --> E[Memory Blocks\npersona + human blocks]
+    B --> F[System Prompt\ninstruction override]
+    B --> G[Tools\nbuilt-in + custom]
+    C --> H[Agent Instance]
+    D --> H
+    E --> H
+    F --> H
+    G --> H
+```
+
 ## Overview
 
 Letta agents are highly configurable. This chapter covers personas, system prompts, model selection, and fine-tuning agent behavior for different use cases.
@@ -321,16 +338,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/schemas/agent.py`](https://github.com/letta-ai/letta/blob/main/letta/schemas/agent.py) -- `AgentState` and `CreateAgent` schemas; all configurable fields including `llm_config`, `embedding_config`, and `memory_blocks`
+- [`letta/schemas/llm_config.py`](https://github.com/letta-ai/letta/blob/main/letta/schemas/llm_config.py) -- `LLMConfig` dataclass: `model`, `model_endpoint_type`, `context_window` fields
+- [`letta/server/server.py`](https://github.com/letta-ai/letta/blob/main/letta/server/server.py) -- `create_agent()` method: validates config and initializes agent state in the database
 
-Suggested trace strategy:
-- search upstream code for `name` and `persona` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `CreateAgent` schema validation → `SyncServer.create_agent()` → `Agent.__init__()` to follow configuration from API call to runtime.
 
 ## Chapter Connections
 

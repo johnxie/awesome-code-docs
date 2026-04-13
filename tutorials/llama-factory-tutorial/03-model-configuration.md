@@ -9,6 +9,22 @@ nav_order: 3
 
 Welcome to the heart of fine-tuning! This chapter covers everything you need to know about configuring LLaMA models for optimal performance. We'll explore model selection, parameter tuning, quantization, and deployment strategies.
 
+## Fine-Tuning Method Comparison
+
+```mermaid
+flowchart LR
+    BASE[Base Model] --> FT{Fine-Tuning Type}
+    FT -->|Full Fine-Tuning| FULL[Update all parameters\nHigh VRAM, best quality]
+    FT -->|LoRA| LORA[Low-Rank Adapters\nLow VRAM, fast training]
+    FT -->|QLoRA| QLORA[4-bit Quantized LoRA\nMinimal VRAM required]
+    FT -->|DoRA| DORA[Weight-Decomposed LoRA\nImproved LoRA variant]
+
+    LORA --> MERGE[Merge adapter into base]
+    QLORA --> MERGE
+    FULL --> OUT[Fine-Tuned Model]
+    MERGE --> OUT
+```
+
 ## Understanding LLaMA Architecture
 
 LLaMA models come in different sizes and variants, each optimized for specific use cases:
@@ -612,14 +628,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory):
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/model/loader.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/model/loader.py) -- `load_model()` and `load_tokenizer()`: base model loading with quantization and device mapping
+- [`src/llamafactory/model/adapter.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/model/adapter.py) -- `init_adapter()`: initializes LoRA/QLoRA/DoRA adapters using PEFT library
+- [`src/llamafactory/hparams/model_args.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/hparams/model_args.py) -- `ModelArguments`: all model config flags including `quantization_bit`, `lora_target`, `rope_scaling`
 
-Suggested trace strategy:
-- search upstream code for `model` and `torch` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `load_model()` → `init_adapter()` to understand how a base model becomes a LoRA-trainable model via PEFT's `get_peft_model()`.
 
 ## Chapter Connections
 

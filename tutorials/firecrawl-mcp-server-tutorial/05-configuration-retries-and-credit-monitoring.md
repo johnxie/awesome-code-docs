@@ -5,87 +5,182 @@ nav_order: 5
 parent: Firecrawl MCP Server Tutorial
 ---
 
-
 # Chapter 5: Configuration, Retries, and Credit Monitoring
 
-Welcome to **Chapter 5: Configuration, Retries, and Credit Monitoring**. In this part of **Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
-
-
-Production reliability depends on proper retry controls and credit thresholds.
+Production reliability of Firecrawl MCP depends on correct retry behavior, credit threshold awareness, and proper endpoint configuration. This chapter covers all environment variables that affect runtime behavior and how to tune them for your workload.
 
 ## Learning Goals
 
-- configure retry behavior for rate-limited environments
-- tune warning and critical thresholds for credits
-- support cloud and self-hosted API endpoints cleanly
+- Configure retry behavior for rate-limited and transient failure environments
+- Tune credit warning and critical thresholds to prevent service interruptions
+- Support cloud and self-hosted API endpoints cleanly
+- Understand how the logger activates and what it captures
 
-## Key Environment Variables
+## Full Environment Variable Reference
 
-| Variable | Purpose |
-|:---------|:--------|
-| `FIRECRAWL_API_KEY` | authentication for cloud usage |
-| `FIRECRAWL_API_URL` | custom endpoint for self-hosted deployments |
-| `FIRECRAWL_RETRY_*` | retry/backoff behavior controls |
-| `FIRECRAWL_CREDIT_*` | warning and critical credit thresholds |
+```mermaid
+graph TD
+    ENV[Environment Variables]
+    ENV --> AUTH[Authentication]
+    ENV --> ENDPOINT[Endpoint]
+    ENV --> RETRY[Retry/Backoff]
+    ENV --> CREDITS[Credit Monitoring]
+    ENV --> MODE[Transport Mode]
 
-## Source References
-
-- [README Configuration](https://github.com/firecrawl/firecrawl-mcp-server/blob/main/README.md)
-- [Changelog 1.2.4 and 1.2.0](https://github.com/firecrawl/firecrawl-mcp-server/blob/main/CHANGELOG.md)
-
-## Summary
-
-You now know which controls matter most for resilient Firecrawl MCP operations.
-
-Next: [Chapter 6: Batch Workflows, Deep Research, and API Evolution](06-batch-workflows-deep-research-and-api-evolution.md)
-
-## Source Code Walkthrough
-
-### `src/index.ts`
-
-The `extractApiKey` function in [`src/index.ts`](https://github.com/firecrawl/firecrawl-mcp-server/blob/HEAD/src/index.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function extractApiKey(headers: IncomingHttpHeaders): string | undefined {
-  const headerAuth = headers['authorization'];
-  const headerApiKey = (headers['x-firecrawl-api-key'] ||
-    headers['x-api-key']) as string | string[] | undefined;
-
-  if (headerApiKey) {
-    return Array.isArray(headerApiKey) ? headerApiKey[0] : headerApiKey;
-  }
-
-  if (
-    typeof headerAuth === 'string' &&
-    headerAuth.toLowerCase().startsWith('bearer ')
-  ) {
-    return headerAuth.slice(7).trim();
-  }
-
-  return undefined;
-}
-
-function removeEmptyTopLevel<T extends Record<string, any>>(
-  obj: T
-): Partial<T> {
-  const out: Partial<T> = {};
-  for (const [k, v] of Object.entries(obj)) {
-    if (v == null) continue;
-    if (typeof v === 'string' && v.trim() === '') continue;
-    if (Array.isArray(v) && v.length === 0) continue;
-    if (
-      typeof v === 'object' &&
-      !Array.isArray(v) &&
+    AUTH --> AK[FIRECRAWL_API_KEY\nCloud API key]
+    ENDPOINT --> URL[FIRECRAWL_API_URL\nSelf-hosted base URL]
+    RETRY --> MAX[FIRECRAWL_RETRY_MAX_ATTEMPTS\nDefault: 3]
+    RETRY --> INIT[FIRECRAWL_RETRY_INITIAL_DELAY\nDefault: 1000ms]
+    RETRY --> MAX_D[FIRECRAWL_RETRY_MAX_DELAY\nDefault: 10000ms]
+    RETRY --> MULT[FIRECRAWL_RETRY_BACKOFF_FACTOR\nDefault: 2]
+    CREDITS --> WARN[FIRECRAWL_CREDIT_WARNING_THRESHOLD\nDefault: 1000]
+    CREDITS --> CRIT[FIRECRAWL_CREDIT_CRITICAL_THRESHOLD\nDefault: 100]
+    MODE --> CS[CLOUD_SERVICE\nSSE_LOCAL\nHTTP_STREAMABLE_SERVER]
 ```
 
-This function is important because it defines how Firecrawl MCP Server Tutorial: Web Scraping and Search Tools for MCP Clients implements the patterns covered in this chapter.
+## Retry Configuration
 
+The server implements exponential backoff with jitter for all Firecrawl API calls. Configure with:
 
-## How These Components Connect
+| Variable | Default | Description |
+|:---------|:--------|:------------|
+| `FIRECRAWL_RETRY_MAX_ATTEMPTS` | `3` | Maximum retry attempts per call |
+| `FIRECRAWL_RETRY_INITIAL_DELAY` | `1000` | Initial delay in milliseconds |
+| `FIRECRAWL_RETRY_MAX_DELAY` | `10000` | Maximum delay cap in milliseconds |
+| `FIRECRAWL_RETRY_BACKOFF_FACTOR` | `2` | Exponential backoff multiplier |
+
+### Backoff Calculation
+
+With defaults, the retry delays work as:
+- Attempt 1 fail → wait ~1000ms (+ jitter)
+- Attempt 2 fail → wait ~2000ms (+ jitter)
+- Attempt 3 fail → return error to client
+
+```
+delay = min(INITIAL_DELAY * BACKOFF_FACTOR^(attempt-1), MAX_DELAY) + jitter
+```
 
 ```mermaid
 flowchart TD
-    A[extractApiKey]
+    CALL[API call to Firecrawl]
+    CALL --> RESP{Response}
+    RESP -- Success --> RETURN[Return result to MCP client]
+    RESP -- 429 Rate Limited --> RETRY{Attempts < MAX_ATTEMPTS?}
+    RESP -- 5xx Transient --> RETRY
+    RETRY -- Yes --> WAIT[Wait: exponential backoff\nwith jitter]
+    WAIT --> CALL
+    RETRY -- No --> ERROR[Return error to MCP client]
 ```
+
+### Tuning for Your Workload
+
+For batch research workloads (many calls in sequence):
+```bash
+FIRECRAWL_RETRY_MAX_ATTEMPTS=5
+FIRECRAWL_RETRY_INITIAL_DELAY=2000
+FIRECRAWL_RETRY_MAX_DELAY=30000
+FIRECRAWL_RETRY_BACKOFF_FACTOR=2
+```
+
+For interactive use (user waiting for response):
+```bash
+FIRECRAWL_RETRY_MAX_ATTEMPTS=2
+FIRECRAWL_RETRY_INITIAL_DELAY=500
+FIRECRAWL_RETRY_MAX_DELAY=3000
+```
+
+## Credit Monitoring
+
+Firecrawl cloud accounts have an API credit balance. The server watches credit usage and can warn or fail gracefully before credits are exhausted.
+
+| Variable | Default | Effect |
+|:---------|:--------|:-------|
+| `FIRECRAWL_CREDIT_WARNING_THRESHOLD` | `1000` | Log a warning when credits fall below this level |
+| `FIRECRAWL_CREDIT_CRITICAL_THRESHOLD` | `100` | Return an error instead of calling API when below this level |
+
+### Credit Thresholds in Practice
+
+```mermaid
+flowchart LR
+    CREDITS[Current credit balance]
+    CREDITS -->|above warning| NORMAL[Normal operation]
+    CREDITS -->|below WARNING\nthreshold| WARN[Log warning:\nLow credit balance]
+    CREDITS -->|below CRITICAL\nthreshold| BLOCK[Block API calls:\nReturn credit error to client]
+```
+
+Set thresholds based on your usage patterns:
+- **High-volume batch jobs**: Raise `FIRECRAWL_CREDIT_WARNING_THRESHOLD` to 5000 to get earlier notice
+- **Shared team account**: Set `FIRECRAWL_CREDIT_CRITICAL_THRESHOLD` to 500 to leave a buffer for other users
+- **Individual developer**: Lower thresholds are fine
+
+## Self-Hosted Configuration
+
+For a self-hosted Firecrawl instance:
+
+```bash
+FIRECRAWL_API_URL=http://localhost:3002
+# No FIRECRAWL_API_KEY needed when API_URL is set
+```
+
+The `createClient` function in `src/index.ts` handles this:
+```typescript
+function createClient(apiKey?: string): FirecrawlApp {
+  const config: any = {
+    ...(process.env.FIRECRAWL_API_URL && {
+      apiUrl: process.env.FIRECRAWL_API_URL,
+    }),
+  };
+  if (apiKey) config.apiKey = apiKey;
+  return new FirecrawlApp(config);
+}
+```
+
+When `FIRECRAWL_API_URL` is set, the `apiKey` is passed only if provided — allowing anonymous self-hosted access.
+
+## Logging Configuration
+
+The `ConsoleLogger` in `src/index.ts` only activates when running in a service transport mode:
+
+```typescript
+class ConsoleLogger {
+  private shouldLog =
+    process.env.CLOUD_SERVICE === 'true' ||
+    process.env.SSE_LOCAL === 'true' ||
+    process.env.HTTP_STREAMABLE_SERVER === 'true';
+}
+```
+
+In stdio mode (desktop clients), logging is suppressed to keep stdout clean for the JSON-RPC protocol. Enable it by running in SSE or HTTP mode, or add your own stderr-based logging.
+
+## Complete Production Config Example
+
+```json
+{
+  "mcpServers": {
+    "firecrawl": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp@3"],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-your-api-key",
+        "FIRECRAWL_RETRY_MAX_ATTEMPTS": "4",
+        "FIRECRAWL_RETRY_INITIAL_DELAY": "1500",
+        "FIRECRAWL_RETRY_MAX_DELAY": "15000",
+        "FIRECRAWL_CREDIT_WARNING_THRESHOLD": "2000",
+        "FIRECRAWL_CREDIT_CRITICAL_THRESHOLD": "200"
+      }
+    }
+  }
+}
+```
+
+## Source References
+
+- [README Configuration](https://github.com/mendableai/firecrawl-mcp-server/blob/main/README.md)
+- [CHANGELOG](https://github.com/mendableai/firecrawl-mcp-server/blob/main/CHANGELOG.md)
+- [src/index.ts — createClient, ConsoleLogger](https://github.com/mendableai/firecrawl-mcp-server/blob/main/src/index.ts)
+
+## Summary
+
+Retry behavior is configured via four `FIRECRAWL_RETRY_*` environment variables using exponential backoff with defaults that work for most cases. Credit monitoring uses two threshold variables that trigger warnings and hard blocks. Self-hosted deployments set `FIRECRAWL_API_URL` (making `FIRECRAWL_API_KEY` optional). Logging only activates in non-stdio transport modes to protect the JSON-RPC stream.
+
+Next: [Chapter 6: Batch Workflows, Deep Research, and API Evolution](06-batch-workflows-deep-research-and-api-evolution.md)

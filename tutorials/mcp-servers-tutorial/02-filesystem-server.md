@@ -123,170 +123,168 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `find_changed_packages` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `getFileStats` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
 
+// File Operations
+export async function getFileStats(filePath: string): Promise<FileInfo> {
+  const stats = await fs.stat(filePath);
+  return {
+    size: stats.size,
+    created: stats.birthtime,
+    modified: stats.mtime,
+    accessed: stats.atime,
+    isDirectory: stats.isDirectory(),
+    isFile: stats.isFile(),
+    permissions: stats.mode.toString(8).slice(-3),
+  };
+}
 
-def find_changed_packages(directory: Path, git_hash: GitHash) -> Iterator[Package]:
-    for path in directory.glob("*/package.json"):
-        if has_changes(path.parent, git_hash):
-            yield NpmPackage(path.parent)
-    for path in directory.glob("*/pyproject.toml"):
-        if has_changes(path.parent, git_hash):
-            yield PyPiPackage(path.parent)
+export async function readFileContent(filePath: string, encoding: string = 'utf-8'): Promise<string> {
+  return await fs.readFile(filePath, encoding as BufferEncoding);
+}
 
+export async function writeFileContent(filePath: string, content: string): Promise<void> {
+  try {
+    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,
+    // preventing writes through pre-existing symlinks
+    await fs.writeFile(filePath, content, { encoding: "utf-8", flag: 'wx' });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
+      // Security: Use atomic rename to prevent race conditions where symlinks
+      // could be created between validation and write. Rename operations
+      // replace the target file atomically and don't follow symlinks.
+      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;
+      try {
+        await fs.writeFile(tempPath, content, 'utf-8');
+```
 
-@click.group()
-def cli():
-    pass
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
+### `src/filesystem/lib.ts`
 
-@cli.command("update-packages")
-@click.option(
-    "--directory", type=click.Path(exists=True, path_type=Path), default=Path.cwd()
-)
-@click.argument("git_hash", type=GIT_HASH)
-def update_packages(directory: Path, git_hash: GitHash) -> int:
-    # Detect package type
-    path = directory.resolve(strict=True)
-    version = gen_version()
+The `readFileContent` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-    for package in find_changed_packages(path, git_hash):
-        name = package.package_name()
-        package.update_version(version)
+```ts
+}
 
-        click.echo(f"{name}@{version}")
+export async function readFileContent(filePath: string, encoding: string = 'utf-8'): Promise<string> {
+  return await fs.readFile(filePath, encoding as BufferEncoding);
+}
+
+export async function writeFileContent(filePath: string, content: string): Promise<void> {
+  try {
+    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,
+    // preventing writes through pre-existing symlinks
+    await fs.writeFile(filePath, content, { encoding: "utf-8", flag: 'wx' });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
+      // Security: Use atomic rename to prevent race conditions where symlinks
+      // could be created between validation and write. Rename operations
+      // replace the target file atomically and don't follow symlinks.
+      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;
+      try {
+        await fs.writeFile(tempPath, content, 'utf-8');
+        await fs.rename(tempPath, filePath);
+      } catch (renameError) {
+        try {
+          await fs.unlink(tempPath);
+        } catch {}
+        throw renameError;
+      }
+    } else {
+      throw error;
+    }
+  }
+}
 
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `cli` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `writeFileContent` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
-# requires-python = ">=3.12"
-# dependencies = [
-#     "click>=8.1.8",
-#     "tomlkit>=0.13.2"
-# ]
-# ///
-import sys
-import re
-import click
-from pathlib import Path
-import json
-import tomlkit
-import datetime
-import subprocess
-from dataclasses import dataclass
-from typing import Any, Iterator, NewType, Protocol
+```ts
+}
+
+export async function writeFileContent(filePath: string, content: string): Promise<void> {
+  try {
+    // Security: 'wx' flag ensures exclusive creation - fails if file/symlink exists,
+    // preventing writes through pre-existing symlinks
+    await fs.writeFile(filePath, content, { encoding: "utf-8", flag: 'wx' });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'EEXIST') {
+      // Security: Use atomic rename to prevent race conditions where symlinks
+      // could be created between validation and write. Rename operations
+      // replace the target file atomically and don't follow symlinks.
+      const tempPath = `${filePath}.${randomBytes(16).toString('hex')}.tmp`;
+      try {
+        await fs.writeFile(tempPath, content, 'utf-8');
+        await fs.rename(tempPath, filePath);
+      } catch (renameError) {
+        try {
+          await fs.unlink(tempPath);
+        } catch {}
+        throw renameError;
+      }
+    } else {
+      throw error;
+    }
+  }
+}
 
 
-Version = NewType("Version", str)
-GitHash = NewType("GitHash", str)
-
-
-class GitHashParamType(click.ParamType):
-    name = "git_hash"
-
-    def convert(
-        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
-    ) -> GitHash | None:
-        if value is None:
-            return None
-
-        if not (8 <= len(value) <= 40):
+// File Editing Functions
+interface FileEdit {
+  oldText: string;
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `scripts/release.py`
+### `src/filesystem/lib.ts`
 
-The `update_packages` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
+The `applyFileEdits` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
 
-```py
-)
-@click.argument("git_hash", type=GIT_HASH)
-def update_packages(directory: Path, git_hash: GitHash) -> int:
-    # Detect package type
-    path = directory.resolve(strict=True)
-    version = gen_version()
+```ts
+}
 
-    for package in find_changed_packages(path, git_hash):
-        name = package.package_name()
-        package.update_version(version)
+export async function applyFileEdits(
+  filePath: string,
+  edits: FileEdit[],
+  dryRun: boolean = false
+): Promise<string> {
+  // Read file content and normalize line endings
+  const content = normalizeLineEndings(await fs.readFile(filePath, 'utf-8'));
 
-        click.echo(f"{name}@{version}")
+  // Apply edits sequentially
+  let modifiedContent = content;
+  for (const edit of edits) {
+    const normalizedOld = normalizeLineEndings(edit.oldText);
+    const normalizedNew = normalizeLineEndings(edit.newText);
 
-    return 0
+    // If exact match exists, use it
+    if (modifiedContent.includes(normalizedOld)) {
+      modifiedContent = modifiedContent.replace(normalizedOld, normalizedNew);
+      continue;
+    }
 
+    // Otherwise, try line-by-line matching with flexibility for whitespace
+    const oldLines = normalizedOld.split('\n');
+    const contentLines = modifiedContent.split('\n');
+    let matchFound = false;
 
-@cli.command("generate-notes")
-@click.option(
-    "--directory", type=click.Path(exists=True, path_type=Path), default=Path.cwd()
-)
-@click.argument("git_hash", type=GIT_HASH)
-def generate_notes(directory: Path, git_hash: GitHash) -> int:
-    # Detect package type
-    path = directory.resolve(strict=True)
-    version = gen_version()
+    for (let i = 0; i <= contentLines.length - oldLines.length; i++) {
+      const potentialMatch = contentLines.slice(i, i + oldLines.length);
 
-    click.echo(f"# Release : v{version}")
-    click.echo("")
-    click.echo("## Updated packages")
-    for package in find_changed_packages(path, git_hash):
-        name = package.package_name()
-        click.echo(f"- {name}@{version}")
-```
-
-This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
-
-### `scripts/release.py`
-
-The `generate_notes` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
-
-```py
-)
-@click.argument("git_hash", type=GIT_HASH)
-def generate_notes(directory: Path, git_hash: GitHash) -> int:
-    # Detect package type
-    path = directory.resolve(strict=True)
-    version = gen_version()
-
-    click.echo(f"# Release : v{version}")
-    click.echo("")
-    click.echo("## Updated packages")
-    for package in find_changed_packages(path, git_hash):
-        name = package.package_name()
-        click.echo(f"- {name}@{version}")
-
-    return 0
-
-
-@cli.command("generate-version")
-def generate_version() -> int:
-    # Detect package type
-    click.echo(gen_version())
-    return 0
-
-
-@cli.command("generate-matrix")
-@click.option(
-    "--directory", type=click.Path(exists=True, path_type=Path), default=Path.cwd()
-)
-@click.option("--npm", is_flag=True, default=False)
-@click.option("--pypi", is_flag=True, default=False)
-@click.argument("git_hash", type=GIT_HASH)
-def generate_matrix(directory: Path, git_hash: GitHash, pypi: bool, npm: bool) -> int:
+      // Compare lines with normalized whitespace
+      const isMatch = oldLines.every((oldLine, j) => {
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
@@ -296,11 +294,11 @@ This function is important because it defines how MCP Servers Tutorial: Referenc
 
 ```mermaid
 flowchart TD
-    A[find_changed_packages]
-    B[cli]
-    C[update_packages]
-    D[generate_notes]
-    E[generate_version]
+    A[getFileStats]
+    B[readFileContent]
+    C[writeFileContent]
+    D[applyFileEdits]
+    E[tailFile]
     A --> B
     B --> C
     C --> D

@@ -36,170 +36,167 @@ You now understand how specialized security workloads fit into the broader SWE-a
 
 Next: [Chapter 7: Development and Contribution Workflow](07-development-and-contribution-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweagent/agent/models.py`
+### `sweagent/run/batch_instances.py`
 
-The `ReplayModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class ReplayModelConfig(GenericAPIModelConfig):
-    replay_path: Path = Field(description="Path to replay file when using the replay model.")
-
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
-    )
-    total_cost_limit: float = Field(
-        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
-    )
-
-    name: Literal["replay"] = Field(default="replay", description="Model name.")
-
-    model_config = ConfigDict(extra="forbid")
-
-
-class InstantEmptySubmitModelConfig(GenericAPIModelConfig):
-    """Model that immediately submits an empty patch"""
-
-    name: Literal["instant_empty_submit"] = Field(default="instant_empty_submit", description="Model name.")
-
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
-    )
-    total_cost_limit: float = Field(
-        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
-    )
-    delay: float = 0.0
-    """Delay before answering"""
-
-    model_config = ConfigDict(extra="forbid")
-```
-
-This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
-
-### `sweagent/agent/models.py`
-
-The `InstantEmptySubmitModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
+The `ExpertInstancesFromFile` class in [`sweagent/run/batch_instances.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/run/batch_instances.py) handles a key part of this chapter's functionality:
 
 ```py
 
+    # IMPORTANT: Do not call this `path`, because then if people do not specify instance.type,
+    # it might be resolved to ExpertInstancesFromFile or something like that.
+    path_override: str | Path | None = None
+    """Allow to specify a different huggingface dataset name or path to a huggingface
+    dataset. This will override the automatic path set by `subset`.
+    """
 
-class InstantEmptySubmitModelConfig(GenericAPIModelConfig):
-    """Model that immediately submits an empty patch"""
+    split: Literal["dev", "test"] = "dev"
 
-    name: Literal["instant_empty_submit"] = Field(default="instant_empty_submit", description="Model name.")
-
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
+    deployment: DeploymentConfig = Field(
+        default_factory=lambda: DockerDeploymentConfig(image="python:3.11"),
     )
-    total_cost_limit: float = Field(
-        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
-    )
-    delay: float = 0.0
-    """Delay before answering"""
+    """Deployment configuration. Note that the image_name option is overwritten by the images specified in the task instances.
+    """
 
-    model_config = ConfigDict(extra="forbid")
+    type: Literal["swe_bench"] = "swe_bench"
+    """Discriminator for (de)serialization/CLI. Do not change."""
 
+    filter: str = ".*"
+    """Regular expression to filter the instances by instance id."""
+    slice: str = ""
+    """Select only a slice of the instances (after filtering by `filter`).
+    Possible values are stop or start:stop or start:stop:step.
+    (i.e., it behaves exactly like python's list slicing `list[slice]`).
+    """
+    shuffle: bool = False
+    """Shuffle the instances (before filtering and slicing)."""
 
-class HumanModelConfig(GenericAPIModelConfig):
-    name: Literal["human"] = Field(default="human", description="Model name.")
-
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
-    )
-    total_cost_limit: float = Field(default=0.0, description="Cost limit for all instances (tasks).")
-    cost_per_call: float = 0.0
-    catch_eof: bool = True
-    """Whether to catch EOF and return 'exit' when ^D is pressed. Set to False when used in human_step_in mode."""
-    model_config = ConfigDict(extra="forbid")
-
+    evaluate: bool = False
+    """Run sb-cli to evaluate"""
 
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/agent/models.py`
+### `sweagent/run/batch_instances.py`
 
-The `HumanModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
+The `SWESmithInstances` class in [`sweagent/run/batch_instances.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/run/batch_instances.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class HumanModelConfig(GenericAPIModelConfig):
-    name: Literal["human"] = Field(default="human", description="Model name.")
+class SWESmithInstances(BaseModel, AbstractInstanceSource):
+    """Load instances from SWE-smith."""
 
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
+    path: Path
+
+    deployment: DeploymentConfig = Field(
+        default_factory=lambda: DockerDeploymentConfig(image="python:3.11"),
     )
-    total_cost_limit: float = Field(default=0.0, description="Cost limit for all instances (tasks).")
-    cost_per_call: float = 0.0
-    catch_eof: bool = True
-    """Whether to catch EOF and return 'exit' when ^D is pressed. Set to False when used in human_step_in mode."""
-    model_config = ConfigDict(extra="forbid")
+    """Deployment configuration. Note that the image_name option is overwritten by the images specified in the task instances.
+    """
 
+    filter: str = ".*"
+    """Regular expression to filter the instances by instance id."""
+    slice: str = ""
+    """Select only a slice of the instances (after filtering by `filter`).
+    Possible values are stop or start:stop or start:stop:step.
+    (i.e., it behaves exactly like python's list slicing `list[slice]`).
+    """
+    shuffle: bool = False
+    """Shuffle the instances (before filtering and slicing)."""
 
-class HumanThoughtModelConfig(HumanModelConfig):
-    name: Literal["human_thought"] = Field(default="human_thought", description="Model name.")
+    type: Literal["swesmith"] = "swesmith"
+    """Discriminator for (de)serialization/CLI. Do not change."""
 
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
-    )
-    total_cost_limit: float = Field(
-        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
-    )
-    cost_per_call: float = 0.0
+    def get_instance_configs(self) -> list[BatchInstance]:
+        github_token = os.getenv("GITHUB_TOKEN", "")
 
-    model_config = ConfigDict(extra="forbid")
+        instance_dicts = load_file(self.path)
+        instances = []
 
-
-ModelConfig = Annotated[
-    GenericAPIModelConfig
-    | ReplayModelConfig
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
 
-### `sweagent/agent/models.py`
+### `trajectories/demonstrations/str_replace_anthropic_demo.yaml`
 
-The `HumanThoughtModelConfig` class in [`sweagent/agent/models.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/agent/models.py) handles a key part of this chapter's functionality:
+The `consists` interface in [`trajectories/demonstrations/str_replace_anthropic_demo.yaml`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/trajectories/demonstrations/str_replace_anthropic_demo.yaml) handles a key part of this chapter's functionality:
+
+```yaml
+        </IMPORTANT>
+
+        The special interface consists of a file editor that shows you {{WINDOW}} lines of a file at a time.
+        In addition to typical bash commands, you can also use specific commands to help you navigate and edit files.
+        To call a command, you need to invoke it with a function call/tool call.
+
+        <notes>
+        Please note that THE EDIT COMMAND REQUIRES PROPER INDENTATION.
+
+        For example, if you are looking at this file:
+
+        def fct():
+            print("Hello world")
+
+        and you want to edit the file to read:
+
+        def fct():
+            print("Hello")
+            print("world")
+
+        you search string should be `Hello world` and your replace string should be `"Hello"\n    print("world")`
+        (note the extra spaces before the print statement!).
+
+        You could also get the same result by search for `    print("Hello world")` and replace with `    print("Hello")\n    print("world")`.
+        </notes>
+        <response_format>
+        Your shell prompt is formatted as follows:
+        (Open file: <path>)
+        (Current directory: <cwd>)
+        bash-$
+
+        First, you should _always_ include a general thought about what you're going to do next.
+```
+
+This interface is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
+
+### `sweagent/tools/tools.py`
+
+The `is` class in [`sweagent/tools/tools.py`](https://github.com/SWE-agent/SWE-agent/blob/HEAD/sweagent/tools/tools.py) handles a key part of this chapter's functionality:
 
 ```py
+"""
+This module contains the configuration for the tools that are made available to the agent.
+
+The `ToolConfig` class is used to configure the tools that are available to the agent.
+The `ToolHandler` class is used to handle the tools that are available to the agent.
+"""
+
+import asyncio
+import json
+import os
+import re
+from functools import cached_property
+from pathlib import Path
+from typing import Any
+
+from pydantic import BaseModel, Field
+from swerex.runtime.abstract import Command as RexCommand
+from swerex.runtime.abstract import UploadRequest
+from typing_extensions import Self
+
+from sweagent.environment.swe_env import SWEEnv
+from sweagent.tools.bundle import Bundle
+from sweagent.tools.commands import BASH_COMMAND, Command
+from sweagent.tools.parsing import FunctionCallingParser, JsonParser, ParseFunction
+from sweagent.tools.utils import _guard_multiline_input, generate_command_docs
+from sweagent.utils.log import get_logger
 
 
-class HumanThoughtModelConfig(HumanModelConfig):
-    name: Literal["human_thought"] = Field(default="human_thought", description="Model name.")
-
-    per_instance_cost_limit: float = Field(
-        default=0.0, description="Cost limit for every instance (task). This is a dummy value here."
-    )
-    total_cost_limit: float = Field(
-        default=0.0, description="Cost limit for all instances (tasks). This is a dummy value here."
-    )
-    cost_per_call: float = 0.0
-
-    model_config = ConfigDict(extra="forbid")
-
-
-ModelConfig = Annotated[
-    GenericAPIModelConfig
-    | ReplayModelConfig
-    | InstantEmptySubmitModelConfig
-    | HumanModelConfig
-    | HumanThoughtModelConfig,
-    Field(union_mode="left_to_right"),
-]
-
-
-class GlobalStats(PydanticBaseModel):
-    """This class tracks usage numbers (costs etc.) across all instances."""
-
-    total_cost: float = 0
-    """Cumulative cost for all instances so far"""
-
+class ToolFilterConfig(BaseModel):
+    """Filter out commands that are blocked by the environment
+    (for example interactive commands like `vim`).
 ```
 
 This class is important because it defines how SWE-agent Tutorial: Autonomous Repository Repair and Benchmark-Driven Engineering implements the patterns covered in this chapter.
@@ -209,11 +206,11 @@ This class is important because it defines how SWE-agent Tutorial: Autonomous Re
 
 ```mermaid
 flowchart TD
-    A[ReplayModelConfig]
-    B[InstantEmptySubmitModelConfig]
-    C[HumanModelConfig]
-    D[HumanThoughtModelConfig]
-    E[GlobalStats]
+    A[ExpertInstancesFromFile]
+    B[SWESmithInstances]
+    C[consists]
+    D[is]
+    E[is]
     A --> B
     B --> C
     C --> D

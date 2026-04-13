@@ -38,186 +38,35 @@ You now have a working Codex CLI baseline.
 
 Next: [Chapter 2: Architecture and Local Execution Model](02-architecture-and-local-execution-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/stage_npm_packages.py`
+### `README.md`
 
-The `parse_args` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+The [`README.md`](https://github.com/openai/codex/blob/HEAD/README.md) is the primary reference for this chapter. It covers all three installation methods (npm global, brew, binary), the two authentication paths (ChatGPT sign-in for Plus/Pro users, API key for API users), and the quickstart command loop. The Quickstart section maps directly to the goals of this chapter.
 
-```py
+The README also explains the three approval modes (`suggest`, `auto-edit`, `full-auto`) which determine how much autonomy Codex has during a session — a key configuration decision to understand before your first run.
 
+### `codex-cli/package.json`
 
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--release-version",
-        required=True,
-        help="Version to stage (e.g. 0.1.0 or 0.1.0-alpha.1).",
-    )
-    parser.add_argument(
-        "--package",
-        dest="packages",
-        action="append",
-        required=True,
-        help="Package name to stage. May be provided multiple times.",
-    )
-    parser.add_argument(
-        "--workflow-url",
-        help="Optional workflow URL to reuse for native artifacts.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=None,
-        help="Directory where npm tarballs should be written (default: dist/npm).",
-    )
-    parser.add_argument(
-        "--keep-staging-dirs",
-        action="store_true",
-        help="Retain temporary staging directories instead of deleting them.",
-    )
-    return parser.parse_args()
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/stage_npm_packages.py`
-
-The `collect_native_components` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def collect_native_components(packages: list[str]) -> set[str]:
-    components: set[str] = set()
-    for package in packages:
-        components.update(PACKAGE_NATIVE_COMPONENTS.get(package, []))
-    return components
-
-
-def expand_packages(packages: list[str]) -> list[str]:
-    expanded: list[str] = []
-    for package in packages:
-        for expanded_package in PACKAGE_EXPANSIONS.get(package, [package]):
-            if expanded_package in expanded:
-                continue
-            expanded.append(expanded_package)
-    return expanded
-
-
-def resolve_release_workflow(version: str) -> dict:
-    stdout = subprocess.check_output(
-        [
-            "gh",
-            "run",
-            "list",
-            "--branch",
-            f"rust-v{version}",
-            "--json",
-            "workflowName,url,headSha",
-            "--workflow",
-            WORKFLOW_NAME,
-            "--jq",
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/stage_npm_packages.py`
-
-The `expand_packages` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def expand_packages(packages: list[str]) -> list[str]:
-    expanded: list[str] = []
-    for package in packages:
-        for expanded_package in PACKAGE_EXPANSIONS.get(package, [package]):
-            if expanded_package in expanded:
-                continue
-            expanded.append(expanded_package)
-    return expanded
-
-
-def resolve_release_workflow(version: str) -> dict:
-    stdout = subprocess.check_output(
-        [
-            "gh",
-            "run",
-            "list",
-            "--branch",
-            f"rust-v{version}",
-            "--json",
-            "workflowName,url,headSha",
-            "--workflow",
-            WORKFLOW_NAME,
-            "--jq",
-            "first(.[])",
-        ],
-        cwd=REPO_ROOT,
-        text=True,
-    )
-    workflow = json.loads(stdout or "null")
-    if not workflow:
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
-### `scripts/stage_npm_packages.py`
-
-The `resolve_release_workflow` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def resolve_release_workflow(version: str) -> dict:
-    stdout = subprocess.check_output(
-        [
-            "gh",
-            "run",
-            "list",
-            "--branch",
-            f"rust-v{version}",
-            "--json",
-            "workflowName,url,headSha",
-            "--workflow",
-            WORKFLOW_NAME,
-            "--jq",
-            "first(.[])",
-        ],
-        cwd=REPO_ROOT,
-        text=True,
-    )
-    workflow = json.loads(stdout or "null")
-    if not workflow:
-        raise RuntimeError(f"Unable to find rust-release workflow for version {version}.")
-    return workflow
-
-
-def resolve_workflow_url(version: str, override: str | None) -> tuple[str, str | None]:
-    if override:
-        return override, None
-
-    workflow = resolve_release_workflow(version)
-    return workflow["url"], workflow.get("headSha")
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
-
+The [`codex-cli/package.json`](https://github.com/openai/codex/blob/HEAD/codex-cli/package.json) shows the npm package metadata: the published package name (`@openai/codex`), the entry point, and the `bin` field that maps `codex` to the CLI executable. This confirms the install path and helps diagnose PATH issues after global npm install.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[parse_args]
-    B[collect_native_components]
-    C[expand_packages]
-    D[resolve_release_workflow]
-    E[resolve_workflow_url]
+    A[Install: npm i -g @openai/codex or brew or binary]
+    B[Configure auth: ChatGPT sign-in or OPENAI_API_KEY]
+    C[Run: codex in project directory]
+    D[Interactive session starts]
+    E[Choose approval mode: suggest auto-edit or full-auto]
+    F[Submit task in natural language]
+    G[Codex proposes edits or commands]
+    H[User approves or rejects]
     A --> B
     B --> C
     C --> D
     D --> E
+    E --> F
+    F --> G
+    G --> H
 ```

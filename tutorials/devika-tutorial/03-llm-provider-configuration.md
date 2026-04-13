@@ -39,140 +39,18 @@ You now know how to configure any of Devika's supported LLM providers, select th
 
 Next: [Chapter 4: Task Planning and Code Generation](04-task-planning-and-code-generation.md)
 
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `devika.py`
-
-The `real_time_logs` function in [`devika.py`](https://github.com/stitionai/devika/blob/HEAD/devika.py) handles a key part of this chapter's functionality:
-
-```py
-
-@app.route("/api/logs", methods=["GET"])
-def real_time_logs():
-    log_file = logger.read_log_file()
-    return jsonify({"logs": log_file})
-
-
-@app.route("/api/settings", methods=["POST"])
-@route_logger(logger)
-def set_settings():
-    data = request.json
-    config.update_config(data)
-    return jsonify({"message": "Settings updated"})
-
-
-@app.route("/api/settings", methods=["GET"])
-@route_logger(logger)
-def get_settings():
-    configs = config.get_config()
-    return jsonify({"settings": configs})
-
-
-@app.route("/api/status", methods=["GET"])
-@route_logger(logger)
-def status():
-    return jsonify({"status": "server is running!"})
-
-if __name__ == "__main__":
-    logger.info("Devika is up and running!")
-    socketio.run(app, debug=False, port=1337, host="0.0.0.0")
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-### `devika.py`
-
-The `set_settings` function in [`devika.py`](https://github.com/stitionai/devika/blob/HEAD/devika.py) handles a key part of this chapter's functionality:
-
-```py
-@app.route("/api/settings", methods=["POST"])
-@route_logger(logger)
-def set_settings():
-    data = request.json
-    config.update_config(data)
-    return jsonify({"message": "Settings updated"})
-
-
-@app.route("/api/settings", methods=["GET"])
-@route_logger(logger)
-def get_settings():
-    configs = config.get_config()
-    return jsonify({"settings": configs})
-
-
-@app.route("/api/status", methods=["GET"])
-@route_logger(logger)
-def status():
-    return jsonify({"status": "server is running!"})
-
-if __name__ == "__main__":
-    logger.info("Devika is up and running!")
-    socketio.run(app, debug=False, port=1337, host="0.0.0.0")
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-### `devika.py`
-
-The `get_settings` function in [`devika.py`](https://github.com/stitionai/devika/blob/HEAD/devika.py) handles a key part of this chapter's functionality:
-
-```py
-@app.route("/api/settings", methods=["GET"])
-@route_logger(logger)
-def get_settings():
-    configs = config.get_config()
-    return jsonify({"settings": configs})
-
-
-@app.route("/api/status", methods=["GET"])
-@route_logger(logger)
-def status():
-    return jsonify({"status": "server is running!"})
-
-if __name__ == "__main__":
-    logger.info("Devika is up and running!")
-    socketio.run(app, debug=False, port=1337, host="0.0.0.0")
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-### `devika.py`
-
-The `status` function in [`devika.py`](https://github.com/stitionai/devika/blob/HEAD/devika.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-@app.route("/api/status", methods=["GET"])
-@route_logger(logger)
-def status():
-    return jsonify({"status": "server is running!"})
-
-if __name__ == "__main__":
-    logger.info("Devika is up and running!")
-    socketio.run(app, debug=False, port=1337, host="0.0.0.0")
-
-```
-
-This function is important because it defines how Devika Tutorial: Open-Source Autonomous AI Software Engineer implements the patterns covered in this chapter.
-
-
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[real_time_logs]
-    B[set_settings]
-    C[get_settings]
-    D[status]
-    E[Config]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+    A[config.yaml] --> B{Provider selection}
+    B -->|Claude| C[ANTHROPIC_API_KEY]
+    B -->|GPT-4| D[OPENAI_API_KEY]
+    B -->|Gemini| E[GEMINI_API_KEY]
+    B -->|Ollama| F[Local endpoint]
+    C --> G[LLM abstraction layer]
+    D --> G
+    E --> G
+    F --> G
+    G --> H[Agent pipeline]
 ```

@@ -885,11 +885,24 @@ Under the hood, `Chapter 7: Integration with AI Frameworks` usually follows a re
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Framework Integration Points
+
+```mermaid
+flowchart TD
+    A[Application Code] --> B{Integration Layer}
+    B --> C[LangChain LLM Wrapper]
+    B --> D[vLLM Guided Decoding]
+    B --> E[Direct Outlines API]
+    C --> F[Constrained Output]
+    D --> F
+    E --> F
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

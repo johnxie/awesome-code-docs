@@ -9,6 +9,19 @@ nav_order: 2
 
 Welcome to the crucial phase of fine-tuning: data preparation. The quality and format of your training data directly impacts the performance of your fine-tuned model. This chapter covers data collection, preprocessing, and formatting for LLaMA Factory.
 
+## Data Pipeline Overview
+
+```mermaid
+flowchart TD
+    RAW[Raw Data Sources\ntext, conversations, Q&A] --> FMT[Format Conversion]
+    FMT --> A[Alpaca Format\ninstruction + input + output]
+    FMT --> B[ShareGPT Format\nconversation turns]
+    A --> REG[dataset_info.json Registration]
+    B --> REG
+    REG --> PROC[Tokenization + Padding\nLLaMA-Factory preprocessor]
+    PROC --> TRAIN[Training Run]
+```
+
 ## Understanding Data Requirements
 
 LLaMA Factory expects data in specific formats depending on the task type:
@@ -652,14 +665,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory):
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`data/dataset_info.json`](https://github.com/hiyouga/LLaMA-Factory/blob/main/data/dataset_info.json) -- registry of all built-in datasets; shows alpaca/sharegpt format specs and load paths
+- [`src/llamafactory/data/loader.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/data/loader.py) -- `get_dataset()`: loads and merges datasets from `dataset_info.json`
+- [`src/llamafactory/data/formatter.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/data/formatter.py) -- applies chat template formatting to convert raw data into model-ready token sequences
 
-Suggested trace strategy:
-- search upstream code for `self` and `example` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `get_dataset()` → `convert_alpaca()` or `convert_sharegpt()` → `formatter.py` to see how raw dataset items become token IDs with the correct chat template.
 
 ## Chapter Connections
 

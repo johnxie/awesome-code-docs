@@ -6,6 +6,7 @@ has_children: false
 parent: "Nanocoder - AI Coding Agent Deep Dive"
 ---
 
+
 # Chapter 4: Multi-Provider Integration
 
 Welcome to **Chapter 4: Multi-Provider Integration**. In this part of **Nanocoder Tutorial: Building and Understanding AI Coding Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -489,155 +490,182 @@ In [Chapter 5: Context Management](05-context-management.md), we'll explore how 
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `source/client-factory.ts`
 
-### Strategic Context
+The `ConfigurationError` class in [`source/client-factory.ts`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/source/client-factory.ts) handles a key part of this chapter's functionality:
 
-- tutorial: **Nanocoder Tutorial: Building and Understanding AI Coding Agents**
-- tutorial slug: **nanocoder-tutorial**
-- chapter focus: **Chapter 4: Multi-Provider Integration**
-- system context: **Nanocoder Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+```ts
 
-### Architecture Decomposition
+// Custom error class for configuration errors that need special UI handling
+export class ConfigurationError extends Error {
+	constructor(
+		message: string,
+		public configPath: string,
+		public cwdPath?: string,
+		public isEmptyConfig: boolean = false,
+	) {
+		super(message);
+		this.name = 'ConfigurationError';
+	}
+}
 
-1. Define the runtime boundary for `Chapter 4: Multi-Provider Integration`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+export async function createLLMClient(
+	provider?: string,
+	model?: string,
+): Promise<{client: LLMClient; actualProvider: string}> {
+	// Check if agents.config.json exists
+	const agentsJsonPath = getClosestConfigFile('agents.config.json');
+	const hasConfigFile = existsSync(agentsJsonPath);
 
-### Operator Decision Matrix
+	// Use AI SDK - it handles both tool-calling and non-tool-calling models
+	return createAISDKClient(provider, model, hasConfigFile);
+}
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+async function createAISDKClient(
+	requestedProvider?: string,
+	requestedModel?: string,
+	hasConfigFile = true,
+): Promise<{client: LLMClient; actualProvider: string}> {
+	// Load provider configs
+```
 
-### Failure Modes and Countermeasures
+This class is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+### `source/client-factory.ts`
 
-### Implementation Runbook
+The `createLLMClient` function in [`source/client-factory.ts`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/source/client-factory.ts) handles a key part of this chapter's functionality:
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+```ts
+}
 
-### Quality Gate Checklist
+export async function createLLMClient(
+	provider?: string,
+	model?: string,
+): Promise<{client: LLMClient; actualProvider: string}> {
+	// Check if agents.config.json exists
+	const agentsJsonPath = getClosestConfigFile('agents.config.json');
+	const hasConfigFile = existsSync(agentsJsonPath);
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+	// Use AI SDK - it handles both tool-calling and non-tool-calling models
+	return createAISDKClient(provider, model, hasConfigFile);
+}
 
-### Source Alignment
+async function createAISDKClient(
+	requestedProvider?: string,
+	requestedModel?: string,
+	hasConfigFile = true,
+): Promise<{client: LLMClient; actualProvider: string}> {
+	// Load provider configs
+	const providers = loadProviderConfigs();
 
-- [Nanocoder Repository](https://github.com/Nano-Collective/nanocoder)
-- [Nanocoder Releases](https://github.com/Nano-Collective/nanocoder/releases)
-- [Nanocoder Documentation Directory](https://github.com/Nano-Collective/nanocoder/tree/main/docs)
-- [Nanocoder MCP Configuration Guide](https://github.com/Nano-Collective/nanocoder/blob/main/docs/mcp-configuration.md)
-- [Nano Collective Website](https://nanocollective.org/)
+	const configPath = getClosestConfigFile('agents.config.json');
+	const cwd = process.cwd();
+	const isInCwd = configPath.startsWith(cwd);
+	const cwdPath = !isInCwd ? join(cwd, 'agents.config.json') : undefined;
 
-### Cross-Tutorial Connection Map
+	if (providers.length === 0) {
+		if (!hasConfigFile) {
+			throw new ConfigurationError(
+				'No agents.config.json found',
+				configPath,
+```
 
-- [Aider Tutorial](../aider-tutorial/)
-- [Claude Code Tutorial](../claude-code-tutorial/)
-- [Continue Tutorial](../continue-tutorial/)
-- [OpenHands Tutorial](../openhands-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-### Advanced Practice Exercises
+### `source/client-factory.ts`
 
-1. Build a minimal end-to-end implementation for `Chapter 4: Multi-Provider Integration`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+The `createAISDKClient` function in [`source/client-factory.ts`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/source/client-factory.ts) handles a key part of this chapter's functionality:
 
-### Review Questions
+```ts
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+	// Use AI SDK - it handles both tool-calling and non-tool-calling models
+	return createAISDKClient(provider, model, hasConfigFile);
+}
 
-## What Problem Does This Solve?
+async function createAISDKClient(
+	requestedProvider?: string,
+	requestedModel?: string,
+	hasConfigFile = true,
+): Promise<{client: LLMClient; actualProvider: string}> {
+	// Load provider configs
+	const providers = loadProviderConfigs();
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `name`, `config`, `request` so behavior stays predictable as complexity grows.
+	const configPath = getClosestConfigFile('agents.config.json');
+	const cwd = process.cwd();
+	const isInCwd = configPath.startsWith(cwd);
+	const cwdPath = !isInCwd ? join(cwd, 'agents.config.json') : undefined;
 
-In practical terms, this chapter helps you avoid three common failures:
+	if (providers.length === 0) {
+		if (!hasConfigFile) {
+			throw new ConfigurationError(
+				'No agents.config.json found',
+				configPath,
+				cwdPath,
+				false,
+			);
+		} else {
+			throw new ConfigurationError(
+				'No providers configured in agents.config.json',
+				configPath,
+				cwdPath,
+				true,
+```
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-After working through this chapter, you should be able to reason about `Chapter 4: Multi-Provider Integration` as an operating subsystem inside **Nanocoder Tutorial: Building and Understanding AI Coding Agents**, with explicit contracts for inputs, state transitions, and outputs.
+### `source/client-factory.ts`
 
-Use the implementation notes around `response`, `providers`, `model` as your checklist when adapting these patterns to your own repository.
+The `loadProviderConfigs` function in [`source/client-factory.ts`](https://github.com/Nano-Collective/nanocoder/blob/HEAD/source/client-factory.ts) handles a key part of this chapter's functionality:
 
-## How it Works Under the Hood
+```ts
+): Promise<{client: LLMClient; actualProvider: string}> {
+	// Load provider configs
+	const providers = loadProviderConfigs();
 
-Under the hood, `Chapter 4: Multi-Provider Integration` usually follows a repeatable control path:
+	const configPath = getClosestConfigFile('agents.config.json');
+	const cwd = process.cwd();
+	const isInCwd = configPath.startsWith(cwd);
+	const cwdPath = !isInCwd ? join(cwd, 'agents.config.json') : undefined;
 
-1. **Context bootstrap**: initialize runtime config and prerequisites for `name`.
-2. **Input normalization**: shape incoming data so `config` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `request`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
+	if (providers.length === 0) {
+		if (!hasConfigFile) {
+			throw new ConfigurationError(
+				'No agents.config.json found',
+				configPath,
+				cwdPath,
+				false,
+			);
+		} else {
+			throw new ConfigurationError(
+				'No providers configured in agents.config.json',
+				configPath,
+				cwdPath,
+				true,
+			);
+		}
+	}
 
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
+	// Determine which provider to try first
+	let targetProvider: string;
+	if (requestedProvider) {
+		targetProvider = requestedProvider;
+	} else {
+```
 
-## Source Walkthrough
+This function is important because it defines how Nanocoder Tutorial: Building and Understanding AI Coding Agents implements the patterns covered in this chapter.
 
-Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [Nanocoder Repository](https://github.com/Nano-Collective/nanocoder)
-  Why it matters: authoritative reference on `Nanocoder Repository` (github.com).
-- [Nanocoder Releases](https://github.com/Nano-Collective/nanocoder/releases)
-  Why it matters: authoritative reference on `Nanocoder Releases` (github.com).
-- [Nanocoder Documentation Directory](https://github.com/Nano-Collective/nanocoder/tree/main/docs)
-  Why it matters: authoritative reference on `Nanocoder Documentation Directory` (github.com).
-- [Nanocoder MCP Configuration Guide](https://github.com/Nano-Collective/nanocoder/blob/main/docs/mcp-configuration.md)
-  Why it matters: authoritative reference on `Nanocoder MCP Configuration Guide` (github.com).
-- [Nano Collective Website](https://nanocollective.org/)
-  Why it matters: authoritative reference on `Nano Collective Website` (nanocollective.org).
+## How These Components Connect
 
-Suggested trace strategy:
-- search upstream code for `name` and `config` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Tool System Internals](03-tool-system-internals.md)
-- [Next Chapter: Chapter 5: Context Management](05-context-management.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[ConfigurationError]
+    B[createLLMClient]
+    C[createAISDKClient]
+    D[loadProviderConfigs]
+    A --> B
+    B --> C
+    C --> D
+```

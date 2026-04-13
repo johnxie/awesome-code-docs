@@ -39,170 +39,168 @@ You now have runtime lifecycle controls for operating Swift MCP services more sa
 
 Next: [Chapter 7: Strict Mode, Batching, Logging, and Debugging](07-strict-mode-batching-logging-and-debugging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `Sources/MCP/Server/Resources.swift`
+### `Sources/MCPConformance/Server/HTTPApp.swift`
 
-The `CodingKeys` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
+The `FixedSessionIDGenerator` interface in [`Sources/MCPConformance/Server/HTTPApp.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCPConformance/Server/HTTPApp.swift) handles a key part of this chapter's functionality:
 
 ```swift
+    // MARK: - Session Management
+
+    private struct FixedSessionIDGenerator: SessionIDGenerator {
+        let sessionID: String
+        func generateSessionID() -> String { sessionID }
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case uri
-        case title
-        case description
-        case mimeType
-        case size
-        case annotations
-        case icons
-        case _meta
-    }
+    private func createSessionAndHandle(_ request: HTTPRequest) async -> HTTPResponse {
+        let sessionID = UUID().uuidString
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-        uri = try container.decode(String.self, forKey: .uri)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        description = try container.decodeIfPresent(String.self, forKey: .description)
-        mimeType = try container.decodeIfPresent(String.self, forKey: .mimeType)
-        size = try container.decodeIfPresent(Int.self, forKey: .size)
-        annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
-        icons = try container.decodeIfPresent([Icon].self, forKey: .icons)
-        _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
-    }
+        let transport = StatefulHTTPServerTransport(
+            sessionIDGenerator: FixedSessionIDGenerator(sessionID: sessionID),
+            validationPipeline: validationPipeline,
+            retryInterval: configuration.retryInterval,
+            logger: logger
+        )
 
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encode(uri, forKey: .uri)
-        try container.encodeIfPresent(title, forKey: .title)
+        do {
+            let server = try await serverFactory(sessionID, transport)
+            try await server.start(transport: transport)
+
+            sessions[sessionID] = SessionContext(
+                server: server,
+                transport: transport,
+                createdAt: Date(),
+                lastAccessedAt: Date()
+            )
+
+            let response = await transport.handleRequest(request)
+
+            // If transport returned an error, clean up
+            if case .error = response {
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Server/Resources.swift`
+### `Sources/MCPConformance/Server/HTTPApp.swift`
 
-The `Audience` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
+The `RequestState` interface in [`Sources/MCPConformance/Server/HTTPApp.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCPConformance/Server/HTTPApp.swift) handles a key part of this chapter's functionality:
 
 ```swift
-    public struct Annotations: Hashable, Codable, Sendable {
-        /// The intended audience for this resource.
-        public enum Audience: String, Hashable, Codable, Sendable {
-            /// Content intended for end users.
-            case user = "user"
-            /// Content intended for AI assistants.
-            case assistant = "assistant"
-        }
+    private let app: HTTPApp
 
-        /// An array indicating the intended audience(s) for this resource. For example, `[.user, .assistant]` indicates content useful for both.
-        public let audience: [Audience]?
-        /// A number from 0.0 to 1.0 indicating the importance of this resource. A value of 1 means "most important" (effectively required), while 0 means "least important".
-        public let priority: Double?
-        /// An ISO 8601 formatted timestamp indicating when the resource was last modified (e.g., "2025-01-12T15:00:58Z").
-        public let lastModified: String?
+    private struct RequestState {
+        var head: HTTPRequestHead
+        var bodyBuffer: ByteBuffer
+    }
 
-        public init(
-            audience: [Audience]? = nil,
-            priority: Double? = nil,
-            lastModified: String? = nil
-        ) {
-            self.audience = audience
-            self.priority = priority
-            self.lastModified = lastModified
-        }
+    private var requestState: RequestState?
+
+    init(app: HTTPApp) {
+        self.app = app
+    }
+
+    func channelRead(context: ChannelHandlerContext, data: NIOAny) {
+        let part = unwrapInboundIn(data)
+
+        switch part {
+        case .head(let head):
+            requestState = RequestState(
+                head: head,
+                bodyBuffer: context.channel.allocator.buffer(capacity: 0)
+            )
+        case .body(var buffer):
+            requestState?.bodyBuffer.writeBuffer(&buffer)
+        case .end:
+            guard let state = requestState else { return }
+            requestState = nil
+
+            nonisolated(unsafe) let ctx = context
+            Task { @MainActor in
+                await self.handleRequest(state: state, context: ctx)
+            }
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Base/Error.swift`
+
+The `URLElicitationInfo` interface in [`Sources/MCP/Base/Error.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Error.swift) handles a key part of this chapter's functionality:
+
+```swift
+
+/// Information about a required URL elicitation
+public struct URLElicitationInfo: Codable, Hashable, Sendable {
+    /// Elicitation mode (must be "url")
+    public var mode: String
+    /// Unique identifier for this elicitation
+    public var elicitationId: String
+    /// URL for the user to visit
+    public var url: String
+    /// Message describing the elicitation
+    public var message: String
+
+    public init(mode: String = "url", elicitationId: String, url: String, message: String) {
+        self.mode = mode
+        self.elicitationId = elicitationId
+        self.url = url
+        self.message = message
     }
 }
 
-// MARK: -
+/// A model context protocol error.
+public enum MCPError: Swift.Error, Sendable {
+    // Standard JSON-RPC 2.0 errors (-32700 to -32603)
+    case parseError(String?)  // -32700
+    case invalidRequest(String?)  // -32600
+    case methodNotFound(String?)  // -32601
+    case invalidParams(String?)  // -32602
+    case internalError(String?)  // -32603
 
-/// To discover available resources, clients send a `resources/list` request.
-/// - SeeAlso: https://modelcontextprotocol.io/specification/2025-11-25/server/resources/#listing-resources
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCP/Server/Resources.swift`
-
-The `ListResources` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
-
-```swift
-/// To discover available resources, clients send a `resources/list` request.
-/// - SeeAlso: https://modelcontextprotocol.io/specification/2025-11-25/server/resources/#listing-resources
-public enum ListResources: Method {
-    public static let name: String = "resources/list"
-
-    public struct Parameters: NotRequired, Hashable, Codable, Sendable {
-        public let cursor: String?
-
-        public init() {
-            self.cursor = nil
-        }
-
-        public init(cursor: String) {
-            self.cursor = cursor
-        }
-    }
-
-    public struct Result: Hashable, Codable, Sendable {
-        public let resources: [Resource]
-        public let nextCursor: String?
-        public var _meta: Metadata?
-
-        public init(
-            resources: [Resource],
-            nextCursor: String? = nil,
-            _meta: Metadata? = nil
-        ) {
-            self.resources = resources
-            self.nextCursor = nextCursor
-            self._meta = _meta
-        }
+    // Server errors (-32000 to -32099)
+    case serverError(code: Int, message: String)
 
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Server/Resources.swift`
+### `Sources/MCP/Base/Error.swift`
 
-The `CodingKeys` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
+The `MCPError` interface in [`Sources/MCP/Base/Error.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Error.swift) handles a key part of this chapter's functionality:
 
 ```swift
-    }
 
-    private enum CodingKeys: String, CodingKey {
-        case name
-        case uri
-        case title
-        case description
-        case mimeType
-        case size
-        case annotations
-        case icons
-        case _meta
-    }
+/// A model context protocol error.
+public enum MCPError: Swift.Error, Sendable {
+    // Standard JSON-RPC 2.0 errors (-32700 to -32603)
+    case parseError(String?)  // -32700
+    case invalidRequest(String?)  // -32600
+    case methodNotFound(String?)  // -32601
+    case invalidParams(String?)  // -32602
+    case internalError(String?)  // -32603
 
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-        uri = try container.decode(String.self, forKey: .uri)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        description = try container.decodeIfPresent(String.self, forKey: .description)
-        mimeType = try container.decodeIfPresent(String.self, forKey: .mimeType)
-        size = try container.decodeIfPresent(Int.self, forKey: .size)
-        annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
-        icons = try container.decodeIfPresent([Icon].self, forKey: .icons)
-        _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
-    }
+    // Server errors (-32000 to -32099)
+    case serverError(code: Int, message: String)
 
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encode(uri, forKey: .uri)
-        try container.encodeIfPresent(title, forKey: .title)
+    // MCP specific errors
+    case urlElicitationRequired(message: String, elicitations: [URLElicitationInfo])  // -32042
+
+    // Transport specific errors
+    case connectionClosed
+    case transportError(Swift.Error)
+
+    /// The JSON-RPC 2.0 error code
+    public var code: Int {
+        switch self {
+        case .parseError: return -32700
+        case .invalidRequest: return -32600
+        case .methodNotFound: return -32601
+        case .invalidParams: return -32602
+        case .internalError: return -32603
+        case .serverError(let code, _): return code
+        case .urlElicitationRequired: return -32042
+        case .connectionClosed: return -32000
+        case .transportError: return -32001
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This interface is important because it defines how MCP Swift SDK Tutorial: Build
 
 ```mermaid
 flowchart TD
-    A[CodingKeys]
-    B[Audience]
-    C[ListResources]
-    D[CodingKeys]
-    E[ReadResource]
+    A[FixedSessionIDGenerator]
+    B[RequestState]
+    C[URLElicitationInfo]
+    D[MCPError]
+    E[CodingKeys]
     A --> B
     B --> C
     C --> D

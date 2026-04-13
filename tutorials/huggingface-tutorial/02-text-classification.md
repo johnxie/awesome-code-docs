@@ -14,6 +14,16 @@ Welcome back! Now that you understand the basics of HuggingFace Transformers, le
 
 ## Understanding Text Classification
 
+```mermaid
+flowchart LR
+    A[Raw text] --> B[AutoTokenizer.from_pretrained]
+    B --> C[input_ids attention_mask]
+    C --> D[AutoModelForSequenceClassification]
+    D --> E[logits]
+    E --> F[softmax]
+    F --> G[label + score]
+```
+
 ### What is Text Classification?
 
 Text classification is the process of categorizing text documents into predefined classes or categories. It's one of the fundamental tasks in natural language processing and has applications in:

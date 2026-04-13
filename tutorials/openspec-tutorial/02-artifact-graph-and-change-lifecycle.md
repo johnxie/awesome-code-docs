@@ -60,170 +60,168 @@ You now have a working model for how artifacts evolve from intent to archived be
 
 Next: [Chapter 3: Command Surface and Agent Workflows](03-command-surface-and-agent-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/commands/schema.ts`
+### `src/commands/config.ts`
 
-The `registerSchemaCommand` function in [`src/commands/schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/schema.ts) handles a key part of this chapter's functionality:
+The `registerConfigCommand` function in [`src/commands/config.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Register the schema command and all its subcommands.
+ * @param program - The Commander program instance
  */
-export function registerSchemaCommand(program: Command): void {
-  const schemaCmd = program
-    .command('schema')
-    .description('Manage workflow schemas [experimental]');
+export function registerConfigCommand(program: Command): void {
+  const configCmd = program
+    .command('config')
+    .description('View and modify global OpenSpec configuration')
+    .option('--scope <scope>', 'Config scope (only "global" supported currently)')
+    .hook('preAction', (thisCommand) => {
+      const opts = thisCommand.opts();
+      if (opts.scope && opts.scope !== 'global') {
+        console.error('Error: Project-local config is not yet implemented');
+        process.exit(1);
+      }
+    });
 
-  // Experimental warning
-  schemaCmd.hook('preAction', () => {
-    console.error('Note: Schema commands are experimental and may change.');
-  });
+  // config path
+  configCmd
+    .command('path')
+    .description('Show config file location')
+    .action(() => {
+      console.log(getGlobalConfigPath());
+    });
 
-  // schema which
-  schemaCmd
-    .command('which [name]')
-    .description('Show where a schema resolves from')
+  // config list
+  configCmd
+    .command('list')
+    .description('Show all current settings')
     .option('--json', 'Output as JSON')
-    .option('--all', 'List all schemas with their resolution sources')
-    .action(async (name?: string, options?: { json?: boolean; all?: boolean }) => {
-      try {
-        const projectRoot = process.cwd();
+    .action((options: { json?: boolean }) => {
+      const config = getGlobalConfig();
 
-        if (options?.all) {
-          // List all schemas
-          const schemas = getAllSchemasWithResolution(projectRoot);
-
-          if (options?.json) {
-            console.log(JSON.stringify(schemas, null, 2));
-          } else {
-            if (schemas.length === 0) {
-              console.log('No schemas found.');
-              return;
+      if (options.json) {
 ```
 
 This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
 
-### `src/commands/schema.ts`
+### `src/commands/config.ts`
 
-The `createDefaultTemplate` function in [`src/commands/schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/schema.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-          // Create default template content
-          const templateContent = createDefaultTemplate(artifact.id);
-          fs.writeFileSync(templatePath, templateContent);
-        }
-
-        // Update config if --default
-        if (options?.default) {
-          const configPath = path.join(projectRoot, 'openspec', 'config.yaml');
-
-          if (fs.existsSync(configPath)) {
-            const { parse: parseYaml, stringify: stringifyYaml2 } = await import('yaml');
-            const configContent = fs.readFileSync(configPath, 'utf-8');
-            const config = parseYaml(configContent) || {};
-            config.defaultSchema = name;
-            fs.writeFileSync(configPath, stringifyYaml2(config));
-          } else {
-            // Create config file
-            const configDir = path.dirname(configPath);
-            if (!fs.existsSync(configDir)) {
-              fs.mkdirSync(configDir, { recursive: true });
-            }
-            fs.writeFileSync(configPath, stringifyYaml({ defaultSchema: name }));
-          }
-        }
-
-        if (spinner) spinner.succeed(`Created schema '${name}'`);
-
-        if (options?.json) {
-          console.log(JSON.stringify({
-            created: true,
-            path: schemaDir,
-```
-
-This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/schema.ts`
-
-The `SchemaLocation` interface in [`src/commands/schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/schema.ts) handles a key part of this chapter's functionality:
+The `ProfileState` interface in [`src/commands/config.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Result of checking a schema location
- */
-interface SchemaLocation {
-  source: SchemaSource;
-  path: string;
-  exists: boolean;
+type ProfileAction = 'both' | 'delivery' | 'workflows' | 'keep';
+
+interface ProfileState {
+  profile: Profile;
+  delivery: Delivery;
+  workflows: string[];
 }
 
-/**
- * Schema resolution info with shadowing details
- */
-interface SchemaResolution {
+interface ProfileStateDiff {
+  hasChanges: boolean;
+  lines: string[];
+}
+
+interface WorkflowPromptMeta {
   name: string;
-  source: SchemaSource;
-  path: string;
-  shadows: Array<{ source: SchemaSource; path: string }>;
+  description: string;
 }
 
-/**
- * Validation issue structure
- */
-interface ValidationIssue {
-  level: 'error' | 'warning';
-  path: string;
-  message: string;
-}
-
-/**
- * Check all three locations for a schema and return which ones exist.
- */
-function checkAllLocations(
-  name: string,
+const WORKFLOW_PROMPT_META: Record<string, WorkflowPromptMeta> = {
+  propose: {
+    name: 'Propose change',
+    description: 'Create proposal, design, and tasks from a request',
+  },
+  explore: {
+    name: 'Explore ideas',
+    description: 'Investigate a problem before implementation',
+  },
+  new: {
+    name: 'New change',
+    description: 'Create a new change scaffold quickly',
+  },
+  continue: {
 ```
 
 This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
 
-### `src/commands/schema.ts`
+### `src/commands/config.ts`
 
-The `SchemaResolution` interface in [`src/commands/schema.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/schema.ts) handles a key part of this chapter's functionality:
+The `ProfileStateDiff` interface in [`src/commands/config.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/config.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Schema resolution info with shadowing details
- */
-interface SchemaResolution {
+}
+
+interface ProfileStateDiff {
+  hasChanges: boolean;
+  lines: string[];
+}
+
+interface WorkflowPromptMeta {
   name: string;
-  source: SchemaSource;
-  path: string;
-  shadows: Array<{ source: SchemaSource; path: string }>;
+  description: string;
 }
 
-/**
- * Validation issue structure
- */
-interface ValidationIssue {
-  level: 'error' | 'warning';
-  path: string;
-  message: string;
+const WORKFLOW_PROMPT_META: Record<string, WorkflowPromptMeta> = {
+  propose: {
+    name: 'Propose change',
+    description: 'Create proposal, design, and tasks from a request',
+  },
+  explore: {
+    name: 'Explore ideas',
+    description: 'Investigate a problem before implementation',
+  },
+  new: {
+    name: 'New change',
+    description: 'Create a new change scaffold quickly',
+  },
+  continue: {
+    name: 'Continue change',
+    description: 'Resume work on an existing change',
+  },
+  apply: {
+    name: 'Apply tasks',
+    description: 'Implement tasks from the current change',
+```
+
+This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/commands/config.ts`
+
+The `WorkflowPromptMeta` interface in [`src/commands/config.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/config.ts) handles a key part of this chapter's functionality:
+
+```ts
 }
 
-/**
- * Check all three locations for a schema and return which ones exist.
- */
-function checkAllLocations(
-  name: string,
-  projectRoot: string
-): SchemaLocation[] {
-  const locations: SchemaLocation[] = [];
+interface WorkflowPromptMeta {
+  name: string;
+  description: string;
+}
 
-  // Project location
-  const projectDir = path.join(getProjectSchemasDir(projectRoot), name);
-  const projectSchemaPath = path.join(projectDir, 'schema.yaml');
-  locations.push({
-    source: 'project',
+const WORKFLOW_PROMPT_META: Record<string, WorkflowPromptMeta> = {
+  propose: {
+    name: 'Propose change',
+    description: 'Create proposal, design, and tasks from a request',
+  },
+  explore: {
+    name: 'Explore ideas',
+    description: 'Investigate a problem before implementation',
+  },
+  new: {
+    name: 'New change',
+    description: 'Create a new change scaffold quickly',
+  },
+  continue: {
+    name: 'Continue change',
+    description: 'Resume work on an existing change',
+  },
+  apply: {
+    name: 'Apply tasks',
+    description: 'Implement tasks from the current change',
+  },
+  ff: {
+    name: 'Fast-forward',
+    description: 'Run a faster implementation workflow',
+  },
 ```
 
 This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
@@ -233,11 +231,11 @@ This interface is important because it defines how OpenSpec Tutorial: Spec-Drive
 
 ```mermaid
 flowchart TD
-    A[registerSchemaCommand]
-    B[createDefaultTemplate]
-    C[SchemaLocation]
-    D[SchemaResolution]
-    E[ValidationIssue]
+    A[registerConfigCommand]
+    B[ProfileState]
+    C[ProfileStateDiff]
+    D[WorkflowPromptMeta]
+    E[getCommandPath]
     A --> B
     B --> C
     C --> D

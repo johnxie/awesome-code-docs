@@ -43,129 +43,45 @@ You now have a repeatable approach to session control through Opcode's GUI.
 
 Next: [Chapter 4: Custom Agents and Background Runs](04-custom-agents-and-background-runs.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/components/FloatingPromptInput.tsx`
+### `src/components/AgentExecution.tsx`
 
-The `FloatingPromptInputProps` interface in [`src/components/FloatingPromptInput.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/FloatingPromptInput.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-const getCurrentWebviewWindow = tauriGetCurrentWebviewWindow || (() => ({ listen: () => Promise.resolve(() => {}) }));
-
-interface FloatingPromptInputProps {
-  /**
-   * Callback when prompt is sent
-   */
-  onSend: (prompt: string, model: "sonnet" | "opus") => void;
-  /**
-   * Whether the input is loading
-   */
-  isLoading?: boolean;
-  /**
-   * Whether the input is disabled
-   */
-  disabled?: boolean;
-  /**
-   * Default model to select
-   */
-  defaultModel?: "sonnet" | "opus";
-  /**
-   * Project path for file picker
-   */
-  projectPath?: string;
-  /**
-   * Optional className for styling
-   */
-  className?: string;
-  /**
-   * Callback when cancel is clicked (only during loading)
-   */
-  onCancel?: () => void;
-  /**
-```
-
-This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
-### `src/components/FloatingPromptInput.tsx`
-
-The `FloatingPromptInputRef` interface in [`src/components/FloatingPromptInput.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/FloatingPromptInput.tsx) handles a key part of this chapter's functionality:
+The `ClaudeStreamMessage` interface in [`src/components/AgentExecution.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/AgentExecution.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
 }
 
-export interface FloatingPromptInputRef {
-  addImage: (imagePath: string) => void;
+export interface ClaudeStreamMessage {
+  type: "system" | "assistant" | "user" | "result";
+  subtype?: string;
+  message?: {
+    content?: any[];
+    usage?: {
+      input_tokens: number;
+      output_tokens: number;
+    };
+  };
+  usage?: {
+    input_tokens: number;
+    output_tokens: number;
+  };
+  [key: string]: any;
 }
 
 /**
- * Thinking mode type definition
+ * AgentExecution component for running CC agents
+ * 
+ * @example
+ * <AgentExecution agent={agent} onBack={() => setView('list')} />
  */
-type ThinkingMode = "auto" | "think" | "think_hard" | "think_harder" | "ultrathink";
-
-/**
- * Thinking mode configuration
- */
-type ThinkingModeConfig = {
-  id: ThinkingMode;
-  name: string;
-  description: string;
-  level: number; // 0-4 for visual indicator
-  phrase?: string; // The phrase to append
-  icon: React.ReactNode;
-  color: string;
-  shortName: string;
-};
-
-const THINKING_MODES: ThinkingModeConfig[] = [
-  {
-    id: "auto",
-    name: "Auto",
-    description: "Let Claude decide",
-    level: 0,
-    icon: <Sparkles className="h-3.5 w-3.5" />,
-```
-
-This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
-
-### `src/components/UsageDashboard.tsx`
-
-The `UsageDashboardProps` interface in [`src/components/UsageDashboard.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/UsageDashboard.tsx) handles a key part of this chapter's functionality:
-
-```tsx
-} from "lucide-react";
-
-interface UsageDashboardProps {
-  /**
-   * Callback when back button is clicked
-   */
-  onBack: () => void;
-}
-
-// Cache for storing fetched data
-const dataCache = new Map<string, { data: any; timestamp: number }>();
-const CACHE_DURATION = 10 * 60 * 1000; // 10 minutes cache - increased for better performance
-
-/**
- * Optimized UsageDashboard component with caching and progressive loading
- */
-export const UsageDashboard: React.FC<UsageDashboardProps> = ({ }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [stats, setStats] = useState<UsageStats | null>(null);
-  const [sessionStats, setSessionStats] = useState<ProjectUsage[] | null>(null);
-  const [selectedDateRange, setSelectedDateRange] = useState<"all" | "7d" | "30d">("7d");
-  const [activeTab, setActiveTab] = useState("overview");
-  const [hasLoadedTabs, setHasLoadedTabs] = useState<Set<string>>(new Set(["overview"]));
-  
-  // Pagination states
-  const [projectsPage, setProjectsPage] = useState(1);
-  const [sessionsPage, setSessionsPage] = useState(1);
-  const ITEMS_PER_PAGE = 10;
-
-  // Memoized formatters to prevent recreation on each render
-  const formatCurrency = useMemo(() => (amount: number): string => {
+export const AgentExecution: React.FC<AgentExecutionProps> = ({
+  agent,
+  projectPath: initialProjectPath,
+  tabId,
+  onBack,
+  className,
+}) => {
 ```
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
@@ -211,16 +127,98 @@ const EVENT_INFO: Record<HookEvent, { label: string; description: string; icon: 
 
 This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
 
+### `src/components/HooksEditor.tsx`
+
+The `EditableHookCommand` interface in [`src/components/HooksEditor.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/HooksEditor.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+interface EditableHookCommand extends HookCommand {
+  id: string;
+}
+
+interface EditableHookMatcher extends Omit<HookMatcher, 'hooks'> {
+  id: string;
+  hooks: EditableHookCommand[];
+  expanded?: boolean;
+}
+
+const EVENT_INFO: Record<HookEvent, { label: string; description: string; icon: React.ReactNode }> = {
+  PreToolUse: {
+    label: 'Pre Tool Use',
+    description: 'Runs before tool calls, can block and provide feedback',
+    icon: <Shield className="h-4 w-4" />
+  },
+  PostToolUse: {
+    label: 'Post Tool Use',
+    description: 'Runs after successful tool completion',
+    icon: <PlayCircle className="h-4 w-4" />
+  },
+  Notification: {
+    label: 'Notification',
+    description: 'Customizes notifications when Claude needs attention',
+    icon: <Zap className="h-4 w-4" />
+  },
+  Stop: {
+    label: 'Stop',
+    description: 'Runs when Claude finishes responding',
+    icon: <Code2 className="h-4 w-4" />
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+
+### `src/components/HooksEditor.tsx`
+
+The `EditableHookMatcher` interface in [`src/components/HooksEditor.tsx`](https://github.com/winfunc/opcode/blob/HEAD/src/components/HooksEditor.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+}
+
+interface EditableHookMatcher extends Omit<HookMatcher, 'hooks'> {
+  id: string;
+  hooks: EditableHookCommand[];
+  expanded?: boolean;
+}
+
+const EVENT_INFO: Record<HookEvent, { label: string; description: string; icon: React.ReactNode }> = {
+  PreToolUse: {
+    label: 'Pre Tool Use',
+    description: 'Runs before tool calls, can block and provide feedback',
+    icon: <Shield className="h-4 w-4" />
+  },
+  PostToolUse: {
+    label: 'Post Tool Use',
+    description: 'Runs after successful tool completion',
+    icon: <PlayCircle className="h-4 w-4" />
+  },
+  Notification: {
+    label: 'Notification',
+    description: 'Customizes notifications when Claude needs attention',
+    icon: <Zap className="h-4 w-4" />
+  },
+  Stop: {
+    label: 'Stop',
+    description: 'Runs when Claude finishes responding',
+    icon: <Code2 className="h-4 w-4" />
+  },
+  SubagentStop: {
+    label: 'Subagent Stop',
+    description: 'Runs when a Claude subagent (Task) finishes',
+```
+
+This interface is important because it defines how Opcode Tutorial: GUI Command Center for Claude Code Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[FloatingPromptInputProps]
-    B[FloatingPromptInputRef]
-    C[UsageDashboardProps]
-    D[HooksEditorProps]
-    E[EditableHookCommand]
+    A[ClaudeStreamMessage]
+    B[HooksEditorProps]
+    C[EditableHookCommand]
+    D[EditableHookMatcher]
+    E[TableInfo]
     A --> B
     B --> C
     C --> D

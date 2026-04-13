@@ -46,170 +46,168 @@ You now know how to run capability-safe client workflows in Kotlin.
 
 Next: [Chapter 4: Server Runtime, Primitives, and Feature Registration](04-server-runtime-primitives-and-feature-registration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StreamableHttpClientTransport.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `ConnectResult` interface in [`kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StreamableHttpClientTransport.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-client/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/client/StreamableHttpClientTransport.kt) handles a key part of this chapter's functionality:
+The `LoggingMessageNotificationParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
-    Exception("Streamable HTTP error: $message")
-
-private sealed interface ConnectResult {
-    data class Success(val session: ClientSSESession) : ConnectResult
-    data object NonRetryable : ConnectResult
-    data object Failed : ConnectResult
+ */
+@Serializable
+public data class LoggingMessageNotification(override val params: LoggingMessageNotificationParams) :
+    ServerNotification {
+    @EncodeDefault
+    override val method: Method = Method.Defined.NotificationsMessage
 }
 
 /**
- * Client transport for Streamable HTTP: this implements the MCP Streamable HTTP transport specification.
- * It will connect to a server using HTTP POST for sending messages and HTTP GET with Server-Sent Events
- * for receiving messages.
+ * Parameters for a notifications/message notification.
+ *
+ * @property level The severity of this log message.
+ * @property data The data to be logged, such as a string message or an object.
+ * Any JSON serializable type is allowed here.
+ * @property logger An optional name of the logger issuing this message.
+ * @property meta Optional metadata for this notification.
  */
-@Suppress("TooManyFunctions")
-public class StreamableHttpClientTransport(
-    private val client: HttpClient,
-    private val url: String,
-    private val reconnectionOptions: ReconnectionOptions = ReconnectionOptions(),
-    private val requestBuilder: HttpRequestBuilder.() -> Unit = {},
-) : AbstractClientTransport() {
+@Serializable
+public data class LoggingMessageNotificationParams(
+    val level: LoggingLevel,
+    val data: JsonElement,
+    val logger: String? = null,
+    @SerialName("_meta")
+    override val meta: JsonObject? = null,
+) : NotificationParams
 
-    @Deprecated(
-        "Use constructor with ReconnectionOptions",
-        replaceWith = ReplaceWith(
-            "StreamableHttpClientTransport(client, url, " +
-                "ReconnectionOptions(initialReconnectionDelay = reconnectionTime ?: 1.seconds), requestBuilder)",
-            "kotlin.time.Duration.Companion.seconds",
-            "io.modelcontextprotocol.kotlin.sdk.client.ReconnectionOptions",
-        ),
-    )
-    public constructor(
-        client: HttpClient,
-```
-
-This interface is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt`
-
-The `NotificationEvent` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt) handles a key part of this chapter's functionality:
-
-```kt
- * @property timestamp A timestamp for the event.
- */
-private sealed class NotificationEvent(open val timestamp: Long)
+// ============================================================================
+// Progress Notification
+// ============================================================================
 
 /**
- * Represents an event for a notification.
- *
- * @property notification The notification associated with the event.
- */
-private class SendEvent(override val timestamp: Long, val notification: Notification) : NotificationEvent(timestamp)
-
-/** Represents an event marking the end of notification processing. */
-private class EndEvent(override val timestamp: Long) : NotificationEvent(timestamp)
-
-/**
- * Represents a job that handles session-specific notifications, processing events
- * and delivering relevant notifications to the associated session.
- *
- * This class listens to a stream of notification events and processes them
- * based on the event type and the resource subscriptions associated with the session.
- * It allows subscribing to or unsubscribing from specific resource keys for granular
- * notification handling. The job can also be canceled to stop processing further events.
- * Notification with timestamps older than the starting timestamp are skipped.
- */
-private class SessionNotificationJob {
-    private val job: Job
-    private val resourceSubscriptions = atomic(persistentMapOf<FeatureKey, Long>())
-    private val logger = KotlinLogging.logger {}
-
-    /**
-     * Constructor for the SessionNotificationJob, responsible for processing notification events
-     * and dispatching appropriate notifications to the provided server session. The job operates
+ * An out-of-band notification used to inform the receiver of a progress update for a long-running request.
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `SendEvent` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt) handles a key part of this chapter's functionality:
+The `ProgressNotification` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
- * @property notification The notification associated with the event.
  */
-private class SendEvent(override val timestamp: Long, val notification: Notification) : NotificationEvent(timestamp)
-
-/** Represents an event marking the end of notification processing. */
-private class EndEvent(override val timestamp: Long) : NotificationEvent(timestamp)
+@Serializable
+public data class ProgressNotification(override val params: ProgressNotificationParams) :
+    ClientNotification,
+    ServerNotification {
+    @EncodeDefault
+    override val method: Method = Method.Defined.NotificationsProgress
+}
 
 /**
- * Represents a job that handles session-specific notifications, processing events
- * and delivering relevant notifications to the associated session.
+ * Parameters for a notifications/progress notification.
  *
- * This class listens to a stream of notification events and processes them
- * based on the event type and the resource subscriptions associated with the session.
- * It allows subscribing to or unsubscribing from specific resource keys for granular
- * notification handling. The job can also be canceled to stop processing further events.
- * Notification with timestamps older than the starting timestamp are skipped.
+ * @property progressToken The progress token which was given in the initial request,
+ * used to associate this notification with the request that is proceeding.
+ * @property progress The progress thus far. This should increase every time progress is made,
+ * even if the total is unknown.
+ * @property total Total number of items to process (or total progress required), if known.
+ * @property message An optional message describing the current progress.
+ * @property meta Optional metadata for this notification.
  */
-private class SessionNotificationJob {
-    private val job: Job
-    private val resourceSubscriptions = atomic(persistentMapOf<FeatureKey, Long>())
-    private val logger = KotlinLogging.logger {}
+@Serializable
+public data class ProgressNotificationParams(
+    val progressToken: ProgressToken,
+    val progress: Double,
+    val total: Double? = null,
+    val message: String? = null,
+    @SerialName("_meta")
+    override val meta: JsonObject? = null,
+) : NotificationParams
 
-    /**
-     * Constructor for the SessionNotificationJob, responsible for processing notification events
-     * and dispatching appropriate notifications to the provided server session. The job operates
-     * within the given coroutine scope and begins handling events starting from the specified
-     * timestamp.
-     *
-     * @param session The server session where notifications will be dispatched.
-     * @param scope The coroutine scope in which this job operates.
-     * @param events A shared flow of notification events that the job listens to.
-     * @param fromTimestamp The timestamp from which the job starts processing events.
+// ============================================================================
+// Prompts List Changed Notification
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `EndEvent` class in [`kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-server/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/server/FeatureNotificationService.kt) handles a key part of this chapter's functionality:
+The `ProgressNotificationParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
-
-/** Represents an event marking the end of notification processing. */
-private class EndEvent(override val timestamp: Long) : NotificationEvent(timestamp)
+ */
+@Serializable
+public data class ProgressNotification(override val params: ProgressNotificationParams) :
+    ClientNotification,
+    ServerNotification {
+    @EncodeDefault
+    override val method: Method = Method.Defined.NotificationsProgress
+}
 
 /**
- * Represents a job that handles session-specific notifications, processing events
- * and delivering relevant notifications to the associated session.
+ * Parameters for a notifications/progress notification.
  *
- * This class listens to a stream of notification events and processes them
- * based on the event type and the resource subscriptions associated with the session.
- * It allows subscribing to or unsubscribing from specific resource keys for granular
- * notification handling. The job can also be canceled to stop processing further events.
- * Notification with timestamps older than the starting timestamp are skipped.
+ * @property progressToken The progress token which was given in the initial request,
+ * used to associate this notification with the request that is proceeding.
+ * @property progress The progress thus far. This should increase every time progress is made,
+ * even if the total is unknown.
+ * @property total Total number of items to process (or total progress required), if known.
+ * @property message An optional message describing the current progress.
+ * @property meta Optional metadata for this notification.
  */
-private class SessionNotificationJob {
-    private val job: Job
-    private val resourceSubscriptions = atomic(persistentMapOf<FeatureKey, Long>())
-    private val logger = KotlinLogging.logger {}
+@Serializable
+public data class ProgressNotificationParams(
+    val progressToken: ProgressToken,
+    val progress: Double,
+    val total: Double? = null,
+    val message: String? = null,
+    @SerialName("_meta")
+    override val meta: JsonObject? = null,
+) : NotificationParams
 
-    /**
-     * Constructor for the SessionNotificationJob, responsible for processing notification events
-     * and dispatching appropriate notifications to the provided server session. The job operates
-     * within the given coroutine scope and begins handling events starting from the specified
-     * timestamp.
-     *
-     * @param session The server session where notifications will be dispatched.
-     * @param scope The coroutine scope in which this job operates.
-     * @param events A shared flow of notification events that the job listens to.
-     * @param fromTimestamp The timestamp from which the job starts processing events.
-     */
-    constructor(
-        session: ServerSession,
+// ============================================================================
+// Prompts List Changed Notification
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
+
+The `PromptListChangedNotification` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
+
+```kt
+ */
+@Serializable
+public data class PromptListChangedNotification(override val params: BaseNotificationParams? = null) :
+    ServerNotification {
+    @EncodeDefault
+    override val method: Method = Method.Defined.NotificationsPromptsListChanged
+}
+
+// ============================================================================
+// Resources List Changed Notification
+// ============================================================================
+
+/**
+ * An optional notification from the server to the client,
+ * informing it that the list of resources it can read from has changed.
+ *
+ * Servers may issue this without any previous subscription from the client.
+ * Sent only if the server's [ServerCapabilities.resources] has `listChanged = true`.
+ *
+ * @property params Optional notification parameters containing metadata.
+ */
+@Serializable
+public data class ResourceListChangedNotification(override val params: BaseNotificationParams? = null) :
+    ServerNotification {
+    @EncodeDefault
+    override val method: Method = Method.Defined.NotificationsResourcesListChanged
+}
+
+// ============================================================================
+// Resource Updated Notification
+// ============================================================================
+
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This class is important because it defines how MCP Kotlin SDK Tutorial: Building
 
 ```mermaid
 flowchart TD
-    A[ConnectResult]
-    B[NotificationEvent]
-    C[SendEvent]
-    D[EndEvent]
-    E[listens]
+    A[LoggingMessageNotificationParams]
+    B[ProgressNotification]
+    C[ProgressNotificationParams]
+    D[PromptListChangedNotification]
+    E[ResourceListChangedNotification]
     A --> B
     B --> C
     C --> D

@@ -43,170 +43,168 @@ You now have OpenSrc running with an initial source import and index file.
 
 Next: [Chapter 2: Input Parsing and Resolution Pipeline](02-input-parsing-and-resolution-pipeline.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib/git.ts`
+### `src/index.ts`
 
-The `getOpensrcDir` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+The `createProgram` function in [`src/index.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/index.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Get the opensrc directory path
- */
-export function getOpensrcDir(cwd: string = process.cwd()): string {
-  return join(cwd, OPENSRC_DIR);
-}
+const pkg = require("../package.json") as { version: string };
 
-/**
- * Get the repos directory path
- */
-export function getReposDir(cwd: string = process.cwd()): string {
-  return join(getOpensrcDir(cwd), REPOS_DIR);
-}
+export function createProgram(): Command {
+  const program = new Command();
 
-/**
- * Extract host/owner/repo from a git URL
- */
-export function parseRepoUrl(
-  url: string,
-): { host: string; owner: string; repo: string } | null {
-  // Handle HTTPS URLs: https://github.com/owner/repo
-  const httpsMatch = url.match(/https?:\/\/([^/]+)\/([^/]+)\/([^/]+)/);
-  if (httpsMatch) {
-    return {
-      host: httpsMatch[1],
-      owner: httpsMatch[2],
-      repo: httpsMatch[3].replace(/\.git$/, ""),
-    };
-  }
+  program
+    .name("opensrc")
+    .description(
+      "Fetch source code for packages to give coding agents deeper context",
+    )
+    .version(pkg.version)
+    .enablePositionalOptions();
 
-  // Handle SSH URLs: git@github.com:owner/repo.git
-  const sshMatch = url.match(/git@([^:]+):([^/]+)\/(.+)/);
-  if (sshMatch) {
+  // Default command: fetch packages
+  program
+    .argument(
+      "[packages...]",
+      "packages or repos to fetch (e.g., zod, pypi:requests, crates:serde, owner/repo)",
+    )
+    .option("--cwd <path>", "working directory (default: current directory)")
+    .option(
+      "--modify [value]",
+      "allow/deny modifying .gitignore, tsconfig.json, AGENTS.md",
+      (val) => {
+        if (val === undefined || val === "" || val === "true") return true;
+        if (val === "false") return false;
+        return true;
+      },
+    )
+    .action(
+      async (
+        packages: string[],
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/lib/git.ts`
+### `src/commands/fetch.ts`
 
-The `getReposDir` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+The `checkFileModificationPermission` function in [`src/commands/fetch.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/commands/fetch.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Get the repos directory path
+ * Check if file modifications are allowed
  */
-export function getReposDir(cwd: string = process.cwd()): string {
-  return join(getOpensrcDir(cwd), REPOS_DIR);
-}
-
-/**
- * Extract host/owner/repo from a git URL
- */
-export function parseRepoUrl(
-  url: string,
-): { host: string; owner: string; repo: string } | null {
-  // Handle HTTPS URLs: https://github.com/owner/repo
-  const httpsMatch = url.match(/https?:\/\/([^/]+)\/([^/]+)\/([^/]+)/);
-  if (httpsMatch) {
-    return {
-      host: httpsMatch[1],
-      owner: httpsMatch[2],
-      repo: httpsMatch[3].replace(/\.git$/, ""),
-    };
+async function checkFileModificationPermission(
+  cwd: string,
+  cliOverride?: boolean,
+): Promise<boolean> {
+  if (cliOverride !== undefined) {
+    await setFileModificationPermission(cliOverride, cwd);
+    if (cliOverride) {
+      console.log("✓ File modifications enabled (--modify)");
+    } else {
+      console.log("✗ File modifications disabled (--modify=false)");
+    }
+    return cliOverride;
   }
 
-  // Handle SSH URLs: git@github.com:owner/repo.git
-  const sshMatch = url.match(/git@([^:]+):([^/]+)\/(.+)/);
-  if (sshMatch) {
-    return {
-      host: sshMatch[1],
-      owner: sshMatch[2],
-      repo: sshMatch[3].replace(/\.git$/, ""),
-    };
+  const storedPermission = await getFileModificationPermission(cwd);
+  if (storedPermission !== undefined) {
+    return storedPermission;
   }
+
+  console.log(
+    "\nopensrc can update the following files for better integration:",
+  );
+  console.log("  • .gitignore - add opensrc/ to ignore list");
+  console.log("  • tsconfig.json - exclude opensrc/ from compilation");
+  console.log("  • AGENTS.md - add source code reference section\n");
+
+  const allowed = await confirm("Allow opensrc to modify these files?");
+
+  await setFileModificationPermission(allowed, cwd);
 
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/lib/git.ts`
+### `src/commands/fetch.ts`
 
-The `parseRepoUrl` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+The `getRegistryLabel` function in [`src/commands/fetch.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/commands/fetch.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Extract host/owner/repo from a git URL
+ * Get registry display name
  */
-export function parseRepoUrl(
-  url: string,
-): { host: string; owner: string; repo: string } | null {
-  // Handle HTTPS URLs: https://github.com/owner/repo
-  const httpsMatch = url.match(/https?:\/\/([^/]+)\/([^/]+)\/([^/]+)/);
-  if (httpsMatch) {
-    return {
-      host: httpsMatch[1],
-      owner: httpsMatch[2],
-      repo: httpsMatch[3].replace(/\.git$/, ""),
-    };
+function getRegistryLabel(registry: Registry): string {
+  switch (registry) {
+    case "npm":
+      return "npm";
+    case "pypi":
+      return "PyPI";
+    case "crates":
+      return "crates.io";
   }
-
-  // Handle SSH URLs: git@github.com:owner/repo.git
-  const sshMatch = url.match(/git@([^:]+):([^/]+)\/(.+)/);
-  if (sshMatch) {
-    return {
-      host: sshMatch[1],
-      owner: sshMatch[2],
-      repo: sshMatch[3].replace(/\.git$/, ""),
-    };
-  }
-
-  return null;
 }
 
 /**
- * Get the path where a repo's source will be stored
+ * Fetch a git repository
  */
-export function getRepoPath(
+async function fetchRepoInput(spec: string, cwd: string): Promise<FetchResult> {
+  const repoSpec = parseRepoSpec(spec);
+
+  if (!repoSpec) {
+    return {
+      package: spec,
+      version: "",
+      path: "",
+      success: false,
+      error: `Invalid repository format: ${spec}`,
+    };
+  }
+
+  const displayName = `${repoSpec.host}/${repoSpec.owner}/${repoSpec.repo}`;
+  console.log(
+    `\nFetching ${repoSpec.owner}/${repoSpec.repo} from ${repoSpec.host}...`,
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/lib/git.ts`
+### `src/commands/fetch.ts`
 
-The `getRepoPath` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+The `fetchRepoInput` function in [`src/commands/fetch.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/commands/fetch.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Get the path where a repo's source will be stored
+ * Fetch a git repository
  */
-export function getRepoPath(
-  displayName: string,
-  cwd: string = process.cwd(),
-): string {
-  return join(getReposDir(cwd), displayName);
-}
+async function fetchRepoInput(spec: string, cwd: string): Promise<FetchResult> {
+  const repoSpec = parseRepoSpec(spec);
 
-/**
- * Get the relative path for a repo (for sources.json)
- */
-export function getRepoRelativePath(displayName: string): string {
-  return `${REPOS_DIR}/${displayName}`;
-}
+  if (!repoSpec) {
+    return {
+      package: spec,
+      version: "",
+      path: "",
+      success: false,
+      error: `Invalid repository format: ${spec}`,
+    };
+  }
 
-/**
- * Get repo display name from URL
- */
-export function getRepoDisplayName(repoUrl: string): string | null {
-  const parsed = parseRepoUrl(repoUrl);
-  if (!parsed) return null;
-  return `${parsed.host}/${parsed.owner}/${parsed.repo}`;
-}
+  const displayName = `${repoSpec.host}/${repoSpec.owner}/${repoSpec.repo}`;
+  console.log(
+    `\nFetching ${repoSpec.owner}/${repoSpec.repo} from ${repoSpec.host}...`,
+  );
 
-interface PackageEntry {
-  name: string;
-  version: string;
-  registry: Registry;
-  path: string;
-  fetchedAt: string;
-}
+  try {
+    // Check if already exists with the same ref
+    if (repoExists(displayName, cwd)) {
+      const existing = await getRepoInfo(displayName, cwd);
+      if (existing && repoSpec.ref && existing.version === repoSpec.ref) {
+        console.log(`  ✓ Already up to date (${repoSpec.ref})`);
+        return {
+          package: displayName,
+          version: existing.version,
+          path: getRepoRelativePath(displayName),
+          success: true,
+        };
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
@@ -216,11 +214,11 @@ This function is important because it defines how OpenSrc Tutorial: Deep Source 
 
 ```mermaid
 flowchart TD
-    A[getOpensrcDir]
-    B[getReposDir]
-    C[parseRepoUrl]
-    D[getRepoPath]
-    E[getRepoRelativePath]
+    A[createProgram]
+    B[checkFileModificationPermission]
+    C[getRegistryLabel]
+    D[fetchRepoInput]
+    E[fetchPackageInput]
     A --> B
     B --> C
     C --> D

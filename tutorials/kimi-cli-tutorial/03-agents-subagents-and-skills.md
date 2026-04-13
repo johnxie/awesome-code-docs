@@ -38,9 +38,89 @@ You now have a strategy for standardized yet flexible Kimi behavior customizatio
 
 Next: [Chapter 4: MCP Tooling and Security Model](04-mcp-tooling-and-security-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `scripts/check_kimi_dependency_versions.py`
+
+The `load_project_version` function in [`scripts/check_kimi_dependency_versions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/check_kimi_dependency_versions.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def load_project_version(pyproject_path: Path) -> str:
+    project = load_project_table(pyproject_path)
+    version = project.get("version")
+    if not isinstance(version, str) or not version:
+        raise ValueError(f"Missing project.version in {pyproject_path}")
+    return version
+
+
+def find_pinned_dependency(deps: list[str], name: str) -> str | None:
+    pattern = re.compile(rf"^{re.escape(name)}(?:\[[^\]]+\])?(.+)$")
+    for dep in deps:
+        match = pattern.match(dep)
+        if not match:
+            continue
+        spec = match.group(1)
+        pinned = re.match(r"^==(.+)$", spec)
+        if pinned:
+            return pinned.group(1)
+        return None
+    return None
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Validate kimi-cli dependency versions.")
+    parser.add_argument("--root-pyproject", type=Path, required=True)
+    parser.add_argument("--kosong-pyproject", type=Path, required=True)
+    parser.add_argument("--pykaos-pyproject", type=Path, required=True)
+    args = parser.parse_args()
+
+    try:
+```
+
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+
+### `scripts/check_kimi_dependency_versions.py`
+
+The `find_pinned_dependency` function in [`scripts/check_kimi_dependency_versions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/check_kimi_dependency_versions.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def find_pinned_dependency(deps: list[str], name: str) -> str | None:
+    pattern = re.compile(rf"^{re.escape(name)}(?:\[[^\]]+\])?(.+)$")
+    for dep in deps:
+        match = pattern.match(dep)
+        if not match:
+            continue
+        spec = match.group(1)
+        pinned = re.match(r"^==(.+)$", spec)
+        if pinned:
+            return pinned.group(1)
+        return None
+    return None
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Validate kimi-cli dependency versions.")
+    parser.add_argument("--root-pyproject", type=Path, required=True)
+    parser.add_argument("--kosong-pyproject", type=Path, required=True)
+    parser.add_argument("--pykaos-pyproject", type=Path, required=True)
+    args = parser.parse_args()
+
+    try:
+        root_project = load_project_table(args.root_pyproject)
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 1
+
+    deps = root_project.get("dependencies", [])
+    if not isinstance(deps, list):
+        print(
+```
+
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
 ### `scripts/check_kimi_dependency_versions.py`
 
@@ -83,96 +163,14 @@ def main() -> int:
 
 This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
-### `scripts/cleanup_tmp_sessions.py`
-
-The `is_tmp_path` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def is_tmp_path(path: str) -> bool:
-    """Return True if *path* looks like a temporary directory."""
-    if path in ("/tmp", "/private/tmp"):
-        return True
-    return any(path.startswith(p) for p in TMP_PREFIXES)
-
-
-def work_dir_hash(path: str, kaos: str = "local") -> str:
-    h = md5(path.encode("utf-8")).hexdigest()
-    return h if kaos == "local" else f"{kaos}_{h}"
-
-
-def dir_total_size(d: Path) -> int:
-    return sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
-    args = parser.parse_args()
-
-    if not METADATA_FILE.exists():
-        print(f"Metadata file not found: {METADATA_FILE}")
-        sys.exit(1)
-
-    with open(METADATA_FILE, encoding="utf-8") as f:
-        metadata = json.load(f)
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
-### `scripts/cleanup_tmp_sessions.py`
-
-The `work_dir_hash` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def work_dir_hash(path: str, kaos: str = "local") -> str:
-    h = md5(path.encode("utf-8")).hexdigest()
-    return h if kaos == "local" else f"{kaos}_{h}"
-
-
-def dir_total_size(d: Path) -> int:
-    return sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
-
-
-def main() -> None:
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
-    args = parser.parse_args()
-
-    if not METADATA_FILE.exists():
-        print(f"Metadata file not found: {METADATA_FILE}")
-        sys.exit(1)
-
-    with open(METADATA_FILE, encoding="utf-8") as f:
-        metadata = json.load(f)
-
-    work_dirs: list[dict] = metadata.get("work_dirs", [])
-
-    # --- Phase 1: tmp entries in kimi.json ---
-    tmp_entries: list[dict] = []
-    keep_entries: list[dict] = []
-    keep_hashes: set[str] = set()
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[is_tmp_path]
-    C[work_dir_hash]
+    A[load_project_version]
+    B[find_pinned_dependency]
+    C[main]
     A --> B
     B --> C
 ```

@@ -789,6 +789,18 @@ Under the hood, `Chapter 5: Streaming Responses & Async Operations` usually foll
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Streaming Architecture
+
+```mermaid
+flowchart TD
+    A[agent.run_stream] --> B[LLM Streaming Response]
+    B --> C[Partial Token Events]
+    C --> D[StreamedRunResult]
+    D --> E[stream_text Iterator]
+    E --> F[UI / Consumer]
+    D --> G[Final Validated Result]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

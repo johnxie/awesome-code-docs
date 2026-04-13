@@ -37,170 +37,168 @@ This chapter covers how to run BabyAGI reliably in production environments and h
 
 You now have the patterns needed to run BabyAGI safely in production environments and to adapt it for research experiments with full reproducibility, cost control, and observability.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `babyagi/dashboard/static/js/function_details.js`
+### `babyagi/dashboard/static/js/log_dashboard.js`
 
-The `getApiRoute` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
+The `buildLogTree` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
 
 ```js
 
-// Helper function to get the API route
-function getApiRoute(routeName, ...args) {
-    if (typeof apiRoutes[routeName] === 'function') {
-        return apiRoutes[routeName](...args);
-    } else {
-        return apiRoutes[routeName];
+        // Build the tree structure
+        rootLogs = buildLogTree(filteredLogs);
+
+        renderLogs();
+    } catch (error) {
+        console.error('Error populating filters:', error);
+        alert('Failed to load logs for filters. Please try again later.');
     }
 }
 
-window.getApiRoute = getApiRoute;
+// Build log tree based on parent_log_id
+function buildLogTree(logs) {
+    const logsById = {};
+    const rootLogs = [];
 
-let functionData;
-let codeEditor;
+    // Initialize logsById mapping and add children array to each log
+    logs.forEach(log => {
+        log.children = [];
+        logsById[log.id] = log;
+    });
 
-// Expose necessary functions to the global scope
-window.loadFunctionDetails = loadFunctionDetails;
-window.loadFunctionLogs = loadFunctionLogs;
-window.initCodeEditor = initCodeEditor;
-window.displayFunctionDetails = displayFunctionDetails;
-window.createExecutionForm = createExecutionForm;
-window.updateFunction = updateFunction;
-window.executeFunction = executeFunction;
-window.toggleVersionHistory = toggleVersionHistory;
-window.loadFunctionVersions = loadFunctionVersions;
-window.activateVersion = activateVersion;
-
-function loadFunctionDetails() {
-    fetch(getApiRoute('getFunction'))
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+    // Build the tree
+    logs.forEach(log => {
+        if (log.parent_log_id !== null) {
+            const parentLog = logsById[log.parent_log_id];
+            if (parentLog) {
+                parentLog.children.push(log);
+            } else {
+                // Parent log not found, treat as root
+                rootLogs.push(log);
+            }
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `babyagi/dashboard/static/js/function_details.js`
+### `babyagi/dashboard/static/js/log_dashboard.js`
 
-The `loadFunctionDetails` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Expose necessary functions to the global scope
-window.loadFunctionDetails = loadFunctionDetails;
-window.loadFunctionLogs = loadFunctionLogs;
-window.initCodeEditor = initCodeEditor;
-window.displayFunctionDetails = displayFunctionDetails;
-window.createExecutionForm = createExecutionForm;
-window.updateFunction = updateFunction;
-window.executeFunction = executeFunction;
-window.toggleVersionHistory = toggleVersionHistory;
-window.loadFunctionVersions = loadFunctionVersions;
-window.activateVersion = activateVersion;
-
-function loadFunctionDetails() {
-    fetch(getApiRoute('getFunction'))
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            functionData = data;
-            console.log("functionData",functionData)
-            displayFunctionDetails();
-            createExecutionForm();
-            initCodeEditor();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('functionDetails').innerHTML = `<p>Error loading function details: ${error.message}</p>`;
-        });
-```
-
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/dashboard/static/js/function_details.js`
-
-The `loadFunctionLogs` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
+The `renderLogs` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
 
 ```js
-// Expose necessary functions to the global scope
-window.loadFunctionDetails = loadFunctionDetails;
-window.loadFunctionLogs = loadFunctionLogs;
-window.initCodeEditor = initCodeEditor;
-window.displayFunctionDetails = displayFunctionDetails;
-window.createExecutionForm = createExecutionForm;
-window.updateFunction = updateFunction;
-window.executeFunction = executeFunction;
-window.toggleVersionHistory = toggleVersionHistory;
-window.loadFunctionVersions = loadFunctionVersions;
-window.activateVersion = activateVersion;
+        rootLogs = buildLogTree(filteredLogs);
 
-function loadFunctionDetails() {
-    fetch(getApiRoute('getFunction'))
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            functionData = data;
-            console.log("functionData",functionData)
-            displayFunctionDetails();
-            createExecutionForm();
-            initCodeEditor();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('functionDetails').innerHTML = `<p>Error loading function details: ${error.message}</p>`;
-        });
-}
-```
-
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `babyagi/dashboard/static/js/function_details.js`
-
-The `initCodeEditor` function in [`babyagi/dashboard/static/js/function_details.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/function_details.js) handles a key part of this chapter's functionality:
-
-```js
-window.loadFunctionDetails = loadFunctionDetails;
-window.loadFunctionLogs = loadFunctionLogs;
-window.initCodeEditor = initCodeEditor;
-window.displayFunctionDetails = displayFunctionDetails;
-window.createExecutionForm = createExecutionForm;
-window.updateFunction = updateFunction;
-window.executeFunction = executeFunction;
-window.toggleVersionHistory = toggleVersionHistory;
-window.loadFunctionVersions = loadFunctionVersions;
-window.activateVersion = activateVersion;
-
-function loadFunctionDetails() {
-    fetch(getApiRoute('getFunction'))
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            functionData = data;
-            console.log("functionData",functionData)
-            displayFunctionDetails();
-            createExecutionForm();
-            initCodeEditor();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            document.getElementById('functionDetails').innerHTML = `<p>Error loading function details: ${error.message}</p>`;
-        });
+        renderLogs();
+    } catch (error) {
+        console.error('Error populating filters:', error);
+        alert('Failed to load logs for filters. Please try again later.');
+    }
 }
 
+// Build log tree based on parent_log_id
+function buildLogTree(logs) {
+    const logsById = {};
+    const rootLogs = [];
+
+    // Initialize logsById mapping and add children array to each log
+    logs.forEach(log => {
+        log.children = [];
+        logsById[log.id] = log;
+    });
+
+    // Build the tree
+    logs.forEach(log => {
+        if (log.parent_log_id !== null) {
+            const parentLog = logsById[log.parent_log_id];
+            if (parentLog) {
+                parentLog.children.push(log);
+            } else {
+                // Parent log not found, treat as root
+                rootLogs.push(log);
+            }
+        } else {
+            rootLogs.push(log);
+```
+
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `babyagi/dashboard/static/js/log_dashboard.js`
+
+The `renderTable` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
+
+```js
+// Render logs in table and grid formats
+function renderLogs() {
+    renderTable();
+    renderGrid();
+}
+
+// Render Logs Table (Desktop View)
+function renderTable() {
+    const tableBody = document.querySelector('#logTable tbody');
+    tableBody.innerHTML = '';
+
+    rootLogs.forEach(log => {
+        renderLogRow(tableBody, log, 0);
+    });
+}
+
+// Recursive function to render each log row and its children
+function renderLogRow(tableBody, log, depth, parentRowId) {
+    const row = document.createElement('tr');
+    const rowId = 'log-' + log.id;
+    row.id = rowId;
+
+    // If it's a child row, add a class to indicate it's a child
+    if (parentRowId) {
+        row.classList.add('child-of-log-' + parentRowId);
+        row.style.display = 'none'; // Hide child rows by default
+    }
+
+    // Check if log has children
+    const hasChildren = log.children && log.children.length > 0;
+
+    // Create expand/collapse icon
+```
+
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `babyagi/dashboard/static/js/log_dashboard.js`
+
+The `renderLogRow` function in [`babyagi/dashboard/static/js/log_dashboard.js`](https://github.com/yoheinakajima/babyagi/blob/HEAD/babyagi/dashboard/static/js/log_dashboard.js) handles a key part of this chapter's functionality:
+
+```js
+
+    rootLogs.forEach(log => {
+        renderLogRow(tableBody, log, 0);
+    });
+}
+
+// Recursive function to render each log row and its children
+function renderLogRow(tableBody, log, depth, parentRowId) {
+    const row = document.createElement('tr');
+    const rowId = 'log-' + log.id;
+    row.id = rowId;
+
+    // If it's a child row, add a class to indicate it's a child
+    if (parentRowId) {
+        row.classList.add('child-of-log-' + parentRowId);
+        row.style.display = 'none'; // Hide child rows by default
+    }
+
+    // Check if log has children
+    const hasChildren = log.children && log.children.length > 0;
+
+    // Create expand/collapse icon
+    let toggleIcon = '';
+    if (hasChildren) {
+        toggleIcon = `<span class="toggle-icon" data-log-id="${log.id}" style="cursor:pointer;">[+]</span> `;
+    }
+
+    row.innerHTML = `
+        <td><a href="${dashboardRoute}/log/${log.id}" class="function-link">${log.id}</a></td>
+        <td><a href="${dashboardRoute}/function/${encodeURIComponent(log.function_name)}" class="function-link">${log.function_name}</a></td>
+        <td style="padding-left:${depth * 20}px">${toggleIcon}${log.message}</td>
+        <td>${new Date(log.timestamp).toLocaleString()}</td>
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
@@ -210,11 +208,11 @@ This function is important because it defines how BabyAGI Tutorial: The Original
 
 ```mermaid
 flowchart TD
-    A[getApiRoute]
-    B[loadFunctionDetails]
-    C[loadFunctionLogs]
-    D[initCodeEditor]
-    E[code]
+    A[buildLogTree]
+    B[renderLogs]
+    C[renderTable]
+    D[renderLogRow]
+    E[toggleChildRows]
     A --> B
     B --> C
     C --> D

@@ -135,140 +135,39 @@ You now have a provider-routing governance model that covers:
 
 Next: [Chapter 4: Prompt-to-App Workflow](04-prompt-to-app-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/routes/api.chat.ts`
+### `app/lib/stores/settings.ts`
 
-The `parseCookies` function in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) handles a key part of this chapter's functionality:
+The provider configuration store in [`app/lib/stores/settings.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/stores/settings.ts) is central to this chapter — it holds the active provider/model selection and persists user routing preferences across sessions.
 
-```ts
-const logger = createScopedLogger('api.chat');
+The store is built on `nanostores` and exposes atoms like `providersStore` that the UI and LLM routing layer both read. When a user selects a provider in the settings panel, the atom updates and the next chat request automatically picks up the new provider config. This is the primary place to trace if you want to understand how provider selection flows from UI to request.
 
-function parseCookies(cookieHeader: string): Record<string, string> {
-  const cookies: Record<string, string> = {};
+### `app/lib/hooks/useSettings.ts`
 
-  const items = cookieHeader.split(';').map((cookie) => cookie.trim());
+The `useSettings` hook in [`app/lib/hooks/useSettings.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/hooks/useSettings.ts) is what React components use to read and mutate provider state. It wraps the nanostores atoms with React subscriptions, ensuring components re-render when provider or model selection changes.
 
-  items.forEach((item) => {
-    const [name, ...rest] = item.split('=');
-
-    if (name && rest) {
-      const decodedName = decodeURIComponent(name.trim());
-      const decodedValue = decodeURIComponent(rest.join('=').trim());
-      cookies[decodedName] = decodedValue;
-    }
-  });
-
-  return cookies;
-}
-
-async function chatAction({ context, request }: ActionFunctionArgs) {
-  const streamRecovery = new StreamRecoveryManager({
-    timeout: 45000,
-    maxRetries: 2,
-    onTimeout: () => {
-      logger.warn('Stream timeout - attempting recovery');
-    },
-  });
-
-  const { messages, files, promptId, contextOptimization, supabase, chatMode, designScheme, maxLLMSteps } =
-    await request.json<{
-      messages: Messages;
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
+For routing policy work, this hook is the integration point: you can extend it to enforce allowed-provider constraints or inject environment-driven defaults before the value reaches UI components.
 
 ### `app/routes/api.chat.ts`
 
-The `chatAction` function in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) handles a key part of this chapter's functionality:
+The `action` export in [`app/routes/api.chat.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/routes/api.chat.ts) is the server-side entry point where provider selection from the client is consumed. The provider and model identifiers travel from the React store through the chat request payload to this route, which then delegates to the appropriate provider client.
 
-```ts
-
-export async function action(args: ActionFunctionArgs) {
-  return chatAction(args);
-}
-
-const logger = createScopedLogger('api.chat');
-
-function parseCookies(cookieHeader: string): Record<string, string> {
-  const cookies: Record<string, string> = {};
-
-  const items = cookieHeader.split(';').map((cookie) => cookie.trim());
-
-  items.forEach((item) => {
-    const [name, ...rest] = item.split('=');
-
-    if (name && rest) {
-      const decodedName = decodeURIComponent(name.trim());
-      const decodedValue = decodeURIComponent(rest.join('=').trim());
-      cookies[decodedName] = decodedValue;
-    }
-  });
-
-  return cookies;
-}
-
-async function chatAction({ context, request }: ActionFunctionArgs) {
-  const streamRecovery = new StreamRecoveryManager({
-    timeout: 45000,
-    maxRetries: 2,
-    onTimeout: () => {
-      logger.warn('Stream timeout - attempting recovery');
-    },
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `types/istextorbinary.d.ts`
-
-The `getEncoding` function in [`types/istextorbinary.d.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/types/istextorbinary.d.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-
-  export function getEncoding(buffer: Buffer | null, opts?: EncodingOpts): 'utf8' | 'binary' | null;
-}
-
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `types/istextorbinary.d.ts`
-
-The `EncodingOpts` interface in [`types/istextorbinary.d.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/types/istextorbinary.d.ts) handles a key part of this chapter's functionality:
-
-```ts
- */
-declare module 'istextorbinary' {
-  export interface EncodingOpts {
-    /** Defaults to 24 */
-    chunkLength?: number;
-
-    /** If not provided, will check the start, beginning, and end */
-    chunkBegin?: number;
-  }
-
-  export function getEncoding(buffer: Buffer | null, opts?: EncodingOpts): 'utf8' | 'binary' | null;
-}
-
-```
-
-This interface is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
+Tracing from this file through the LLM stream layer shows exactly where fallback logic would need to be inserted to implement a multi-provider fallback chain.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[parseCookies]
-    B[chatAction]
-    C[getEncoding]
-    D[EncodingOpts]
-    E[CircularBuffer]
+    A[User selects provider in UI]
+    B[providersStore atom updated]
+    C[useSettings hook propagates change]
+    D[Chat request payload includes provider + model]
+    E[api.chat.ts action receives provider config]
+    F[LLM stream layer dispatches to provider client]
     A --> B
     B --> C
     C --> D
     D --> E
+    E --> F
 ```

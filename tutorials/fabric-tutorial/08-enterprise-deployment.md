@@ -12,6 +12,19 @@ Welcome to **Chapter 8: Enterprise Deployment**. In this part of **Fabric Tutori
 
 > Deploy Fabric at scale with security, compliance, and team collaboration features.
 
+## Enterprise Deployment Architecture
+
+```mermaid
+graph TD
+    Team["Team Members"] --> Gateway["API Gateway\n(nginx / caddy)"]
+    Gateway --> FabricServer["fabric --serve\n(Go HTTP server)"]
+    FabricServer --> Registry["PluginRegistry\n(vendor plugins)"]
+    Registry --> AzureOAI["Azure OpenAI\n(enterprise endpoint)"]
+    Registry --> Bedrock["AWS Bedrock\n(IAM-controlled)"]
+    FabricServer --> PatternStore["Shared Pattern Store\n(git repo / S3)"]
+    PatternStore --> CustomPatterns["Team Custom Patterns"]
+```
+
 ## Overview
 
 Enterprise deployment of Fabric requires careful consideration of security, scalability, access control, and governance. This chapter covers production-ready deployment patterns and best practices.
@@ -649,22 +662,23 @@ Under the hood, `Chapter 8: Enterprise Deployment` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/core/plugin_registry.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The enterprise vendor integrations are all registered via `NewPluginRegistry` in [`internal/core/plugin_registry.go`](https://github.com/danielmiessler/fabric/blob/main/internal/core/plugin_registry.go). It imports Azure, AWS Bedrock, Azure Entra (identity), and GitHub Copilot plugins for enterprise scenarios:
 
-Suggested trace strategy:
-- search upstream code for `fabric` and `patterns` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+import (
+    "github.com/danielmiessler/fabric/internal/plugins/ai/azure"
+    "github.com/danielmiessler/fabric/internal/plugins/ai/azure_entra"
+    "github.com/danielmiessler/fabric/internal/plugins/ai/azureaigateway"
+    "github.com/danielmiessler/fabric/internal/plugins/ai/bedrock"
+    "github.com/danielmiessler/fabric/internal/plugins/ai/copilot"
+)
+```
+
+Configuration is stored in `~/.config/fabric/.env` (per-user) or can be overridden via environment variables for container deployments. The `.goreleaser.yaml` at the repo root defines multi-platform binary releases for enterprise distribution via package managers or direct download.
 
 ## Chapter Connections
 

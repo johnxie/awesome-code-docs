@@ -39,170 +39,168 @@ You now have a staged capability approach for building robust Rust MCP servers.
 
 Next: [Chapter 6: OAuth, Security, and Auth Workflows](06-oauth-security-and-auth-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `crates/rmcp/src/service.rs`
+### `conformance/src/bin/server.rs`
 
-The `MaybeSendFuture` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `ConformanceServer` interface in [`conformance/src/bin/server.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/server.rs) handles a key part of this chapter's functionality:
 
 ```rs
-//
-// `MaybeSend`       – supertrait alias: `Send + Sync` without `local`, empty with `local`
-// `MaybeSendFuture` – future bound alias: `Send` without `local`, empty with `local`
-// `MaybeBoxFuture`  – boxed future type: `BoxFuture` without `local`, `LocalBoxFuture` with `local`
-// ---------------------------------------------------------------------------
 
-#[cfg(not(feature = "local"))]
-#[doc(hidden)]
-pub trait MaybeSend: Send + Sync {}
-#[cfg(not(feature = "local"))]
-impl<T: Send + Sync> MaybeSend for T {}
+#[derive(Clone)]
+struct ConformanceServer {
+    subscriptions: Arc<Mutex<HashSet<String>>>,
+    log_level: Arc<Mutex<LoggingLevel>>,
+}
 
-#[cfg(feature = "local")]
-#[doc(hidden)]
-pub trait MaybeSend {}
-#[cfg(feature = "local")]
-impl<T> MaybeSend for T {}
+impl ConformanceServer {
+    fn new() -> Self {
+        Self {
+            subscriptions: Arc::new(Mutex::new(HashSet::new())),
+            log_level: Arc::new(Mutex::new(LoggingLevel::Debug)),
+        }
+    }
+}
 
-#[cfg(not(feature = "local"))]
-#[doc(hidden)]
-pub trait MaybeSendFuture: Send {}
-#[cfg(not(feature = "local"))]
-impl<T: Send> MaybeSendFuture for T {}
-
-#[cfg(feature = "local")]
-#[doc(hidden)]
-pub trait MaybeSendFuture {}
-#[cfg(feature = "local")]
-impl<T> MaybeSendFuture for T {}
-
-#[cfg(not(feature = "local"))]
-pub(crate) type MaybeBoxFuture<'a, T> = BoxFuture<'a, T>;
+impl ServerHandler for ConformanceServer {
+    async fn initialize(
+        &self,
+        _request: InitializeRequestParams,
+        _cx: RequestContext<RoleServer>,
+    ) -> Result<InitializeResult, ErrorData> {
+        Ok(InitializeResult::new(
+            ServerCapabilities::builder()
+                .enable_prompts()
+                .enable_resources()
+                .enable_tools()
+                .enable_logging()
+                .build(),
+        )
+        .with_server_info(Implementation::new("rust-conformance-server", "0.1.0"))
+        .with_instructions("Rust MCP conformance test server"))
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `crates/rmcp/src/service.rs`
+### `conformance/src/bin/server.rs`
 
-The `TransferObject` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `schema` interface in [`conformance/src/bin/server.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/server.rs) handles a key part of this chapter's functionality:
 
 ```rs
-}
-
-trait TransferObject:
-    std::fmt::Debug + Clone + serde::Serialize + serde::de::DeserializeOwned + Send + Sync + 'static
-{
-}
-
-impl<T> TransferObject for T where
-    T: std::fmt::Debug
-        + serde::Serialize
-        + serde::de::DeserializeOwned
-        + Send
-        + Sync
-        + 'static
-        + Clone
-{
-}
-
-#[allow(private_bounds, reason = "there's no the third implementation")]
-pub trait ServiceRole: std::fmt::Debug + Send + Sync + 'static + Copy + Clone {
-    type Req: TransferObject + GetMeta + GetExtensions;
-    type Resp: TransferObject;
-    type Not: TryInto<CancelledNotification, Error = Self::Not>
-        + From<CancelledNotification>
-        + TransferObject;
-    type PeerReq: TransferObject + GetMeta + GetExtensions;
-    type PeerResp: TransferObject;
-    type PeerNot: TryInto<CancelledNotification, Error = Self::PeerNot>
-        + From<CancelledNotification>
-        + TransferObject
-        + GetMeta
-        + GetExtensions;
+            Tool::new(
+                "test_elicitation_sep1330_enums",
+                "Tests enum schema improvements (SEP-1330)",
+                json_object(json!({
+                    "type": "object",
+                    "properties": {}
+                })),
+            ),
+            Tool::new(
+                "json_schema_2020_12_tool",
+                "Tool with JSON Schema 2020-12 features",
+                json_object(json!({
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "type": "object",
+                    "$defs": {
+                        "address": {
+                            "type": "object",
+                            "properties": {
+                                "street": { "type": "string" },
+                                "city": { "type": "string" }
+                            }
+                        }
+                    },
+                    "properties": {
+                        "name": { "type": "string" },
+                        "address": { "$ref": "#/$defs/address" }
+                    },
+                    "additionalProperties": false
+                })),
+            ),
+            Tool::new(
+                "test_reconnection",
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `crates/rmcp/src/service.rs`
+### `conformance/src/bin/server.rs`
 
-The `ServiceRole` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `schema` interface in [`conformance/src/bin/server.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/server.rs) handles a key part of this chapter's functionality:
 
 ```rs
-
-#[allow(private_bounds, reason = "there's no the third implementation")]
-pub trait ServiceRole: std::fmt::Debug + Send + Sync + 'static + Copy + Clone {
-    type Req: TransferObject + GetMeta + GetExtensions;
-    type Resp: TransferObject;
-    type Not: TryInto<CancelledNotification, Error = Self::Not>
-        + From<CancelledNotification>
-        + TransferObject;
-    type PeerReq: TransferObject + GetMeta + GetExtensions;
-    type PeerResp: TransferObject;
-    type PeerNot: TryInto<CancelledNotification, Error = Self::PeerNot>
-        + From<CancelledNotification>
-        + TransferObject
-        + GetMeta
-        + GetExtensions;
-    type InitializeError;
-    const IS_CLIENT: bool;
-    type Info: TransferObject;
-    type PeerInfo: TransferObject;
-}
-
-pub type TxJsonRpcMessage<R> =
-    JsonRpcMessage<<R as ServiceRole>::Req, <R as ServiceRole>::Resp, <R as ServiceRole>::Not>;
-pub type RxJsonRpcMessage<R> = JsonRpcMessage<
-    <R as ServiceRole>::PeerReq,
-    <R as ServiceRole>::PeerResp,
-    <R as ServiceRole>::PeerNot,
->;
-
-#[cfg(not(feature = "local"))]
-pub trait Service<R: ServiceRole>: Send + Sync + 'static {
-    fn handle_request(
+            Tool::new(
+                "test_elicitation_sep1330_enums",
+                "Tests enum schema improvements (SEP-1330)",
+                json_object(json!({
+                    "type": "object",
+                    "properties": {}
+                })),
+            ),
+            Tool::new(
+                "json_schema_2020_12_tool",
+                "Tool with JSON Schema 2020-12 features",
+                json_object(json!({
+                    "$schema": "https://json-schema.org/draft/2020-12/schema",
+                    "type": "object",
+                    "$defs": {
+                        "address": {
+                            "type": "object",
+                            "properties": {
+                                "street": { "type": "string" },
+                                "city": { "type": "string" }
+                            }
+                        }
+                    },
+                    "properties": {
+                        "name": { "type": "string" },
+                        "address": { "$ref": "#/$defs/address" }
+                    },
+                    "additionalProperties": false
+                })),
+            ),
+            Tool::new(
+                "test_reconnection",
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `crates/rmcp/src/service.rs`
+### `conformance/src/bin/client.rs`
 
-The `Service` interface in [`crates/rmcp/src/service.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp/src/service.rs) handles a key part of this chapter's functionality:
+The `ConformanceContext` interface in [`conformance/src/bin/client.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/client.rs) handles a key part of this chapter's functionality:
 
 ```rs
-#[derive(Error, Debug)]
-#[non_exhaustive]
-pub enum ServiceError {
-    #[error("Mcp error: {0}")]
-    McpError(McpError),
-    #[error("Transport send error: {0}")]
-    TransportSend(DynamicTransportError),
-    #[error("Transport closed")]
-    TransportClosed,
-    #[error("Unexpected response type")]
-    UnexpectedResponse,
-    #[error("task cancelled for reason {}", reason.as_deref().unwrap_or("<unknown>"))]
-    Cancelled { reason: Option<String> },
-    #[error("request timeout after {}", chrono::Duration::from_std(*timeout).unwrap_or_default())]
-    Timeout { timeout: Duration },
+
+#[derive(Debug, Default, serde::Deserialize)]
+struct ConformanceContext {
+    #[serde(default)]
+    client_id: Option<String>,
+    #[serde(default)]
+    client_secret: Option<String>,
+    // client-credentials-jwt
+    #[serde(default)]
+    private_key_pem: Option<String>,
+    #[serde(default)]
+    signing_algorithm: Option<String>,
 }
 
-trait TransferObject:
-    std::fmt::Debug + Clone + serde::Serialize + serde::de::DeserializeOwned + Send + Sync + 'static
-{
+fn load_context() -> ConformanceContext {
+    std::env::var("MCP_CONFORMANCE_CONTEXT")
+        .ok()
+        .and_then(|s| serde_json::from_str(&s).ok())
+        .unwrap_or_default()
 }
 
-impl<T> TransferObject for T where
-    T: std::fmt::Debug
-        + serde::Serialize
-        + serde::de::DeserializeOwned
-        + Send
-        + Sync
-        + 'static
-        + Clone
-{
-}
+// ─── Client handlers ────────────────────────────────────────────────────────
+
+/// A basic client handler that does nothing special
+struct BasicClientHandler;
+impl ClientHandler for BasicClientHandler {}
+
+/// A client handler that handles elicitation requests by applying schema defaults.
+struct ElicitationDefaultsClientHandler;
+
+impl ClientHandler for ElicitationDefaultsClientHandler {
+    fn get_info(&self) -> ClientInfo {
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[MaybeSendFuture]
-    B[TransferObject]
-    C[ServiceRole]
-    D[Service]
-    E[Service]
+    A[ConformanceServer]
+    B[schema]
+    C[schema]
+    D[ConformanceContext]
+    E[BasicClientHandler]
     A --> B
     B --> C
     C --> D

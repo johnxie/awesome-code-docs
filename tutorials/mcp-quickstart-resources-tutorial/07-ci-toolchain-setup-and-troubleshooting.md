@@ -31,50 +31,7 @@ You now have an operations baseline for sustaining quickstart-based development 
 
 Next: [Chapter 8: From Tutorial Assets to Production Systems](08-from-tutorial-assets-to-production-systems.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `weather-server-rust/src/main.rs`
-
-The `AlertFeature` interface in [`weather-server-rust/src/main.rs`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-rust/src/main.rs) handles a key part of this chapter's functionality:
-
-```rs
-#[derive(Debug, Deserialize)]
-struct AlertsResponse {
-    features: Vec<AlertFeature>,
-}
-
-#[derive(Debug, Deserialize)]
-struct AlertFeature {
-    properties: AlertProperties,
-}
-
-#[derive(Debug, Deserialize)]
-struct AlertProperties {
-    event: Option<String>,
-    #[serde(rename = "areaDesc")]
-    area_desc: Option<String>,
-    severity: Option<String>,
-    description: Option<String>,
-    instruction: Option<String>,
-}
-
-#[derive(Debug, Deserialize)]
-struct PointsResponse {
-    properties: PointsProperties,
-}
-
-#[derive(Debug, Deserialize)]
-struct PointsProperties {
-    forecast: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct ForecastResponse {
-```
-
-This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
 ### `weather-server-rust/src/main.rs`
 
@@ -199,16 +156,57 @@ struct ForecastPeriod {
 
 This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
 
+### `weather-server-rust/src/main.rs`
+
+The `ForecastResponse` interface in [`weather-server-rust/src/main.rs`](https://github.com/modelcontextprotocol/quickstart-resources/blob/HEAD/weather-server-rust/src/main.rs) handles a key part of this chapter's functionality:
+
+```rs
+
+#[derive(Debug, Deserialize)]
+struct ForecastResponse {
+    properties: ForecastProperties,
+}
+
+#[derive(Debug, Deserialize)]
+struct ForecastProperties {
+    periods: Vec<ForecastPeriod>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ForecastPeriod {
+    name: String,
+    temperature: i32,
+    #[serde(rename = "temperatureUnit")]
+    temperature_unit: String,
+    #[serde(rename = "windSpeed")]
+    wind_speed: String,
+    #[serde(rename = "windDirection")]
+    wind_direction: String,
+    #[serde(rename = "detailedForecast")]
+    detailed_forecast: String,
+}
+
+async fn make_nws_request<T: DeserializeOwned>(url: &str) -> Result<T> {
+    let client = reqwest::Client::new();
+    let rsp = client
+        .get(url)
+        .header(reqwest::header::USER_AGENT, USER_AGENT)
+        .header(reqwest::header::ACCEPT, "application/geo+json")
+        .send()
+```
+
+This interface is important because it defines how MCP Quickstart Resources Tutorial: Cross-Language MCP Servers and Clients by Example implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[AlertFeature]
-    B[AlertProperties]
-    C[PointsResponse]
-    D[PointsProperties]
-    E[ForecastResponse]
+    A[AlertProperties]
+    B[PointsResponse]
+    C[PointsProperties]
+    D[ForecastResponse]
+    E[ForecastProperties]
     A --> B
     B --> C
     C --> D

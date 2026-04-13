@@ -13,6 +13,23 @@ Welcome to **Chapter 4: Building AI Agents with Tools**. In this part of **n8n A
 
 > Create autonomous AI agents that can use tools, make decisions, and perform complex tasks.
 
+## n8n AI Agent Architecture
+
+```mermaid
+flowchart TD
+    INPUT[User Input / Trigger] --> AGENT[AI Agent Node\n@n8n/n8n-nodes-langchain.agent]
+    AGENT --> LLM[Chat Model\nGPT-4o / Claude]
+    AGENT --> MEMORY[Memory\nWindow Buffer / Postgres]
+    AGENT --> TOOLS[Tool Nodes]
+    TOOLS --> T1[HTTP Request]
+    TOOLS --> T2[Code Tool]
+    TOOLS --> T3[Vector Store Search]
+    TOOLS --> T4[n8n Workflow Tool]
+    LLM --> DECIDE{Tool needed?}
+    DECIDE -->|Yes| TOOLS
+    DECIDE -->|No| RESP[Final Response]
+```
+
 ## AI Agent Fundamentals
 
 AI agents in n8n can access tools, maintain memory, and make autonomous decisions to accomplish goals.
@@ -584,16 +601,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/@n8n/nodes-langchain/nodes/agents/Agent/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/agents/Agent) -- main AI Agent node: `execute()` method assembles LLM + tools + memory into a LangChain AgentExecutor
+- [`packages/@n8n/nodes-langchain/nodes/memory/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/memory) -- memory nodes: Window Buffer Memory, Postgres Chat Memory
+- [`packages/@n8n/nodes-langchain/nodes/tools/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/tools) -- tool nodes: HTTP Request Tool, Code Tool, Calculator, WikipediaTool
 
-Suggested trace strategy:
-- search upstream code for `json` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: in the Agent node's `execute()` method, find how it collects sub-nodes (tools, memory, LLM) via `getInputConnectionData()` and passes them to LangChain's agent executor.
 
 ## Chapter Connections
 

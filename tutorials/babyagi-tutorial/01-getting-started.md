@@ -39,51 +39,24 @@ You now have a working BabyAGI baseline and can observe the autonomous three-age
 
 Next: [Chapter 2: Core Architecture: Task Queue and Agent Loop](02-core-architecture-task-queue-and-agent-loop.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/trigger_example.py`
+### `examples/simple_example.py`
 
-The `function_a` function in [`examples/trigger_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/trigger_example.py) handles a key part of this chapter's functionality:
+The `world` function in [`examples/simple_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/simple_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
 @babyagi.register_function()
-def function_a():
-    print("Result from function A")
-    return "Result from function A"
+def world():
+    return "world"
 
-@babyagi.register_function(triggers=['function_a'])
-def function_b(input_data):
-    print(f"Function B triggered with input: {input_data}")
-    return f"Function B triggered with input: {input_data}"
+@babyagi.register_function(dependencies=["world"])
+def hello_world():
+    x = world()
+    return f"Hello {x}!"
 
-function_a()
-
-@app.route('/')
-def home():
-    return f"Welcome to the main app. Visit <a href=\"/dashboard\">/dashboard</a> for BabyAGI dashboard."
-
-if __name__ == "__main__":
-    app = babyagi.create_app('/dashboard')
-    app.run(host='0.0.0.0', port=8080)
-```
-
-This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
-
-### `examples/trigger_example.py`
-
-The `function_b` function in [`examples/trigger_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/trigger_example.py) handles a key part of this chapter's functionality:
-
-```py
-
-@babyagi.register_function(triggers=['function_a'])
-def function_b(input_data):
-    print(f"Function B triggered with input: {input_data}")
-    return f"Function B triggered with input: {input_data}"
-
-function_a()
+print(hello_world())
 
 @app.route('/')
 def home():
@@ -92,13 +65,39 @@ def home():
 if __name__ == "__main__":
     app = babyagi.create_app('/dashboard')
     app.run(host='0.0.0.0', port=8080)
+
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `examples/trigger_example.py`
+### `examples/simple_example.py`
 
-The `home` function in [`examples/trigger_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/trigger_example.py) handles a key part of this chapter's functionality:
+The `hello_world` function in [`examples/simple_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/simple_example.py) handles a key part of this chapter's functionality:
+
+```py
+
+@babyagi.register_function(dependencies=["world"])
+def hello_world():
+    x = world()
+    return f"Hello {x}!"
+
+print(hello_world())
+
+@app.route('/')
+def home():
+    return f"Welcome to the main app. Visit <a href=\"/dashboard\">/dashboard</a> for BabyAGI dashboard."
+
+if __name__ == "__main__":
+    app = babyagi.create_app('/dashboard')
+    app.run(host='0.0.0.0', port=8080)
+
+```
+
+This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
+
+### `examples/simple_example.py`
+
+The `home` function in [`examples/simple_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/simple_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
@@ -109,47 +108,28 @@ def home():
 if __name__ == "__main__":
     app = babyagi.create_app('/dashboard')
     app.run(host='0.0.0.0', port=8080)
+
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
 
-### `setup.py`
+### `examples/custom_route_example.py`
 
-The `parse_requirements` function in [`setup.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/setup.py) handles a key part of this chapter's functionality:
+The `another_custom_function` function in [`examples/custom_route_example.py`](https://github.com/yoheinakajima/babyagi/blob/HEAD/examples/custom_route_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
-# Read requirements from requirements.txt
-def parse_requirements(filename):
-    with open(filename, "r") as f:
-        lines = f.readlines()
-    # Remove comments and empty lines
-    return [line.strip() for line in lines if line.strip() and not line.startswith("#")]
+@register_function()
+def another_custom_function():
+    return "Hello from another custom function!"
 
-setup(
-    name="babyagi",  # Ensure this is the desired package name
-    version="0.1.2",  # Update this version appropriately
-    author="Yohei Nakajima",
-    author_email="babyagi@untapped.vc",
-    description="An experimental prototype framework for building self building autonomous agents.",
-    long_description=  long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/yoheinakajima/babyagi",  # Update if necessary
-    packages=find_packages(),
-    include_package_data=True,  # Include package data as specified in MANIFEST.in
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-    ],
-    python_requires='>=3.6',
-    install_requires=parse_requirements("requirements.txt"),
-    entry_points={
-        'console_scripts': [
-            'babyagi=babyagi.main:main',  # Example entry point
-        ],
-    },
-    keywords="AGI, AI, Framework, Baby AGI",
+@app.route('/')
+def home():
+    return f"Welcome to the main app. Visit <a href=\"/dashboard\">/dashboard</a> for BabyAGI dashboard."
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080)
+
 ```
 
 This function is important because it defines how BabyAGI Tutorial: The Original Autonomous AI Task Agent Framework implements the patterns covered in this chapter.
@@ -159,11 +139,11 @@ This function is important because it defines how BabyAGI Tutorial: The Original
 
 ```mermaid
 flowchart TD
-    A[function_a]
-    B[function_b]
+    A[world]
+    B[hello_world]
     C[home]
-    D[parse_requirements]
-    E[another_custom_function]
+    D[another_custom_function]
+    E[home]
     A --> B
     B --> C
     C --> D

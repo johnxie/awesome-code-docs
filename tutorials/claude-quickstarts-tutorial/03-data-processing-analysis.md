@@ -88,88 +88,86 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `autonomous-coding/agent.py`
+### `autonomous-coding/security.py`
 
-The `run_autonomous_agent` function in [`autonomous-coding/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/agent.py) handles a key part of this chapter's functionality:
+The `validate_init_script` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-async def run_autonomous_agent(
-    project_dir: Path,
-    model: str,
-    max_iterations: Optional[int] = None,
-) -> None:
+def validate_init_script(command_string: str) -> tuple[bool, str]:
     """
-    Run the autonomous agent loop.
+    Validate init.sh script execution - only allow ./init.sh.
+
+    Returns:
+        Tuple of (is_allowed, reason_if_blocked)
+    """
+    try:
+        tokens = shlex.split(command_string)
+    except ValueError:
+        return False, "Could not parse init script command"
+
+    if not tokens:
+        return False, "Empty command"
+
+    # The command should be exactly ./init.sh (possibly with arguments)
+    script = tokens[0]
+
+    # Allow ./init.sh or paths ending in /init.sh
+    if script == "./init.sh" or script.endswith("/init.sh"):
+        return True, ""
+
+    return False, f"Only ./init.sh is allowed, got: {script}"
+
+
+def get_command_for_validation(cmd: str, segments: list[str]) -> str:
+    """
+    Find the specific command segment that contains the given command.
 
     Args:
-        project_dir: Directory for the project
-        model: Claude model to use
-        max_iterations: Maximum number of iterations (None for unlimited)
-    """
-    print("\n" + "=" * 70)
-    print("  AUTONOMOUS CODING AGENT DEMO")
-    print("=" * 70)
-    print(f"\nProject directory: {project_dir}")
-    print(f"Model: {model}")
-    if max_iterations:
-        print(f"Max iterations: {max_iterations}")
-    else:
-        print("Max iterations: Unlimited (will run until completion)")
-    print()
-
-    # Create project directory
-    project_dir.mkdir(parents=True, exist_ok=True)
-
-    # Check if this is a fresh start or continuation
-    tests_file = project_dir / "feature_list.json"
-    is_first_run = not tests_file.exists()
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
 ### `autonomous-coding/security.py`
 
-The `split_command_segments` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `get_command_for_validation` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def split_command_segments(command_string: str) -> list[str]:
+def get_command_for_validation(cmd: str, segments: list[str]) -> str:
     """
-    Split a compound command into individual command segments.
-
-    Handles command chaining (&&, ||, ;) but not pipes (those are single commands).
+    Find the specific command segment that contains the given command.
 
     Args:
-        command_string: The full shell command
+        cmd: The command name to find
+        segments: List of command segments
 
     Returns:
-        List of individual command segments
+        The segment containing the command, or empty string if not found
     """
-    import re
-
-    # Split on && and || while preserving the ability to handle each segment
-    # This regex splits on && or || that aren't inside quotes
-    segments = re.split(r"\s*(?:&&|\|\|)\s*", command_string)
-
-    # Further split on semicolons
-    result = []
     for segment in segments:
-        sub_segments = re.split(r'(?<!["\'])\s*;\s*(?!["\'])', segment)
-        for sub in sub_segments:
-            sub = sub.strip()
-            if sub:
-                result.append(sub)
-
-    return result
+        segment_commands = extract_commands(segment)
+        if cmd in segment_commands:
+            return segment
+    return ""
 
 
+async def bash_security_hook(input_data, tool_use_id=None, context=None):
+    """
+    Pre-tool-use hook that validates bash commands using an allowlist.
+
+    Only commands in ALLOWED_COMMANDS are permitted.
+
+    Args:
+        input_data: Dict containing tool_name and tool_input
+        tool_use_id: Optional tool use ID
+        context: Optional context
+
+    Returns:
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
@@ -179,7 +177,7 @@ This function is important because it defines how Claude Quickstarts Tutorial: P
 
 ```mermaid
 flowchart TD
-    A[run_autonomous_agent]
-    B[split_command_segments]
+    A[validate_init_script]
+    B[get_command_for_validation]
     A --> B
 ```

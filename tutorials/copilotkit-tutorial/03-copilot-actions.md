@@ -897,6 +897,30 @@ export function useRobustCopilotAction(actionConfig: {
 }
 ```
 
+## Copilot Actions Flow
+
+```mermaid
+flowchart TD
+    A[useCopilotAction registers action with name and parameters]
+    B[User asks AI to perform an action]
+    C[LLM decides to call the registered action]
+    D[CopilotKit invokes handler with parsed parameters]
+    E{renderAndWait or direct?}
+    F[UI confirmation component shown to user]
+    G[User approves or rejects]
+    H[Action handler executes]
+    I[App state updated]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E -- renderAndWait --> F
+    F --> G
+    G -- approve --> H
+    E -- direct --> H
+    H --> I
+```
+
 ## Summary
 
 In this chapter, we've covered:

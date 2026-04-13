@@ -12,6 +12,22 @@ Welcome to **Chapter 4: Image-to-Image & Inpainting**. In this part of **ComfyUI
 
 Transform existing images with ComfyUI's powerful image manipulation capabilities! This chapter covers image-to-image generation and inpainting techniques for precise image editing.
 
+## Image-to-Image and Inpainting Flow
+
+```mermaid
+flowchart LR
+    InputImg["LoadImage\n(source image)"] --> VAEEncode["VAEEncode\n(image -> latent)"]
+    Mask["LoadImageMask\n(inpaint mask)"] --> VAEEncodeInpaint["VAEEncodeForInpaint"]
+    InputImg --> VAEEncodeInpaint
+    VAEEncode --> KSampler["KSampler\n(denoise < 1.0 for img2img)"]
+    VAEEncodeInpaint --> KSamplerMask["KSampler\n(inpainting)"]
+    Checkpoint["Model\n+ CLIP + VAE"] --> KSampler
+    Checkpoint --> KSamplerMask
+    KSampler --> VAEDecode["VAEDecode"]
+    KSamplerMask --> VAEDecode
+    VAEDecode --> SaveImage["SaveImage"]
+```
+
 ## Image-to-Image Fundamentals
 
 ### Loading and Preparing Images
@@ -172,16 +188,20 @@ Under the hood, `Chapter 4: Image-to-Image & Inpainting` usually follows a repea
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `nodes.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The image loading and VAE encoding nodes in [`nodes.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/nodes.py) use PIL for image I/O:
 
-Suggested trace strategy:
-- search upstream code for `properties` and `image` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from PIL import Image, ImageOps, ImageSequence
+from PIL.PngImagePlugin import PngInfo
+import numpy as np
+import safetensors.torch
+```
+
+The `LoadImage` node reads files from the ComfyUI `input/` directory, converts them to normalized float tensors, and extracts any embedded PNG metadata. The `VAEEncode` node calls `comfy.sd`'s VAE encoder to project the pixel-space image into the latent space required by the diffusion model. The `denoise` parameter on `KSampler` controls how much of the original image latent is preserved (1.0 = full generation, 0.5 = 50% preservation).
 
 ## Chapter Connections
 

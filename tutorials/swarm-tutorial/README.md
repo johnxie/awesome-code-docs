@@ -23,7 +23,7 @@ format_version: v2
 
 ## Why This Track Matters
 
-OpenAI Swarm matters for developers building production systems. This track covers chapter 1: getting started with openai swarm, chapter 2: agent design, chapter 3: function calling & tools and helps you understand how the components fit together for real-world use.
+OpenAI Swarm is an **experimental, educational** framework — it is not intended for production use. Its value is in teaching multi-agent concepts: handoffs, context variables, and agent composition patterns. This track covers getting started with Swarm, agent design, function calling, and multi-agent orchestration to help you understand how lightweight agent coordination works before building with more robust solutions.
 
 This track focuses on:
 

@@ -37,184 +37,182 @@ You now have a repeatable approach for combining visual planning and MCP tool ex
 
 Next: [Chapter 7: Troubleshooting, Permissions, and Security](07-troubleshooting-permissions-and-security.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/chrome-extension/common/web-editor-types.ts`
+### `app/chrome-extension/inject-scripts/interactive-elements-helper.js`
 
-The `WebEditorV2StopResponse` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
+The `createElementInfo` function in [`app/chrome-extension/inject-scripts/interactive-elements-helper.js`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/inject-scripts/interactive-elements-helper.js) handles a key part of this chapter's functionality:
 
-```ts
+```js
+   * Modified to handle the new 'text' type from the final fallback.
+   */
+  function createElementInfo(el, type, includeCoordinates, isInteractiveOverride = null) {
+    const isActuallyInteractive = isElementInteractive(el);
+    const info = {
+      type,
+      selector: generateSelector(el),
+      text: getAccessibleName(el) || el.textContent?.trim(),
+      isInteractive: isInteractiveOverride !== null ? isInteractiveOverride : isActuallyInteractive,
+      disabled: el.hasAttribute('disabled') || el.getAttribute('aria-disabled') === 'true',
+    };
+    if (includeCoordinates) {
+      const rect = el.getBoundingClientRect();
+      info.coordinates = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        rect: {
+          x: rect.x,
+          y: rect.y,
+          width: rect.width,
+          height: rect.height,
+          top: rect.top,
+          right: rect.right,
+          bottom: rect.bottom,
+          left: rect.left,
+        },
+      };
+    }
+    return info;
+  }
 
-/** Stop response (V2) */
-export interface WebEditorV2StopResponse {
-  active: boolean;
-}
-
-/** Union types for V2 type-safe message handling */
-export type WebEditorV2Request =
-  | WebEditorV2PingRequest
-  | WebEditorV2ToggleRequest
-  | WebEditorV2StartRequest
-  | WebEditorV2StopRequest;
-
-export type WebEditorV2Response =
-  | WebEditorV2PingResponse
-  | WebEditorV2ToggleResponse
-  | WebEditorV2StartResponse
-  | WebEditorV2StopResponse;
-
-// =============================================================================
-// Element Locator (Phase 1 - Basic Structure)
-// =============================================================================
-
-/**
- * Framework debug source information
- * Extracted from React Fiber or Vue component instance
- */
-export interface DebugSource {
-  /** Source file path */
-  file: string;
-  /** Line number (1-based) */
-  line?: number;
+  /**
 ```
 
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This function is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `app/chrome-extension/common/web-editor-types.ts`
+### `app/chrome-extension/inject-scripts/interactive-elements-helper.js`
 
-The `DebugSource` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
+The `findInteractiveElements` function in [`app/chrome-extension/inject-scripts/interactive-elements-helper.js`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/inject-scripts/interactive-elements-helper.js) handles a key part of this chapter's functionality:
 
-```ts
- * Extracted from React Fiber or Vue component instance
- */
-export interface DebugSource {
-  /** Source file path */
-  file: string;
-  /** Line number (1-based) */
-  line?: number;
-  /** Column number (1-based) */
-  column?: number;
-  /** Component name (if available) */
-  componentName?: string;
-}
+```js
+   * This is our high-performance Layer 1 search function.
+   */
+  function findInteractiveElements(options = {}) {
+    const { textQuery, includeCoordinates = true, types = Object.keys(ELEMENT_CONFIG) } = options;
 
-/**
- * Element Locator - Primary key for element identification
- *
- * Uses multiple strategies to locate elements, supporting:
- * - HMR/DOM changes recovery
- * - Cross-session persistence
- * - Framework-agnostic identification
- */
-export interface ElementLocator {
-  /** CSS selector candidates (ordered by specificity) */
-  selectors: string[];
-  /** Structural fingerprint for similarity matching */
-  fingerprint: string;
-  /** Framework debug information (React/Vue) */
-  debugSource?: DebugSource;
-  /** DOM tree path (child indices from root) */
-  path: number[];
-  /** iframe selector chain (from top to target frame) - Phase 4 */
-  frameChain?: string[];
+    const selectorsToFind = types
+      .map((type) => ELEMENT_CONFIG[type])
+      .filter(Boolean)
+      .join(', ');
+    if (!selectorsToFind) return [];
+
+    const targetElements = querySelectorAllDeep(selectorsToFind);
+    const uniqueElements = new Set(targetElements);
+    const results = [];
+
+    for (const el of uniqueElements) {
+      if (!isElementVisible(el) || !isElementInteractive(el)) continue;
+
+      const accessibleName = getAccessibleName(el);
+      if (textQuery && !fuzzyMatch(accessibleName, textQuery)) continue;
+
+      let elementType = 'unknown';
+      for (const [type, typeSelector] of Object.entries(ELEMENT_CONFIG)) {
+        if (el.matches(typeSelector)) {
+          elementType = type;
+          break;
+        }
+      }
+      results.push(createElementInfo(el, elementType, includeCoordinates));
+    }
+    return results;
+  }
 ```
 
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This function is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `app/chrome-extension/common/web-editor-types.ts`
+### `app/chrome-extension/inject-scripts/interactive-elements-helper.js`
 
-The `ElementLocator` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
+The `findElementsByTextWithFallback` function in [`app/chrome-extension/inject-scripts/interactive-elements-helper.js`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/inject-scripts/interactive-elements-helper.js) handles a key part of this chapter's functionality:
 
-```ts
- * - Framework-agnostic identification
- */
-export interface ElementLocator {
-  /** CSS selector candidates (ordered by specificity) */
-  selectors: string[];
-  /** Structural fingerprint for similarity matching */
-  fingerprint: string;
-  /** Framework debug information (React/Vue) */
-  debugSource?: DebugSource;
-  /** DOM tree path (child indices from root) */
-  path: number[];
-  /** iframe selector chain (from top to target frame) - Phase 4 */
-  frameChain?: string[];
-  /** Shadow DOM host selector chain - Phase 2 */
-  shadowHostChain?: string[];
-}
+```js
+   * @returns {ElementInfo[]}
+   */
+  function findElementsByTextWithFallback(options = {}) {
+    const { textQuery, includeCoordinates = true } = options;
 
-// =============================================================================
-// Transaction System (Phase 1 - Basic Structure, Low Priority)
-// =============================================================================
+    if (!textQuery) {
+      return findInteractiveElements({ ...options, types: Object.keys(ELEMENT_CONFIG) });
+    }
 
-/** Transaction operation types */
-export type TransactionType = 'style' | 'text' | 'class' | 'move' | 'structure';
+    // --- Layer 1: High-reliability search for interactive elements matching text ---
+    let results = findInteractiveElements({ ...options, types: Object.keys(ELEMENT_CONFIG) });
+    if (results.length > 0) {
+      return results;
+    }
 
-/**
- * Transaction snapshot for undo/redo
- * Captures element state before/after changes
- */
-export interface TransactionSnapshot {
-  /** Element locator for re-identification */
-  locator: ElementLocator;
-  /** innerHTML snapshot (for structure changes) */
+    // --- Layer 2: Find text, then find its interactive ancestor ---
+    const lowerCaseText = textQuery.toLowerCase();
+    const xPath = `//text()[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '${lowerCaseText}')]`;
+    const textNodes = document.evaluate(
+      xPath,
+      document,
+      null,
+      XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+      null,
+    );
+
+    const interactiveElements = new Set();
+    if (textNodes.snapshotLength > 0) {
+      for (let i = 0; i < textNodes.snapshotLength; i++) {
+        const parentElement = textNodes.snapshotItem(i).parentElement;
+        if (parentElement) {
+          const interactiveAncestor = parentElement.closest(ANY_INTERACTIVE_SELECTOR);
 ```
 
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This function is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
-### `app/chrome-extension/common/web-editor-types.ts`
+### `app/chrome-extension/utils/simd-math-engine.ts`
 
-The `TransactionSnapshot` interface in [`app/chrome-extension/common/web-editor-types.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/common/web-editor-types.ts) handles a key part of this chapter's functionality:
+The `SIMDMathEngine` class in [`app/chrome-extension/utils/simd-math-engine.ts`](https://github.com/hangwin/mcp-chrome/blob/HEAD/app/chrome-extension/utils/simd-math-engine.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Captures element state before/after changes
- */
-export interface TransactionSnapshot {
-  /** Element locator for re-identification */
-  locator: ElementLocator;
-  /** innerHTML snapshot (for structure changes) */
-  html?: string;
-  /** Changed style properties */
-  styles?: Record<string, string>;
-  /** Class list tokens (from `class` attribute) */
-  classes?: string[];
-  /** Text content */
-  text?: string;
 }
 
-/**
- * Move position data
- * Captures a concrete insertion point under a parent element
- */
-export interface MoveOperationData {
-  /** Target parent element locator */
-  parentLocator: ElementLocator;
-  /** Insert position index (among element children) */
-  insertIndex: number;
-  /** Anchor sibling element locator (for stable positioning) */
-  anchorLocator?: ElementLocator;
-  /** Position relative to anchor */
-  anchorPosition: 'before' | 'after';
-}
+export class SIMDMathEngine {
+  private wasmModule: WasmModule | null = null;
+  private simdMath: SIMDMathWasm | null = null;
+  private isInitialized = false;
+  private isInitializing = false;
+  private initPromise: Promise<void> | null = null;
 
-/**
- * Move transaction data
+  private alignedBufferPool: Map<number, Float32Array[]> = new Map();
+  private maxPoolSize = 5;
+
+  async initialize(): Promise<void> {
+    if (this.isInitialized) return;
+    if (this.isInitializing && this.initPromise) return this.initPromise;
+
+    this.isInitializing = true;
+    this.initPromise = this._doInitialize().finally(() => {
+      this.isInitializing = false;
+    });
+
+    return this.initPromise;
+  }
+
+  private async _doInitialize(): Promise<void> {
+    try {
+      console.log('SIMDMathEngine: Initializing WebAssembly module...');
+
+      const wasmUrl = chrome.runtime.getURL('workers/simd_math.js');
+      const wasmModule = await import(wasmUrl);
+
+      const wasmInstance = await wasmModule.default();
 ```
 
-This interface is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
+This class is important because it defines how MCP Chrome Tutorial: Control Your Real Chrome Browser Through MCP implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[WebEditorV2StopResponse]
-    B[DebugSource]
-    C[ElementLocator]
-    D[TransactionSnapshot]
-    E[MoveOperationData]
+    A[createElementInfo]
+    B[findInteractiveElements]
+    C[findElementsByTextWithFallback]
+    D[SIMDMathEngine]
+    E[SIMDMathWasm]
     A --> B
     B --> C
     C --> D

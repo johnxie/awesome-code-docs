@@ -117,184 +117,182 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `search` function in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `cli` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
-}
+```py
+# requires-python = ">=3.12"
+# dependencies = [
+#     "click>=8.1.8",
+#     "tomlkit>=0.13.2"
+# ]
+# ///
+import sys
+import re
+import click
+from pathlib import Path
+import json
+import tomlkit
+import datetime
+import subprocess
+from dataclasses import dataclass
+from typing import Any, Iterator, NewType, Protocol
 
-export async function searchFilesWithValidation(
-  rootPath: string,
-  pattern: string,
-  allowedDirectories: string[],
-  options: SearchOptions = {}
-): Promise<string[]> {
-  const { excludePatterns = [] } = options;
-  const results: string[] = [];
 
-  async function search(currentPath: string) {
-    const entries = await fs.readdir(currentPath, { withFileTypes: true });
+Version = NewType("Version", str)
+GitHash = NewType("GitHash", str)
 
-    for (const entry of entries) {
-      const fullPath = path.join(currentPath, entry.name);
 
-      try {
-        await validatePath(fullPath);
+class GitHashParamType(click.ParamType):
+    name = "git_hash"
 
-        const relativePath = path.relative(rootPath, fullPath);
-        const shouldExclude = excludePatterns.some(excludePattern =>
-          minimatch(relativePath, excludePattern, { dot: true })
-        );
+    def convert(
+        self, value: Any, param: click.Parameter | None, ctx: click.Context | None
+    ) -> GitHash | None:
+        if value is None:
+            return None
 
-        if (shouldExclude) continue;
-
-        // Use glob matching for the search pattern
-        if (minimatch(relativePath, pattern, { dot: true })) {
-          results.push(fullPath);
-        }
-
+        if not (8 <= len(value) <= 40):
 ```
 
 This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `FileInfo` interface in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `update_packages` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
+```py
+)
+@click.argument("git_hash", type=GIT_HASH)
+def update_packages(directory: Path, git_hash: GitHash) -> int:
+    # Detect package type
+    path = directory.resolve(strict=True)
+    version = gen_version()
 
-// Type definitions
-interface FileInfo {
-  size: number;
-  created: Date;
-  modified: Date;
-  accessed: Date;
-  isDirectory: boolean;
-  isFile: boolean;
-  permissions: string;
-}
+    for package in find_changed_packages(path, git_hash):
+        name = package.package_name()
+        package.update_version(version)
 
-export interface SearchOptions {
-  excludePatterns?: string[];
-}
+        click.echo(f"{name}@{version}")
 
-export interface SearchResult {
-  path: string;
-  isDirectory: boolean;
-}
+    return 0
 
-// Pure Utility Functions
-export function formatSize(bytes: number): string {
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 B';
-  
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  
-  if (i < 0 || i === 0) return `${bytes} ${units[0]}`;
-  
-  const unitIndex = Math.min(i, units.length - 1);
-  return `${(bytes / Math.pow(1024, unitIndex)).toFixed(2)} ${units[unitIndex]}`;
+
+@cli.command("generate-notes")
+@click.option(
+    "--directory", type=click.Path(exists=True, path_type=Path), default=Path.cwd()
+)
+@click.argument("git_hash", type=GIT_HASH)
+def generate_notes(directory: Path, git_hash: GitHash) -> int:
+    # Detect package type
+    path = directory.resolve(strict=True)
+    version = gen_version()
+
+    click.echo(f"# Release : v{version}")
+    click.echo("")
+    click.echo("## Updated packages")
+    for package in find_changed_packages(path, git_hash):
+        name = package.package_name()
+        click.echo(f"- {name}@{version}")
 ```
 
-This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `SearchOptions` interface in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `generate_notes` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
-}
+```py
+)
+@click.argument("git_hash", type=GIT_HASH)
+def generate_notes(directory: Path, git_hash: GitHash) -> int:
+    # Detect package type
+    path = directory.resolve(strict=True)
+    version = gen_version()
 
-export interface SearchOptions {
-  excludePatterns?: string[];
-}
+    click.echo(f"# Release : v{version}")
+    click.echo("")
+    click.echo("## Updated packages")
+    for package in find_changed_packages(path, git_hash):
+        name = package.package_name()
+        click.echo(f"- {name}@{version}")
 
-export interface SearchResult {
-  path: string;
-  isDirectory: boolean;
-}
+    return 0
 
-// Pure Utility Functions
-export function formatSize(bytes: number): string {
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 B';
-  
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  
-  if (i < 0 || i === 0) return `${bytes} ${units[0]}`;
-  
-  const unitIndex = Math.min(i, units.length - 1);
-  return `${(bytes / Math.pow(1024, unitIndex)).toFixed(2)} ${units[unitIndex]}`;
-}
 
-export function normalizeLineEndings(text: string): string {
-  return text.replace(/\r\n/g, '\n');
-}
+@cli.command("generate-version")
+def generate_version() -> int:
+    # Detect package type
+    click.echo(gen_version())
+    return 0
 
-export function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {
-  // Ensure consistent line endings for diff
-  const normalizedOriginal = normalizeLineEndings(originalContent);
-  const normalizedNew = normalizeLineEndings(newContent);
+
+@cli.command("generate-matrix")
+@click.option(
+    "--directory", type=click.Path(exists=True, path_type=Path), default=Path.cwd()
+)
+@click.option("--npm", is_flag=True, default=False)
+@click.option("--pypi", is_flag=True, default=False)
+@click.argument("git_hash", type=GIT_HASH)
+def generate_matrix(directory: Path, git_hash: GitHash, pypi: bool, npm: bool) -> int:
 ```
 
-This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
-### `src/filesystem/lib.ts`
+### `scripts/release.py`
 
-The `SearchResult` interface in [`src/filesystem/lib.ts`](https://github.com/modelcontextprotocol/servers/blob/HEAD/src/filesystem/lib.ts) handles a key part of this chapter's functionality:
+The `generate_version` function in [`scripts/release.py`](https://github.com/modelcontextprotocol/servers/blob/HEAD/scripts/release.py) handles a key part of this chapter's functionality:
 
-```ts
-}
+```py
 
-export interface SearchResult {
-  path: string;
-  isDirectory: boolean;
-}
+@cli.command("generate-version")
+def generate_version() -> int:
+    # Detect package type
+    click.echo(gen_version())
+    return 0
 
-// Pure Utility Functions
-export function formatSize(bytes: number): string {
-  const units = ['B', 'KB', 'MB', 'GB', 'TB'];
-  if (bytes === 0) return '0 B';
-  
-  const i = Math.floor(Math.log(bytes) / Math.log(1024));
-  
-  if (i < 0 || i === 0) return `${bytes} ${units[0]}`;
-  
-  const unitIndex = Math.min(i, units.length - 1);
-  return `${(bytes / Math.pow(1024, unitIndex)).toFixed(2)} ${units[unitIndex]}`;
-}
 
-export function normalizeLineEndings(text: string): string {
-  return text.replace(/\r\n/g, '\n');
-}
+@cli.command("generate-matrix")
+@click.option(
+    "--directory", type=click.Path(exists=True, path_type=Path), default=Path.cwd()
+)
+@click.option("--npm", is_flag=True, default=False)
+@click.option("--pypi", is_flag=True, default=False)
+@click.argument("git_hash", type=GIT_HASH)
+def generate_matrix(directory: Path, git_hash: GitHash, pypi: bool, npm: bool) -> int:
+    # Detect package type
+    path = directory.resolve(strict=True)
+    version = gen_version()
 
-export function createUnifiedDiff(originalContent: string, newContent: string, filepath: string = 'file'): string {
-  // Ensure consistent line endings for diff
-  const normalizedOriginal = normalizeLineEndings(originalContent);
-  const normalizedNew = normalizeLineEndings(newContent);
+    changes = []
+    for package in find_changed_packages(path, git_hash):
+        pkg = package.path.relative_to(path)
+        if npm and isinstance(package, NpmPackage):
+            changes.append(str(pkg))
+        if pypi and isinstance(package, PyPiPackage):
+            changes.append(str(pkg))
 
-  return createTwoFilesPatch(
-    filepath,
-    filepath,
+    click.echo(json.dumps(changes))
+    return 0
+
+
 ```
 
-This interface is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
+This function is important because it defines how MCP Servers Tutorial: Reference Implementations and Patterns implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[search]
-    B[FileInfo]
-    C[SearchOptions]
-    D[SearchResult]
-    E[FileEdit]
+    A[cli]
+    B[update_packages]
+    C[generate_notes]
+    D[generate_version]
+    E[generate_matrix]
     A --> B
     B --> C
     C --> D

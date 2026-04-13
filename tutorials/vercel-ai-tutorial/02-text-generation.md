@@ -5,6 +5,7 @@ parent: "Vercel AI Tutorial"
 nav_order: 2
 ---
 
+
 # Chapter 2: Text Generation
 
 Welcome to **Chapter 2: Text Generation**. In this part of **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -457,185 +458,24 @@ Ready to take your AI applications to the next level? In [Chapter 3: Streaming R
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+Use the following upstream sources to verify text generation implementation details while reading this chapter:
 
-### Strategic Context
-
-- tutorial: **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**
-- tutorial slug: **vercel-ai-tutorial**
-- chapter focus: **Chapter 2: Text Generation**
-- system context: **Vercel Ai Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
-
-### Architecture Decomposition
-
-1. Define the runtime boundary for `Chapter 2: Text Generation`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
-
-### Operator Decision Matrix
-
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
-
-### Failure Modes and Countermeasures
-
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
-
-### Implementation Runbook
-
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
-
-### Quality Gate Checklist
-
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
-
-### Source Alignment
-
-- [AI SDK Repository](https://github.com/vercel/ai)
-- [AI SDK Releases](https://github.com/vercel/ai/releases)
-- [AI SDK Docs](https://ai-sdk.dev)
-
-### Cross-Tutorial Connection Map
-
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
-- [OpenAI Realtime Agents Tutorial](../openai-realtime-agents-tutorial/)
-- [Dyad Tutorial](../dyad-tutorial/)
-- [bolt.diy Tutorial](../bolt-diy-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 2: Text Generation`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 2: Text Generation
-
-- tutorial context: **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 2: Text Generation
-
-- tutorial context: **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 2: Text Generation
-
-- tutorial context: **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `text`, `prompt`, `temperature` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 2: Text Generation` as an operating subsystem inside **Vercel AI SDK Tutorial: Production TypeScript AI Apps and Agents**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `model`, `models`, `className` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 2: Text Generation` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `text`.
-2. **Input normalization**: shape incoming data so `prompt` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `temperature`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [AI SDK Repository](https://github.com/vercel/ai)
-  Why it matters: authoritative reference on `AI SDK Repository` (github.com).
-- [AI SDK Releases](https://github.com/vercel/ai/releases)
-  Why it matters: authoritative reference on `AI SDK Releases` (github.com).
-- [AI SDK Docs](https://ai-sdk.dev)
-  Why it matters: authoritative reference on `AI SDK Docs` (ai-sdk.dev).
+- [`packages/ai/src/generate-text/generate-text.ts`](https://github.com/vercel/ai/blob/HEAD/packages/ai/src/generate-text/generate-text.ts) — the `generateText` function implementation, the primary non-streaming text generation entry point that wraps model provider calls, tool execution, and result assembly.
+- [`packages/ai/src/generate-text/index.ts`](https://github.com/vercel/ai/blob/HEAD/packages/ai/src/generate-text/index.ts) — the package exports for the text generation surface, showing which types and functions are part of the public API.
 
 Suggested trace strategy:
-- search upstream code for `text` and `prompt` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- trace `generateText` to understand how the provider abstraction, prompt formatting, and tool loop are composed
+- review the `GenerateTextResult` type to understand all fields available after a generation call completes
+- check `packages/ai/src/core/` for the shared model call infrastructure used by both `generateText` and `streamText`
 
-## Chapter Connections
+## How These Components Connect
 
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 1: Getting Started with Vercel AI](01-getting-started.md)
-- [Next Chapter: Chapter 3: Streaming Responses](03-streaming-responses.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart LR
+    A[generateText call] --> B[Provider abstraction layer]
+    B --> C[LLM API request]
+    C --> D[GenerateTextResult returned]
+    D --> E[text, usage, finishReason available]
+```

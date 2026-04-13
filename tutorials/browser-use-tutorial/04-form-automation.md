@@ -638,6 +638,31 @@ if __name__ == "__main__":
     asyncio.run(compliance_form_automation())
 ```
 
+## Form Automation Flow
+
+```mermaid
+flowchart TD
+    A[Agent navigates to form page]
+    B[DOM analysis identifies form fields]
+    C[Field types detected: text select checkbox radio]
+    D[Agent maps input data to fields]
+    E[input_text actions fill text fields]
+    F[select_option actions choose dropdowns]
+    G[click actions select checkboxes]
+    H[Submit button clicked]
+    I[Success or error response validated]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    D --> F
+    D --> G
+    E --> H
+    F --> H
+    G --> H
+    H --> I
+```
+
 ## Summary
 
 In this chapter, we've covered:

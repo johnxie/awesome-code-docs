@@ -39,184 +39,182 @@ You now have an end-to-end debugging and performance analysis workflow.
 
 Next: [Chapter 6: Troubleshooting and Reliability Hardening](06-troubleshooting-and-reliability-hardening.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/DevtoolsUtils.ts`
+### `src/PageCollector.ts`
 
-The `createStackTrace` function in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
-
-```ts
-    } else if (opts.details.stackTrace) {
-      try {
-        stackTrace = await createStackTrace(
-          opts.devTools,
-          opts.details.stackTrace,
-          opts.targetId,
-        );
-      } catch {
-        // ignore
-      }
-    }
-
-    // TODO: Turn opts.details.exception into a JSHandle and retrieve the 'cause' property.
-    //       If its an Error, recursively create a SymbolizedError.
-    let cause: SymbolizedError | undefined;
-    if (opts.resolvedCauseForTesting) {
-      cause = opts.resolvedCauseForTesting;
-    } else if (opts.details.exception) {
-      try {
-        const causeRemoteObj = await SymbolizedError.#lookupCause(
-          opts.devTools,
-          opts.details.exception,
-          opts.targetId,
-        );
-        if (causeRemoteObj) {
-          cause = await SymbolizedError.fromError({
-            devTools: opts.devTools,
-            error: causeRemoteObj,
-            targetId: opts.targetId,
-          });
-        }
-      } catch {
-```
-
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
-
-### `src/DevtoolsUtils.ts`
-
-The `waitForScript` function in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
+The `ConsoleCollector` class in [`src/PageCollector.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/PageCollector.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  await Promise.all(
-    [...scriptIds].map(id =>
-      waitForScript(model, id, signal)
-        .then(script =>
-          model.sourceMapManager().sourceMapForClientPromise(script),
-        )
-        .catch(),
-    ),
-  );
-
-  const binding = devTools.universe.context.get(
-    DevTools.DebuggerWorkspaceBinding,
-  );
-  // DevTools uses branded types for ScriptId and others. Casting the puppeteer protocol type to the DevTools protocol type is safe.
-  return binding.createStackTraceFromProtocolRuntime(
-    rawStackTrace as Parameters<
-      DevTools.DebuggerWorkspaceBinding['createStackTraceFromProtocolRuntime']
-    >[0],
-    target,
-  );
 }
 
-// Waits indefinitely for the script so pair it with Promise.race.
-async function waitForScript(
-  model: DevTools.DebuggerModel,
-  scriptId: Protocol.Runtime.ScriptId,
-  signal: AbortSignal,
-) {
-  while (true) {
-    if (signal.aborted) {
-      throw signal.reason;
+export class ConsoleCollector extends PageCollector<
+  ConsoleMessage | Error | DevTools.AggregatedIssue | UncaughtError
+> {
+  #subscribedPages = new WeakMap<Page, PageEventSubscriber>();
+
+  override addPage(page: Page): void {
+    super.addPage(page);
+    if (!this.#subscribedPages.has(page)) {
+      const subscriber = new PageEventSubscriber(page);
+      this.#subscribedPages.set(page, subscriber);
+      void subscriber.subscribe();
     }
+  }
+
+  protected override cleanupPageDestroyed(page: Page): void {
+    super.cleanupPageDestroyed(page);
+    this.#subscribedPages.get(page)?.unsubscribe();
+    this.#subscribedPages.delete(page);
+  }
+}
+
+class PageEventSubscriber {
+  #issueManager = new FakeIssuesManager();
+  #issueAggregator = new DevTools.IssueAggregator(this.#issueManager);
+  #seenKeys = new Set<string>();
+  #seenIssues = new Set<DevTools.AggregatedIssue>();
+  #page: Page;
+  #session: CDPSession;
+  #targetId: string;
+
 ```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `src/DevtoolsUtils.ts`
+### `src/PageCollector.ts`
 
-The `TargetUniverse` interface in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
+The `PageEventSubscriber` class in [`src/PageCollector.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/PageCollector.ts) handles a key part of this chapter's functionality:
 
 ```ts
-});
+  ConsoleMessage | Error | DevTools.AggregatedIssue | UncaughtError
+> {
+  #subscribedPages = new WeakMap<Page, PageEventSubscriber>();
 
-export interface TargetUniverse {
-  /** The DevTools target corresponding to the puppeteer Page */
-  target: DevTools.Target;
-  universe: DevTools.Foundation.Universe.Universe;
+  override addPage(page: Page): void {
+    super.addPage(page);
+    if (!this.#subscribedPages.has(page)) {
+      const subscriber = new PageEventSubscriber(page);
+      this.#subscribedPages.set(page, subscriber);
+      void subscriber.subscribe();
+    }
+  }
+
+  protected override cleanupPageDestroyed(page: Page): void {
+    super.cleanupPageDestroyed(page);
+    this.#subscribedPages.get(page)?.unsubscribe();
+    this.#subscribedPages.delete(page);
+  }
 }
-export type TargetUniverseFactoryFn = (page: Page) => Promise<TargetUniverse>;
 
-export class UniverseManager {
-  readonly #browser: Browser;
-  readonly #createUniverseFor: TargetUniverseFactoryFn;
-  readonly #universes = new WeakMap<Page, TargetUniverse>();
+class PageEventSubscriber {
+  #issueManager = new FakeIssuesManager();
+  #issueAggregator = new DevTools.IssueAggregator(this.#issueManager);
+  #seenKeys = new Set<string>();
+  #seenIssues = new Set<DevTools.AggregatedIssue>();
+  #page: Page;
+  #session: CDPSession;
+  #targetId: string;
 
-  /** Guard access to #universes so we don't create unnecessary universes */
-  readonly #mutex = new Mutex();
+  constructor(page: Page) {
+    this.#page = page;
+    // @ts-expect-error use existing CDP client (internal Puppeteer API).
+```
 
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+
+### `src/PageCollector.ts`
+
+The `NetworkCollector` class in [`src/PageCollector.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/PageCollector.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export class NetworkCollector extends PageCollector<HTTPRequest> {
   constructor(
     browser: Browser,
-    factory: TargetUniverseFactoryFn = DEFAULT_FACTORY,
+    listeners: (
+      collector: (item: HTTPRequest) => void,
+    ) => ListenerMap<PageEvents> = collect => {
+      return {
+        request: req => {
+          collect(req);
+        },
+      } as ListenerMap;
+    },
   ) {
-    this.#browser = browser;
-    this.#createUniverseFor = factory;
+    super(browser, listeners);
   }
+  override splitAfterNavigation(page: Page) {
+    const navigations = this.storage.get(page) ?? [];
+    if (!navigations) {
+      return;
+    }
 
-  async init(pages: Page[]) {
-    try {
-      await this.#mutex.acquire();
-      const promises = [];
-      for (const page of pages) {
-        promises.push(
-          this.#createUniverseFor(page).then(targetUniverse =>
+    const requests = navigations[0];
+
+    const lastRequestIdx = requests.findLastIndex(request => {
+      return request.frame() === page.mainFrame()
+        ? request.isNavigationRequest()
+        : false;
+    });
+
+    // Keep all requests since the last navigation request including that
 ```
 
-This interface is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `src/DevtoolsUtils.ts`
+### `src/PageCollector.ts`
 
-The `from` interface in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
+The `createIdGenerator` function in [`src/PageCollector.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/PageCollector.ts) handles a key part of this chapter's functionality:
 
 ```ts
- */
+};
 
-import {PuppeteerDevToolsConnection} from './DevToolsConnectionAdapter.js';
-import {Mutex} from './Mutex.js';
-import {DevTools} from './third_party/index.js';
-import type {
-  Browser,
-  ConsoleMessage,
-  Page,
-  Protocol,
-  Target as PuppeteerTarget,
-} from './third_party/index.js';
-
-/**
- * A mock implementation of an issues manager that only implements the methods
- * that are actually used by the IssuesAggregator
- */
-export class FakeIssuesManager extends DevTools.Common.ObjectWrapper
-  .ObjectWrapper<DevTools.IssuesManagerEventTypes> {
-  issues(): DevTools.Issue[] {
-    return [];
-  }
+function createIdGenerator() {
+  let i = 1;
+  return () => {
+    if (i === Number.MAX_SAFE_INTEGER) {
+      i = 0;
+    }
+    return i++;
+  };
 }
 
-// DevTools CDP errors can get noisy.
-DevTools.ProtocolClient.InspectorBackend.test.suppressRequestErrors = true;
+export const stableIdSymbol = Symbol('stableIdSymbol');
+type WithSymbolId<T> = T & {
+  [stableIdSymbol]?: number;
+};
 
-DevTools.I18n.DevToolsLocale.DevToolsLocale.instance({
-  create: true,
-  data: {
-    navigatorLanguage: 'en-US',
-    settingLanguage: 'en-US',
+export class PageCollector<T> {
+  #browser: Browser;
+  #listenersInitializer: (
+    collector: (item: T) => void,
+  ) => ListenerMap<PageEvents>;
+  #listeners = new WeakMap<Page, ListenerMap>();
+  protected maxNavigationSaved = 3;
+
+  /**
+   * This maps a Page to a list of navigations with a sub-list
+   * of all collected resources.
+   * The newer navigations come first.
+   */
+  protected storage = new WeakMap<Page, Array<Array<WithSymbolId<T>>>>();
+
 ```
 
-This interface is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[createStackTrace]
-    B[waitForScript]
-    C[TargetUniverse]
-    D[from]
-    E[measureServer]
+    A[ConsoleCollector]
+    B[PageEventSubscriber]
+    C[NetworkCollector]
+    D[createIdGenerator]
+    E[PageEvents]
     A --> B
     B --> C
     C --> D

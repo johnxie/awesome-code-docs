@@ -52,8 +52,6 @@ You now understand how to navigate by intent and choose the right list rendering
 
 Next: [Chapter 3: Resource Quality Evaluation Framework](03-resource-quality-evaluation-framework.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/validation/validate_links.py`

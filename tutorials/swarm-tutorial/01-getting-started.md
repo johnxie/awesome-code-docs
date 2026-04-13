@@ -10,6 +10,20 @@ nav_order: 1
 Welcome to Swarm! In this chapter, you'll learn the fundamentals of OpenAI's educational multi-agent framework and create your first collaborative agents.
 
 ## What is Swarm?
+```mermaid
+flowchart LR
+    A[User Message] --> B[Swarm.run]
+    B --> C[Active Agent]
+    C --> D{Function call?}
+    D -->|yes| E[Execute function]
+    D -->|no| F[LLM response]
+    E --> G{Returns Agent?}
+    G -->|yes| H[Handoff to new agent]
+    G -->|no| F
+    H --> C
+    F --> I[Response messages]
+```
+
 
 Swarm is an experimental framework from OpenAI that makes it easy to build and orchestrate multi-agent systems. Unlike complex orchestration frameworks, Swarm focuses on being:
 

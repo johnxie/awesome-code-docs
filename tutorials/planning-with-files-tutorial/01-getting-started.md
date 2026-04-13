@@ -53,8 +53,6 @@ You now have the baseline workflow installed and active.
 
 Next: [Chapter 2: Core Philosophy and the 3-File Pattern](02-core-philosophy-and-the-3-file-pattern.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `scripts/session-catchup.py`
@@ -180,47 +178,6 @@ def get_sessions_sorted_opencode(storage_dir: Path) -> List[Path]:
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
 
-### `scripts/session-catchup.py`
-
-The `get_sessions_sorted` function in [`scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/scripts/session-catchup.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def get_sessions_sorted(project_dir: Path) -> List[Path]:
-    """Get all session files sorted by modification time (newest first)."""
-    sessions = list(project_dir.glob('*.jsonl'))
-    main_sessions = [s for s in sessions if not s.name.startswith('agent-')]
-    return sorted(main_sessions, key=lambda p: p.stat().st_mtime, reverse=True)
-
-
-def get_sessions_sorted_opencode(storage_dir: Path) -> List[Path]:
-    """
-    Get all OpenCode session files sorted by modification time.
-    OpenCode stores sessions at: storage/session/{projectHash}/{sessionID}.json
-    """
-    session_dir = storage_dir / 'session'
-    if not session_dir.exists():
-        return []
-
-    sessions = []
-    for project_hash_dir in session_dir.iterdir():
-        if project_hash_dir.is_dir():
-            for session_file in project_hash_dir.glob('*.json'):
-                sessions.append(session_file)
-
-    return sorted(sessions, key=lambda p: p.stat().st_mtime, reverse=True)
-
-
-def get_session_first_timestamp(session_file: Path) -> Optional[str]:
-    """Get the timestamp of the first message in a session."""
-    try:
-        with open(session_file, 'r') as f:
-            for line in f:
-```
-
-This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
@@ -229,10 +186,6 @@ flowchart TD
     A[detect_ide]
     B[get_project_dir_claude]
     C[get_project_dir_opencode]
-    D[get_sessions_sorted]
-    E[get_sessions_sorted_opencode]
     A --> B
     B --> C
-    C --> D
-    D --> E
 ```

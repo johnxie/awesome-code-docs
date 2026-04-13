@@ -47,36 +47,7 @@ You now have a systems-level model for how Onlook transforms edits into code.
 
 Next: [Chapter 3: Visual Editing and Code Mapping](03-visual-editing-and-code-mapping.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `docker-compose.yml`
-
-The `docker-compose` module in [`docker-compose.yml`](https://github.com/onlook-dev/onlook/blob/HEAD/docker-compose.yml) handles a key part of this chapter's functionality:
-
-```yml
-name: onlook
-
-services:
-  web-client:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - apps/web/client/.env
-    ports:
-      - "3000:3000"
-    restart: unless-stopped
-    network_mode: host
-
-networks:
-  supabase_network_onlook-web:
-    external: true
-
-```
-
-This module is important because it defines how Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind implements the patterns covered in this chapter.
 
 ### `docs/next.config.ts`
 
@@ -107,21 +78,46 @@ export default withMDX(nextConfig);
 
 This module is important because it defines how Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind implements the patterns covered in this chapter.
 
-### `eslint.config.js`
+### `docs/tsconfig.json`
 
-The `eslint.config` module in [`eslint.config.js`](https://github.com/onlook-dev/onlook/blob/HEAD/eslint.config.js) handles a key part of this chapter's functionality:
+The `tsconfig` module in [`docs/tsconfig.json`](https://github.com/onlook-dev/onlook/blob/HEAD/docs/tsconfig.json) handles a key part of this chapter's functionality:
 
-```js
-import baseConfig from "@onlook/eslint/base";
-
-/** @type {import('typescript-eslint').Config} */
-export default [
-  ...baseConfig,
-  {
-    files: ["tooling/**/*.js"],
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ESNext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "paths": {
+      "@/.source": [
+        "./.source/index.ts"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-];
-
 ```
 
 This module is important because it defines how Onlook Tutorial: Visual-First AI Coding for Next.js and Tailwind implements the patterns covered in this chapter.
@@ -131,9 +127,7 @@ This module is important because it defines how Onlook Tutorial: Visual-First AI
 
 ```mermaid
 flowchart TD
-    A[docker-compose]
-    B[next.config]
-    C[eslint.config]
+    A[next.config]
+    B[tsconfig]
     A --> B
-    B --> C
 ```

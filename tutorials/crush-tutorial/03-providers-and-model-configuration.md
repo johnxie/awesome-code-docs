@@ -62,170 +62,168 @@ You now have a predictable strategy for provider selection and model routing in 
 
 Next: [Chapter 4: Permissions and Tool Controls](04-permissions-and-tool-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/cmd/session.go`
+### `internal/app/app.go`
 
-The `runSessionShow` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
+The `Config` function in [`internal/app/app.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
 
 ```go
-	Long:  "Show session details. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:  cobra.ExactArgs(1),
-	RunE:  runSessionShow,
+	LSPManager *lsp.Manager
+
+	config *config.ConfigStore
+
+	serviceEventsWG *sync.WaitGroup
+	eventsCtx       context.Context
+	events          chan tea.Msg
+	tuiWG           *sync.WaitGroup
+
+	// global context and cleanup functions
+	globalCtx          context.Context
+	cleanupFuncs       []func(context.Context) error
+	agentNotifications *pubsub.Broker[notify.Notification]
 }
 
-var sessionLastCmd = &cobra.Command{
-	Use:   "last",
-	Short: "Show most recent session",
-	Long:  "Show the last updated session. Use --json for machine-readable output.",
-	RunE:  runSessionLast,
-}
+// New initializes a new application instance.
+func New(ctx context.Context, conn *sql.DB, store *config.ConfigStore) (*App, error) {
+	q := db.New(conn)
+	sessions := session.NewService(q, conn)
+	messages := message.NewService(q)
+	files := history.NewService(q, conn)
+	cfg := store.Config()
+	skipPermissionsRequests := store.Overrides().SkipPermissionRequests
+	var allowedTools []string
+	if cfg.Permissions != nil && cfg.Permissions.AllowedTools != nil {
+		allowedTools = cfg.Permissions.AllowedTools
+	}
 
-var sessionDeleteCmd = &cobra.Command{
-	Use:     "delete <id>",
-	Aliases: []string{"rm"},
-	Short:   "Delete a session",
-	Long:    "Delete a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:    cobra.ExactArgs(1),
-	RunE:    runSessionDelete,
-}
-
-var sessionRenameCmd = &cobra.Command{
-	Use:   "rename <id> <title>",
-	Short: "Rename a session",
-	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:  cobra.MinimumNArgs(2),
-	RunE:  runSessionRename,
-}
-
-func init() {
-	sessionListCmd.Flags().BoolVar(&sessionListJSON, "json", false, "output in JSON format")
-	sessionShowCmd.Flags().BoolVar(&sessionShowJSON, "json", false, "output in JSON format")
+	app := &App{
+		Sessions:    sessions,
+		Messages:    messages,
+		History:     files,
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/cmd/session.go`
+### `internal/app/app.go`
 
-The `runSessionDelete` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
+The `Store` function in [`internal/app/app.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
 
 ```go
-	Long:    "Delete a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:    cobra.ExactArgs(1),
-	RunE:    runSessionDelete,
+	LSPManager *lsp.Manager
+
+	config *config.ConfigStore
+
+	serviceEventsWG *sync.WaitGroup
+	eventsCtx       context.Context
+	events          chan tea.Msg
+	tuiWG           *sync.WaitGroup
+
+	// global context and cleanup functions
+	globalCtx          context.Context
+	cleanupFuncs       []func(context.Context) error
+	agentNotifications *pubsub.Broker[notify.Notification]
 }
 
-var sessionRenameCmd = &cobra.Command{
-	Use:   "rename <id> <title>",
-	Short: "Rename a session",
-	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:  cobra.MinimumNArgs(2),
-	RunE:  runSessionRename,
-}
+// New initializes a new application instance.
+func New(ctx context.Context, conn *sql.DB, store *config.ConfigStore) (*App, error) {
+	q := db.New(conn)
+	sessions := session.NewService(q, conn)
+	messages := message.NewService(q)
+	files := history.NewService(q, conn)
+	cfg := store.Config()
+	skipPermissionsRequests := store.Overrides().SkipPermissionRequests
+	var allowedTools []string
+	if cfg.Permissions != nil && cfg.Permissions.AllowedTools != nil {
+		allowedTools = cfg.Permissions.AllowedTools
+	}
 
-func init() {
-	sessionListCmd.Flags().BoolVar(&sessionListJSON, "json", false, "output in JSON format")
-	sessionShowCmd.Flags().BoolVar(&sessionShowJSON, "json", false, "output in JSON format")
-	sessionLastCmd.Flags().BoolVar(&sessionLastJSON, "json", false, "output in JSON format")
-	sessionDeleteCmd.Flags().BoolVar(&sessionDeleteJSON, "json", false, "output in JSON format")
-	sessionRenameCmd.Flags().BoolVar(&sessionRenameJSON, "json", false, "output in JSON format")
-	sessionCmd.AddCommand(sessionListCmd)
-	sessionCmd.AddCommand(sessionShowCmd)
-	sessionCmd.AddCommand(sessionLastCmd)
-	sessionCmd.AddCommand(sessionDeleteCmd)
-	sessionCmd.AddCommand(sessionRenameCmd)
-}
-
-type sessionServices struct {
-	sessions session.Service
-	messages message.Service
-}
-
-func sessionSetup(cmd *cobra.Command) (context.Context, *sessionServices, func(), error) {
+	app := &App{
+		Sessions:    sessions,
+		Messages:    messages,
+		History:     files,
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
-### `internal/cmd/session.go`
+### `internal/app/app.go`
 
-The `runSessionRename` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
+The `Events` function in [`internal/app/app.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
 
 ```go
-	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:  cobra.MinimumNArgs(2),
-	RunE:  runSessionRename,
+	config *config.ConfigStore
+
+	serviceEventsWG *sync.WaitGroup
+	eventsCtx       context.Context
+	events          chan tea.Msg
+	tuiWG           *sync.WaitGroup
+
+	// global context and cleanup functions
+	globalCtx          context.Context
+	cleanupFuncs       []func(context.Context) error
+	agentNotifications *pubsub.Broker[notify.Notification]
 }
 
-func init() {
-	sessionListCmd.Flags().BoolVar(&sessionListJSON, "json", false, "output in JSON format")
-	sessionShowCmd.Flags().BoolVar(&sessionShowJSON, "json", false, "output in JSON format")
-	sessionLastCmd.Flags().BoolVar(&sessionLastJSON, "json", false, "output in JSON format")
-	sessionDeleteCmd.Flags().BoolVar(&sessionDeleteJSON, "json", false, "output in JSON format")
-	sessionRenameCmd.Flags().BoolVar(&sessionRenameJSON, "json", false, "output in JSON format")
-	sessionCmd.AddCommand(sessionListCmd)
-	sessionCmd.AddCommand(sessionShowCmd)
-	sessionCmd.AddCommand(sessionLastCmd)
-	sessionCmd.AddCommand(sessionDeleteCmd)
-	sessionCmd.AddCommand(sessionRenameCmd)
+// New initializes a new application instance.
+func New(ctx context.Context, conn *sql.DB, store *config.ConfigStore) (*App, error) {
+	q := db.New(conn)
+	sessions := session.NewService(q, conn)
+	messages := message.NewService(q)
+	files := history.NewService(q, conn)
+	cfg := store.Config()
+	skipPermissionsRequests := store.Overrides().SkipPermissionRequests
+	var allowedTools []string
+	if cfg.Permissions != nil && cfg.Permissions.AllowedTools != nil {
+		allowedTools = cfg.Permissions.AllowedTools
+	}
+
+	app := &App{
+		Sessions:    sessions,
+		Messages:    messages,
+		History:     files,
+		Permissions: permission.NewPermissionService(store.WorkingDir(), skipPermissionsRequests, allowedTools),
+		FileTracker: filetracker.NewService(q),
+```
+
+This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
+
+### `internal/app/app.go`
+
+The `SendEvent` function in [`internal/app/app.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/app/app.go) handles a key part of this chapter's functionality:
+
+```go
 }
 
-type sessionServices struct {
-	sessions session.Service
-	messages message.Service
+// SendEvent pushes a message into the application's events channel.
+// It is non-blocking; the message is dropped if the channel is full.
+func (app *App) SendEvent(msg tea.Msg) {
+	select {
+	case app.events <- msg:
+	default:
+	}
 }
 
-func sessionSetup(cmd *cobra.Command) (context.Context, *sessionServices, func(), error) {
-	dataDir, _ := cmd.Flags().GetString("data-dir")
-	ctx := cmd.Context()
+// AgentNotifications returns the broker for agent notification events.
+func (app *App) AgentNotifications() *pubsub.Broker[notify.Notification] {
+	return app.agentNotifications
+}
 
-	if dataDir == "" {
-		cfg, err := config.Init("", "", false)
-		if err != nil {
-			return nil, nil, nil, fmt.Errorf("failed to initialize config: %w", err)
+// resolveSession resolves which session to use for a non-interactive run
+// If continueSessionID is set, it looks up that session by ID
+// If useLast is set, it returns the most recently updated top-level session
+// Otherwise, it creates a new session
+func (app *App) resolveSession(ctx context.Context, continueSessionID string, useLast bool) (session.Session, error) {
+	switch {
+	case continueSessionID != "":
+		if app.Sessions.IsAgentToolSession(continueSessionID) {
+			return session.Session{}, fmt.Errorf("cannot continue an agent tool session: %s", continueSessionID)
 		}
-```
-
-This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
-
-### `internal/cmd/session.go`
-
-The `runSessionLast` function in [`internal/cmd/session.go`](https://github.com/charmbracelet/crush/blob/HEAD/internal/cmd/session.go) handles a key part of this chapter's functionality:
-
-```go
-	Short: "Show most recent session",
-	Long:  "Show the last updated session. Use --json for machine-readable output.",
-	RunE:  runSessionLast,
-}
-
-var sessionDeleteCmd = &cobra.Command{
-	Use:     "delete <id>",
-	Aliases: []string{"rm"},
-	Short:   "Delete a session",
-	Long:    "Delete a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:    cobra.ExactArgs(1),
-	RunE:    runSessionDelete,
-}
-
-var sessionRenameCmd = &cobra.Command{
-	Use:   "rename <id> <title>",
-	Short: "Rename a session",
-	Long:  "Rename a session by ID. Use --json for machine-readable output. ID can be a UUID, full hash, or hash prefix.",
-	Args:  cobra.MinimumNArgs(2),
-	RunE:  runSessionRename,
-}
-
-func init() {
-	sessionListCmd.Flags().BoolVar(&sessionListJSON, "json", false, "output in JSON format")
-	sessionShowCmd.Flags().BoolVar(&sessionShowJSON, "json", false, "output in JSON format")
-	sessionLastCmd.Flags().BoolVar(&sessionLastJSON, "json", false, "output in JSON format")
-	sessionDeleteCmd.Flags().BoolVar(&sessionDeleteJSON, "json", false, "output in JSON format")
-	sessionRenameCmd.Flags().BoolVar(&sessionRenameJSON, "json", false, "output in JSON format")
-	sessionCmd.AddCommand(sessionListCmd)
-	sessionCmd.AddCommand(sessionShowCmd)
-	sessionCmd.AddCommand(sessionLastCmd)
-	sessionCmd.AddCommand(sessionDeleteCmd)
+		sess, err := app.Sessions.Get(ctx, continueSessionID)
+		if err != nil {
+			return session.Session{}, fmt.Errorf("session not found: %s", continueSessionID)
+		}
+		if sess.ParentSessionID != "" {
+			return session.Session{}, fmt.Errorf("cannot continue a child session: %s", continueSessionID)
 ```
 
 This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
@@ -235,11 +233,11 @@ This function is important because it defines how Crush Tutorial: Multi-Model Te
 
 ```mermaid
 flowchart TD
-    A[runSessionShow]
-    B[runSessionDelete]
-    C[runSessionRename]
-    D[runSessionLast]
-    E[messagePtrs]
+    A[Config]
+    B[Store]
+    C[Events]
+    D[SendEvent]
+    E[AgentNotifications]
     A --> B
     B --> C
     C --> D

@@ -1479,6 +1479,18 @@ Under the hood, `Chapter 8: Production Deployment, Scaling & Enterprise Configur
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Production Deployment Topology
+
+```mermaid
+flowchart LR
+    A[Reverse Proxy / TLS] --> B[Open WebUI Instances]
+    B --> C[Redis Session Store]
+    B --> D[Persistent Volume]
+    B --> E[LLM Backend Pool]
+    F[Monitoring / Alerts] --> B
+    G[CI/CD Pipeline] --> B
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

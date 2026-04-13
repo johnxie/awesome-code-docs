@@ -810,6 +810,20 @@ After working through this chapter, you should be able to reason about `Chapter 
 
 Use the implementation notes around `problem`, `task`, `OutputField` as your checklist when adapting these patterns to your own repository.
 
+## Advanced DSPy Patterns
+
+```mermaid
+flowchart TD
+    A[Complex task] --> B{Pattern}
+    B -->|Multi-hop| C[Chain multiple retrieval + reasoning steps]
+    B -->|Tool use| D[dspy.ReAct with tool signatures]
+    B -->|Multi-agent| E[Specialized sub-modules per role]
+    C --> F[Final answer]
+    D --> F
+    E --> F
+    F --> G[Each module independently optimizable]
+```
+
 ## How it Works Under the Hood
 
 Under the hood, `Chapter 6: Advanced Patterns - Multi-Hop Reasoning and Tool Integration` usually follows a repeatable control path:

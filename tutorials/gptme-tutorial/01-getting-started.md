@@ -39,170 +39,168 @@ You now have gptme installed and ready for interactive local workflows.
 
 Next: [Chapter 2: Core CLI Workflow and Prompt Patterns](02-core-cli-workflow-and-prompt-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `gptme/prompts.py`
+### `gptme/codeblock.py`
 
-The `get_prompt` function in [`gptme/prompts.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/prompts.py) handles a key part of this chapter's functionality:
+The `Codeblock` class in [`gptme/codeblock.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/codeblock.py) handles a key part of this chapter's functionality:
+
+```py
+
+@dataclass(frozen=True)
+class Codeblock:
+    lang: str
+    content: str
+    path: str | None = None
+    start: int | None = field(default=None, compare=False)
+    fence: str = field(default_factory=lambda: "```", compare=False, repr=False)
+
+    def __post_init__(self):
+        # init path if path is None and lang is pathy
+        if self.path is None and self.is_filename:
+            object.__setattr__(self, "path", self.lang)  # frozen dataclass workaround
+
+    def to_markdown(self) -> str:
+        return f"{self.fence}{self.lang}\n{self.content}\n{self.fence}"
+
+    def to_xml(self) -> str:
+        """Converts codeblock to XML with proper escaping."""
+        # Use quoteattr for attributes to handle quotes and special chars safely
+        # Use xml_escape for content to handle <, >, & characters
+        path_attr = f" path={quoteattr(self.path)}" if self.path else ""
+        return f"<codeblock lang={quoteattr(self.lang)}{path_attr}>\n{xml_escape(self.content)}\n</codeblock>"
+
+    @classmethod
+    @trace_function(name="codeblock.from_markdown", attributes={"component": "parser"})
+    def from_markdown(cls, content: str) -> "Codeblock":
+        stripped = content.strip()
+        fence_len = 0
+
+        # Handle variable-length fences (3+ backticks)
+        start_match = re.match(r"^(`{3,})", stripped)
+```
+
+This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/codeblock.py`
+
+The `workaround` class in [`gptme/codeblock.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/codeblock.py) handles a key part of this chapter's functionality:
+
+```py
+        # init path if path is None and lang is pathy
+        if self.path is None and self.is_filename:
+            object.__setattr__(self, "path", self.lang)  # frozen dataclass workaround
+
+    def to_markdown(self) -> str:
+        return f"{self.fence}{self.lang}\n{self.content}\n{self.fence}"
+
+    def to_xml(self) -> str:
+        """Converts codeblock to XML with proper escaping."""
+        # Use quoteattr for attributes to handle quotes and special chars safely
+        # Use xml_escape for content to handle <, >, & characters
+        path_attr = f" path={quoteattr(self.path)}" if self.path else ""
+        return f"<codeblock lang={quoteattr(self.lang)}{path_attr}>\n{xml_escape(self.content)}\n</codeblock>"
+
+    @classmethod
+    @trace_function(name="codeblock.from_markdown", attributes={"component": "parser"})
+    def from_markdown(cls, content: str) -> "Codeblock":
+        stripped = content.strip()
+        fence_len = 0
+
+        # Handle variable-length fences (3+ backticks)
+        start_match = re.match(r"^(`{3,})", stripped)
+        if start_match:
+            fence_len = len(start_match.group(1))
+            stripped = stripped[fence_len:]
+
+        # Check for closing fence at end - only strip if fence lengths match
+        end_match = re.search(r"(`{3,})$", stripped.strip())
+        if end_match:
+            end_fence_len = len(end_match.group(1))
+            # Only strip closing fence if it matches opening fence length (CommonMark spec)
+            if fence_len == end_fence_len:
+```
+
+This class is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `scripts/demo_capture.py`
+
+The `check_tool` function in [`scripts/demo_capture.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/demo_capture.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_prompt(
-    tools: list[ToolSpec],
-    tool_format: ToolFormat = "markdown",
-    prompt: PromptType | str = "full",
-    interactive: bool = True,
-    model: str | None = None,
-    workspace: Path | None = None,
-    agent_path: Path | None = None,
-    context_mode: ContextMode | None = None,
-    context_include: list[str] | None = None,
-) -> list[Message]:
-    """
-    Get the initial system prompt.
+def check_tool(name: str) -> bool:
+    """Check if a tool is available."""
+    return shutil.which(name) is not None
 
-    The prompt is assembled from several layers:
 
-    1. **Core prompt** (always included):
+def check_prerequisites(modes: list[str]) -> list[str]:
+    """Check required tools and return list of missing ones."""
+    missing = []
 
-       - Base gptme identity and instructions
-       - User identity/preferences (interactive only, from user config ``[user]``;
-         skipped in ``--non-interactive`` since no human is present)
-       - Tool descriptions (when tools are loaded, controlled by ``--tools``)
+    if "terminal" in modes:
+        if not check_tool("asciinema"):
+            missing.append("asciinema (pip install asciinema)")
+        if not check_tool("gptme"):
+            missing.append("gptme (pip install gptme)")
 
-    2. **Context** (controlled by ``--context``, independent of ``--non-interactive``):
-
-       - ``files``: static files from project config (gptme.toml ``[prompt] files``)
-         and user config (``~/.config/gptme/config.toml`` ``[prompt] files``).
-         Both sources are merged and deduplicated.
-       - ``cmd``: dynamic output of ``context_cmd`` in gptme.toml (project-level only,
-         no user-level equivalent). Changes most often, least cacheable.
+    if "screenshots" in modes or "recording" in modes:
+        try:
+            # Check if playwright is importable
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    "from playwright.sync_api import sync_playwright",
+                ],
+                capture_output=True,
+                check=True,
+            )
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            missing.append(
+                "playwright (pip install playwright && playwright install chromium)"
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `gptme/prompts.py`
+### `scripts/demo_capture.py`
 
-The `prompt_full` function in [`gptme/prompts.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/prompts.py) handles a key part of this chapter's functionality:
-
-```py
-        if include_tools:
-            core_msgs = list(
-                prompt_full(
-                    interactive,
-                    tools,
-                    tool_format,
-                    model,
-                    agent_name=agent_name,
-                    workspace=workspace,
-                )
-            )
-        else:
-            # Full mode without tools
-            # Note: skills summary is intentionally excluded here since skills
-            # require tool access (e.g., `cat <path>`) to load on-demand
-            core_msgs = list(
-                prompt_gptme(interactive, model, agent_name, tool_format=tool_format)
-            )
-            if interactive:
-                core_msgs.extend(prompt_user(tool_format=tool_format))
-            core_msgs.extend(prompt_project(tool_format=tool_format))
-            core_msgs.extend(prompt_systeminfo(workspace, tool_format=tool_format))
-            core_msgs.extend(prompt_timeinfo(tool_format=tool_format))
-    elif prompt == "short":
-        if include_tools:
-            core_msgs = list(
-                prompt_short(interactive, tools, tool_format, agent_name=agent_name)
-            )
-        else:
-            core_msgs = list(
-                prompt_gptme(interactive, model, agent_name, tool_format=tool_format)
-            )
-```
-
-This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `gptme/prompts.py`
-
-The `prompt_short` function in [`gptme/prompts.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/prompts.py) handles a key part of this chapter's functionality:
+The `check_prerequisites` function in [`scripts/demo_capture.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/demo_capture.py) handles a key part of this chapter's functionality:
 
 ```py
-        if include_tools:
-            core_msgs = list(
-                prompt_short(interactive, tools, tool_format, agent_name=agent_name)
+
+
+def check_prerequisites(modes: list[str]) -> list[str]:
+    """Check required tools and return list of missing ones."""
+    missing = []
+
+    if "terminal" in modes:
+        if not check_tool("asciinema"):
+            missing.append("asciinema (pip install asciinema)")
+        if not check_tool("gptme"):
+            missing.append("gptme (pip install gptme)")
+
+    if "screenshots" in modes or "recording" in modes:
+        try:
+            # Check if playwright is importable
+            subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    "from playwright.sync_api import sync_playwright",
+                ],
+                capture_output=True,
+                check=True,
             )
-        else:
-            core_msgs = list(
-                prompt_gptme(interactive, model, agent_name, tool_format=tool_format)
-            )
-    else:
-        core_msgs = [Message("system", prompt)]
-        if tools and include_tools:
-            core_msgs.extend(
-                prompt_tools(tools=tools, tool_format=tool_format, model=model)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            missing.append(
+                "playwright (pip install playwright && playwright install chromium)"
             )
 
-    # TODO: generate context_cmd outputs separately and put them last in a "dynamic context" section
-    #       with context known not to cache well across conversation starts, so that cache points can be set before and better utilized/changed less frequently.
-    #       probably together with chat history since it's also dynamic/live context.
-    #       as opposed to static (core/system prompt) and semi-static (workspace/project prompt, like files).
+        if not check_tool("gptme-server"):
+            missing.append("gptme-server (pip install gptme)")
 
-    # Generate workspace messages separately (if included)
-    workspace_msgs = (
-        list(prompt_workspace(workspace, include_context_cmd=include_context_cmd))
-        if include_workspace and workspace and workspace != agent_path
-        else []
-    )
-
-    # Agent config workspace (separate from project, only with --agent-path)
-    agent_config_msgs = (
-        list(
-            prompt_workspace(
-                agent_path,
-```
-
-This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `gptme/prompts.py`
-
-The `prompt_gptme` function in [`gptme/prompts.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/prompts.py) handles a key part of this chapter's functionality:
-
-```py
-        # Selective mode with no tools loaded: base prompt only
-        core_msgs = list(
-            prompt_gptme(interactive, model, agent_name, tool_format=tool_format)
-        )
-    elif prompt == "full":
-        if include_tools:
-            core_msgs = list(
-                prompt_full(
-                    interactive,
-                    tools,
-                    tool_format,
-                    model,
-                    agent_name=agent_name,
-                    workspace=workspace,
-                )
-            )
-        else:
-            # Full mode without tools
-            # Note: skills summary is intentionally excluded here since skills
-            # require tool access (e.g., `cat <path>`) to load on-demand
-            core_msgs = list(
-                prompt_gptme(interactive, model, agent_name, tool_format=tool_format)
-            )
-            if interactive:
-                core_msgs.extend(prompt_user(tool_format=tool_format))
-            core_msgs.extend(prompt_project(tool_format=tool_format))
-            core_msgs.extend(prompt_systeminfo(workspace, tool_format=tool_format))
-            core_msgs.extend(prompt_timeinfo(tool_format=tool_format))
-    elif prompt == "short":
-        if include_tools:
-            core_msgs = list(
-                prompt_short(interactive, tools, tool_format, agent_name=agent_name)
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This function is important because it defines how gptme Tutorial: Open-Source Te
 
 ```mermaid
 flowchart TD
-    A[get_prompt]
-    B[prompt_full]
-    C[prompt_short]
-    D[prompt_gptme]
-    E[prompt_user]
+    A[Codeblock]
+    B[workaround]
+    C[check_tool]
+    D[check_prerequisites]
+    E[capture_terminal_demo]
     A --> B
     B --> C
     C --> D

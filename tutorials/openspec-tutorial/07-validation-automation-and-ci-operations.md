@@ -60,184 +60,182 @@ You now have an actionable quality-gate model for integrating OpenSpec into CI/C
 
 Next: [Chapter 8: Migration, Governance, and Team Adoption](08-migration-governance-and-team-adoption.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/commands/completion.ts`
+### `src/core/project-config.ts`
 
-The `GenerateOptions` interface in [`src/commands/completion.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/completion.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { getArchivedChangeIds } from '../utils/item-discovery.js';
-
-interface GenerateOptions {
-  shell?: string;
-}
-
-interface InstallOptions {
-  shell?: string;
-  verbose?: boolean;
-}
-
-interface UninstallOptions {
-  shell?: string;
-  yes?: boolean;
-}
-
-interface CompleteOptions {
-  type: string;
-}
-
-/**
- * Command for managing shell completions for OpenSpec CLI
- */
-export class CompletionCommand {
-  private completionProvider: CompletionProvider;
-
-  constructor() {
-    this.completionProvider = new CompletionProvider();
-  }
-  /**
-   * Resolve shell parameter or exit with error
-   *
-```
-
-This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/completion.ts`
-
-The `InstallOptions` interface in [`src/commands/completion.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/completion.ts) handles a key part of this chapter's functionality:
+The `suggestSchemas` function in [`src/core/project-config.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/project-config.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
-
-interface InstallOptions {
-  shell?: string;
-  verbose?: boolean;
-}
-
-interface UninstallOptions {
-  shell?: string;
-  yes?: boolean;
-}
-
-interface CompleteOptions {
-  type: string;
-}
-
-/**
- * Command for managing shell completions for OpenSpec CLI
+ * @returns Error message with suggestions and available schemas
  */
-export class CompletionCommand {
-  private completionProvider: CompletionProvider;
-
-  constructor() {
-    this.completionProvider = new CompletionProvider();
-  }
-  /**
-   * Resolve shell parameter or exit with error
-   *
-   * @param shell - The shell parameter (may be undefined)
-   * @param operationName - Name of the operation (for error messages)
-   * @returns Resolved shell or null if should exit
-   */
-```
-
-This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/completion.ts`
-
-The `UninstallOptions` interface in [`src/commands/completion.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/completion.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface UninstallOptions {
-  shell?: string;
-  yes?: boolean;
-}
-
-interface CompleteOptions {
-  type: string;
-}
-
-/**
- * Command for managing shell completions for OpenSpec CLI
- */
-export class CompletionCommand {
-  private completionProvider: CompletionProvider;
-
-  constructor() {
-    this.completionProvider = new CompletionProvider();
-  }
-  /**
-   * Resolve shell parameter or exit with error
-   *
-   * @param shell - The shell parameter (may be undefined)
-   * @param operationName - Name of the operation (for error messages)
-   * @returns Resolved shell or null if should exit
-   */
-  private resolveShellOrExit(shell: string | undefined, operationName: string): SupportedShell | null {
-    const normalizedShell = this.normalizeShell(shell);
-
-    if (!normalizedShell) {
-      const detectionResult = detectShell();
-```
-
-This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
-
-### `src/commands/completion.ts`
-
-The `CompleteOptions` interface in [`src/commands/completion.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/commands/completion.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-interface CompleteOptions {
-  type: string;
-}
-
-/**
- * Command for managing shell completions for OpenSpec CLI
- */
-export class CompletionCommand {
-  private completionProvider: CompletionProvider;
-
-  constructor() {
-    this.completionProvider = new CompletionProvider();
-  }
-  /**
-   * Resolve shell parameter or exit with error
-   *
-   * @param shell - The shell parameter (may be undefined)
-   * @param operationName - Name of the operation (for error messages)
-   * @returns Resolved shell or null if should exit
-   */
-  private resolveShellOrExit(shell: string | undefined, operationName: string): SupportedShell | null {
-    const normalizedShell = this.normalizeShell(shell);
-
-    if (!normalizedShell) {
-      const detectionResult = detectShell();
-
-      if (detectionResult.shell && CompletionFactory.isSupported(detectionResult.shell)) {
-        return detectionResult.shell;
+export function suggestSchemas(
+  invalidSchemaName: string,
+  availableSchemas: { name: string; isBuiltIn: boolean }[]
+): string {
+  // Simple fuzzy match: Levenshtein distance
+  function levenshtein(a: string, b: string): number {
+    const matrix: number[][] = [];
+    for (let i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
       }
+    }
+    return matrix[b.length][a.length];
+  }
 
+  // Find closest matches (distance <= 3)
 ```
 
-This interface is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/project-config.ts`
+
+The `levenshtein` function in [`src/core/project-config.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/project-config.ts) handles a key part of this chapter's functionality:
+
+```ts
+): string {
+  // Simple fuzzy match: Levenshtein distance
+  function levenshtein(a: string, b: string): number {
+    const matrix: number[][] = [];
+    for (let i = 0; i <= b.length; i++) {
+      matrix[i] = [i];
+    }
+    for (let j = 0; j <= a.length; j++) {
+      matrix[0][j] = j;
+    }
+    for (let i = 1; i <= b.length; i++) {
+      for (let j = 1; j <= a.length; j++) {
+        if (b.charAt(i - 1) === a.charAt(j - 1)) {
+          matrix[i][j] = matrix[i - 1][j - 1];
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1,
+            matrix[i][j - 1] + 1,
+            matrix[i - 1][j] + 1
+          );
+        }
+      }
+    }
+    return matrix[b.length][a.length];
+  }
+
+  // Find closest matches (distance <= 3)
+  const suggestions = availableSchemas
+    .map((s) => ({ ...s, distance: levenshtein(invalidSchemaName, s.name) }))
+    .filter((s) => s.distance <= 3)
+    .sort((a, b) => a.distance - b.distance)
+    .slice(0, 3);
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/view.ts`
+
+The `ViewCommand` class in [`src/core/view.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/view.ts) handles a key part of this chapter's functionality:
+
+```ts
+import { MarkdownParser } from './parsers/markdown-parser.js';
+
+export class ViewCommand {
+  async execute(targetPath: string = '.'): Promise<void> {
+    const openspecDir = path.join(targetPath, 'openspec');
+    
+    if (!fs.existsSync(openspecDir)) {
+      console.error(chalk.red('No openspec directory found'));
+      process.exit(1);
+    }
+
+    console.log(chalk.bold('\nOpenSpec Dashboard\n'));
+    console.log('═'.repeat(60));
+
+    // Get changes and specs data
+    const changesData = await this.getChangesData(openspecDir);
+    const specsData = await this.getSpecsData(openspecDir);
+
+    // Display summary metrics
+    this.displaySummary(changesData, specsData);
+
+    // Display draft changes
+    if (changesData.draft.length > 0) {
+      console.log(chalk.bold.gray('\nDraft Changes'));
+      console.log('─'.repeat(60));
+      changesData.draft.forEach((change) => {
+        console.log(`  ${chalk.gray('○')} ${change.name}`);
+      });
+    }
+
+    // Display active changes
+    if (changesData.active.length > 0) {
+```
+
+This class is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
+
+### `src/core/profile-sync-drift.ts`
+
+The `toKnownWorkflows` function in [`src/core/profile-sync-drift.ts`](https://github.com/Fission-AI/OpenSpec/blob/HEAD/src/core/profile-sync-drift.ts) handles a key part of this chapter's functionality:
+
+```ts
+};
+
+function toKnownWorkflows(workflows: readonly string[]): WorkflowId[] {
+  return workflows.filter(
+    (workflow): workflow is WorkflowId =>
+      (ALL_WORKFLOWS as readonly string[]).includes(workflow)
+  );
+}
+
+/**
+ * Checks whether a tool has at least one generated OpenSpec command file.
+ */
+export function toolHasAnyConfiguredCommand(projectPath: string, toolId: string): boolean {
+  const adapter = CommandAdapterRegistry.get(toolId);
+  if (!adapter) return false;
+
+  for (const commandId of COMMAND_IDS) {
+    const cmdPath = adapter.getFilePath(commandId);
+    const fullPath = path.isAbsolute(cmdPath) ? cmdPath : path.join(projectPath, cmdPath);
+    if (fs.existsSync(fullPath)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * Returns tools with at least one generated command file on disk.
+ */
+export function getCommandConfiguredTools(projectPath: string): string[] {
+  return AI_TOOLS
+```
+
+This function is important because it defines how OpenSpec Tutorial: Spec-Driven Workflows for AI Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[GenerateOptions]
-    B[InstallOptions]
-    C[UninstallOptions]
-    D[CompleteOptions]
-    E[readProjectConfig]
+    A[suggestSchemas]
+    B[levenshtein]
+    C[ViewCommand]
+    D[toKnownWorkflows]
+    E[toolHasAnyConfiguredCommand]
     A --> B
     B --> C
     C --> D

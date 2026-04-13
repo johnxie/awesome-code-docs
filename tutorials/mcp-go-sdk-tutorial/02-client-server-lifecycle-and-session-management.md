@@ -46,184 +46,182 @@ You now have lifecycle patterns that reduce race conditions and hanging sessions
 
 Next: [Chapter 3: Transports: stdio, Streamable HTTP, and Custom Flows](03-transports-stdio-streamable-http-and-custom-flows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp/sse.go`
+### `mcp/content.go`
 
-The `Write` function in [`mcp/sse.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/sse.go) handles a key part of this chapter's functionality:
+The `fromWire` function in [`mcp/content.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/content.go) handles a key part of this chapter's functionality:
 
 ```go
-// Therefore, the each new GET request hands off its responsewriter to an
-// [SSEServerTransport] type that abstracts the transport as follows:
-//  - Write writes a new event to the responseWriter, or fails if the GET has
-//  exited.
-//  - Read reads off a message queue that is pushed to via POST requests.
-//  - Close causes the hanging GET to exit.
-
-// SSEHandler is an http.Handler that serves SSE-based MCP sessions as defined by
-// the [2024-11-05 version] of the MCP spec.
-//
-// [2024-11-05 version]: https://modelcontextprotocol.io/specification/2024-11-05/basic/transports
-type SSEHandler struct {
-	getServer    func(request *http.Request) *Server
-	opts         SSEOptions
-	onConnection func(*ServerSession) // for testing; must not block
-
-	mu       sync.Mutex
-	sessions map[string]*SSEServerTransport
+type Content interface {
+	MarshalJSON() ([]byte, error)
+	fromWire(*wireContent)
 }
 
-// SSEOptions specifies options for an [SSEHandler].
-// for now, it is empty, but may be extended in future.
-// https://github.com/modelcontextprotocol/go-sdk/issues/507
-type SSEOptions struct{}
+// TextContent is a textual content.
+type TextContent struct {
+	Text        string
+	Meta        Meta
+	Annotations *Annotations
+}
 
-// NewSSEHandler returns a new [SSEHandler] that creates and manages MCP
-// sessions created via incoming HTTP requests.
-//
-// Sessions are created when the client issues a GET request to the server,
-// which must accept text/event-stream responses (server-sent events).
-// For each such request, a new [SSEServerTransport] is created with a distinct
-// messages endpoint, and connected to the server returned by getServer.
+func (c *TextContent) MarshalJSON() ([]byte, error) {
+	// Custom wire format to ensure the required "text" field is always included, even when empty.
+	wire := struct {
+		Type        string       `json:"type"`
+		Text        string       `json:"text"`
+		Meta        Meta         `json:"_meta,omitempty"`
+		Annotations *Annotations `json:"annotations,omitempty"`
+	}{
+		Type:        "text",
+		Text:        c.Text,
+		Meta:        c.Meta,
+		Annotations: c.Annotations,
+	}
+	return json.Marshal(wire)
+}
+
+func (c *TextContent) fromWire(wire *wireContent) {
+	c.Text = wire.Text
+	c.Meta = wire.Meta
+	c.Annotations = wire.Annotations
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/sse.go`
+### `mcp/content.go`
 
-The `Close` function in [`mcp/sse.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/sse.go) handles a key part of this chapter's functionality:
+The `unmarshalContent` function in [`mcp/content.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/content.go) handles a key part of this chapter's functionality:
 
 ```go
-//  exited.
-//  - Read reads off a message queue that is pushed to via POST requests.
-//  - Close causes the hanging GET to exit.
-
-// SSEHandler is an http.Handler that serves SSE-based MCP sessions as defined by
-// the [2024-11-05 version] of the MCP spec.
-//
-// [2024-11-05 version]: https://modelcontextprotocol.io/specification/2024-11-05/basic/transports
-type SSEHandler struct {
-	getServer    func(request *http.Request) *Server
-	opts         SSEOptions
-	onConnection func(*ServerSession) // for testing; must not block
-
-	mu       sync.Mutex
-	sessions map[string]*SSEServerTransport
 }
 
-// SSEOptions specifies options for an [SSEHandler].
-// for now, it is empty, but may be extended in future.
-// https://github.com/modelcontextprotocol/go-sdk/issues/507
-type SSEOptions struct{}
+// unmarshalContent unmarshals JSON that is either a single content object or
+// an array of content objects. A single object is wrapped in a one-element slice.
+func unmarshalContent(raw json.RawMessage, allow map[string]bool) ([]Content, error) {
+	if len(raw) == 0 || string(raw) == "null" {
+		return nil, fmt.Errorf("nil content")
+	}
+	// Try array first, then fall back to single object.
+	var wires []*wireContent
+	if err := internaljson.Unmarshal(raw, &wires); err == nil {
+		return contentsFromWire(wires, allow)
+	}
+	var wire wireContent
+	if err := internaljson.Unmarshal(raw, &wire); err != nil {
+		return nil, err
+	}
+	c, err := contentFromWire(&wire, allow)
+	if err != nil {
+		return nil, err
+	}
+	return []Content{c}, nil
+}
 
-// NewSSEHandler returns a new [SSEHandler] that creates and manages MCP
-// sessions created via incoming HTTP requests.
-//
-// Sessions are created when the client issues a GET request to the server,
-// which must accept text/event-stream responses (server-sent events).
-// For each such request, a new [SSEServerTransport] is created with a distinct
-// messages endpoint, and connected to the server returned by getServer.
-// The SSEHandler also handles requests to the message endpoints, by
-// delegating them to the relevant server transport.
-//
+func contentsFromWire(wires []*wireContent, allow map[string]bool) ([]Content, error) {
+	blocks := make([]Content, 0, len(wires))
+	for _, wire := range wires {
+		block, err := contentFromWire(wire, allow)
+		if err != nil {
+			return nil, err
+		}
+		blocks = append(blocks, block)
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/sse.go`
+### `mcp/content.go`
 
-The `for` interface in [`mcp/sse.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/sse.go) handles a key part of this chapter's functionality:
-
-```go
-)
-
-// This file implements support for SSE (HTTP with server-sent events)
-// transport server and client.
-// https://modelcontextprotocol.io/specification/2024-11-05/basic/transports
-//
-// The transport is simple, at least relative to the new streamable transport
-// introduced in the 2025-03-26 version of the spec. In short:
-//
-//  1. Sessions are initiated via a hanging GET request, which streams
-//     server->client messages as SSE 'message' events.
-//  2. The first event in the SSE stream must be an 'endpoint' event that
-//     informs the client of the session endpoint.
-//  3. The client POSTs client->server messages to the session endpoint.
-//
-// Therefore, the each new GET request hands off its responsewriter to an
-// [SSEServerTransport] type that abstracts the transport as follows:
-//  - Write writes a new event to the responseWriter, or fails if the GET has
-//  exited.
-//  - Read reads off a message queue that is pushed to via POST requests.
-//  - Close causes the hanging GET to exit.
-
-// SSEHandler is an http.Handler that serves SSE-based MCP sessions as defined by
-// the [2024-11-05 version] of the MCP spec.
-//
-// [2024-11-05 version]: https://modelcontextprotocol.io/specification/2024-11-05/basic/transports
-type SSEHandler struct {
-	getServer    func(request *http.Request) *Server
-	opts         SSEOptions
-	onConnection func(*ServerSession) // for testing; must not block
-
-	mu       sync.Mutex
-```
-
-This interface is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
-
-### `mcp/sse.go`
-
-The `from` interface in [`mcp/sse.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/sse.go) handles a key part of this chapter's functionality:
+The `contentsFromWire` function in [`mcp/content.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/content.go) handles a key part of this chapter's functionality:
 
 ```go
-// When connected, it returns the following [Connection] implementation:
-//   - Writes are SSE 'message' events to the GET response.
-//   - Reads are received from POSTs to the session endpoint, via
-//     [SSEServerTransport.ServeHTTP].
-//   - Close terminates the hanging GET.
-//
-// The transport is itself an [http.Handler]. It is the caller's responsibility
-// to ensure that the resulting transport serves HTTP requests on the given
-// session endpoint.
-//
-// Each SSEServerTransport may be connected (via [Server.Connect]) at most
-// once, since [SSEServerTransport.ServeHTTP] serves messages to the connected
-// session.
-//
-// Most callers should instead use an [SSEHandler], which transparently handles
-// the delegation to SSEServerTransports.
-type SSEServerTransport struct {
-	// Endpoint is the endpoint for this session, where the client can POST
-	// messages.
-	Endpoint string
+	var wires []*wireContent
+	if err := internaljson.Unmarshal(raw, &wires); err == nil {
+		return contentsFromWire(wires, allow)
+	}
+	var wire wireContent
+	if err := internaljson.Unmarshal(raw, &wire); err != nil {
+		return nil, err
+	}
+	c, err := contentFromWire(&wire, allow)
+	if err != nil {
+		return nil, err
+	}
+	return []Content{c}, nil
+}
 
-	// Response is the hanging response body to the incoming GET request.
-	Response http.ResponseWriter
+func contentsFromWire(wires []*wireContent, allow map[string]bool) ([]Content, error) {
+	blocks := make([]Content, 0, len(wires))
+	for _, wire := range wires {
+		block, err := contentFromWire(wire, allow)
+		if err != nil {
+			return nil, err
+		}
+		blocks = append(blocks, block)
+	}
+	return blocks, nil
+}
 
-	// incoming is the queue of incoming messages.
-	// It is never closed, and by convention, incoming is non-nil if and only if
-	// the transport is connected.
-	incoming chan jsonrpc.Message
-
-	// We must guard both pushes to the incoming queue and writes to the response
-	// writer, because incoming POST requests are arbitrarily concurrent and we
-	// need to ensure we don't write push to the queue, or write to the
+func contentFromWire(wire *wireContent, allow map[string]bool) (Content, error) {
+	if wire == nil {
+		return nil, fmt.Errorf("nil content")
+	}
+	if allow != nil && !allow[wire.Type] {
 ```
 
-This interface is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
+
+### `mcp/content.go`
+
+The `contentFromWire` function in [`mcp/content.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/content.go) handles a key part of this chapter's functionality:
+
+```go
+	c.IsError = wire.IsError
+	c.Meta = wire.Meta
+	// Content is handled separately in contentFromWire due to nested content
+}
+
+// ResourceContents contains the contents of a specific resource or
+// sub-resource.
+type ResourceContents struct {
+	URI      string `json:"uri"`
+	MIMEType string `json:"mimeType,omitempty"`
+	Text     string `json:"text,omitempty"`
+	Blob     []byte `json:"blob,omitzero"`
+	Meta     Meta   `json:"_meta,omitempty"`
+}
+
+// wireContent is the wire format for content.
+// It represents the protocol types TextContent, ImageContent, AudioContent,
+// ResourceLink, EmbeddedResource, ToolUseContent, and ToolResultContent.
+// The Type field distinguishes them. In the protocol, each type has a constant
+// value for the field.
+type wireContent struct {
+	Type              string            `json:"type"`
+	Text              string            `json:"text,omitempty"`              // TextContent
+	MIMEType          string            `json:"mimeType,omitempty"`          // ImageContent, AudioContent, ResourceLink
+	Data              []byte            `json:"data,omitempty"`              // ImageContent, AudioContent
+	Resource          *ResourceContents `json:"resource,omitempty"`          // EmbeddedResource
+	URI               string            `json:"uri,omitempty"`               // ResourceLink
+	Name              string            `json:"name,omitempty"`              // ResourceLink, ToolUseContent
+	Title             string            `json:"title,omitempty"`             // ResourceLink
+	Description       string            `json:"description,omitempty"`       // ResourceLink
+	Size              *int64            `json:"size,omitempty"`              // ResourceLink
+	Meta              Meta              `json:"_meta,omitempty"`             // all types
+```
+
+This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[Write]
-    B[Close]
-    C[for]
-    D[from]
-    E[Empty]
+    A[fromWire]
+    B[unmarshalContent]
+    C[contentsFromWire]
+    D[contentFromWire]
+    E[NewSSEHandler]
     A --> B
     B --> C
     C --> D

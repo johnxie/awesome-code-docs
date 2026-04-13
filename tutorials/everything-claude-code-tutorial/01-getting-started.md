@@ -52,170 +52,168 @@ You now have a functioning baseline configuration.
 
 Next: [Chapter 2: Architecture and Component Topology](02-architecture-and-component-topology.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `isValidSessionName` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `normalizeScope` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
-const DEFAULT_COMPACT_KEEP_TURNS = 20;
+];
 
-function isValidSessionName(name) {
-  return typeof name === 'string' && name.length > 0 && SESSION_NAME_RE.test(name);
-}
-
-function getClawDir() {
-  return path.join(os.homedir(), '.claude', 'claw');
-}
-
-function getSessionPath(name) {
-  return path.join(getClawDir(), `${name}.md`);
-}
-
-function listSessions(dir) {
-  const clawDir = dir || getClawDir();
-  if (!fs.existsSync(clawDir)) return [];
-  return fs.readdirSync(clawDir)
-    .filter(f => f.endsWith('.md'))
-    .map(f => f.replace(/\.md$/, ''));
-}
-
-function loadHistory(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8');
-  } catch {
-    return '';
+function normalizeScope(scope) {
+  const value = (scope || 'repo').toLowerCase();
+  if (!['repo', 'hooks', 'skills', 'commands', 'agents'].includes(value)) {
+    throw new Error(`Invalid scope: ${scope}`);
   }
+  return value;
 }
 
-function appendTurn(filePath, role, content, timestamp) {
-  const ts = timestamp || new Date().toISOString();
+function parseArgs(argv) {
+  const args = argv.slice(2);
+  const parsed = {
+    scope: 'repo',
+    format: 'text',
+    help: false,
+    root: path.resolve(process.env.AUDIT_ROOT || process.cwd()),
+  };
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
+
+    if (arg === '--help' || arg === '-h') {
+      parsed.help = true;
+      continue;
+    }
+
+    if (arg === '--format') {
+      parsed.format = (args[index + 1] || '').toLowerCase();
+      index += 1;
+      continue;
+    }
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `getClawDir` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `parseArgs` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function getClawDir() {
-  return path.join(os.homedir(), '.claude', 'claw');
-}
+function parseArgs(argv) {
+  const args = argv.slice(2);
+  const parsed = {
+    scope: 'repo',
+    format: 'text',
+    help: false,
+    root: path.resolve(process.env.AUDIT_ROOT || process.cwd()),
+  };
 
-function getSessionPath(name) {
-  return path.join(getClawDir(), `${name}.md`);
-}
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index];
 
-function listSessions(dir) {
-  const clawDir = dir || getClawDir();
-  if (!fs.existsSync(clawDir)) return [];
-  return fs.readdirSync(clawDir)
-    .filter(f => f.endsWith('.md'))
-    .map(f => f.replace(/\.md$/, ''));
-}
+    if (arg === '--help' || arg === '-h') {
+      parsed.help = true;
+      continue;
+    }
 
-function loadHistory(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8');
-  } catch {
-    return '';
-  }
-}
+    if (arg === '--format') {
+      parsed.format = (args[index + 1] || '').toLowerCase();
+      index += 1;
+      continue;
+    }
 
-function appendTurn(filePath, role, content, timestamp) {
-  const ts = timestamp || new Date().toISOString();
-  const entry = `### [${ts}] ${role}\n${content}\n---\n`;
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.appendFileSync(filePath, entry, 'utf8');
-}
+    if (arg === '--scope') {
+      parsed.scope = normalizeScope(args[index + 1]);
+      index += 1;
+      continue;
+    }
+
+    if (arg === '--root') {
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `getSessionPath` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `fileExists` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function getSessionPath(name) {
-  return path.join(getClawDir(), `${name}.md`);
+function fileExists(rootDir, relativePath) {
+  return fs.existsSync(path.join(rootDir, relativePath));
 }
 
-function listSessions(dir) {
-  const clawDir = dir || getClawDir();
-  if (!fs.existsSync(clawDir)) return [];
-  return fs.readdirSync(clawDir)
-    .filter(f => f.endsWith('.md'))
-    .map(f => f.replace(/\.md$/, ''));
+function readText(rootDir, relativePath) {
+  return fs.readFileSync(path.join(rootDir, relativePath), 'utf8');
 }
 
-function loadHistory(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8');
-  } catch {
-    return '';
+function countFiles(rootDir, relativeDir, extension) {
+  const dirPath = path.join(rootDir, relativeDir);
+  if (!fs.existsSync(dirPath)) {
+    return 0;
   }
-}
 
-function appendTurn(filePath, role, content, timestamp) {
-  const ts = timestamp || new Date().toISOString();
-  const entry = `### [${ts}] ${role}\n${content}\n---\n`;
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.appendFileSync(filePath, entry, 'utf8');
-}
+  const stack = [dirPath];
+  let count = 0;
 
-function normalizeSkillList(raw) {
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw.map(s => String(s).trim()).filter(Boolean);
+  while (stack.length > 0) {
+    const current = stack.pop();
+    const entries = fs.readdirSync(current, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const nextPath = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(nextPath);
+      } else if (!extension || entry.name.endsWith(extension)) {
+        count += 1;
+      }
+    }
+  }
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
 
-### `scripts/claw.js`
+### `scripts/harness-audit.js`
 
-The `listSessions` function in [`scripts/claw.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/claw.js) handles a key part of this chapter's functionality:
+The `readText` function in [`scripts/harness-audit.js`](https://github.com/affaan-m/everything-claude-code/blob/HEAD/scripts/harness-audit.js) handles a key part of this chapter's functionality:
 
 ```js
 }
 
-function listSessions(dir) {
-  const clawDir = dir || getClawDir();
-  if (!fs.existsSync(clawDir)) return [];
-  return fs.readdirSync(clawDir)
-    .filter(f => f.endsWith('.md'))
-    .map(f => f.replace(/\.md$/, ''));
+function readText(rootDir, relativePath) {
+  return fs.readFileSync(path.join(rootDir, relativePath), 'utf8');
 }
 
-function loadHistory(filePath) {
-  try {
-    return fs.readFileSync(filePath, 'utf8');
-  } catch {
-    return '';
+function countFiles(rootDir, relativeDir, extension) {
+  const dirPath = path.join(rootDir, relativeDir);
+  if (!fs.existsSync(dirPath)) {
+    return 0;
   }
+
+  const stack = [dirPath];
+  let count = 0;
+
+  while (stack.length > 0) {
+    const current = stack.pop();
+    const entries = fs.readdirSync(current, { withFileTypes: true });
+
+    for (const entry of entries) {
+      const nextPath = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        stack.push(nextPath);
+      } else if (!extension || entry.name.endsWith(extension)) {
+        count += 1;
+      }
+    }
+  }
+
+  return count;
 }
 
-function appendTurn(filePath, role, content, timestamp) {
-  const ts = timestamp || new Date().toISOString();
-  const entry = `### [${ts}] ${role}\n${content}\n---\n`;
-  fs.mkdirSync(path.dirname(filePath), { recursive: true });
-  fs.appendFileSync(filePath, entry, 'utf8');
-}
-
-function normalizeSkillList(raw) {
-  if (!raw) return [];
-  if (Array.isArray(raw)) return raw.map(s => String(s).trim()).filter(Boolean);
-  return String(raw).split(',').map(s => s.trim()).filter(Boolean);
-}
-
-function loadECCContext(skillList) {
 ```
 
 This function is important because it defines how Everything Claude Code Tutorial: Production Configuration Patterns for Claude Code implements the patterns covered in this chapter.
@@ -225,11 +223,11 @@ This function is important because it defines how Everything Claude Code Tutoria
 
 ```mermaid
 flowchart TD
-    A[isValidSessionName]
-    B[getClawDir]
-    C[getSessionPath]
-    D[listSessions]
-    E[loadHistory]
+    A[normalizeScope]
+    B[parseArgs]
+    C[fileExists]
+    D[readText]
+    E[countFiles]
     A --> B
     B --> C
     C --> D

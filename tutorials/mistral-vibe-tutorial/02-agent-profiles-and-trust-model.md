@@ -37,184 +37,182 @@ You now understand how to pick agent profiles and use trust controls safely.
 
 Next: [Chapter 3: Tooling and Approval Workflow](03-tooling-and-approval-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/bump_version.py`
+### `scripts/prepare_release.py`
 
-The `fill_whats_new_message` function in [`scripts/bump_version.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/scripts/bump_version.py) handles a key part of this chapter's functionality:
+The `get_commits_summary` function in [`scripts/prepare_release.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/scripts/prepare_release.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def fill_whats_new_message(new_version: str) -> None:
-    whats_new_path = Path("vibe/whats_new.md")
-    if not whats_new_path.exists():
-        raise FileNotFoundError("whats_new.md not found in current directory")
+def get_commits_summary(previous_version: str, current_version: str) -> str:
+    previous_tag = f"v{previous_version}-private"
+    current_tag = f"v{current_version}-private"
 
-    whats_new_path.write_text("")
-
-    print("Filling whats_new.md...")
-    prompt = f"""Fill vibe/whats_new.md using only the CHANGELOG.md section for version {new_version}.
-
-Rules:
-- Include only the most important user-facing changes: visible CLI/UI behavior, new commands or key bindings, UX improvements. Exclude internal refactors, API-only changes, and dev/tooling updates.
-- If there are no such changes, write nothing (empty file).
-- Otherwise: first line must be "# What's new in v{new_version}" (no extra heading). Then one bullet per item, format: "- **Feature**: short summary" (e.g. - **Interactive resume**: Added a /resume command to choose which session to resume). One line per bullet, concise.
-- Do not copy the full changelog; summarize only what matters to someone reading "what's new" in the app."""
-    try:
-        result = subprocess.run(
-            ["vibe", "-p", prompt], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-        )
-        if result.returncode != 0:
-            raise RuntimeError("Failed to auto-fill whats_new.md")
-    except Exception:
-        print(
-            "Warning: failed to auto-fill whats_new.md, please fill it manually.",
-            file=sys.stderr,
-        )
+    result = run_git_command(
+        "log", f"{previous_tag}..{current_tag}", "--oneline", capture_output=True
+    )
+    return result.stdout.strip()
 
 
-def main() -> None:
-    os.chdir(Path(__file__).parent.parent)
+def get_changelog_entry(version: str) -> str:
+    changelog_path = Path("CHANGELOG.md")
+    if not changelog_path.exists():
+        return "CHANGELOG.md not found"
+
+    content = changelog_path.read_text()
+
+    pattern = rf"^## \[{re.escape(version)}\] - .+?(?=^## \[|\Z)"
+    match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
+
+    if not match:
+        return f"No changelog entry found for version {version}"
+
+    return match.group(0).strip()
+
+
+def print_summary(
+    current_version: str,
+    previous_version: str,
+    commits_summary: str,
 ```
 
 This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `scripts/bump_version.py`
+### `scripts/prepare_release.py`
 
-The `main` function in [`scripts/bump_version.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/scripts/bump_version.py) handles a key part of this chapter's functionality:
+The `get_changelog_entry` function in [`scripts/prepare_release.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/scripts/prepare_release.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main() -> None:
-    os.chdir(Path(__file__).parent.parent)
+def get_changelog_entry(version: str) -> str:
+    changelog_path = Path("CHANGELOG.md")
+    if not changelog_path.exists():
+        return "CHANGELOG.md not found"
 
+    content = changelog_path.read_text()
+
+    pattern = rf"^## \[{re.escape(version)}\] - .+?(?=^## \[|\Z)"
+    match = re.search(pattern, content, re.MULTILINE | re.DOTALL)
+
+    if not match:
+        return f"No changelog entry found for version {version}"
+
+    return match.group(0).strip()
+
+
+def print_summary(
+    current_version: str,
+    previous_version: str,
+    commits_summary: str,
+    changelog_entry: str,
+    squash: bool,
+) -> None:
+    print("\n" + "=" * 80)
+    print("RELEASE PREPARATION SUMMARY")
+    print("=" * 80)
+    print(f"\nVersion: {current_version}")
+    print(f"Previous version: {previous_version}")
+    print(f"Release branch: release/v{current_version}")
+
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `scripts/prepare_release.py`
+
+The `print_summary` function in [`scripts/prepare_release.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/scripts/prepare_release.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def print_summary(
+    current_version: str,
+    previous_version: str,
+    commits_summary: str,
+    changelog_entry: str,
+    squash: bool,
+) -> None:
+    print("\n" + "=" * 80)
+    print("RELEASE PREPARATION SUMMARY")
+    print("=" * 80)
+    print(f"\nVersion: {current_version}")
+    print(f"Previous version: {previous_version}")
+    print(f"Release branch: release/v{current_version}")
+
+    print("\n" + "-" * 80)
+    print("COMMITS IN THIS RELEASE")
+    print("-" * 80)
+    if commits_summary:
+        print(commits_summary)
+    else:
+        print("No commits found")
+
+    print("\n" + "-" * 80)
+    print("CHANGELOG ENTRY")
+    print("-" * 80)
+    print(changelog_entry)
+
+    print("\n" + "-" * 80)
+    if not squash:
+        print("NEXT STEPS")
+```
+
+This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `scripts/prepare_release.py`
+
+The `main` function in [`scripts/prepare_release.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/scripts/prepare_release.py) handles a key part of this chapter's functionality:
+
+```py
+    print(
+        "  ✓ Review and update the changelog if needed "
+        "(should be made in the private main branch)"
+    )
+    print("\n" + "=" * 80)
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Bump semver version in pyproject.toml",
+        description="Prepare a release branch by cherry-picking from private tags",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-  uv run scripts/bump_version.py major    # 1.0.0 -> 2.0.0
-  uv run scripts/bump_version.py minor    # 1.0.0 -> 1.1.0
-  uv run scripts/bump_version.py micro    # 1.0.0 -> 1.0.1
-  uv run scripts/bump_version.py patch    # 1.0.0 -> 1.0.1
-        """,
     )
 
+    parser.add_argument("version", help="Version to prepare release for (e.g., 1.1.3)")
     parser.add_argument(
-        "bump_type", choices=BUMP_TYPES, help="Type of version bump to perform"
+        "--no-squash",
+        action="store_false",
+        dest="squash",
+        default=True,
+        help="Disable squashing of commits into a single release commit",
     )
 
     args = parser.parse_args()
+    current_version = args.version
+    squash = args.squash
 
     try:
-        # Get current version
-        current_version = get_current_version()
-        print(f"Current version: {current_version}")
+        # Step 1: Ensure public remote exists
+        ensure_public_remote()
 
-        # Calculate new version
-        new_version = bump_version(current_version, args.bump_type)
-        print(f"New version: {new_version}\n")
-
+        # Step 2: Fetch all remotes
+        print("Fetching all remotes...")
 ```
 
 This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/core/agent_loop.py`
-
-The `ToolExecutionResponse` class in [`vibe/core/agent_loop.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/agent_loop.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class ToolExecutionResponse(StrEnum):
-    SKIP = auto()
-    EXECUTE = auto()
-
-
-class ToolDecision(BaseModel):
-    verdict: ToolExecutionResponse
-    approval_type: ToolPermission
-    feedback: str | None = None
-
-
-class AgentLoopError(Exception):
-    """Base exception for AgentLoop errors."""
-
-
-class AgentLoopStateError(AgentLoopError):
-    """Raised when agent loop is in an invalid state."""
-
-
-class AgentLoopLLMResponseError(AgentLoopError):
-    """Raised when LLM response is malformed or missing expected data."""
-
-
-class TeleportError(AgentLoopError):
-    """Raised when teleport to Vibe Nuage fails."""
-
-
-def _should_raise_rate_limit_error(e: Exception) -> bool:
-    return isinstance(e, BackendError) and e.status == HTTPStatus.TOO_MANY_REQUESTS
-
-```
-
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/core/agent_loop.py`
-
-The `ToolDecision` class in [`vibe/core/agent_loop.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/agent_loop.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class ToolDecision(BaseModel):
-    verdict: ToolExecutionResponse
-    approval_type: ToolPermission
-    feedback: str | None = None
-
-
-class AgentLoopError(Exception):
-    """Base exception for AgentLoop errors."""
-
-
-class AgentLoopStateError(AgentLoopError):
-    """Raised when agent loop is in an invalid state."""
-
-
-class AgentLoopLLMResponseError(AgentLoopError):
-    """Raised when LLM response is malformed or missing expected data."""
-
-
-class TeleportError(AgentLoopError):
-    """Raised when teleport to Vibe Nuage fails."""
-
-
-def _should_raise_rate_limit_error(e: Exception) -> bool:
-    return isinstance(e, BackendError) and e.status == HTTPStatus.TOO_MANY_REQUESTS
-
-
-class AgentLoop:
-    def __init__(
-        self,
-        config: VibeConfig,
-```
-
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[fill_whats_new_message]
-    B[main]
-    C[ToolExecutionResponse]
-    D[ToolDecision]
-    E[AgentLoopError]
+    A[get_commits_summary]
+    B[get_changelog_entry]
+    C[print_summary]
+    D[main]
+    E[ToolExecutionResponse]
     A --> B
     B --> C
     C --> D

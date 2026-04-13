@@ -12,6 +12,19 @@ Welcome to **Chapter 5: Stitch Composition**. In this part of **Fabric Tutorial:
 
 > Create sophisticated AI workflows by composing patterns into reusable Stitches.
 
+## Stitch Workflow Composition
+
+```mermaid
+flowchart TD
+    Input["Input"] --> Stitch["Stitch YAML\n(ordered steps)"]
+    Stitch --> Step1["Step 1: pattern_a\n(extract insights)"]
+    Step1 --> Step2["Step 2: pattern_b\n(format output)"]
+    Step2 --> Step3["Step 3: pattern_c\n(generate summary)"]
+    Step3 --> Output["Final Output"]
+    Vars["Variables\n({{.key}})"] --> Step1
+    Vars --> Step2
+```
+
 ## Overview
 
 Stitches are Fabric's way of composing multiple patterns into coherent workflows. They enable complex multi-step processing pipelines that can be saved, shared, and reused.
@@ -517,22 +530,26 @@ Under the hood, `Chapter 5: Stitch Composition` usually follows a repeatable con
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `internal/plugins/template/extension_manager.go`
 
-- [GitHub Repository](https://github.com/danielmiessler/Fabric)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [Pattern Library](https://github.com/danielmiessler/fabric/tree/main/data/patterns)
-  Why it matters: authoritative reference on `Pattern Library` (github.com).
-- [Community Patterns](https://github.com/danielmiessler/Fabric#community-patterns)
-  Why it matters: authoritative reference on `Community Patterns` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
+The `ListExtensions` method in [`internal/plugins/template/extension_manager.go`](https://github.com/danielmiessler/fabric/blob/main/internal/plugins/template/extension_manager.go) shows how Fabric's extension (stitch) system iterates over all registered workflow entries:
 
-Suggested trace strategy:
-- search upstream code for `input` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```go
+func (em *ExtensionManager) ListExtensions() error {
+    if em.registry == nil || em.registry.registry.Extensions == nil {
+        return errors.New(i18n.T("extension_registry_not_initialized"))
+    }
+
+    for name, entry := range em.registry.registry.Extensions {
+        fmt.Printf(i18n.T("extension_name_label"), name)
+        // Try to load extension details
+    }
+}
+```
+
+Stitches are stored as YAML files in `~/.config/fabric/` alongside patterns. The `ExtensionRegistry` loads them at startup and makes them available as named workflows that chain Fabric pattern calls.
 
 ## Chapter Connections
 

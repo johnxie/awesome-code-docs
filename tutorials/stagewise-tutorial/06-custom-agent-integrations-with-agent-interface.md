@@ -48,135 +48,23 @@ You now have an implementation map for connecting custom agents into Stagewise w
 
 Next: [Chapter 7: Troubleshooting, Security, and Operations](07-troubleshooting-security-and-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release/git-utils.ts`
+Use the following upstream sources to verify custom agent integration details while reading this chapter:
 
-The `createTag` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
+- [`packages/agent-interface/src/index.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/packages/agent-interface/src/) — the root export of the agent interface package, defining the `AgentIntegration` abstract class and the `registerAgent` function used to wire a custom agent implementation into Stagewise.
+- [`packages/agent-interface/src/types.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/packages/agent-interface/src/) — contains the full type surface for agent integrations including `AgentContext`, `AgentPrompt`, and the response streaming interface.
 
-```ts
- * Create a git tag
- */
-export async function createTag(
-  tagName: string,
-  message: string,
-): Promise<void> {
-  await exec(`git tag -a "${tagName}" -m "${message}"`);
-}
-
-/**
- * Push a tag to remote
- */
-export async function pushTag(tagName: string): Promise<void> {
-  await exec(`git push origin "${tagName}"`);
-}
-
-/**
- * Get the repo root directory
- */
-export async function getRepoRoot(): Promise<string> {
-  const { stdout } = await exec('git rev-parse --show-toplevel');
-  return stdout.trim();
-}
-
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/git-utils.ts`
-
-The `pushTag` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Push a tag to remote
- */
-export async function pushTag(tagName: string): Promise<void> {
-  await exec(`git push origin "${tagName}"`);
-}
-
-/**
- * Get the repo root directory
- */
-export async function getRepoRoot(): Promise<string> {
-  const { stdout } = await exec('git rev-parse --show-toplevel');
-  return stdout.trim();
-}
-
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/git-utils.ts`
-
-The `getRepoRoot` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Get the repo root directory
- */
-export async function getRepoRoot(): Promise<string> {
-  const { stdout } = await exec('git rev-parse --show-toplevel');
-  return stdout.trim();
-}
-
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/index.ts`
-
-The `parseCliArgs` function in [`scripts/release/index.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/index.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Parse command line arguments
- */
-function parseCliArgs(): CLIOptions {
-  const { values } = parseArgs({
-    options: {
-      package: { type: 'string', short: 'p' },
-      channel: { type: 'string', short: 'c' },
-      'dry-run': { type: 'boolean', default: false },
-      'new-cycle': { type: 'boolean', default: false },
-      since: { type: 'string', short: 's' },
-      help: { type: 'boolean', short: 'h' },
-    },
-  });
-
-  if (values.help) {
-    console.log(`
-Release CLI - Version bumping and changelog generation
-
-Usage:
-  pnpm tsx scripts/release/index.ts --package <name> [--channel <channel>] [--dry-run]
-
-Options:
-  -p, --package <name>     Package to release (${getAvailablePackageNames().join(', ')})
-  -c, --channel <channel>  Release channel (alpha, beta, release)
-  -s, --since <ref>        Git ref to start from (commit, tag, branch) for first releases
-  --new-cycle              Abandon current prerelease and start fresh version cycle
-  --dry-run                Preview changes without applying them
-  -h, --help               Show this help message
-
-Examples:
-  pnpm tsx scripts/release/index.ts --package stagewise --channel beta
-  pnpm tsx scripts/release/index.ts --package karton --channel release
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- read `AgentIntegration` to understand the methods a custom agent must implement (`connect`, `sendPrompt`, `disconnect`)
+- trace how `registerAgent` wires a custom implementation into the proxy bridge router
+- compare against an existing bridge (e.g., Cursor bridge) to see a reference implementation pattern
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[createTag]
-    B[pushTag]
-    C[getRepoRoot]
-    D[parseCliArgs]
-    E[getCurrentVersion]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[Custom agent class extends AgentIntegration] --> B[registerAgent call]
+    B --> C[Bridge router maps agent name to implementation]
+    C --> D[Toolbar prompts route to custom agent]
 ```

@@ -633,18 +633,32 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Command execution in Claude Code is governed by the Bash tool, which is documented in the [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code). The Bash tool runs shell commands in your project environment and streams output back to the session.
 
-- [Claude Code Repository](https://github.com/anthropics/claude-code)
-  Why it matters: authoritative reference on `Claude Code Repository` (github.com).
-- [Claude Code Releases](https://github.com/anthropics/claude-code/releases)
-  Why it matters: authoritative reference on `Claude Code Releases` (github.com).
-- [Claude Code Docs](https://docs.anthropic.com/en/docs/claude-code)
-  Why it matters: authoritative reference on `Claude Code Docs` (docs.anthropic.com).
+The [`examples/hooks/bash_command_validator_example.py`](https://github.com/anthropics/claude-code/blob/HEAD/examples/hooks/bash_command_validator_example.py) is the most relevant source reference for this chapter: it shows exactly how to intercept Bash tool calls before execution, validate the proposed command string, and either allow or block it. This is the primary pattern for building safe command execution loops.
 
-Suggested trace strategy:
-- search upstream code for `test` and `Claude` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+The README's Permission section in the [Claude Code Repository](https://github.com/anthropics/claude-code) describes the `--allowedTools` flag and settings-based permission model that controls which tool categories Claude can use without explicit per-call approval.
+
+## Command Execution Flow
+
+```mermaid
+flowchart TD
+    A[User asks Claude to run a command]
+    B[Claude proposes Bash tool call with command string]
+    C[PreToolUse hook validates command if configured]
+    D{Approved?}
+    E[Command executes in shell]
+    F[Output streamed to session]
+    G[Claude analyzes results and proposes next step]
+    H[Command blocked, reason shown]
+    A --> B
+    B --> C
+    C --> D
+    D -- yes --> E
+    E --> F
+    F --> G
+    D -- no --> H
+```
 
 ## Chapter Connections
 

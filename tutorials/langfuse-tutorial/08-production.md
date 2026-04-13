@@ -6,6 +6,7 @@ has_children: false
 parent: Langfuse Tutorial
 ---
 
+
 # Chapter 8: Production Deployment
 
 Welcome to **Chapter 8: Production Deployment**. In this part of **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -417,220 +418,148 @@ With these tools and practices in place, you are well-equipped to build, monitor
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `package.json`
 
-### Strategic Context
+The `package` module in [`package.json`](https://github.com/langfuse/langfuse/blob/HEAD/package.json) handles a key part of this chapter's functionality:
 
-- tutorial: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- tutorial slug: **langfuse-tutorial**
-- chapter focus: **Chapter 8: Production Deployment**
-- system context: **Langfuse Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+```json
+{
+  "name": "langfuse",
+  "version": "3.163.0",
+  "author": "engineering@langfuse.com",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": "24"
+  },
+  "scripts": {
+    "agents:check": "node scripts/agents/sync-agent-shims.mjs --check",
+    "agents:sync": "node scripts/agents/sync-agent-shims.mjs",
+    "postinstall": "node -e \"const fs = require('node:fs'); const cp = require('node:child_process'); if (!fs.existsSync('scripts/postinstall.sh')) { console.log('Skipping repo postinstall helper: scripts/postinstall.sh is not present in this install context.'); process.exit(0); } cp.execSync('bash scripts/postinstall.sh', { stdio: 'inherit' });\"",
+    "preinstall": "npx only-allow pnpm",
+    "infra:dev:up": "docker compose -f ./docker-compose.dev.yml up -d --wait",
+    "infra:dev:down": "docker compose -f ./docker-compose.dev.yml down",
+    "infra:dev:prune": "docker compose -f ./docker-compose.dev.yml down -v",
+    "db:generate": "turbo run db:generate",
+    "db:migrate": "turbo run db:migrate",
+    "db:seed": "turbo run db:seed",
+    "db:seed:examples": "turbo run db:seed:examples",
+    "nuke": "bash ./scripts/nuke.sh",
+    "dx": "pnpm i && pnpm run infra:dev:prune && pnpm run infra:dev:up --pull always && pnpm --filter=shared run db:reset:test && pnpm --filter=shared run db:reset && pnpm --filter=shared run ch:reset && pnpm --filter=shared run db:seed:examples && pnpm run dev",
+    "dx-f": "pnpm i && pnpm run infra:dev:prune && pnpm run infra:dev:up --pull always && pnpm --filter=shared run db:reset:test && pnpm --filter=shared run db:reset -f && SKIP_CONFIRM=1 pnpm --filter=shared run ch:reset && pnpm --filter=shared run db:seed:examples && pnpm run dev",
+    "dx:skip-infra": "pnpm i && pnpm --filter=shared run db:reset:test && pnpm --filter=shared run db:reset && pnpm --filter=shared run ch:reset && pnpm --filter=shared run db:seed:examples && pnpm run dev",
+    "build": "turbo run build",
+    "build:check": "turbo run build:check",
+    "typecheck": "turbo run typecheck",
+    "tc": "turbo run typecheck",
+    "start": "turbo run start",
+    "dev": "turbo run dev",
+    "dev:worker": "turbo run dev --filter=worker",
+    "dev:web": "turbo run dev --filter=web",
+    "dev:web-webpack": "turbo run dev --filter=web -- --webpack",
+    "lint": "turbo run lint",
+```
 
-### Architecture Decomposition
+This module is important because it defines how Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations implements the patterns covered in this chapter.
 
-1. Define the runtime boundary for `Chapter 8: Production Deployment`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+### `docker-compose.dev-azure.yml`
 
-### Operator Decision Matrix
+The `docker-compose.dev-azure` module in [`docker-compose.dev-azure.yml`](https://github.com/langfuse/langfuse/blob/HEAD/docker-compose.dev-azure.yml) handles a key part of this chapter's functionality:
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+```yml
+services:
+  clickhouse:
+    image: docker.io/clickhouse/clickhouse-server:24.3
+    user: "101:101"
+    environment:
+      CLICKHOUSE_DB: default
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-clickhouse}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse}
+    volumes:
+      - langfuse_clickhouse_data:/var/lib/clickhouse
+      - langfuse_clickhouse_logs:/var/log/clickhouse-server
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 1s
+    depends_on:
+      - postgres
 
-### Failure Modes and Countermeasures
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    command: azurite-blob --blobHost 0.0.0.0
+    ports:
+      - "10000:10000"
+    volumes:
+      - langfuse_azurite_data:/data
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+  minio:
+    image: cgr.dev/chainguard/minio
+    container_name: ${MINIO_CONTAINER_NAME:-langfuse-minio}
+    entrypoint: sh
+```
 
-### Implementation Runbook
+This module is important because it defines how Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations implements the patterns covered in this chapter.
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+### `docker-compose.yml`
 
-### Quality Gate Checklist
+The `docker-compose` module in [`docker-compose.yml`](https://github.com/langfuse/langfuse/blob/HEAD/docker-compose.yml) handles a key part of this chapter's functionality:
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+```yml
+# Make sure to update the credential placeholders with your own secrets.
+# We mark them with # CHANGEME in the file below.
+# In addition, we recommend to restrict inbound traffic on the host to langfuse-web (port 3000) and minio (port 9090) only.
+# All other components are bound to localhost (127.0.0.1) to only accept connections from the local machine.
+# External connections from other machines will not be able to reach these services directly.
+services:
+  langfuse-worker:
+    image: docker.io/langfuse/langfuse-worker:3
+    restart: always
+    depends_on: &langfuse-depends-on
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      clickhouse:
+        condition: service_healthy
+    ports:
+      - 127.0.0.1:3030:3030
+    environment: &langfuse-worker-env
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://postgres:postgres@postgres:5432/postgres} # CHANGEME
+      SALT: ${SALT:-mysalt} # CHANGEME
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-0000000000000000000000000000000000000000000000000000000000000000} # CHANGEME: generate via `openssl rand -hex 32`
+      TELEMETRY_ENABLED: ${TELEMETRY_ENABLED:-true}
+      LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES: ${LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES:-false}
+      CLICKHOUSE_MIGRATION_URL: ${CLICKHOUSE_MIGRATION_URL:-clickhouse://clickhouse:9000}
+      CLICKHOUSE_URL: ${CLICKHOUSE_URL:-http://clickhouse:8123}
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER:-clickhouse}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse} # CHANGEME
+      CLICKHOUSE_CLUSTER_ENABLED: ${CLICKHOUSE_CLUSTER_ENABLED:-false}
+      LANGFUSE_USE_AZURE_BLOB: ${LANGFUSE_USE_AZURE_BLOB:-false}
+      LANGFUSE_S3_EVENT_UPLOAD_BUCKET: ${LANGFUSE_S3_EVENT_UPLOAD_BUCKET:-langfuse}
+      LANGFUSE_S3_EVENT_UPLOAD_REGION: ${LANGFUSE_S3_EVENT_UPLOAD_REGION:-auto}
+```
 
-### Source Alignment
+This module is important because it defines how Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations implements the patterns covered in this chapter.
 
-- [Langfuse Repository](https://github.com/langfuse/langfuse)
-- [Langfuse Releases](https://github.com/langfuse/langfuse/releases)
-- [Langfuse Docs](https://langfuse.com/docs)
 
-### Cross-Tutorial Connection Map
+## How These Components Connect
 
-- [LiteLLM Tutorial](../litellm-tutorial/)
-- [LangChain Tutorial](../langchain-tutorial/)
-- [LlamaIndex Tutorial](../llamaindex-tutorial/)
-- [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
-
-### Advanced Practice Exercises
-
-1. Build a minimal end-to-end implementation for `Chapter 8: Production Deployment`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
-
-### Review Questions
-
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
-
-### Scenario Playbook 1: Chapter 8: Production Deployment
-
-- tutorial context: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- trigger condition: incoming request volume spikes after release
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: introduce adaptive concurrency limits and queue bounds
-- verification target: latency p95 and p99 stay within defined SLO windows
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 2: Chapter 8: Production Deployment
-
-- tutorial context: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- trigger condition: tool dependency latency increases under concurrency
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: enable staged retries with jitter and circuit breaker fallback
-- verification target: error budget burn rate remains below escalation threshold
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 3: Chapter 8: Production Deployment
-
-- tutorial context: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- trigger condition: schema updates introduce incompatible payloads
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: pin schema versions and add compatibility shims
-- verification target: throughput remains stable under target concurrency
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 4: Chapter 8: Production Deployment
-
-- tutorial context: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- trigger condition: environment parity drifts between staging and production
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: restore environment parity via immutable config promotion
-- verification target: retry volume stays bounded without feedback loops
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 5: Chapter 8: Production Deployment
-
-- tutorial context: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- trigger condition: access policy changes reduce successful execution rates
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: re-scope credentials and rotate leaked or stale keys
-- verification target: data integrity checks pass across write/read cycles
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-### Scenario Playbook 6: Chapter 8: Production Deployment
-
-- tutorial context: **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**
-- trigger condition: background jobs accumulate and exceed processing windows
-- initial hypothesis: identify the smallest reproducible failure boundary
-- immediate action: protect user-facing stability before optimization work
-- engineering control: activate degradation mode to preserve core user paths
-- verification target: audit logs capture all control-plane mutations
-- rollback trigger: pre-defined quality gate fails for two consecutive checks
-- communication step: publish incident status with owner and ETA
-- learning capture: add postmortem and convert findings into automated tests
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `langfuse`, `redis`, `name` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 8: Production Deployment` as an operating subsystem inside **Langfuse Tutorial: LLM Observability, Evaluation, and Prompt Operations**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `subgraph`, `image`, `spec` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 8: Production Deployment` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `langfuse`.
-2. **Input normalization**: shape incoming data so `redis` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `name`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Langfuse Repository](https://github.com/langfuse/langfuse)
-  Why it matters: authoritative reference on `Langfuse Repository` (github.com).
-- [Langfuse Releases](https://github.com/langfuse/langfuse/releases)
-  Why it matters: authoritative reference on `Langfuse Releases` (github.com).
-- [Langfuse Docs](https://langfuse.com/docs)
-  Why it matters: authoritative reference on `Langfuse Docs` (langfuse.com).
-
-Suggested trace strategy:
-- search upstream code for `langfuse` and `redis` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 7: Integrations](07-integrations.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[package]
+    B[docker-compose.dev-azure]
+    C[docker-compose]
+    A --> B
+    B --> C
+```

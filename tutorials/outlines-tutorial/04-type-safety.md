@@ -723,11 +723,23 @@ Under the hood, `Chapter 4: Type Safety & Pydantic Integration` usually follows 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Pydantic Integration Flow
+
+```mermaid
+flowchart LR
+    A[Pydantic Model Class] --> B[JSON Schema Extraction]
+    B --> C[Outlines json Generator]
+    C --> D[LLM with Constrained Sampling]
+    D --> E[Raw JSON String]
+    E --> F[Pydantic parse_raw / model_validate]
+    F --> G[Type-Safe Python Object]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

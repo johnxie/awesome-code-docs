@@ -161,6 +161,21 @@ Under the hood, `Chapter 1: Getting Started with Perplexica` usually follows a r
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## System Overview
+
+```mermaid
+flowchart TD
+    A[User Query] --> B[Perplexica Next.js Frontend]
+    B --> C[Backend Express Server]
+    C --> D[AI Search Pipeline]
+    D --> E[SearXNG Web Search]
+    D --> F[LLM Provider]
+    E --> G[Web Results]
+    F --> H[Answer Synthesis]
+    G --> H
+    H --> I[Response with Sources]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

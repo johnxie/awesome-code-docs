@@ -37,8 +37,6 @@ You now have a runnable PocketFlow setup and know where to find core patterns.
 
 Next: [Chapter 2: Core Graph Abstraction](02-core-graph-abstraction.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `pocketflow/__init__.py`

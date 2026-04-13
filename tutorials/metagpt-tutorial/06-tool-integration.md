@@ -411,6 +411,14 @@ Tool integration details:
 
 MetaGPT tools bridge the gap between LLM reasoning and real-world action. Built-in tools cover web browsing, search, code execution, and file management. Custom tools follow a simple pattern: create a tool class with the integration logic, then use it inside an Action. The framework handles error isolation, output truncation, and async execution.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/tools/web_browser_engine.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/tools/web_browser_engine.py) -- browser tool wrapping Playwright/Selenium; `run()` method fetches and parses web content
+- [`metagpt/tools/search_engine.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/tools/search_engine.py) -- search abstraction supporting Google, DuckDuckGo, and SerpAPI backends
+- [`metagpt/actions/research.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/actions/research.py) -- example action combining search + browsing into a research pipeline
+
 **Next:** [Chapter 7: Multi-Agent Orchestration](07-multi-agent-orchestration.md) -- compose agents into sophisticated teams.
 
 ---

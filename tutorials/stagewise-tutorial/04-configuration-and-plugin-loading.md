@@ -53,184 +53,24 @@ You now have a configuration model for predictable per-project Stagewise behavio
 
 Next: [Chapter 5: Building Plugins with Plugin SDK](05-building-plugins-with-plugin-sdk.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/release/bump-version.ts`
+Use the following upstream sources to verify configuration and plugin loading details while reading this chapter:
 
-The `calculateNextVersion` function in [`scripts/release/bump-version.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/bump-version.ts) handles a key part of this chapter's functionality:
+- [`apps/stagewise/src/config.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/apps/stagewise/src/) — resolves and validates the `stagewise.json` workspace config file, loading proxy settings, plugin declarations, and agent connection parameters.
+- [`packages/stagewise-plugin-sdk/src/`](https://github.com/stagewise-io/stagewise/blob/HEAD/packages/stagewise-plugin-sdk/src/) — exports the plugin contract types and loader utilities used to discover and register plugins at startup.
 
-```ts
- * - From release to prerelease: apply bump, add prerelease (1.0.0 -> 1.0.1-alpha.1)
- */
-export function calculateNextVersion(
-  currentVersion: string,
-  bumpType: VersionBump,
-  targetChannel: ReleaseChannel,
-): string {
-  const current = parseVersion(currentVersion);
-
-  // Case 1: Target is a stable release
-  if (targetChannel === 'release') {
-    // If already a release version, apply the bump
-    if (!current.prerelease) {
-      return semver.inc(currentVersion, bumpType) || currentVersion;
-    }
-
-    // If coming from prerelease, just drop the prerelease tag
-    // The base version already represents the "next" version
-    return current.base;
-  }
-
-  // Case 2: Target is a prerelease (alpha or beta)
-
-  // If current is a stable release, apply bump and start at prerelease.1
-  if (!current.prerelease) {
-    const bumpedBase = semver.inc(currentVersion, bumpType);
-    if (!bumpedBase) {
-      throw new Error(
-        `Failed to bump version ${currentVersion} with ${bumpType}`,
-      );
-    }
-    return `${bumpedBase}-${targetChannel}.1`;
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/bump-version.ts`
-
-The `getPossibleNextVersions` function in [`scripts/release/bump-version.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/bump-version.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Get a list of possible next versions for display
- */
-export function getPossibleNextVersions(
-  currentVersion: string,
-  bumpType: VersionBump,
-): Record<ReleaseChannel, string> {
-  return {
-    alpha: calculateNextVersion(currentVersion, bumpType, 'alpha'),
-    beta: calculateNextVersion(currentVersion, bumpType, 'beta'),
-    release: calculateNextVersion(currentVersion, bumpType, 'release'),
-  };
-}
-
-/**
- * Validate that a channel transition is allowed
- */
-export function isValidChannelTransition(
-  currentChannel: ReleaseChannel | null,
-  targetChannel: ReleaseChannel,
-): boolean {
-  // From release to any prerelease is allowed
-  if (currentChannel === null) {
-    return true;
-  }
-
-  // To release is always allowed
-  if (targetChannel === 'release') {
-    return true;
-  }
-
-  // Same channel is allowed
-  if (currentChannel === targetChannel) {
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/bump-version.ts`
-
-The `isValidChannelTransition` function in [`scripts/release/bump-version.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/bump-version.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Validate that a channel transition is allowed
- */
-export function isValidChannelTransition(
-  currentChannel: ReleaseChannel | null,
-  targetChannel: ReleaseChannel,
-): boolean {
-  // From release to any prerelease is allowed
-  if (currentChannel === null) {
-    return true;
-  }
-
-  // To release is always allowed
-  if (targetChannel === 'release') {
-    return true;
-  }
-
-  // Same channel is allowed
-  if (currentChannel === targetChannel) {
-    return true;
-  }
-
-  // alpha -> beta is allowed
-  if (currentChannel === 'alpha' && targetChannel === 'beta') {
-    return true;
-  }
-
-  // beta -> alpha is NOT allowed
-  return false;
-}
-
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
-### `scripts/release/git-utils.ts`
-
-The `getLastTag` function in [`scripts/release/git-utils.ts`](https://github.com/stagewise-io/stagewise/blob/HEAD/scripts/release/git-utils.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Get the most recent tag matching a prefix
- */
-export async function getLastTag(prefix: string): Promise<string | null> {
-  try {
-    const { stdout } = await exec(
-      `git tag --list "${prefix}*" --sort=-version:refname | head -n 1`,
-    );
-    const tag = stdout.trim();
-    return tag || null;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Get the most recent stable (non-prerelease) tag matching a prefix
- */
-export async function getLastStableTag(prefix: string): Promise<string | null> {
-  try {
-    const { stdout } = await exec(
-      `git tag --list "${prefix}*" --sort=-version:refname`,
-    );
-    const tags = stdout.trim().split('\n').filter(Boolean);
-
-    // Find the first tag that doesn't contain alpha or beta
-    for (const tag of tags) {
-      const version = tag.replace(prefix, '');
-      if (!version.includes('-alpha') && !version.includes('-beta')) {
-        return tag;
-      }
-    }
-    return null;
-```
-
-This function is important because it defines how Stagewise Tutorial: Frontend Coding Agent Workflows in Real Browser Context implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- trace config resolution to understand how `stagewise.json` fields map to runtime behavior (port, target URL, plugins array)
+- review the plugin SDK loader to see how plugin module paths are resolved and their hooks registered
+- check the startup sequence for the order in which config is read, plugins are loaded, and the proxy starts
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[calculateNextVersion]
-    B[getPossibleNextVersions]
-    C[isValidChannelTransition]
-    D[getLastTag]
-    E[getLastStableTag]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+flowchart LR
+    A[stagewise.json] --> B[config.ts resolver]
+    B --> C[Plugin SDK loader]
+    C --> D[Plugin hooks registered]
+    D --> E[Proxy starts with full config]
 ```

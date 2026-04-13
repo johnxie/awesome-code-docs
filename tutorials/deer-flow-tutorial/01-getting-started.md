@@ -1,671 +1,365 @@
 ---
 layout: default
-title: "Chapter 1: Getting Started with Deer Flow"
-parent: "Deer Flow Tutorial"
+title: "Chapter 1: Getting Started with DeerFlow"
+parent: "DeerFlow Tutorial"
 nav_order: 1
+format_version: v2
+why: "DeerFlow is a non-trivial system with three services, a Docker sandbox, and an LLM config layer. Getting all pieces wired correctly before exploring architecture saves hours of debugging."
+mental_model: "Think of the setup as configuring an AI agent runtime — not a web app. You are wiring an LLM provider, an optional web-search API key, and a sandboxed Python execution environment together, then launching three coordinated services behind Nginx."
+learning_outcomes:
+  - Clone and configure DeerFlow with any OpenAI-compatible LLM
+  - Understand the three-service architecture before writing a single line of code
+  - Submit your first deep research query and read the streaming response
+  - Verify your setup with make doctor and understand what each health check tests
+snapshot:
+  repo: bytedance/deer-flow
+  stars: ~53.5k
+  last_checked: 2026-04-12
+chapter_map:
+  - "01 (this): Installation, config, first query"
+  - "02: LangGraph state machine internals"
+  - "03: Research pipeline deep dive"
+  - "04: RAG and search tools"
+  - "05: Frontend and API design"
+  - "06: Skills and extensions"
+  - "07: Podcast and multi-modal outputs"
+  - "08: Production deployment"
+sources:
+  - https://github.com/bytedance/deer-flow
+  - https://github.com/bytedance/deer-flow/blob/main/backend/docs/SETUP.md
+  - https://github.com/bytedance/deer-flow/blob/main/backend/docs/CONFIGURATION.md
 ---
 
-# Chapter 1: Getting Started with Deer Flow
+# Chapter 1: Getting Started with DeerFlow
 
-Welcome to Deer Flow! This chapter will guide you through installing and setting up Deer Flow, understanding its core concepts, and creating your first distributed workflow.
+## What Problem Does This Solve?
 
-## 🎯 What You'll Learn
+Most teams assume DeerFlow is something it is not. The repository name sounds like a workflow scheduler. The old documentation described it as a distributed task execution platform. Neither description is accurate.
 
-- Deer Flow installation and setup
-- Core concepts (workflows, tasks, dependencies)
-- Basic workflow creation and execution
-- Web interface and API usage
-- First distributed workflow walkthrough
+DeerFlow is an **open-source super agent harness** — a runtime that orchestrates a lead LLM agent to conduct deep research, write and execute code, spawn parallel sub-agents, load modular skills, and deliver structured outputs (reports, podcasts, slides) via a chat interface. It was created by ByteDance and is conceptually similar to Google's Gemini Deep Research product, but open-source and extensible.
 
-## 🏗️ Deer Flow Architecture
+The practical problem it solves: when you need an AI assistant that can autonomously browse the web from multiple angles, write and run Python to analyze data, synthesize a structured report with citations, and optionally produce audio or slide outputs — all from a single chat message — DeerFlow provides the production-ready runtime to do it.
 
-Deer Flow consists of several key components working together to orchestrate distributed workflows:
+This chapter gets you from zero to your first research output in under 30 minutes.
+
+## How it Works Under the Hood
+
+Before touching any configuration, it helps to understand the three-service architecture you are about to start.
 
 ```mermaid
-graph TB
-    subgraph "Control Plane"
-        A[Workflow Manager]
-        B[Task Scheduler]
-        C[Dependency Resolver]
-        D[State Manager]
+graph LR
+    subgraph "Your Browser / IM Client"
+        A[Chat UI :2026]
     end
 
-    subgraph "Execution Plane"
-        E[Worker Nodes]
-        F[Task Executors]
-        G[Resource Pool]
-        H[Load Balancer]
+    subgraph "Nginx Proxy :2026"
+        B[Entry Point]
     end
 
-    subgraph "Data Plane"
-        I[Workflow Store]
-        J[Task Queue]
-        K[Result Store]
-        L[Metrics Store]
+    subgraph "Three Core Services"
+        C[LangGraph Server :2024<br/>Agent runtime, SSE streaming,<br/>thread state management]
+        D[Gateway API :8001<br/>FastAPI REST endpoints<br/>models, skills, MCP, uploads]
+        E[Next.js Frontend :3000<br/>Chat interface, streaming<br/>message rendering]
     end
 
-    subgraph "Integration Layer"
-        M[REST API]
-        N[Web UI]
-        O[CLI Tools]
-        P[SDK Libraries]
+    subgraph "Execution Backend"
+        F[LocalSandboxProvider<br/>dev mode]
+        G[AioSandboxProvider<br/>Docker containers prod]
     end
 
     A --> B
     B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-    A --> I
-    A --> J
-    A --> K
-    A --> L
-    A --> M
-    A --> N
-    A --> O
-    A --> P
+    B --> D
+    B --> E
+    C --> F
+    C --> G
 ```
 
-### Core Components
+Every user message flows through Nginx to the LangGraph server. The LangGraph server runs the compiled `lead_agent` graph, which invokes the LLM, dispatches tools, streams tokens back to the frontend via SSE, and persists state via an async checkpointer.
 
-1. **Workflow Manager**: Orchestrates workflow execution
-2. **Task Scheduler**: Assigns tasks to workers
-3. **Worker Nodes**: Execute tasks in parallel
-4. **State Manager**: Tracks workflow and task states
-5. **Result Store**: Persists task outputs and results
+The Gateway API handles everything that is not agent execution: listing available models, managing MCP server configuration, serving generated artifacts, handling file uploads, and managing memory records.
 
-## 🚀 Installation Methods
+## Prerequisites
 
-### Method 1: Docker Compose (Recommended)
+| Requirement | Minimum | Recommended |
+|:--|:--|:--|
+| CPU | 4 cores | 8 cores |
+| RAM | 8 GB | 16 GB |
+| Disk | 20 GB | 40 GB |
+| Docker | 24+ | latest |
+| Python | 3.12+ | 3.12+ |
+| Node.js | 22+ | 22+ |
+
+You also need at least one LLM provider API key. DeerFlow works with any OpenAI-compatible endpoint including:
+- OpenAI (`gpt-4o`, `o1`, `o3`)
+- Anthropic Claude (via OpenAI-compatible proxy or direct LangChain integration)
+- DeepSeek
+- Novita AI
+- vLLM self-hosted endpoints
+- OpenRouter (routing to Gemini, Llama, etc.)
+
+## Installation
+
+### Step 1: Clone the Repository
 
 ```bash
-# Clone the repository
 git clone https://github.com/bytedance/deer-flow.git
 cd deer-flow
-
-# Start all services
-docker-compose up -d
-
-# Check service status
-docker-compose ps
-
-# View logs
-docker-compose logs -f deer-flow-server
 ```
 
-**What this starts:**
-- Deer Flow server (port 8080)
-- Redis for task queuing
-- PostgreSQL for data storage
-- Web interface
+### Step 2: Run the Interactive Setup Wizard
 
-### Method 2: Manual Installation
+The wizard creates `config.yaml` and `.env` from your answers:
 
 ```bash
-# Install system dependencies
-sudo apt update
-sudo apt install python3.10 python3.10-venv postgresql redis-server
-
-# Clone and setup
-git clone https://github.com/bytedance/deer-flow.git
-cd deer-flow
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Setup database
-sudo -u postgres createdb deerflow
-sudo -u postgres psql -c "CREATE USER deerflow WITH PASSWORD 'deerflow123';"
-sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE deerflow TO deerflow;"
-
-# Start Redis
-sudo systemctl start redis-server
-
-# Start the server
-python run_server.py
+make setup
 ```
 
-### Method 3: Kubernetes Deployment
+The wizard prompts for:
+1. LLM provider and model selection
+2. API key (saved to `.env`, referenced as `$OPENAI_API_KEY` in `config.yaml`)
+3. Web search provider (DuckDuckGo — free, no key; Tavily — better quality, requires key)
+4. Sandbox execution mode (local for dev, Docker for production)
+
+After `make setup`, verify the generated files:
+
+```bash
+# config.yaml should exist at the project root (NOT in backend/)
+ls -la config.yaml
+
+# .env should contain your API key
+cat .env
+```
+
+### Step 3: Validate with the Doctor Script
+
+```bash
+make doctor
+```
+
+The doctor script checks:
+- `config.yaml` loads without parse errors
+- The selected LLM model is reachable (test API call)
+- Web search tool (if configured) is responsive
+- Docker is available if sandbox mode is set to Docker
+
+### Step 4: Choose Your Startup Mode
+
+**Docker (recommended for production and first-time setup):**
+
+```bash
+make docker-init    # Pull images, create network, initialize volumes
+make docker-start   # Start all three services + Nginx
+```
+
+**Local development (faster iteration, no Docker for services):**
+
+```bash
+make install   # pip install + npm install
+make dev       # Concurrently starts LangGraph server, Gateway, and Next.js
+```
+
+Both modes expose the UI at `http://localhost:2026`.
+
+## Configuration Deep Dive
+
+The `config.yaml` file controls every significant behavior of DeerFlow. Understanding its structure is essential for customization.
 
 ```yaml
-# kubernetes/deployment.yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: deer-flow
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: deer-flow
-  template:
-    metadata:
-      labels:
-        app: deer-flow
-    spec:
-      containers:
-      - name: deer-flow
-        image: bytedance/deer-flow:latest
-        ports:
-        - containerPort: 8080
-        env:
-        - name: DATABASE_URL
-          value: "postgresql://deerflow:deerflow123@postgres:5432/deerflow"
-        - name: REDIS_URL
-          value: "redis://redis:6379"
-        resources:
-          limits:
-            cpu: "1000m"
-            memory: "1Gi"
-          requests:
-            cpu: "500m"
-            memory: "512Mi"
+# config.yaml — canonical location: project root (deer-flow/config.yaml)
+config_version: 3
+
+models:
+  # Each entry defines an LLM available to the agent
+  - name: gpt-4o
+    display_name: GPT-4o
+    use: langchain_openai:ChatOpenAI
+    model: gpt-4o
+    api_key: $OPENAI_API_KEY
+    max_tokens: 16384
+    supports_thinking: false
+    supports_vision: true
+
+  # Example: OpenRouter routing to Gemini
+  - name: gemini-flash
+    display_name: Gemini 2.5 Flash
+    use: langchain_openai:ChatOpenAI
+    model: google/gemini-2.5-flash-preview
+    base_url: https://openrouter.ai/api/v1
+    api_key: $OPENROUTER_API_KEY
+
+tools:
+  # Web search configuration
+  - name: web_search
+    group: web
+    use: deerflow.community.ddg_search:web_search_tool
+    max_results: 5
+
+  # File operations
+  - name: read_file
+    group: file:read
+    use: deerflow.tools.file:read_file_tool
+
+  - name: bash
+    group: bash
+    use: deerflow.tools.bash:bash_tool
+
+sandbox:
+  # For development: direct host execution
+  use: deerflow.sandbox.local:LocalSandboxProvider
+  allow_host_bash: true
+
+  # For production: Docker-isolated execution
+  # use: deerflow.community.aio_sandbox:AioSandboxProvider
+  # auto_start: true
+  # port: 8080
+
+skills:
+  path: ../skills       # Host path to skills directory
+  container_path: /mnt/skills
 ```
 
-## ⚙️ Configuration
+The configuration path is resolved in this priority order:
+1. `DEER_FLOW_CONFIG_PATH` environment variable
+2. `backend/config.yaml`
+3. `deer-flow/config.yaml` (project root — the standard location)
 
 ### Environment Variables
 
 ```bash
-# Database configuration
-export DATABASE_URL="postgresql://deerflow:deerflow123@localhost:5432/deerflow"
-
-# Redis configuration
-export REDIS_URL="redis://localhost:6379"
-
-# Server configuration
-export SERVER_HOST="0.0.0.0"
-export SERVER_PORT="8080"
-
-# Worker configuration
-export WORKER_CONCURRENCY="4"
-export WORKER_PREFETCH="2"
-
-# Logging
-export LOG_LEVEL="INFO"
-export LOG_FILE="/var/log/deer-flow.log"
+# .env (git-ignored, do not commit)
+OPENAI_API_KEY=sk-...
+TAVILY_API_KEY=tvly-...      # optional, better search quality
+ANTHROPIC_API_KEY=sk-ant-...  # if using Claude directly
+LANGCHAIN_API_KEY=ls__...    # optional, for LangSmith tracing
+LANGCHAIN_TRACING_V2=true    # enable LangSmith
 ```
 
-### Configuration File
+## Your First Research Query
 
-```yaml
-# config.yaml
-server:
-  host: "0.0.0.0"
-  port: 8080
-  workers: 4
-
-database:
-  url: "postgresql://deerflow:deerflow123@localhost:5432/deerflow"
-  pool_size: 10
-  max_overflow: 20
-
-redis:
-  url: "redis://localhost:6379"
-  db: 0
-
-worker:
-  concurrency: 4
-  prefetch: 2
-  heartbeat: 30
-
-logging:
-  level: "INFO"
-  file: "/var/log/deer-flow.log"
-  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-
-monitoring:
-  enabled: true
-  metrics_port: 9090
-```
-
-## 🌐 Accessing Deer Flow
-
-Once installed, access Deer Flow through:
-
-```bash
-# Web interface
-open http://localhost:8080
-
-# API endpoints
-curl http://localhost:8080/api/health
-
-# CLI tools
-deer-flow --help
-```
-
-### Default Credentials
-- **Web UI**: No authentication required (configure as needed)
-- **API**: No authentication by default (add middleware for production)
-
-## 🏃‍♂️ Your First Workflow
-
-### Creating a Simple Workflow
-
-```json
-// simple_workflow.json
-{
-  "name": "hello_world",
-  "description": "A simple hello world workflow",
-  "version": "1.0",
-  "tasks": [
-    {
-      "id": "hello_task",
-      "name": "Hello Task",
-      "type": "shell",
-      "command": "echo 'Hello, Deer Flow!'",
-      "timeout": 30
-    }
-  ]
-}
-```
-
-### Submitting the Workflow
-
-```bash
-# Via API
-curl -X POST http://localhost:8080/api/workflows \
-  -H "Content-Type: application/json" \
-  -d @simple_workflow.json
-
-# Via CLI
-deer-flow workflow submit simple_workflow.json
-
-# Via Python SDK
-from deerflow import WorkflowClient
-
-client = WorkflowClient("http://localhost:8080")
-workflow_id = client.submit_workflow("simple_workflow.json")
-print(f"Workflow submitted: {workflow_id}")
-```
-
-### Monitoring Execution
-
-```bash
-# Check workflow status
-curl http://localhost:8080/api/workflows/{workflow_id}/status
-
-# View task logs
-curl http://localhost:8080/api/workflows/{workflow_id}/tasks/{task_id}/logs
-
-# Get workflow results
-curl http://localhost:8080/api/workflows/{workflow_id}/result
-```
-
-## 📊 Understanding Workflow States
-
-### Workflow States
+With DeerFlow running at `http://localhost:2026`, open the chat interface and type:
 
 ```
-Workflow States
-├── PENDING     - Workflow submitted, waiting to start
-├── RUNNING     - Workflow is currently executing
-├── COMPLETED   - All tasks completed successfully
-├── FAILED      - One or more tasks failed
-├── CANCELLED   - Workflow was cancelled
-└── TIMEOUT     - Workflow exceeded time limit
+What are the key architectural differences between LangGraph and AutoGen for building multi-agent systems? Include recent benchmarks and community adoption data.
 ```
 
-### Task States
+What you will observe:
 
-```
-Task States
-├── PENDING     - Task waiting to be scheduled
-├── SCHEDULED   - Task assigned to a worker
-├── RUNNING     - Task is currently executing
-├── COMPLETED   - Task completed successfully
-├── FAILED      - Task execution failed
-├── RETRY       - Task failed, will retry
-├── CANCELLED   - Task was cancelled
-└── TIMEOUT     - Task exceeded time limit
-```
+1. **Thinking phase** — The lead agent parses the question, identifies sub-topics, and may ask a clarifying question via `ask_clarification` if the request is ambiguous
+2. **Research phase** — Multiple web searches fire in sequence (or in parallel via sub-agents), each fetching and reading full page content
+3. **Synthesis phase** — The agent accumulates search results in its context window
+4. **Report phase** — A structured markdown report streams to the UI with inline citations in the format `[citation:Title](URL)`
 
-## 🔧 Workflow Definition
+The entire interaction is a single LangGraph thread, persisted in the checkpointer. You can resume it later or branch into a new query.
 
-### Basic Task Types
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant UI as Next.js :3000
+    participant LG as LangGraph Server :2024
+    participant LLM as LLM Provider
+    participant WS as Web Search Tool
+    participant SB as Sandbox
 
-```json
-{
-  "tasks": [
-    {
-      "id": "shell_task",
-      "name": "Shell Command",
-      "type": "shell",
-      "command": "echo 'Hello World'",
-      "working_directory": "/tmp",
-      "environment": {
-        "MY_VAR": "my_value"
-      },
-      "timeout": 30
-    },
-    {
-      "id": "http_task",
-      "name": "HTTP Request",
-      "type": "http",
-      "method": "GET",
-      "url": "https://api.example.com/data",
-      "headers": {
-        "Authorization": "Bearer token"
-      },
-      "timeout": 60
-    },
-    {
-      "id": "python_task",
-      "name": "Python Function",
-      "type": "python",
-      "module": "my_module",
-      "function": "my_function",
-      "args": ["arg1", "arg2"],
-      "kwargs": {"key": "value"}
-    }
-  ]
-}
+    U->>UI: Submit research query
+    UI->>LG: POST /threads/{id}/runs (SSE)
+    LG->>LLM: Lead agent invoke (system prompt + query)
+    LLM-->>LG: Tool call: web_search("LangGraph architecture")
+    LG->>WS: Execute search
+    WS-->>LG: Search results JSON
+    LG->>LLM: Continue with results
+    LLM-->>LG: Tool call: web_search("AutoGen benchmarks 2025")
+    LG->>WS: Execute search
+    WS-->>LG: Search results JSON
+    LG->>LLM: Continue with all results
+    LLM-->>LG: Final report (streaming tokens)
+    LG-->>UI: SSE token stream
+    UI-->>U: Rendered markdown report
 ```
 
-### Workflow Metadata
+## Understanding Thread State
 
-```json
-{
-  "name": "data_processing_pipeline",
-  "description": "Process and analyze data files",
-  "version": "1.0.0",
-  "author": "Data Team",
-  "tags": ["data", "processing", "analytics"],
-  "timeout": 3600,
-  "retry_policy": {
-    "max_attempts": 3,
-    "backoff": "exponential",
-    "initial_delay": 1
-  },
-  "notifications": {
-    "on_success": ["email@company.com"],
-    "on_failure": ["alerts@company.com"]
-  }
-}
-```
-
-## 🔄 Task Dependencies
-
-### Simple Dependencies
-
-```json
-{
-  "tasks": [
-    {
-      "id": "extract_data",
-      "name": "Extract Data",
-      "type": "shell",
-      "command": "python extract.py"
-    },
-    {
-      "id": "transform_data",
-      "name": "Transform Data",
-      "type": "shell",
-      "command": "python transform.py",
-      "depends_on": ["extract_data"]
-    },
-    {
-      "id": "load_data",
-      "name": "Load Data",
-      "type": "shell",
-      "command": "python load.py",
-      "depends_on": ["transform_data"]
-    }
-  ]
-}
-```
-
-### Complex Dependencies
-
-```json
-{
-  "tasks": [
-    {
-      "id": "task_a",
-      "name": "Task A",
-      "type": "shell",
-      "command": "echo 'Task A'"
-    },
-    {
-      "id": "task_b",
-      "name": "Task B",
-      "type": "shell",
-      "command": "echo 'Task B'",
-      "depends_on": ["task_a"]
-    },
-    {
-      "id": "task_c",
-      "name": "Task C",
-      "type": "shell",
-      "command": "echo 'Task C'",
-      "depends_on": ["task_a"]
-    },
-    {
-      "id": "task_d",
-      "name": "Task D",
-      "type": "shell",
-      "command": "echo 'Task D'",
-      "depends_on": ["task_b", "task_c"]
-    }
-  ]
-}
-```
-
-## 📊 Monitoring Workflows
-
-### Web Dashboard
-
-The Deer Flow web interface provides:
-
-- **Workflow Overview**: List of all workflows with status
-- **Task Details**: Individual task execution details
-- **Real-time Logs**: Live streaming of task logs
-- **Performance Metrics**: Execution times and success rates
-- **Dependency Graph**: Visual representation of task relationships
-
-### API Monitoring
-
-```bash
-# Get workflow statistics
-curl http://localhost:8080/api/workflows/stats
-
-# List running workflows
-curl http://localhost:8080/api/workflows?status=running
-
-# Get task execution history
-curl http://localhost:8080/api/tasks/history
-
-# Monitor system health
-curl http://localhost:8080/api/health
-```
-
-## 🔧 Troubleshooting
-
-### Common Issues
-
-#### Connection Problems
-```bash
-# Check if services are running
-docker-compose ps
-
-# Verify API connectivity
-curl http://localhost:8080/api/health
-
-# Check logs
-docker-compose logs deer-flow-server
-```
-
-#### Database Issues
-```bash
-# Check database connectivity
-docker-compose exec postgres psql -U deerflow -d deerflow -c "SELECT 1"
-
-# Reset database
-docker-compose down -v
-docker-compose up -d
-```
-
-#### Worker Issues
-```bash
-# Check worker status
-curl http://localhost:8080/api/workers
-
-# Restart workers
-docker-compose restart deer-flow-worker
-
-# Scale workers
-docker-compose up -d --scale deer-flow-worker=3
-```
-
-### Performance Issues
-
-```bash
-# Check resource usage
-docker stats
-
-# Monitor queue length
-curl http://localhost:8080/api/queue/stats
-
-# Adjust worker concurrency
-export WORKER_CONCURRENCY=8
-docker-compose restart deer-flow-worker
-```
-
-## 🎯 Key Concepts
-
-### Workflows
-- **Definition**: JSON specification of tasks and dependencies
-- **Execution**: Orchestrated by the workflow manager
-- **State**: Tracked throughout lifecycle
-- **Results**: Stored and accessible via API
-
-### Tasks
-- **Types**: Shell, HTTP, Python, custom
-- **Dependencies**: Define execution order
-- **Retries**: Automatic retry on failure
-- **Timeouts**: Prevent hanging tasks
-
-### Workers
-- **Scaling**: Horizontal scaling for performance
-- **Isolation**: Each worker runs in separate container
-- **Monitoring**: Health checks and metrics
-- **Resource**: CPU and memory allocation
-
-## 📊 Performance Metrics
-
-### Key Metrics to Monitor
+Every conversation is a **thread**. DeerFlow extends LangGraph's `AgentState` with `ThreadState`:
 
 ```python
-# Workflow metrics
-workflow_metrics = {
-    'total_workflows': 0,
-    'running_workflows': 0,
-    'completed_workflows': 0,
-    'failed_workflows': 0,
-    'average_execution_time': 0.0
-}
-
-# Task metrics
-task_metrics = {
-    'total_tasks': 0,
-    'running_tasks': 0,
-    'completed_tasks': 0,
-    'failed_tasks': 0,
-    'retry_rate': 0.0
-}
-
-# System metrics
-system_metrics = {
-    'cpu_usage': 0.0,
-    'memory_usage': 0.0,
-    'queue_length': 0,
-    'worker_count': 0
-}
+# backend/packages/harness/deerflow/agents/thread_state.py
+class ThreadState(AgentState):
+    sandbox: SandboxState | None          # Docker container ID for this thread
+    thread_data: ThreadDataState | None   # Workspace/uploads/outputs paths
+    title: str | None                     # Auto-generated conversation title
+    artifacts: list[str]                  # Paths of generated outputs (reports, MP3s, slides)
+    todos: list | None                    # Task list (plan mode)
+    uploaded_files: list[dict] | None     # Files attached by the user
+    viewed_images: dict[str, ViewedImageData]  # Images the agent has processed
 ```
 
-## 🏆 Achievement Unlocked!
+This state is checkpointed asynchronously after every step, meaning you can pause a long research run and resume it exactly where it left off.
 
-Congratulations! 🎉 You've successfully:
+## Troubleshooting Common Setup Issues
 
-- ✅ Installed Deer Flow using Docker
-- ✅ Configured the system components
-- ✅ Created and executed your first workflow
-- ✅ Explored the web interface and API
-- ✅ Understood workflow and task states
-- ✅ Set up basic monitoring
+### "config.yaml not found"
 
-## 🚀 What's Next?
+The backend looks for `config.yaml` in the project root (`deer-flow/`), not in `backend/`. The most common mistake is placing it in `backend/config.yaml`. Either move it or set:
 
-Ready to create more complex workflows? Let's explore [Chapter 2: Workflow Basics](02-workflow-basics.md) to learn about task types, dependencies, and advanced workflow patterns.
+```bash
+export DEER_FLOW_CONFIG_PATH=/absolute/path/to/deer-flow/config.yaml
+```
+
+### LLM Model Not Responding
+
+Run `make doctor` — it tests the model connection. If it fails, verify:
+- The API key in `.env` is correct and not expired
+- The `base_url` in `config.yaml` matches the provider's endpoint
+- The model name matches exactly (case-sensitive)
+
+### Docker Sandbox Startup Timeout
+
+The AioSandbox container image is ~500 MB. Pull it explicitly before the first run:
+
+```bash
+make setup-sandbox
+```
+
+### Port 2026 Already in Use
+
+```bash
+# Find the process using the port
+lsof -i :2026
+# Stop DeerFlow services
+make docker-stop
+# Or kill the specific process and restart
+```
+
+### Frontend Shows "Cannot connect to agent"
+
+The frontend at `:3000` proxies agent requests through Nginx at `:2026` to the LangGraph server at `:2024`. If the LangGraph server is not running, no agent calls will succeed. Check:
+
+```bash
+make docker-logs          # Docker mode
+# or
+ps aux | grep langgraph   # Local mode
+```
+
+## Key Concepts Recap
+
+| Concept | What It Actually Is |
+|:--|:--|
+| "Workflow" | A LangGraph thread — a sequence of LLM invocations + tool calls |
+| "Task" | A sub-agent invocation spawned via `task_tool` |
+| "Worker" | A Docker sandbox container executing Python/bash code |
+| "State" | The LangGraph `ThreadState` persisted by the checkpointer |
+| "Skill" | A Markdown file loaded into the agent's context to guide behavior |
+| "Config" | `config.yaml` at project root — LLM providers, tools, sandbox mode |
+
+## What's Next?
+
+With DeerFlow running and your first research query completed, Chapter 2 dives into the LangGraph state machine that powers everything: how the `lead_agent` graph is compiled, how the 14-stage middleware pipeline wraps every invocation, and how async checkpointing enables long-running multi-turn research sessions.
 
 ---
-
-**Practice what you've learned:**
-1. Experiment with different installation methods
-2. Create workflows with multiple task types
-3. Set up dependencies between tasks
-4. Monitor workflow execution in the web UI
-5. Explore the API endpoints for automation
-
-*What's the first distributed workflow you want to build?* 🔀
-
-## What Problem Does This Solve?
-
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `Task`, `deer`, `flow` so behavior stays predictable as complexity grows.
-
-In practical terms, this chapter helps you avoid three common failures:
-
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 1: Getting Started with Deer Flow` as an operating subsystem inside **Deer Flow Tutorial: Distributed Workflow Orchestration Platform**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `name`, `localhost`, `http` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 1: Getting Started with Deer Flow` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `Task`.
-2. **Input normalization**: shape incoming data so `deer` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `flow`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [Official Documentation](https://github.com/bytedance/deer-flow/tree/main/docs)
-  Why it matters: authoritative reference on `Official Documentation` (github.com).
-- [GitHub Repository](https://github.com/bytedance/deer-flow)
-  Why it matters: authoritative reference on `GitHub Repository` (github.com).
-- [API Reference](https://github.com/bytedance/deer-flow/blob/main/docs/API.md)
-  Why it matters: authoritative reference on `API Reference` (github.com).
-- [Community & Issues](https://github.com/bytedance/deer-flow/issues)
-  Why it matters: authoritative reference on `Community & Issues` (github.com).
-- [Workflow Examples](https://github.com/bytedance/deer-flow/tree/main/examples)
-  Why it matters: authoritative reference on `Workflow Examples` (github.com).
-- [AI Codebase Knowledge Builder](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `AI Codebase Knowledge Builder` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `Task` and `deer` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
 
 ## Chapter Connections
 
 - [Tutorial Index](README.md)
-- [Next Chapter: Chapter 2: Workflow Basics](02-workflow-basics.md)
+- [Next Chapter: Chapter 2: LangGraph Architecture and Agent Orchestration](02-langgraph-architecture.md)
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)

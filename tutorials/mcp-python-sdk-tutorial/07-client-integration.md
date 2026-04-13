@@ -12,6 +12,19 @@ Welcome to **Chapter 7: Client Integration**. In this part of **MCP Python SDK T
 
 > Integrate your MCP server with Claude Code, Claude.ai, and build custom MCP clients.
 
+## Client Integration Patterns
+
+```mermaid
+flowchart TD
+    SERVER[MCP Python Server] --> CC[Claude Code\n~/.claude.json config]
+    SERVER --> CW[Claude.ai Web\nMCP server settings]
+    SERVER --> CUSTOM[Custom Client\nmcp.ClientSession]
+
+    CC --> STDIO[stdio transport\nsubprocess spawn]
+    CW --> SSE[HTTP + SSE transport]
+    CUSTOM --> BOTH[stdio or HTTP]
+```
+
 ## Claude Code Integration
 
 ### Configuration

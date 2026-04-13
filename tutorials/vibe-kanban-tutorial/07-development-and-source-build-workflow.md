@@ -52,50 +52,7 @@ You now have a contributor-ready workflow for iterating on Vibe Kanban itself.
 
 Next: [Chapter 8: Production Operations and Governance](08-production-operations-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `npx-cli/src/download.ts`
-
-The `BinaryInfo` interface in [`npx-cli/src/download.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/download.ts) handles a key part of this chapter's functionality:
-
-```ts
-  process.env.VIBE_KANBAN_LOCAL === '1';
-
-export interface BinaryInfo {
-  sha256: string;
-  size: number;
-}
-
-export interface BinaryManifest {
-  latest?: string;
-  platforms: Record<string, Record<string, BinaryInfo>>;
-}
-
-export interface DesktopPlatformInfo {
-  file: string;
-  sha256: string;
-  type: string | null;
-}
-
-export interface DesktopManifest {
-  platforms: Record<string, DesktopPlatformInfo>;
-}
-
-export interface DesktopBundleInfo {
-  archivePath: string | null;
-  dir: string;
-  type: string | null;
-}
-
-type ProgressCallback = (downloaded: number, total: number) => void;
-
-function fetchJson<T>(url: string): Promise<T> {
-  return new Promise((resolve, reject) => {
-```
-
-This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
 ### `npx-cli/src/download.ts`
 
@@ -220,16 +177,57 @@ function fetchJson<T>(url: string): Promise<T> {
 
 This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
 
+### `npx-cli/src/download.ts`
+
+The `DesktopBundleInfo` interface in [`npx-cli/src/download.ts`](https://github.com/BloopAI/vibe-kanban/blob/HEAD/npx-cli/src/download.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export interface DesktopBundleInfo {
+  archivePath: string | null;
+  dir: string;
+  type: string | null;
+}
+
+type ProgressCallback = (downloaded: number, total: number) => void;
+
+function fetchJson<T>(url: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    https
+      .get(url, (res) => {
+        if (res.statusCode === 301 || res.statusCode === 302) {
+          return fetchJson<T>(res.headers.location!)
+            .then(resolve)
+            .catch(reject);
+        }
+        if (res.statusCode !== 200) {
+          return reject(new Error(`HTTP ${res.statusCode} fetching ${url}`));
+        }
+        let data = '';
+        res.on('data', (chunk: string) => (data += chunk));
+        res.on('end', () => {
+          try {
+            resolve(JSON.parse(data) as T);
+          } catch {
+            reject(new Error(`Failed to parse JSON from ${url}`));
+          }
+        });
+      })
+```
+
+This interface is important because it defines how Vibe Kanban Tutorial: Multi-Agent Orchestration Board for Coding Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[BinaryInfo]
-    B[BinaryManifest]
-    C[DesktopPlatformInfo]
-    D[DesktopManifest]
-    E[DesktopBundleInfo]
+    A[BinaryManifest]
+    B[DesktopPlatformInfo]
+    C[DesktopManifest]
+    D[DesktopBundleInfo]
+    E[getTauriPlatform]
     A --> B
     B --> C
     C --> D

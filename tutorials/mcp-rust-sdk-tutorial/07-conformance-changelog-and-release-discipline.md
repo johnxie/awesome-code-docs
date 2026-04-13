@@ -39,170 +39,168 @@ You now have a release process aligned with the pace and risk profile of rmcp de
 
 Next: [Chapter 8: Ecosystem Integration and Production Operations](08-ecosystem-integration-and-production-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `conformance/src/bin/server.rs`
+### `examples/servers/src/completion_stdio.rs`
 
-The `schema` interface in [`conformance/src/bin/server.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/server.rs) handles a key part of this chapter's functionality:
-
-```rs
-            Tool::new(
-                "test_elicitation_sep1330_enums",
-                "Tests enum schema improvements (SEP-1330)",
-                json_object(json!({
-                    "type": "object",
-                    "properties": {}
-                })),
-            ),
-            Tool::new(
-                "json_schema_2020_12_tool",
-                "Tool with JSON Schema 2020-12 features",
-                json_object(json!({
-                    "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "type": "object",
-                    "$defs": {
-                        "address": {
-                            "type": "object",
-                            "properties": {
-                                "street": { "type": "string" },
-                                "city": { "type": "string" }
-                            }
-                        }
-                    },
-                    "properties": {
-                        "name": { "type": "string" },
-                        "address": { "$ref": "#/$defs/address" }
-                    },
-                    "additionalProperties": false
-                })),
-            ),
-            Tool::new(
-                "test_reconnection",
-```
-
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
-
-### `conformance/src/bin/server.rs`
-
-The `schema` interface in [`conformance/src/bin/server.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/conformance/src/bin/server.rs) handles a key part of this chapter's functionality:
+The `SqlQueryArgs` interface in [`examples/servers/src/completion_stdio.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/completion_stdio.rs) handles a key part of this chapter's functionality:
 
 ```rs
-            Tool::new(
-                "test_elicitation_sep1330_enums",
-                "Tests enum schema improvements (SEP-1330)",
-                json_object(json!({
-                    "type": "object",
-                    "properties": {}
-                })),
-            ),
-            Tool::new(
-                "json_schema_2020_12_tool",
-                "Tool with JSON Schema 2020-12 features",
-                json_object(json!({
-                    "$schema": "https://json-schema.org/draft/2020-12/schema",
-                    "type": "object",
-                    "$defs": {
-                        "address": {
-                            "type": "object",
-                            "properties": {
-                                "street": { "type": "string" },
-                                "city": { "type": "string" }
-                            }
-                        }
-                    },
-                    "properties": {
-                        "name": { "type": "string" },
-                        "address": { "$ref": "#/$defs/address" }
-                    },
-                    "additionalProperties": false
-                })),
-            ),
-            Tool::new(
-                "test_reconnection",
-```
-
-This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
-
-### `examples/servers/src/cimd_auth_streamhttp.rs`
-
-The `AuthCodeRecord` interface in [`examples/servers/src/cimd_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/cimd_auth_streamhttp.rs) handles a key part of this chapter's functionality:
-
-```rs
-/// In-memory authorization code record
-#[derive(Clone, Debug)]
-struct AuthCodeRecord {
-    _client_id: String,
-    _redirect_uri: String,
-    expires_at: SystemTime,
+#[derive(Debug, Serialize, Deserialize, JsonSchema)]
+#[schemars(description = "SQL query builder with progressive completion")]
+pub struct SqlQueryArgs {
+    #[schemars(description = "SQL operation type (SELECT, INSERT, UPDATE, DELETE)")]
+    pub operation: String,
+    #[schemars(description = "Database table name")]
+    pub table: String,
+    #[schemars(description = "Columns to select/update (only for SELECT/UPDATE)")]
+    pub columns: Option<String>,
+    #[schemars(description = "WHERE clause condition (optional for all operations)")]
+    pub where_clause: Option<String>,
+    #[schemars(description = "Values to insert (only for INSERT)")]
+    pub values: Option<String>,
 }
 
+/// SQL query builder server with progressive completion
 #[derive(Clone)]
-struct AppState {
-    auth_codes: Arc<RwLock<HashMap<String, AuthCodeRecord>>>,
+pub struct SqlQueryServer {
+    prompt_router: PromptRouter<SqlQueryServer>,
 }
 
-impl AppState {
-    fn new() -> Self {
+impl SqlQueryServer {
+    pub fn new() -> Self {
         Self {
-            auth_codes: Arc::new(RwLock::new(HashMap::new())),
+            prompt_router: Self::prompt_router(),
         }
     }
 }
 
-fn generate_authorization_code() -> String {
-    rand::rng()
-        .sample_iter(&Alphanumeric)
-        .take(32)
-        .map(char::from)
-        .collect()
-}
-
-fn generate_access_token() -> String {
-    rand::rng()
-        .sample_iter(&Alphanumeric)
+impl Default for SqlQueryServer {
+    fn default() -> Self {
+        Self::new()
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
 
-### `examples/servers/src/cimd_auth_streamhttp.rs`
+### `examples/servers/src/completion_stdio.rs`
 
-The `AppState` interface in [`examples/servers/src/cimd_auth_streamhttp.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/cimd_auth_streamhttp.rs) handles a key part of this chapter's functionality:
+The `SqlQueryServer` interface in [`examples/servers/src/completion_stdio.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/examples/servers/src/completion_stdio.rs) handles a key part of this chapter's functionality:
 
 ```rs
-
+/// SQL query builder server with progressive completion
 #[derive(Clone)]
-struct AppState {
-    auth_codes: Arc<RwLock<HashMap<String, AuthCodeRecord>>>,
+pub struct SqlQueryServer {
+    prompt_router: PromptRouter<SqlQueryServer>,
 }
 
-impl AppState {
-    fn new() -> Self {
+impl SqlQueryServer {
+    pub fn new() -> Self {
         Self {
-            auth_codes: Arc::new(RwLock::new(HashMap::new())),
+            prompt_router: Self::prompt_router(),
         }
     }
 }
 
-fn generate_authorization_code() -> String {
-    rand::rng()
-        .sample_iter(&Alphanumeric)
-        .take(32)
-        .map(char::from)
-        .collect()
+impl Default for SqlQueryServer {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
-fn generate_access_token() -> String {
-    rand::rng()
-        .sample_iter(&Alphanumeric)
-        .take(32)
-        .map(char::from)
-        .collect()
+impl SqlQueryServer {
+    /// Fuzzy matching with scoring for completion suggestions
+    fn fuzzy_match(&self, query: &str, candidates: &[&str]) -> Vec<String> {
+        if query.is_empty() {
+            return candidates.iter().take(10).map(|s| s.to_string()).collect();
+        }
+
+        let query_lower = query.to_lowercase();
+        let mut scored_matches = Vec::new();
+
+        for candidate in candidates {
+            let candidate_lower = candidate.to_lowercase();
+```
+
+This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `crates/rmcp-macros/src/tool.rs`
+
+The `tool` function in [`crates/rmcp-macros/src/tool.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp-macros/src/tool.rs) handles a key part of this chapter's functionality:
+
+```rs
+    if let Some(inner_type) = extract_json_inner_type(ret_type) {
+        return syn::parse2::<Expr>(quote! {
+            rmcp::handler::server::tool::schema_for_output::<#inner_type>()
+                .unwrap_or_else(|e| {
+                    panic!(
+                        "Invalid output schema for Json<{}>: {}",
+                        std::any::type_name::<#inner_type>(),
+                        e
+                    )
+                })
+        })
+        .ok();
+    }
+
+    // Then, try Result<Json<T>, E>
+    let type_path = match ret_type {
+        syn::Type::Path(path) => path,
+        _ => return None,
+    };
+
+    let last_segment = type_path.path.segments.last()?;
+
+    if last_segment.ident != "Result" {
+        return None;
+    }
+
+    let args = match &last_segment.arguments {
+        syn::PathArguments::AngleBracketed(args) => args,
+        _ => return None,
+    };
+
+    let ok_type = match args.args.first()? {
+```
+
+This function is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
+
+### `crates/rmcp-macros/src/tool.rs`
+
+The `ToolAttribute` interface in [`crates/rmcp-macros/src/tool.rs`](https://github.com/modelcontextprotocol/rust-sdk/blob/HEAD/crates/rmcp-macros/src/tool.rs) handles a key part of this chapter's functionality:
+
+```rs
+#[derive(FromMeta, Default, Debug)]
+#[darling(default)]
+pub struct ToolAttribute {
+    /// The name of the tool
+    pub name: Option<String>,
+    /// Human readable title of tool
+    pub title: Option<String>,
+    pub description: Option<String>,
+    /// A JSON Schema object defining the expected parameters for the tool
+    pub input_schema: Option<Expr>,
+    /// An optional JSON Schema object defining the structure of the tool's output
+    pub output_schema: Option<Expr>,
+    /// Optional additional tool information.
+    pub annotations: Option<ToolAnnotationsAttribute>,
+    /// Execution-related configuration including task support.
+    pub execution: Option<ToolExecutionAttribute>,
+    /// Optional icons for the tool
+    pub icons: Option<Expr>,
+    /// Optional metadata for the tool
+    pub meta: Option<Expr>,
+    /// When true, the generated future will not require `Send`. Useful for `!Send` handlers
+    /// (e.g. single-threaded database connections). Also enabled globally by the `local` crate feature.
+    pub local: bool,
 }
 
-/// Validate that the client_id is a URL that meets CIMD mandatory requirements.
-/// Mirrors the JS validateClientIdUrl helper.
+#[derive(FromMeta, Debug, Default)]
+#[darling(default)]
+pub struct ToolExecutionAttribute {
+    /// Task support mode: "forbidden", "optional", or "required"
+    pub task_support: Option<String>,
+}
+
 ```
 
 This interface is important because it defines how MCP Rust SDK Tutorial: Building High-Performance MCP Services with RMCP implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This interface is important because it defines how MCP Rust SDK Tutorial: Buildi
 
 ```mermaid
 flowchart TD
-    A[schema]
-    B[schema]
-    C[AuthCodeRecord]
-    D[AppState]
-    E[AuthorizeQuery]
+    A[SqlQueryArgs]
+    B[SqlQueryServer]
+    C[tool]
+    D[ToolAttribute]
+    E[ToolExecutionAttribute]
     A --> B
     B --> C
     C --> D

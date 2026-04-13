@@ -48,8 +48,6 @@ You now have a practical starting baseline for iterative Composio adoption.
 
 Next: [Chapter 2: Sessions, Meta Tools, and User Scoping](02-sessions-meta-tools-and-user-scoping.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `tsdown.config.base.ts`
@@ -225,7 +223,7 @@ flowchart TD
     B[slugify]
     C[Accordion]
     D[getMDXComponents]
-    E[kebabToCamel]
+    E[fmt]
     A --> B
     B --> C
     C --> D

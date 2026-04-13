@@ -28,128 +28,44 @@ You now understand how to scale from single-agent workflows to coordinated paral
 
 Next: [Chapter 5: Human Approval and High-Stakes Actions](05-human-approval-and-high-stakes-actions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `claudecode-go/client.go`
 
-The `shouldSkipPath` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+The `Interrupt` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// shouldSkipPath checks if a path should be skipped during search
-func shouldSkipPath(path string) bool {
-	// Skip node_modules directories
-	if strings.Contains(path, "/node_modules/") {
-		return true
+// Interrupt sends a SIGINT signal to the session process
+func (s *Session) Interrupt() error {
+	if s.cmd.Process != nil {
+		return s.cmd.Process.Signal(syscall.SIGINT)
 	}
-	// Skip backup files
-	if strings.HasSuffix(path, ".bak") {
-		return true
-	}
-	return false
+	return nil
 }
 
-// ShouldSkipPath checks if a path should be skipped during search (exported version)
-func ShouldSkipPath(path string) bool {
-	return shouldSkipPath(path)
-}
+// parseStreamingJSON reads and parses streaming JSON output
+func (s *Session) parseStreamingJSON(stdout, stderr io.Reader) {
+	scanner := bufio.NewScanner(stdout)
+	// Configure scanner to handle large JSON lines (up to 10MB)
+	// This prevents buffer overflow when Claude returns large file contents
+	scanner.Buffer(make([]byte, 0), 10*1024*1024) // 10MB max line size
+	var stderrBuf strings.Builder
+	stderrDone := make(chan struct{})
 
-// NewClient creates a new Claude Code client
-func NewClient() (*Client, error) {
-	// First try standard PATH
-	path, err := exec.LookPath("claude")
-	if err == nil && !shouldSkipPath(path) {
-		return &Client{claudePath: path}, nil
-	}
-
-	// Try common installation paths
-	commonPaths := []string{
-		filepath.Join(os.Getenv("HOME"), ".claude/local/claude"), // Add Claude's own directory
-		filepath.Join(os.Getenv("HOME"), ".npm/bin/claude"),
-```
-
-This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
-
-### `claudecode-go/client.go`
-
-The `ShouldSkipPath` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// ShouldSkipPath checks if a path should be skipped during search (exported version)
-func ShouldSkipPath(path string) bool {
-	return shouldSkipPath(path)
-}
-
-// NewClient creates a new Claude Code client
-func NewClient() (*Client, error) {
-	// First try standard PATH
-	path, err := exec.LookPath("claude")
-	if err == nil && !shouldSkipPath(path) {
-		return &Client{claudePath: path}, nil
-	}
-
-	// Try common installation paths
-	commonPaths := []string{
-		filepath.Join(os.Getenv("HOME"), ".claude/local/claude"), // Add Claude's own directory
-		filepath.Join(os.Getenv("HOME"), ".npm/bin/claude"),
-		filepath.Join(os.Getenv("HOME"), ".bun/bin/claude"),
-		filepath.Join(os.Getenv("HOME"), ".local/bin/claude"),
-		"/usr/local/bin/claude",
-		"/opt/homebrew/bin/claude",
-	}
-
-	for _, candidatePath := range commonPaths {
-		if shouldSkipPath(candidatePath) {
-			continue
-		}
-		if _, err := os.Stat(candidatePath); err == nil {
-			// Verify it's executable
-			if err := isExecutable(candidatePath); err == nil {
-```
-
-This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
-
-### `claudecode-go/client.go`
-
-The `NewClient` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// NewClient creates a new Claude Code client
-func NewClient() (*Client, error) {
-	// First try standard PATH
-	path, err := exec.LookPath("claude")
-	if err == nil && !shouldSkipPath(path) {
-		return &Client{claudePath: path}, nil
-	}
-
-	// Try common installation paths
-	commonPaths := []string{
-		filepath.Join(os.Getenv("HOME"), ".claude/local/claude"), // Add Claude's own directory
-		filepath.Join(os.Getenv("HOME"), ".npm/bin/claude"),
-		filepath.Join(os.Getenv("HOME"), ".bun/bin/claude"),
-		filepath.Join(os.Getenv("HOME"), ".local/bin/claude"),
-		"/usr/local/bin/claude",
-		"/opt/homebrew/bin/claude",
-	}
-
-	for _, candidatePath := range commonPaths {
-		if shouldSkipPath(candidatePath) {
-			continue
-		}
-		if _, err := os.Stat(candidatePath); err == nil {
-			// Verify it's executable
-			if err := isExecutable(candidatePath); err == nil {
-				return &Client{claudePath: candidatePath}, nil
+	// Capture stderr in background
+	go func() {
+		defer close(stderrDone)
+		buf := make([]byte, 1024)
+		for {
+			n, err := stderr.Read(buf)
+			if err != nil {
+				break
 			}
+			stderrBuf.Write(buf[:n])
 		}
-	}
+	}()
 
 ```
 
@@ -157,41 +73,123 @@ This function is important because it defines how HumanLayer Tutorial: Context E
 
 ### `claudecode-go/client.go`
 
-The `NewClientWithPath` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+The `parseStreamingJSON` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
-}
-
-// NewClientWithPath creates a new client with a specific claude binary path
-func NewClientWithPath(claudePath string) *Client {
-	return &Client{
-		claudePath: claudePath,
+		// Start goroutine to parse streaming JSON
+		go func() {
+			session.parseStreamingJSON(stdout, stderr)
+			close(parseDone)
+		}()
+	case OutputJSON:
+		// Start goroutine to parse single JSON result
+		go func() {
+			session.parseSingleJSON(stdout, stderr)
+			close(parseDone)
+		}()
+	default:
+		// Text output - just capture the result
+		go func() {
+			session.parseTextOutput(stdout, stderr)
+			close(parseDone)
+		}()
 	}
-}
 
-// GetPath returns the path to the Claude binary
-func (c *Client) GetPath() string {
-	return c.claudePath
-}
+	// Wait for process to complete in background
+	go func() {
+		// Wait for the command to exit
+		session.SetError(cmd.Wait())
 
-// GetVersion executes claude --version and returns the version string
-func (c *Client) GetVersion() (string, error) {
-	if c.claudePath == "" {
-		return "", fmt.Errorf("claude path not set")
+		// IMPORTANT: Wait for parsing to complete before signaling done.
+		// This ensures that all output has been read and processed before
+		// the session is considered complete. Without this synchronization,
+		// Wait() might return before the result is available.
+		<-parseDone
+
+		close(session.done)
+	}()
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `parseSingleJSON` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+		// Start goroutine to parse single JSON result
+		go func() {
+			session.parseSingleJSON(stdout, stderr)
+			close(parseDone)
+		}()
+	default:
+		// Text output - just capture the result
+		go func() {
+			session.parseTextOutput(stdout, stderr)
+			close(parseDone)
+		}()
 	}
 
-	// Create command with timeout to prevent hanging
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
+	// Wait for process to complete in background
+	go func() {
+		// Wait for the command to exit
+		session.SetError(cmd.Wait())
 
-	cmd := exec.CommandContext(ctx, c.claudePath, "--version")
-	output, err := cmd.Output()
+		// IMPORTANT: Wait for parsing to complete before signaling done.
+		// This ensures that all output has been read and processed before
+		// the session is considered complete. Without this synchronization,
+		// Wait() might return before the result is available.
+		<-parseDone
+
+		close(session.done)
+	}()
+
+	return session, nil
+}
+
+// LaunchAndWait starts a Claude session and waits for it to complete
+func (c *Client) LaunchAndWait(config SessionConfig) (*Result, error) {
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `parseTextOutput` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+		// Text output - just capture the result
+		go func() {
+			session.parseTextOutput(stdout, stderr)
+			close(parseDone)
+		}()
+	}
+
+	// Wait for process to complete in background
+	go func() {
+		// Wait for the command to exit
+		session.SetError(cmd.Wait())
+
+		// IMPORTANT: Wait for parsing to complete before signaling done.
+		// This ensures that all output has been read and processed before
+		// the session is considered complete. Without this synchronization,
+		// Wait() might return before the result is available.
+		<-parseDone
+
+		close(session.done)
+	}()
+
+	return session, nil
+}
+
+// LaunchAndWait starts a Claude session and waits for it to complete
+func (c *Client) LaunchAndWait(config SessionConfig) (*Result, error) {
+	session, err := c.Launch(config)
 	if err != nil {
-		// Check if it was a timeout
-		if ctx.Err() == context.DeadlineExceeded {
-			return "", fmt.Errorf("claude --version timed out after 5 seconds")
-		}
-		// Check for exit error to get more details
+		return nil, err
+	}
+
+	return session.Wait()
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
@@ -201,11 +199,11 @@ This function is important because it defines how HumanLayer Tutorial: Context E
 
 ```mermaid
 flowchart TD
-    A[shouldSkipPath]
-    B[ShouldSkipPath]
-    C[NewClient]
-    D[NewClientWithPath]
-    E[GetPath]
+    A[Interrupt]
+    B[parseStreamingJSON]
+    C[parseSingleJSON]
+    D[parseTextOutput]
+    E[getTypeColor]
     A --> B
     B --> C
     C --> D

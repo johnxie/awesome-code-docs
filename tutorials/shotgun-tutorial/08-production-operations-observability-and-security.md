@@ -42,184 +42,174 @@ Production use of Shotgun requires clear controls across CI, runtime telemetry, 
 
 You now have an operating baseline for running Shotgun in team and production workflows.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/shotgun/posthog_telemetry.py`
+### `src/shotgun/exceptions.py`
 
-The `and` interface in [`src/shotgun/posthog_telemetry.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/posthog_telemetry.py) handles a key part of this chapter's functionality:
-
-```py
-from shotgun.settings import settings
-
-# Use early logger to prevent automatic StreamHandler creation
-logger = get_early_logger(__name__)
-
-
-def _get_environment() -> str:
-    """Determine environment from version string.
-
-    Returns:
-        'development' for dev/rc/alpha/beta versions, 'production' otherwise
-    """
-    if any(marker in __version__ for marker in ["dev", "rc", "alpha", "beta"]):
-        return "development"
-    return "production"
-
-
-# Global PostHog client instance
-_posthog_client: Posthog | None = None
-
-# Cache user context to avoid async calls during event tracking
-_shotgun_instance_id: str | None = None
-_user_context: dict[str, Any] = {}
-
-# Store original exception hook
-_original_excepthook: Any = None
-
-
-def _install_exception_hook() -> None:
-    """Install custom exception hook to capture unhandled exceptions with full context."""
-    import sys
-
-```
-
-This interface is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
-
-### `src/shotgun/posthog_telemetry.py`
-
-The `and` interface in [`src/shotgun/posthog_telemetry.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/posthog_telemetry.py) handles a key part of this chapter's functionality:
-
-```py
-from shotgun.settings import settings
-
-# Use early logger to prevent automatic StreamHandler creation
-logger = get_early_logger(__name__)
-
-
-def _get_environment() -> str:
-    """Determine environment from version string.
-
-    Returns:
-        'development' for dev/rc/alpha/beta versions, 'production' otherwise
-    """
-    if any(marker in __version__ for marker in ["dev", "rc", "alpha", "beta"]):
-        return "development"
-    return "production"
-
-
-# Global PostHog client instance
-_posthog_client: Posthog | None = None
-
-# Cache user context to avoid async calls during event tracking
-_shotgun_instance_id: str | None = None
-_user_context: dict[str, Any] = {}
-
-# Store original exception hook
-_original_excepthook: Any = None
-
-
-def _install_exception_hook() -> None:
-    """Install custom exception hook to capture unhandled exceptions with full context."""
-    import sys
-
-```
-
-This interface is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
-
-### `evals/judges/router_quality_judge.py`
-
-The `RouterQualityJudge` class in [`evals/judges/router_quality_judge.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/evals/judges/router_quality_judge.py) handles a key part of this chapter's functionality:
+The `IncompleteToolCallError` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class RouterQualityJudge:
-    """
-    LLM-as-a-judge evaluator for Router agent quality.
+class IncompleteToolCallError(UserActionableError):  # noqa: N818
+    """Raised when the model generates a tool call with truncated/incomplete JSON arguments.
 
-    Uses structured output to evaluate Router outputs against rubrics.
-    Configured with low temperature for consistent, deterministic evaluation.
+    This can happen when the model's output is cut off mid-stream (e.g., due to
+    token limits, network issues, or oversized arguments).
     """
 
-    def __init__(
-        self,
-        model_config: JudgeModelConfig | None = None,
-        dimensions: list[RouterDimension] | None = None,
-    ) -> None:
-        """Initialize the Router quality judge.
+    def __init__(self, tool_name: str | None = None):
+        """Initialize the exception.
 
         Args:
-            model_config: Judge model configuration. Defaults to Claude Sonnet.
-            dimensions: Dimensions to evaluate. Defaults to all dimensions.
+            tool_name: Optional name of the tool that had incomplete args
         """
-        self.model_config = model_config or JudgeModelConfig(
-            provider=JudgeProviderType.ANTHROPIC,
-            model_name="claude-opus-4-6",
-            temperature=0.2,  # Low temperature for consistency
-            max_tokens=2000,
+        self.tool_name = tool_name
+        msg = "Tool call failed due to incomplete arguments"
+        if tool_name:
+            msg = f"Tool call '{tool_name}' failed due to incomplete arguments"
+        super().__init__(msg)
+
+    def to_markdown(self) -> str:
+        """Generate markdown-formatted error message for TUI."""
+        tool_info = f" (`{self.tool_name}`)" if self.tool_name else ""
+        return (
+            f"⚠️ **A tool call{tool_info} failed due to truncated arguments.**\n\n"
+            "The model's output was cut off before completing the tool call.\n\n"
+            "**Try again** — this is usually a transient issue."
         )
 
-        self.dimensions = dimensions or list(RouterDimension)
-        self.rubrics = {dim: DEFAULT_RUBRICS[dim] for dim in self.dimensions}
-
-    def _create_combined_judge_agent(self) -> Agent[None, AllDimensionsScoreOutput]:
+    def to_plain_text(self) -> str:
+        """Generate plain text error message for CLI."""
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
-### `evals/reporters/console.py`
+### `src/shotgun/exceptions.py`
 
-The `ConsoleReporter` class in [`evals/reporters/console.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/evals/reporters/console.py) handles a key part of this chapter's functionality:
+The `UnknownAgentException` class in [`src/shotgun/exceptions.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/exceptions.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ConsoleReporter:
-    """
-    Formats evaluation reports for console output.
+class UnknownAgentException(UserActionableError):  # noqa: N818
+    """Raised for unknown/unclassified agent errors."""
 
-    Emphasizes scores and trace references for quick debugging.
-    """
-
-    # ANSI color codes
-    GREEN = "\033[92m"
-    RED = "\033[91m"
-    YELLOW = "\033[93m"
-    BLUE = "\033[94m"
-    BOLD = "\033[1m"
-    RESET = "\033[0m"
-
-    def __init__(self, use_color: bool = True) -> None:
-        """Initialize the console reporter.
+    def __init__(self, original_exception: Exception):
+        """Initialize the exception.
 
         Args:
-            use_color: Whether to use ANSI color codes
+            original_exception: The original exception that was caught
         """
-        self.use_color = use_color and sys.stdout.isatty()
+        self.original_exception = original_exception
+        super().__init__(str(original_exception))
 
-    def _color(self, text: str, color: str) -> str:
-        """Apply color to text if colors are enabled."""
-        if self.use_color:
-            return f"{color}{text}{self.RESET}"
-        return text
+    def to_markdown(self) -> str:
+        """Generate markdown-formatted error message for TUI."""
+        log_path = get_shotgun_home() / "logs" / "shotgun.log"
+        return f"⚠️ An error occurred: {str(self.original_exception)}\n\nCheck logs at {log_path}"
 
-    def _status_icon(self, passed: bool) -> str:
+    def to_plain_text(self) -> str:
+        """Generate plain text error message for CLI."""
+        log_path = get_shotgun_home() / "logs" / "shotgun.log"
+        return f"⚠️  An error occurred: {str(self.original_exception)}\n\nCheck logs at {log_path}"
+
 ```
 
 This class is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
+
+### `src/shotgun/main.py`
+
+The `version_callback` function in [`src/shotgun/main.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/main.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def version_callback(value: bool) -> None:
+    """Show version and exit."""
+    if value:
+        from rich.console import Console
+
+        console = Console()
+        console.print(f"shotgun {__version__}")
+        raise typer.Exit()
+
+
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            "-v",
+            callback=version_callback,
+            is_eager=True,
+            help="Show version and exit",
+        ),
+    ] = False,
+    no_update_check: Annotated[
+        bool,
+        typer.Option(
+            "--no-update-check",
+            help="Disable automatic update checks",
+        ),
+    ] = False,
+```
+
+This function is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
+
+### `src/shotgun/main.py`
+
+The `main` function in [`src/shotgun/main.py`](https://github.com/shotgun-sh/shotgun/blob/HEAD/src/shotgun/main.py) handles a key part of this chapter's functionality:
+
+```py
+
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    version: Annotated[
+        bool,
+        typer.Option(
+            "--version",
+            "-v",
+            callback=version_callback,
+            is_eager=True,
+            help="Show version and exit",
+        ),
+    ] = False,
+    no_update_check: Annotated[
+        bool,
+        typer.Option(
+            "--no-update-check",
+            help="Disable automatic update checks",
+        ),
+    ] = False,
+    continue_session: Annotated[
+        bool,
+        typer.Option(
+            "--continue",
+            "-c",
+            help="Continue previous TUI conversation",
+        ),
+    ] = False,
+    web: Annotated[
+        bool,
+        typer.Option(
+```
+
+This function is important because it defines how Shotgun Tutorial: Spec-Driven Development for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[and]
-    B[and]
-    C[RouterQualityJudge]
-    D[ConsoleReporter]
-    E[RouterAggregator]
+    A[IncompleteToolCallError]
+    B[UnknownAgentException]
+    C[version_callback]
+    D[main]
+    E[FeedbackKind]
     A --> B
     B --> C
     C --> D

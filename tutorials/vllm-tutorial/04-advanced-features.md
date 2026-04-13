@@ -815,6 +815,17 @@ Under the hood, `Chapter 4: Advanced Features - Streaming, Tool Calling, and Mul
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Streaming request] --> B[AsyncLLMEngine]
+    B --> C[Token-by-token generation]
+    C --> D[Streamed to client]
+    E[Tool call request] --> B
+    F[Multi-modal image + text] --> B
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

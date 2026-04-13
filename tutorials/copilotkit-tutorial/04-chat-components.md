@@ -805,6 +805,29 @@ export function CustomChatUI() {
 }
 ```
 
+## Chat Component Architecture
+
+```mermaid
+flowchart TD
+    A[CopilotKit provider wraps app]
+    B{Chat component choice}
+    C[CopilotSidebar: sliding panel overlay]
+    D[CopilotChat: embedded inline component]
+    E[CopilotPopup: floating chat button]
+    F[User sends message]
+    G[Message routed to configured LLM]
+    H[Response streamed to chat UI]
+    A --> B
+    B --> C
+    B --> D
+    B --> E
+    C --> F
+    D --> F
+    E --> F
+    F --> G
+    G --> H
+```
+
 ## Summary
 
 In this chapter, we've covered:

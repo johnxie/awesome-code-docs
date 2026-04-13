@@ -38,168 +38,168 @@ You now have a structured foundation for implementing Swift MCP servers.
 
 Next: [Chapter 6: Transports, Custom Implementations, and Shutdown](06-transports-custom-implementations-and-shutdown.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `Sources/MCP/Server/Prompts.swift`
+### `Sources/MCP/Client/Sampling.swift`
 
-The `GetPrompt` interface in [`Sources/MCP/Server/Prompts.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Prompts.swift) handles a key part of this chapter's functionality:
+The `ModelPreferences` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
 
 ```swift
-/// Arguments may be auto-completed through the completion API.
-/// - SeeAlso: https://modelcontextprotocol.io/specification/2025-11-25/server/prompts/#getting-a-prompt
-public enum GetPrompt: Method {
-    public static let name: String = "prompts/get"
 
-    public struct Parameters: Hashable, Codable, Sendable {
-        public let name: String
-        public let arguments: [String: String]?
+    /// Model preferences for sampling requests
+    public struct ModelPreferences: Hashable, Codable, Sendable {
+        /// Model hints for selection
+        public struct Hint: Hashable, Codable, Sendable {
+            /// Suggested model name/family
+            public let name: String?
 
-        public init(name: String, arguments: [String: String]? = nil) {
-            self.name = name
-            self.arguments = arguments
+            public init(name: String? = nil) {
+                self.name = name
+            }
         }
-    }
 
-    public struct Result: Hashable, Codable, Sendable {
-        public let description: String?
-        public let messages: [Prompt.Message]
-        /// Optional metadata about this result
-        public var _meta: Metadata?
+        /// Array of model name suggestions that clients can use to select an appropriate model
+        public let hints: [Hint]?
+        /// Importance of minimizing costs (0-1 normalized)
+        public let costPriority: UnitInterval?
+        /// Importance of low latency response (0-1 normalized)
+        public let speedPriority: UnitInterval?
+        /// Importance of advanced model capabilities (0-1 normalized)
+        public let intelligencePriority: UnitInterval?
 
         public init(
-            description: String? = nil,
-            messages: [Prompt.Message],
-            _meta: Metadata? = nil
+            hints: [Hint]? = nil,
+            costPriority: UnitInterval? = nil,
+            speedPriority: UnitInterval? = nil,
+            intelligencePriority: UnitInterval? = nil
         ) {
-            self.description = description
-            self.messages = messages
-            self._meta = _meta
-        }
-
-        private enum CodingKeys: String, CodingKey, CaseIterable {
+            self.hints = hints
+            self.costPriority = costPriority
+            self.speedPriority = speedPriority
+            self.intelligencePriority = intelligencePriority
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Server/Prompts.swift`
+### `Sources/MCP/Client/Sampling.swift`
 
-The `CodingKeys` interface in [`Sources/MCP/Server/Prompts.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Prompts.swift) handles a key part of this chapter's functionality:
+The `Hint` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
 
 ```swift
+    public struct ModelPreferences: Hashable, Codable, Sendable {
+        /// Model hints for selection
+        public struct Hint: Hashable, Codable, Sendable {
+            /// Suggested model name/family
+            public let name: String?
+
+            public init(name: String? = nil) {
+                self.name = name
+            }
+        }
+
+        /// Array of model name suggestions that clients can use to select an appropriate model
+        public let hints: [Hint]?
+        /// Importance of minimizing costs (0-1 normalized)
+        public let costPriority: UnitInterval?
+        /// Importance of low latency response (0-1 normalized)
+        public let speedPriority: UnitInterval?
+        /// Importance of advanced model capabilities (0-1 normalized)
+        public let intelligencePriority: UnitInterval?
+
+        public init(
+            hints: [Hint]? = nil,
+            costPriority: UnitInterval? = nil,
+            speedPriority: UnitInterval? = nil,
+            intelligencePriority: UnitInterval? = nil
+        ) {
+            self.hints = hints
+            self.costPriority = costPriority
+            self.speedPriority = speedPriority
+            self.intelligencePriority = intelligencePriority
+        }
+    }
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Client/Sampling.swift`
+
+The `StopReason` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
+
+```swift
+    /// The spec defines this as an open string — any provider-specific value is valid.
+    /// The well-known values are exposed as static constants.
+    public struct StopReason: RawRepresentable, Hashable, Codable, Sendable,
+        ExpressibleByStringLiteral
+    {
+        public let rawValue: String
+        public init(rawValue: String) { self.rawValue = rawValue }
+        public init(stringLiteral value: String) { self.rawValue = value }
+
+        /// Natural end of turn
+        public static let endTurn = StopReason(rawValue: "endTurn")
+        /// Hit a stop sequence
+        public static let stopSequence = StopReason(rawValue: "stopSequence")
+        /// Reached maximum tokens
+        public static let maxTokens = StopReason(rawValue: "maxTokens")
+        /// Model wants to use a tool
+        public static let toolUse = StopReason(rawValue: "toolUse")
     }
 
-    private enum CodingKeys: String, CodingKey {
-        case name, title, description, arguments, icons, _meta
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(name, forKey: .name)
-        try container.encodeIfPresent(title, forKey: .title)
-        try container.encodeIfPresent(description, forKey: .description)
-        try container.encodeIfPresent(arguments, forKey: .arguments)
-        try container.encodeIfPresent(icons, forKey: .icons)
-        try container.encodeIfPresent(_meta, forKey: ._meta)
-    }
-
-    public init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        name = try container.decode(String.self, forKey: .name)
-        title = try container.decodeIfPresent(String.self, forKey: .title)
-        description = try container.decodeIfPresent(String.self, forKey: .description)
-        arguments = try container.decodeIfPresent([Argument].self, forKey: .arguments)
-        icons = try container.decodeIfPresent([Icon].self, forKey: .icons)
-        _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
-    }
-
-    /// An argument for a prompt
-    public struct Argument: Hashable, Codable, Sendable {
-        /// The argument name
+    /// Content representing a tool use request from the model
+    public struct ToolUseContent: Hashable, Codable, Sendable {
+        /// Unique identifier for this tool use
+        public let id: String
+        /// Name of the tool being invoked
         public let name: String
-        /// A human-readable argument title
-        public let title: String?
+        /// Input parameters for the tool
+        public let input: [String: Value]
+        /// Optional metadata
+        public var _meta: Metadata?
+
+        public init(id: String, name: String, input: [String: Value], _meta: Metadata? = nil) {
+            self.id = id
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Base/Value.swift`
+### `Sources/MCP/Client/Sampling.swift`
 
-The `Foundation` interface in [`Sources/MCP/Base/Value.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Value.swift) handles a key part of this chapter's functionality:
-
-```swift
-import struct Foundation.Data
-import class Foundation.JSONDecoder
-import class Foundation.JSONEncoder
-
-/// A codable value.
-public enum Value: Hashable, Sendable {
-    case null
-    case bool(Bool)
-    case int(Int)
-    case double(Double)
-    case string(String)
-    case data(mimeType: String? = nil, Data)
-    case array([Value])
-    case object([String: Value])
-
-    /// Create a `Value` from a `Codable` value.
-    /// - Parameter value: The codable value
-    /// - Returns: A value
-    public init<T: Codable>(_ value: T) throws {
-        if let valueAsValue = value as? Value {
-            self = valueAsValue
-        } else {
-            let data = try JSONEncoder().encode(value)
-            self = try JSONDecoder().decode(Value.self, from: data)
-        }
-    }
-
-    /// Returns whether the value is `null`.
-    public var isNull: Bool {
-        return self == .null
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCP/Base/Value.swift`
-
-The `StringInterpolation` interface in [`Sources/MCP/Base/Value.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Base/Value.swift) handles a key part of this chapter's functionality:
+The `ToolUseContent` interface in [`Sources/MCP/Client/Sampling.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Client/Sampling.swift) handles a key part of this chapter's functionality:
 
 ```swift
-}
+                case audio(data: String, mimeType: String)
+                /// Tool use content
+                case toolUse(Sampling.ToolUseContent)
+                /// Tool result content
+                case toolResult(Sampling.ToolResultContent)
+            }
 
-// MARK: - ExpressibleByStringInterpolation
+            /// Returns true if this is a single content block
+            public var isSingle: Bool {
+                if case .single = self { return true }
+                return false
+            }
 
-extension Value: ExpressibleByStringInterpolation {
-    public struct StringInterpolation: StringInterpolationProtocol {
-        var stringValue: String
+            /// Returns content as an array of blocks
+            public var asArray: [ContentBlock] {
+                switch self {
+                case .single(let block):
+                    return [block]
+                case .multiple(let blocks):
+                    return blocks
+                }
+            }
 
-        public init(literalCapacity: Int, interpolationCount: Int) {
-            self.stringValue = ""
-            self.stringValue.reserveCapacity(literalCapacity + interpolationCount)
-        }
+            /// Creates content from a text string (convenience)
+            public static func text(_ text: String) -> Content {
+                .single(.text(text))
+            }
 
-        public mutating func appendLiteral(_ literal: String) {
-            self.stringValue.append(literal)
-        }
-
-        public mutating func appendInterpolation<T: CustomStringConvertible>(_ value: T) {
-            self.stringValue.append(value.description)
-        }
-    }
-
-    public init(stringInterpolation: StringInterpolation) {
-        self = .string(stringInterpolation.stringValue)
-    }
-}
-
-// MARK: - Standard Library Type Extensions
-
-extension Bool {
-    /// Creates a boolean value from a `Value` instance.
-    ///
+            /// Creates content from an image (convenience)
+            public static func image(data: String, mimeType: String) -> Content {
+                .single(.image(data: data, mimeType: mimeType))
+            }
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
@@ -209,11 +209,11 @@ This interface is important because it defines how MCP Swift SDK Tutorial: Build
 
 ```mermaid
 flowchart TD
-    A[GetPrompt]
-    B[CodingKeys]
-    C[Foundation]
-    D[StringInterpolation]
-    E[Value]
+    A[ModelPreferences]
+    B[Hint]
+    C[StopReason]
+    D[ToolUseContent]
+    E[ToolResultContent]
     A --> B
     B --> C
     C --> D

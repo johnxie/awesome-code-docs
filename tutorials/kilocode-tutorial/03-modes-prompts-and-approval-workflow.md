@@ -30,91 +30,7 @@ You now have a mode-selection and approval strategy for safer Kilo sessions.
 
 Next: [Chapter 4: Authentication and Provider Routing](04-authentication-and-provider-routing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `script/changelog.ts`
-
-The `buildNotes` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export async function buildNotes(from: string, to: string) {
-  const commits = await getCommits(from, to)
-
-  if (commits.length === 0) {
-    return []
-  }
-
-  console.log("generating changelog since " + from)
-
-  const opencode = await createKilo({ port: 0 })
-  const notes: string[] = []
-
-  try {
-    const lines = await generateChangelog(commits, opencode)
-    notes.push(...lines)
-    console.log("---- Generated Changelog ----")
-    console.log(notes.join("\n"))
-    console.log("-----------------------------")
-  } catch (error) {
-    if (error instanceof Error && error.name === "TimeoutError") {
-      console.log("Changelog generation timed out, using raw commits")
-      for (const commit of commits) {
-        const attribution = commit.author && !Script.team.includes(commit.author) ? ` (@${commit.author})` : ""
-        notes.push(`- ${commit.message}${attribution}`)
-      }
-    } else {
-      throw error
-    }
-  } finally {
-    await opencode.server.close()
-```
-
-This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
-
-### `script/stats.ts`
-
-The `sendToPostHog` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
-
-```ts
-#!/usr/bin/env bun
-
-async function sendToPostHog(event: string, properties: Record<string, any>) {
-  const key = process.env["POSTHOG_KEY"]
-
-  if (!key) {
-    console.warn("POSTHOG_API_KEY not set, skipping PostHog event")
-    return
-  }
-
-  const response = await fetch("https://us.i.posthog.com/i/v0/e/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      distinct_id: "download",
-      api_key: key,
-      event,
-      properties: {
-        ...properties,
-      },
-    }),
-  }).catch(() => null)
-
-  if (response && !response.ok) {
-    console.warn(`PostHog API error: ${response.status}`)
-  }
-}
-
-interface Asset {
-  name: string
-```
-
-This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
 ### `script/stats.ts`
 
@@ -198,15 +114,97 @@ function calculate(releases: Release[]) {
 
 This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
+### `script/stats.ts`
+
+The `calculate` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function calculate(releases: Release[]) {
+  let total = 0
+  const stats = []
+
+  for (const release of releases) {
+    let downloads = 0
+    const assets = []
+
+    for (const asset of release.assets) {
+      downloads += asset.download_count
+      assets.push({
+        name: asset.name,
+        downloads: asset.download_count,
+      })
+    }
+
+    total += downloads
+    stats.push({
+      tag: release.tag_name,
+      name: release.name,
+      downloads,
+      assets,
+    })
+  }
+
+  return { total, stats }
+}
+
+async function save(githubTotal: number, npmDownloads: number) {
+  const file = "STATS.md"
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/stats.ts`
+
+The `save` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+async function save(githubTotal: number, npmDownloads: number) {
+  const file = "STATS.md"
+  const date = new Date().toISOString().split("T")[0]
+  const total = githubTotal + npmDownloads
+
+  let previousGithub = 0
+  let previousNpm = 0
+  let previousTotal = 0
+  let content = ""
+
+  try {
+    content = await Bun.file(file).text()
+    const lines = content.trim().split("\n")
+
+    for (let i = lines.length - 1; i >= 0; i--) {
+      const line = lines[i].trim()
+      if (line.startsWith("|") && !line.includes("Date") && !line.includes("---")) {
+        const match = line.match(
+          /\|\s*[\d-]+\s*\|\s*([\d,]+)\s*(?:\([^)]*\))?\s*\|\s*([\d,]+)\s*(?:\([^)]*\))?\s*\|\s*([\d,]+)\s*(?:\([^)]*\))?\s*\|/,
+        )
+        if (match) {
+          previousGithub = parseInt(match[1].replace(/,/g, ""))
+          previousNpm = parseInt(match[2].replace(/,/g, ""))
+          previousTotal = parseInt(match[3].replace(/,/g, ""))
+          break
+        }
+      }
+    }
+  } catch {
+    content =
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[buildNotes]
-    B[sendToPostHog]
-    C[fetchNpmDownloads]
-    D[fetchReleases]
+    A[fetchNpmDownloads]
+    B[fetchReleases]
+    C[calculate]
+    D[save]
     A --> B
     B --> C
     C --> D

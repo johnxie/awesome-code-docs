@@ -487,6 +487,25 @@ class ToolPerformanceMonitor:
         return recommendations
 ```
 
+## Tool Integration Architecture
+
+```mermaid
+flowchart TD
+    A[Define tool with @tool decorator]
+    B[Tool registered in agent tools list]
+    C[Agent task requires external data or action]
+    D[Agent calls tool with parameters]
+    E[Tool executes and returns result]
+    F[Result added to agent context]
+    G[Agent continues task with new data]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+```
+
 ## What We've Accomplished
 
 ✅ **Understood tool integration** fundamentals and architecture

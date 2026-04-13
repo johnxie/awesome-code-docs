@@ -11,6 +11,21 @@ Welcome to LLaMA-Factory! If you've ever wanted to train, fine-tune, or deploy l
 
 ## What Makes LLaMA-Factory Powerful?
 
+## LLaMA-Factory Training Pipeline
+
+```mermaid
+flowchart LR
+    A[Base Model\nLLaMA / Qwen / Mistral] --> B[LLaMA-Factory]
+    B --> C{Training Stage}
+    C --> D[SFT: Supervised Fine-Tuning]
+    C --> E[DPO: Preference Optimization]
+    C --> F[PPO: Reinforcement Learning]
+    D --> G[LoRA Adapter or Full Weights]
+    E --> G
+    F --> G
+    G --> H[Inference / Export / Serve]
+```
+
 LLaMA-Factory revolutionizes LLM development by:
 - **Unified Interface** - Single framework for training, fine-tuning, and deployment
 - **Multiple Model Support** - Works with LLaMA, Qwen, and other architectures
@@ -393,14 +408,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`hiyouga/LLaMA-Factory`](https://github.com/hiyouga/LLaMA-Factory):
 
-- [View Repo](https://github.com/hiyouga/LLaMA-Factory)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`src/llamafactory/train/tuner.py`](https://github.com/hiyouga/LLaMA-Factory/blob/main/src/llamafactory/train/tuner.py) -- `run_exp()` entry point; dispatches to the correct training stage (SFT, DPO, PPO)
+- [`src/llamafactory/hparams/`](https://github.com/hiyouga/LLaMA-Factory/tree/main/src/llamafactory/hparams) -- all hyperparameter dataclasses; `ModelArguments`, `DataArguments`, `FinetuningArguments`, `GeneratingArguments`
+- [`llamafactory/webui/`](https://github.com/hiyouga/LLaMA-Factory/tree/main/src/llamafactory/webui) -- Gradio-based web UI source code
 
-Suggested trace strategy:
-- search upstream code for `json` and `llamafactory` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: follow `run_exp()` → stage dispatch → `run_sft()` to understand how training arguments flow from YAML/JSON config into the HuggingFace `Trainer`.
 
 ## Chapter Connections
 

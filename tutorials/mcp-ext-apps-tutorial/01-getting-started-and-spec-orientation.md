@@ -40,170 +40,168 @@ You now have the baseline needed to evaluate and implement MCP Apps flows.
 
 Next: [Chapter 2: MCP Apps Architecture and Lifecycle](02-mcp-apps-architecture-and-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app-bridge.examples.ts`
+### `docs/patterns.tsx`
 
-The `with` class in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
+The `pollingVanillaJs` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
 
-```ts
-
-/**
- * Example: Basic usage of the AppBridge class with PostMessageTransport.
+```tsx
+ * Example: Polling for live data (Vanilla JS)
  */
-async function AppBridge_basicUsage(serverTransport: Transport) {
-  //#region AppBridge_basicUsage
-  // Create MCP client for the server
-  const client = new Client({
-    name: "MyHost",
-    version: "1.0.0",
-  });
-  await client.connect(serverTransport);
+function pollingVanillaJs(app: App, updateUI: (data: unknown) => void) {
+  //#region pollingVanillaJs
+  let intervalId: number | null = null;
 
-  // Create bridge for the View
-  const bridge = new AppBridge(
-    client,
-    { name: "MyHost", version: "1.0.0" },
-    { openLinks: {}, serverTools: {}, logging: {} },
-  );
+  async function poll() {
+    const result = await app.callServerTool({
+      name: "poll-data",
+      arguments: {},
+    });
+    updateUI(result.structuredContent);
+  }
 
-  // Set up iframe and connect
-  const iframe = document.getElementById("app") as HTMLIFrameElement;
-  const transport = new PostMessageTransport(
-    iframe.contentWindow!,
-    iframe.contentWindow!,
-  );
+  function startPolling() {
+    if (intervalId !== null) return;
+    poll();
+    intervalId = window.setInterval(poll, 2000);
+  }
 
-  bridge.oninitialized = () => {
-    console.log("View initialized");
-    // Now safe to send tool input
-    bridge.sendToolInput({ arguments: { location: "NYC" } });
+  function stopPolling() {
+    if (intervalId === null) return;
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  // Clean up when host tears down the view
+  app.onteardown = async () => {
+    stopPolling();
+    return {};
   };
-```
-
-This class is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `src/app-bridge.examples.ts`
-
-The `AppBridge_basicUsage` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Example: Basic usage of the AppBridge class with PostMessageTransport.
- */
-async function AppBridge_basicUsage(serverTransport: Transport) {
-  //#region AppBridge_basicUsage
-  // Create MCP client for the server
-  const client = new Client({
-    name: "MyHost",
-    version: "1.0.0",
-  });
-  await client.connect(serverTransport);
-
-  // Create bridge for the View
-  const bridge = new AppBridge(
-    client,
-    { name: "MyHost", version: "1.0.0" },
-    { openLinks: {}, serverTools: {}, logging: {} },
-  );
-
-  // Set up iframe and connect
-  const iframe = document.getElementById("app") as HTMLIFrameElement;
-  const transport = new PostMessageTransport(
-    iframe.contentWindow!,
-    iframe.contentWindow!,
-  );
-
-  bridge.oninitialized = () => {
-    console.log("View initialized");
-    // Now safe to send tool input
-    bridge.sendToolInput({ arguments: { location: "NYC" } });
-  };
-
-  await bridge.connect(transport);
+  //#endregion pollingVanillaJs
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `src/app-bridge.examples.ts`
+### `docs/patterns.tsx`
 
-The `AppBridge_constructor_withMcpClient` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
+The `poll` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * Example: Creating an AppBridge with an MCP client for automatic forwarding.
+```tsx
+ * Example: Polling for live data (Vanilla JS)
  */
-function AppBridge_constructor_withMcpClient(mcpClient: Client) {
-  //#region AppBridge_constructor_withMcpClient
-  const bridge = new AppBridge(
-    mcpClient,
-    { name: "MyHost", version: "1.0.0" },
-    { openLinks: {}, serverTools: {}, logging: {} },
-  );
-  //#endregion AppBridge_constructor_withMcpClient
-}
+function pollingVanillaJs(app: App, updateUI: (data: unknown) => void) {
+  //#region pollingVanillaJs
+  let intervalId: number | null = null;
 
-/**
- * Example: Creating an AppBridge without an MCP client, using manual handlers.
- */
-function AppBridge_constructor_withoutMcpClient() {
-  //#region AppBridge_constructor_withoutMcpClient
-  const bridge = new AppBridge(
-    null,
-    { name: "MyHost", version: "1.0.0" },
-    { openLinks: {}, serverTools: {}, logging: {} },
-  );
-  bridge.oncalltool = async (params, extra) => {
-    // Handle tool calls manually
-    return { content: [] };
+  async function poll() {
+    const result = await app.callServerTool({
+      name: "poll-data",
+      arguments: {},
+    });
+    updateUI(result.structuredContent);
+  }
+
+  function startPolling() {
+    if (intervalId !== null) return;
+    poll();
+    intervalId = window.setInterval(poll, 2000);
+  }
+
+  function stopPolling() {
+    if (intervalId === null) return;
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  // Clean up when host tears down the view
+  app.onteardown = async () => {
+    stopPolling();
+    return {};
   };
-  //#endregion AppBridge_constructor_withoutMcpClient
-}
-
-/**
- * Example: Check View capabilities after initialization.
- */
+  //#endregion pollingVanillaJs
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `src/app-bridge.examples.ts`
+### `docs/patterns.tsx`
 
-The `AppBridge_constructor_withoutMcpClient` function in [`src/app-bridge.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/app-bridge.examples.ts) handles a key part of this chapter's functionality:
+The `startPolling` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * Example: Creating an AppBridge without an MCP client, using manual handlers.
- */
-function AppBridge_constructor_withoutMcpClient() {
-  //#region AppBridge_constructor_withoutMcpClient
-  const bridge = new AppBridge(
-    null,
-    { name: "MyHost", version: "1.0.0" },
-    { openLinks: {}, serverTools: {}, logging: {} },
-  );
-  bridge.oncalltool = async (params, extra) => {
-    // Handle tool calls manually
-    return { content: [] };
+```tsx
+  }
+
+  function startPolling() {
+    if (intervalId !== null) return;
+    poll();
+    intervalId = window.setInterval(poll, 2000);
+  }
+
+  function stopPolling() {
+    if (intervalId === null) return;
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  // Clean up when host tears down the view
+  app.onteardown = async () => {
+    stopPolling();
+    return {};
   };
-  //#endregion AppBridge_constructor_withoutMcpClient
+  //#endregion pollingVanillaJs
 }
 
 /**
- * Example: Check View capabilities after initialization.
+ * Example: Polling for live data (React)
  */
-function AppBridge_getAppCapabilities_checkAfterInit(bridge: AppBridge) {
-  //#region AppBridge_getAppCapabilities_checkAfterInit
-  bridge.oninitialized = () => {
-    const caps = bridge.getAppCapabilities();
-    if (caps?.tools) {
-      console.log("View provides tools");
-    }
+function pollingReact(
+  app: App | null, // via useApp()
+) {
+  const [data, setData] = useState<unknown>();
+
+  //#region pollingReact
+  useEffect(() => {
+```
+
+This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+
+### `docs/patterns.tsx`
+
+The `stopPolling` function in [`docs/patterns.tsx`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/docs/patterns.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+  }
+
+  function stopPolling() {
+    if (intervalId === null) return;
+    clearInterval(intervalId);
+    intervalId = null;
+  }
+
+  // Clean up when host tears down the view
+  app.onteardown = async () => {
+    stopPolling();
+    return {};
   };
-  //#endregion AppBridge_getAppCapabilities_checkAfterInit
+  //#endregion pollingVanillaJs
 }
 
 /**
- * Example: Log View information after initialization.
+ * Example: Polling for live data (React)
+ */
+function pollingReact(
+  app: App | null, // via useApp()
+) {
+  const [data, setData] = useState<unknown>();
+
+  //#region pollingReact
+  useEffect(() => {
+    if (!app) return;
+    let cancelled = false;
+
+    async function poll() {
+      const result = await app!.callServerTool({
+        name: "poll-data",
 ```
 
 This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This function is important because it defines how MCP Ext Apps Tutorial: Buildin
 
 ```mermaid
 flowchart TD
-    A[with]
-    B[AppBridge_basicUsage]
-    C[AppBridge_constructor_withMcpClient]
-    D[AppBridge_constructor_withoutMcpClient]
-    E[AppBridge_getAppCapabilities_checkAfterInit]
+    A[pollingVanillaJs]
+    B[poll]
+    C[startPolling]
+    D[stopPolling]
+    E[pollingReact]
     A --> B
     B --> C
     C --> D

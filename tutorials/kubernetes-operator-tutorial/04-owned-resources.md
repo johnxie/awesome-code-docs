@@ -15,6 +15,17 @@ Welcome to **Chapter 4: Managing Owned Resources - Creating and Managing Kuberne
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[CR created] --> B[Reconciler creates Deployment]
+    B --> C[SetControllerReference owner]
+    C --> D[Deployment owned by CR]
+    D --> E{CR deleted?}
+    E -->|yes| F[GC deletes Deployment]
+    E -->|no| G[Reconciler watches Deployment]
+    G --> H[Sync replicas on drift]
+```
+
 Operators manage complex applications by creating and controlling multiple Kubernetes resources. This chapter covers creating, updating, and managing owned resources while maintaining proper relationships and lifecycle management.
 
 ## Resource Ownership Patterns

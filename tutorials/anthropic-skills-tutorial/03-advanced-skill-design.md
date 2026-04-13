@@ -1,305 +1,256 @@
 ---
 layout: default
-title: "Chapter 3: Advanced Skill Design"
+title: "Chapter 3: Computer Use Deep-Dive"
 nav_order: 3
-parent: Anthropic Skills Tutorial
+parent: Anthropic Quickstarts Tutorial
+format_version: v2
+source_repo: https://github.com/anthropics/anthropic-quickstarts
 ---
 
-
-# Chapter 3: Advanced Skill Design
-
-Welcome to **Chapter 3: Advanced Skill Design**. In this part of **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
-
-
-Advanced skills are small systems. Treat them like mini-products with explicit interfaces.
-
-## Multi-File Skill Layout
-
-```text
-customer-support-skill/
-  SKILL.md
-  scripts/
-    classify_ticket.py
-    enrich_account_context.ts
-  references/
-    escalation-policy.md
-    sla-tiers.md
-  assets/
-    issue-taxonomy.csv
-  templates/
-    escalation-email.md
-```
-
-## Progressive Disclosure Pattern
-
-Good skills avoid dumping all context at once. Instead:
-
-1. Start with task intent and output contract.
-2. Pull references only when relevant.
-3. Call scripts only when deterministic transformation is required.
-
-This pattern reduces token waste and improves instruction adherence.
-
-## Frontmatter and Metadata Strategy
-
-At minimum, keep `name` and `description` precise.
-
-For larger catalogs, add optional metadata fields (when your runtime supports them) to improve discoverability and policy checks, such as:
-
-- compatibility constraints
-- license information
-- ownership metadata
-- tool allowlists
-
-## Script Design Rules
-
-Scripts should be boring and reliable.
-
-- Use strict argument parsing.
-- Return stable JSON structures.
-- Fail loudly with actionable error messages.
-- Avoid hidden network side effects unless clearly documented.
-
-Example output contract:
-
-```json
-{
-  "status": "ok",
-  "severity": "high",
-  "routing_queue": "support-l2",
-  "confidence": 0.91
-}
-```
-
-## References and Assets
-
-- Put durable, high-signal guidance in `references/`.
-- Keep `assets/` for files that are required but not convenient to inline.
-- Version both in Git so skill behavior is auditable over time.
-
-## Maintainability Checklist
-
-- Single responsibility per script
-- Explicit file paths in instructions
-- Backward-compatible schema evolution
-- Changelog entries for instruction changes
-
-## Summary
-
-You can now design skills that remain understandable as they grow beyond a single markdown file.
-
-Next: [Chapter 4: Integration Platforms](04-integration-platforms.md)
+# Chapter 3: Computer Use Deep-Dive
 
 ## What Problem Does This Solve?
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `support`, `escalation`, `customer` so behavior stays predictable as complexity grows.
+Computer use is the most complex Claude capability to implement correctly. The challenge is not just calling an API — it is building a feedback loop where Claude sees the screen, takes an action, observes the result, and continues until a goal is achieved. This chapter explains exactly how `computer-use-demo` implements that loop: the three tools Claude uses, how screenshots are captured and sent, how coordinates are scaled to match API resolution expectations, and how the sampling loop terminates.
 
-In practical terms, this chapter helps you avoid three common failures:
+## How It Works Under the Hood
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
-
-After working through this chapter, you should be able to reason about `Chapter 3: Advanced Skill Design` as an operating subsystem inside **Anthropic Skills Tutorial: Reusable AI Agent Capabilities**, with explicit contracts for inputs, state transitions, and outputs.
-
-Use the implementation notes around `skill`, `SKILL`, `scripts` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 3: Advanced Skill Design` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `support`.
-2. **Input normalization**: shape incoming data so `escalation` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `customer`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [anthropics/skills repository](https://github.com/anthropics/skills)
-  Why it matters: authoritative reference on `anthropics/skills repository` (github.com).
-
-Suggested trace strategy:
-- search upstream code for `support` and `escalation` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 2: Skill Categories](02-skill-categories.md)
-- [Next Chapter: Chapter 4: Integration Platforms](04-integration-platforms.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
-
-## Depth Expansion Playbook
-
-## Source Code Walkthrough
-
-### `skills/pdf/scripts/extract_form_field_info.py`
-
-The `get_field_info` function in [`skills/pdf/scripts/extract_form_field_info.py`](https://github.com/anthropics/skills/blob/HEAD/skills/pdf/scripts/extract_form_field_info.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def get_field_info(reader: PdfReader):
-    fields = reader.get_fields()
-
-    field_info_by_id = {}
-    possible_radio_names = set()
-
-    for field_id, field in fields.items():
-        if field.get("/Kids"):
-            if field.get("/FT") == "/Btn":
-                possible_radio_names.add(field_id)
-            continue
-        field_info_by_id[field_id] = make_field_dict(field, field_id)
-
-
-    radio_fields_by_id = {}
-
-    for page_index, page in enumerate(reader.pages):
-        annotations = page.get('/Annots', [])
-        for ann in annotations:
-            field_id = get_full_annotation_field_id(ann)
-            if field_id in field_info_by_id:
-                field_info_by_id[field_id]["page"] = page_index + 1
-                field_info_by_id[field_id]["rect"] = ann.get('/Rect')
-            elif field_id in possible_radio_names:
-                try:
-                    on_values = [v for v in ann["/AP"]["/N"] if v != "/Off"]
-                except KeyError:
-                    continue
-                if len(on_values) == 1:
-                    rect = ann.get("/Rect")
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/pdf/scripts/extract_form_field_info.py`
-
-The `write_field_info` function in [`skills/pdf/scripts/extract_form_field_info.py`](https://github.com/anthropics/skills/blob/HEAD/skills/pdf/scripts/extract_form_field_info.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def write_field_info(pdf_path: str, json_output_path: str):
-    reader = PdfReader(pdf_path)
-    field_info = get_field_info(reader)
-    with open(json_output_path, "w") as f:
-        json.dump(field_info, f, indent=2)
-    print(f"Wrote {len(field_info)} fields to {json_output_path}")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: extract_form_field_info.py [input pdf] [output json]")
-        sys.exit(1)
-    write_field_info(sys.argv[1], sys.argv[2])
-
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/slack-gif-creator/core/frame_composer.py`
-
-The `create_blank_frame` function in [`skills/slack-gif-creator/core/frame_composer.py`](https://github.com/anthropics/skills/blob/HEAD/skills/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def create_blank_frame(
-    width: int, height: int, color: tuple[int, int, int] = (255, 255, 255)
-) -> Image.Image:
-    """
-    Create a blank frame with solid color background.
-
-    Args:
-        width: Frame width
-        height: Frame height
-        color: RGB color tuple (default: white)
-
-    Returns:
-        PIL Image
-    """
-    return Image.new("RGB", (width, height), color)
-
-
-def draw_circle(
-    frame: Image.Image,
-    center: tuple[int, int],
-    radius: int,
-    fill_color: Optional[tuple[int, int, int]] = None,
-    outline_color: Optional[tuple[int, int, int]] = None,
-    outline_width: int = 1,
-) -> Image.Image:
-    """
-    Draw a circle on a frame.
-
-    Args:
-        frame: PIL Image to draw on
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-### `skills/slack-gif-creator/core/frame_composer.py`
-
-The `draw_circle` function in [`skills/slack-gif-creator/core/frame_composer.py`](https://github.com/anthropics/skills/blob/HEAD/skills/slack-gif-creator/core/frame_composer.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def draw_circle(
-    frame: Image.Image,
-    center: tuple[int, int],
-    radius: int,
-    fill_color: Optional[tuple[int, int, int]] = None,
-    outline_color: Optional[tuple[int, int, int]] = None,
-    outline_width: int = 1,
-) -> Image.Image:
-    """
-    Draw a circle on a frame.
-
-    Args:
-        frame: PIL Image to draw on
-        center: (x, y) center position
-        radius: Circle radius
-        fill_color: RGB fill color (None for no fill)
-        outline_color: RGB outline color (None for no outline)
-        outline_width: Outline width in pixels
-
-    Returns:
-        Modified frame
-    """
-    draw = ImageDraw.Draw(frame)
-    x, y = center
-    bbox = [x - radius, y - radius, x + radius, y + radius]
-    draw.ellipse(bbox, fill=fill_color, outline=outline_color, width=outline_width)
-    return frame
-
-
-def draw_text(
-```
-
-This function is important because it defines how Anthropic Skills Tutorial: Reusable AI Agent Capabilities implements the patterns covered in this chapter.
-
-
-## How These Components Connect
+Claude does not control the computer directly. Instead, it issues structured action requests that the local Python code executes on its behalf. The cycle is:
 
 ```mermaid
-flowchart TD
-    A[get_field_info]
-    B[write_field_info]
-    C[create_blank_frame]
-    D[draw_circle]
-    E[draw_text]
-    A --> B
-    B --> C
-    C --> D
-    D --> E
+sequenceDiagram
+    participant Claude
+    participant Loop as sampling_loop()
+    participant Computer as ComputerTool
+    participant Bash as BashTool
+    participant Edit as EditTool
+    participant Display as Xdotool + gnome-screenshot
+
+    Claude->>Loop: tool_use: computer(screenshot)
+    Loop->>Computer: __call__(action="screenshot")
+    Computer->>Display: gnome-screenshot -f /tmp/screenshot.png
+    Display-->>Computer: PNG file
+    Computer-->>Loop: ToolResult(base64_image=...)
+    Loop->>Claude: tool_result with base64 PNG
+
+    Claude->>Loop: tool_use: computer(left_click, coordinate=[512, 300])
+    Loop->>Computer: __call__(action="left_click", coordinate=[512,300])
+    Computer->>Display: xdotool mousemove --sync 384 225 click 1
+    Display-->>Computer: exit code 0
+    Computer-->>Loop: ToolResult(output="")
+    Loop->>Claude: tool_result
+
+    Claude->>Loop: tool_use: bash(command="ls /tmp")
+    Loop->>Bash: __call__(command="ls /tmp")
+    Bash-->>Loop: ToolResult(output="screenshot.png\n")
+    Loop->>Claude: tool_result
 ```
+
+## The Three Computer Use Tools
+
+### ComputerTool
+
+Defined in `computer_use_demo/tools/computer.py`. There are three versioned classes:
+
+- `ComputerTool20241022` — original set of actions
+- `ComputerTool20250124` — adds scroll, hold_key, wait, triple_click, left_mouse_down/up
+- `ComputerTool20251124` — adds zoom capability
+
+The Streamlit sidebar exposes a "Tool version" selector to choose between them.
+
+**Action types (ComputerTool20250124):**
+
+| Category | Actions |
+|:---------|:--------|
+| Mouse | `left_click`, `right_click`, `middle_click`, `double_click`, `mouse_move`, `left_click_drag`, `left_mouse_down`, `left_mouse_up`, `triple_click` |
+| Keyboard | `key`, `type`, `hold_key` |
+| Scroll | `scroll` (with `coordinate`, `direction`, `amount`) |
+| Screen | `screenshot`, `cursor_position` |
+| Timing | `wait` |
+
+**Coordinate scaling** is the most subtle part. The API expects coordinates relative to a fixed target resolution (1024×768 for XGA, 1280×800 for WXGA, 1366×768 for FWXGA), but the actual display may be a different size. The tool scales every coordinate before calling xdotool:
+
+```python
+# From computer_use_demo/tools/computer.py (simplified)
+def scale_coordinates(self, source: ScalingSource, x: int, y: int):
+    """Convert coordinates between API space and screen space."""
+    if not self._scaling_enabled:
+        return x, y
+    ratio = self.width / self.height
+    # Select target resolution that matches display aspect ratio
+    target_dimension = None
+    for dimension in MAX_SCALING_TARGETS.values():
+        if abs(dimension["width"] / dimension["height"] - ratio) < 0.02:
+            if dimension["width"] < self.width:
+                target_dimension = dimension
+    if target_dimension is None:
+        return x, y
+    x_scale = self.width / target_dimension["width"]
+    y_scale = self.height / target_dimension["height"]
+    if source == ScalingSource.API:
+        # Claude gave us API coords → convert to screen coords
+        return round(x * x_scale), round(y * y_scale)
+    else:
+        # We have screen coords → convert to API coords for display
+        return round(x / x_scale), round(y / y_scale)
+```
+
+The recommendation in the README to use XGA resolution (1024×768) in your Docker container is directly related to this: it eliminates the need for scaling by making screen coordinates and API coordinates identical.
+
+### BashTool
+
+Defined in `computer_use_demo/tools/bash.py` as `BashTool20250124`. Maintains a **persistent subprocess** across all tool calls in a session, so environment variables and working directory state persist between commands.
+
+The core challenge: how do you know when a command has finished in a persistent shell? You cannot wait for EOF because the process keeps running. The solution is a **sentinel pattern**:
+
+```python
+# From computer_use_demo/tools/bash.py (simplified)
+SENTINEL = "<<exit>>"
+
+async def run(self, command: str) -> tuple[str, str]:
+    """Run a command and return (stdout, stderr)."""
+    # Append sentinel echo so we know when output ends
+    self._process.stdin.write(
+        command.encode() + f"; echo '{SENTINEL}'\n".encode()
+    )
+    await self._process.stdin.drain()
+
+    # Read until we see the sentinel
+    output = ""
+    async for line in self._process.stdout:
+        line_str = line.decode("utf-8", errors="replace")
+        if SENTINEL in line_str:
+            break
+        output += line_str
+
+    return output, ""
+```
+
+The tool also has a `restart()` method for recovery from timeouts or crashes, and enforces a 120-second timeout per command.
+
+### EditTool
+
+Defined as `EditTool20250728` in `computer_use_demo/tools/edit.py`. API type: `text_editor_20250728`. Supports four commands:
+
+| Command | Description |
+|:--------|:------------|
+| `view` | Display file contents (with optional line range) or list directory (2 levels deep) |
+| `create` | Create a new file with given content |
+| `str_replace` | Replace exactly one occurrence of `old_str` with `new_str` |
+| `insert` | Insert `new_str` after a specified `insert_line` number |
+
+The `str_replace` command enforces uniqueness: if `old_str` appears zero or more than one time, the tool returns an error. This prevents accidental partial edits.
+
+Output snippets show 4 lines of context around every edit, so Claude can verify its change landed in the right place without taking a full screenshot.
+
+## The Sampling Loop in Detail
+
+`sampling_loop()` in `computer_use_demo/loop.py` is the engine of the entire demo. Simplified structure:
+
+```python
+async def sampling_loop(
+    *,
+    model: str,
+    provider: APIProvider,
+    system_prompt_suffix: str,
+    messages: list[BetaMessageParam],
+    output_callback: Callable,
+    tool_output_callback: Callable,
+    api_response_callback: Callable,
+    api_key: str,
+    only_n_most_recent_images: int | None = None,
+    max_tokens: int = 4096,
+    thinking: BetaThinkingConfigParam | None = None,
+    tool_version: ToolVersion,
+) -> list[BetaMessageParam]:
+
+    tool_collection = ToolCollection(
+        ComputerTool(display_width_px, display_height_px, DISPLAY_NUM),
+        BashTool(),
+        EditTool(),
+    )
+
+    system = BetaTextBlockParam(
+        type="text",
+        text=f"{SYSTEM_PROMPT}{system_prompt_suffix}",
+    )
+
+    while True:
+        # Optionally trim old screenshots to manage context window
+        if only_n_most_recent_images:
+            _maybe_filter_to_n_most_recent_images(messages, only_n_most_recent_images)
+
+        # Optionally inject prompt cache breakpoints
+        if betas:
+            _inject_prompt_caching(messages)
+
+        # Call Claude
+        response = client.beta.messages.create(
+            max_tokens=max_tokens,
+            messages=messages,
+            model=model,
+            system=[system],
+            tools=tool_collection.to_params(),
+            betas=betas,
+        )
+
+        # Notify UI callback
+        await api_response_callback(response)
+
+        # Convert response to message and append
+        response_params = _response_to_params(response)
+        messages.append({"role": "assistant", "content": response_params})
+
+        # Find tool use blocks
+        tool_use_blocks = [b for b in response_params if b["type"] == "tool_use"]
+        if not tool_use_blocks:
+            return messages   # ← Loop termination: no more tool calls
+
+        # Execute each tool
+        tool_result_content = []
+        for block in tool_use_blocks:
+            result = await tool_collection.run(
+                name=block["name"],
+                tool_input=block["input"],
+            )
+            tool_result_content.append(
+                _make_api_tool_result(result, block["id"])
+            )
+            await tool_output_callback(result, block["id"])
+
+        # Append tool results and loop
+        messages.append({"role": "user", "content": tool_result_content})
+```
+
+## Security Considerations
+
+The README is explicit about risks: computer use is a beta feature with distinct attack surfaces.
+
+**Key precautions the quickstart documents:**
+
+1. Run Claude in an isolated VM with minimal permissions — the Docker container enforces this
+2. Avoid exposing sensitive credentials or accounts within the VM
+3. Restrict internet access to an approved domain allowlist when possible
+4. Require human confirmation for irreversible actions
+5. Be alert to prompt injection through webpage content (an adversarial page could instruct Claude to take unintended actions)
+
+The `SYSTEM_PROMPT` in `loop.py` explicitly warns Claude about these risks and instructs it to prefer conservative actions when uncertain.
+
+## Resolution and Performance Tips
+
+- **Use XGA (1024×768)**: Recommended in the README. Eliminates coordinate scaling entirely, which reduces errors from rounding.
+- **Image truncation**: The `only_n_most_recent_images` parameter (configurable in the sidebar) drops older screenshots from the context window. Computer use generates many screenshots; without truncation, context costs grow rapidly.
+- **Model selection**: The flagship demos use `claude-opus-4-20250514`. For exploratory or budget use, switch to `claude-haiku-4-20250514` in the sidebar — it is significantly faster and cheaper.
+
+## Summary
+
+The computer use demo implements a tight feedback loop: Claude takes a screenshot, issues an action, sees the result, and continues. Three tools — ComputerTool (screenshot + input), BashTool (persistent shell with sentinel detection), and EditTool (file editing) — cover all the capabilities a desktop agent needs. Coordinate scaling handles resolution mismatches between the API and actual display. The sampling loop terminates cleanly when Claude returns a message with no tool use blocks.
+
+Next: [Chapter 4: Tool Use Patterns](04-integration-platforms.md)
+
+---
+
+- [Tutorial Index](README.md)
+- [Previous Chapter: Chapter 2: Quickstart Architecture](02-skill-categories.md)
+- [Next Chapter: Chapter 4: Tool Use Patterns](04-integration-platforms.md)
+- [Main Catalog](../../README.md#-tutorial-catalog)

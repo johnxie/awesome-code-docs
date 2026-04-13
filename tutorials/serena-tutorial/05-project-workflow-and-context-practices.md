@@ -46,176 +46,182 @@ You now have practical workflow patterns for getting consistent value from Seren
 
 Next: [Chapter 6: Configuration and Operational Controls](06-configuration-and-operational-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/serena/symbol.py`
+### `src/solidlsp/ls_process.py`
 
-The `LanguageServerSymbolDictGrouper` class in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class LanguageServerSymbolDictGrouper(SymbolDictGrouper[LanguageServerSymbol.OutputDict]):
-    def __init__(
-        self,
-        group_keys: list[LanguageServerSymbol.OutputDictKey],
-        group_children_keys: list[LanguageServerSymbol.OutputDictKey],
-        collapse_singleton: bool = False,
-    ) -> None:
-        super().__init__(LanguageServerSymbol.OutputDict, "children", group_keys, group_children_keys, collapse_singleton)
-
-
-class JetBrainsSymbolDictGrouper(SymbolDictGrouper[jb.SymbolDTO]):
-    def __init__(
-        self,
-        group_keys: list[jb.SymbolDTOKey],
-        group_children_keys: list[jb.SymbolDTOKey],
-        collapse_singleton: bool = False,
-        map_name_path_to_name: bool = False,
-    ) -> None:
-        super().__init__(jb.SymbolDTO, "children", group_keys, group_children_keys, collapse_singleton)
-        self._map_name_path_to_name = map_name_path_to_name
-
-    def _transform_item(self, item: dict) -> dict:
-        if self._map_name_path_to_name:
-            # {"name_path: "Class/myMethod"} -> {"name: "myMethod"}
-            new_item = dict(item)
-            if "name_path" in item:
-                name_path = new_item.pop("name_path")
-                new_item["name"] = name_path.split("/")[-1]
-            return super()._transform_item(new_item)
-        else:
-```
-
-This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
-
-### `src/serena/symbol.py`
-
-The `JetBrainsSymbolDictGrouper` class in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
+The `from` class in [`src/solidlsp/ls_process.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_process.py) handles a key part of this chapter's functionality:
 
 ```py
+import threading
+import time
+from collections.abc import Callable
+from dataclasses import dataclass
+from queue import Empty, Queue
+from typing import Any
 
+import psutil
+from sensai.util.string import ToStringMixin
 
-class JetBrainsSymbolDictGrouper(SymbolDictGrouper[jb.SymbolDTO]):
-    def __init__(
-        self,
-        group_keys: list[jb.SymbolDTOKey],
-        group_children_keys: list[jb.SymbolDTOKey],
-        collapse_singleton: bool = False,
-        map_name_path_to_name: bool = False,
-    ) -> None:
-        super().__init__(jb.SymbolDTO, "children", group_keys, group_children_keys, collapse_singleton)
-        self._map_name_path_to_name = map_name_path_to_name
+from solidlsp.ls_config import Language
+from solidlsp.ls_exceptions import SolidLSPException
+from solidlsp.ls_request import LanguageServerRequest
+from solidlsp.lsp_protocol_handler.lsp_requests import LspNotification
+from solidlsp.lsp_protocol_handler.lsp_types import ErrorCodes
+from solidlsp.lsp_protocol_handler.server import (
+    ENCODING,
+    LSPError,
+    PayloadLike,
+    ProcessLaunchInfo,
+    StringDict,
+    content_length,
+    create_message,
+    make_error_response,
+    make_notification,
+    make_request,
+    make_response,
+)
+from solidlsp.util.subprocess_util import quote_arg, subprocess_kwargs
 
-    def _transform_item(self, item: dict) -> dict:
-        if self._map_name_path_to_name:
-            # {"name_path: "Class/myMethod"} -> {"name: "myMethod"}
-            new_item = dict(item)
-            if "name_path" in item:
-                name_path = new_item.pop("name_path")
-                new_item["name"] = name_path.split("/")[-1]
-            return super()._transform_item(new_item)
-        else:
-            return super()._transform_item(item)
+log = logging.getLogger(__name__)
 
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/symbol.py`
+### `src/solidlsp/ls_process.py`
 
-The `item` interface in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
-
-```py
-    def symbol_kind_name(self) -> str:
-        """
-        :return: string representation of the symbol kind (name attribute of the `SymbolKind` enum item)
-        """
-        return SymbolKind(self.symbol_kind).name
-
-    @property
-    def symbol_kind(self) -> SymbolKind:
-        return self.symbol_root["kind"]
-
-    def is_low_level(self) -> bool:
-        """
-        :return: whether the symbol is a low-level symbol (variable, constant, etc.), which typically represents data
-            rather than structure and therefore is not relevant in a high-level overview of the code.
-        """
-        return self.symbol_kind >= SymbolKind.Variable.value
-
-    @property
-    def overload_idx(self) -> int | None:
-        return self.symbol_root.get("overload_idx")
-
-    def is_neighbouring_definition_separated_by_empty_line(self) -> bool:
-        return self.symbol_kind in (SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Interface, SymbolKind.Struct)
-
-    @property
-    def relative_path(self) -> str | None:
-        location = self.symbol_root.get("location")
-        if location:
-            return location.get("relativePath")
-        return None
-
-    @property
-```
-
-This interface is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
-
-### `src/serena/symbol.py`
-
-The `item` interface in [`src/serena/symbol.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/symbol.py) handles a key part of this chapter's functionality:
+The `LanguageServerTerminatedException` class in [`src/solidlsp/ls_process.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_process.py) handles a key part of this chapter's functionality:
 
 ```py
-    def symbol_kind_name(self) -> str:
-        """
-        :return: string representation of the symbol kind (name attribute of the `SymbolKind` enum item)
-        """
-        return SymbolKind(self.symbol_kind).name
 
-    @property
-    def symbol_kind(self) -> SymbolKind:
-        return self.symbol_root["kind"]
 
-    def is_low_level(self) -> bool:
-        """
-        :return: whether the symbol is a low-level symbol (variable, constant, etc.), which typically represents data
-            rather than structure and therefore is not relevant in a high-level overview of the code.
-        """
-        return self.symbol_kind >= SymbolKind.Variable.value
+class LanguageServerTerminatedException(Exception):
+    """
+    Exception raised when the language server process has terminated unexpectedly.
+    """
 
-    @property
-    def overload_idx(self) -> int | None:
-        return self.symbol_root.get("overload_idx")
+    def __init__(self, message: str, language: Language, cause: Exception | None = None) -> None:
+        super().__init__(message)
+        self.message = message
+        self.language = language
+        self.cause = cause
 
-    def is_neighbouring_definition_separated_by_empty_line(self) -> bool:
-        return self.symbol_kind in (SymbolKind.Function, SymbolKind.Method, SymbolKind.Class, SymbolKind.Interface, SymbolKind.Struct)
+    def __str__(self) -> str:
+        return f"LanguageServerTerminatedException: {self.message}" + (f"; Cause: {self.cause}" if self.cause else "")
 
-    @property
-    def relative_path(self) -> str | None:
-        location = self.symbol_root.get("location")
-        if location:
-            return location.get("relativePath")
-        return None
 
-    @property
+class Request(ToStringMixin):
+    @dataclass
+    class Result:
+        payload: PayloadLike | None = None
+        error: Exception | None = None
+
+        def is_error(self) -> bool:
+            return self.error is not None
+
+    def __init__(self, request_id: int, method: str) -> None:
+        self._request_id = request_id
+        self._method = method
+        self._status = "pending"
+        self._result_queue: Queue[Request.Result] = Queue()
+
 ```
 
-This interface is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `src/solidlsp/ls_process.py`
+
+The `Request` class in [`src/solidlsp/ls_process.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_process.py) handles a key part of this chapter's functionality:
+
+```py
+from solidlsp.ls_config import Language
+from solidlsp.ls_exceptions import SolidLSPException
+from solidlsp.ls_request import LanguageServerRequest
+from solidlsp.lsp_protocol_handler.lsp_requests import LspNotification
+from solidlsp.lsp_protocol_handler.lsp_types import ErrorCodes
+from solidlsp.lsp_protocol_handler.server import (
+    ENCODING,
+    LSPError,
+    PayloadLike,
+    ProcessLaunchInfo,
+    StringDict,
+    content_length,
+    create_message,
+    make_error_response,
+    make_notification,
+    make_request,
+    make_response,
+)
+from solidlsp.util.subprocess_util import quote_arg, subprocess_kwargs
+
+log = logging.getLogger(__name__)
+
+
+class LanguageServerTerminatedException(Exception):
+    """
+    Exception raised when the language server process has terminated unexpectedly.
+    """
+
+    def __init__(self, message: str, language: Language, cause: Exception | None = None) -> None:
+        super().__init__(message)
+        self.message = message
+        self.language = language
+```
+
+This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
+
+### `src/solidlsp/ls_process.py`
+
+The `class` class in [`src/solidlsp/ls_process.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_process.py) handles a key part of this chapter's functionality:
+
+```py
+import time
+from collections.abc import Callable
+from dataclasses import dataclass
+from queue import Empty, Queue
+from typing import Any
+
+import psutil
+from sensai.util.string import ToStringMixin
+
+from solidlsp.ls_config import Language
+from solidlsp.ls_exceptions import SolidLSPException
+from solidlsp.ls_request import LanguageServerRequest
+from solidlsp.lsp_protocol_handler.lsp_requests import LspNotification
+from solidlsp.lsp_protocol_handler.lsp_types import ErrorCodes
+from solidlsp.lsp_protocol_handler.server import (
+    ENCODING,
+    LSPError,
+    PayloadLike,
+    ProcessLaunchInfo,
+    StringDict,
+    content_length,
+    create_message,
+    make_error_response,
+    make_notification,
+    make_request,
+    make_response,
+)
+from solidlsp.util.subprocess_util import quote_arg, subprocess_kwargs
+
+log = logging.getLogger(__name__)
+
+
+```
+
+This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[LanguageServerSymbolDictGrouper]
-    B[JetBrainsSymbolDictGrouper]
-    C[item]
-    D[item]
-    E[RequestLog]
+    A[from]
+    B[LanguageServerTerminatedException]
+    C[Request]
+    D[class]
+    E[LanguageServerProcess]
     A --> B
     B --> C
     C --> D

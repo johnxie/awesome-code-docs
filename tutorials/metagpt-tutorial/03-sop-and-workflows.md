@@ -395,6 +395,14 @@ asyncio.run(custom_pipeline())
 
 SOPs are the backbone of MetaGPT's reliability. They transform unstructured multi-agent chat into a predictable, auditable pipeline. The key patterns -- sequential, fan-out, and feedback loop -- can be combined to model any team workflow. The message bus and watch mechanism enforce these patterns without requiring explicit orchestration code.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/environment/base_env.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/environment/base_env.py) -- `Environment` class: message bus (`publish_message`, `get_messages`) used by all roles
+- [`metagpt/roles/role.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/roles/role.py) -- `_watch` and `_observe` methods define the SOP's implicit sequencing rules
+- [`metagpt/actions/write_prd.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/actions/write_prd.py) -- example action that reads context from the environment and produces a structured artifact
+
 **Next:** [Chapter 4: Action System](04-action-system.md) -- learn how to build the individual actions that roles execute.
 
 ---

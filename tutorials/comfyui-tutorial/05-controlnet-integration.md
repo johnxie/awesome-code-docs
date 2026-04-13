@@ -627,16 +627,18 @@ Under the hood, `Chapter 5: ControlNet & Pose Control` usually follows a repeata
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `comfy/controlnet.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The ControlNet integration in [`comfy/controlnet.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/comfy/controlnet.py) applies the conditioned guidance to the UNet during diffusion sampling. The `ControlBase` class is the abstract interface imported by `execution.py`:
 
-Suggested trace strategy:
-- search upstream code for `class_type` and `inputs` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+import comfy.controlnet
+from comfy.comfy_types import IO, ComfyNodeABC, InputTypeDict, FileLocator
+```
+
+ControlNet models are loaded via the same `folder_paths` checkpoint resolution system as regular checkpoints. The `ControlNetApply` and `ControlNetApplyAdvanced` nodes in `nodes.py` accept an image tensor (the control signal) and a `strength` float, passing them to the ControlNet model for injection into the diffusion UNet's middle and output blocks.
 
 ## Chapter Connections
 

@@ -47,170 +47,168 @@ You now understand the session-centric model that underpins scalable Composio de
 
 Next: [Chapter 3: Provider Integrations and Framework Mapping](03-provider-integrations-and-framework-mapping.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `docs/components/feedback.tsx`
+### `docs/components/connect-flow.tsx`
 
-The `Feedback` function in [`docs/components/feedback.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/feedback.tsx) handles a key part of this chapter's functionality:
+The `ClientIcon` function in [`docs/components/connect-flow.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/connect-flow.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-type Sentiment = 'positive' | 'neutral' | 'negative' | null;
+const ConnectContext = createContext<ConnectContextValue | null>(null);
 
-interface FeedbackProps {
-  page: string;
+function ClientIcon({ icon, iconDark, name, size = 16 }: { icon?: string; iconDark?: string; name: string; size?: number }) {
+  if (!icon) return null;
+
+  if (iconDark) {
+    return (
+      <>
+        <Image src={icon} alt={`${name} logo`} width={size} height={size} className="h-4 w-4 shrink-0 dark:hidden" />
+        <Image src={iconDark} alt={`${name} logo`} width={size} height={size} className="h-4 w-4 shrink-0 hidden dark:block" />
+      </>
+    );
+  }
+
+  return <Image src={icon} alt={`${name} logo`} width={size} height={size} className="h-4 w-4 shrink-0" />;
 }
 
-export function Feedback({ page }: FeedbackProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [sentiment, setSentiment] = useState<Sentiment>(null);
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
-  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
-    setState('loading');
-
-    try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+function PopularTab({
+  client,
+  selected,
+  onSelect,
+}: {
+  client: ClientData;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`
+        flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all whitespace-nowrap
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/components/feedback.tsx`
+### `docs/components/connect-flow.tsx`
 
-The `FeedbackProps` interface in [`docs/components/feedback.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/feedback.tsx) handles a key part of this chapter's functionality:
+The `PopularTab` function in [`docs/components/connect-flow.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/connect-flow.tsx) handles a key part of this chapter's functionality:
 
 ```tsx
-type Sentiment = 'positive' | 'neutral' | 'negative' | null;
-
-interface FeedbackProps {
-  page: string;
 }
 
-export function Feedback({ page }: FeedbackProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [sentiment, setSentiment] = useState<Sentiment>(null);
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
-  const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    return () => {
-      if (closeTimeoutRef.current) {
-        clearTimeout(closeTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!message.trim()) return;
-
-    setState('loading');
-
-    try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-```
-
-This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
-
-### `docs/scripts/generate-toolkits.ts`
-
-The `fetchToolkits` function in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
-
-```ts
+function PopularTab({
+  client,
+  selected,
+  onSelect,
+}: {
+  client: ClientData;
+  selected: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={`
+        flex items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium transition-all whitespace-nowrap
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500
+        ${selected
+          ? 'bg-fd-background text-fd-foreground shadow-sm dark:bg-fd-accent/60 dark:shadow-none'
+          : 'text-fd-muted-foreground hover:text-fd-foreground'
+        }
+      `}
+    >
+      <ClientIcon icon={client.icon} iconDark={client.iconDark} name={client.name} />
+      {client.name}
+    </button>
+  );
 }
 
-async function fetchToolkits(): Promise<any[]> {
-  console.log('Fetching toolkits from API...');
-
-  const response = await fetch(`${API_BASE}/toolkits`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY!,
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch toolkits: ${response.status} ${response.statusText}`);
-  }
-
-  const data = await response.json();
-  return data.items || data;
-}
-
-async function fetchToolkitChangelog(): Promise<Map<string, string>> {
-  console.log('Fetching toolkit changelog...');
-
-  const response = await fetch(`${API_BASE}/toolkits/changelog`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY!,
-    },
-  });
-
-  if (!response.ok) {
-    console.warn(`Failed to fetch changelog: ${response.status}`);
+interface ConnectFlowProps {
+  children: ReactNode;
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/scripts/generate-toolkits.ts`
+### `docs/components/connect-flow.tsx`
 
-The `fetchToolkitChangelog` function in [`docs/scripts/generate-toolkits.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/scripts/generate-toolkits.ts) handles a key part of this chapter's functionality:
+The `ConnectFlow` function in [`docs/components/connect-flow.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/connect-flow.tsx) handles a key part of this chapter's functionality:
 
-```ts
+```tsx
 }
 
-async function fetchToolkitChangelog(): Promise<Map<string, string>> {
-  console.log('Fetching toolkit changelog...');
+interface ConnectFlowProps {
+  children: ReactNode;
+}
 
-  const response = await fetch(`${API_BASE}/toolkits/changelog`, {
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': API_KEY!,
-    },
-  });
+export function ConnectFlow({ children }: ConnectFlowProps) {
+  const [clients, setClients] = useState<ClientData[]>([]);
+  const [selectedId, setSelectedId] = useState<string>('');
+  const registeredIds = useRef<Set<string>>(new Set());
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  if (!response.ok) {
-    console.warn(`Failed to fetch changelog: ${response.status}`);
-    return new Map();
-  }
-
-  const data = await response.json();
-  const versionMap = new Map<string, string>();
-
-  // Response format: { items: [{ slug, name, display_name, versions: [{ version, changelog }] }] }
-  const items = data.items || [];
-  for (const entry of items) {
-    const slug = entry.slug?.toLowerCase();
-    const latestVersion = entry.versions?.[0]?.version;
-    if (slug && latestVersion) {
-      versionMap.set(slug, latestVersion);
+  const registerClient = (data: ClientData) => {
+    if (!registeredIds.current.has(data.id)) {
+      registeredIds.current.add(data.id);
+      setClients((prev) => {
+        if (prev.some((c) => c.id === data.id)) return prev;
+        return [...prev, data];
+      });
     }
-  }
+  };
 
-  console.log(`Found versions for ${versionMap.size} toolkits`);
-  return versionMap;
+  useEffect(() => {
+    if (clients.length > 0 && !selectedId) {
+      setSelectedId(clients[0].id);
+    }
+  }, [clients, selectedId]);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+```
+
+This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+
+### `docs/components/connect-flow.tsx`
+
+The `handleClick` function in [`docs/components/connect-flow.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/connect-flow.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    if (dropdownOpen) {
+      document.addEventListener('mousedown', handleClick);
+      return () => document.removeEventListener('mousedown', handleClick);
+    }
+  }, [dropdownOpen]);
+
+  const contextValue: ConnectContextValue = {
+    selectedId,
+    setSelectedId,
+    registerClient,
+    clients,
+  };
+
+  const popular = clients.filter((c) => c.category === 'popular');
+  const others = clients.filter((c) => c.category !== 'popular');
+  const selectedIsOther = others.some((c) => c.id === selectedId);
+  const selectedOtherClient = others.find((c) => c.id === selectedId);
+
+  return (
+    <ConnectContext.Provider value={contextValue}>
+      {clients.length > 0 && (
+        <div className="not-prose mb-8 rounded-xl border border-fd-border bg-fd-card/50">
+          <div className="flex items-center justify-between gap-3 p-3">
+            {/* Popular tabs */}
+            <div className={`flex items-center gap-1 overflow-x-auto rounded-lg p-1 transition-all ${selectedIsOther ? 'bg-fd-muted/30 opacity-40' : 'bg-fd-muted/50 dark:bg-fd-muted/30'}`}>
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
@@ -220,11 +218,11 @@ This function is important because it defines how Composio Tutorial: Production 
 
 ```mermaid
 flowchart TD
-    A[Feedback]
-    B[FeedbackProps]
-    C[fetchToolkits]
-    D[fetchToolkitChangelog]
-    E[fetchToolsForToolkit]
+    A[ClientIcon]
+    B[PopularTab]
+    C[ConnectFlow]
+    D[handleClick]
+    E[ConnectClientOption]
     A --> B
     B --> C
     C --> D

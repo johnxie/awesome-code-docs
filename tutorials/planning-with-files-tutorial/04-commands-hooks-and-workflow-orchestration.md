@@ -44,170 +44,127 @@ You now know how orchestration components enforce workflow consistency.
 
 Next: [Chapter 5: Templates, Scripts, and Session Recovery](05-templates-scripts-and-session-recovery.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `skills/planning-with-files/scripts/session-catchup.py`
+### `examples/boxlite/quickstart.py`
 
-The `get_project_dir` function in [`skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+The `load_skill` function in [`examples/boxlite/quickstart.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/examples/boxlite/quickstart.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_project_dir(project_path: str) -> Tuple[Optional[Path], Optional[str]]:
-    """Resolve session storage path for the current runtime variant."""
-    normalized = normalize_path(project_path)
+def load_skill() -> Skill:
+    """
+    Build a ClaudeBox Skill from the planning-with-files SKILL.md.
 
-    # Claude Code's sanitization: replace path separators and : with -
-    sanitized = normalized.replace('\\', '-').replace('/', '-').replace(':', '-')
-    sanitized = sanitized.replace('_', '-')
-    # Strip leading dash if present (Unix absolute paths start with /)
-    if sanitized.startswith('-'):
-        sanitized = sanitized[1:]
+    Reads the SKILL.md from your local Claude Code skills directory.
+    If not installed locally, falls back to fetching from the repo.
+    """
+    skill_base = Path.home() / ".claude" / "skills" / "planning-with-files"
+    skill_md_path = skill_base / "SKILL.md"
+    check_complete_path = skill_base / "scripts" / "check-complete.sh"
 
-    claude_path = Path.home() / '.claude' / 'projects' / sanitized
-
-    # Codex stores sessions in ~/.codex/sessions with a different format.
-    # Avoid silently scanning Claude paths when running from Codex skill folder.
-    script_path = Path(__file__).as_posix().lower()
-    is_codex_variant = '/.codex/' in script_path
-    codex_sessions_dir = Path.home() / '.codex' / 'sessions'
-    if is_codex_variant and codex_sessions_dir.exists() and not claude_path.exists():
-        return None, (
-            "[planning-with-files] Session catchup skipped: Codex stores sessions "
-            "in ~/.codex/sessions and native Codex parsing is not implemented yet."
+    if not skill_md_path.exists():
+        raise FileNotFoundError(
+            "planning-with-files is not installed locally.\n"
+            "Install it first:\n"
+            "  /plugin marketplace add OthmanAdi/planning-with-files\n"
+            "  /plugin install planning-with-files@planning-with-files"
         )
 
-    return claude_path, None
+    files = {
+        "/root/.claude/skills/planning-with-files/SKILL.md": skill_md_path.read_text(),
+    }
 
+    # Include the stop hook script if available
+    if check_complete_path.exists():
+        files["/root/.claude/skills/planning-with-files/scripts/check-complete.sh"] = (
+            check_complete_path.read_text()
+        )
 
-def get_sessions_sorted(project_dir: Path) -> List[Path]:
-    """Get all session files sorted by modification time (newest first)."""
-    sessions = list(project_dir.glob('*.jsonl'))
+    return Skill(
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
 
-### `skills/planning-with-files/scripts/session-catchup.py`
+### `examples/boxlite/quickstart.py`
 
-The `get_sessions_sorted` function in [`skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+The `main` function in [`examples/boxlite/quickstart.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/examples/boxlite/quickstart.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_sessions_sorted(project_dir: Path) -> List[Path]:
-    """Get all session files sorted by modification time (newest first)."""
-    sessions = list(project_dir.glob('*.jsonl'))
-    main_sessions = [s for s in sessions if not s.name.startswith('agent-')]
-    return sorted(main_sessions, key=lambda p: p.stat().st_mtime, reverse=True)
+async def main():
+    skill = load_skill()
 
+    print("Starting BoxLite VM with planning-with-files skill...")
 
-def parse_session_messages(session_file: Path) -> List[Dict]:
-    """Parse all messages from a session file, preserving order."""
-    messages = []
-    with open(session_file, 'r', encoding='utf-8', errors='replace') as f:
-        for line_num, line in enumerate(f):
-            try:
-                data = json.loads(line)
-                data['_line_num'] = line_num
-                messages.append(data)
-            except json.JSONDecodeError:
-                pass
-    return messages
+    async with ClaudeBox(
+        session_id="planning-demo",
+        skills=[skill],
+    ) as box:
+        print("VM running. Invoking planning session...\n")
 
+        result = await box.code(
+            "/planning-with-files:plan\n\n"
+            "Task: Build a REST API endpoint for user authentication with JWT tokens. "
+            "Plan the implementation phases, identify the key files to create, "
+            "and list the dependencies needed."
+        )
 
-def find_last_planning_update(messages: List[Dict]) -> Tuple[int, Optional[str]]:
-    """
-    Find the last time a planning file was written/edited.
-    Returns (line_number, filename) or (-1, None) if not found.
-    """
-    last_update_line = -1
-    last_update_file = None
+        print("=== Claude Code Output ===")
+        print(result.response)
+        print("==========================")
 
-    for msg in messages:
+        # Show what planning files were created inside the VM
+        files_result = await box.code(
+            "ls -la task_plan.md findings.md progress.md 2>/dev/null && "
+            "echo '---' && head -20 task_plan.md 2>/dev/null"
+        )
+        print("\n=== Planning Files in VM ===")
+        print(files_result.response)
+
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
 
-### `skills/planning-with-files/scripts/session-catchup.py`
+### `examples/boxlite/quickstart.py`
 
-The `parse_session_messages` function in [`skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def parse_session_messages(session_file: Path) -> List[Dict]:
-    """Parse all messages from a session file, preserving order."""
-    messages = []
-    with open(session_file, 'r', encoding='utf-8', errors='replace') as f:
-        for line_num, line in enumerate(f):
-            try:
-                data = json.loads(line)
-                data['_line_num'] = line_num
-                messages.append(data)
-            except json.JSONDecodeError:
-                pass
-    return messages
-
-
-def find_last_planning_update(messages: List[Dict]) -> Tuple[int, Optional[str]]:
-    """
-    Find the last time a planning file was written/edited.
-    Returns (line_number, filename) or (-1, None) if not found.
-    """
-    last_update_line = -1
-    last_update_file = None
-
-    for msg in messages:
-        msg_type = msg.get('type')
-
-        if msg_type == 'assistant':
-            content = msg.get('message', {}).get('content', [])
-            if isinstance(content, list):
-                for item in content:
-                    if item.get('type') == 'tool_use':
-```
-
-This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
-
-### `skills/planning-with-files/scripts/session-catchup.py`
-
-The `find_last_planning_update` function in [`skills/planning-with-files/scripts/session-catchup.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/skills/planning-with-files/scripts/session-catchup.py) handles a key part of this chapter's functionality:
+The `persistent_session_example` function in [`examples/boxlite/quickstart.py`](https://github.com/OthmanAdi/planning-with-files/blob/HEAD/examples/boxlite/quickstart.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def find_last_planning_update(messages: List[Dict]) -> Tuple[int, Optional[str]]:
+async def persistent_session_example():
     """
-    Find the last time a planning file was written/edited.
-    Returns (line_number, filename) or (-1, None) if not found.
+    Example of a multi-session workflow.
+    Session 1 creates the plan. Session 2 continues from it.
     """
-    last_update_line = -1
-    last_update_file = None
+    skill = load_skill()
 
-    for msg in messages:
-        msg_type = msg.get('type')
+    # Session 1
+    async with ClaudeBox(session_id="multi-session-demo", skills=[skill]) as box:
+        await box.code(
+            "/planning-with-files:plan\n\n"
+            "Task: Refactor the user service to support multi-tenancy."
+        )
+        print("Session 1 complete. Plan created inside VM.")
 
-        if msg_type == 'assistant':
-            content = msg.get('message', {}).get('content', [])
-            if isinstance(content, list):
-                for item in content:
-                    if item.get('type') == 'tool_use':
-                        tool_name = item.get('name', '')
-                        tool_input = item.get('input', {})
+    # Session 2 — same workspace, plan files intact
+    async with ClaudeBox.reconnect("multi-session-demo") as box:
+        result = await box.code(
+            "Read task_plan.md and continue with the next incomplete phase."
+        )
+        print("Session 2:", result.response[:200])
 
-                        if tool_name in ('Write', 'Edit'):
-                            file_path = tool_input.get('file_path', '')
-                            for pf in PLANNING_FILES:
-                                if file_path.endswith(pf):
-                                    last_update_line = msg['_line_num']
-                                    last_update_file = pf
-
-    return last_update_line, last_update_file
+    # Clean up
+    await ClaudeBox.cleanup_session("multi-session-demo", remove_workspace=True)
+    print("Workspace cleaned up.")
 
 
-def extract_messages_after(messages: List[Dict], after_line: int) -> List[Dict]:
+if __name__ == "__main__":
+    asyncio.run(main())
+
 ```
 
 This function is important because it defines how Planning with Files Tutorial: Persistent Markdown Workflow Memory for AI Coding Agents implements the patterns covered in this chapter.
@@ -217,13 +174,9 @@ This function is important because it defines how Planning with Files Tutorial: 
 
 ```mermaid
 flowchart TD
-    A[get_project_dir]
-    B[get_sessions_sorted]
-    C[parse_session_messages]
-    D[find_last_planning_update]
-    E[extract_messages_after]
+    A[load_skill]
+    B[main]
+    C[persistent_session_example]
     A --> B
     B --> C
-    C --> D
-    D --> E
 ```

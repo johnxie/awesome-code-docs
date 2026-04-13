@@ -53,8 +53,6 @@ You now have Vibe Kanban up and ready for multi-agent task orchestration.
 
 Next: [Chapter 2: Orchestration Architecture](02-orchestration-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `shared/remote-types.ts`

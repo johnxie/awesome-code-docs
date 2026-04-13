@@ -30,91 +30,7 @@ You now understand how Kilo handles auth and provider initialization end-to-end.
 
 Next: [Chapter 5: Session, History, and Context Persistence](05-session-history-and-context-persistence.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `script/stats.ts`
-
-The `calculate` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function calculate(releases: Release[]) {
-  let total = 0
-  const stats = []
-
-  for (const release of releases) {
-    let downloads = 0
-    const assets = []
-
-    for (const asset of release.assets) {
-      downloads += asset.download_count
-      assets.push({
-        name: asset.name,
-        downloads: asset.download_count,
-      })
-    }
-
-    total += downloads
-    stats.push({
-      tag: release.tag_name,
-      name: release.name,
-      downloads,
-      assets,
-    })
-  }
-
-  return { total, stats }
-}
-
-async function save(githubTotal: number, npmDownloads: number) {
-  const file = "STATS.md"
-```
-
-This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
-
-### `script/stats.ts`
-
-The `save` function in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function save(githubTotal: number, npmDownloads: number) {
-  const file = "STATS.md"
-  const date = new Date().toISOString().split("T")[0]
-  const total = githubTotal + npmDownloads
-
-  let previousGithub = 0
-  let previousNpm = 0
-  let previousTotal = 0
-  let content = ""
-
-  try {
-    content = await Bun.file(file).text()
-    const lines = content.trim().split("\n")
-
-    for (let i = lines.length - 1; i >= 0; i--) {
-      const line = lines[i].trim()
-      if (line.startsWith("|") && !line.includes("Date") && !line.includes("---")) {
-        const match = line.match(
-          /\|\s*[\d-]+\s*\|\s*([\d,]+)\s*(?:\([^)]*\))?\s*\|\s*([\d,]+)\s*(?:\([^)]*\))?\s*\|\s*([\d,]+)\s*(?:\([^)]*\))?\s*\|/,
-        )
-        if (match) {
-          previousGithub = parseInt(match[1].replace(/,/g, ""))
-          previousNpm = parseInt(match[2].replace(/,/g, ""))
-          previousTotal = parseInt(match[3].replace(/,/g, ""))
-          break
-        }
-      }
-    }
-  } catch {
-    content =
-```
-
-This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
 ### `script/stats.ts`
 
@@ -198,15 +114,97 @@ async function fetchNpmDownloads(packageName: string): Promise<number> {
 
 This interface is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
 
+### `script/stats.ts`
+
+The `NpmDownloadsRange` interface in [`script/stats.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/stats.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+interface NpmDownloadsRange {
+  start: string
+  end: string
+  package: string
+  downloads: Array<{
+    downloads: number
+    day: string
+  }>
+}
+
+async function fetchNpmDownloads(packageName: string): Promise<number> {
+  try {
+    // Use a range from 2020 to current year + 5 years to ensure it works forever
+    const currentYear = new Date().getFullYear()
+    const endYear = currentYear + 5
+    const response = await fetch(`https://api.npmjs.org/downloads/range/2020-01-01:${endYear}-12-31/${packageName}`)
+    if (!response.ok) {
+      console.warn(`Failed to fetch npm downloads for ${packageName}: ${response.status}`)
+      return 0
+    }
+    const data: NpmDownloadsRange = await response.json()
+    return data.downloads.reduce((total, day) => total + day.downloads, 0)
+  } catch (error) {
+    console.warn(`Error fetching npm downloads for ${packageName}:`, error)
+    return 0
+  }
+}
+
+async function fetchReleases(): Promise<Release[]> {
+  const releases: Release[] = []
+```
+
+This interface is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
+### `script/changelog.ts`
+
+The `getLatestRelease` function in [`script/changelog.ts`](https://github.com/Kilo-Org/kilocode/blob/HEAD/script/changelog.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export async function getLatestRelease(skip?: string) {
+  const data = await fetch("https://api.github.com/repos/Kilo-Org/kilocode/releases?per_page=100").then((res) => {
+    if (!res.ok) throw new Error(res.statusText)
+    return res.json()
+  })
+
+  const releases = data as Release[]
+  const target = skip?.replace(/^v/, "")
+
+  for (const release of releases) {
+    if (release.draft) continue
+    const tag = release.tag_name.replace(/^v/, "")
+    if (target && tag === target) continue
+    return tag
+  }
+
+  throw new Error("No releases found")
+}
+
+type Commit = {
+  hash: string
+  author: string | null
+  message: string
+  areas: Set<string>
+}
+
+export async function getCommits(from: string, to: string): Promise<Commit[]> {
+  const fromRef = from.startsWith("v") ? from : `v${from}`
+  const toRef = to === "HEAD" ? to : to.startsWith("v") ? to : `v${to}`
+
+```
+
+This function is important because it defines how Kilo Code Tutorial: Agentic Engineering from IDE and CLI Surfaces implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[calculate]
-    B[save]
-    C[Asset]
-    D[Release]
+    A[Asset]
+    B[Release]
+    C[NpmDownloadsRange]
+    D[getLatestRelease]
     A --> B
     B --> C
     C --> D

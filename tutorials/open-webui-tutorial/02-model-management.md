@@ -666,6 +666,20 @@ Under the hood, `Chapter 2: Model Management & Backend Configuration` usually fo
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Open WebUI] --> B{Backend Router}
+    B --> C[Ollama :11434]
+    B --> D[OpenAI API]
+    B --> E[Anthropic API]
+    B --> F[LocalAI / LiteLLM]
+    C --> G[Local Models]
+    D --> H[GPT-4 / GPT-4o]
+    E --> I[Claude Models]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

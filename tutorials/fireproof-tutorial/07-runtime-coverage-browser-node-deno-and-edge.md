@@ -39,170 +39,168 @@ You now have a portability model for deploying Fireproof across browser and serv
 
 Next: [Chapter 8: Production Operations, Security, and Debugging](08-production-operations-security-and-debugging.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `core/runtime/utils.ts`
+### `core/blockstore/store.ts`
 
-The `getKey` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `BaseStoreOpts` interface in [`core/blockstore/store.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/blockstore/store.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export function getKey(url: URI, logger: Logger): string {
-  const result = url.getParam(PARAM.KEY);
-  if (!result) throw logger.Error().Str("url", url.toString()).Msg(`key not found`).AsError();
-  return result;
+export interface BaseStoreOpts {
+  readonly gateway: InterceptorGateway;
+  readonly loader: Loadable;
 }
 
-export function getName(sthis: SuperThis, url: URI): string {
-  let result = url.getParam(PARAM.NAME);
-  if (!result) {
-    result = sthis.pathOps.dirname(url.pathname);
-    if (result.length === 0) {
-      throw sthis.logger.Error().Str("url", url.toString()).Msg(`name not found`).AsError();
+export abstract class BaseStoreImpl {
+  // should be injectable
+
+  abstract readonly storeType: StoreType;
+  // readonly name: string;
+
+  private _url: URI;
+  readonly logger: Logger;
+  readonly sthis: SuperThis;
+  readonly gateway: InterceptorGateway;
+  get realGateway(): SerdeGateway {
+    return this.gateway.innerGW;
+  }
+  // readonly keybag: KeyBag;
+  readonly opts: StoreOpts;
+  readonly loader: Loadable;
+  readonly myId: string;
+  // readonly loader: Loadable;
+  constructor(sthis: SuperThis, url: URI, opts: BaseStoreOpts, logger: Logger) {
+    // this.name = name;
+    this.myId = sthis.nextId().str;
+    this._url = url;
+    this.opts = opts;
+    // this.keybag = opts.keybag;
+    this.loader = opts.loader;
+```
+
+This interface is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `core/base/crdt-helpers.ts`
+
+The `DirtyEventFetcher` class in [`core/base/crdt-helpers.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/base/crdt-helpers.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+class DirtyEventFetcher<T> extends EventFetcher<T> {
+  readonly logger: Logger;
+  constructor(logger: Logger, blocks: BlockFetcher) {
+    super(toPailFetcher(blocks));
+    this.logger = logger;
+  }
+  async get(link: EventLink<T>): Promise<EventBlockView<T>> {
+    try {
+      return await super.get(link);
+    } catch (e) {
+      this.logger.Error().Ref("link", link.toString()).Err(e).Msg("Missing event");
+      return { value: undefined } as unknown as EventBlockView<T>;
     }
   }
-  return result;
 }
 
-// export function exception2Result<T = void>(fn: () => Promise<T>): Promise<Result<T>> {
-//   return fn()
-//     .then((value) => Result.Ok(value))
-//     .catch((e) => Result.Err(e));
-// }
+export async function clockChangesSince<T extends DocTypes>(
+  blocks: BlockFetcher,
+  head: ClockHead,
+  since: ClockHead,
+  opts: ChangesOptions,
+  logger: Logger,
+): Promise<{ result: DocUpdate<T>[]; head: ClockHead }> {
+  const eventsFetcher = (
+    opts.dirty ? new DirtyEventFetcher<Operation>(logger, blocks) : new EventFetcher<Operation>(toPailFetcher(blocks))
+  ) as EventFetcher<Operation>;
+  const keys = new Set<string>();
+  const updates = await gatherUpdates<T>(
+    blocks,
+    eventsFetcher,
+```
 
-export async function exceptionWrapper<T, E extends Error>(fn: () => Promise<Result<T, E>>): Promise<Result<T, E>> {
-  return fn().catch((e) => Result.Err(e));
+This class is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
+
+### `core/base/crdt-helpers.ts`
+
+The `toPailFetcher` function in [`core/base/crdt-helpers.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/base/crdt-helpers.ts) handles a key part of this chapter's functionality:
+
+```ts
 }
 
-// // the big side effect party --- hate it
-// export function sanitizeURL(url: URL) {
-//   url.searchParams.sort();
+export function toPailFetcher(tblocks: BlockFetcher): PailBlockFetcher {
+  return {
+    get: async <T = unknown, C extends number = number, A extends number = number, V extends Version = 1>(
+      link: Link<T, C, A, V>,
+    ) => {
+      const block = await tblocks.get(link);
+      return block
+        ? ({
+            cid: block.cid,
+            bytes: block.bytes,
+          } as Block<T, C, A, V>)
+        : undefined;
+    },
+  };
+}
+
+export function sanitizeDocumentFields<T>(obj: T): T {
+  if (Array.isArray(obj)) {
+    return obj.map((item: unknown) => {
+      if (typeof item === "object" && item !== null) {
+        return sanitizeDocumentFields(item);
+      }
+      return item;
+    }) as T;
+  } else if (typeof obj === "object" && obj !== null) {
+    // Preserve Uint8Array for CBOR byte string encoding
+    if (isUint8Array(obj)) {
+      return obj;
+    }
+    // Special case for Date objects - convert to ISO string
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
 
-### `core/runtime/utils.ts`
+### `core/base/crdt-helpers.ts`
 
-The `getName` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export function getName(sthis: SuperThis, url: URI): string {
-  let result = url.getParam(PARAM.NAME);
-  if (!result) {
-    result = sthis.pathOps.dirname(url.pathname);
-    if (result.length === 0) {
-      throw sthis.logger.Error().Str("url", url.toString()).Msg(`name not found`).AsError();
-    }
-  }
-  return result;
-}
-
-// export function exception2Result<T = void>(fn: () => Promise<T>): Promise<Result<T>> {
-//   return fn()
-//     .then((value) => Result.Ok(value))
-//     .catch((e) => Result.Err(e));
-// }
-
-export async function exceptionWrapper<T, E extends Error>(fn: () => Promise<Result<T, E>>): Promise<Result<T, E>> {
-  return fn().catch((e) => Result.Err(e));
-}
-
-// // the big side effect party --- hate it
-// export function sanitizeURL(url: URL) {
-//   url.searchParams.sort();
-//   // const searchParams = Object.entries(url.searchParams).sort(([a], [b]) => a.localeCompare(b));
-//   // console.log("searchParams", searchParams);
-//   // for (const [key] of searchParams) {
-//   //   url.searchParams.delete(key);
-//   // }
-//   // for (const [key, value] of searchParams) {
-```
-
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `core/runtime/utils.ts`
-
-The `sanitizeURL` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
+The `processFileset` function in [`core/base/crdt-helpers.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/base/crdt-helpers.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-// // the big side effect party --- hate it
-// export function sanitizeURL(url: URL) {
-//   url.searchParams.sort();
-//   // const searchParams = Object.entries(url.searchParams).sort(([a], [b]) => a.localeCompare(b));
-//   // console.log("searchParams", searchParams);
-//   // for (const [key] of searchParams) {
-//   //   url.searchParams.delete(key);
-//   // }
-//   // for (const [key, value] of searchParams) {
-//   //   url.searchParams.set(key, value);
-//   // }
-// }
-
-export function UInt8ArrayEqual(a: Uint8Array, b: Uint8Array): boolean {
-  if (a.length !== b.length) {
-    return false;
+async function processFiles<T extends DocTypes>(store: StoreRuntime, blocks: CarTransaction, doc: DocSet<T>, logger: Logger) {
+  if (doc._files) {
+    await processFileset(logger, store, blocks, doc._files);
   }
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      return false;
-    }
+  if (doc._publicFiles) {
+    await processFileset(logger, store, blocks, doc._publicFiles /*, true*/);
   }
-  return true;
 }
 
-export function inplaceFilter<T>(i: T[], pred: (i: T, idx: number) => boolean): T[] {
-  const founds: number[] = [];
-  for (let j = 0; j < i.length; j++) {
-    if (!pred(i[j], j)) {
-      founds.push(j);
-    }
-```
+async function processFileset(
+  logger: Logger,
+  store: StoreRuntime,
+  blocks: CarTransaction,
+  files: DocFiles /*, publicFiles = false */,
+) {
+  const dbBlockstore = blocks.parent as unknown as EncryptedBlockstore;
+  if (!dbBlockstore.loader) throw logger.Error().Msg("Missing loader, ledger name is required").AsError();
+  const t = new CarTransactionImpl(dbBlockstore); // maybe this should move to encrypted-blockstore
+  const didPut = [];
+  // let totalSize = 0
+  for (const filename in files) {
+    if (File === files[filename].constructor) {
+      const file = files[filename] as File;
 
-This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
-
-### `core/runtime/utils.ts`
-
-The `UInt8ArrayEqual` function in [`core/runtime/utils.ts`](https://github.com/fireproof-storage/fireproof/blob/HEAD/core/runtime/utils.ts) handles a key part of this chapter's functionality:
-
-```ts
-// }
-
-export function UInt8ArrayEqual(a: Uint8Array, b: Uint8Array): boolean {
-  if (a.length !== b.length) {
-    return false;
-  }
-  for (let i = 0; i < a.length; i++) {
-    if (a[i] !== b[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
-export function inplaceFilter<T>(i: T[], pred: (i: T, idx: number) => boolean): T[] {
-  const founds: number[] = [];
-  for (let j = 0; j < i.length; j++) {
-    if (!pred(i[j], j)) {
-      founds.push(j);
-    }
-  }
-  for (let j = founds.length - 1; j >= 0; j--) {
-    i.splice(founds[j], 1);
-  }
-  return i;
-}
-
-export function coerceIntoUint8(raw: ToUInt8): Result<Uint8Array> {
-  if (raw instanceof Uint8Array) {
-    return Result.Ok(raw);
-  }
-  if (Result.Is(raw)) {
+      // totalSize += file.size
+      const { cid, blocks: fileBlocks } = await store.encodeFile(file);
+      didPut.push(filename);
+      for (const block of fileBlocks) {
+        // console.log("processFileset", block.cid.toString())
+        t.putSync(await fileBlock2FPBlock(block));
+      }
+      files[filename] = { cid, type: file.type, size: file.size, lastModified: file.lastModified } as DocFileMeta;
 ```
 
 This function is important because it defines how Fireproof Tutorial: Local-First Document Database for AI-Native Apps implements the patterns covered in this chapter.
@@ -212,11 +210,11 @@ This function is important because it defines how Fireproof Tutorial: Local-Firs
 
 ```mermaid
 flowchart TD
-    A[getKey]
-    B[getName]
-    C[sanitizeURL]
-    D[UInt8ArrayEqual]
-    E[coerceIntoUint8]
+    A[BaseStoreOpts]
+    B[DirtyEventFetcher]
+    C[toPailFetcher]
+    D[processFileset]
+    E[readFileset]
     A --> B
     B --> C
     C --> D

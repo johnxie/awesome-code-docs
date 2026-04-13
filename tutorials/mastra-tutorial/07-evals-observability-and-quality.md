@@ -40,170 +40,168 @@ You now have a measurable process for improving Mastra quality over time.
 
 Next: [Chapter 8: Production Deployment and Scaling](08-production-deployment-and-scaling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `explorations/ralph-wiggum-loop-prototype.ts`
+### `scripts/generate-package-docs.ts`
 
-The `outputContains` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+The `getChunkLines` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Check if output contains a specific string/pattern
- */
-export function outputContains(pattern: string | RegExp): CompletionChecker {
-  let lastOutput = '';
-  return {
-    async check() {
-      const matches = typeof pattern === 'string' ? lastOutput.includes(pattern) : pattern.test(lastOutput);
-
-      return {
-        success: matches,
-        message: matches ? `Output contains pattern` : `Output does not contain pattern`,
-      };
-    },
-    // Helper to set output for checking
-    setOutput: (output: string) => {
-      lastOutput = output;
-    },
-  } as CompletionChecker & { setOutput: (output: string) => void };
 }
 
-/**
- * Combine multiple checkers (all must pass)
- */
-export function allCheckersPassing(...checkers: CompletionChecker[]): CompletionChecker {
-  return {
-    async check() {
-      const results = await Promise.all(checkers.map(c => c.check()));
-      const allPassed = results.every(r => r.success);
+function getChunkLines(chunkPath: string): string[] | null {
+  const cached = chunkCache.get(chunkPath);
+  if (cached !== undefined) return cached;
 
-      return {
-        success: allPassed,
-        message: results.map(r => r.message).join('; '),
+  if (!cachedExists(chunkPath)) {
+    chunkCache.set(chunkPath, null);
+    return null;
+  }
+
+  try {
+    const stat = fs.statSync(chunkPath);
+    if (!stat.isFile()) {
+      chunkCache.set(chunkPath, null);
+      return null;
+    }
+  } catch {
+    chunkCache.set(chunkPath, null);
+    return null;
+  }
+
+  const content = fs.readFileSync(chunkPath, 'utf-8');
+  const lines = content.split('\n');
+  chunkCache.set(chunkPath, lines);
+  return lines;
+}
+
+function parseIndexExports(indexPath: string): Map<string, { chunk: string; exportName: string }> {
+  const exports = new Map<string, { chunk: string; exportName: string }>();
+
+  if (!cachedExists(indexPath)) {
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/ralph-wiggum-loop-prototype.ts`
+### `scripts/generate-package-docs.ts`
 
-The `allCheckersPassing` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+The `parseIndexExports` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Combine multiple checkers (all must pass)
- */
-export function allCheckersPassing(...checkers: CompletionChecker[]): CompletionChecker {
-  return {
-    async check() {
-      const results = await Promise.all(checkers.map(c => c.check()));
-      const allPassed = results.every(r => r.success);
+}
 
-      return {
-        success: allPassed,
-        message: results.map(r => r.message).join('; '),
-        data: { results },
-      };
-    },
+function parseIndexExports(indexPath: string): Map<string, { chunk: string; exportName: string }> {
+  const exports = new Map<string, { chunk: string; exportName: string }>();
+
+  if (!cachedExists(indexPath)) {
+    return exports;
+  }
+
+  const content = fs.readFileSync(indexPath, 'utf-8');
+
+  // Parse: export { Agent, TripWire } from '../chunk-IDD63DWQ.js';
+  const regex = /export\s*\{\s*([^}]+)\s*\}\s*from\s*['"]([^'"]+)['"]/g;
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    const names = match[1].split(',').map(n => n.trim().split(' as ')[0].trim());
+    const chunkPath = match[2];
+    const chunk = path.basename(chunkPath);
+
+    for (const name of names) {
+      if (name) {
+        exports.set(name, { chunk, exportName: name });
+      }
+    }
+  }
+
+  return exports;
+}
+
+function findExportLine(chunkPath: string, exportName: string): number | undefined {
+  const lines = getChunkLines(chunkPath);
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `scripts/generate-package-docs.ts`
+
+The `findExportLine` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function findExportLine(chunkPath: string, exportName: string): number | undefined {
+  const lines = getChunkLines(chunkPath);
+  if (!lines) return undefined;
+
+  // Look for class or function definition
+  const patterns = [
+    new RegExp(`^var ${exportName} = class`),
+    new RegExp(`^function ${exportName}\\s*\\(`),
+    new RegExp(`^var ${exportName} = function`),
+    new RegExp(`^var ${exportName} = \\(`), // Arrow function
+    new RegExp(`^const ${exportName} = `),
+    new RegExp(`^let ${exportName} = `),
+  ];
+
+  for (let i = 0; i < lines.length; i++) {
+    for (const pattern of patterns) {
+      if (pattern.test(lines[i])) {
+        return i + 1; // 1-indexed
+      }
+    }
+  }
+
+  return undefined;
+}
+
+function generateSourceMap(packageRoot: string): SourceMap {
+  const distDir = path.join(packageRoot, 'dist');
+  const packageJson = getPackageJson(packageRoot);
+
+  const sourceMap: SourceMap = {
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `scripts/generate-package-docs.ts`
+
+The `generateSourceMap` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function generateSourceMap(packageRoot: string): SourceMap {
+  const distDir = path.join(packageRoot, 'dist');
+  const packageJson = getPackageJson(packageRoot);
+
+  const sourceMap: SourceMap = {
+    version: packageJson.version,
+    package: packageJson.name,
+    exports: {},
+    modules: {},
   };
-}
 
-// ============================================================================
-// Core Implementation
-// ============================================================================
+  // Default modules to analyze
+  const modules = [
+    'agent',
+    'tools',
+    'workflows',
+    'memory',
+    'stream',
+    'llm',
+    'mastra',
+    'mcp',
+    'evals',
+    'processors',
+    'storage',
+    'vector',
+    'voice',
+  ];
 
-/**
- * Creates an autonomous loop workflow for an agent.
- *
- * This implements the Ralph Wiggum pattern: the agent iterates on a task
- * until completion criteria are met or max iterations are reached.
- */
-export function createAutonomousLoopWorkflow(agent: Agent, mastra?: Mastra) {
-  const iterationSchema = z.object({
-    prompt: z.string(),
-    iteration: z.number(),
-    previousResults: z.array(
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/ralph-wiggum-loop-prototype.ts`
-
-The `createAutonomousLoopWorkflow` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
-
-```ts
- * until completion criteria are met or max iterations are reached.
- */
-export function createAutonomousLoopWorkflow(agent: Agent, mastra?: Mastra) {
-  const iterationSchema = z.object({
-    prompt: z.string(),
-    iteration: z.number(),
-    previousResults: z.array(
-      z.object({
-        iteration: z.number(),
-        success: z.boolean(),
-        output: z.string(),
-        error: z.string().optional(),
-      }),
-    ),
-    isComplete: z.boolean(),
-    completionMessage: z.string().optional(),
-  });
-
-  const agentStep = createStep({
-    id: 'agent-iteration',
-    inputSchema: iterationSchema,
-    outputSchema: z.object({
-      text: z.string(),
-      iteration: z.number(),
-    }),
-    execute: async ({ inputData }) => {
-      // Build context from previous iterations
-      let contextualPrompt = inputData.prompt;
-
-      if (inputData.previousResults.length > 0) {
-        const historyContext = inputData.previousResults
-          .slice(-5) // Last 5 iterations
-```
-
-This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
-
-### `explorations/ralph-wiggum-loop-prototype.ts`
-
-The `executeAutonomousLoop` function in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Executes an autonomous loop with the given agent and configuration.
- */
-export async function executeAutonomousLoop(
-  agent: Agent,
-  config: AutonomousLoopConfig,
-  mastra?: Mastra,
-): Promise<AutonomousLoopResult> {
-  const iterations: IterationResult[] = [];
-  let totalTokens = 0;
-  const startTime = Date.now();
-
-  const contextWindow = config.contextWindow ?? 5;
-
-  for (let i = 0; i < config.maxIterations; i++) {
-    const iterationStartTime = Date.now();
-
-    // Notify iteration start
-    await config.onIterationStart?.(i + 1);
-
-    // Build context from previous iterations
-    const previousResults = iterations.slice(-contextWindow).map(r => ({
-      iteration: r.iteration,
-      success: r.success,
-      output: r.agentOutput,
-      error: r.error?.message,
-    }));
-
-    let contextualPrompt = config.prompt;
-    if (previousResults.length > 0) {
-      const historyContext = previousResults
-        .map(
-          r => `
+  for (const mod of modules) {
+    const indexPath = path.join(distDir, mod, 'index.js');
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
@@ -213,11 +211,11 @@ This function is important because it defines how Mastra Tutorial: TypeScript Fr
 
 ```mermaid
 flowchart TD
-    A[outputContains]
-    B[allCheckersPassing]
-    C[createAutonomousLoopWorkflow]
-    D[executeAutonomousLoop]
-    E[main]
+    A[getChunkLines]
+    B[parseIndexExports]
+    C[findExportLine]
+    D[generateSourceMap]
+    E[loadLlmsManifest]
     A --> B
     B --> C
     C --> D

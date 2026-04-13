@@ -6,6 +6,7 @@ has_children: false
 parent: LiteLLM Tutorial
 ---
 
+
 # Chapter 4: Streaming & Async
 
 Welcome to **Chapter 4: Streaming & Async**. In this part of **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, you will build an intuitive mental model first, then move into concrete implementation details and practical production tradeoffs.
@@ -489,149 +490,184 @@ Streaming and async processing enable responsive, scalable AI applications. Thes
 
 ## Depth Expansion Playbook
 
-<!-- depth-expansion-v2 -->
+## Source Code Walkthrough
 
-This chapter is expanded to v1-style depth for production-grade learning and implementation quality.
+### `scripts/benchmark_proxy_vs_provider.py`
 
-### Strategic Context
+The `print_results` function in [`scripts/benchmark_proxy_vs_provider.py`](https://github.com/BerriAI/litellm/blob/HEAD/scripts/benchmark_proxy_vs_provider.py) handles a key part of this chapter's functionality:
 
-- tutorial: **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**
-- tutorial slug: **litellm-tutorial**
-- chapter focus: **Chapter 4: Streaming & Async**
-- system context: **Litellm Tutorial**
-- objective: move from surface-level usage to repeatable engineering operation
+```py
 
-### Architecture Decomposition
 
-1. Define the runtime boundary for `Chapter 4: Streaming & Async`.
-2. Separate control-plane decisions from data-plane execution.
-3. Capture input contracts, transformation points, and output contracts.
-4. Trace state transitions across request lifecycle stages.
-5. Identify extension hooks and policy interception points.
-6. Map ownership boundaries for team and automation workflows.
-7. Specify rollback and recovery paths for unsafe changes.
-8. Track observability signals for correctness, latency, and cost.
+def print_results(name: str, results: BenchmarkResults):
+    """Print formatted benchmark results"""
+    stats = results.calculate_stats()
+    
+    print(f"\n{'='*60}")
+    print(f"Results for {name}")
+    print(f"{'='*60}")
+    print(f"Total Requests:        {stats['total_requests']}")
+    print(f"Successful Requests:   {stats['successful_requests']}")
+    print(f"Failed Requests:       {stats['failed_requests']}")
+    print(f"Success Rate:          {stats['success_rate']:.2f}%")
+    print(f"Error Rate:            {stats['error_rate']:.2f}%")
+    print(f"Total Time:            {stats['total_time']:.2f}s")
+    print(f"Requests/Second:       {stats['requests_per_second']:.2f}")
+    
+    if 'latency_stats' in stats:
+        latency = stats['latency_stats']
+        print(f"\nLatency Statistics (seconds):")
+        print(f"   Mean:               {latency['mean']:.4f}s")
+        print(f"   Median (p50):       {latency['median']:.4f}s")
+        print(f"   Min:                {latency['min']:.4f}s")
+        print(f"   Max:                {latency['max']:.4f}s")
+        print(f"   Std Dev:            {latency['std_dev']:.4f}s")
+        print(f"   p95:                {latency['p95']:.4f}s")
+        print(f"   p99:                {latency['p99']:.4f}s")
+    
+    if stats['status_codes']:
+        print(f"\nStatus Codes:")
+        for code, count in sorted(stats['status_codes'].items()):
+            print(f"   {code}: {count}")
+```
 
-### Operator Decision Matrix
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-| Decision Area | Low-Risk Path | High-Control Path | Tradeoff |
-|:--------------|:--------------|:------------------|:---------|
-| Runtime mode | managed defaults | explicit policy config | speed vs control |
-| State handling | local ephemeral | durable persisted state | simplicity vs auditability |
-| Tool integration | direct API use | mediated adapter layer | velocity vs governance |
-| Rollout method | manual change | staged + canary rollout | effort vs safety |
-| Incident response | best effort logs | runbooks + SLO alerts | cost vs reliability |
+### `scripts/benchmark_proxy_vs_provider.py`
 
-### Failure Modes and Countermeasures
+The `aggregate_results` function in [`scripts/benchmark_proxy_vs_provider.py`](https://github.com/BerriAI/litellm/blob/HEAD/scripts/benchmark_proxy_vs_provider.py) handles a key part of this chapter's functionality:
 
-| Failure Mode | Early Signal | Root Cause Pattern | Countermeasure |
-|:-------------|:-------------|:-------------------|:---------------|
-| stale context | inconsistent outputs | missing refresh window | enforce context TTL and refresh hooks |
-| policy drift | unexpected execution | ad hoc overrides | centralize policy profiles |
-| auth mismatch | 401/403 bursts | credential sprawl | rotation schedule + scope minimization |
-| schema breakage | parser/validation errors | unmanaged upstream changes | contract tests per release |
-| retry storms | queue congestion | no backoff controls | jittered backoff + circuit breakers |
-| silent regressions | quality drop without alerts | weak baseline metrics | eval harness with thresholds |
+```py
 
-### Implementation Runbook
 
-1. Establish a reproducible baseline environment.
-2. Capture chapter-specific success criteria before changes.
-3. Implement minimal viable path with explicit interfaces.
-4. Add observability before expanding feature scope.
-5. Run deterministic tests for happy-path behavior.
-6. Inject failure scenarios for negative-path validation.
-7. Compare output quality against baseline snapshots.
-8. Promote through staged environments with rollback gates.
-9. Record operational lessons in release notes.
+def aggregate_results(results_list: List[BenchmarkResults]) -> BenchmarkResults:
+    """Aggregate results from multiple runs"""
+    if not results_list:
+        return BenchmarkResults()
+    
+    aggregated = BenchmarkResults()
+    
+    # Aggregate all latencies
+    all_latencies = []
+    all_errors = []
+    total_requests = 0
+    total_successful = 0
+    total_failed = 0
+    total_time_sum = 0.0
+    status_codes_combined = {}
+    
+    for result in results_list:
+        all_latencies.extend(result.latencies)
+        all_errors.extend(result.errors)
+        total_requests += result.total_requests
+        total_successful += result.successful_requests
+        total_failed += result.failed_requests
+        total_time_sum += result.total_time
+        
+        for code, count in result.status_codes.items():
+            status_codes_combined[code] = status_codes_combined.get(code, 0) + count
+    
+    aggregated.latencies = all_latencies
+    aggregated.errors = all_errors
+    aggregated.total_requests = total_requests
+```
 
-### Quality Gate Checklist
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-- [ ] chapter-level assumptions are explicit and testable
-- [ ] API/tool boundaries are documented with input/output examples
-- [ ] failure handling includes retry, timeout, and fallback policy
-- [ ] security controls include auth scopes and secret rotation plans
-- [ ] observability includes logs, metrics, traces, and alert thresholds
-- [ ] deployment guidance includes canary and rollback paths
-- [ ] docs include links to upstream sources and related tracks
-- [ ] post-release verification confirms expected behavior under load
+### `scripts/benchmark_proxy_vs_provider.py`
 
-### Source Alignment
+The `print_run_variance` function in [`scripts/benchmark_proxy_vs_provider.py`](https://github.com/BerriAI/litellm/blob/HEAD/scripts/benchmark_proxy_vs_provider.py) handles a key part of this chapter's functionality:
 
-- [LiteLLM Repository](https://github.com/BerriAI/litellm)
-- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
-- [LiteLLM Docs](https://docs.litellm.ai/)
+```py
 
-### Cross-Tutorial Connection Map
 
-- [Langfuse Tutorial](../langfuse-tutorial/)
-- [Vercel AI SDK Tutorial](../vercel-ai-tutorial/)
-- [OpenAI Python SDK Tutorial](../openai-python-sdk-tutorial/)
-- [Aider Tutorial](../aider-tutorial/)
-- [Chapter 1: Getting Started](01-getting-started.md)
+def print_run_variance(name: str, results_list: List[BenchmarkResults]):
+    """Print variance statistics across multiple runs"""
+    if len(results_list) <= 1:
+        return
+    
+    print(f"\n{'='*60}")
+    print(f"Run-to-Run Variance: {name}")
+    print(f"{'='*60}")
+    
+    # Collect mean latencies from each run
+    mean_latencies = []
+    throughputs = []
+    
+    for result in results_list:
+        stats = result.calculate_stats()
+        if 'latency_stats' in stats:
+            mean_latencies.append(stats['latency_stats']['mean'])
+        throughputs.append(stats['requests_per_second'])
+    
+    if mean_latencies:
+        print(f"\nMean Latency Variance:")
+        print(f"   Runs:           {len(mean_latencies)}")
+        print(f"   Mean:           {mean(mean_latencies):.4f}s")
+        print(f"   Min:            {min(mean_latencies):.4f}s")
+        print(f"   Max:            {max(mean_latencies):.4f}s")
+        print(f"   Std Dev:        {stdev(mean_latencies):.4f}s" if len(mean_latencies) > 1 else "   Std Dev:        N/A")
+        print(f"   Coefficient of Variation: {(stdev(mean_latencies) / mean(mean_latencies) * 100):.2f}%" if len(mean_latencies) > 1 else "   Coefficient of Variation: N/A")
+    
+    if throughputs:
+        print(f"\nThroughput Variance:")
+```
 
-### Advanced Practice Exercises
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-1. Build a minimal end-to-end implementation for `Chapter 4: Streaming & Async`.
-2. Add instrumentation and measure baseline latency and error rate.
-3. Introduce one controlled failure and confirm graceful recovery.
-4. Add policy constraints and verify they are enforced consistently.
-5. Run a staged rollout and document rollback decision criteria.
+### `scripts/benchmark_proxy_vs_provider.py`
 
-### Review Questions
+The `compare_results` function in [`scripts/benchmark_proxy_vs_provider.py`](https://github.com/BerriAI/litellm/blob/HEAD/scripts/benchmark_proxy_vs_provider.py) handles a key part of this chapter's functionality:
 
-1. Which execution boundary matters most for this chapter and why?
-2. What signal detects regressions earliest in your environment?
-3. What tradeoff did you make between delivery speed and governance?
-4. How would you recover from the highest-impact failure mode?
-5. What must be automated before scaling to team-wide adoption?
+```py
 
-## What Problem Does This Solve?
 
-Most teams struggle here because the hard part is not writing more code, but deciding clear boundaries for `content`, `messages`, `chunk` so behavior stays predictable as complexity grows.
+def compare_results(proxy_results: BenchmarkResults, provider_results: BenchmarkResults):
+    """Compare and print differences between proxy and provider results"""
+    proxy_stats = proxy_results.calculate_stats()
+    provider_stats = provider_results.calculate_stats()
+    
+    print(f"\n{'='*60}")
+    print(f"Comparison: LiteLLM Proxy vs Direct Provider")
+    print(f"{'='*60}")
+    
+    # Success Rate Comparison
+    print(f"\nSuccess Rate:")
+    print(f"   Proxy:   {proxy_stats['success_rate']:.2f}%")
+    print(f"   Provider: {provider_stats['success_rate']:.2f}%")
+    diff = proxy_stats['success_rate'] - provider_stats['success_rate']
+    print(f"   Difference: {diff:+.2f}%")
+    
+    # Throughput Comparison
+    print(f"\nThroughput (requests/second):")
+    print(f"   Proxy:   {proxy_stats['requests_per_second']:.2f}")
+    print(f"   Provider: {provider_stats['requests_per_second']:.2f}")
+    diff = proxy_stats['requests_per_second'] - provider_stats['requests_per_second']
+    print(f"   Difference: {diff:+.2f} req/s")
+    
+    # Latency Comparison
+    if 'latency_stats' in proxy_stats and 'latency_stats' in provider_stats:
+        print(f"\nLatency Comparison (seconds):")
+        proxy_latency = proxy_stats['latency_stats']
+        provider_latency = provider_stats['latency_stats']
+        
+        metrics = ['mean', 'median', 'p95', 'p99']
+```
 
-In practical terms, this chapter helps you avoid three common failures:
+This function is important because it defines how LiteLLM Tutorial: Unified LLM Gateway and Routing Layer implements the patterns covered in this chapter.
 
-- coupling core logic too tightly to one implementation path
-- missing the handoff boundaries between setup, execution, and validation
-- shipping changes without clear rollback or observability strategy
 
-After working through this chapter, you should be able to reason about `Chapter 4: Streaming & Async` as an operating subsystem inside **LiteLLM Tutorial: Unified LLM Gateway and Routing Layer**, with explicit contracts for inputs, state transitions, and outputs.
+## How These Components Connect
 
-Use the implementation notes around `print`, `response`, `model` as your checklist when adapting these patterns to your own repository.
-
-## How it Works Under the Hood
-
-Under the hood, `Chapter 4: Streaming & Async` usually follows a repeatable control path:
-
-1. **Context bootstrap**: initialize runtime config and prerequisites for `content`.
-2. **Input normalization**: shape incoming data so `messages` receives stable contracts.
-3. **Core execution**: run the main logic branch and propagate intermediate state through `chunk`.
-4. **Policy and safety checks**: enforce limits, auth scopes, and failure boundaries.
-5. **Output composition**: return canonical result payloads for downstream consumers.
-6. **Operational telemetry**: emit logs/metrics needed for debugging and performance tuning.
-
-When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
-
-## Source Walkthrough
-
-Use the following upstream sources to verify implementation details while reading this chapter:
-
-- [LiteLLM Repository](https://github.com/BerriAI/litellm)
-  Why it matters: authoritative reference on `LiteLLM Repository` (github.com).
-- [LiteLLM Releases](https://github.com/BerriAI/litellm/releases)
-  Why it matters: authoritative reference on `LiteLLM Releases` (github.com).
-- [LiteLLM Docs](https://docs.litellm.ai/)
-  Why it matters: authoritative reference on `LiteLLM Docs` (docs.litellm.ai).
-
-Suggested trace strategy:
-- search upstream code for `content` and `messages` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
-
-## Chapter Connections
-
-- [Tutorial Index](README.md)
-- [Previous Chapter: Chapter 3: Completion API](03-completion.md)
-- [Next Chapter: Chapter 5: Fallbacks & Retries](05-fallbacks.md)
-- [Main Catalog](../../README.md#-tutorial-catalog)
-- [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
+```mermaid
+flowchart TD
+    A[print_results]
+    B[aggregate_results]
+    C[print_run_variance]
+    D[compare_results]
+    E[main]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```

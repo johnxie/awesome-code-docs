@@ -110,98 +110,23 @@ You now have a mode-driven execution framework that supports:
 
 Next: [Chapter 3: File and Command Operations](03-file-and-command-operations.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-i18n-key.js`
+Use the following upstream sources to verify mode-related implementation details while reading this chapter:
 
-The `checkKeyInLocales` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
+- [`src/shared/modes.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/shared/modes.ts) — defines mode identifiers, slug constants, and the mode registry that drives mode selection behavior in Roo Code.
+- [`src/core/prompts/system.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/core/prompts/system.ts) — contains the system prompt construction logic used for each mode, showing how mode context shapes agent behavior.
 
-```js
-
-// Check if the key exists in all language files, return a list of missing language files
-function checkKeyInLocales(key, localeDirs, localesDir) {
-	const [file, ...pathParts] = key.split(":")
-	const jsonPath = pathParts.join(".")
-
-	const missingLocales = []
-
-	localeDirs.forEach((locale) => {
-		const filePath = path.join(localesDir, locale, `${file}.json`)
-		if (!fs.existsSync(filePath)) {
-			missingLocales.push(`${locale}/${file}.json`)
-			return
-		}
-
-		const json = JSON.parse(fs.readFileSync(filePath, "utf8"))
-		if (getValueByPath(json, jsonPath) === undefined) {
-			missingLocales.push(`${locale}/${file}.json`)
-		}
-	})
-
-	return missingLocales
-}
-
-// Recursively traverse the directory
-function findMissingI18nKeys() {
-	const results = []
-
-	function walk(dir, baseDir, localeDirs, localesDir) {
-		const files = fs.readdirSync(dir)
-
-		for (const file of files) {
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
-### `scripts/find-missing-i18n-key.js`
-
-The `findMissingI18nKeys` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Recursively traverse the directory
-function findMissingI18nKeys() {
-	const results = []
-
-	function walk(dir, baseDir, localeDirs, localesDir) {
-		const files = fs.readdirSync(dir)
-
-		for (const file of files) {
-			const filePath = path.join(dir, file)
-			const stat = fs.statSync(filePath)
-
-			// Exclude test files and __mocks__ directory
-			if (filePath.includes(".test.") || filePath.includes("__mocks__")) continue
-
-			if (stat.isDirectory()) {
-				walk(filePath, baseDir, localeDirs, localesDir) // Recursively traverse subdirectories
-			} else if (stat.isFile() && [".ts", ".tsx", ".js", ".jsx"].includes(path.extname(filePath))) {
-				const content = fs.readFileSync(filePath, "utf8")
-
-				// Match all i18n keys
-				for (const pattern of i18nPatterns) {
-					let match
-					while ((match = pattern.exec(content)) !== null) {
-						const key = match[1]
-						const missingLocales = checkKeyInLocales(key, localeDirs, localesDir)
-						if (missingLocales.length > 0) {
-							results.push({
-								key,
-								missingLocales,
-								file: path.relative(baseDir, filePath),
-							})
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- search the `src/shared/modes.ts` file for mode slug definitions and the `ModeConfig` type to understand mode attributes
+- compare system prompt differences across modes in `system.ts` to understand capability boundaries
+- check `src/extension.ts` for mode-switching entry points triggered from the VS Code UI
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[checkKeyInLocales]
-    B[findMissingI18nKeys]
-    A --> B
+flowchart LR
+    A[User selects mode] --> B[modes.ts registry]
+    B --> C[system.ts prompt builder]
+    C --> D[Agent receives mode-scoped context]
 ```

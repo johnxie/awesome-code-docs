@@ -88,55 +88,53 @@ You now have a working Taskade MCP connection in at least one client mode.
 
 Next: [Chapter 2: Repository Architecture and Package Layout](02-repository-architecture-and-package-layout.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `packages/openapi-codegen/src/openapi.ts`
+### `packages/server/src/server.ts`
 
-The `if` interface in [`packages/openapi-codegen/src/openapi.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/openapi-codegen/src/openapi.ts) handles a key part of this chapter's functionality:
+The `TaskadeMCPServer` class in [`packages/server/src/server.ts`](https://github.com/taskade/mcp/blob/HEAD/packages/server/src/server.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  response: OpenAPIV3.ResponseObject | OpenAPIV3.ReferenceObject,
-): OpenAPIV3.ResponseObject => {
-  if ('$ref' in response) {
-    throw new Error('Reference not supported');
-  }
-
-  return response;
 };
 
-export const convertOpenApiSchemaToJsonSchema = (
-  schema: OpenAPIV3.SchemaObject | OpenAPIV3.ReferenceObject,
-): IJsonSchema => {
-  if ('$ref' in schema) {
-    // Should already be dereferenced
-    throw new Error('Reference not supported');
-  }
+export class TaskadeMCPServer extends McpServer {
+  readonly config: TaskadeServerOpts;
 
-  const jsonSchema: IJsonSchema = {};
+  constructor(opts: TaskadeServerOpts) {
+    super({
+      name: 'taskade',
+      version: '0.0.1',
+      capabilities: {
+        resources: {},
+        tools: {},
+      },
+    });
 
-  // Handle basic properties
-  if (schema.type) {
-    jsonSchema.type = schema.type;
-  }
+    this.config = opts;
 
-  if (schema.description) {
-    jsonSchema.description = schema.description;
-  }
-
-  if (schema.default !== undefined) {
-    jsonSchema.default = schema.default;
-  }
-
+    setupTools(this, {
+      url: 'https://www.taskade.com/api/v1',
+      fetch,
+      headers: {
+        Authorization: `Bearer ${this.config.accessToken}`,
+      },
+      normalizeResponse: {
+        folderProjectsGet: (response) => {
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(response),
+              },
+              {
 ```
 
-This interface is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
+This class is important because it defines how Taskade MCP Tutorial: OpenAPI-Driven MCP Server for Taskade Workflows implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[if]
+    A[TaskadeMCPServer]
 ```

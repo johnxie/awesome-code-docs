@@ -40,8 +40,6 @@ You now have a security-oriented workflow for trusted MCPB distribution.
 
 Next: [Chapter 7: Examples, Language Patterns, and Distribution Readiness](07-examples-language-patterns-and-distribution-readiness.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/node/sign.ts`

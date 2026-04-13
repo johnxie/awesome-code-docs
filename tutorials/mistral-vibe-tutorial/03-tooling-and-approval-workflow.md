@@ -36,169 +36,167 @@ You now understand how Vibe turns prompts into controlled tool execution loops.
 
 Next: [Chapter 4: Skills and Slash Command Extensions](04-skills-and-slash-command-extensions.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `vibe/core/middleware.py`
+### `vibe/core/types.py`
 
-The `AutoCompactMiddleware` class in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
+The `AgentStats` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class AutoCompactMiddleware:
-    async def before_turn(self, context: ConversationContext) -> MiddlewareResult:
-        threshold = context.config.get_active_model().auto_compact_threshold
-        if threshold > 0 and context.stats.context_tokens >= threshold:
-            return MiddlewareResult(
-                action=MiddlewareAction.COMPACT,
-                metadata={
-                    "old_tokens": context.stats.context_tokens,
-                    "threshold": threshold,
-                },
-            )
-        return MiddlewareResult()
+class AgentStats(BaseModel):
+    steps: int = 0
+    session_prompt_tokens: int = 0
+    session_completion_tokens: int = 0
+    tool_calls_agreed: int = 0
+    tool_calls_rejected: int = 0
+    tool_calls_failed: int = 0
+    tool_calls_succeeded: int = 0
 
-    def reset(self, reset_reason: ResetReason = ResetReason.STOP) -> None:
-        pass
+    context_tokens: int = 0
+
+    last_turn_prompt_tokens: int = 0
+    last_turn_completion_tokens: int = 0
+    last_turn_duration: float = 0.0
+    tokens_per_second: float = 0.0
+
+    input_price_per_million: float = 0.0
+    output_price_per_million: float = 0.0
+
+    _listeners: dict[str, Callable[[AgentStats], None]] = PrivateAttr(
+        default_factory=dict
+    )
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        super().__setattr__(name, value)
+        if name in self._listeners:
+            self._listeners[name](self)
+
+    def trigger_listeners(self) -> None:
+        for listener in self._listeners.values():
+```
+
+This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/core/types.py`
+
+The `SessionInfo` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+
+```py
 
 
-class ContextWarningMiddleware:
-    def __init__(self, threshold_percent: float = 0.5) -> None:
-        self.threshold_percent = threshold_percent
-        self.has_warned = False
+class SessionInfo(BaseModel):
+    session_id: str
+    start_time: str
+    message_count: int
+    stats: AgentStats
+    save_dir: str
 
-    async def before_turn(self, context: ConversationContext) -> MiddlewareResult:
-        if self.has_warned:
-            return MiddlewareResult()
 
-        max_context = context.config.get_active_model().auto_compact_threshold
-        if max_context <= 0:
-            return MiddlewareResult()
+class SessionMetadata(BaseModel):
+    session_id: str
+    start_time: str
+    end_time: str | None
+    git_commit: str | None
+    git_branch: str | None
+    environment: dict[str, str | None]
+    username: str
+
+
+class ClientMetadata(BaseModel):
+    name: str
+    version: str
+
+
+class EntrypointMetadata(BaseModel):
+    agent_entrypoint: Literal["cli", "acp", "programmatic"]
+    agent_version: str
+    client_name: str
+    client_version: str
+
 
 ```
 
 This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/middleware.py`
+### `vibe/core/types.py`
 
-The `ContextWarningMiddleware` class in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
+The `SessionMetadata` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ContextWarningMiddleware:
-    def __init__(self, threshold_percent: float = 0.5) -> None:
-        self.threshold_percent = threshold_percent
-        self.has_warned = False
-
-    async def before_turn(self, context: ConversationContext) -> MiddlewareResult:
-        if self.has_warned:
-            return MiddlewareResult()
-
-        max_context = context.config.get_active_model().auto_compact_threshold
-        if max_context <= 0:
-            return MiddlewareResult()
-
-        if context.stats.context_tokens >= max_context * self.threshold_percent:
-            self.has_warned = True
-
-            percentage_used = (context.stats.context_tokens / max_context) * 100
-            warning_msg = f"<{VIBE_WARNING_TAG}>You have used {percentage_used:.0f}% of your total context ({context.stats.context_tokens:,}/{max_context:,} tokens)</{VIBE_WARNING_TAG}>"
-
-            return MiddlewareResult(
-                action=MiddlewareAction.INJECT_MESSAGE, message=warning_msg
-            )
-
-        return MiddlewareResult()
-
-    def reset(self, reset_reason: ResetReason = ResetReason.STOP) -> None:
-        self.has_warned = False
+class SessionMetadata(BaseModel):
+    session_id: str
+    start_time: str
+    end_time: str | None
+    git_commit: str | None
+    git_branch: str | None
+    environment: dict[str, str | None]
+    username: str
 
 
-def make_plan_agent_reminder(plan_file_path: str) -> str:
+class ClientMetadata(BaseModel):
+    name: str
+    version: str
+
+
+class EntrypointMetadata(BaseModel):
+    agent_entrypoint: Literal["cli", "acp", "programmatic"]
+    agent_version: str
+    client_name: str
+    client_version: str
+
+
+StrToolChoice = Literal["auto", "none", "any", "required"]
+
+
+class AvailableFunction(BaseModel):
+    name: str
+    description: str
+    parameters: dict[str, Any]
+
 ```
 
 This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/middleware.py`
+### `vibe/core/types.py`
 
-The `ReadOnlyAgentMiddleware` class in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-class ReadOnlyAgentMiddleware:
-    def __init__(
-        self,
-        profile_getter: Callable[[], AgentProfile],
-        agent_name: str,
-        reminder: str | Callable[[], str],
-        exit_message: str,
-    ) -> None:
-        self._profile_getter = profile_getter
-        self._agent_name = agent_name
-        self._reminder = reminder
-        self.exit_message = exit_message
-        self._was_active = False
-
-    @property
-    def reminder(self) -> str:
-        return self._reminder() if callable(self._reminder) else self._reminder
-
-    def _is_active(self) -> bool:
-        return self._profile_getter().name == self._agent_name
-
-    async def before_turn(self, context: ConversationContext) -> MiddlewareResult:
-        is_active = self._is_active()
-        was_active = self._was_active
-
-        if was_active and not is_active:
-            self._was_active = False
-            return MiddlewareResult(
-                action=MiddlewareAction.INJECT_MESSAGE, message=self.exit_message
-            )
-```
-
-This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/core/middleware.py`
-
-The `MiddlewarePipeline` class in [`vibe/core/middleware.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/middleware.py) handles a key part of this chapter's functionality:
+The `ClientMetadata` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class MiddlewarePipeline:
-    def __init__(self) -> None:
-        self.middlewares: list[ConversationMiddleware] = []
+class ClientMetadata(BaseModel):
+    name: str
+    version: str
 
-    def add(self, middleware: ConversationMiddleware) -> MiddlewarePipeline:
-        self.middlewares.append(middleware)
-        return self
 
-    def clear(self) -> None:
-        self.middlewares.clear()
+class EntrypointMetadata(BaseModel):
+    agent_entrypoint: Literal["cli", "acp", "programmatic"]
+    agent_version: str
+    client_name: str
+    client_version: str
 
-    def reset(self, reset_reason: ResetReason = ResetReason.STOP) -> None:
-        for mw in self.middlewares:
-            mw.reset(reset_reason)
 
-    async def run_before_turn(self, context: ConversationContext) -> MiddlewareResult:
-        messages_to_inject = []
+StrToolChoice = Literal["auto", "none", "any", "required"]
 
-        for mw in self.middlewares:
-            result = await mw.before_turn(context)
-            if result.action == MiddlewareAction.INJECT_MESSAGE and result.message:
-                messages_to_inject.append(result.message)
-            elif result.action in {MiddlewareAction.STOP, MiddlewareAction.COMPACT}:
-                return result
-        if messages_to_inject:
-            combined_message = "\n\n".join(messages_to_inject)
-            return MiddlewareResult(
-                action=MiddlewareAction.INJECT_MESSAGE, message=combined_message
-            )
+
+class AvailableFunction(BaseModel):
+    name: str
+    description: str
+    parameters: dict[str, Any]
+
+
+class AvailableTool(BaseModel):
+    type: Literal["function"] = "function"
+    function: AvailableFunction
+
+
+class FunctionCall(BaseModel):
+    name: str | None = None
+    arguments: str | None = None
 
 ```
 
@@ -209,11 +207,11 @@ This class is important because it defines how Mistral Vibe Tutorial: Minimal CL
 
 ```mermaid
 flowchart TD
-    A[AutoCompactMiddleware]
-    B[ContextWarningMiddleware]
-    C[ReadOnlyAgentMiddleware]
-    D[MiddlewarePipeline]
-    E[make_plan_agent_reminder]
+    A[AgentStats]
+    B[SessionInfo]
+    C[SessionMetadata]
+    D[ClientMetadata]
+    E[EntrypointMetadata]
     A --> B
     B --> C
     C --> D

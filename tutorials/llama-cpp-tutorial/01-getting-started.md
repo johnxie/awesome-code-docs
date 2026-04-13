@@ -13,6 +13,23 @@ Welcome to **Chapter 1: Getting Started with llama.cpp**. In this part of **llam
 
 > Build llama.cpp from source and run your first LLM locally with optimized C/C++ inference.
 
+## Getting Started Flow
+
+```mermaid
+flowchart TD
+    A[Clone ggerganov/llama.cpp] --> B[Install Build Dependencies\ncmake + compiler]
+    B --> C{Platform}
+    C -->|macOS| D[cmake -DLLAMA_METAL=ON]
+    C -->|Linux| E[cmake -DLLAMA_CUDA=ON or CPU]
+    C -->|Windows| F[cmake -G Visual Studio]
+    D --> G[Build: cmake --build build]
+    E --> G
+    F --> G
+    G --> H[Download GGUF Model]
+    H --> I[Run llama-cli -m model.gguf]
+    I --> J[Local Inference Output]
+```
+
 ## Overview
 
 llama.cpp enables fast, local LLM inference without Python dependencies. This chapter covers building the project and running your first model on CPU.
@@ -346,16 +363,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`CMakeLists.txt`](https://github.com/ggerganov/llama.cpp/blob/master/CMakeLists.txt) -- CMake build system; see `GGML_METAL`, `GGML_CUDA`, `GGML_HIPBLAS` option flags
+- [`examples/main/main.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/examples/main/main.cpp) -- `llama-cli` entry point; argument parsing and inference loop
+- [`llama.h`](https://github.com/ggerganov/llama.cpp/blob/master/llama.h) -- public C API: `llama_model_load_from_file`, `llama_new_context_with_model`, `llama_decode`
 
-Suggested trace strategy:
-- search upstream code for `llama` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: follow `llama_model_load_from_file()` → `llama_new_context_with_model()` → `llama_decode()` to understand the model loading and inference pipeline.
 
 ## Chapter Connections
 

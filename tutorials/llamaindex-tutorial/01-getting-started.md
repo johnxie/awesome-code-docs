@@ -588,12 +588,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/__init__.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/__init__.py)
+  Top-level namespace exports for `VectorStoreIndex`, `SimpleDirectoryReader`, `Settings`, and `StorageContext`. This is the surface API that most getting-started examples use.
+
+- [`llama_index/core/settings.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/settings.py)
+  Defines the global `Settings` object (formerly `ServiceContext`). Controls default LLM, embedding model, chunk size, and callback manager. Understanding this file is essential before any end-to-end pipeline.
+
+- [`llama_index/core/indices/vector_store/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/indices/vector_store/base.py)
+  `VectorStoreIndex` implementation. Shows how documents are chunked, embedded, and stored during `from_documents()`, and how the index is loaded back from a storage context.
+
+- [`llama_index/core/readers/file/base.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/readers/file/base.py)
+  `SimpleDirectoryReader` that scans a directory, dispatches to format-specific parsers, and returns a list of `Document` objects. The entry point for almost every getting-started example.
 
 Suggested trace strategy:
-- search upstream code for `self` and `documents` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Start at `Settings` to understand how LLM and embedding defaults are configured globally before running any index build
+- Trace `VectorStoreIndex.from_documents()` through `llama_index/core/indices/vector_store/base.py` to see chunking → embedding → upsert flow
+- Check `SimpleDirectoryReader._load_data()` to understand how file metadata is attached to `Document` objects
 
 ## Chapter Connections
 

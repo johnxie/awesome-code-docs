@@ -1066,6 +1066,19 @@ Under the hood, `Chapter 7: Integrations - Connecting Phidata Agents to External
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Integration Architecture
+
+```mermaid
+flowchart TD
+    A[Phidata Agent] --> B[External APIs]
+    A --> C[Databases]
+    A --> D[Vector Stores]
+    A --> E[Webhooks]
+    B --> F[REST / GraphQL]
+    C --> G[PostgreSQL / SQLite]
+    D --> H[PgVector / Pinecone]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

@@ -38,160 +38,163 @@ You now can design Qwen-Agent workflows for high-context and document-heavy work
 
 Next: [Chapter 6: Application Patterns and Safety Boundaries](06-application-patterns-and-safety-boundaries.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `examples/assistant_qwen3.5.py`
+### `qwen_server/database_server.py`
 
-The `test` function in [`examples/assistant_qwen3.5.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_qwen3.5.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def test(query: str = 'What time is it?'):
-    # Define the agent
-    bot = init_agent_service()
-
-    # Chat
-    messages = [{'role': 'user', 'content': query}]
-    response_plain_text = ''
-    for response in bot.run(messages=messages):
-        response_plain_text = typewriter_print(response, response_plain_text)
-
-
-def app_tui():
-    # Define the agent
-    bot = init_agent_service()
-
-    # Chat
-    messages = []
-    while True:
-        query = input('user question: ')
-        messages.append({'role': 'user', 'content': query})
-        response = []
-        response_plain_text = ''
-        for response in bot.run(messages=messages):
-            response_plain_text = typewriter_print(response, response_plain_text)
-        messages.extend(response)
-
-
-def app_gui():
-    # Define the agent
-    bot = init_agent_service()
-```
-
-This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
-
-### `examples/assistant_qwen3.5.py`
-
-The `app_tui` function in [`examples/assistant_qwen3.5.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_qwen3.5.py) handles a key part of this chapter's functionality:
+The `web_listening` function in [`qwen_server/database_server.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/qwen_server/database_server.py) handles a key part of this chapter's functionality:
 
 ```py
 
+@app.post('/endpoint')
+async def web_listening(request: Request):
+    data = await request.json()
+    msg_type = data['task']
 
-def app_tui():
-    # Define the agent
-    bot = init_agent_service()
+    if msg_type == 'change_checkbox':
+        rsp = change_checkbox_state(data['ckid'])
+    elif msg_type == 'cache':
+        cache_obj = multiprocessing.Process(target=cache_page, kwargs=data)
+        cache_obj.start()
+        # rsp = cache_data(data, cache_file)
+        rsp = 'caching'
+    elif msg_type == 'pop_url':
+        # What a misleading name! pop_url actually means add_url. pop is referring to the pop_up ui.
+        rsp = update_pop_url(data['url'])
+    else:
+        raise NotImplementedError
 
-    # Chat
-    messages = []
-    while True:
-        query = input('user question: ')
-        messages.append({'role': 'user', 'content': query})
-        response = []
-        response_plain_text = ''
-        for response in bot.run(messages=messages):
-            response_plain_text = typewriter_print(response, response_plain_text)
-        messages.extend(response)
-
-
-def app_gui():
-    # Define the agent
-    bot = init_agent_service()
-    chatbot_config = {
-        'prompt.suggestions': [
-            'Help me organize my desktop.',
-            'Develop a dog website and save it on the desktop',
-        ]
-    }
-    WebUI(
-        bot,
-        chatbot_config=chatbot_config,
-    ).run()
-
-```
-
-This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
-
-### `examples/assistant_qwen3.5.py`
-
-The `app_gui` function in [`examples/assistant_qwen3.5.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_qwen3.5.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def app_gui():
-    # Define the agent
-    bot = init_agent_service()
-    chatbot_config = {
-        'prompt.suggestions': [
-            'Help me organize my desktop.',
-            'Develop a dog website and save it on the desktop',
-        ]
-    }
-    WebUI(
-        bot,
-        chatbot_config=chatbot_config,
-    ).run()
+    return JSONResponse(content=rsp)
 
 
 if __name__ == '__main__':
-    # test()
-    # app_tui()
-    app_gui()
+    uvicorn.run(app='database_server:app',
+                host=server_config.server.server_host,
+                port=server_config.server.fast_api_port)
 
 ```
 
 This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
 
-### `examples/assistant_qwen3_coder.py`
+### `qwen_server/assistant_server.py`
 
-The `init_agent_service` function in [`examples/assistant_qwen3_coder.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/examples/assistant_qwen3_coder.py) handles a key part of this chapter's functionality:
+The `add_text` function in [`qwen_server/assistant_server.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/qwen_server/assistant_server.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def init_agent_service():
-    llm_cfg = {
-        # Use the model service provided by DashScope:
-        'model': 'qwen3-coder-480b-a35b-instruct',
-        'model_type': 'qwen_dashscope',
-        'generate_cfg': {
-            # Using the API's native tool call interface
-            'use_raw_api': True,
-            'max_input_tokens': 200000
-        },
-    }
-    # llm_cfg = {
-    #     # Use the OpenAI-compatible model service provided by DashScope:
-    #     'model': 'qwen3-coder-480b-a35b-instruct',
-    #     'model_server': 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-    #     'api_key': os.getenv('DASHSCOPE_API_KEY'),
-    #     'generate_cfg': {
-    #         # Using the API's native tool call interface
-    #         'use_raw_api': True,
-    #         'max_input_tokens': 200000
-    #     },
-    # }
+def add_text(history, text):
+    history = history + [(text, None)]
+    return history, gr.update(value='', interactive=False)
 
-    tools = [
-        {
-            'mcpServers': {  # You can specify the MCP configuration file
-                'time': {
-                    'command': 'uvx',
-                    'args': ['mcp-server-time', '--local-timezone=Asia/Shanghai']
-                },
+
+def rm_text(history):
+    if not history:
+        gr.Warning('No input content!')
+    elif not history[-1][1]:
+        return history, gr.update(value='', interactive=False)
+    else:
+        history = history[:-1] + [(history[-1][0], None)]
+        return history, gr.update(value='', interactive=False)
+
+
+def set_url():
+    lines = []
+    if not os.path.exists(cache_file_popup_url):
+        # Only able to remind the situation of first browsing failure
+        gr.Error('Oops, it seems that the page cannot be opened due to network issues.')
+
+    for line in jsonlines.open(cache_file_popup_url):
+        lines.append(line)
+    logger.info('The current access page is: ' + lines[-1]['url'])
+    return lines[-1]['url']
+
+
+def bot(history):
+    page_url = set_url()
+    if not history:
+```
+
+This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
+
+### `qwen_server/assistant_server.py`
+
+The `rm_text` function in [`qwen_server/assistant_server.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/qwen_server/assistant_server.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def rm_text(history):
+    if not history:
+        gr.Warning('No input content!')
+    elif not history[-1][1]:
+        return history, gr.update(value='', interactive=False)
+    else:
+        history = history[:-1] + [(history[-1][0], None)]
+        return history, gr.update(value='', interactive=False)
+
+
+def set_url():
+    lines = []
+    if not os.path.exists(cache_file_popup_url):
+        # Only able to remind the situation of first browsing failure
+        gr.Error('Oops, it seems that the page cannot be opened due to network issues.')
+
+    for line in jsonlines.open(cache_file_popup_url):
+        lines.append(line)
+    logger.info('The current access page is: ' + lines[-1]['url'])
+    return lines[-1]['url']
+
+
+def bot(history):
+    page_url = set_url()
+    if not history:
+        yield history
+    else:
+        messages = [{'role': 'user', 'content': [{'text': history[-1][0]}, {'file': page_url}]}]
+        history[-1][1] = ''
+        try:
+```
+
+This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
+
+### `qwen_server/assistant_server.py`
+
+The `set_url` function in [`qwen_server/assistant_server.py`](https://github.com/QwenLM/Qwen-Agent/blob/HEAD/qwen_server/assistant_server.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def set_url():
+    lines = []
+    if not os.path.exists(cache_file_popup_url):
+        # Only able to remind the situation of first browsing failure
+        gr.Error('Oops, it seems that the page cannot be opened due to network issues.')
+
+    for line in jsonlines.open(cache_file_popup_url):
+        lines.append(line)
+    logger.info('The current access page is: ' + lines[-1]['url'])
+    return lines[-1]['url']
+
+
+def bot(history):
+    page_url = set_url()
+    if not history:
+        yield history
+    else:
+        messages = [{'role': 'user', 'content': [{'text': history[-1][0]}, {'file': page_url}]}]
+        history[-1][1] = ''
+        try:
+            response = assistant.run(messages=messages, max_ref_token=server_config.server.max_ref_token)
+            for rsp in response:
+                if rsp:
+                    history[-1][1] = rsp[-1]['content']
+                    yield history
+        except ModelServiceError as ex:
+            history[-1][1] = str(ex)
+            yield history
+        except Exception as ex:
+            raise ValueError(ex)
 ```
 
 This function is important because it defines how Qwen-Agent Tutorial: Tool-Enabled Agent Framework with MCP, RAG, and Multi-Modal Workflows implements the patterns covered in this chapter.
@@ -201,11 +204,11 @@ This function is important because it defines how Qwen-Agent Tutorial: Tool-Enab
 
 ```mermaid
 flowchart TD
-    A[test]
-    B[app_tui]
-    C[app_gui]
-    D[init_agent_service]
-    E[test]
+    A[web_listening]
+    B[add_text]
+    C[rm_text]
+    D[set_url]
+    E[bot]
     A --> B
     B --> C
     C --> D

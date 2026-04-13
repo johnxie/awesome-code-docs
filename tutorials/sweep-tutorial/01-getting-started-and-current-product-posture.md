@@ -52,170 +52,168 @@ You now have a realistic starting context and first execution path.
 
 Next: [Chapter 2: Issue to PR Workflow Architecture](02-issue-to-pr-workflow-architecture.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `run_on_ticket` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `posthog_capture` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
-logger.bind(application="webhook")
-
-def run_on_ticket(*args, **kwargs):
-    tracking_id = get_hash()
-    with logger.contextualize(
-        **kwargs,
-        name="ticket_" + kwargs["username"],
-        tracking_id=tracking_id,
-    ):
-        return on_ticket(*args, **kwargs, tracking_id=tracking_id)
 
 
-def run_on_comment(*args, **kwargs):
-    tracking_id = get_hash()
-    with logger.contextualize(
-        **kwargs,
-        name="comment_" + kwargs["username"],
-        tracking_id=tracking_id,
-    ):
-        on_comment(*args, **kwargs, tracking_id=tracking_id)
-
-def run_review_pr(*args, **kwargs):
-    tracking_id = get_hash()
-    with logger.contextualize(
-        **kwargs,
-        name="review_" + kwargs["username"],
-        tracking_id=tracking_id,
-    ):
-        review_pr(*args, **kwargs, tracking_id=tracking_id)
+def posthog_capture(event_name, properties, *args, **kwargs):
+    POSTHOG_DISTINCT_ID = os.environ.get("POSTHOG_DISTINCT_ID")
+    if POSTHOG_DISTINCT_ID:
+        posthog.capture(POSTHOG_DISTINCT_ID, event_name, properties, *args, **kwargs)
 
 
-def run_on_button_click(*args, **kwargs):
+def load_config():
+    if os.path.exists(config_path):
+        cprint(f"\nLoading configuration from {config_path}", style="yellow")
+        with open(config_path, "r") as f:
+            config = json.load(f)
+        for key, value in config.items():
+            try:
+                os.environ[key] = value
+            except Exception as e:
+                cprint(f"Error loading config: {e}, skipping.", style="yellow")
+        os.environ["POSTHOG_DISTINCT_ID"] = str(os.environ.get("POSTHOG_DISTINCT_ID", ""))
+        # Should contain:
+        # GITHUB_PAT
+        # OPENAI_API_KEY
+        # ANTHROPIC_API_KEY
+        # VOYAGE_API_KEY
+        # POSTHOG_DISTINCT_ID
+
+
+def fetch_issue_request(issue_url: str, __version__: str = "0"):
+    (
+        protocol_name,
+        _,
+        _base_url,
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `run_on_comment` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `load_config` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def run_on_comment(*args, **kwargs):
-    tracking_id = get_hash()
-    with logger.contextualize(
-        **kwargs,
-        name="comment_" + kwargs["username"],
-        tracking_id=tracking_id,
-    ):
-        on_comment(*args, **kwargs, tracking_id=tracking_id)
-
-def run_review_pr(*args, **kwargs):
-    tracking_id = get_hash()
-    with logger.contextualize(
-        **kwargs,
-        name="review_" + kwargs["username"],
-        tracking_id=tracking_id,
-    ):
-        review_pr(*args, **kwargs, tracking_id=tracking_id)
-
-
-def run_on_button_click(*args, **kwargs):
-    thread = threading.Thread(target=handle_button_click, args=args, kwargs=kwargs)
-    thread.start()
-    global_threads.append(thread)
+def load_config():
+    if os.path.exists(config_path):
+        cprint(f"\nLoading configuration from {config_path}", style="yellow")
+        with open(config_path, "r") as f:
+            config = json.load(f)
+        for key, value in config.items():
+            try:
+                os.environ[key] = value
+            except Exception as e:
+                cprint(f"Error loading config: {e}, skipping.", style="yellow")
+        os.environ["POSTHOG_DISTINCT_ID"] = str(os.environ.get("POSTHOG_DISTINCT_ID", ""))
+        # Should contain:
+        # GITHUB_PAT
+        # OPENAI_API_KEY
+        # ANTHROPIC_API_KEY
+        # VOYAGE_API_KEY
+        # POSTHOG_DISTINCT_ID
 
 
-def terminate_thread(thread):
-    """Terminate a python threading.Thread."""
-    try:
-        if not thread.is_alive():
-            return
+def fetch_issue_request(issue_url: str, __version__: str = "0"):
+    (
+        protocol_name,
+        _,
+        _base_url,
+        org_name,
+        repo_name,
+        _issues,
+        issue_number,
+    ) = issue_url.split("/")
+    cprint("Fetching installation ID...")
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
 
-### `sweepai/api.py`
+### `sweepai/cli.py`
 
-The `run_review_pr` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
+The `fetch_issue_request` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
 
 ```py
-        on_comment(*args, **kwargs, tracking_id=tracking_id)
-
-def run_review_pr(*args, **kwargs):
-    tracking_id = get_hash()
-    with logger.contextualize(
-        **kwargs,
-        name="review_" + kwargs["username"],
-        tracking_id=tracking_id,
-    ):
-        review_pr(*args, **kwargs, tracking_id=tracking_id)
 
 
-def run_on_button_click(*args, **kwargs):
-    thread = threading.Thread(target=handle_button_click, args=args, kwargs=kwargs)
-    thread.start()
-    global_threads.append(thread)
+def fetch_issue_request(issue_url: str, __version__: str = "0"):
+    (
+        protocol_name,
+        _,
+        _base_url,
+        org_name,
+        repo_name,
+        _issues,
+        issue_number,
+    ) = issue_url.split("/")
+    cprint("Fetching installation ID...")
+    installation_id = -1
+    cprint("Fetching access token...")
+    _token, g = get_github_client(installation_id)
+    g: Github = g
+    cprint("Fetching repo...")
+    issue = g.get_repo(f"{org_name}/{repo_name}").get_issue(int(issue_number))
+
+    issue_request = IssueRequest(
+        action="labeled",
+        issue=IssueRequest.Issue(
+            title=issue.title,
+            number=int(issue_number),
+            html_url=issue_url,
+            user=IssueRequest.Issue.User(
+                login=issue.user.login,
+                type="User",
+            ),
+            body=issue.body,
+            labels=[
+```
+
+This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
+
+### `sweepai/cli.py`
+
+The `pascal_to_snake` function in [`sweepai/cli.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/cli.py) handles a key part of this chapter's functionality:
+
+```py
 
 
-def terminate_thread(thread):
-    """Terminate a python threading.Thread."""
-    try:
-        if not thread.is_alive():
-            return
+def pascal_to_snake(name):
+    return "".join(["_" + i.lower() if i.isupper() else i for i in name]).lstrip("_")
 
-        exc = ctypes.py_object(SystemExit)
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
-            ctypes.c_long(thread.ident), exc
+
+def get_event_type(event: Event | IssueEvent):
+    if isinstance(event, IssueEvent):
+        return "issues"
+    else:
+        return pascal_to_snake(event.type)[: -len("_event")]
+
+@app.command()
+def test():
+    cprint("Sweep AI is installed correctly and ready to go!", style="yellow")
+
+@app.command()
+def watch(
+    repo_name: str,
+    debug: bool = False,
+    record_events: bool = False,
+    max_events: int = 30,
+):
+    if not os.path.exists(config_path):
+        cprint(
+            f"\nConfiguration not found at {config_path}. Please run [green]'sweep init'[/green] to initialize the CLI.\n",
+            style="yellow",
         )
-        if res == 0:
-            raise ValueError("Invalid thread ID")
-        elif res != 1:
-            # Call with exception set to 0 is needed to cleanup properly.
-```
-
-This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
-
-### `sweepai/api.py`
-
-The `run_on_button_click` function in [`sweepai/api.py`](https://github.com/sweepai/sweep/blob/HEAD/sweepai/api.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def run_on_button_click(*args, **kwargs):
-    thread = threading.Thread(target=handle_button_click, args=args, kwargs=kwargs)
-    thread.start()
-    global_threads.append(thread)
-
-
-def terminate_thread(thread):
-    """Terminate a python threading.Thread."""
-    try:
-        if not thread.is_alive():
-            return
-
-        exc = ctypes.py_object(SystemExit)
-        res = ctypes.pythonapi.PyThreadState_SetAsyncExc(
-            ctypes.c_long(thread.ident), exc
+        raise ValueError(
+            "Configuration not found, please run 'sweep init' to initialize the CLI."
         )
-        if res == 0:
-            raise ValueError("Invalid thread ID")
-        elif res != 1:
-            # Call with exception set to 0 is needed to cleanup properly.
-            ctypes.pythonapi.PyThreadState_SetAsyncExc(thread.ident, 0)
-            raise SystemError("PyThreadState_SetAsyncExc failed")
-    except Exception as e:
-        logger.exception(f"Failed to terminate thread: {e}")
-
-
-# def delayed_kill(thread: threading.Thread, delay: int = 60 * 60):
-#     time.sleep(delay)
-#     terminate_thread(thread)
-
+    posthog_capture(
 ```
 
 This function is important because it defines how Sweep Tutorial: Issue-to-PR AI Coding Workflows on GitHub implements the patterns covered in this chapter.
@@ -225,10 +223,10 @@ This function is important because it defines how Sweep Tutorial: Issue-to-PR AI
 
 ```mermaid
 flowchart TD
-    A[run_on_ticket]
-    B[run_on_comment]
-    C[run_review_pr]
-    D[run_on_button_click]
+    A[posthog_capture]
+    B[load_config]
+    C[fetch_issue_request]
+    D[pascal_to_snake]
     A --> B
     B --> C
     C --> D

@@ -39,8 +39,6 @@ You now have a baseline model for creating MCP bundles from local server project
 
 Next: [Chapter 2: Manifest Model, Metadata, and Compatibility](02-manifest-model-metadata-and-compatibility.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `src/types.ts`

@@ -1,102 +1,106 @@
 ---
 layout: default
-title: "AutoAgent Tutorial"
+title: AutoAgent Tutorial
 nav_order: 140
 has_children: true
 format_version: v2
+source_repo: https://github.com/HKUDS/AutoAgent
+categories: [ai-agents, zero-code, multi-agent, deep-research]
+related_tutorials:
+  - autoresearch-tutorial
+  - openhands-tutorial
+  - agno-tutorial
+  - crewai-tutorial
+last_updated: 2026-04-12
 ---
 
-# AutoAgent Tutorial: Zero-Code Agent Creation and Automated Workflow Orchestration
+# AutoAgent Tutorial
 
-> Learn how to use `HKUDS/AutoAgent` to create and orchestrate LLM agents through natural-language workflows, with support for CLI operations, tool creation, and benchmark-oriented evaluation.
-
-[![GitHub Repo](https://img.shields.io/badge/GitHub-HKUDS%2FAutoAgent-black?logo=github)](https://github.com/HKUDS/AutoAgent)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/HKUDS/AutoAgent/blob/main/LICENSE)
-[![Docs](https://img.shields.io/badge/docs-autoagent--ai.github.io-blue)](https://autoagent-ai.github.io/docs)
-
-## Why This Track Matters
-
-AutoAgent targets zero-code agent building via natural language and automated orchestration, making it useful for teams exploring dynamic agent creation without deep framework coding.
-
-This track focuses on:
-
-- launching AutoAgent quickly in CLI mode
-- understanding user/agent-editor/workflow-editor modes
-- configuring tools and model providers safely
-- evaluating planning workflows and governance controls
-
-## Current Snapshot (auto-updated)
-
-- repository: [`HKUDS/AutoAgent`](https://github.com/HKUDS/AutoAgent)
-- stars: about **8.9k**
-
-## Mental Model
-
-```mermaid
-flowchart LR
-    A[User natural-language intent] --> B[AutoAgent mode selector]
-    B --> C[Agent or workflow generation]
-    C --> D[Tool and model orchestration]
-    D --> E[Task execution and refinement]
-    E --> F[Reusable agent workflows]
-```
-
-## Chapter Guide
-
-| Chapter | Key Question | Outcome |
-|:--------|:-------------|:--------|
-| [01 - Getting Started](01-getting-started.md) | How do I install and run AutoAgent quickly? | Working baseline |
-| [02 - Architecture and Interaction Modes](02-architecture-and-interaction-modes.md) | How do user/agent/workflow modes differ? | Strong usage model |
-| [03 - Installation, Environment, and API Setup](03-installation-environment-and-api-setup.md) | How do I configure runtime and model access safely? | Stable setup baseline |
-| [04 - Agent and Workflow Creation Patterns](04-agent-and-workflow-creation-patterns.md) | How do I create agents and workflows with NL prompts? | Better creation discipline |
-| [05 - Tooling, Python API, and Custom Extensions](05-tooling-python-api-and-custom-extensions.md) | How do I extend AutoAgent behavior programmatically? | Extensibility baseline |
-| [06 - CLI Operations and Provider Strategy](06-cli-operations-and-provider-strategy.md) | How do I run reliable daily operations across model providers? | Operational reliability |
-| [07 - Benchmarking, Evaluation, and Quality Gates](07-benchmarking-evaluation-and-quality-gates.md) | How do I evaluate AutoAgent output quality? | Evaluation discipline |
-| [08 - Contribution Workflow and Production Governance](08-contribution-workflow-and-production-governance.md) | How do teams adopt and govern AutoAgent safely? | Governance runbook |
+AutoAgent (formerly MetaChain) is a **zero-code autonomous agent framework** from HKUDS that lets you describe agents in plain English and have them generated, tested, and deployed automatically. With 9,116 GitHub stars and an academic paper (arxiv:2502.05957), it represents a significant step toward democratizing multi-agent system development.
 
 ## What You Will Learn
 
-- how to operate AutoAgent across its core interaction modes
-- how to configure providers and runtime settings for stable execution
-- how to extend workflows with custom tools and Python interfaces
-- how to evaluate and govern AutoAgent usage in team settings
+This tutorial walks through AutoAgent from first install to production-grade multi-agent pipelines. By the end, you will understand how the MetaChain engine works under the hood, how all three operating modes fit together, and how to extend the framework with your own tools, agents, and workflows.
 
-## Source References
+## Who This Tutorial Is For
 
-- [AutoAgent Repository](https://github.com/HKUDS/AutoAgent)
-- [AutoAgent README](https://github.com/HKUDS/AutoAgent/blob/main/README.md)
-- [AutoAgent Documentation](https://autoagent-ai.github.io/docs)
-- [Quickstart Docs](https://autoagent-ai.github.io/docs/get-started-quickstart)
-- [Create Tools Docs](https://autoagent-ai.github.io/docs/dev-guide-create-tools)
+- Developers who want to build research or automation agents without writing orchestration boilerplate
+- ML engineers evaluating AutoAgent for benchmarks (GAIA, Math500, Agentic-RAG)
+- Contributors looking to add tools, agents, or new evaluation suites to the ecosystem
 
-## Related Tutorials
+## Naming Note
 
-- [Mini-SWE-Agent Tutorial](../mini-swe-agent-tutorial/)
-- [Qwen-Agent Tutorial](../qwen-agent-tutorial/)
-- [MCP Servers Tutorial](../mcp-servers-tutorial/)
-- [LangGraph Tutorial](../langgraph-tutorial/)
+The internal codebase uses the class name **MetaChain** throughout — the project was publicly renamed from MetaChain to AutoAgent in February 2025. You will see `from autoagent import MetaChain` and `MetaChain.run()` in all source files. This tutorial uses "AutoAgent" when referring to the product and "MetaChain" when referring to the specific class or import.
 
----
+## Three Operating Modes
 
-Start with [Chapter 1: Getting Started](01-getting-started.md).
+| Mode | Entry Point | Best For |
+|------|-------------|----------|
+| User Mode (Deep Research) | `auto main` | Open-ended research, file analysis, web browsing |
+| Agent Editor | `auto main` → "create agent" | Generating new agents from NL descriptions |
+| Workflow Editor | `auto main` → "create workflow" | Composing async parallel pipelines |
 
-## Navigation & Backlinks
+## Tutorial Chapters
+
+1. [Getting Started](./01-getting-started.md) — Install, .env setup, first research task, three-mode overview
+2. [Core Architecture: MetaChain Engine](./02-core-architecture-metachain-engine.md) — Agent/Response/Result types, run loop, context_variables, non-FC XML fallback
+3. [The Environment Triad](./03-environment-triad.md) — DockerEnv TCP server, BrowserEnv Playwright, RequestsMarkdownBrowser
+4. [User Mode: Deep Research System](./04-user-mode-deep-research.md) — SystemTriageAgent, agent handoff, multimodal web surfing, GAIA benchmark
+5. [Agent Editor: From NL to Deployed Agents](./05-agent-editor-nl-to-deployed-agents.md) — 4-phase pipeline, XML form schema, ToolEditorAgent, AgentCreatorAgent
+6. [Workflow Editor: Async Event-Driven Pipelines](./06-workflow-editor-async-pipelines.md) — EventEngine, listen_group(), GOTO/ABORT, parallel execution
+7. [Memory, Tool Retrieval, and Third-Party APIs](./07-memory-tool-retrieval-apis.md) — ChromaDB ToolMemory, LLM reranker, RapidAPI ingestion, token budget
+8. [Evaluation, Benchmarks, and Contributing](./08-evaluation-benchmarks-contributing.md) — GAIA, Math500, Agentic-RAG, adding benchmarks, contributing tools/agents
+
+## Architecture at a Glance
+
+```mermaid
+flowchart TD
+    U[User] --> CLI["auto main CLI"]
+    CLI --> UM[User Mode / Deep Research]
+    CLI --> AE[Agent Editor]
+    CLI --> WE[Workflow Editor]
+    UM --> MC["MetaChain Engine (core.py)"]
+    AE --> MC
+    WE --> EE["EventEngine (flow/)"]
+    MC --> DE["DockerEnv\n(TCP :12346)"]
+    MC --> BE["BrowserEnv\n(Playwright)"]
+    MC --> MB["RequestsMarkdown\nBrowser"]
+    MC --> REG["Registry\n(tools/agents/workflows)"]
+```
+
+## Quick Start
+
+```bash
+git clone https://github.com/HKUDS/AutoAgent
+cd AutoAgent
+pip install -e .
+
+# Set up .env with your provider keys
+cp .env.example .env
+# Edit .env: OPENAI_API_KEY, ANTHROPIC_API_KEY, etc.
+
+auto main
+```
+
+## Key Technical Facts
+
+| Property | Value |
+|----------|-------|
+| Language | Python 3.10+ |
+| License | MIT |
+| LLM routing | LiteLLM 1.55.0 (100+ providers) |
+| Code isolation | Docker (tjbtech1/metachain image, TCP port 12346) |
+| Memory/retrieval | ChromaDB + sentence-transformers |
+| Browser automation | Playwright + BrowserGym |
+| Stars | 9,116 |
+| Paper | arxiv:2502.05957 |
+
+## Sources
+
+- [GitHub Repository](https://github.com/HKUDS/AutoAgent)
+- [Academic Paper](https://arxiv.org/abs/2502.05957)
+
+## Navigation
 
 - [Start Here: Chapter 1: Getting Started](01-getting-started.md)
-- [Back to Main Catalog](../../README.md#-tutorial-catalog)
-- [Browse A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
-- [Search by Intent](../../discoverability/query-hub.md)
-- [Explore Category Hubs](../../README.md#category-hubs)
-
-## Full Chapter Map
-
-1. [Chapter 1: Getting Started](01-getting-started.md)
-2. [Chapter 2: Architecture and Interaction Modes](02-architecture-and-interaction-modes.md)
-3. [Chapter 3: Installation, Environment, and API Setup](03-installation-environment-and-api-setup.md)
-4. [Chapter 4: Agent and Workflow Creation Patterns](04-agent-and-workflow-creation-patterns.md)
-5. [Chapter 5: Tooling, Python API, and Custom Extensions](05-tooling-python-api-and-custom-extensions.md)
-6. [Chapter 6: CLI Operations and Provider Strategy](06-cli-operations-and-provider-strategy.md)
-7. [Chapter 7: Benchmarking, Evaluation, and Quality Gates](07-benchmarking-evaluation-and-quality-gates.md)
-8. [Chapter 8: Contribution Workflow and Production Governance](08-contribution-workflow-and-production-governance.md)
-
-*Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge)*
+- [Back to Main Catalog](../../README.md)

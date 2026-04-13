@@ -635,9 +635,32 @@ suite
   .run();
 ```
 
+## Refactoring Workflow
+
+```mermaid
+flowchart TD
+    A[Developer selects code in editor]
+    B[Cmd+I opens inline edit with selection]
+    C[Developer describes refactoring goal]
+    D[Context sent to LLM: selected code + instructions]
+    E[LLM generates refactored version]
+    F[Diff shown in editor]
+    G{Accept or reject?}
+    H[Refactored code replaces original]
+    I[Original preserved]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G -- accept --> H
+    G -- reject --> I
+```
+
 ## What's Next?
 
-Excellent! You've learned how Continue can transform your code through intelligent refactoring and optimization. The ability to analyze existing code and suggest improvements is incredibly powerful for maintaining high-quality codebases.
+You've learned how Continue can transform your code through intelligent refactoring and optimization. The ability to analyze existing code and suggest improvements is incredibly powerful for maintaining high-quality codebases.
 
 In [Chapter 4: Documentation & Comments](04-documentation-comments.md), we'll explore how Continue can help you create comprehensive documentation and improve code readability through intelligent commenting.
 

@@ -41,87 +41,86 @@ You now have a pragmatic hardening baseline for mcp-use deployments.
 
 Next: [Chapter 8: Operations, Observability, and Contribution Model](08-operations-observability-and-contribution-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `libraries/python/mcp_use/logging.py`
+### `libraries/python/examples/simple_server_manager_use.py`
 
-The `Logger` class in [`libraries/python/mcp_use/logging.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/mcp_use/logging.py) handles a key part of this chapter's functionality:
+The `main` function in [`libraries/python/examples/simple_server_manager_use.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/simple_server_manager_use.py) handles a key part of this chapter's functionality:
 
 ```py
-"""
-Logger module for mcp_use.
-
-This module provides a centralized logging configuration for the mcp_use library,
-with customizable log levels and formatters.
-"""
-
-import logging
-import os
-import sys
-
-from langchain_core.globals import set_debug as langchain_set_debug
-
-# Global debug flag - can be set programmatically or from environment
-MCP_USE_DEBUG = 1
 
 
-class Logger:
-    """Centralized logger for mcp_use.
+async def main():
+    # Initialize the LLM
+    llm = ChatOpenAI(model="gpt-5")
 
-    This class provides logging functionality with configurable levels,
-    formatters, and handlers.
-    """
+    # Instantiate the custom server manager
+    simple_server_manager = SimpleServerManager()
 
-    # Default log format
-    DEFAULT_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    # Create an MCPAgent with the custom server manager
+    agent = MCPAgent(
+        llm=llm,
+        use_server_manager=True,
+        server_manager=simple_server_manager,
+        pretty_print=True,
+    )
 
-    # Module-specific loggers
-    _loggers = {}
+    # Manually initialize the agent
+    await agent.initialize()
 
-    @classmethod
+    # Run the agent with a query that uses the custom tool
+    print("--- First run: calling hello_world ---")
+    result = await agent.run("Use the hello_world tool", manage_connector=False)
+    print(result)
+
+    # Clear the conversation history to avoid confusion
+    agent.clear_conversation_history()
+
+    # Run the agent again to show that the new tool is available
+    print("\n--- Second run: calling the new dynamic tool ---")
+    result = await agent.run("Use the dynamic_tool_1", manage_connector=False)
+    print(result)
 ```
 
-This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
+This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
-### `libraries/python/mcp_use/logging.py`
+### `libraries/python/examples/structured_output.py`
 
-The `provides` class in [`libraries/python/mcp_use/logging.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/mcp_use/logging.py) handles a key part of this chapter's functionality:
+The `CityInfo` class in [`libraries/python/examples/structured_output.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/structured_output.py) handles a key part of this chapter's functionality:
 
 ```py
-Logger module for mcp_use.
-
-This module provides a centralized logging configuration for the mcp_use library,
-with customizable log levels and formatters.
-"""
-
-import logging
-import os
-import sys
-
-from langchain_core.globals import set_debug as langchain_set_debug
-
-# Global debug flag - can be set programmatically or from environment
-MCP_USE_DEBUG = 1
 
 
-class Logger:
-    """Centralized logger for mcp_use.
+class CityInfo(BaseModel):
+    """Comprehensive information about a city"""
 
-    This class provides logging functionality with configurable levels,
-    formatters, and handlers.
-    """
+    name: str = Field(description="Official name of the city")
+    country: str = Field(description="Country where the city is located")
+    region: str = Field(description="Region or state within the country")
+    population: int = Field(description="Current population count")
+    area_km2: float = Field(description="Area in square kilometers")
+    foundation_date: str = Field(description="When the city was founded (approximate year or period)")
+    mayor: str = Field(description="Current mayor or city leader")
+    famous_landmarks: list[str] = Field(description="List of famous landmarks, monuments, or attractions")
+    universities: list[str] = Field(description="List of major universities or educational institutions")
+    economy_sectors: list[str] = Field(description="Main economic sectors or industries")
+    sister_cities: list[str] = Field(description="Twin cities or sister cities partnerships")
+    historical_significance: str = Field(description="Brief description of historical importance")
+    climate_type: str | None = Field(description="Type of climate (e.g., Mediterranean, Continental)", default=None)
+    elevation_meters: int | None = Field(description="Elevation above sea level in meters", default=None)
 
-    # Default log format
-    DEFAULT_FORMAT = "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 
-    # Module-specific loggers
-    _loggers = {}
+async def main():
+    """Research Padova using intelligent structured output."""
+    load_dotenv()
 
-    @classmethod
-    def get_logger(cls, name: str = "mcp_use") -> logging.Logger:
-        """Get a logger instance for the specified name.
+    config = {
+        "mcpServers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"], "env": {"DISPLAY": ":1"}}}
+    }
+
+    client = MCPClient(config=config)
+    llm = ChatOpenAI(model="gpt-5")
+    agent = MCPAgent(llm=llm, client=client, max_steps=50, pretty_print=True)
 ```
 
 This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
@@ -131,7 +130,7 @@ This class is important because it defines how MCP Use Tutorial: Full-Stack MCP 
 
 ```mermaid
 flowchart TD
-    A[Logger]
-    B[provides]
+    A[main]
+    B[CityInfo]
     A --> B
 ```

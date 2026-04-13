@@ -1034,6 +1034,16 @@ Under the hood, `Chapter 7: Next.js Applications` usually follows a repeatable c
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Next.js API route handler] --> B[streamText with provider]
+    B --> C[toDataStreamResponse sent to client]
+    C --> D[useChat hook in page component]
+    D --> E[Real-time UI updates]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

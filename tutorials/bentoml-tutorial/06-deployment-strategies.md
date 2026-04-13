@@ -585,9 +585,30 @@ class AsyncService:
         return self.model.predict(batch)
 ```
 
+## Deployment Architecture
+
+```mermaid
+flowchart TD
+    A[bentoml build creates Bento]
+    B[bentoml containerize creates Docker image]
+    C{Deployment target}
+    D[Docker: docker run with port mapping]
+    E[Kubernetes: deploy with BentoDeployment CRD]
+    F[BentoCloud: bentoml deploy command]
+    G[Service running and accepting requests]
+    A --> B
+    B --> C
+    C --> D
+    C --> E
+    C --> F
+    D --> G
+    E --> G
+    F --> G
+```
+
 ## What We've Accomplished
 
-Congratulations! 🎉 You've successfully learned:
+You've successfully learned:
 
 1. **Docker Deployment** - Containerizing and running BentoML services
 2. **Kubernetes Orchestration** - Scaling services with K8s deployments

@@ -91,86 +91,86 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `agents/agent.py`
+### `autonomous-coding/security.py`
 
-The `Agent` class in [`agents/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/agents/agent.py) handles a key part of this chapter's functionality:
-
-```py
-"""Agent implementation with Claude API and tools."""
-
-import asyncio
-import os
-from contextlib import AsyncExitStack
-from dataclasses import dataclass
-from typing import Any
-
-from anthropic import Anthropic
-
-from .tools.base import Tool
-from .utils.connections import setup_mcp_connections
-from .utils.history_util import MessageHistory
-from .utils.tool_util import execute_tools
-
-
-@dataclass
-class ModelConfig:
-    """Configuration settings for Claude model parameters."""
-
-    # Available models include:
-    # - claude-sonnet-4-20250514 (default)
-    # - claude-opus-4-20250514
-    # - claude-haiku-4-5-20251001
-    # - claude-3-5-sonnet-20240620
-    # - claude-3-haiku-20240307
-    model: str = "claude-sonnet-4-20250514"
-    max_tokens: int = 4096
-    temperature: float = 1.0
-    context_window_tokens: int = 180000
-```
-
-This class is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
-
-### `autonomous-coding/agent.py`
-
-The `run_agent_session` function in [`autonomous-coding/agent.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/agent.py) handles a key part of this chapter's functionality:
+The `validate_pkill_command` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-async def run_agent_session(
-    client: ClaudeSDKClient,
-    message: str,
-    project_dir: Path,
-) -> tuple[str, str]:
+def validate_pkill_command(command_string: str) -> tuple[bool, str]:
     """
-    Run a single agent session using Claude Agent SDK.
+    Validate pkill commands - only allow killing dev-related processes.
 
-    Args:
-        client: Claude SDK client
-        message: The prompt to send
-        project_dir: Project directory path
+    Uses shlex to parse the command, avoiding regex bypass vulnerabilities.
 
     Returns:
-        (status, response_text) where status is:
-        - "continue" if agent should continue working
-        - "error" if an error occurred
+        Tuple of (is_allowed, reason_if_blocked)
     """
-    print("Sending prompt to Claude Agent SDK...\n")
+    # Allowed process names for pkill
+    allowed_process_names = {
+        "node",
+        "npm",
+        "npx",
+        "vite",
+        "next",
+    }
 
     try:
-        # Send the query
-        await client.query(message)
+        tokens = shlex.split(command_string)
+    except ValueError:
+        return False, "Could not parse pkill command"
 
-        # Collect response text and show tool use
-        response_text = ""
-        async for msg in client.receive_response():
-            msg_type = type(msg).__name__
+    if not tokens:
+        return False, "Empty pkill command"
 
-            # Handle AssistantMessage (text and tool use)
+    # Separate flags from arguments
+    args = []
+    for token in tokens[1:]:
+        if not token.startswith("-"):
+```
+
+This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
+
+### `autonomous-coding/security.py`
+
+The `validate_chmod_command` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def validate_chmod_command(command_string: str) -> tuple[bool, str]:
+    """
+    Validate chmod commands - only allow making files executable with +x.
+
+    Returns:
+        Tuple of (is_allowed, reason_if_blocked)
+    """
+    try:
+        tokens = shlex.split(command_string)
+    except ValueError:
+        return False, "Could not parse chmod command"
+
+    if not tokens or tokens[0] != "chmod":
+        return False, "Not a chmod command"
+
+    # Look for the mode argument
+    # Valid modes: +x, u+x, a+x, etc. (anything ending with +x for execute permission)
+    mode = None
+    files = []
+
+    for token in tokens[1:]:
+        if token.startswith("-"):
+            # Skip flags like -R (we don't allow recursive chmod anyway)
+            return False, "chmod flags are not allowed"
+        elif mode is None:
+            mode = token
+        else:
+            files.append(token)
+
+    if mode is None:
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
@@ -180,7 +180,7 @@ This function is important because it defines how Claude Quickstarts Tutorial: P
 
 ```mermaid
 flowchart TD
-    A[Agent]
-    B[run_agent_session]
+    A[validate_pkill_command]
+    B[validate_chmod_command]
     A --> B
 ```

@@ -38,98 +38,96 @@ You now have a repeatable inspector workflow for debugging and quality validatio
 
 Next: [Chapter 7: Security, Runtime Controls, and Production Hardening](07-security-runtime-controls-and-production-hardening.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `libraries/python/examples/anthropic_integration_example.py`
+### `libraries/python/examples/simple_server_manager_use.py`
 
-The `main` function in [`libraries/python/examples/anthropic_integration_example.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/anthropic_integration_example.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-async def main():
-    config = {
-        "mcpServers": {
-            "airbnb": {"command": "npx", "args": ["-y", "@openbnb/mcp-server-airbnb", "--ignore-robots-txt"]},
-        }
-    }
-
-    try:
-        client = MCPClient(config=config)
-
-        # Creates the adapter for Anthropic's format
-        adapter = AnthropicMCPAdapter()
-
-        # Convert tools from active connectors to the Anthropic's format
-        await adapter.create_all(client)
-
-        # List concatenation (if you loaded all tools)
-        anthropic_tools = adapter.tools + adapter.resources + adapter.prompts
-
-        # If you don't want to create all tools, you can call single functions
-        # await adapter.create_tools(client)
-        # await adapter.create_resources(client)
-        # await adapter.create_prompts(client)
-
-        # Use tools with Anthropic's SDK (not agent in this case)
-        anthropic = Anthropic()
-
-        # Initial request
-        messages = [{"role": "user", "content": "Please tell me the cheapest hotel for two people in Trapani."}]
-        response = anthropic.messages.create(
-```
-
-This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
-
-### `libraries/python/examples/limited_memory_chat.py`
-
-The `run_limited_memory_chat` function in [`libraries/python/examples/limited_memory_chat.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/limited_memory_chat.py) handles a key part of this chapter's functionality:
+The `HelloWorldTool` class in [`libraries/python/examples/simple_server_manager_use.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/simple_server_manager_use.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-async def run_limited_memory_chat():
-    """Run a chat using MCPAgent with limited conversation memory."""
-    # Load environment variables for API keys
-    load_dotenv()
+class HelloWorldTool(BaseTool):
+    """A simple tool that returns a greeting and adds a new tool."""
 
-    config = {
-        "mcpServers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"], "env": {"DISPLAY": ":1"}}}
-    }
-    # Create MCPClient from config file
-    client = MCPClient(config=config)
-    llm = ChatOpenAI(model="gpt-5")
-    # Create agent with memory_enabled=False but pass external history
-    agent = MCPAgent(
-        llm=llm,
-        client=client,
-        max_steps=15,
-        memory_enabled=True,  # Disable built-in memory, use external history
-        pretty_print=True,
-    )
+    name: str = "hello_world"
+    description: str = "Returns the string 'Hello, World!' and adds a new dynamic tool."
+    args_schema: type[BaseModel] | None = None
+    server_manager: "SimpleServerManager"
 
-    # Configuration: Limited history mode
-    MAX_HISTORY_MESSAGES = 5
+    def _run(self) -> str:
+        new_tool = DynamicTool(
+            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
+        )
+        self.server_manager.add_tool(new_tool)
+        return "Hello, World! I've added a new tool. You can use it now."
 
-    print("\n===== Interactive MCP Chat (Limited Memory) =====")
-    print("Type 'exit' or 'quit' to end the conversation")
-    print("Type 'clear' to clear conversation history")
-    print("==================================\n")
+    async def _arun(self) -> str:
+        new_tool = DynamicTool(
+            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
+        )
+        self.server_manager.add_tool(new_tool)
+        return "Hello, World! I've added a new tool. You can use it now."
 
-    try:
-        # Main chat loop with limited history
+
+class SimpleServerManager(BaseServerManager):
+    """A simple server manager that provides a HelloWorldTool."""
+
+    def __init__(self):
+        self._tools: list[BaseTool] = []
+        self._initialized = False
+        # Pass a reference to the server manager to the tool
 ```
 
-This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
+This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
+
+### `libraries/python/examples/simple_server_manager_use.py`
+
+The `SimpleServerManager` class in [`libraries/python/examples/simple_server_manager_use.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/simple_server_manager_use.py) handles a key part of this chapter's functionality:
+
+```py
+    description: str = "Returns the string 'Hello, World!' and adds a new dynamic tool."
+    args_schema: type[BaseModel] | None = None
+    server_manager: "SimpleServerManager"
+
+    def _run(self) -> str:
+        new_tool = DynamicTool(
+            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
+        )
+        self.server_manager.add_tool(new_tool)
+        return "Hello, World! I've added a new tool. You can use it now."
+
+    async def _arun(self) -> str:
+        new_tool = DynamicTool(
+            name=f"dynamic_tool_{len(self.server_manager.tools)}", description="A dynamically created tool."
+        )
+        self.server_manager.add_tool(new_tool)
+        return "Hello, World! I've added a new tool. You can use it now."
+
+
+class SimpleServerManager(BaseServerManager):
+    """A simple server manager that provides a HelloWorldTool."""
+
+    def __init__(self):
+        self._tools: list[BaseTool] = []
+        self._initialized = False
+        # Pass a reference to the server manager to the tool
+        self._tools.append(HelloWorldTool(server_manager=self))
+
+    def add_tool(self, tool: BaseTool):
+        self._tools.append(tool)
+
+    async def initialize(self) -> None:
+```
+
+This class is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[main]
-    B[run_limited_memory_chat]
+    A[HelloWorldTool]
+    B[SimpleServerManager]
     A --> B
 ```

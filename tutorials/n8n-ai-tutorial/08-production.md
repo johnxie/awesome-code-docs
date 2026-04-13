@@ -13,6 +13,20 @@ Welcome to **Chapter 8: Production Deployment and Scaling**. In this part of **n
 
 > Deploy n8n AI workflows to production with monitoring, security, and enterprise features.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart TD
+    LB[Load Balancer] --> W1[n8n Worker 1]
+    LB --> W2[n8n Worker 2]
+    W1 --> PG[(PostgreSQL\nworkflows + executions)]
+    W2 --> PG
+    W1 --> REDIS[(Redis\nexecution queue)]
+    W2 --> REDIS
+    W1 --> AI[AI Providers\nOpenAI / Anthropic]
+    W1 --> MON[Monitoring\nPrometheus + Grafana]
+```
+
 ## Production Architecture
 
 ### Scalable Deployment Options
@@ -557,16 +571,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`docker-compose.yml`](https://github.com/n8n-io/n8n/blob/master/docker-compose.yml) -- reference compose with PostgreSQL + Redis + n8n main/worker/webhook services
+- [`packages/cli/src/config/schema.ts`](https://github.com/n8n-io/n8n/blob/master/packages/cli/src/config/schema.ts) -- all `N8N_*` environment variables and their defaults for production configuration
+- [`packages/cli/src/Queue.ts`](https://github.com/n8n-io/n8n/blob/master/packages/cli/src/Queue.ts) -- Bull queue implementation; defines how execution jobs are distributed across worker instances
 
-Suggested trace strategy:
-- search upstream code for `name` and `workflowStats` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: review `config/schema.ts` for all scaling-related options (`N8N_CONCURRENCY_PRODUCTION_LIMIT`, `QUEUE_BULL_*`), then see how `Queue.ts` uses Bull to dispatch executions to workers.
 
 ## Chapter Connections
 

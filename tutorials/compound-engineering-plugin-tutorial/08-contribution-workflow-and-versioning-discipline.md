@@ -50,170 +50,168 @@ Next steps:
 - publish compatibility test matrix across target runtimes
 - ship one focused contribution with changelog and docs updates
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/sync/gemini.ts`
+### `src/converters/claude-to-openclaw.ts`
 
-The `syncToGemini` function in [`src/sync/gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/sync/gemini.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export async function syncToGemini(
-  config: ClaudeHomeConfig,
-  outputRoot: string,
-): Promise<void> {
-  await syncGeminiSkills(config.skills, outputRoot)
-  await syncGeminiCommands(config, outputRoot)
-
-  if (Object.keys(config.mcpServers).length > 0) {
-    const settingsPath = path.join(outputRoot, "settings.json")
-    const converted = convertMcpForGemini(config.mcpServers)
-    await mergeJsonConfigAtKey({
-      configPath: settingsPath,
-      key: "mcpServers",
-      incoming: converted,
-    })
-  }
-}
-
-async function syncGeminiSkills(
-  skills: ClaudeHomeConfig["skills"],
-  outputRoot: string,
-): Promise<void> {
-  const skillsDir = path.join(outputRoot, "skills")
-  const sharedSkillsDir = getGeminiSharedSkillsDir(outputRoot)
-
-  if (!sharedSkillsDir) {
-    await syncSkills(skills, skillsDir)
-    return
-  }
-
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/sync/gemini.ts`
-
-The `syncGeminiSkills` function in [`src/sync/gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/sync/gemini.ts) handles a key part of this chapter's functionality:
+The `loadSkills` function in [`src/converters/claude-to-openclaw.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-openclaw.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  outputRoot: string,
-): Promise<void> {
-  await syncGeminiSkills(config.skills, outputRoot)
-  await syncGeminiCommands(config, outputRoot)
+const skills: Record<string, string> = {};
 
-  if (Object.keys(config.mcpServers).length > 0) {
-    const settingsPath = path.join(outputRoot, "settings.json")
-    const converted = convertMcpForGemini(config.mcpServers)
-    await mergeJsonConfigAtKey({
-      configPath: settingsPath,
-      key: "mcpServers",
-      incoming: converted,
-    })
-  }
-}
-
-async function syncGeminiSkills(
-  skills: ClaudeHomeConfig["skills"],
-  outputRoot: string,
-): Promise<void> {
-  const skillsDir = path.join(outputRoot, "skills")
-  const sharedSkillsDir = getGeminiSharedSkillsDir(outputRoot)
-
-  if (!sharedSkillsDir) {
-    await syncSkills(skills, skillsDir)
-    return
-  }
-
-  const canonicalSharedSkillsDir = await canonicalizePath(sharedSkillsDir)
-  const mirroredSkills: ClaudeHomeConfig["skills"] = []
-  const directSkills: ClaudeHomeConfig["skills"] = []
-
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/sync/gemini.ts`
-
-The `getGeminiSharedSkillsDir` function in [`src/sync/gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/sync/gemini.ts) handles a key part of this chapter's functionality:
-
-```ts
-): Promise<void> {
-  const skillsDir = path.join(outputRoot, "skills")
-  const sharedSkillsDir = getGeminiSharedSkillsDir(outputRoot)
-
-  if (!sharedSkillsDir) {
-    await syncSkills(skills, skillsDir)
-    return
-  }
-
-  const canonicalSharedSkillsDir = await canonicalizePath(sharedSkillsDir)
-  const mirroredSkills: ClaudeHomeConfig["skills"] = []
-  const directSkills: ClaudeHomeConfig["skills"] = []
-
-  for (const skill of skills) {
-    if (await isWithinDir(skill.sourceDir, canonicalSharedSkillsDir)) {
-      mirroredSkills.push(skill)
-    } else {
-      directSkills.push(skill)
-    }
-  }
-
-  await removeGeminiMirrorConflicts(mirroredSkills, skillsDir, canonicalSharedSkillsDir)
-  await syncSkills(directSkills, skillsDir)
-}
-
-function getGeminiSharedSkillsDir(outputRoot: string): string | null {
-  if (path.basename(outputRoot) !== ".gemini") return null
-  return path.join(path.dirname(outputRoot), ".agents", "skills")
-}
-
-async function canonicalizePath(targetPath: string): Promise<string> {
+async function loadSkills() {
+  const skillsDir = path.join(__dirname, "skills");
   try {
-```
-
-This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
-
-### `src/sync/gemini.ts`
-
-The `canonicalizePath` function in [`src/sync/gemini.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/sync/gemini.ts) handles a key part of this chapter's functionality:
-
-```ts
-  }
-
-  const canonicalSharedSkillsDir = await canonicalizePath(sharedSkillsDir)
-  const mirroredSkills: ClaudeHomeConfig["skills"] = []
-  const directSkills: ClaudeHomeConfig["skills"] = []
-
-  for (const skill of skills) {
-    if (await isWithinDir(skill.sourceDir, canonicalSharedSkillsDir)) {
-      mirroredSkills.push(skill)
-    } else {
-      directSkills.push(skill)
+    const entries = await fs.readdir(skillsDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const skillPath = path.join(skillsDir, entry.name, "SKILL.md");
+      try {
+        const content = await fs.readFile(skillPath, "utf8");
+        // Strip frontmatter
+        const body = content.replace(/^---[\\s\\S]*?---\\n*/, "");
+        skills[entry.name.replace(/^cmd-/, "")] = body.trim();
+      } catch {
+        // Skill file not found, skip
+      }
     }
-  }
-
-  await removeGeminiMirrorConflicts(mirroredSkills, skillsDir, canonicalSharedSkillsDir)
-  await syncSkills(directSkills, skillsDir)
-}
-
-function getGeminiSharedSkillsDir(outputRoot: string): string | null {
-  if (path.basename(outputRoot) !== ".gemini") return null
-  return path.join(path.dirname(outputRoot), ".agents", "skills")
-}
-
-async function canonicalizePath(targetPath: string): Promise<string> {
-  try {
-    return await fs.realpath(targetPath)
   } catch {
-    return path.resolve(targetPath)
+    // Skills directory not found
   }
 }
 
-async function isWithinDir(candidate: string, canonicalParentDir: string): Promise<boolean> {
+export default async function register(api) {
+  await loadSkills();
+
+${commandRegistrations}
+}
+`
+}
+
+function rewritePaths(body: string): string {
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
+### `src/converters/claude-to-openclaw.ts`
+
+The `register` function in [`src/converters/claude-to-openclaw.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-openclaw.ts) handles a key part of this chapter's functionality:
+
+```ts
+      const safeDesc = JSON.stringify(cmd.description ?? "")
+      const safeNotFound = JSON.stringify(`Command ${cmd.name} not found. Check skills directory.`)
+      return `  api.registerCommand({
+    name: ${safeName},
+    description: ${safeDesc},
+    acceptsArgs: ${cmd.acceptsArgs},
+    requireAuth: false,
+    handler: (ctx) => ({
+      text: skills[${safeName}] ?? ${safeNotFound},
+    }),
+  });`
+    })
+    .join("\n\n")
+
+  return `// Auto-generated OpenClaw plugin entry point
+// Converted from Claude Code plugin format by compound-plugin CLI
+import { promises as fs } from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Pre-load skill bodies for command responses
+const skills: Record<string, string> = {};
+
+async function loadSkills() {
+  const skillsDir = path.join(__dirname, "skills");
+  try {
+    const entries = await fs.readdir(skillsDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const skillPath = path.join(skillsDir, entry.name, "SKILL.md");
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
+### `src/converters/claude-to-openclaw.ts`
+
+The `rewritePaths` function in [`src/converters/claude-to-openclaw.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-openclaw.ts) handles a key part of this chapter's functionality:
+
+```ts
+  }
+
+  const body = rewritePaths(agent.body)
+  const content = formatFrontmatter(frontmatter, body)
+
+  return {
+    name: agent.name,
+    content,
+    dir: `agent-${agent.name}`,
+  }
+}
+
+function convertCommandToSkill(command: ClaudeCommand): OpenClawSkillFile {
+  const frontmatter: Record<string, unknown> = {
+    name: `cmd-${command.name}`,
+    description: command.description,
+  }
+
+  if (command.model && command.model !== "inherit") {
+    frontmatter.model = normalizeModelWithProvider(command.model)
+  }
+
+  const body = rewritePaths(command.body)
+  const content = formatFrontmatter(frontmatter, body)
+
+  return {
+    name: command.name,
+    content,
+    dir: `cmd-${command.name}`,
+  }
+}
+
+```
+
+This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
+
+### `src/converters/claude-to-openclaw.ts`
+
+The `formatDisplayName` function in [`src/converters/claude-to-openclaw.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-openclaw.ts) handles a key part of this chapter's functionality:
+
+```ts
+  return {
+    id: plugin.manifest.name,
+    name: formatDisplayName(plugin.manifest.name),
+    kind: "tool",
+    configSchema: {
+      type: "object",
+      properties: {},
+    },
+    skills: skillDirs.map((dir) => `skills/${dir}`),
+  }
+}
+
+function buildPackageJson(plugin: ClaudePlugin): Record<string, unknown> {
+  return {
+    name: `openclaw-${plugin.manifest.name}`,
+    version: plugin.manifest.version,
+    type: "module",
+    private: true,
+    description: plugin.manifest.description,
+    main: "index.ts",
+    openclaw: {
+      extensions: [
+        {
+          id: plugin.manifest.name,
+          entry: "./index.ts",
+        },
+      ],
+    },
+    keywords: [
+      "openclaw",
+      "openclaw-plugin",
+      ...(plugin.manifest.keywords ?? []),
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -223,11 +221,11 @@ This function is important because it defines how Compound Engineering Plugin Tu
 
 ```mermaid
 flowchart TD
-    A[syncToGemini]
-    B[syncGeminiSkills]
-    C[getGeminiSharedSkillsDir]
-    D[canonicalizePath]
-    E[isWithinDir]
+    A[loadSkills]
+    B[register]
+    C[rewritePaths]
+    D[formatDisplayName]
+    E[convertClaudeToQwen]
     A --> B
     B --> C
     C --> D

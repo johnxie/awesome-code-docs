@@ -38,50 +38,7 @@ You now have reliable authentication and configuration patterns for Codex CLI.
 
 Next: [Chapter 4: Sandbox, Approvals, and MCP Integration](04-sandbox-approvals-and-mcp-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `scripts/readme_toc.py`
-
-The `generate_toc_lines` function in [`scripts/readme_toc.py`](https://github.com/openai/codex/blob/HEAD/scripts/readme_toc.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def generate_toc_lines(content: str) -> List[str]:
-    """
-    Generate markdown list lines for headings (## to ######) in content.
-    """
-    lines = content.splitlines()
-    headings = []
-    in_code = False
-    for line in lines:
-        if line.strip().startswith("```"):
-            in_code = not in_code
-            continue
-        if in_code:
-            continue
-        m = re.match(r"^(#{2,6})\s+(.*)$", line)
-        if not m:
-            continue
-        level = len(m.group(1))
-        text = m.group(2).strip()
-        headings.append((level, text))
-
-    toc = []
-    for level, text in headings:
-        indent = "  " * (level - 2)
-        slug = text.lower()
-        # normalize spaces and dashes
-        slug = slug.replace("\u00a0", " ")
-        slug = slug.replace("\u2011", "-").replace("\u2013", "-").replace("\u2014", "-")
-        # drop other punctuation
-        slug = re.sub(r"[^0-9a-z\s-]", "", slug)
-        slug = slug.strip().replace(" ", "-")
-```
-
-This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
 ### `scripts/readme_toc.py`
 
@@ -124,84 +81,125 @@ def generate_toc_lines(content: str) -> List[str]:
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/asciicheck.py`
+### `scripts/stage_npm_packages.py`
 
-The `main` function in [`scripts/asciicheck.py`](https://github.com/openai/codex/blob/HEAD/scripts/asciicheck.py) handles a key part of this chapter's functionality:
+The `parse_args` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(
-        description="Check for non-ASCII characters in files."
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--release-version",
+        required=True,
+        help="Version to stage (e.g. 0.1.0 or 0.1.0-alpha.1).",
     )
     parser.add_argument(
-        "--fix",
+        "--package",
+        dest="packages",
+        action="append",
+        required=True,
+        help="Package name to stage. May be provided multiple times.",
+    )
+    parser.add_argument(
+        "--workflow-url",
+        help="Optional workflow URL to reuse for native artifacts.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Directory where npm tarballs should be written (default: dist/npm).",
+    )
+    parser.add_argument(
+        "--keep-staging-dirs",
         action="store_true",
-        help="Rewrite files, replacing non-ASCII characters with ASCII equivalents, where possible.",
+        help="Retain temporary staging directories instead of deleting them.",
     )
-    parser.add_argument(
-        "files",
-        nargs="+",
-        help="Files to check for non-ASCII characters.",
-    )
-    args = parser.parse_args()
-
-    has_errors = False
-    for filename in args.files:
-        path = Path(filename)
-        has_errors |= lint_utf8_ascii(path, fix=args.fix)
-    return 1 if has_errors else 0
-
-
-def lint_utf8_ascii(filename: Path, fix: bool) -> bool:
-    """Returns True if an error was printed."""
-    try:
-        with open(filename, "rb") as f:
-            raw = f.read()
-        text = raw.decode("utf-8")
-    except UnicodeDecodeError as e:
+    return parser.parse_args()
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
 
-### `scripts/asciicheck.py`
+### `scripts/stage_npm_packages.py`
 
-The `lint_utf8_ascii` function in [`scripts/asciicheck.py`](https://github.com/openai/codex/blob/HEAD/scripts/asciicheck.py) handles a key part of this chapter's functionality:
+The `collect_native_components` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
 
 ```py
-    for filename in args.files:
-        path = Path(filename)
-        has_errors |= lint_utf8_ascii(path, fix=args.fix)
-    return 1 if has_errors else 0
 
 
-def lint_utf8_ascii(filename: Path, fix: bool) -> bool:
-    """Returns True if an error was printed."""
-    try:
-        with open(filename, "rb") as f:
-            raw = f.read()
-        text = raw.decode("utf-8")
-    except UnicodeDecodeError as e:
-        print("UTF-8 decoding error:")
-        print(f"  byte offset: {e.start}")
-        print(f"  reason: {e.reason}")
-        # Attempt to find line/column
-        partial = raw[: e.start]
-        line = partial.count(b"\n") + 1
-        col = e.start - (partial.rfind(b"\n") if b"\n" in partial else -1)
-        print(f"  location: line {line}, column {col}")
-        return True
+def collect_native_components(packages: list[str]) -> set[str]:
+    components: set[str] = set()
+    for package in packages:
+        components.update(PACKAGE_NATIVE_COMPONENTS.get(package, []))
+    return components
 
-    errors = []
-    for lineno, line in enumerate(text.splitlines(keepends=True), 1):
-        for colno, char in enumerate(line, 1):
-            codepoint = ord(char)
-            if char == "\n":
+
+def expand_packages(packages: list[str]) -> list[str]:
+    expanded: list[str] = []
+    for package in packages:
+        for expanded_package in PACKAGE_EXPANSIONS.get(package, [package]):
+            if expanded_package in expanded:
                 continue
-            if (
-                not (0x20 <= codepoint <= 0x7E)
-                and codepoint not in allowed_unicode_codepoints
+            expanded.append(expanded_package)
+    return expanded
+
+
+def resolve_release_workflow(version: str) -> dict:
+    stdout = subprocess.check_output(
+        [
+            "gh",
+            "run",
+            "list",
+            "--branch",
+            f"rust-v{version}",
+            "--json",
+            "workflowName,url,headSha",
+            "--workflow",
+            WORKFLOW_NAME,
+            "--jq",
+```
+
+This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
+
+### `scripts/stage_npm_packages.py`
+
+The `expand_packages` function in [`scripts/stage_npm_packages.py`](https://github.com/openai/codex/blob/HEAD/scripts/stage_npm_packages.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def expand_packages(packages: list[str]) -> list[str]:
+    expanded: list[str] = []
+    for package in packages:
+        for expanded_package in PACKAGE_EXPANSIONS.get(package, [package]):
+            if expanded_package in expanded:
+                continue
+            expanded.append(expanded_package)
+    return expanded
+
+
+def resolve_release_workflow(version: str) -> dict:
+    stdout = subprocess.check_output(
+        [
+            "gh",
+            "run",
+            "list",
+            "--branch",
+            f"rust-v{version}",
+            "--json",
+            "workflowName,url,headSha",
+            "--workflow",
+            WORKFLOW_NAME,
+            "--jq",
+            "first(.[])",
+        ],
+        cwd=REPO_ROOT,
+        text=True,
+    )
+    workflow = json.loads(stdout or "null")
+    if not workflow:
 ```
 
 This function is important because it defines how Codex CLI Tutorial: Local Terminal Agent Workflows with OpenAI Codex implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Codex CLI Tutorial: Local Term
 
 ```mermaid
 flowchart TD
-    A[generate_toc_lines]
-    B[check_or_fix]
-    C[main]
-    D[lint_utf8_ascii]
-    E[main]
+    A[check_or_fix]
+    B[parse_args]
+    C[collect_native_components]
+    D[expand_packages]
+    E[resolve_release_workflow]
     A --> B
     B --> C
     C --> D

@@ -81,50 +81,7 @@ You now understand the realtime lifecycle and have a framework for protocol-leve
 
 Next: [Chapter 3: Voice Input Processing](03-voice-input-processing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `src/app/types.ts`
-
-The `GuardrailResultType` interface in [`src/app/types.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/types.ts) handles a key part of this chapter's functionality:
-
-```ts
-export type AllAgentConfigsType = Record<string, AgentConfig[]>;
-
-export interface GuardrailResultType {
-  status: "IN_PROGRESS" | "DONE";
-  testText?: string; 
-  category?: ModerationCategory;
-  rationale?: string;
-}
-
-export interface TranscriptItem {
-  itemId: string;
-  type: "MESSAGE" | "BREADCRUMB";
-  role?: "user" | "assistant";
-  title?: string;
-  data?: Record<string, any>;
-  expanded: boolean;
-  timestamp: string;
-  createdAtMs: number;
-  status: "IN_PROGRESS" | "DONE";
-  isHidden: boolean;
-  guardrailResult?: GuardrailResultType;
-}
-
-export interface Log {
-  id: number;
-  timestamp: string;
-  direction: string;
-  eventName: string;
-  data: any;
-  expanded: boolean;
-  type: string;
-}
-```
-
-This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
 
 ### `src/app/types.ts`
 
@@ -249,16 +206,45 @@ export interface ServerEvent {
 
 This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
 
+### `src/app/types.ts`
+
+The `LoggedEvent` interface in [`src/app/types.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+export interface LoggedEvent {
+  id: number;
+  direction: "client" | "server";
+  expanded: boolean;
+  timestamp: string;
+  eventName: string;
+  eventData: Record<string, any>; // can have arbitrary objects logged
+}
+
+// Update the GuardrailOutputZod schema to use the shared ModerationCategoryZod
+export const GuardrailOutputZod = z.object({
+  moderationRationale: z.string(),
+  moderationCategory: ModerationCategoryZod,
+  testText: z.string().optional(),
+});
+
+export type GuardrailOutput = z.infer<typeof GuardrailOutputZod>;
+
+```
+
+This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[GuardrailResultType]
-    B[TranscriptItem]
-    C[Log]
-    D[ServerEvent]
-    E[LoggedEvent]
+    A[TranscriptItem]
+    B[Log]
+    C[ServerEvent]
+    D[LoggedEvent]
+    E[based]
     A --> B
     B --> C
     C --> D

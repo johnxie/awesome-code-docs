@@ -13,6 +13,22 @@ Welcome to **Chapter 2: AI Nodes and LLM Integration**. In this part of **n8n AI
 
 > Configure and use different AI providers, manage credentials, and build multi-model workflows.
 
+## AI Node Ecosystem
+
+```mermaid
+flowchart TD
+    N8N[n8n AI Nodes] --> CHAT[Chat Model Nodes]
+    N8N --> EMB[Embedding Nodes]
+    N8N --> TOOLS[Tool Nodes]
+
+    CHAT --> OAI[@n8n/n8n-nodes-langchain.openAi\nGPT-4o, GPT-4-turbo]
+    CHAT --> ANT[@n8n/n8n-nodes-langchain.anthropic\nClaude 3.5 Sonnet]
+    CHAT --> OLLAMA[@n8n/n8n-nodes-langchain.lmChatOllama\nLocal models]
+    EMB --> OAIE[OpenAI Embeddings]
+    TOOLS --> WEB[HTTP Request Tool]
+    TOOLS --> CODE[Code Execution Tool]
+```
+
 ## AI Node Overview
 
 n8n provides dedicated nodes for various AI providers, each with specific capabilities and configuration options.
@@ -648,16 +664,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`n8n-io/n8n`](https://github.com/n8n-io/n8n):
 
-- [View Repo](https://github.com/n8n-io/n8n)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`packages/@n8n/nodes-langchain/nodes/llms/LmChatOpenAi/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/llms/LmChatOpenAi) -- OpenAI chat model node; `supplyData()` returns a `ChatOpenAI` LangChain instance
+- [`packages/@n8n/nodes-langchain/nodes/llms/LmChatAnthropic/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/llms/LmChatAnthropic) -- Anthropic Claude node implementation
+- [`packages/@n8n/nodes-langchain/nodes/llms/LmChatOllama/`](https://github.com/n8n-io/n8n/tree/master/packages/%40n8n/nodes-langchain/nodes/llms/LmChatOllama) -- local Ollama chat model node
 
-Suggested trace strategy:
-- search upstream code for `name` and `json` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: all LLM nodes implement `INodeType` and expose a `supplyData()` method that returns a LangChain `BaseChatModel`; this is how the Agent node consumes them.
 
 ## Chapter Connections
 

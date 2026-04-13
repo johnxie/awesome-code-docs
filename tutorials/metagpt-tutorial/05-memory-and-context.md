@@ -392,6 +392,14 @@ def load_memory(path: str) -> Memory:
 
 MetaGPT's memory system operates at three levels: private agent memory, working memory for the current task, and the shared message bus. Messages carry routing metadata that enables the watch/subscribe pattern. For large projects, context window management through summarization and selective retrieval keeps prompts focused and efficient. Vector-based memory enables semantic search when keyword matching is insufficient.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/memory/memory.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/memory/memory.py) -- `Memory` class: stores messages; `get_by_actions()` for selective retrieval
+- [`metagpt/schema.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/schema.py) -- `Message` dataclass with `role`, `content`, `cause_by`, and `sent_to` routing fields
+- [`metagpt/environment/base_env.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/environment/base_env.py) -- shared `history` list acts as the global message bus accessible to all roles
+
 **Next:** [Chapter 6: Tool Integration](06-tool-integration.md) -- give your agents access to the outside world.
 
 ---

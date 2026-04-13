@@ -837,9 +837,32 @@ Keep manual control for:
 - **Performance-critical code** - Optimized implementations
 - **Security-sensitive code** - Encryption, authentication
 
+## Code Completion Architecture
+
+```mermaid
+flowchart TD
+    A[Developer types in editor]
+    B[Continue detects completion trigger]
+    C[Context gathered: file content, cursor position, open files]
+    D[Context sent to configured LLM]
+    E[LLM generates completion suggestions]
+    F[Suggestions shown as ghost text]
+    G{Developer accepts?}
+    H[Completion inserted into editor]
+    I[Suggestion dismissed]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G -- Tab/accept --> H
+    G -- Esc/ignore --> I
+```
+
 ## What's Next?
 
-Fantastic! You've mastered Continue's intelligent code completion and generation capabilities. The suggestions you're seeing now are powered by sophisticated AI that understands your context, coding patterns, and project structure.
+You've mastered Continue's intelligent code completion and generation capabilities. The suggestions you're seeing now are powered by sophisticated AI that understands your context, coding patterns, and project structure.
 
 In [Chapter 3: Refactoring & Optimization](03-refactoring-optimization.md), we'll explore how Continue can help you improve existing code - identifying performance bottlenecks, suggesting architectural improvements, and modernizing legacy code.
 

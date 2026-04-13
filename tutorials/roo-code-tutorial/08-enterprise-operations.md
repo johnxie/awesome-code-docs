@@ -107,88 +107,86 @@ Related:
 - [OpenHands Tutorial](../openhands-tutorial/)
 - [MCP Servers Tutorial](../mcp-servers-tutorial/)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-translations.js`
+### `src/extension.ts`
 
-The `outputPackageNlsResults` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
+The `deactivate` function in [`src/extension.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/extension.ts) handles a key part of this chapter's functionality:
 
-```js
-	)
-
-	return { missingTranslations, hasMissingTranslations: outputPackageNlsResults(missingTranslations) }
-}
-
-// Function to output package.nls results
-function outputPackageNlsResults(missingTranslations) {
-	let hasMissingTranslations = false
-
-	console.log(`\nPACKAGE.NLS Missing Translations Report:\n`)
-
-	for (const [locale, files] of Object.entries(missingTranslations)) {
-		if (Object.keys(files).length === 0) {
-			console.log(`✅ ${locale}: No missing translations`)
-			continue
-		}
-
-		hasMissingTranslations = true
-		console.log(`📝 ${locale}:`)
-
-		for (const [fileName, missingItems] of Object.entries(files)) {
-			console.log(`  - ${fileName}: ${missingItems.length} missing translations`)
-
-			for (const { key, englishValue } of missingItems) {
-				console.log(`      ${key}: "${englishValue}"`)
-			}
-		}
-
-		console.log("")
+```ts
 	}
 
-	return hasMissingTranslations
+	// Add to subscriptions for proper cleanup on deactivate.
+	context.subscriptions.push(cloudService)
+
+	// Trigger initial cloud profile sync now that CloudService is ready.
+	try {
+		await provider.initializeCloudProfileSyncWhenReady()
+	} catch (error) {
+		outputChannel.appendLine(
+			`[CloudService] Failed to initialize cloud profile sync: ${error instanceof Error ? error.message : String(error)}`,
+		)
+	}
+
+	// Finish initializing the provider.
+	TelemetryService.instance.setProvider(provider)
+
+	context.subscriptions.push(
+		vscode.window.registerWebviewViewProvider(ClineProvider.sideBarId, provider, {
+			webviewOptions: { retainContextWhenHidden: true },
+		}),
+	)
+
+	// Check for worktree auto-open path (set when switching to a worktree)
+	await checkWorktreeAutoOpen(context, outputChannel)
+
+	// Auto-import configuration if specified in settings.
+	try {
+		await autoImportSettings(outputChannel, {
+			providerSettingsManager: provider.providerSettingsManager,
+			contextProxy: provider.contextProxy,
+			customModesManager: provider.customModesManager,
 ```
 
 This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
 
-### `scripts/find-missing-translations.js`
+### `scripts/find-missing-i18n-key.js`
 
-The `findMissingTranslations` function in [`scripts/find-missing-translations.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-translations.js) handles a key part of this chapter's functionality:
+The `getLocaleDirs` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
 
 ```js
 
-// Main function to find missing translations
-async function findMissingTranslations() {
+// Get all language directories for a specific locales directory
+function getLocaleDirs(localesDir) {
 	try {
-		console.log("Starting translation check...")
+		const allLocales = fs.readdirSync(localesDir).filter((file) => {
+			const stats = fs.statSync(path.join(localesDir, file))
+			return stats.isDirectory() // Do not exclude any language directories
+		})
 
-		let anyAreaMissingTranslations = false
-
-		// Check each requested area
-		for (const area of areasToCheck) {
-			if (area === "package-nls") {
-				const { hasMissingTranslations } = await checkPackageNlsTranslations()
-				anyAreaMissingTranslations = anyAreaMissingTranslations || hasMissingTranslations
-			} else {
-				const { hasMissingTranslations } = await checkAreaTranslations(area)
-				anyAreaMissingTranslations = anyAreaMissingTranslations || hasMissingTranslations
-			}
-		}
-
-		// Summary
-		if (!anyAreaMissingTranslations) {
-			console.log("\n✅ All translations are complete across all checked areas!")
-		} else {
-			console.log("\n✏️  To add missing translations:")
-			console.log("1. Add the missing keys to the corresponding locale files")
-			console.log("2. Translate the English values to the appropriate language")
-			console.log("3. Run this script again to verify all translations are complete")
-			// Exit with error code to fail CI checks
-			process.exit(1)
-		}
+		// Filter to a specific language if specified
+		return args.locale ? allLocales.filter((locale) => locale === args.locale) : allLocales
 	} catch (error) {
-		console.error("Error:", error.message)
+		if (error.code === "ENOENT") {
+			console.warn(`Warning: Locales directory not found: ${localesDir}`)
+			return []
+		}
+		throw error
+	}
+}
+
+// Get the value from JSON by path
+function getValueByPath(obj, path) {
+	const parts = path.split(".")
+	let current = obj
+
+	for (const part of parts) {
+		if (current === undefined || current === null) {
+			return undefined
+		}
+		current = current[part]
+	}
+
 ```
 
 This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
@@ -198,7 +196,7 @@ This function is important because it defines how Roo Code Tutorial: Run an AI D
 
 ```mermaid
 flowchart TD
-    A[outputPackageNlsResults]
-    B[findMissingTranslations]
+    A[deactivate]
+    B[getLocaleDirs]
     A --> B
 ```

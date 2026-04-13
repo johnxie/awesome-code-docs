@@ -1350,11 +1350,23 @@ Under the hood, `Chapter 8: Production Deployment & Scaling` usually follows a r
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Production Deployment Architecture
+
+```mermaid
+flowchart LR
+    A[Client Request] --> B[FastAPI / API Server]
+    B --> C[Outlines Generator Pool]
+    C --> D[Cached FSM per Schema]
+    D --> E[LLM Backend]
+    E --> F[Response]
+    B --> G[Metrics / Logging]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/outlines-dev/outlines)
+- [View Repo](https://github.com/dottxt-ai/outlines)
   Why it matters: authoritative reference on `View Repo` (github.com).
 
 Suggested trace strategy:

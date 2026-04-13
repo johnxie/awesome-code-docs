@@ -924,6 +924,17 @@ Under the hood, `Chapter 8: Production Deployment` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[AI SDK application] --> B[Provider configuration]
+    B --> C[Rate limiting and retry logic]
+    C --> D[Observability and logging]
+    D --> E[Deployed to Vercel or self-hosted]
+    E --> F[Production traffic handled]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

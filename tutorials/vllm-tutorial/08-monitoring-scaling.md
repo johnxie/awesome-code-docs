@@ -1104,6 +1104,16 @@ Under the hood, `Chapter 8: Monitoring & Scaling - Production Operations at Scal
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[vLLM server metrics endpoint] --> B[Prometheus scrape]
+    B --> C[Grafana dashboard]
+    C --> D[Latency and throughput visibility]
+    D --> E[Auto-scaling trigger if threshold exceeded]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

@@ -47,184 +47,182 @@ You now have a server-side primitive model that is consistent with MCP capabilit
 
 Next: [Chapter 5: Transports: stdio, Streamable HTTP, SSE, and WebSocket](05-transports-stdio-streamable-http-sse-and-websocket.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `ResourceTemplateReference` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+The `TaskStatusNotification` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
  */
 @Serializable
-public data class ResourceTemplateReference(val uri: String) : Reference {
+public data class TaskStatusNotification(override val params: TaskStatusNotificationParams? = null) :
+    ClientNotification,
+    ServerNotification {
     @EncodeDefault
-    public override val type: ReferenceType = ReferenceType.ResourceTemplate
+    override val method: Method = Method.Defined.NotificationsTasksStatus
 }
 
 /**
- * The contents of a specific resource or sub-resource.
+ * Parameters for a notifications/tasks/status notification.
  *
- * @property uri The URI of this resource.
- * @property mimeType The MIME type of this resource, if known.
- * @property meta Optional metadata for this response.
+ * @property taskId The task identifier.
+ * @property status Current task state.
+ * @property statusMessage Optional human-readable message describing the current task state.
+ * @property createdAt ISO 8601 timestamp when the task was created.
+ * @property lastUpdatedAt ISO 8601 timestamp when the task was last updated.
+ * @property ttl Actual retention duration from creation in milliseconds, null for unlimited.
+ * @property pollInterval Suggested polling interval in milliseconds.
+ * @property meta Optional metadata for this notification.
  */
-@Serializable(with = ResourceContentsPolymorphicSerializer::class)
-public sealed interface ResourceContents : WithMeta {
-    public val uri: String
-    public val mimeType: String?
+@Serializable
+public data class TaskStatusNotificationParams(
+    override val taskId: String,
+    override val status: TaskStatus,
+    override val statusMessage: String? = null,
+    override val createdAt: String,
+    override val lastUpdatedAt: String,
+    override val ttl: Long?,
+    override val pollInterval: Long? = null,
+    @SerialName("_meta") override val meta: JsonObject? = null,
+) : NotificationParams,
+```
+
+This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
+
+The `TaskStatusNotificationParams` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
+
+```kt
+ */
+@Serializable
+public data class TaskStatusNotification(override val params: TaskStatusNotificationParams? = null) :
+    ClientNotification,
+    ServerNotification {
+    @EncodeDefault
+    override val method: Method = Method.Defined.NotificationsTasksStatus
 }
 
 /**
- * Represents the text contents of a resource.
+ * Parameters for a notifications/tasks/status notification.
  *
- * @property text The text of the item.
- * This must only be set if the item can actually be represented as text (not binary data).
- * @property uri The URI of this resource.
- * @property mimeType The MIME type of this resource, if known.
+ * @property taskId The task identifier.
+ * @property status Current task state.
+ * @property statusMessage Optional human-readable message describing the current task state.
+ * @property createdAt ISO 8601 timestamp when the task was created.
+ * @property lastUpdatedAt ISO 8601 timestamp when the task was last updated.
+ * @property ttl Actual retention duration from creation in milliseconds, null for unlimited.
+ * @property pollInterval Suggested polling interval in milliseconds.
+ * @property meta Optional metadata for this notification.
  */
 @Serializable
-public data class TextResourceContents(
-    val text: String,
-    override val uri: String,
+public data class TaskStatusNotificationParams(
+    override val taskId: String,
+    override val status: TaskStatus,
+    override val statusMessage: String? = null,
+    override val createdAt: String,
+    override val lastUpdatedAt: String,
+    override val ttl: Long?,
+    override val pollInterval: Long? = null,
+    @SerialName("_meta") override val meta: JsonObject? = null,
+) : NotificationParams,
 ```
 
 This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `TextResourceContents` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+The `Notification` interface in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
+ * @property params optional notification parameters
  */
-@Serializable
-public data class TextResourceContents(
-    val text: String,
-    override val uri: String,
-    override val mimeType: String? = null,
-    @SerialName("_meta")
-    override val meta: JsonObject? = null,
-) : ResourceContents
+@Serializable(with = NotificationPolymorphicSerializer::class)
+public sealed interface Notification {
+    public val method: Method
+    public val params: NotificationParams?
+}
 
 /**
- * The contents of a specific resource or sub-resource.
- *
- * @property blob A base64-encoded string representing the binary data of the item.
- * @property uri The URI of this resource.
- * @property mimeType The MIME type of this resource, if known.
+ * Represents a notification sent by the client.
  */
-@Serializable
-public data class BlobResourceContents(
-    val blob: String,
-    override val uri: String,
-    override val mimeType: String? = null,
-    @SerialName("_meta")
-    override val meta: JsonObject? = null,
-) : ResourceContents
+@Serializable(with = ClientNotificationPolymorphicSerializer::class)
+public sealed interface ClientNotification : Notification
 
 /**
- * Represents resource contents with unknown or unspecified data.
- *
- * @property uri The URI of this resource.
- * @property mimeType The MIME type of this resource, if known.
+ * Represents a notification sent by the server.
  */
+@Serializable(with = ServerNotificationPolymorphicSerializer::class)
+public sealed interface ServerNotification : Notification
+
+/**
+ * Interface for notification parameter types.
+ *
+ * @property meta Optional metadata for the notification.
+ */
+@Serializable
+public sealed interface NotificationParams : WithMeta
+
+/**
+ * Base parameters for notifications that only contain metadata.
+ */
+@Serializable
 ```
 
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
+### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`
 
-The `BlobResourceContents` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
+The `ClientNotification` interface in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/notification.kt) handles a key part of this chapter's functionality:
 
 ```kt
+ * Represents a notification sent by the client.
  */
-@Serializable
-public data class BlobResourceContents(
-    val blob: String,
-    override val uri: String,
-    override val mimeType: String? = null,
-    @SerialName("_meta")
-    override val meta: JsonObject? = null,
-) : ResourceContents
+@Serializable(with = ClientNotificationPolymorphicSerializer::class)
+public sealed interface ClientNotification : Notification
 
 /**
- * Represents resource contents with unknown or unspecified data.
- *
- * @property uri The URI of this resource.
- * @property mimeType The MIME type of this resource, if known.
+ * Represents a notification sent by the server.
  */
-@Serializable
-public data class UnknownResourceContents(
-    override val uri: String,
-    override val mimeType: String? = null,
-    @SerialName("_meta")
-    override val meta: JsonObject? = null,
-) : ResourceContents
-
-// ============================================================================
-// resources/list
-// ============================================================================
+@Serializable(with = ServerNotificationPolymorphicSerializer::class)
+public sealed interface ServerNotification : Notification
 
 /**
- * Sent from the client to request a list of resources the server has.
+ * Interface for notification parameter types.
  *
- * Resources are data sources that the server can provide access to, such as files,
+ * @property meta Optional metadata for the notification.
+ */
+@Serializable
+public sealed interface NotificationParams : WithMeta
+
+/**
+ * Base parameters for notifications that only contain metadata.
+ */
+@Serializable
+public data class BaseNotificationParams(@SerialName("_meta") override val meta: JsonObject? = null) :
+    NotificationParams
+
+/**
+ * Represents a progress notification.
+ *
+ * @property progress The progress thus far. This should increase every time progress is made,
+ * even if the total is unknown.
+ * @property total Total number of items to a process (or total progress required), if known.
 ```
 
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
-
-### `kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`
-
-The `UnknownResourceContents` class in [`kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt`](https://github.com/modelcontextprotocol/kotlin-sdk/blob/HEAD/kotlin-sdk-core/src/commonMain/kotlin/io/modelcontextprotocol/kotlin/sdk/types/resources.kt) handles a key part of this chapter's functionality:
-
-```kt
- */
-@Serializable
-public data class UnknownResourceContents(
-    override val uri: String,
-    override val mimeType: String? = null,
-    @SerialName("_meta")
-    override val meta: JsonObject? = null,
-) : ResourceContents
-
-// ============================================================================
-// resources/list
-// ============================================================================
-
-/**
- * Sent from the client to request a list of resources the server has.
- *
- * Resources are data sources that the server can provide access to, such as files,
- * database entries, API responses, or other structured data.
- *
- * @property params Optional pagination parameters to control which page of results to return.
- */
-@Serializable
-public data class ListResourcesRequest(override val params: PaginatedRequestParams? = null) :
-    ClientRequest,
-    PaginatedRequest {
-    @EncodeDefault
-    override val method: Method = Method.Defined.ResourcesList
-
-    /**
-     * Secondary constructor for creating a [ListResourcesRequest] instance
-     * using optional cursor and metadata parameters.
-     *
-```
-
-This class is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Kotlin SDK Tutorial: Building Multiplatform MCP Clients and Servers implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ResourceTemplateReference]
-    B[TextResourceContents]
-    C[BlobResourceContents]
-    D[UnknownResourceContents]
-    E[ListResourcesRequest]
+    A[TaskStatusNotification]
+    B[TaskStatusNotificationParams]
+    C[Notification]
+    D[ClientNotification]
+    E[ServerNotification]
     A --> B
     B --> C
     C --> D

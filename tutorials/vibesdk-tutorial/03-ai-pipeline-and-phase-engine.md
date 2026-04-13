@@ -92,8 +92,6 @@ You now understand how VibeSDK decomposes app generation into controllable phase
 
 Next: [Chapter 4: Sandbox and Preview Runtime](04-sandbox-and-preview-runtime.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `container/cli-tools.ts`
@@ -269,7 +267,7 @@ flowchart TD
     B[handleProcessCommand]
     C[handleErrorCommand]
     D[handleLogCommand]
-    E[ContentType]
+    E[StorageManager]
     A --> B
     B --> C
     C --> D

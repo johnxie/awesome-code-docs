@@ -12,6 +12,19 @@ Welcome to **Chapter 6: Theme & Customization System**. In this part of **Chatbo
 
 This chapter covers building a comprehensive theming system and customization options for chat applications.
 
+## Theme and Settings Architecture
+
+```mermaid
+graph TD
+    Settings["Settings Schema\n(ProviderSettingsSchema)"] --> Display["Display Settings\n(theme / fontSize)"]
+    Settings --> Chat["Chat Settings\n(maxHistory / autoSave)"]
+    Settings --> Provider["Provider Settings\n(apiKey / model)"]
+    Display --> CSS["CSS Custom Properties\n(--color-*, --font-size-*)"]
+    Display --> LocalStore["localStorage\npreferred-theme"]
+    CSS --> UI["Runtime UI Render"]
+    Chat --> Session["Session Config\n(temperature / maxTokens)"]
+```
+
 ## 🎨 Theme Architecture
 
 ### Theme System Design
@@ -655,16 +668,23 @@ Under the hood, `Chapter 6: Theme & Customization System` usually follows a repe
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `src/shared/types/settings.ts`
 
-- [View Repo](https://github.com/Bin-Huang/chatbox)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `ProviderSettingsSchema` in [`src/shared/types/settings.ts`](https://github.com/Bin-Huang/chatbox/blob/main/src/shared/types/settings.ts) shows how Chatbox stores per-provider configuration alongside display preferences:
 
-Suggested trace strategy:
-- search upstream code for `theme` and `colors` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export const ProviderSettingsSchema = z.object({
+  apiKey: z.string().optional().catch(undefined),
+  apiHost: z.string().optional().catch(undefined),
+  apiPath: z.string().optional().catch(undefined),
+  models: z.array(ProviderModelInfoSchema).optional().catch(undefined),
+  excludedModels: z.array(z.string()).optional().catch(undefined),
+})
+```
+
+The `DocumentParserType` enum (`'none' | 'local' | 'chatbox-ai' | 'mineru'`) illustrates how Chatbox uses the settings system for feature toggling across platforms — desktop uses `'local'`, mobile defaults to `'none'`, and cloud users can opt into `'chatbox-ai'`.
 
 ## Chapter Connections
 

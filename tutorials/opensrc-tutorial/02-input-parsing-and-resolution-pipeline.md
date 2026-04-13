@@ -40,170 +40,135 @@ You now understand how OpenSrc classifies and routes each input before fetching.
 
 Next: [Chapter 3: Multi-Registry Package Fetching](03-multi-registry-package-fetching.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib/git.ts`
+### `src/types.ts`
 
-The `fetchRepoSource` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Fetch source code for a resolved repository
- */
-export async function fetchRepoSource(
-  resolved: ResolvedRepo,
-  cwd: string = process.cwd(),
-): Promise<FetchResult> {
-  const git = simpleGit();
-  const repoPath = getRepoPath(resolved.displayName, cwd);
-  const reposDir = getReposDir(cwd);
-
-  // Ensure repos directory exists
-  if (!existsSync(reposDir)) {
-    await mkdir(reposDir, { recursive: true });
-  }
-
-  // Remove existing if present
-  if (existsSync(repoPath)) {
-    await rm(repoPath, { recursive: true, force: true });
-  }
-
-  // Ensure parent directories exist (for host/owner structure)
-  const parentDir = join(repoPath, "..");
-  if (!existsSync(parentDir)) {
-    await mkdir(parentDir, { recursive: true });
-  }
-
-  // Clone the repository
-  const cloneResult = await cloneAtRef(
-    git,
-    resolved.repoUrl,
-    repoPath,
-    resolved.ref,
-```
-
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/git.ts`
-
-The `extractRepoPath` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+The `PackageSpec` interface in [`src/types.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * e.g., "repos/github.com/owner/repo/packages/sub" -> "repos/github.com/owner/repo"
+ * Parsed package specification with registry
  */
-function extractRepoPath(fullPath: string): string {
-  const parts = fullPath.split("/");
-  // repos/host/owner/repo = 4 parts minimum
-  if (parts.length >= 4 && parts[0] === "repos") {
-    return parts.slice(0, 4).join("/");
-  }
-  return fullPath;
+export interface PackageSpec {
+  registry: Registry;
+  name: string;
+  version?: string;
 }
 
 /**
- * Remove source code for a package (removes its repo if no other packages use it)
+ * Resolved repository information (for git repos)
  */
-export async function removePackageSource(
-  packageName: string,
-  cwd: string = process.cwd(),
-  registry: Registry = "npm",
-): Promise<{ removed: boolean; repoRemoved: boolean }> {
-  const sources = await readSourcesJson(cwd);
-  if (!sources?.packages) {
-    return { removed: false, repoRemoved: false };
-  }
+export interface ResolvedRepo {
+  host: string; // e.g., "github.com", "gitlab.com"
+  owner: string;
+  repo: string;
+  ref: string; // branch, tag, or commit (resolved)
+  repoUrl: string;
+  displayName: string; // e.g., "github.com/owner/repo"
+}
 
-  const pkg = sources.packages.find(
-    (p) => p.name === packageName && p.registry === registry,
-  );
-  if (!pkg) {
-    return { removed: false, repoRemoved: false };
-  }
-
-  const pkgRepoPath = extractRepoPath(pkg.path);
 ```
 
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/types.ts`
+
+The `ResolvedRepo` interface in [`src/types.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Resolved repository information (for git repos)
+ */
+export interface ResolvedRepo {
+  host: string; // e.g., "github.com", "gitlab.com"
+  owner: string;
+  repo: string;
+  ref: string; // branch, tag, or commit (resolved)
+  repoUrl: string;
+  displayName: string; // e.g., "github.com/owner/repo"
+}
+
+```
+
+This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
 ### `src/lib/git.ts`
 
-The `removePackageSource` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+The `getOpensrcDir` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Remove source code for a package (removes its repo if no other packages use it)
+ * Get the opensrc directory path
  */
-export async function removePackageSource(
-  packageName: string,
-  cwd: string = process.cwd(),
-  registry: Registry = "npm",
-): Promise<{ removed: boolean; repoRemoved: boolean }> {
-  const sources = await readSourcesJson(cwd);
-  if (!sources?.packages) {
-    return { removed: false, repoRemoved: false };
-  }
-
-  const pkg = sources.packages.find(
-    (p) => p.name === packageName && p.registry === registry,
-  );
-  if (!pkg) {
-    return { removed: false, repoRemoved: false };
-  }
-
-  const pkgRepoPath = extractRepoPath(pkg.path);
-
-  // Check if other packages use the same repo
-  const otherPackagesUsingSameRepo = sources.packages.filter(
-    (p) =>
-      extractRepoPath(p.path) === pkgRepoPath &&
-      !(p.name === packageName && p.registry === registry),
-  );
-
-  let repoRemoved = false;
-
-  // Only remove the repo if no other packages use it
-  if (otherPackagesUsingSameRepo.length === 0) {
-```
-
-This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/lib/git.ts`
-
-The `removeRepoSource` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Remove source code for a repo
- */
-export async function removeRepoSource(
-  displayName: string,
-  cwd: string = process.cwd(),
-): Promise<boolean> {
-  const repoPath = getRepoPath(displayName, cwd);
-
-  if (!existsSync(repoPath)) {
-    return false;
-  }
-
-  await rm(repoPath, { recursive: true, force: true });
-
-  // Clean up empty parent directories
-  await cleanupEmptyParentDirs(getRepoRelativePath(displayName), cwd);
-
-  return true;
+export function getOpensrcDir(cwd: string = process.cwd()): string {
+  return join(cwd, OPENSRC_DIR);
 }
 
 /**
- * Clean up empty parent directories after removing a repo
+ * Get the repos directory path
  */
-async function cleanupEmptyParentDirs(
-  relativePath: string,
-  cwd: string,
-): Promise<void> {
-  const parts = relativePath.split("/");
-  if (parts.length < 4) return; // repos/host/owner/repo - need at least 4 parts
+export function getReposDir(cwd: string = process.cwd()): string {
+  return join(getOpensrcDir(cwd), REPOS_DIR);
+}
 
-  const { readdir } = await import("fs/promises");
-  const opensrcDir = getOpensrcDir(cwd);
+/**
+ * Extract host/owner/repo from a git URL
+ */
+export function parseRepoUrl(
+  url: string,
+): { host: string; owner: string; repo: string } | null {
+  // Handle HTTPS URLs: https://github.com/owner/repo
+  const httpsMatch = url.match(/https?:\/\/([^/]+)\/([^/]+)\/([^/]+)/);
+  if (httpsMatch) {
+    return {
+      host: httpsMatch[1],
+      owner: httpsMatch[2],
+      repo: httpsMatch[3].replace(/\.git$/, ""),
+    };
+  }
+
+  // Handle SSH URLs: git@github.com:owner/repo.git
+  const sshMatch = url.match(/git@([^:]+):([^/]+)\/(.+)/);
+  if (sshMatch) {
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/git.ts`
+
+The `getReposDir` function in [`src/lib/git.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/git.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * Get the repos directory path
+ */
+export function getReposDir(cwd: string = process.cwd()): string {
+  return join(getOpensrcDir(cwd), REPOS_DIR);
+}
+
+/**
+ * Extract host/owner/repo from a git URL
+ */
+export function parseRepoUrl(
+  url: string,
+): { host: string; owner: string; repo: string } | null {
+  // Handle HTTPS URLs: https://github.com/owner/repo
+  const httpsMatch = url.match(/https?:\/\/([^/]+)\/([^/]+)\/([^/]+)/);
+  if (httpsMatch) {
+    return {
+      host: httpsMatch[1],
+      owner: httpsMatch[2],
+      repo: httpsMatch[3].replace(/\.git$/, ""),
+    };
+  }
+
+  // Handle SSH URLs: git@github.com:owner/repo.git
+  const sshMatch = url.match(/git@([^:]+):([^/]+)\/(.+)/);
+  if (sshMatch) {
+    return {
+      host: sshMatch[1],
+      owner: sshMatch[2],
+      repo: sshMatch[3].replace(/\.git$/, ""),
+    };
+  }
+
 ```
 
 This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
@@ -213,11 +178,11 @@ This function is important because it defines how OpenSrc Tutorial: Deep Source 
 
 ```mermaid
 flowchart TD
-    A[fetchRepoSource]
-    B[extractRepoPath]
-    C[removePackageSource]
-    D[removeRepoSource]
-    E[cleanupEmptyParentDirs]
+    A[PackageSpec]
+    B[ResolvedRepo]
+    C[getOpensrcDir]
+    D[getReposDir]
+    E[parseRepoUrl]
     A --> B
     B --> C
     C --> D

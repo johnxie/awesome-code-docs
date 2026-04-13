@@ -40,8 +40,6 @@ You now have a clear stack-entry decision for mcp-use adoption.
 
 Next: [Chapter 2: Client Configuration, Sessions, and Transport Choices](02-client-configuration-sessions-and-transport-choices.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `docs/docs.json`
@@ -65,43 +63,43 @@ The `showing` interface in [`docs/docs.json`](https://github.com/mcp-use/mcp-use
 
 This interface is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.
 
-### `libraries/python/examples/google_integration_example.py`
+### `libraries/python/examples/anthropic_integration_example.py`
 
-The `main` function in [`libraries/python/examples/google_integration_example.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/google_integration_example.py) handles a key part of this chapter's functionality:
+The `main` function in [`libraries/python/examples/anthropic_integration_example.py`](https://github.com/mcp-use/mcp-use/blob/HEAD/libraries/python/examples/anthropic_integration_example.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
 async def main():
     config = {
-        "mcpServers": {"playwright": {"command": "npx", "args": ["@playwright/mcp@latest"], "env": {"DISPLAY": ":1"}}}
+        "mcpServers": {
+            "airbnb": {"command": "npx", "args": ["-y", "@openbnb/mcp-server-airbnb", "--ignore-robots-txt"]},
+        }
     }
 
     try:
         client = MCPClient(config=config)
 
-        # Creates the adapter for Google's format
-        adapter = GoogleMCPAdapter()
+        # Creates the adapter for Anthropic's format
+        adapter = AnthropicMCPAdapter()
 
-        # Convert tools from active connectors to the Google's format
+        # Convert tools from active connectors to the Anthropic's format
         await adapter.create_all(client)
 
         # List concatenation (if you loaded all tools)
-        all_tools = adapter.tools + adapter.resources + adapter.prompts
-        google_tools = [types.Tool(function_declarations=all_tools)]
+        anthropic_tools = adapter.tools + adapter.resources + adapter.prompts
 
         # If you don't want to create all tools, you can call single functions
         # await adapter.create_tools(client)
         # await adapter.create_resources(client)
         # await adapter.create_prompts(client)
 
-        # Use tools with Google's SDK (not agent in this case)
-        gemini = genai.Client()
+        # Use tools with Anthropic's SDK (not agent in this case)
+        anthropic = Anthropic()
 
-        messages = [
-            types.Content(
-                role="user",
-                parts=[
+        # Initial request
+        messages = [{"role": "user", "content": "Please tell me the cheapest hotel for two people in Trapani."}]
+        response = anthropic.messages.create(
 ```
 
 This function is important because it defines how MCP Use Tutorial: Full-Stack MCP Development Across Agents, Clients, Servers, and Inspector implements the patterns covered in this chapter.

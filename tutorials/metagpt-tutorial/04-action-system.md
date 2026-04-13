@@ -378,6 +378,14 @@ class DataPipelineBuilder(Role):
 
 Actions are the building blocks of everything agents do in MetaGPT. Simple actions use `_aask()` for free-form LLM calls. Action Nodes enforce structured output through schemas, automatic parsing, and retry logic. You can compose nodes into trees, chain actions into multi-step workflows, and add validation logic for reliability.
 
+## Source Code Walkthrough
+
+Key source files in [`geekan/MetaGPT`](https://github.com/geekan/MetaGPT):
+
+- [`metagpt/actions/action.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/actions/action.py) -- base `Action` class; `_aask()` wraps LLM calls with prompt template and context
+- [`metagpt/actions/action_node.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/actions/action_node.py) -- `ActionNode`: schema-driven LLM output with JSON parsing, validation, and retry
+- [`metagpt/actions/write_code.py`](https://github.com/geekan/MetaGPT/blob/main/metagpt/actions/write_code.py) -- concrete action example showing how Engineer's code-writing action is implemented
+
 **Next:** [Chapter 5: Memory and Context](05-memory-and-context.md) -- learn how agents remember and share information.
 
 ---

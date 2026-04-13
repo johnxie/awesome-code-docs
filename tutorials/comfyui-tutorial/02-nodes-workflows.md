@@ -470,16 +470,20 @@ Under the hood, `Chapter 2: Understanding Nodes & Workflows` usually follows a r
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `execution.py`
 
-- [View Repo](https://github.com/comfyanonymous/ComfyUI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `ExecutionResult` enum and caching hierarchy in [`execution.py`](https://github.com/comfyanonymous/ComfyUI/blob/master/execution.py) control how ComfyUI executes node graphs efficiently:
 
-Suggested trace strategy:
-- search upstream code for `properties` and `nodes` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+class ExecutionResult(Enum):
+    SUCCESS = 0
+    FAILURE = 1
+    PENDING = 2
+```
+
+The execution engine uses a hierarchy of caches (`BasicCache`, `HierarchicalCache`, `LRUCache`, `RAMPressureCache`) imported from `comfy_execution.caching`. When a workflow is re-run with only some nodes changed, unchanged nodes hit the cache and skip recomputation. The `DynamicPrompt` and `ExecutionList` from `comfy_execution.graph` handle topological ordering of the node graph before execution.
 
 ## Chapter Connections
 

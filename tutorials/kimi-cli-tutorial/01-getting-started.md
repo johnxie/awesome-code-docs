@@ -48,129 +48,127 @@ You now have Kimi CLI running with authenticated provider access.
 
 Next: [Chapter 2: Command Surface and Session Controls](02-command-surface-and-session-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `web/vite.config.ts`
+### `scripts/cleanup_tmp_sessions.py`
 
-The `readKimiCliVersion` function in [`web/vite.config.ts`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/web/vite.config.ts) handles a key part of this chapter's functionality:
-
-```ts
-const PYPROJECT_VERSION_REGEX = /^\s*version\s*=\s*"([^"]+)"/m;
-
-function readKimiCliVersion(): string {
-  const fallback = process.env.KIMI_CLI_VERSION ?? "dev";
-  const pyprojectPath = path.resolve(__dirname, "../pyproject.toml");
-
-  try {
-    const pyproject = fs.readFileSync(pyprojectPath, "utf8");
-    const match = pyproject.match(PYPROJECT_VERSION_REGEX);
-    if (match?.[1]) {
-      return match[1];
-    }
-  } catch (error) {
-    console.warn("[vite] Unable to read version", pyprojectPath, error);
-  }
-
-  return fallback;
-}
-
-const kimiCliVersion = readKimiCliVersion();
-const shouldAnalyze = process.env.ANALYZE === "true";
-
-// https://vite.dev/config/
-export default defineConfig({
-  // Use relative paths so assets work under any base path.
-  base: "./",
-  plugins: [
-    nodePolyfills({
-      include: ["path", "url"],
-    }),
-    react(),
-    tailwindcss(),
-```
-
-This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
-
-### `scripts/check_version_tag.py`
-
-The `load_project_version` function in [`scripts/check_version_tag.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/check_version_tag.py) handles a key part of this chapter's functionality:
+The `is_tmp_path` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def load_project_version(pyproject_path: Path) -> str:
-    with pyproject_path.open("rb") as handle:
-        data = tomllib.load(handle)
-
-    project = data.get("project")
-    if not isinstance(project, dict):
-        raise ValueError(f"Missing [project] table in {pyproject_path}")
-
-    version = project.get("version")
-    if not isinstance(version, str) or not version:
-        raise ValueError(f"Missing project.version in {pyproject_path}")
-
-    return version
+def is_tmp_path(path: str) -> bool:
+    """Return True if *path* looks like a temporary directory."""
+    if path in ("/tmp", "/private/tmp"):
+        return True
+    return any(path.startswith(p) for p in TMP_PREFIXES)
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate tag version against pyproject.")
-    parser.add_argument("--pyproject", type=Path, required=True)
-    parser.add_argument("--expected-version", required=True)
+def work_dir_hash(path: str, kaos: str = "local") -> str:
+    h = md5(path.encode("utf-8")).hexdigest()
+    return h if kaos == "local" else f"{kaos}_{h}"
+
+
+def dir_total_size(d: Path) -> int:
+    return sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
     args = parser.parse_args()
 
-    semver_re = re.compile(r"^\d+\.\d+\.\d+$")
-    if not semver_re.match(args.expected_version):
-        print(
-            f"error: expected version must include patch (x.y.z): {args.expected_version}",
-            file=sys.stderr,
-        )
-        return 1
+    if not METADATA_FILE.exists():
+        print(f"Metadata file not found: {METADATA_FILE}")
+        sys.exit(1)
 
-    try:
+    with open(METADATA_FILE, encoding="utf-8") as f:
+        metadata = json.load(f)
 ```
 
 This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
 
-### `scripts/check_version_tag.py`
+### `scripts/cleanup_tmp_sessions.py`
 
-The `main` function in [`scripts/check_version_tag.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/check_version_tag.py) handles a key part of this chapter's functionality:
+The `work_dir_hash` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Validate tag version against pyproject.")
-    parser.add_argument("--pyproject", type=Path, required=True)
-    parser.add_argument("--expected-version", required=True)
+def work_dir_hash(path: str, kaos: str = "local") -> str:
+    h = md5(path.encode("utf-8")).hexdigest()
+    return h if kaos == "local" else f"{kaos}_{h}"
+
+
+def dir_total_size(d: Path) -> int:
+    return sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
     args = parser.parse_args()
 
-    semver_re = re.compile(r"^\d+\.\d+\.\d+$")
-    if not semver_re.match(args.expected_version):
-        print(
-            f"error: expected version must include patch (x.y.z): {args.expected_version}",
-            file=sys.stderr,
-        )
-        return 1
+    if not METADATA_FILE.exists():
+        print(f"Metadata file not found: {METADATA_FILE}")
+        sys.exit(1)
 
-    try:
-        project_version = load_project_version(args.pyproject)
-    except ValueError as exc:
-        print(f"error: {exc}", file=sys.stderr)
-        return 1
+    with open(METADATA_FILE, encoding="utf-8") as f:
+        metadata = json.load(f)
 
-    if not semver_re.match(project_version):
-        print(
-            "error: project version must include patch (x.y.z): "
-            f"{args.pyproject} has {project_version}",
-            file=sys.stderr,
-        )
-        return 1
+    work_dirs: list[dict] = metadata.get("work_dirs", [])
 
-    if project_version != args.expected_version:
-        print(
+    # --- Phase 1: tmp entries in kimi.json ---
+    tmp_entries: list[dict] = []
+    keep_entries: list[dict] = []
+    keep_hashes: set[str] = set()
+```
+
+This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
+
+### `scripts/cleanup_tmp_sessions.py`
+
+The `dir_total_size` function in [`scripts/cleanup_tmp_sessions.py`](https://github.com/MoonshotAI/kimi-cli/blob/HEAD/scripts/cleanup_tmp_sessions.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+def dir_total_size(d: Path) -> int:
+    return sum(f.stat().st_size for f in d.rglob("*") if f.is_file())
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser.add_argument("--apply", action="store_true", help="Actually delete (default is dry-run)")
+    args = parser.parse_args()
+
+    if not METADATA_FILE.exists():
+        print(f"Metadata file not found: {METADATA_FILE}")
+        sys.exit(1)
+
+    with open(METADATA_FILE, encoding="utf-8") as f:
+        metadata = json.load(f)
+
+    work_dirs: list[dict] = metadata.get("work_dirs", [])
+
+    # --- Phase 1: tmp entries in kimi.json ---
+    tmp_entries: list[dict] = []
+    keep_entries: list[dict] = []
+    keep_hashes: set[str] = set()
+    for wd in work_dirs:
+        if is_tmp_path(wd.get("path", "")):
+            tmp_entries.append(wd)
+        else:
+            keep_entries.append(wd)
 ```
 
 This function is important because it defines how Kimi CLI Tutorial: Multi-Mode Terminal Agent with MCP and ACP implements the patterns covered in this chapter.
@@ -180,9 +178,9 @@ This function is important because it defines how Kimi CLI Tutorial: Multi-Mode 
 
 ```mermaid
 flowchart TD
-    A[readKimiCliVersion]
-    B[load_project_version]
-    C[main]
+    A[is_tmp_path]
+    B[work_dir_hash]
+    C[dir_total_size]
     A --> B
     B --> C
 ```

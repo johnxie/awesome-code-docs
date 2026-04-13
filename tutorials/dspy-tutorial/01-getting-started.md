@@ -22,14 +22,14 @@ DSPy introduces a paradigm shift in how we work with language models. Instead of
 ### Installing DSPy
 
 ```bash
-# Install DSPy via pip
-pip install dspy-ai
+# Install DSPy via pip (package renamed from dspy-ai to dspy in v2)
+pip install dspy
 
 # For development and latest features
 pip install git+https://github.com/stanfordnlp/dspy.git
 
-# Optional: Install with specific ML frameworks
-pip install dspy-ai[all]  # Includes torch, transformers, etc.
+# Optional: Install with all retrieval integrations
+pip install dspy[all]
 ```
 
 ### Setting up API Keys
@@ -64,18 +64,18 @@ In DSPy, language models are abstracted as simple callable objects:
 ```python
 import dspy
 
-# OpenAI GPT models
-gpt3 = dspy.OpenAI(model="gpt-3.5-turbo")
-gpt4 = dspy.OpenAI(model="gpt-4", max_tokens=300)
+# DSPy 2.x uses dspy.LM with provider/model strings
+gpt4 = dspy.LM("openai/gpt-4o")
+gpt4_mini = dspy.LM("openai/gpt-4o-mini", max_tokens=300)
 
 # Anthropic Claude
-claude = dspy.Claude(model="claude-3-sonnet-20240229")
+claude = dspy.LM("anthropic/claude-3-5-sonnet-20241022")
 
 # Local models via Ollama
-ollama = dspy.OllamaLocal(model="llama2")
+ollama = dspy.LM("ollama_chat/llama3.2", api_base="http://localhost:11434")
 
 # Configure DSPy to use a specific LM
-dspy.settings.configure(lm=gpt4)
+dspy.configure(lm=gpt4)
 ```
 
 ### Retrieval Models (RMs)
@@ -83,24 +83,19 @@ dspy.settings.configure(lm=gpt4)
 For retrieval-augmented generation, DSPy supports various retrieval systems:
 
 ```python
-# ColBERTv2 (neural retrieval)
-rm_colbert = dspy.ColBERTv2(url="http://20.102.90.50:2017/wiki17_abstracts")
+# In DSPy 2.x, retrieval is handled inline via dspy.Retrieve or RAG modules
+# ColBERTv2 (via dspy.ColBERTv2Retriever)
+retriever = dspy.ColBERTv2(url="http://20.102.90.50:2017/wiki17_abstracts")
 
-# Pinecone vector database
-rm_pinecone = dspy.Pinecone(
-    index="my-index",
-    api_key="your-pinecone-key",
-    dimension=768
-)
+# Use retriever inside a module
+class RAGModule(dspy.Module):
+    def __init__(self):
+        self.retrieve = dspy.Retrieve(k=5)  # uses default retriever
+        self.generate = dspy.ChainOfThought("context, question -> answer")
 
-# Weaviate
-rm_weaviate = dspy.Weaviate(
-    url="http://localhost:8080",
-    class_name="Document"
-)
-
-# Configure retrieval model
-dspy.settings.configure(rm=rm_colbert)
+    def forward(self, question):
+        context = self.retrieve(question).passages
+        return self.generate(context=context, question=question)
 ```
 
 ## Your First DSPy Program
@@ -113,8 +108,8 @@ The simplest DSPy program uses the `Predict` module:
 import dspy
 
 # Configure DSPy (do this once at the start)
-lm = dspy.OpenAI(model="gpt-3.5-turbo")
-dspy.settings.configure(lm=lm)
+lm = dspy.LM("openai/gpt-4o-mini")
+dspy.configure(lm=lm)
 
 # Define a signature (input/output specification)
 class BasicQA(dspy.Signature):
@@ -283,38 +278,28 @@ print(f"Accuracy: {results['accuracy']}")
 ### Custom Language Model Configuration
 
 ```python
-# Advanced OpenAI configuration
-lm_advanced = dspy.OpenAI(
-    model="gpt-4",
+# Advanced LM configuration in DSPy 2.x
+lm_advanced = dspy.LM(
+    "openai/gpt-4o",
     api_key="your-key",
     api_base="https://api.openai.com/v1",  # Custom endpoint
     max_tokens=1000,
     temperature=0.7,
-    top_p=0.9,
-    frequency_penalty=0.0,
-    presence_penalty=0.0,
-    model_type="chat"  # or "text" for completion models
 )
 
-# Using multiple LMs with automatic fallback
-lm_fallback = dspy.OpenAI(
-    model=["gpt-4", "gpt-3.5-turbo"],  # Try GPT-4 first, fallback to 3.5
-    api_key="your-key"
-)
+# Using a fallback LM
+lm_fallback = dspy.LM("openai/gpt-4o-mini", api_key="your-key")
 ```
 
 ### Caching and Performance
 
 ```python
-# Enable caching for development
-dspy.settings.configure(
-    lm=lm,
-    cache=True,  # Cache LM responses
-    cache_dir="./dspy_cache"
-)
+# Enable caching for development (DSPy 2.x uses dspy.configure)
+dspy.configure(lm=lm)
 
 # Disable caching for fresh results
-dspy.settings.configure(lm=lm, cache=False)
+lm_no_cache = dspy.LM("openai/gpt-4o-mini", cache=False)
+dspy.configure(lm=lm_no_cache)
 ```
 
 ### Debugging and Logging
@@ -327,10 +312,10 @@ logging.basicConfig(level=logging.INFO)
 dspy_logger = logging.getLogger("dspy")
 dspy_logger.setLevel(logging.DEBUG)
 
-# View intermediate steps
-with dspy.settings.trace():
+# View intermediate steps (DSPy 2.x)
+with dspy.context(lm=lm):
     result = program(question="What is DSPy?")
-    print("Trace:", dspy.settings.trace)  # Shows intermediate LM calls
+    print("History:", lm.history[-1])  # Shows last LM call details
 ```
 
 ## Common Patterns and Best Practices
@@ -385,9 +370,9 @@ for q, a in zip(questions, answers):
 class DSPyConfig:
     def __init__(self):
         self.lm_configs = {
-            "development": dspy.OpenAI(model="gpt-3.5-turbo", temperature=0.7),
-            "production": dspy.OpenAI(model="gpt-4", temperature=0.1),
-            "experimental": dspy.Claude(model="claude-3-sonnet-20240229")
+            "development": dspy.LM("openai/gpt-4o-mini", temperature=0.7),
+            "production": dspy.LM("openai/gpt-4o", temperature=0.1),
+            "experimental": dspy.LM("anthropic/claude-3-5-sonnet-20241022"),
         }
 
         self.current_config = "development"
@@ -396,7 +381,7 @@ class DSPyConfig:
         """Switch configurations"""
         if config_name in self.lm_configs:
             lm = self.lm_configs[config_name]
-            dspy.settings.configure(lm=lm)
+            dspy.configure(lm=lm)
             self.current_config = config_name
             print(f"Switched to {config_name} configuration")
         else:
@@ -448,6 +433,18 @@ In practical terms, this chapter helps you avoid three common failures:
 After working through this chapter, you should be able to reason about `Chapter 1: Getting Started with DSPy` as an operating subsystem inside **DSPy Tutorial: Programming Language Models**, with explicit contracts for inputs, state transitions, and outputs.
 
 Use the implementation notes around `program`, `What`, `model` as your checklist when adapting these patterns to your own repository.
+
+## DSPy Execution Flow
+
+```mermaid
+flowchart TD
+    A[Define task with Signature] --> B[Write DSPy Module]
+    B --> C[Provide training examples]
+    C --> D[Run optimizer / teleprompter]
+    D --> E[Optimized prompt + module]
+    E --> F[Deploy to production]
+    F --> G[LLM executes with optimized instructions]
+```
 
 ## How it Works Under the Hood
 

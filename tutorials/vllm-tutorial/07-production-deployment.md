@@ -1308,6 +1308,17 @@ Under the hood, `Chapter 7: Production Deployment - Serving vLLM at Scale` usual
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[Client request] --> B[Load balancer]
+    B --> C[vLLM OpenAI-compatible API server]
+    C --> D[Model inference]
+    D --> E[Response returned]
+    C --> F[Prometheus metrics exposed]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

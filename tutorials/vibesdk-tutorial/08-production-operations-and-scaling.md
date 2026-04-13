@@ -89,8 +89,6 @@ You now have an operations blueprint for running VibeSDK as a production platfor
 
 Next: return to the [VibeSDK Tutorial index](README.md).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `container/types.ts`

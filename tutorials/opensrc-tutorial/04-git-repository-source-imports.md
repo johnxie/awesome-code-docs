@@ -44,184 +44,173 @@ You now understand how OpenSrc imports repository source directly and normalizes
 
 Next: [Chapter 5: AGENTS.md and sources.json Integration](05-agents-md-and-sources-json-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/types.ts`
+### `src/lib/repo.ts`
 
-The `ResolvedPackage` interface in [`src/types.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-export interface ResolvedPackage {
-  registry: Registry;
-  name: string;
-  version: string;
-  repoUrl: string;
-  repoDirectory?: string;
-  gitTag: string;
-}
-
-export interface FetchResult {
-  package: string;
-  version: string;
-  path: string;
-  success: boolean;
-  error?: string;
-  registry?: Registry;
-}
-
-export interface InstalledPackage {
-  name: string;
-  version: string;
-}
-
-/**
- * Parsed repository specification
- */
-export interface RepoSpec {
-  host: string; // e.g., "github.com", "gitlab.com"
-  owner: string;
-  repo: string;
-```
-
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
-
-### `src/types.ts`
-
-The `FetchResult` interface in [`src/types.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
+The `resolveGitHubRepo` function in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
 
 ```ts
+
+  if (host === "github.com") {
+    return resolveGitHubRepo(host, owner, repo, ref);
+  } else if (host === "gitlab.com") {
+    return resolveGitLabRepo(host, owner, repo, ref);
+  } else {
+    // For unsupported hosts, assume default branch is "main"
+    return {
+      host,
+      owner,
+      repo,
+      ref: ref || "main",
+      repoUrl: `https://${host}/${owner}/${repo}`,
+      displayName: `${host}/${owner}/${repo}`,
+    };
+  }
 }
 
-export interface FetchResult {
-  package: string;
-  version: string;
-  path: string;
-  success: boolean;
-  error?: string;
-  registry?: Registry;
-}
+async function resolveGitHubRepo(
+  host: string,
+  owner: string,
+  repo: string,
+  ref?: string,
+): Promise<ResolvedRepo> {
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}`;
 
-export interface InstalledPackage {
-  name: string;
-  version: string;
-}
-
-/**
- * Parsed repository specification
- */
-export interface RepoSpec {
-  host: string; // e.g., "github.com", "gitlab.com"
-  owner: string;
-  repo: string;
-  ref?: string; // branch, tag, or commit
-}
-
-/**
- * Type of input: package (with ecosystem) or git repo
- */
-export type InputType = "package" | "repo";
-
-/**
+  const response = await fetch(apiUrl, {
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+      "User-Agent": "opensrc-cli",
+    },
+  });
 ```
 
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/types.ts`
+### `src/lib/repo.ts`
 
-The `InstalledPackage` interface in [`src/types.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
+The `resolveGitLabRepo` function in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
 
 ```ts
+    return resolveGitHubRepo(host, owner, repo, ref);
+  } else if (host === "gitlab.com") {
+    return resolveGitLabRepo(host, owner, repo, ref);
+  } else {
+    // For unsupported hosts, assume default branch is "main"
+    return {
+      host,
+      owner,
+      repo,
+      ref: ref || "main",
+      repoUrl: `https://${host}/${owner}/${repo}`,
+      displayName: `${host}/${owner}/${repo}`,
+    };
+  }
 }
 
-export interface InstalledPackage {
-  name: string;
-  version: string;
-}
+async function resolveGitHubRepo(
+  host: string,
+  owner: string,
+  repo: string,
+  ref?: string,
+): Promise<ResolvedRepo> {
+  const apiUrl = `https://api.github.com/repos/${owner}/${repo}`;
 
-/**
- * Parsed repository specification
- */
-export interface RepoSpec {
-  host: string; // e.g., "github.com", "gitlab.com"
-  owner: string;
-  repo: string;
-  ref?: string; // branch, tag, or commit
-}
+  const response = await fetch(apiUrl, {
+    headers: {
+      Accept: "application/vnd.github.v3+json",
+      "User-Agent": "opensrc-cli",
+    },
+  });
 
-/**
- * Type of input: package (with ecosystem) or git repo
- */
-export type InputType = "package" | "repo";
-
-/**
- * Parsed package specification with registry
- */
-export interface PackageSpec {
-  registry: Registry;
-  name: string;
-  version?: string;
-}
-
-/**
+  if (!response.ok) {
 ```
 
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
-### `src/types.ts`
+### `src/lib/repo.ts`
 
-The `RepoSpec` interface in [`src/types.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/types.ts) handles a key part of this chapter's functionality:
+The `displayNameToSpec` function in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Parsed repository specification
+ * Convert a repo display name back to host/owner/repo format
  */
-export interface RepoSpec {
-  host: string; // e.g., "github.com", "gitlab.com"
+export function displayNameToSpec(displayName: string): {
+  host: string;
   owner: string;
   repo: string;
-  ref?: string; // branch, tag, or commit
+} | null {
+  const parts = displayName.split("/");
+  if (parts.length !== 3) {
+    return null;
+  }
+  return { host: parts[0], owner: parts[1], repo: parts[2] };
 }
 
 /**
- * Type of input: package (with ecosystem) or git repo
+ * @deprecated Use displayNameToSpec instead
  */
-export type InputType = "package" | "repo";
-
-/**
- * Parsed package specification with registry
- */
-export interface PackageSpec {
-  registry: Registry;
-  name: string;
-  version?: string;
-}
-
-/**
- * Resolved repository information (for git repos)
- */
-export interface ResolvedRepo {
-  host: string; // e.g., "github.com", "gitlab.com"
+export function displayNameToOwnerRepo(displayName: string): {
   owner: string;
   repo: string;
-  ref: string; // branch, tag, or commit (resolved)
-  repoUrl: string;
+} | null {
+  // Handle old format: owner--repo
+  if (displayName.includes("--") && !displayName.includes("/")) {
+    const parts = displayName.split("--");
+    if (parts.length !== 2) {
+      return null;
+    }
+    return { owner: parts[0], repo: parts[1] };
+  }
+
+  // Handle new format: host/owner/repo
+  const spec = displayNameToSpec(displayName);
 ```
 
-This interface is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
+
+### `src/lib/repo.ts`
+
+The `displayNameToOwnerRepo` function in [`src/lib/repo.ts`](https://github.com/vercel-labs/opensrc/blob/HEAD/src/lib/repo.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * @deprecated Use displayNameToSpec instead
+ */
+export function displayNameToOwnerRepo(displayName: string): {
+  owner: string;
+  repo: string;
+} | null {
+  // Handle old format: owner--repo
+  if (displayName.includes("--") && !displayName.includes("/")) {
+    const parts = displayName.split("--");
+    if (parts.length !== 2) {
+      return null;
+    }
+    return { owner: parts[0], repo: parts[1] };
+  }
+
+  // Handle new format: host/owner/repo
+  const spec = displayNameToSpec(displayName);
+  if (!spec) {
+    return null;
+  }
+  return { owner: spec.owner, repo: spec.repo };
+}
+
+```
+
+This function is important because it defines how OpenSrc Tutorial: Deep Source Context for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[ResolvedPackage]
-    B[FetchResult]
-    C[InstalledPackage]
-    D[RepoSpec]
-    E[PackageSpec]
+    A[resolveGitHubRepo]
+    B[resolveGitLabRepo]
+    C[displayNameToSpec]
+    D[displayNameToOwnerRepo]
+    E[GitHubApiResponse]
     A --> B
     B --> C
     C --> D

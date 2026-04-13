@@ -633,6 +633,24 @@ Under the hood, `Chapter 2: Basic Operations - Files, Commands, and Environments
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[Task Description] --> B[Agent Controller]
+    B --> C{Action Type}
+    C -->|FileWrite| D[Write File]
+    C -->|FileRead| E[Read File]
+    C -->|CmdRun| F[Execute Shell]
+    C -->|BrowseURL| G[Browser Step]
+    D --> H[Sandbox]
+    E --> H
+    F --> H
+    G --> H
+    H --> I[Observation]
+    I --> B
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

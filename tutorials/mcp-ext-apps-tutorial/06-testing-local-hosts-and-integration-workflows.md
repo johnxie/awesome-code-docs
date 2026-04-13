@@ -40,164 +40,182 @@ You now have a repeatable validation workflow for MCP Apps integration quality.
 
 Next: [Chapter 7: Agent Skills and OpenAI Apps Migration](07-agent-skills-and-openai-apps-migration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/message-transport.examples.ts`
+### `src/events.ts`
 
-The `PostMessageTransport_constructor_host` function in [`src/message-transport.examples.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/message-transport.examples.ts) handles a key part of this chapter's functionality:
+The `side` class in [`src/events.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/events.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Example: Creating transport for host (constructor only).
+ *
+ * When a notification arrives for a mapped event:
+ * 1. {@link onEventDispatch `onEventDispatch`} (subclass side-effects)
+ * 2. The singular `on*` handler (if set)
+ * 3. All `addEventListener` listeners in insertion order
+ *
+ * ### Double-set protection
+ *
+ * Direct calls to {@link setRequestHandler `setRequestHandler`} /
+ * {@link setNotificationHandler `setNotificationHandler`} throw if a handler
+ * for the same method has already been registered (through any path), so
+ * accidental overwrites surface as errors instead of silent bugs.
+ *
+ * @typeParam EventMap - Maps event names to the listener's `params` type.
  */
-function PostMessageTransport_constructor_host() {
-  //#region PostMessageTransport_constructor_host
-  const iframe = document.getElementById("app-iframe") as HTMLIFrameElement;
-  const transport = new PostMessageTransport(
-    iframe.contentWindow!,
-    iframe.contentWindow!,
-  );
-  //#endregion PostMessageTransport_constructor_host
-}
+export abstract class ProtocolWithEvents<
+  SendRequestT extends Request,
+  SendNotificationT extends Notification,
+  SendResultT extends Result,
+  EventMap extends Record<string, unknown>,
+> extends Protocol<SendRequestT, SendNotificationT, SendResultT> {
+  private _registeredMethods = new Set<string>();
+  private _eventSlots = new Map<keyof EventMap, EventSlot>();
 
+  /**
+   * Event name → notification schema. Subclasses populate this so that
+   * the event system can lazily register a dispatcher with the correct
+   * schema on first use.
+   */
+  protected abstract readonly eventSchemas: {
+    [K in keyof EventMap]: MethodSchema;
+  };
 ```
 
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This class is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `scripts/generate-schemas.ts`
+### `src/events.ts`
 
-The `main` function in [`scripts/generate-schemas.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/generate-schemas.ts) handles a key part of this chapter's functionality:
-
-```ts
-];
-
-async function main() {
-  console.log("🔧 Generating Zod schemas from spec.types.ts...\n");
-
-  const sourceText = readFileSync(SPEC_TYPES_FILE, "utf-8");
-
-  const result = generate({
-    sourceText,
-    keepComments: true,
-    skipParseJSDoc: false,
-    // Generate PascalCase schema names: McpUiOpenLinkRequest → McpUiOpenLinkRequestSchema
-    getSchemaName: (typeName: string) => `${typeName}Schema`,
-  });
-
-  if (result.errors.length > 0) {
-    console.error("❌ Generation errors:");
-    for (const error of result.errors) {
-      console.error(`  - ${error}`);
-    }
-    process.exit(1);
-  }
-
-  if (result.hasCircularDependencies) {
-    console.warn("⚠️  Warning: Circular dependencies detected in types");
-  }
-
-  let schemasContent = result.getZodSchemasFile("../spec.types.js");
-  schemasContent = postProcess(schemasContent);
-
-  writeFileSync(SCHEMA_OUTPUT_FILE, schemasContent, "utf-8");
-  console.log(`✅ Written: ${SCHEMA_OUTPUT_FILE}`);
-```
-
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
-
-### `scripts/generate-schemas.ts`
-
-The `generateJsonSchema` function in [`scripts/generate-schemas.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/generate-schemas.ts) handles a key part of this chapter's functionality:
+The `ProtocolWithEvents` class in [`src/events.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/events.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-  // Generate JSON Schema from the Zod schemas
-  await generateJsonSchema();
-
-  console.log("\n🎉 Schema generation complete!");
-}
-
-/**
- * Generate JSON Schema from the Zod schemas.
- * Uses dynamic import to load the generated schemas after they're written.
+ * @typeParam EventMap - Maps event names to the listener's `params` type.
  */
-async function generateJsonSchema() {
-  // Dynamic import of the generated schemas
-  // tsx handles TypeScript imports at runtime
-  const schemas = await import("../src/generated/schema.js");
+export abstract class ProtocolWithEvents<
+  SendRequestT extends Request,
+  SendNotificationT extends Notification,
+  SendResultT extends Result,
+  EventMap extends Record<string, unknown>,
+> extends Protocol<SendRequestT, SendNotificationT, SendResultT> {
+  private _registeredMethods = new Set<string>();
+  private _eventSlots = new Map<keyof EventMap, EventSlot>();
 
-  const jsonSchema: {
-    $schema: string;
-    $id: string;
-    title: string;
-    description: string;
-    $defs: Record<string, unknown>;
-  } = {
-    $schema: "https://json-schema.org/draft/2020-12/schema",
-    $id: "https://modelcontextprotocol.io/ext-apps/schema.json",
-    title: "MCP Apps Protocol",
-    description: "JSON Schema for MCP Apps UI protocol messages",
-    $defs: {},
+  /**
+   * Event name → notification schema. Subclasses populate this so that
+   * the event system can lazily register a dispatcher with the correct
+   * schema on first use.
+   */
+  protected abstract readonly eventSchemas: {
+    [K in keyof EventMap]: MethodSchema;
   };
 
-  // Convert each exported Zod schema to JSON Schema
-  for (const [name, schema] of Object.entries(schemas)) {
+  /**
+   * Called once per incoming notification, before any handlers or listeners
+   * fire. Subclasses may override to perform side effects such as merging
+   * notification params into cached state.
+   */
+  protected onEventDispatch<K extends keyof EventMap>(
+    _event: K,
+    _params: EventMap[K],
+  ): void {}
+
+  // ── Event system (DOM model) ────────────────────────────────────────
+
 ```
 
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This class is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-### `scripts/generate-schemas.ts`
+### `src/events.ts`
 
-The `postProcess` function in [`scripts/generate-schemas.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/scripts/generate-schemas.ts) handles a key part of this chapter's functionality:
+The `fields` class in [`src/events.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/events.ts) handles a key part of this chapter's functionality:
 
 ```ts
+  // ── Handler registration with double-set protection ─────────────────
 
-  let schemasContent = result.getZodSchemasFile("../spec.types.js");
-  schemasContent = postProcess(schemasContent);
+  // The two overrides below are arrow-function class fields rather than
+  // prototype methods so that Protocol's constructor — which registers its
+  // own ping/cancelled/progress handlers via `this.setRequestHandler`
+  // before our fields initialize — hits the base implementation and skips
+  // tracking. Converting these to proper methods would crash with
+  // `_registeredMethods` undefined during super().
 
-  writeFileSync(SCHEMA_OUTPUT_FILE, schemasContent, "utf-8");
-  console.log(`✅ Written: ${SCHEMA_OUTPUT_FILE}`);
+  /**
+   * Registers a request handler. Throws if a handler for the same method
+   * has already been registered — use the `on*` setter (replace semantics)
+   * or `addEventListener` (multi-listener) for notification events.
+   *
+   * @throws {Error} if a handler for this method is already registered.
+   */
+  override setRequestHandler: Protocol<
+    SendRequestT,
+    SendNotificationT,
+    SendResultT
+  >["setRequestHandler"] = (schema, handler) => {
+    this._assertMethodNotRegistered(schema, "setRequestHandler");
+    super.setRequestHandler(schema, handler);
+  };
 
-  const testsContent = result.getIntegrationTestFile(
-    "../spec.types.js",
-    "./schema.js",
-  );
-  if (testsContent) {
-    const processedTests = postProcessTests(testsContent);
-    writeFileSync(SCHEMA_TEST_OUTPUT_FILE, processedTests, "utf-8");
-    console.log(`✅ Written: ${SCHEMA_TEST_OUTPUT_FILE}`);
-  }
+  /**
+   * Registers a notification handler. Throws if a handler for the same
+   * method has already been registered — use the `on*` setter (replace
+   * semantics) or `addEventListener` (multi-listener) for mapped events.
+   *
+   * @throws {Error} if a handler for this method is already registered.
+   */
+```
 
-  // Generate JSON Schema from the Zod schemas
-  await generateJsonSchema();
+This class is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
-  console.log("\n🎉 Schema generation complete!");
+### `src/events.ts`
+
+The `EventSlot` interface in [`src/events.ts`](https://github.com/modelcontextprotocol/ext-apps/blob/HEAD/src/events.ts) handles a key part of this chapter's functionality:
+
+```ts
+ * where `el.onclick` and `el.addEventListener("click", …)` coexist.
+ */
+interface EventSlot<T = unknown> {
+  onHandler?: ((params: T) => void) | undefined;
+  listeners: ((params: T) => void)[];
 }
 
 /**
- * Generate JSON Schema from the Zod schemas.
- * Uses dynamic import to load the generated schemas after they're written.
- */
-async function generateJsonSchema() {
-  // Dynamic import of the generated schemas
-  // tsx handles TypeScript imports at runtime
-  const schemas = await import("../src/generated/schema.js");
-
+ * Intermediate base class that adds DOM-style event support on top of the
+ * MCP SDK's `Protocol`.
+ *
+ * The base `Protocol` class stores one handler per method:
+ * `setRequestHandler()` and `setNotificationHandler()` replace any existing
+ * handler for the same method silently. This class introduces a two-channel
+ * event model inspired by the DOM:
+ *
+ * ### Singular `on*` handler (like `el.onclick`)
+ *
+ * Subclasses expose `get`/`set` pairs that delegate to
+ * {@link setEventHandler `setEventHandler`} /
+ * {@link getEventHandler `getEventHandler`}. Assigning replaces the previous
+ * handler; assigning `undefined` clears it. `addEventListener` listeners are
+ * unaffected.
+ *
+ * ### Multi-listener (`addEventListener` / `removeEventListener`)
+ *
+ * Append to a per-event listener array. Listeners fire in insertion order
+ * after the singular `on*` handler.
+ *
+ * ### Dispatch order
+ *
+ * When a notification arrives for a mapped event:
 ```
 
-This function is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
+This interface is important because it defines how MCP Ext Apps Tutorial: Building Interactive MCP Apps and Hosts implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[PostMessageTransport_constructor_host]
-    B[main]
-    C[generateJsonSchema]
-    D[postProcess]
-    E[replaceRecordAndWithPassthrough]
+    A[side]
+    B[ProtocolWithEvents]
+    C[fields]
+    D[EventSlot]
+    E[for]
     A --> B
     B --> C
     C --> D

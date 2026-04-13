@@ -705,22 +705,25 @@ Under the hood, `Chapter 8: Production Inference -- Quantization, Batching, Spec
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `sample.py` (nanoGPT)
 
-- [nanoGPT](https://github.com/karpathy/nanoGPT)
-  Why it matters: authoritative reference on `nanoGPT` (github.com).
-- [minGPT](https://github.com/karpathy/minGPT)
-  Why it matters: authoritative reference on `minGPT` (github.com).
-- [GPT-NeoX](https://github.com/EleutherAI/gpt-neox)
-  Why it matters: authoritative reference on `GPT-NeoX` (github.com).
-- [GPT-Neo](https://github.com/EleutherAI/gpt-neo)
-  Why it matters: authoritative reference on `GPT-Neo` (github.com).
-- [GPT-J](https://github.com/kingoflolz/mesh-transformer-jax)
-  Why it matters: authoritative reference on `GPT-J` (github.com).
-- [Chapter 1: Getting Started](01-getting-started.md)
-  Why it matters: authoritative reference on `Chapter 1: Getting Started` (01-getting-started.md).
+The `sample.py` script in [`sample.py`](https://github.com/karpathy/nanoGPT/blob/master/sample.py) is the inference entrypoint for nanoGPT. It loads a trained checkpoint, encodes a prompt with tiktoken, and runs autoregressive generation:
+
+```python
+# sample.py usage:
+# python sample.py --out_dir=out-shakespeare
+# python sample.py --init_from=gpt2  # use pretrained GPT-2
+
+# key inference parameters:
+# num_samples = 10  # number of sequences to generate
+# max_new_tokens = 500
+# temperature = 0.8  # 1.0 = no change, < 1.0 = less random, > 1.0 = more random
+# top_k = 200  # retain only top_k tokens for sampling
+```
+
+The `@torch.no_grad()` decorator on the generation loop prevents gradient accumulation, reducing memory usage by ~50%. `torch.compile()` (PyTorch 2.0+) can be applied to the model before inference for 2-3x throughput improvement on modern GPUs.
 
 Suggested trace strategy:
 - search upstream code for `model` and `torch` to map concrete implementation paths

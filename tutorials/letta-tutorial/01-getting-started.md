@@ -13,6 +13,29 @@ Welcome to **Chapter 1: Getting Started with Letta**. In this part of **Letta Tu
 
 > Install Letta, create your first agent, and start a conversation with persistent memory.
 
+## Architecture Overview
+
+```mermaid
+flowchart TD
+    A[Install: pip install letta] --> B[Configure LLM Provider]
+    B --> C[Start Letta Server]
+    C --> D[Create Agent via SDK or CLI]
+    D --> E[Agent with Core Memory]
+    E --> F[Send Messages]
+    F --> G[Agent Processes + Stores Facts]
+    G --> H[Persistent Memory Across Sessions]
+
+    classDef install fill:#e1f5fe,stroke:#01579b
+    classDef config fill:#f3e5f5,stroke:#4a148c
+    classDef agent fill:#fff3e0,stroke:#ef6c00
+    classDef output fill:#e8f5e9,stroke:#1b5e20
+
+    class A,B install
+    class C,D config
+    class E,F,G agent
+    class H output
+```
+
 ## Overview
 
 Letta (formerly MemGPT) enables AI agents with persistent memory. This chapter covers installation, basic setup, and your first conversation with an agent that remembers.
@@ -196,16 +219,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`letta-ai/letta`](https://github.com/letta-ai/letta):
 
-- [View Repo](https://github.com/letta-ai/letta)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`letta/client/client.py`](https://github.com/letta-ai/letta/blob/main/letta/client/client.py) -- `LocalClient` and `RESTClient`: `create_agent()`, `send_message()`, `get_agent()` entry points
+- [`letta/server/server.py`](https://github.com/letta-ai/letta/blob/main/letta/server/server.py) -- `SyncServer`: orchestrates agent creation, message processing, and memory persistence
+- [`letta/agent.py`](https://github.com/letta-ai/letta/blob/main/letta/agent.py) -- `Agent` class: `step()` method drives the core LLM call + memory update loop
 
-Suggested trace strategy:
-- search upstream code for `letta` and `name` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: `client.send_message()` → `SyncServer.user_message()` → `Agent.step()` to follow a message from user input to persisted memory update.
 
 ## Chapter Connections
 

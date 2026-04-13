@@ -15,6 +15,17 @@ Welcome to **Chapter 1: Getting Started with Kubernetes Operators**. In this par
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[operator-sdk init] --> B[Project scaffold]
+    B --> C[operator-sdk create api]
+    C --> D[CRD + Controller stub]
+    D --> E[Implement Reconcile]
+    E --> F[make run]
+    F --> G[Controller watches CRD]
+    G --> H[Reconcile loop active]
+```
+
 This chapter introduces Kubernetes Operators and guides you through setting up the development environment. You'll create your first operator and understand the fundamental concepts that make operators work.
 
 ## Understanding Operators

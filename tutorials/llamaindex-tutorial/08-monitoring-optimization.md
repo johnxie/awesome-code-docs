@@ -12,6 +12,19 @@ Welcome to **Chapter 8: Monitoring & Optimization**. In this part of **LlamaInde
 
 > Master advanced performance tuning, observability, and optimization techniques for production LlamaIndex applications.
 
+## Observability and Optimization Stack
+
+```mermaid
+flowchart LR
+    APP[LlamaIndex RAG] --> OBS[Observability Layer]
+    OBS --> CB[LlamaIndex Callbacks\nspan timing, token counts]
+    OBS --> ARIZE[Arize Phoenix / Langfuse\ntrace export]
+    APP --> OPT[Optimization Levers]
+    OPT --> EC[Embedding Cache]
+    OPT --> RC[Response Cache\nGPTCache]
+    OPT --> ASYNC[Async Retrieval\nBatch embedding calls]
+```
+
 ## 🎯 Overview
 
 This final chapter covers advanced monitoring, performance optimization, and operational excellence for LlamaIndex RAG systems. You'll learn to identify bottlenecks, implement advanced caching strategies, optimize for specific use cases, and maintain high-performance production deployments.
@@ -1528,12 +1541,25 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/run-llama/llama_index)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+- [`llama_index/core/callbacks/llama_debug.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/callbacks/llama_debug.py)
+  `LlamaDebugHandler` that captures per-event timing and payload data. Call `llama_debug.get_event_pairs(CBEventType.LLM)` to inspect token counts and latency for every LLM call in a query trace.
+
+- [`llama_index/core/callbacks/token_counting.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/callbacks/token_counting.py)
+  `TokenCountingHandler` that accumulates prompt/completion token counts across a session. Key for cost tracking and setting budget limits in production pipelines.
+
+- [`llama_index/core/storage/docstore/`](https://github.com/run-llama/llama_index/tree/main/llama-index-core/llama_index/core/storage/docstore)
+  DocStore implementations used to detect document updates and trigger incremental re-indexing. The `hash` field on stored nodes enables change detection for cache invalidation strategies.
+
+- [`llama_index/core/evaluation/`](https://github.com/run-llama/llama_index/tree/main/llama-index-core/llama_index/core/evaluation)
+  Evaluation modules including `FaithfulnessEvaluator`, `RelevancyEvaluator`, `CorrectnessEvaluator`, and `BatchEvalRunner`. These form the automated quality assessment layer for RAG pipeline optimization.
+
+- [`llama_index/core/indices/utils.py`](https://github.com/run-llama/llama_index/blob/main/llama-index-core/llama_index/core/indices/utils.py)
+  Utility functions for chunking and node processing. Contains `log_vector_store_query_result()` that produces the debug output shown in query trace logs.
 
 Suggested trace strategy:
-- search upstream code for `self` and `query` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Attach `LlamaDebugHandler` and `TokenCountingHandler` to `Settings.callback_manager` before running a test suite to baseline token consumption per query type
+- Use `FaithfulnessEvaluator` and `RelevancyEvaluator` from `llama_index/core/evaluation/` to build an automated regression suite that catches RAG quality regressions after index updates
+- Inspect `DocStore` node hashes to implement a hash-based incremental re-indexing pipeline that only re-embeds changed documents
 
 ## Chapter Connections
 

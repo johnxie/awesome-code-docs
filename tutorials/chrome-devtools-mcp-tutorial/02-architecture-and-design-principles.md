@@ -38,170 +38,168 @@ You now understand how design principles translate into reliable tool interactio
 
 Next: [Chapter 3: Client Integrations and Setup Patterns](03-client-integrations-and-setup-patterns.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/index.ts`
+### `src/DevtoolsUtils.ts`
 
-The `registerTool` function in [`src/index.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/index.ts) handles a key part of this chapter's functionality:
+The `waitForScript` function in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  const toolMutex = new Mutex();
+  await Promise.all(
+    [...scriptIds].map(id =>
+      waitForScript(model, id, signal)
+        .then(script =>
+          model.sourceMapManager().sourceMapForClientPromise(script),
+        )
+        .catch(),
+    ),
+  );
 
-  function registerTool(tool: ToolDefinition | DefinedPageTool): void {
-    if (
-      tool.annotations.category === ToolCategory.EMULATION &&
-      serverArgs.categoryEmulation === false
-    ) {
-      return;
+  const binding = devTools.universe.context.get(
+    DevTools.DebuggerWorkspaceBinding,
+  );
+  // DevTools uses branded types for ScriptId and others. Casting the puppeteer protocol type to the DevTools protocol type is safe.
+  return binding.createStackTraceFromProtocolRuntime(
+    rawStackTrace as Parameters<
+      DevTools.DebuggerWorkspaceBinding['createStackTraceFromProtocolRuntime']
+    >[0],
+    target,
+  );
+}
+
+// Waits indefinitely for the script so pair it with Promise.race.
+async function waitForScript(
+  model: DevTools.DebuggerModel,
+  scriptId: Protocol.Runtime.ScriptId,
+  signal: AbortSignal,
+) {
+  while (true) {
+    if (signal.aborted) {
+      throw signal.reason;
     }
-    if (
-      tool.annotations.category === ToolCategory.PERFORMANCE &&
-      serverArgs.categoryPerformance === false
-    ) {
-      return;
-    }
-    if (
-      tool.annotations.category === ToolCategory.NETWORK &&
-      serverArgs.categoryNetwork === false
-    ) {
-      return;
-    }
-    if (
-      tool.annotations.category === ToolCategory.EXTENSIONS &&
-      !serverArgs.categoryExtensions
-    ) {
-      return;
-    }
-    if (
-      tool.annotations.conditions?.includes('computerVision') &&
-      !serverArgs.experimentalVision
-    ) {
-      return;
 ```
 
 This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
 
-### `scripts/generate-cli.ts`
+### `src/DevtoolsUtils.ts`
 
-The `fetchTools` function in [`scripts/generate-cli.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-cli.ts) handles a key part of this chapter's functionality:
+The `TargetUniverse` interface in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
 
 ```ts
-);
+});
 
-async function fetchTools() {
-  console.log('Connecting to chrome-devtools-mcp to fetch tools...');
-  // Use the local build of the server
-  const serverPath = path.join(
-    import.meta.dirname,
-    '../build/src/bin/chrome-devtools-mcp.js',
-  );
+export interface TargetUniverse {
+  /** The DevTools target corresponding to the puppeteer Page */
+  target: DevTools.Target;
+  universe: DevTools.Foundation.Universe.Universe;
+}
+export type TargetUniverseFactoryFn = (page: Page) => Promise<TargetUniverse>;
 
+export class UniverseManager {
+  readonly #browser: Browser;
+  readonly #createUniverseFor: TargetUniverseFactoryFn;
+  readonly #universes = new WeakMap<Page, TargetUniverse>();
+
+  /** Guard access to #universes so we don't create unnecessary universes */
+  readonly #mutex = new Mutex();
+
+  constructor(
+    browser: Browser,
+    factory: TargetUniverseFactoryFn = DEFAULT_FACTORY,
+  ) {
+    this.#browser = browser;
+    this.#createUniverseFor = factory;
+  }
+
+  async init(pages: Page[]) {
+    try {
+      await this.#mutex.acquire();
+      const promises = [];
+      for (const page of pages) {
+        promises.push(
+          this.#createUniverseFor(page).then(targetUniverse =>
+```
+
+This interface is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+
+### `src/DevtoolsUtils.ts`
+
+The `from` interface in [`src/DevtoolsUtils.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/src/DevtoolsUtils.ts) handles a key part of this chapter's functionality:
+
+```ts
+ */
+
+import {PuppeteerDevToolsConnection} from './DevToolsConnectionAdapter.js';
+import {Mutex} from './Mutex.js';
+import {DevTools} from './third_party/index.js';
+import type {
+  Browser,
+  ConsoleMessage,
+  Page,
+  Protocol,
+  Target as PuppeteerTarget,
+} from './third_party/index.js';
+
+/**
+ * A mock implementation of an issues manager that only implements the methods
+ * that are actually used by the IssuesAggregator
+ */
+export class FakeIssuesManager extends DevTools.Common.ObjectWrapper
+  .ObjectWrapper<DevTools.IssuesManagerEventTypes> {
+  issues(): DevTools.Issue[] {
+    return [];
+  }
+}
+
+// DevTools CDP errors can get noisy.
+DevTools.ProtocolClient.InspectorBackend.test.suppressRequestErrors = true;
+
+DevTools.I18n.DevToolsLocale.DevToolsLocale.instance({
+  create: true,
+  data: {
+    navigatorLanguage: 'en-US',
+    settingLanguage: 'en-US',
+```
+
+This interface is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+
+### `scripts/generate-docs.ts`
+
+The `measureServer` function in [`scripts/generate-docs.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-docs.ts) handles a key part of this chapter's functionality:
+
+```ts
+const README_PATH = './README.md';
+
+async function measureServer(args: string[]) {
+  // 1. Connect to your actual MCP server
   const transport = new StdioClientTransport({
     command: 'node',
-    args: [serverPath],
-    env: {...process.env, CHROME_DEVTOOLS_MCP_NO_USAGE_STATISTICS: 'true'},
+    args: ['./build/src/bin/chrome-devtools-mcp.js', ...args], // Point to your built MCP server
   });
 
   const client = new Client(
-    {
-      name: 'chrome-devtools-cli-generator',
-      version: '0.1.0',
-    },
-    {
-      capabilities: {},
-    },
+    {name: 'measurer', version: '1.0.0'},
+    {capabilities: {}},
   );
-
   await client.connect(transport);
-  try {
-    const toolsResponse = await client.listTools();
-    if (!toolsResponse.tools?.length) {
-      throw new Error(`No tools were fetched`);
-    }
-```
 
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
+  // 2. Fetch all tools
+  const toolsList = await client.listTools();
 
-### `scripts/generate-cli.ts`
+  // 3. Serialize exactly how an LLM would see it (JSON)
+  const jsonString = JSON.stringify(toolsList.tools, null, 2);
 
-The `schemaToCLIOptions` function in [`scripts/generate-cli.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-cli.ts) handles a key part of this chapter's functionality:
+  // 4. Count tokens (using cl100k_base which is standard for GPT-4/Claude-3.5 approximation)
+  const enc = get_encoding('cl100k_base');
+  const tokenCount = enc.encode(jsonString).length;
 
-```ts
-}
+  console.log(`--- Measurement Results ---`);
+  console.log(`Total Tools: ${toolsList.tools.length}`);
+  console.log(`JSON Character Count: ${jsonString.length}`);
+  console.log(`Estimated Token Count: ~${tokenCount}`);
 
-function schemaToCLIOptions(schema: JsonSchema): CliOption[] {
-  if (!schema || !schema.properties) {
-    return [];
-  }
-  const required = schema.required || [];
-  const properties = schema.properties;
-  return Object.entries(properties).map(([name, prop]) => {
-    const isRequired = required.includes(name);
-    const description = prop.description || '';
-    if (typeof prop.type !== 'string') {
-      throw new Error(
-        `Property ${name} has a complex type not supported by CLI.`,
-      );
-    }
-    return {
-      name,
-      type: prop.type,
-      description,
-      required: isRequired,
-      default: prop.default,
-      enum: prop.enum,
-    };
-  });
-}
-
-async function generateCli() {
-  const tools = await fetchTools();
-
-  // Sort tools by name
-  const sortedTools = tools
-```
-
-This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
-
-### `scripts/generate-cli.ts`
-
-The `generateCli` function in [`scripts/generate-cli.ts`](https://github.com/ChromeDevTools/chrome-devtools-mcp/blob/HEAD/scripts/generate-cli.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function generateCli() {
-  const tools = await fetchTools();
-
-  // Sort tools by name
-  const sortedTools = tools
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .filter(tool => {
-      // Skipping fill_form because it is not relevant in shell scripts
-      // and CLI does not handle array/JSON args well.
-      if (tool.name === 'fill_form') {
-        return false;
-      }
-      // Skipping wait_for because CLI does not handle array/JSON args well
-      // and shell scripts have many mechanisms for waiting.
-      if (tool.name === 'wait_for') {
-        return false;
-      }
-      return true;
-    });
-
-  const staticTools = createTools(parseArguments());
-  const toolNameToCategory = new Map<string, string>();
-  for (const tool of staticTools) {
-    toolNameToCategory.set(
-      tool.name,
-      labels[tool.annotations.category as keyof typeof labels],
-    );
-  }
-
-  const commands: Record<
+  // Clean up
+  enc.free();
 ```
 
 This function is important because it defines how Chrome DevTools MCP Tutorial: Browser Automation and Debugging for Coding Agents implements the patterns covered in this chapter.
@@ -211,11 +209,11 @@ This function is important because it defines how Chrome DevTools MCP Tutorial: 
 
 ```mermaid
 flowchart TD
-    A[registerTool]
-    B[fetchTools]
-    C[schemaToCLIOptions]
-    D[generateCli]
-    E[CliOption]
+    A[waitForScript]
+    B[TargetUniverse]
+    C[from]
+    D[measureServer]
+    E[escapeHtmlTags]
     A --> B
     B --> C
     C --> D

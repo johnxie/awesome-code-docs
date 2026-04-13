@@ -46,169 +46,167 @@ You now have a configuration governance baseline for Serena deployments.
 
 Next: [Chapter 7: Extending Serena and Custom Agent Integration](07-extending-serena-and-custom-agent-integration.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/serena/dashboard.py`
+### `src/serena/agent.py`
 
-The `RequestAddLanguage` class in [`src/serena/dashboard.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/dashboard.py) handles a key part of this chapter's functionality:
+The `in` class in [`src/serena/agent.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/agent.py) handles a key part of this chapter's functionality:
 
 ```py
 
+import json
+import multiprocessing
+import os
+import platform
+import subprocess
+import sys
+from collections.abc import Callable, Iterator, Sequence
+from contextlib import contextmanager
+from logging import Logger
+from typing import TYPE_CHECKING, Optional, TypeVar
 
-class RequestAddLanguage(BaseModel):
-    language: str
+import webview
+from sensai.util import logging
+from sensai.util.logging import LogTime
+from sensai.util.string import dict_string
 
-
-class RequestRemoveLanguage(BaseModel):
-    language: str
-
-
-class RequestGetMemory(BaseModel):
-    memory_name: str
-
-
-class ResponseGetMemory(BaseModel):
-    content: str
-    memory_name: str
-
-
-class RequestSaveMemory(BaseModel):
-    memory_name: str
-    content: str
-
-
-class RequestDeleteMemory(BaseModel):
-    memory_name: str
-
-
-class RequestRenameMemory(BaseModel):
-    old_name: str
-    new_name: str
-
+from interprompt.jinja_template import JinjaTemplate
+from serena import serena_version
+from serena.analytics import RegisteredTokenCountEstimator, ToolUsageStats
+from serena.config.context_mode import SerenaAgentContext, SerenaAgentMode
+from serena.config.serena_config import (
+    LanguageBackend,
+    ModeSelectionDefinition,
+    NamedToolInclusionDefinition,
+    RegisteredProject,
+    SerenaConfig,
+    SerenaPaths,
+    ToolInclusionDefinition,
+)
+from serena.dashboard import SerenaDashboardAPI, SerenaDashboardViewer
+from serena.ls_manager import LanguageServerManager
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/dashboard.py`
+### `src/solidlsp/ls_utils.py`
 
-The `RequestRemoveLanguage` class in [`src/serena/dashboard.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/dashboard.py) handles a key part of this chapter's functionality:
+The `InvalidTextLocationError` class in [`src/solidlsp/ls_utils.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class RequestRemoveLanguage(BaseModel):
-    language: str
+class InvalidTextLocationError(Exception):
+    pass
 
 
-class RequestGetMemory(BaseModel):
-    memory_name: str
+class TextUtils:
+    """
+    Utilities for text operations.
+    """
 
+    @staticmethod
+    def get_line_col_from_index(text: str, index: int) -> tuple[int, int]:
+        """
+        Returns the zero-indexed line and column number of the given index in the given text
+        """
+        l = 0
+        c = 0
+        idx = 0
+        while idx < index:
+            if text[idx] == "\n":
+                l += 1
+                c = 0
+            else:
+                c += 1
+            idx += 1
 
-class ResponseGetMemory(BaseModel):
-    content: str
-    memory_name: str
+        return l, c
 
-
-class RequestSaveMemory(BaseModel):
-    memory_name: str
-    content: str
-
-
-class RequestDeleteMemory(BaseModel):
-    memory_name: str
-
-
-class RequestRenameMemory(BaseModel):
-    old_name: str
-    new_name: str
-
-
-class ResponseGetSerenaConfig(BaseModel):
-    content: str
-
+    @staticmethod
+    def get_index_from_line_col(text: str, line: int, col: int) -> int:
+        """
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/dashboard.py`
+### `src/solidlsp/ls_utils.py`
 
-The `RequestGetMemory` class in [`src/serena/dashboard.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/dashboard.py) handles a key part of this chapter's functionality:
+The `TextUtils` class in [`src/solidlsp/ls_utils.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class RequestGetMemory(BaseModel):
-    memory_name: str
+class TextUtils:
+    """
+    Utilities for text operations.
+    """
 
+    @staticmethod
+    def get_line_col_from_index(text: str, index: int) -> tuple[int, int]:
+        """
+        Returns the zero-indexed line and column number of the given index in the given text
+        """
+        l = 0
+        c = 0
+        idx = 0
+        while idx < index:
+            if text[idx] == "\n":
+                l += 1
+                c = 0
+            else:
+                c += 1
+            idx += 1
 
-class ResponseGetMemory(BaseModel):
-    content: str
-    memory_name: str
+        return l, c
 
-
-class RequestSaveMemory(BaseModel):
-    memory_name: str
-    content: str
-
-
-class RequestDeleteMemory(BaseModel):
-    memory_name: str
-
-
-class RequestRenameMemory(BaseModel):
-    old_name: str
-    new_name: str
-
-
-class ResponseGetSerenaConfig(BaseModel):
-    content: str
-
-
-class RequestSaveSerenaConfig(BaseModel):
-    content: str
-
+    @staticmethod
+    def get_index_from_line_col(text: str, line: int, col: int) -> int:
+        """
+        Returns the index of the given zero-indexed line and column number in the given text
+        """
+        idx = 0
+        while line > 0:
 ```
 
 This class is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `src/serena/dashboard.py`
+### `src/solidlsp/ls_utils.py`
 
-The `ResponseGetMemory` class in [`src/serena/dashboard.py`](https://github.com/oraios/serena/blob/HEAD/src/serena/dashboard.py) handles a key part of this chapter's functionality:
+The `PathUtils` class in [`src/solidlsp/ls_utils.py`](https://github.com/oraios/serena/blob/HEAD/src/solidlsp/ls_utils.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ResponseGetMemory(BaseModel):
-    content: str
-    memory_name: str
+class PathUtils:
+    """
+    Utilities for platform-agnostic path operations.
+    """
 
+    @staticmethod
+    def uri_to_path(uri: str) -> str:
+        """
+        Converts a URI to a file path. Works on both Linux and Windows.
 
-class RequestSaveMemory(BaseModel):
-    memory_name: str
-    content: str
+        This method was obtained from https://stackoverflow.com/a/61922504
+        """
+        try:
+            from urllib.parse import unquote, urlparse
+            from urllib.request import url2pathname
+        except ImportError:
+            # backwards compatibility (Python 2)
+            from urllib.parse import unquote as unquote_py2
+            from urllib.request import url2pathname as url2pathname_py2
 
+            from urlparse import urlparse as urlparse_py2
 
-class RequestDeleteMemory(BaseModel):
-    memory_name: str
-
-
-class RequestRenameMemory(BaseModel):
-    old_name: str
-    new_name: str
-
-
-class ResponseGetSerenaConfig(BaseModel):
-    content: str
-
-
-class RequestSaveSerenaConfig(BaseModel):
-    content: str
-
-
-class RequestCancelTaskExecution(BaseModel):
-    task_id: int
+            unquote = unquote_py2
+            url2pathname = url2pathname_py2
+            urlparse = urlparse_py2
+        parsed = urlparse(uri)
+        host = f"{os.path.sep}{os.path.sep}{parsed.netloc}{os.path.sep}"
+        path = os.path.normpath(os.path.join(host, url2pathname(unquote(parsed.path))))
+        return path
 
 ```
 
@@ -219,11 +217,11 @@ This class is important because it defines how Serena Tutorial: Semantic Code Re
 
 ```mermaid
 flowchart TD
-    A[RequestAddLanguage]
-    B[RequestRemoveLanguage]
-    C[RequestGetMemory]
-    D[ResponseGetMemory]
-    E[RequestSaveMemory]
+    A[in]
+    B[InvalidTextLocationError]
+    C[TextUtils]
+    D[PathUtils]
+    E[FileUtils]
     A --> B
     B --> C
     C --> D

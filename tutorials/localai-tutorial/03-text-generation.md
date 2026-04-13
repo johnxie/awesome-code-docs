@@ -13,6 +13,21 @@ Welcome to **Chapter 3: Text Generation and Chat Completions**. In this part of 
 
 > Master text generation with LocalAI using OpenAI-compatible APIs, chat formats, and advanced parameters.
 
+## Text Generation Request Flow
+
+```mermaid
+sequenceDiagram
+    participant C as Client (openai SDK)
+    participant L as LocalAI Server
+    participant B as llama.cpp Backend
+
+    C->>L: POST /v1/chat/completions\n{model, messages, stream}
+    L->>B: Forward to loaded model
+    B->>L: Token stream
+    L->>C: SSE chunks (if stream=true)
+    L->>C: Final JSON response
+```
+
 ## Overview
 
 LocalAI provides complete OpenAI API compatibility for text generation. This chapter covers chat completions, parameter tuning, and conversation management.
@@ -609,14 +624,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/http/endpoints/openai/chat.go`](https://github.com/mudler/LocalAI/blob/master/core/http/endpoints/openai/chat.go)
+  HTTP handler for `POST /v1/chat/completions`. Parses the OpenAI `ChatCompletionRequest`, resolves the model backend, dispatches to the inference engine, and formats the streaming or non-streaming response. The critical file for understanding OpenAI API compatibility.
+
+- [`core/http/endpoints/openai/completion.go`](https://github.com/mudler/LocalAI/blob/master/core/http/endpoints/openai/completion.go)
+  Handler for `POST /v1/completions` (legacy text completion API). Shows how `prompt` parameter maps to the backend inference call, distinct from the chat completions message format.
+
+- [`backend/python/transformers/`](https://github.com/mudler/LocalAI/tree/master/backend/python/transformers)
+  Python gRPC backend for HuggingFace Transformers models. The `backend.py` file shows how LocalAI calls a subprocess gRPC server for Python-based backends, enabling use of any HuggingFace model.
+
+- [`core/backend/llm.go`](https://github.com/mudler/LocalAI/blob/master/core/backend/llm.go)
+  Core LLM inference dispatcher. Routes text generation requests to the appropriate backend (llama-cpp, transformers, vllm, etc.) based on model config. Shows how streaming token callbacks are implemented across backends.
 
 Suggested trace strategy:
-- search upstream code for `content` and `messages` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Trace `core/http/endpoints/openai/chat.go` → `core/backend/llm.go` to follow a chat completion request from HTTP parse to backend inference
+- Compare the streaming response format in `chat.go` with `completion.go` to understand SSE chunking implementation
+- Check `backend/python/transformers/backend.py` to see how Python backends communicate with the Go server via gRPC protobuf
 
 ## Chapter Connections
 

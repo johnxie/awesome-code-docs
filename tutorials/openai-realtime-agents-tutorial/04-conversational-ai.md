@@ -83,170 +83,168 @@ You now have a conversation-design framework that holds up under interruption, a
 
 Next: [Chapter 5: Function Calling](05-function-calling.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app/hooks/useRealtimeSession.ts`
+### `src/app/hooks/useHandleSessionHistory.ts`
 
-The `RealtimeSessionCallbacks` interface in [`src/app/hooks/useRealtimeSession.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useRealtimeSession.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { SessionStatus } from '../types';
-
-export interface RealtimeSessionCallbacks {
-  onConnectionChange?: (status: SessionStatus) => void;
-  onAgentHandoff?: (agentName: string) => void;
-}
-
-export interface ConnectOptions {
-  getEphemeralKey: () => Promise<string>;
-  initialAgents: RealtimeAgent[];
-  audioElement?: HTMLAudioElement;
-  extraContext?: Record<string, any>;
-  outputGuardrails?: any[];
-}
-
-export function useRealtimeSession(callbacks: RealtimeSessionCallbacks = {}) {
-  const sessionRef = useRef<RealtimeSession | null>(null);
-  const [status, setStatus] = useState<
-    SessionStatus
-  >('DISCONNECTED');
-  const { logClientEvent } = useEvent();
-
-  const updateStatus = useCallback(
-    (s: SessionStatus) => {
-      setStatus(s);
-      callbacks.onConnectionChange?.(s);
-      logClientEvent({}, s);
-    },
-    [callbacks],
-  );
-
-  const { logServerEvent } = useEvent();
-```
-
-This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
-
-### `src/app/hooks/useRealtimeSession.ts`
-
-The `ConnectOptions` interface in [`src/app/hooks/useRealtimeSession.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useRealtimeSession.ts) handles a key part of this chapter's functionality:
+The `handleAgentToolEnd` function in [`src/app/hooks/useHandleSessionHistory.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useHandleSessionHistory.ts) handles a key part of this chapter's functionality:
 
 ```ts
-}
+    );    
+  }
+  function handleAgentToolEnd(details: any, _agent: any, _functionCall: any, result: any) {
+    const lastFunctionCall = extractFunctionCallByName(_functionCall.name, details?.context?.history);
+    addTranscriptBreadcrumb(
+      `function call result: ${lastFunctionCall?.name}`,
+      maybeParseJson(result)
+    );
+  }
 
-export interface ConnectOptions {
-  getEphemeralKey: () => Promise<string>;
-  initialAgents: RealtimeAgent[];
-  audioElement?: HTMLAudioElement;
-  extraContext?: Record<string, any>;
-  outputGuardrails?: any[];
-}
+  function handleHistoryAdded(item: any) {
+    console.log("[handleHistoryAdded] ", item);
+    if (!item || item.type !== 'message') return;
 
-export function useRealtimeSession(callbacks: RealtimeSessionCallbacks = {}) {
-  const sessionRef = useRef<RealtimeSession | null>(null);
-  const [status, setStatus] = useState<
-    SessionStatus
-  >('DISCONNECTED');
-  const { logClientEvent } = useEvent();
+    const { itemId, role, content = [] } = item;
+    if (itemId && role) {
+      const isUser = role === "user";
+      let text = extractMessageText(content);
 
-  const updateStatus = useCallback(
-    (s: SessionStatus) => {
-      setStatus(s);
-      callbacks.onConnectionChange?.(s);
-      logClientEvent({}, s);
-    },
-    [callbacks],
-  );
+      if (isUser && !text) {
+        text = "[Transcribing...]";
+      }
 
-  const { logServerEvent } = useEvent();
-
-  const historyHandlers = useHandleSessionHistory().current;
-
-  function handleTransportEvent(event: any) {
-    // Handle additional server events that aren't managed by the session
-```
-
-This interface is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
-
-### `src/app/hooks/useAudioDownload.ts`
-
-The `useAudioDownload` function in [`src/app/hooks/useAudioDownload.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useAudioDownload.ts) handles a key part of this chapter's functionality:
-
-```ts
-import { convertWebMBlobToWav } from "../lib/audioUtils";
-
-function useAudioDownload() {
-  // Ref to store the MediaRecorder instance.
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  // Ref to collect all recorded Blob chunks.
-  const recordedChunksRef = useRef<Blob[]>([]);
-
-  /**
-   * Starts recording by combining the provided remote stream with
-   * the microphone audio.
-   * @param remoteStream - The remote MediaStream (e.g., from the audio element).
-   */
-  const startRecording = async (remoteStream: MediaStream) => {
-    let micStream: MediaStream;
-    try {
-      micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    } catch (err) {
-      console.error("Error getting microphone stream:", err);
-      // Fallback to an empty MediaStream if microphone access fails.
-      micStream = new MediaStream();
-    }
-
-    // Create an AudioContext to merge the streams.
-    const audioContext = new AudioContext();
-    const destination = audioContext.createMediaStreamDestination();
-
-    // Connect the remote audio stream.
-    try {
-      const remoteSource = audioContext.createMediaStreamSource(remoteStream);
-      remoteSource.connect(destination);
-    } catch (err) {
+      // If the guardrail has been tripped, this message is a message that gets sent to the 
+      // assistant to correct it, so we add it as a breadcrumb instead of a message.
+      const guardrailMessage = sketchilyDetectGuardrailMessage(text);
+      if (guardrailMessage) {
+        const failureDetails = JSON.parse(guardrailMessage);
+        addTranscriptBreadcrumb('Output Guardrail Active', { details: failureDetails });
+      } else {
+        addTranscriptMessage(itemId, role, text);
+      }
 ```
 
 This function is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
 
 ### `src/app/hooks/useHandleSessionHistory.ts`
 
-The `useHandleSessionHistory` function in [`src/app/hooks/useHandleSessionHistory.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useHandleSessionHistory.ts) handles a key part of this chapter's functionality:
+The `handleHistoryAdded` function in [`src/app/hooks/useHandleSessionHistory.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useHandleSessionHistory.ts) handles a key part of this chapter's functionality:
 
 ```ts
-import { useEvent } from "@/app/contexts/EventContext";
+  }
 
-export function useHandleSessionHistory() {
-  const {
-    transcriptItems,
-    addTranscriptBreadcrumb,
-    addTranscriptMessage,
-    updateTranscriptMessage,
-    updateTranscriptItem,
-  } = useTranscript();
+  function handleHistoryAdded(item: any) {
+    console.log("[handleHistoryAdded] ", item);
+    if (!item || item.type !== 'message') return;
 
-  const { logServerEvent } = useEvent();
+    const { itemId, role, content = [] } = item;
+    if (itemId && role) {
+      const isUser = role === "user";
+      let text = extractMessageText(content);
 
-  /* ----------------------- helpers ------------------------- */
+      if (isUser && !text) {
+        text = "[Transcribing...]";
+      }
 
-  const extractMessageText = (content: any[] = []): string => {
-    if (!Array.isArray(content)) return "";
+      // If the guardrail has been tripped, this message is a message that gets sent to the 
+      // assistant to correct it, so we add it as a breadcrumb instead of a message.
+      const guardrailMessage = sketchilyDetectGuardrailMessage(text);
+      if (guardrailMessage) {
+        const failureDetails = JSON.parse(guardrailMessage);
+        addTranscriptBreadcrumb('Output Guardrail Active', { details: failureDetails });
+      } else {
+        addTranscriptMessage(itemId, role, text);
+      }
+    }
+  }
 
-    return content
-      .map((c) => {
-        if (!c || typeof c !== "object") return "";
-        if (c.type === "input_text") return c.text ?? "";
-        if (c.type === "audio") return c.transcript ?? "";
-        return "";
-      })
-      .filter(Boolean)
-      .join("\n");
-  };
+  function handleHistoryUpdated(items: any[]) {
+    console.log("[handleHistoryUpdated] ", items);
+    items.forEach((item: any) => {
+      if (!item || item.type !== 'message') return;
 
-  const extractFunctionCallByName = (name: string, content: any[] = []): any => {
-    if (!Array.isArray(content)) return undefined;
-    return content.find((c: any) => c.type === 'function_call' && c.name === name);
+```
+
+This function is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
+
+### `src/app/hooks/useHandleSessionHistory.ts`
+
+The `handleHistoryUpdated` function in [`src/app/hooks/useHandleSessionHistory.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useHandleSessionHistory.ts) handles a key part of this chapter's functionality:
+
+```ts
+  }
+
+  function handleHistoryUpdated(items: any[]) {
+    console.log("[handleHistoryUpdated] ", items);
+    items.forEach((item: any) => {
+      if (!item || item.type !== 'message') return;
+
+      const { itemId, content = [] } = item;
+
+      const text = extractMessageText(content);
+
+      if (text) {
+        updateTranscriptMessage(itemId, text, false);
+      }
+    });
+  }
+
+  function handleTranscriptionDelta(item: any) {
+    const itemId = item.item_id;
+    const deltaText = item.delta || "";
+    if (itemId) {
+      updateTranscriptMessage(itemId, deltaText, true);
+    }
+  }
+
+  function handleTranscriptionCompleted(item: any) {
+    // History updates don't reliably end in a completed item, 
+    // so we need to handle finishing up when the transcription is completed.
+    const itemId = item.item_id;
+    const finalTranscript =
+        !item.transcript || item.transcript === "\n"
+        ? "[inaudible]"
+```
+
+This function is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
+
+### `src/app/hooks/useHandleSessionHistory.ts`
+
+The `handleTranscriptionDelta` function in [`src/app/hooks/useHandleSessionHistory.ts`](https://github.com/openai/openai-realtime-agents/blob/HEAD/src/app/hooks/useHandleSessionHistory.ts) handles a key part of this chapter's functionality:
+
+```ts
+  }
+
+  function handleTranscriptionDelta(item: any) {
+    const itemId = item.item_id;
+    const deltaText = item.delta || "";
+    if (itemId) {
+      updateTranscriptMessage(itemId, deltaText, true);
+    }
+  }
+
+  function handleTranscriptionCompleted(item: any) {
+    // History updates don't reliably end in a completed item, 
+    // so we need to handle finishing up when the transcription is completed.
+    const itemId = item.item_id;
+    const finalTranscript =
+        !item.transcript || item.transcript === "\n"
+        ? "[inaudible]"
+        : item.transcript;
+    if (itemId) {
+      updateTranscriptMessage(itemId, finalTranscript, false);
+      // Use the ref to get the latest transcriptItems
+      const transcriptItem = transcriptItems.find((i) => i.itemId === itemId);
+      updateTranscriptItem(itemId, { status: 'DONE' });
+
+      // If guardrailResult still pending, mark PASS.
+      if (transcriptItem?.guardrailResult?.status === 'IN_PROGRESS') {
+        updateTranscriptItem(itemId, {
+          guardrailResult: {
+            status: 'DONE',
+            category: 'NONE',
+            rationale: '',
+          },
 ```
 
 This function is important because it defines how OpenAI Realtime Agents Tutorial: Voice-First AI Systems implements the patterns covered in this chapter.
@@ -256,11 +254,11 @@ This function is important because it defines how OpenAI Realtime Agents Tutoria
 
 ```mermaid
 flowchart TD
-    A[RealtimeSessionCallbacks]
-    B[ConnectOptions]
-    C[useAudioDownload]
-    D[useHandleSessionHistory]
-    E[handleAgentToolStart]
+    A[handleAgentToolEnd]
+    B[handleHistoryAdded]
+    C[handleHistoryUpdated]
+    D[handleTranscriptionDelta]
+    E[handleTranscriptionCompleted]
     A --> B
     B --> C
     C --> D

@@ -46,170 +46,168 @@ You now know how MCP and browser capabilities fit into compound engineering work
 
 Next: [Chapter 6: Daily Operations and Quality Gates](06-daily-operations-and-quality-gates.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/converters/claude-to-windsurf.ts`
+### `src/release/components.ts`
 
-The `convertCommandToWorkflow` function in [`src/converters/claude-to-windsurf.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-windsurf.ts) handles a key part of this chapter's functionality:
+The `resolveComponentWarnings` function in [`src/release/components.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/release/components.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  const usedCommandNames = new Set<string>()
-  const commandWorkflows = plugin.commands.map((command) =>
-    convertCommandToWorkflow(command, knownAgentNames, usedCommandNames),
-  )
-
-  // Build MCP config
-  const mcpConfig = buildMcpConfig(plugin.mcpServers)
-
-  // Warn about hooks
-  if (plugin.hooks && Object.keys(plugin.hooks.hooks).length > 0) {
-    console.warn(
-      "Warning: Windsurf has no hooks equivalent. Hooks were skipped during conversion.",
-    )
-  }
-
-  return { agentSkills, commandWorkflows, skillDirs, mcpConfig }
 }
 
-function convertAgentToSkill(
-  agent: ClaudeAgent,
-  knownAgentNames: string[],
-  usedNames: Set<string>,
-): WindsurfGeneratedSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Converted from Claude agent ${agent.name}`,
-  )
+export function resolveComponentWarnings(
+  intent: ParsedReleaseIntent,
+  detectedComponents: ReleaseComponent[],
+): string[] {
+  const warnings: string[] = []
 
-  let body = transformContentForWindsurf(agent.body.trim(), knownAgentNames)
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    const capabilities = agent.capabilities.map((c) => `- ${c}`).join("\n")
-    body = `## Capabilities\n${capabilities}\n\n${body}`.trim()
+  if (!intent.type) {
+    warnings.push("Title does not match the expected conventional format: <type>(optional-scope): description")
+    return warnings
+  }
+
+  if (intent.scope) {
+    const normalized = intent.scope.trim().toLowerCase()
+    const expected = SCOPES_TO_COMPONENTS[normalized]
+    if (expected && detectedComponents.length > 0 && !detectedComponents.includes(expected)) {
+      warnings.push(
+        `Optional scope "${intent.scope}" does not match the detected component set: ${detectedComponents.join(", ")}`,
+      )
+    }
+  }
+
+  if (detectedComponents.length === 0 && inferBumpFromIntent(intent) !== null) {
+    warnings.push("No releasable component files were detected for this change")
+  }
+
+  return warnings
+}
+
+export function applyOverride(
+  inferred: BumpLevel | null,
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-windsurf.ts`
+### `src/release/components.ts`
 
-The `transformContentForWindsurf` function in [`src/converters/claude-to-windsurf.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-windsurf.ts) handles a key part of this chapter's functionality:
+The `applyOverride` function in [`src/release/components.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/release/components.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  )
-
-  let body = transformContentForWindsurf(agent.body.trim(), knownAgentNames)
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    const capabilities = agent.capabilities.map((c) => `- ${c}`).join("\n")
-    body = `## Capabilities\n${capabilities}\n\n${body}`.trim()
-  }
-  if (body.length === 0) {
-    body = `Instructions converted from the ${agent.name} agent.`
-  }
-
-  const content = formatFrontmatter({ name, description }, `# ${name}\n\n${body}`) + "\n"
-  return { name, content }
 }
 
-function convertCommandToWorkflow(
-  command: ClaudeCommand,
-  knownAgentNames: string[],
-  usedNames: Set<string>,
-): WindsurfWorkflow {
-  const name = uniqueName(normalizeName(command.name), usedNames)
-  const description = sanitizeDescription(
-    command.description ?? `Converted from Claude command ${command.name}`,
-  )
+export function applyOverride(
+  inferred: BumpLevel | null,
+  override: BumpOverride,
+): BumpLevel | null {
+  if (override === "auto") return inferred
+  return override
+}
 
-  let body = transformContentForWindsurf(command.body.trim(), knownAgentNames)
-  if (command.argumentHint) {
-    body = `> Arguments: ${command.argumentHint}\n\n${body}`
+export function bumpVersion(version: string, bump: BumpLevel | null): string | null {
+  if (!bump) return null
+
+  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(version)
+  if (!match) {
+    throw new Error(`Unsupported version format: ${version}`)
   }
-  if (body.length === 0) {
-    body = `Instructions converted from the ${command.name} command.`
+
+  const major = Number(match[1])
+  const minor = Number(match[2])
+  const patch = Number(match[3])
+
+  switch (bump) {
+    case "major":
+      return `${major + 1}.0.0`
+    case "minor":
+      return `${major}.${minor + 1}.0`
+    case "patch":
+      return `${major}.${minor}.${patch + 1}`
   }
+}
+
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-windsurf.ts`
+### `src/release/components.ts`
 
-The `buildMcpConfig` function in [`src/converters/claude-to-windsurf.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-windsurf.ts) handles a key part of this chapter's functionality:
+The `bumpVersion` function in [`src/release/components.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/release/components.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-  // Build MCP config
-  const mcpConfig = buildMcpConfig(plugin.mcpServers)
-
-  // Warn about hooks
-  if (plugin.hooks && Object.keys(plugin.hooks.hooks).length > 0) {
-    console.warn(
-      "Warning: Windsurf has no hooks equivalent. Hooks were skipped during conversion.",
-    )
-  }
-
-  return { agentSkills, commandWorkflows, skillDirs, mcpConfig }
 }
 
-function convertAgentToSkill(
-  agent: ClaudeAgent,
-  knownAgentNames: string[],
-  usedNames: Set<string>,
-): WindsurfGeneratedSkill {
-  const name = uniqueName(normalizeName(agent.name), usedNames)
-  const description = sanitizeDescription(
-    agent.description ?? `Converted from Claude agent ${agent.name}`,
-  )
+export function bumpVersion(version: string, bump: BumpLevel | null): string | null {
+  if (!bump) return null
 
-  let body = transformContentForWindsurf(agent.body.trim(), knownAgentNames)
-  if (agent.capabilities && agent.capabilities.length > 0) {
-    const capabilities = agent.capabilities.map((c) => `- ${c}`).join("\n")
-    body = `## Capabilities\n${capabilities}\n\n${body}`.trim()
+  const match = /^(\d+)\.(\d+)\.(\d+)$/.exec(version)
+  if (!match) {
+    throw new Error(`Unsupported version format: ${version}`)
   }
-  if (body.length === 0) {
-    body = `Instructions converted from the ${agent.name} agent.`
+
+  const major = Number(match[1])
+  const minor = Number(match[2])
+  const patch = Number(match[3])
+
+  switch (bump) {
+    case "major":
+      return `${major + 1}.0.0`
+    case "minor":
+      return `${major}.${minor + 1}.0`
+    case "patch":
+      return `${major}.${minor}.${patch + 1}`
   }
+}
+
+export async function loadCurrentVersions(cwd = process.cwd()): Promise<VersionSources> {
+  const root = await readJson<RootPackageJson>(`${cwd}/package.json`)
+  const ce = await readJson<PluginManifest>(`${cwd}/plugins/compound-engineering/.claude-plugin/plugin.json`)
+  const codingTutor = await readJson<PluginManifest>(`${cwd}/plugins/coding-tutor/.claude-plugin/plugin.json`)
+  const marketplace = await readJson<MarketplaceManifest>(`${cwd}/.claude-plugin/marketplace.json`)
+  const cursorMarketplace = await readJson<MarketplaceManifest>(`${cwd}/.cursor-plugin/marketplace.json`)
+
+  return {
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
 
-### `src/converters/claude-to-windsurf.ts`
+### `src/release/components.ts`
 
-The `normalizeName` function in [`src/converters/claude-to-windsurf.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/converters/claude-to-windsurf.ts) handles a key part of this chapter's functionality:
+The `loadCurrentVersions` function in [`src/release/components.ts`](https://github.com/EveryInc/compound-engineering-plugin/blob/HEAD/src/release/components.ts) handles a key part of this chapter's functionality:
 
 ```ts
-  _options: ClaudeToWindsurfOptions,
-): WindsurfBundle {
-  const knownAgentNames = plugin.agents.map((a) => normalizeName(a.name))
+}
 
-  // Pass-through skills (collected first so agent skill names can deduplicate against them)
-  const skillDirs = plugin.skills.map((skill) => ({
-    name: skill.name,
-    sourceDir: skill.sourceDir,
-  }))
+export async function loadCurrentVersions(cwd = process.cwd()): Promise<VersionSources> {
+  const root = await readJson<RootPackageJson>(`${cwd}/package.json`)
+  const ce = await readJson<PluginManifest>(`${cwd}/plugins/compound-engineering/.claude-plugin/plugin.json`)
+  const codingTutor = await readJson<PluginManifest>(`${cwd}/plugins/coding-tutor/.claude-plugin/plugin.json`)
+  const marketplace = await readJson<MarketplaceManifest>(`${cwd}/.claude-plugin/marketplace.json`)
+  const cursorMarketplace = await readJson<MarketplaceManifest>(`${cwd}/.cursor-plugin/marketplace.json`)
 
-  // Convert agents to skills (seed usedNames with pass-through skill names)
-  const usedSkillNames = new Set<string>(skillDirs.map((s) => s.name))
-  const agentSkills = plugin.agents.map((agent) =>
-    convertAgentToSkill(agent, knownAgentNames, usedSkillNames),
-  )
-
-  // Convert commands to workflows
-  const usedCommandNames = new Set<string>()
-  const commandWorkflows = plugin.commands.map((command) =>
-    convertCommandToWorkflow(command, knownAgentNames, usedCommandNames),
-  )
-
-  // Build MCP config
-  const mcpConfig = buildMcpConfig(plugin.mcpServers)
-
-  // Warn about hooks
-  if (plugin.hooks && Object.keys(plugin.hooks.hooks).length > 0) {
-    console.warn(
-      "Warning: Windsurf has no hooks equivalent. Hooks were skipped during conversion.",
-    )
+  return {
+    cli: root.version,
+    "compound-engineering": ce.version,
+    "coding-tutor": codingTutor.version,
+    marketplace: marketplace.metadata.version,
+    "cursor-marketplace": cursorMarketplace.metadata.version,
   }
+}
 
+export async function buildReleasePreview(options: {
+  title: string
+  files: string[]
+  overrides?: Partial<Record<ReleaseComponent, BumpOverride>>
+  cwd?: string
+}): Promise<ReleasePreview> {
+  const intent = parseReleaseIntent(options.title)
+  const inferredBump = inferBumpFromIntent(intent)
+  const componentFilesMap = detectComponentsFromFiles(options.files)
+  const currentVersions = await loadCurrentVersions(options.cwd)
+
+  const detectedComponents = RELEASE_COMPONENTS.filter(
+    (component) => (componentFilesMap.get(component) ?? []).length > 0,
+  )
 ```
 
 This function is important because it defines how Compound Engineering Plugin Tutorial: Compounding Agent Workflows Across Toolchains implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how Compound Engineering Plugin Tu
 
 ```mermaid
 flowchart TD
-    A[convertCommandToWorkflow]
-    B[transformContentForWindsurf]
-    C[buildMcpConfig]
-    D[normalizeName]
-    E[sanitizeDescription]
+    A[resolveComponentWarnings]
+    B[applyOverride]
+    C[bumpVersion]
+    D[loadCurrentVersions]
+    E[buildReleasePreview]
     A --> B
     B --> C
     C --> D

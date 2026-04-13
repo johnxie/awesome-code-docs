@@ -47,170 +47,168 @@ You now have a stable ingestion model for registry-backed discovery systems.
 
 Next: [Chapter 6: Versioning, Governance, and Moderation Lifecycle](06-versioning-governance-and-moderation-lifecycle.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `internal/database/postgres.go`
 
-The `Close` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
+The `SetServerStatus` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
 
 ```go
-		return nil, "", fmt.Errorf("failed to query servers: %w", err)
+}
+
+// SetServerStatus updates the status of a specific server version
+func (db *PostgreSQL) SetServerStatus(ctx context.Context, tx pgx.Tx, serverName, version string, status model.Status, statusMessage *string) (*apiv0.ServerResponse, error) {
+	if ctx.Err() != nil {
+		return nil, ctx.Err()
 	}
-	defer rows.Close()
 
-	var results []*apiv0.ServerResponse
-	for rows.Next() {
-		var serverName, version, status string
-		var statusChangedAt, publishedAt, updatedAt time.Time
-		var statusMessage *string
-		var isLatest bool
-		var valueJSON []byte
+	// Update the status and related fields
+	// Only update status_changed_at when status actually changes
+	query := `
+		UPDATE servers
+		SET
+			status = $1,
+			status_changed_at = CASE WHEN status != $1::varchar THEN NOW() ELSE status_changed_at END,
+			updated_at = NOW(),
+			status_message = $4
+		WHERE server_name = $2 AND version = $3
+		RETURNING server_name, version, status, value, published_at, updated_at, is_latest, status_changed_at, status_message
+	`
 
-		err := rows.Scan(&serverName, &version, &status, &statusChangedAt, &statusMessage, &publishedAt, &updatedAt, &isLatest, &valueJSON)
-		if err != nil {
-			return nil, "", fmt.Errorf("failed to scan server row: %w", err)
+	var name, vers, currentStatus string
+	var publishedAt, updatedAt, statusChangedAt time.Time
+	var isLatest bool
+	var valueJSON []byte
+	var resultStatusMessage *string
+
+	err := db.getExecutor(tx).QueryRow(ctx, query, string(status), serverName, version, statusMessage).Scan(&name, &vers, &currentStatus, &valueJSON, &publishedAt, &updatedAt, &isLatest, &statusChangedAt, &resultStatusMessage)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return nil, ErrNotFound
 		}
-
-		// Parse the ServerJSON from JSONB
-		var serverJSON apiv0.ServerJSON
-		if err := json.Unmarshal(valueJSON, &serverJSON); err != nil {
-			return nil, "", fmt.Errorf("failed to unmarshal server JSON: %w", err)
-		}
-
-		// Build ServerResponse with separated metadata
-		serverResponse := &apiv0.ServerResponse{
-			Server: serverJSON,
-			Meta: apiv0.ResponseMeta{
-				Official: &apiv0.RegistryExtensions{
-					Status:          model.Status(status),
-					StatusChangedAt: statusChangedAt,
-					StatusMessage:   statusMessage,
-					PublishedAt:     publishedAt,
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
 ### `internal/database/postgres.go`
 
-The `using` interface in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
+The `SetAllVersionsStatus` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
 
 ```go
-)
-
-// PostgreSQL is an implementation of the Database interface using PostgreSQL
-type PostgreSQL struct {
-	pool *pgxpool.Pool
 }
 
-// Executor is an interface for executing queries (satisfied by both pgx.Tx and pgxpool.Pool)
-type Executor interface {
-	Exec(ctx context.Context, sql string, arguments ...any) (pgconn.CommandTag, error)
-	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
-	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
-}
-
-// getExecutor returns the appropriate executor (transaction or pool)
-func (db *PostgreSQL) getExecutor(tx pgx.Tx) Executor {
-	if tx != nil {
-		return tx
+// SetAllVersionsStatus updates the status of all versions of a server in a single query
+func (db *PostgreSQL) SetAllVersionsStatus(ctx context.Context, tx pgx.Tx, serverName string, status model.Status, statusMessage *string) ([]*apiv0.ServerResponse, error) {
+	if ctx.Err() != nil {
+		return nil, ctx.Err()
 	}
-	return db.pool
-}
 
-// NewPostgreSQL creates a new instance of the PostgreSQL database
-func NewPostgreSQL(ctx context.Context, connectionURI string) (*PostgreSQL, error) {
-	// Parse connection config for pool settings
-	config, err := pgxpool.ParseConfig(connectionURI)
+	// Update the status and related fields for all versions
+	// Only update rows where status or status_message actually changes
+	// Only update status_changed_at when status actually changes
+	query := `
+		UPDATE servers
+		SET
+			status = $1,
+			status_changed_at = CASE WHEN status != $1::varchar THEN NOW() ELSE status_changed_at END,
+			updated_at = NOW(),
+			status_message = $2
+		WHERE server_name = $3
+			AND (status != $1::varchar OR status_message IS DISTINCT FROM $2)
+		RETURNING server_name, version, status, value, published_at, updated_at, is_latest, status_changed_at, status_message
+	`
+
+	rows, err := db.getExecutor(tx).Query(ctx, query, string(status), statusMessage, serverName)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse PostgreSQL config: %w", err)
+		return nil, fmt.Errorf("failed to update all server versions status: %w", err)
 	}
+	defer rows.Close()
 
-	// Configure pool for stability-focused defaults
-	config.MaxConns = 30                      // Handle good concurrent load
+	var results []*apiv0.ServerResponse
+	for rows.Next() {
+		var name, vers, currentStatus string
 ```
 
-This interface is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
+This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
 ### `internal/database/postgres.go`
 
-The `for` interface in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
+The `InTransaction` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// Executor is an interface for executing queries (satisfied by both pgx.Tx and pgxpool.Pool)
-type Executor interface {
-	Exec(ctx context.Context, sql string, arguments ...any) (pgconn.CommandTag, error)
-	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
-	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
-}
-
-// getExecutor returns the appropriate executor (transaction or pool)
-func (db *PostgreSQL) getExecutor(tx pgx.Tx) Executor {
-	if tx != nil {
-		return tx
+// InTransaction executes a function within a database transaction
+func (db *PostgreSQL) InTransaction(ctx context.Context, fn func(ctx context.Context, tx pgx.Tx) error) error {
+	if ctx.Err() != nil {
+		return ctx.Err()
 	}
-	return db.pool
-}
 
-// NewPostgreSQL creates a new instance of the PostgreSQL database
-func NewPostgreSQL(ctx context.Context, connectionURI string) (*PostgreSQL, error) {
-	// Parse connection config for pool settings
-	config, err := pgxpool.ParseConfig(connectionURI)
+	tx, err := db.pool.Begin(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse PostgreSQL config: %w", err)
+		return fmt.Errorf("failed to begin transaction: %w", err)
+	}
+	//nolint:contextcheck // Intentionally using separate context for rollback to ensure cleanup even if request is cancelled
+	defer func() {
+		rollbackCtx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+		defer cancel()
+		if rbErr := tx.Rollback(rollbackCtx); rbErr != nil && !errors.Is(rbErr, pgx.ErrTxClosed) {
+			log.Printf("failed to rollback transaction: %v", rbErr)
+		}
+	}()
+
+	if err := fn(ctx, tx); err != nil {
+		return err
 	}
 
-	// Configure pool for stability-focused defaults
-	config.MaxConns = 30                      // Handle good concurrent load
-	config.MinConns = 5                       // Keep connections warm for fast response
-	config.MaxConnIdleTime = 30 * time.Minute // Keep connections available for bursts
-	config.MaxConnLifetime = 2 * time.Hour    // Refresh connections regularly for stability
+	if err := tx.Commit(ctx); err != nil {
+		return fmt.Errorf("failed to commit transaction: %w", err)
+	}
 
-	// Create connection pool with configured settings
+	return nil
+}
+
 ```
 
-This interface is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
+This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/validators/schema.go`
+### `internal/database/postgres.go`
 
-The `extractVersionFromSchemaURL` function in [`internal/validators/schema.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/schema.go) handles a key part of this chapter's functionality:
+The `AcquirePublishLock` function in [`internal/database/postgres.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/database/postgres.go) handles a key part of this chapter's functionality:
 
 ```go
-var schemaFS embed.FS
+}
 
-// extractVersionFromSchemaURL extracts the version identifier from a schema URL
-// e.g., "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json" -> "2025-10-17"
-// e.g., "https://static.modelcontextprotocol.io/schemas/draft/server.schema.json" -> "draft"
-// Version identifier can contain: A-Z, a-z, 0-9, hyphen (-), underscore (_), tilde (~), and period (.)
-func extractVersionFromSchemaURL(schemaURL string) (string, error) {
-	// Pattern: /schemas/{identifier}/server.schema.json
-	// Identifier allowed characters: A-Z, a-z, 0-9, -, _, ~, .
-	re := regexp.MustCompile(`/schemas/([A-Za-z0-9_~.-]+)/server\.schema\.json`)
-	matches := re.FindStringSubmatch(schemaURL)
-	if len(matches) < 2 {
-		return "", fmt.Errorf("invalid schema URL format: %s", schemaURL)
+// AcquirePublishLock acquires an exclusive advisory lock for publishing a server
+// This prevents race conditions when multiple versions are published concurrently
+// Using pg_advisory_xact_lock which auto-releases on transaction end
+func (db *PostgreSQL) AcquirePublishLock(ctx context.Context, tx pgx.Tx, serverName string) error {
+	if ctx.Err() != nil {
+		return ctx.Err()
 	}
-	return matches[1], nil
-}
 
-// loadSchemaByVersion loads a schema file from the embedded filesystem by version
-func loadSchemaByVersion(version string) ([]byte, error) {
-	filename := fmt.Sprintf("schemas/%s.json", version)
-	data, err := schemaFS.ReadFile(filename)
-	if err != nil {
-		return nil, fmt.Errorf("schema version %s not found in embedded schemas: %w", version, err)
+	lockID := hashServerName(serverName)
+
+	if _, err := db.getExecutor(tx).Exec(ctx, "SELECT pg_advisory_xact_lock($1)", lockID); err != nil {
+		return fmt.Errorf("failed to acquire publish lock: %w", err)
 	}
-	return data, nil
+
+	return nil
 }
 
-// GetCurrentSchemaVersion returns the current schema URL from constants
-func GetCurrentSchemaVersion() (string, error) {
-	return model.CurrentSchemaURL, nil
-}
-
+// hashServerName creates a consistent hash of the server name for advisory locking
+// We use FNV-1a hash and mask to 63 bits to fit in PostgreSQL's bigint range
+func hashServerName(name string) int64 {
+	const (
+		offset64 = 14695981039346656037
+		prime64  = 1099511628211
+	)
+	hash := uint64(offset64)
+	for i := 0; i < len(name); i++ {
+		hash ^= uint64(name[i])
+		hash *= prime64
+	}
+	//nolint:gosec // Intentional conversion with masking to 63 bits
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -220,11 +218,11 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 
 ```mermaid
 flowchart TD
-    A[Close]
-    B[using]
-    C[for]
-    D[extractVersionFromSchemaURL]
-    E[loadSchemaByVersion]
+    A[SetServerStatus]
+    B[SetAllVersionsStatus]
+    C[InTransaction]
+    D[AcquirePublishLock]
+    E[hashServerName]
     A --> B
     B --> C
     C --> D

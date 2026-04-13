@@ -49,170 +49,168 @@ Next steps:
 - run pilot automation in headless mode with strict output contracts
 - contribute one focused improvement with tests and docs
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/sync_project_dry_run.js`
+### `scripts/lint.js`
 
-The `runCommand` function in [`scripts/sync_project_dry_run.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/sync_project_dry_run.js) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/lint.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/lint.js) handles a key part of this chapter's functionality:
 
 ```js
-const FORCE_INCLUDE_LABELS = ['🔒 maintainer only'];
 
-function runCommand(command) {
-  try {
-    return execSync(command, {
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-      maxBuffer: 10 * 1024 * 1024,
-    });
-  } catch (_e) {
-    return null;
+  function getChangedFiles() {
+    const baseRef = process.env.GITHUB_BASE_REF || 'main';
+    try {
+      execSync(`git fetch origin ${baseRef}`);
+      const mergeBase = execSync(`git merge-base HEAD origin/${baseRef}`)
+        .toString()
+        .trim();
+      return execSync(`git diff --name-only ${mergeBase}..HEAD`)
+        .toString()
+        .trim()
+        .split('\n')
+        .filter(Boolean);
+    } catch {
+      console.error(`Could not get changed files against origin/${baseRef}.`);
+      try {
+        console.log('Falling back to diff against HEAD~1');
+        return execSync(`git diff --name-only HEAD~1..HEAD`)
+          .toString()
+          .trim()
+          .split('\n')
+          .filter(Boolean);
+      } catch {
+        console.error('Could not get changed files against HEAD~1 either.');
+        process.exit(1);
+      }
+    }
   }
-}
 
-function getIssues(repo) {
-  console.log(`Fetching open issues from ${repo}...`);
-  const json = runCommand(
-    `gh issue list --repo ${repo} --state open --limit 3000 --json number,title,url,labels`,
-  );
-  if (!json) {
-    return [];
-  }
-  return JSON.parse(json);
-}
+  const changedFiles = getChangedFiles();
+  let violationsFound = false;
 
-function getIssueBody(repo, number) {
-  const json = runCommand(
-    `gh issue view ${number} --repo ${repo} --json body,title,url,number`,
-  );
-  if (!json) {
-    return null;
-  }
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/sync_project_dry_run.js`
+### `evals/tool_output_masking.eval.ts`
 
-The `getIssues` function in [`scripts/sync_project_dry_run.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/sync_project_dry_run.js) handles a key part of this chapter's functionality:
+The `findDir` function in [`evals/tool_output_masking.eval.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/evals/tool_output_masking.eval.ts) handles a key part of this chapter's functionality:
 
-```js
+```ts
+
+// Recursive function to find a directory by name
+function findDir(base: string, name: string): string | null {
+  if (!fs.existsSync(base)) return null;
+  const files = fs.readdirSync(base);
+  for (const file of files) {
+    const fullPath = path.join(base, file);
+    if (fs.statSync(fullPath).isDirectory()) {
+      if (file === name) return fullPath;
+      const found = findDir(fullPath, name);
+      if (found) return found;
+    }
+  }
+  return null;
 }
 
-function getIssues(repo) {
-  console.log(`Fetching open issues from ${repo}...`);
-  const json = runCommand(
-    `gh issue list --repo ${repo} --state open --limit 3000 --json number,title,url,labels`,
-  );
-  if (!json) {
-    return [];
-  }
-  return JSON.parse(json);
-}
-
-function getIssueBody(repo, number) {
-  const json = runCommand(
-    `gh issue view ${number} --repo ${repo} --json body,title,url,number`,
-  );
-  if (!json) {
-    return null;
-  }
-  return JSON.parse(json);
-}
-
-function getProjectItems() {
-  console.log(`Fetching items from Project ${PROJECT_ID}...`);
-  const json = runCommand(
-    `gh project item-list ${PROJECT_ID} --owner ${ORG} --format json --limit 3000`,
-  );
-  if (!json) {
-    return [];
-  }
-  return JSON.parse(json).items;
+describe('Tool Output Masking Behavioral Evals', () => {
+  /**
+   * Scenario: The agent needs information that was masked in a previous turn.
+   * It should recognize the <tool_output_masked> tag and use a tool to read the file.
+   */
+  evalTest('USUALLY_PASSES', {
+    name: 'should attempt to read the redirected full output file when information is masked',
+    params: {
+      security: {
+        folderTrust: {
+          enabled: true,
+        },
+      },
+    },
+    prompt: '/help',
+    assert: async (rig) => {
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/sync_project_dry_run.js`
+### `scripts/local_telemetry.js`
 
-The `getIssueBody` function in [`scripts/sync_project_dry_run.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/sync_project_dry_run.js) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/local_telemetry.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/local_telemetry.js) handles a key part of this chapter's functionality:
 
 ```js
-}
+`;
 
-function getIssueBody(repo, number) {
-  const json = runCommand(
-    `gh issue view ${number} --repo ${repo} --json body,title,url,number`,
-  );
-  if (!json) {
+async function main() {
+  // 1. Ensure binaries are available, downloading if necessary.
+  // Binaries are stored in the project's .gemini/otel/bin directory
+  // to avoid modifying the user's system.
+  if (!fileExists(BIN_DIR)) fs.mkdirSync(BIN_DIR, { recursive: true });
+
+  const otelcolPath = await ensureBinary(
+    'otelcol-contrib',
+    'open-telemetry/opentelemetry-collector-releases',
+    (version, platform, arch, ext) =>
+      `otelcol-contrib_${version}_${platform}_${arch}.${ext}`,
+    'otelcol-contrib',
+    false, // isJaeger = false
+  ).catch((e) => {
+    console.error(`🛑 Error getting otelcol-contrib: ${e.message}`);
     return null;
-  }
-  return JSON.parse(json);
-}
+  });
+  if (!otelcolPath) process.exit(1);
 
-function getProjectItems() {
-  console.log(`Fetching items from Project ${PROJECT_ID}...`);
-  const json = runCommand(
-    `gh project item-list ${PROJECT_ID} --owner ${ORG} --format json --limit 3000`,
-  );
-  if (!json) {
-    return [];
-  }
-  return JSON.parse(json).items;
-}
-
-function shouldInclude(issue) {
-  const labels = issue.labels.map((l) => l.name);
-
-  // Check Force Include first
-  if (labels.some((l) => FORCE_INCLUDE_LABELS.includes(l))) {
-    return true;
-  }
-
-  // Check Exclude
+  const jaegerPath = await ensureBinary(
+    'jaeger',
+    'jaegertracing/jaeger',
+    (version, platform, arch, ext) =>
+      `jaeger-${version}-${platform}-${arch}.${ext}`,
+    'jaeger',
+    true, // isJaeger = true
+  ).catch((e) => {
+    console.error(`🛑 Error getting jaeger: ${e.message}`);
+    return null;
+  });
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/sync_project_dry_run.js`
+### `scripts/generate-settings-doc.ts`
 
-The `getProjectItems` function in [`scripts/sync_project_dry_run.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/sync_project_dry_run.js) handles a key part of this chapter's functionality:
+The `main` function in [`scripts/generate-settings-doc.ts`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/generate-settings-doc.ts) handles a key part of this chapter's functionality:
 
-```js
+```ts
 }
 
-function getProjectItems() {
-  console.log(`Fetching items from Project ${PROJECT_ID}...`);
-  const json = runCommand(
-    `gh project item-list ${PROJECT_ID} --owner ${ORG} --format json --limit 3000`,
+export async function main(argv = process.argv.slice(2)) {
+  const checkOnly = argv.includes('--check');
+
+  await generateSettingsSchema({ checkOnly });
+
+  const repoRoot = path.resolve(
+    path.dirname(fileURLToPath(import.meta.url)),
+    '..',
   );
-  if (!json) {
-    return [];
-  }
-  return JSON.parse(json).items;
+  const docPath = path.join(repoRoot, 'docs/reference/configuration.md');
+  const cliSettingsDocPath = path.join(repoRoot, 'docs/cli/settings.md');
+
+  const { getSettingsSchema } = await loadSettingsSchemaModule();
+  const schema = getSettingsSchema();
+  const allSettingsSections = collectEntries(schema, { includeAll: true });
+  const filteredSettingsSections = collectEntries(schema, {
+    includeAll: false,
+  });
+
+  const generatedBlock = renderSections(allSettingsSections);
+  const generatedTableBlock = renderTableSections(filteredSettingsSections);
+
+  await updateFile(docPath, generatedBlock, checkOnly);
+  await updateFile(cliSettingsDocPath, generatedTableBlock, checkOnly);
 }
 
-function shouldInclude(issue) {
-  const labels = issue.labels.map((l) => l.name);
-
-  // Check Force Include first
-  if (labels.some((l) => FORCE_INCLUDE_LABELS.includes(l))) {
-    return true;
-  }
-
-  // Check Exclude
-  if (labels.some((l) => EXCLUDED_LABELS.includes(l))) {
-    return false;
-  }
-
-  return true;
-}
-
-// Recursive function to find children
-const visitedParents = new Set();
-async function findChildren(repo, number, depth = 0) {
+async function updateFile(
+  filePath: string,
+  newContent: string,
+  checkOnly: boolean,
 ```
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
@@ -222,11 +220,11 @@ This function is important because it defines how Gemini CLI Tutorial: Terminal-
 
 ```mermaid
 flowchart TD
-    A[runCommand]
-    B[getIssues]
-    C[getIssueBody]
-    D[getProjectItems]
-    E[shouldInclude]
+    A[main]
+    B[findDir]
+    C[main]
+    D[main]
+    E[updateFile]
     A --> B
     B --> C
     C --> D

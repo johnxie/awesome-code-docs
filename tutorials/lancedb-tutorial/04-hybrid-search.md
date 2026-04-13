@@ -14,6 +14,20 @@ Welcome to **Chapter 4: Hybrid Search**. In this part of **LanceDB Tutorial: Ser
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[Query] --> B[Vector search branch]
+    A --> C[Full-text search BM25 branch]
+    A --> D[Scalar filter branch]
+    B --> E[Vector scores]
+    C --> F[BM25 scores]
+    D --> G[Filtered candidates]
+    E --> H[RRF fusion]
+    F --> H
+    G --> H
+    H --> I[Hybrid results]
+```
+
 Hybrid search combines multiple retrieval strategies to improve search quality. This chapter covers LanceDB's full-text search capabilities, combining vector and keyword search, and building effective hybrid retrieval pipelines.
 
 ## Full-Text Search

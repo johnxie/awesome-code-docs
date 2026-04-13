@@ -41,88 +41,80 @@ You now understand the architectural boundaries and extension points in Refly.
 
 Next: [Chapter 3: Workflow Construction and Deterministic Runtime](03-workflow-construction-and-deterministic-runtime.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/cleanup-node-modules.js`
+### `config/provider-catalog.json`
 
-The `deleteDirectory` function in [`scripts/cleanup-node-modules.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/cleanup-node-modules.js) handles a key part of this chapter's functionality:
+The `for` interface in [`config/provider-catalog.json`](https://github.com/refly-ai/refly/blob/HEAD/config/provider-catalog.json) handles a key part of this chapter's functionality:
 
-```js
- * @param {string} dirPath - Path to directory to delete
- */
-function deleteDirectory(dirPath) {
-  try {
-    fs.rmSync(dirPath, { recursive: true, force: true });
-    console.log(`✅ Deleted: ${dirPath}`);
-    return true;
-  } catch (error) {
-    console.error(`❌ Failed to delete ${dirPath}: ${error.message}`);
-    return false;
-  }
-}
-
-/**
- * Get human-readable file size
- * @param {number} bytes - Size in bytes
- */
-function formatBytes(bytes) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`;
-}
-
-/**
- * Calculate directory size
- * @param {string} dirPath - Path to directory
- */
-function getDirectorySize(dirPath) {
-  let totalSize = 0;
-
+```json
+      "baseUrl": "https://api.siliconflow.cn/v1",
+      "description": {
+        "en": "SiliconFlow provides a one-stop cloud service platform with high-performance inference for top-tier large language and embedding models.",
+        "zh-CN": "SiliconFlow 提供一站式云服务平台，为顶级大语言模型和嵌入模型提供高性能推理服务。"
+      },
+      "categories": ["llm", "embedding"],
+      "documentation": "https://docs.siliconflow.cn/",
+      "icon": "https://static.refly.ai/icons/providers/siliconflow.png"
+    },
+    {
+      "name": "litellm",
+      "providerKey": "openai",
+      "baseUrl": "https://litellm.powerformer.net/v1",
+      "description": {
+        "en": "LiteLLM is a lightweight library to simplify LLM completion and embedding calls, providing a consistent interface for over 100 LLMs.",
+        "zh-CN": "LiteLLM 是一个轻量级库，用于简化 LLM 的补全和嵌入调用，为 100 多个 LLM 提供一致的接口。"
+      },
+      "categories": ["llm", "embedding"],
+      "documentation": "https://docs.litellm.ai/",
+      "icon": "https://static.refly.ai/icons/providers/litellm.png"
+    },
+    {
+      "name": "七牛云AI",
+      "providerKey": "openai",
+      "baseUrl": "https://api.qnaigc.com/v1",
+      "description": {
+        "en": "Qiniu AI provides efficient, stable, and secure model inference services, supporting mainstream open-source large models.",
+        "zh-CN": "七牛云AI 提供高效、稳定、安全的模型推理服务，支持主流开源大模型。"
+      },
+      "categories": ["llm"],
+      "documentation": "https://developer.qiniu.com/aitokenapi",
+      "icon": "https://static.refly.ai/icons/providers/qiniu.png"
 ```
 
-This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
+This interface is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
-### `scripts/cleanup-node-modules.js`
+### `scripts/upload-config.js`
 
-The `formatBytes` function in [`scripts/cleanup-node-modules.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/cleanup-node-modules.js) handles a key part of this chapter's functionality:
+The `uploadState` function in [`scripts/upload-config.js`](https://github.com/refly-ai/refly/blob/HEAD/scripts/upload-config.js) handles a key part of this chapter's functionality:
 
 ```js
- * @param {number} bytes - Size in bytes
- */
-function formatBytes(bytes) {
-  if (bytes === 0) return '0 Bytes';
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return `${Number.parseFloat((bytes / k ** i).toFixed(2))} ${sizes[i]}`;
+import { Client as MinioClient } from 'minio';
+
+async function uploadState(sourceFile, targetPath) {
+  const minioClient = new MinioClient({
+    endPoint: process.env.MINIO_EXTERNAL_ENDPOINT,
+    port: Number.parseInt(process.env.MINIO_EXTERNAL_PORT || '443'),
+    useSSL: process.env.MINIO_EXTERNAL_USE_SSL === 'true',
+    accessKey: process.env.MINIO_EXTERNAL_ACCESS_KEY,
+    secretKey: process.env.MINIO_EXTERNAL_SECRET_KEY,
+  });
+
+  const metaData = {
+    'Content-Type': 'application/json',
+  };
+  await minioClient.fPutObject(process.env.MINIO_EXTERNAL_BUCKET, targetPath, sourceFile, metaData);
 }
 
-/**
- * Calculate directory size
- * @param {string} dirPath - Path to directory
- */
-function getDirectorySize(dirPath) {
-  let totalSize = 0;
+async function main() {
+  // upload mcp catalog
+  await uploadState('config/mcp-catalog.json', 'mcp-config/mcp-catalog.json');
 
-  try {
-    const items = fs.readdirSync(dirPath, { withFileTypes: true });
+  await uploadState('config/provider-catalog.json', 'mcp-config/provider-catalog.json');
+}
 
-    for (const item of items) {
-      const fullPath = path.join(dirPath, item.name);
+main();
 
-      if (item.isDirectory()) {
-        totalSize += getDirectorySize(fullPath);
-      } else {
-        try {
-          const stats = fs.statSync(fullPath);
-          totalSize += stats.size;
-        } catch (_error) {
-          // Skip files we can't stat
-        }
 ```
 
 This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
@@ -132,7 +124,7 @@ This function is important because it defines how Refly Tutorial: Build Determin
 
 ```mermaid
 flowchart TD
-    A[deleteDirectory]
-    B[formatBytes]
+    A[for]
+    B[uploadState]
     A --> B
 ```

@@ -48,170 +48,168 @@ You now have an implementation-level auth and security baseline for Go MCP deplo
 
 Next: [Chapter 7: Testing, Troubleshooting, and Rough Edges](07-testing-troubleshooting-and-rough-edges.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `mcp/client.go`
+### `mcp/transport.go`
 
-The `Complete` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `addBatch` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
 
 ```go
-	// Elicitation field is nil), the inferred capability will be used.
-	Capabilities *ClientCapabilities
-	// ElicitationCompleteHandler handles incoming notifications for notifications/elicitation/complete.
-	ElicitationCompleteHandler func(context.Context, *ElicitationCompleteNotificationRequest)
-	// Handlers for notifications from the server.
-	ToolListChangedHandler      func(context.Context, *ToolListChangedRequest)
-	PromptListChangedHandler    func(context.Context, *PromptListChangedRequest)
-	ResourceListChangedHandler  func(context.Context, *ResourceListChangedRequest)
-	ResourceUpdatedHandler      func(context.Context, *ResourceUpdatedNotificationRequest)
-	LoggingMessageHandler       func(context.Context, *LoggingMessageRequest)
-	ProgressNotificationHandler func(context.Context, *ProgressNotificationClientRequest)
-	// If non-zero, defines an interval for regular "ping" requests.
-	// If the peer fails to respond to pings originating from the keepalive check,
-	// the session is automatically closed.
-	KeepAlive time.Duration
 }
 
-// bind implements the binder[*ClientSession] interface, so that Clients can
-// be connected using [connect].
-func (c *Client) bind(mcpConn Connection, conn *jsonrpc2.Connection, state *clientSessionState, onClose func()) *ClientSession {
-	assert(mcpConn != nil && conn != nil, "nil connection")
-	cs := &ClientSession{conn: conn, mcpConn: mcpConn, client: c, onClose: onClose}
-	if state != nil {
-		cs.state = *state
+// addBatch records a msgBatch for an incoming batch payload.
+// It returns an error if batch is malformed, containing previously seen IDs.
+//
+// See [msgBatch] for more.
+func (t *ioConn) addBatch(batch *msgBatch) error {
+	t.batchMu.Lock()
+	defer t.batchMu.Unlock()
+	for id := range batch.unresolved {
+		if _, ok := t.batches[id]; ok {
+			return fmt.Errorf("%w: batch contains previously seen request %v", jsonrpc2.ErrInvalidRequest, id.Raw())
+		}
 	}
-	c.mu.Lock()
-	defer c.mu.Unlock()
-	c.sessions = append(c.sessions, cs)
-	return cs
+	for id := range batch.unresolved {
+		if t.batches == nil {
+			t.batches = make(map[jsonrpc2.ID]*msgBatch)
+		}
+		t.batches[id] = batch
+	}
+	return nil
 }
 
-// disconnect implements the binder[*Client] interface, so that
+// updateBatch records a response in the message batch tracking the
+// corresponding incoming call, if any.
+//
+// The second result reports whether resp was part of a batch. If this is true,
+// the first result is nil if the batch is still incomplete, or the full set of
+// batch responses if resp completed the batch.
+func (t *ioConn) updateBatch(resp *jsonrpc.Response) ([]*jsonrpc.Response, bool) {
+	t.batchMu.Lock()
+	defer t.batchMu.Unlock()
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/client.go`
+### `mcp/transport.go`
 
-The `Subscribe` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `updateBatch` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// Subscribe sends a "resources/subscribe" request to the server, asking for
-// notifications when the specified resource changes.
-func (cs *ClientSession) Subscribe(ctx context.Context, params *SubscribeParams) error {
-	_, err := handleSend[*emptyResult](ctx, methodSubscribe, newClientRequest(cs, orZero[Params](params)))
-	return err
-}
+// updateBatch records a response in the message batch tracking the
+// corresponding incoming call, if any.
+//
+// The second result reports whether resp was part of a batch. If this is true,
+// the first result is nil if the batch is still incomplete, or the full set of
+// batch responses if resp completed the batch.
+func (t *ioConn) updateBatch(resp *jsonrpc.Response) ([]*jsonrpc.Response, bool) {
+	t.batchMu.Lock()
+	defer t.batchMu.Unlock()
 
-// Unsubscribe sends a "resources/unsubscribe" request to the server, cancelling
-// a previous subscription.
-func (cs *ClientSession) Unsubscribe(ctx context.Context, params *UnsubscribeParams) error {
-	_, err := handleSend[*emptyResult](ctx, methodUnsubscribe, newClientRequest(cs, orZero[Params](params)))
-	return err
-}
-
-func (c *Client) callToolChangedHandler(ctx context.Context, req *ToolListChangedRequest) (Result, error) {
-	if h := c.opts.ToolListChangedHandler; h != nil {
-		h(ctx, req)
+	if batch, ok := t.batches[resp.ID]; ok {
+		idx, ok := batch.unresolved[resp.ID]
+		if !ok {
+			panic("internal error: inconsistent batches")
+		}
+		batch.responses[idx] = resp
+		delete(batch.unresolved, resp.ID)
+		delete(t.batches, resp.ID)
+		if len(batch.unresolved) == 0 {
+			return batch.responses, true
+		}
+		return nil, true
 	}
-	return nil, nil
+	return nil, false
 }
 
-func (c *Client) callPromptChangedHandler(ctx context.Context, req *PromptListChangedRequest) (Result, error) {
-	if h := c.opts.PromptListChangedHandler; h != nil {
-		h(ctx, req)
-	}
-	return nil, nil
-}
-
-func (c *Client) callResourceChangedHandler(ctx context.Context, req *ResourceListChangedRequest) (Result, error) {
-	if h := c.opts.ResourceListChangedHandler; h != nil {
+// A msgBatch records information about an incoming batch of jsonrpc.2 calls.
+//
+// The jsonrpc.2 spec (https://www.jsonrpc.org/specification#batch) says:
+//
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/client.go`
+### `mcp/transport.go`
 
-The `Unsubscribe` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `Read` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
 
 ```go
+// A Connection is a logical bidirectional JSON-RPC connection.
+type Connection interface {
+	// Read reads the next message to process off the connection.
+	//
+	// Connections must allow Read to be called concurrently with Close. In
+	// particular, calling Close should unblock a Read waiting for input.
+	Read(context.Context) (jsonrpc.Message, error)
+
+	// Write writes a new message to the connection.
+	//
+	// Write may be called concurrently, as calls or responses may occur
+	// concurrently in user code.
+	Write(context.Context, jsonrpc.Message) error
+
+	// Close closes the connection. It is implicitly called whenever a Read or
+	// Write fails.
+	//
+	// Close may be called multiple times, potentially concurrently.
+	Close() error
+
+	// TODO(#148): remove SessionID from this interface.
+	SessionID() string
 }
 
-// Unsubscribe sends a "resources/unsubscribe" request to the server, cancelling
-// a previous subscription.
-func (cs *ClientSession) Unsubscribe(ctx context.Context, params *UnsubscribeParams) error {
-	_, err := handleSend[*emptyResult](ctx, methodUnsubscribe, newClientRequest(cs, orZero[Params](params)))
-	return err
-}
-
-func (c *Client) callToolChangedHandler(ctx context.Context, req *ToolListChangedRequest) (Result, error) {
-	if h := c.opts.ToolListChangedHandler; h != nil {
-		h(ctx, req)
-	}
-	return nil, nil
-}
-
-func (c *Client) callPromptChangedHandler(ctx context.Context, req *PromptListChangedRequest) (Result, error) {
-	if h := c.opts.PromptListChangedHandler; h != nil {
-		h(ctx, req)
-	}
-	return nil, nil
-}
-
-func (c *Client) callResourceChangedHandler(ctx context.Context, req *ResourceListChangedRequest) (Result, error) {
-	if h := c.opts.ResourceListChangedHandler; h != nil {
-		h(ctx, req)
-	}
-	return nil, nil
-}
-
-func (c *Client) callResourceUpdatedHandler(ctx context.Context, req *ResourceUpdatedNotificationRequest) (Result, error) {
-	if h := c.opts.ResourceUpdatedHandler; h != nil {
+// A ClientConnection is a [Connection] that is specific to the MCP client.
+//
+// If client connections implement this interface, they may receive information
+// about changes to the client session.
+//
+// TODO: should this interface be exported?
+type clientConnection interface {
+	Connection
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
 
-### `mcp/client.go`
+### `mcp/transport.go`
 
-The `callToolChangedHandler` function in [`mcp/client.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/client.go) handles a key part of this chapter's functionality:
+The `readBatch` function in [`mcp/transport.go`](https://github.com/modelcontextprotocol/go-sdk/blob/HEAD/mcp/transport.go) handles a key part of this chapter's functionality:
 
 ```go
-	methodElicit:                    newClientMethodInfo(clientMethod((*Client).elicit), missingParamsOK),
-	notificationCancelled:           newClientMethodInfo(clientSessionMethod((*ClientSession).cancel), notification|missingParamsOK),
-	notificationToolListChanged:     newClientMethodInfo(clientMethod((*Client).callToolChangedHandler), notification|missingParamsOK),
-	notificationPromptListChanged:   newClientMethodInfo(clientMethod((*Client).callPromptChangedHandler), notification|missingParamsOK),
-	notificationResourceListChanged: newClientMethodInfo(clientMethod((*Client).callResourceChangedHandler), notification|missingParamsOK),
-	notificationResourceUpdated:     newClientMethodInfo(clientMethod((*Client).callResourceUpdatedHandler), notification|missingParamsOK),
-	notificationLoggingMessage:      newClientMethodInfo(clientMethod((*Client).callLoggingHandler), notification),
-	notificationProgress:            newClientMethodInfo(clientSessionMethod((*ClientSession).callProgressNotificationHandler), notification),
-	notificationElicitationComplete: newClientMethodInfo(clientMethod((*Client).callElicitationCompleteHandler), notification|missingParamsOK),
-}
-
-func (cs *ClientSession) sendingMethodInfos() map[string]methodInfo {
-	return serverMethodInfos
-}
-
-func (cs *ClientSession) receivingMethodInfos() map[string]methodInfo {
-	return clientMethodInfos
-}
-
-func (cs *ClientSession) handle(ctx context.Context, req *jsonrpc.Request) (any, error) {
-	if req.IsCall() {
-		jsonrpc2.Async(ctx)
 	}
-	return handleReceive(ctx, cs, req)
-}
 
-func (cs *ClientSession) sendingMethodHandler() MethodHandler {
-	cs.client.mu.Lock()
-	defer cs.client.mu.Unlock()
-	return cs.client.sendingMethodHandler_
-}
+	msgs, batch, err := readBatch(raw)
+	if err != nil {
+		return nil, err
+	}
+	var protocolVersion string
+	t.sessionMu.Lock()
+	protocolVersion = t.protocolVersion
+	t.sessionMu.Unlock()
+	if batch && protocolVersion >= protocolVersion20250618 {
+		return nil, fmt.Errorf("JSON-RPC batching is not supported in %s and later (request version: %s)", protocolVersion20250618, protocolVersion)
+	}
 
+	t.queue = msgs[1:]
+
+	if batch {
+		var respBatch *msgBatch // track incoming requests in the batch
+		for _, msg := range msgs {
+			if req, ok := msg.(*jsonrpc.Request); ok {
+				if respBatch == nil {
+					respBatch = &msgBatch{
+						unresolved: make(map[jsonrpc2.ID]int),
+					}
+				}
+				if _, ok := respBatch.unresolved[req.ID]; ok {
+					return nil, fmt.Errorf("duplicate message ID %q", req.ID)
+				}
+				respBatch.unresolved[req.ID] = len(respBatch.responses)
+				respBatch.responses = append(respBatch.responses, nil)
+			}
+		}
 ```
 
 This function is important because it defines how MCP Go SDK Tutorial: Building Robust MCP Clients and Servers in Go implements the patterns covered in this chapter.
@@ -221,11 +219,11 @@ This function is important because it defines how MCP Go SDK Tutorial: Building 
 
 ```mermaid
 flowchart TD
-    A[Complete]
-    B[Subscribe]
-    C[Unsubscribe]
-    D[callToolChangedHandler]
-    E[callPromptChangedHandler]
+    A[addBatch]
+    B[updateBatch]
+    C[Read]
+    D[readBatch]
+    E[Write]
     A --> B
     B --> C
     C --> D

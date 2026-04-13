@@ -36,74 +36,7 @@ You now have a functioning Plandex baseline.
 
 Next: [Chapter 2: Architecture and Workflow](02-architecture-and-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `app/shared/ai_models_available.go`
-
-The `init` function in [`app/shared/ai_models_available.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_available.go) handles a key part of this chapter's functionality:
-
-```go
-var AvailableModelsByComposite = map[string]*AvailableModel{}
-
-func init() {
-	for _, model := range BuiltInModels {
-		// if the model has an anthropic provider, insert claude max provider before it
-		var usesAnthropicProvider *BaseModelUsesProvider
-		for _, provider := range model.Providers {
-			if provider.Provider == ModelProviderAnthropic {
-				copy := provider
-				latestModelName, ok := AnthropicLatestModelNameMap[provider.ModelName]
-				if ok {
-					copy.ModelName = latestModelName
-				}
-				usesAnthropicProvider = &copy
-				break
-			}
-		}
-		if usesAnthropicProvider != nil {
-			usesAnthropicProvider.Provider = ModelProviderAnthropicClaudeMax
-			model.Providers = append([]BaseModelUsesProvider{*usesAnthropicProvider}, model.Providers...)
-		}
-
-		AvailableModels = append(AvailableModels, model.ToAvailableModels()...)
-
-		var addVariants func(variants []BaseModelConfigVariant, baseId ModelId)
-		addVariants = func(variants []BaseModelConfigVariant, baseId ModelId) {
-			for _, variant := range variants {
-				var modelId ModelId
-				if variant.IsBaseVariant || variant.IsDefaultVariant {
-					modelId = baseId
-				} else {
-					modelId = ModelId(strings.Join([]string{string(baseId), string(variant.VariantTag)}, "-"))
-```
-
-This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
-
-### `app/shared/ai_models_available.go`
-
-The `GetAvailableModel` function in [`app/shared/ai_models_available.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_available.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-func GetAvailableModel(provider ModelProvider, modelId ModelId) *AvailableModel {
-	compositeKey := string(provider) + "/" + string(modelId)
-	return AvailableModelsByComposite[compositeKey]
-}
-
-var AnthropicLatestModelNameMap = map[ModelName]ModelName{
-	"anthropic/claude-sonnet-4-0":        "anthropic/claude-sonnet-4-20250514",
-	"anthropic/claude-opus-4-0":          "anthropic/claude-opus-4-20250514",
-	"anthropic/claude-3-7-sonnet-latest": "anthropic/claude-3-7-sonnet-20250219",
-	"anthropic/claude-3-5-haiku-latest":  "anthropic/claude-3-5-haiku-20241022",
-	"anthropic/claude-3-5-sonnet-latest": "anthropic/claude-3-5-sonnet-20241022",
-}
-
-```
-
-This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
 ### `app/shared/ai_models_data_models.go`
 
@@ -187,16 +120,98 @@ func (b *BaseModelConfigSchema) ToAvailableModels() []*AvailableModel {
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
+### `app/shared/ai_models_data_models.go`
+
+The `ToAvailableModels` function in [`app/shared/ai_models_data_models.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_data_models.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (b *BaseModelConfigSchema) ToAvailableModels() []*AvailableModel {
+	avail := []*AvailableModel{}
+	for _, provider := range b.Providers {
+
+		providerConfig, ok := BuiltInModelProviderConfigs[provider.Provider]
+		if !ok {
+			panic(fmt.Sprintf("provider %s not found", provider.Provider))
+		}
+
+		addBase := func() {
+			avail = append(avail, &AvailableModel{
+				Description:           b.Description,
+				DefaultMaxConvoTokens: b.DefaultMaxConvoTokens,
+				BaseModelConfig: BaseModelConfig{
+					ModelTag:        b.ModelTag,
+					ModelId:         ModelId(string(b.ModelTag)),
+					BaseModelShared: b.BaseModelShared,
+					BaseModelProviderConfig: BaseModelProviderConfig{
+						ModelProviderConfigSchema: providerConfig,
+						ModelName:                 provider.ModelName,
+					},
+				},
+			})
+		}
+
+		type variantParams struct {
+			BaseVariant              *BaseModelConfigVariant
+			BaseId                   ModelId
+			BaseDescription          string
+			CumulativeOverrides      BaseModelShared
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
+### `app/shared/ai_models_data_models.go`
+
+The `ModelString` function in [`app/shared/ai_models_data_models.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_data_models.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+func (m *AvailableModel) ModelString() string {
+	s := ""
+	if m.Provider != "" && m.Provider != ModelProviderOpenAI {
+		s += string(m.Provider) + "/"
+	}
+	s += string(m.ModelId)
+	return s
+}
+
+type PlannerModelConfig struct {
+	MaxConvoTokens int `json:"maxConvoTokens"`
+}
+
+type ReasoningEffort string
+
+const (
+	ReasoningEffortLow    ReasoningEffort = "low"
+	ReasoningEffortMedium ReasoningEffort = "medium"
+	ReasoningEffortHigh   ReasoningEffort = "high"
+)
+
+type ModelRoleConfig struct {
+	Role ModelRole `json:"role"`
+
+	ModelId ModelId `json:"modelId"` // new in 2.2.0 refactor — uses provider lookup instead of BaseModelConfig and MissingKeyFallback
+
+	BaseModelConfig      *BaseModelConfig `json:"baseModelConfig,omitempty"`
+	Temperature          float32          `json:"temperature"`
+	TopP                 float32          `json:"topP"`
+	ReservedOutputTokens int              `json:"reservedOutputTokens"`
+```
+
+This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[init]
-    B[GetAvailableModel]
-    C[ToComposite]
-    D[IsLocalOnly]
-    E[ToAvailableModels]
+    A[ToComposite]
+    B[IsLocalOnly]
+    C[ToAvailableModels]
+    D[ModelString]
+    E[ToClientVal]
     A --> B
     B --> C
     C --> D

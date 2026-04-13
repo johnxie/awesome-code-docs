@@ -49,170 +49,168 @@ Next steps:
 - publish contribution and review checklists internally
 - onboard teams with role-specific plugin bundles
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `plugins/hookify/core/config_loader.py`
+### `external_plugins/telegram/server.ts`
 
-The `extract_frontmatter` function in [`plugins/hookify/core/config_loader.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/config_loader.py) handles a key part of this chapter's functionality:
+The `defaultAccess` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
+}
 
+function defaultAccess(): Access {
+  return {
+    dmPolicy: 'pairing',
+    allowFrom: [],
+    groups: {},
+    pending: {},
+  }
+}
 
-def extract_frontmatter(content: str) -> tuple[Dict[str, Any], str]:
-    """Extract YAML frontmatter and message body from markdown.
+const MAX_CHUNK_LIMIT = 4096
+const MAX_ATTACHMENT_BYTES = 50 * 1024 * 1024
 
-    Returns (frontmatter_dict, message_body).
+// reply's files param takes any path. .env is ~60 bytes and ships as a
+// document. Claude can already Read+paste file contents, so this isn't a new
+// exfil channel for arbitrary paths — but the server's own state is the one
+// thing Claude has no reason to ever send.
+function assertSendable(f: string): void {
+  let real, stateReal: string
+  try {
+    real = realpathSync(f)
+    stateReal = realpathSync(STATE_DIR)
+  } catch { return } // statSync will fail properly; or STATE_DIR absent → nothing to leak
+  const inbox = join(stateReal, 'inbox')
+  if (real.startsWith(stateReal + sep) && !real.startsWith(inbox + sep)) {
+    throw new Error(`refusing to send channel state: ${f}`)
+  }
+}
 
-    Supports multi-line dictionary items in lists by preserving indentation.
-    """
-    if not content.startswith('---'):
-        return {}, content
-
-    # Split on --- markers
-    parts = content.split('---', 2)
-    if len(parts) < 3:
-        return {}, content
-
-    frontmatter_text = parts[1]
-    message = parts[2].strip()
-
-    # Simple YAML parser that handles indented list items
-    frontmatter = {}
-    lines = frontmatter_text.split('\n')
-
-    current_key = None
-    current_list = []
-    current_dict = {}
-    in_list = False
-    in_dict_item = False
-
-    for line in lines:
-        # Skip empty lines and comments
+function readAccessFile(): Access {
+  try {
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `plugins/hookify/core/config_loader.py`
+### `external_plugins/telegram/server.ts`
 
-The `load_rules` function in [`plugins/hookify/core/config_loader.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/config_loader.py) handles a key part of this chapter's functionality:
+The `assertSendable` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
+// exfil channel for arbitrary paths — but the server's own state is the one
+// thing Claude has no reason to ever send.
+function assertSendable(f: string): void {
+  let real, stateReal: string
+  try {
+    real = realpathSync(f)
+    stateReal = realpathSync(STATE_DIR)
+  } catch { return } // statSync will fail properly; or STATE_DIR absent → nothing to leak
+  const inbox = join(stateReal, 'inbox')
+  if (real.startsWith(stateReal + sep) && !real.startsWith(inbox + sep)) {
+    throw new Error(`refusing to send channel state: ${f}`)
+  }
+}
 
-
-def load_rules(event: Optional[str] = None) -> List[Rule]:
-    """Load all hookify rules from .claude directory.
-
-    Args:
-        event: Optional event filter ("bash", "file", "stop", etc.)
-
-    Returns:
-        List of enabled Rule objects matching the event.
-    """
-    rules = []
-
-    # Find all hookify.*.local.md files
-    pattern = os.path.join('.claude', 'hookify.*.local.md')
-    files = glob.glob(pattern)
-
-    for file_path in files:
-        try:
-            rule = load_rule_file(file_path)
-            if not rule:
-                continue
-
-            # Filter by event if specified
-            if event:
-                if rule.event != 'all' and rule.event != event:
-                    continue
-
-            # Only include enabled rules
-            if rule.enabled:
-                rules.append(rule)
-
+function readAccessFile(): Access {
+  try {
+    const raw = readFileSync(ACCESS_FILE, 'utf8')
+    const parsed = JSON.parse(raw) as Partial<Access>
+    return {
+      dmPolicy: parsed.dmPolicy ?? 'pairing',
+      allowFrom: parsed.allowFrom ?? [],
+      groups: parsed.groups ?? {},
+      pending: parsed.pending ?? {},
+      mentionPatterns: parsed.mentionPatterns,
+      ackReaction: parsed.ackReaction,
+      replyToMode: parsed.replyToMode,
+      textChunkLimit: parsed.textChunkLimit,
+      chunkMode: parsed.chunkMode,
+    }
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return defaultAccess()
+    try {
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `plugins/hookify/core/config_loader.py`
+### `external_plugins/telegram/server.ts`
 
-The `load_rule_file` function in [`plugins/hookify/core/config_loader.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/hookify/core/config_loader.py) handles a key part of this chapter's functionality:
+The `readAccessFile` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
 
-```py
-    for file_path in files:
-        try:
-            rule = load_rule_file(file_path)
-            if not rule:
-                continue
+```ts
+}
 
-            # Filter by event if specified
-            if event:
-                if rule.event != 'all' and rule.event != event:
-                    continue
+function readAccessFile(): Access {
+  try {
+    const raw = readFileSync(ACCESS_FILE, 'utf8')
+    const parsed = JSON.parse(raw) as Partial<Access>
+    return {
+      dmPolicy: parsed.dmPolicy ?? 'pairing',
+      allowFrom: parsed.allowFrom ?? [],
+      groups: parsed.groups ?? {},
+      pending: parsed.pending ?? {},
+      mentionPatterns: parsed.mentionPatterns,
+      ackReaction: parsed.ackReaction,
+      replyToMode: parsed.replyToMode,
+      textChunkLimit: parsed.textChunkLimit,
+      chunkMode: parsed.chunkMode,
+    }
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return defaultAccess()
+    try {
+      renameSync(ACCESS_FILE, `${ACCESS_FILE}.corrupt-${Date.now()}`)
+    } catch {}
+    process.stderr.write(`telegram channel: access.json is corrupt, moved aside. Starting fresh.\n`)
+    return defaultAccess()
+  }
+}
 
-            # Only include enabled rules
-            if rule.enabled:
-                rules.append(rule)
-
-        except (IOError, OSError, PermissionError) as e:
-            # File I/O errors - log and continue
-            print(f"Warning: Failed to read {file_path}: {e}", file=sys.stderr)
-            continue
-        except (ValueError, KeyError, AttributeError, TypeError) as e:
-            # Parsing errors - log and continue
-            print(f"Warning: Failed to parse {file_path}: {e}", file=sys.stderr)
-            continue
-        except Exception as e:
-            # Unexpected errors - log with type details
-            print(f"Warning: Unexpected error loading {file_path} ({type(e).__name__}): {e}", file=sys.stderr)
-            continue
-
-    return rules
-
-
-def load_rule_file(file_path: str) -> Optional[Rule]:
+// In static mode, access is snapshotted at boot and never re-read or written.
+// Pairing requires runtime mutation, so it's downgraded to allowlist with a
+// startup warning — handing out codes that never get approved would be worse.
+const BOOT_ACCESS: Access | null = STATIC
+  ? (() => {
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
 
-### `plugins/security-guidance/hooks/security_reminder_hook.py`
+### `external_plugins/telegram/server.ts`
 
-The `debug_log` function in [`plugins/security-guidance/hooks/security_reminder_hook.py`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/plugins/security-guidance/hooks/security_reminder_hook.py) handles a key part of this chapter's functionality:
+The `loadAccess` function in [`external_plugins/telegram/server.ts`](https://github.com/anthropics/claude-plugins-official/blob/HEAD/external_plugins/telegram/server.ts) handles a key part of this chapter's functionality:
 
-```py
+```ts
+  : null
 
+function loadAccess(): Access {
+  return BOOT_ACCESS ?? readAccessFile()
+}
 
-def debug_log(message):
-    """Append debug message to log file with timestamp."""
-    try:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-        with open(DEBUG_LOG_FILE, "a") as f:
-            f.write(f"[{timestamp}] {message}\n")
-    except Exception as e:
-        # Silently ignore logging errors to avoid disrupting the hook
-        pass
+// Outbound gate — reply/react/edit can only target chats the inbound gate
+// would deliver from. Telegram DM chat_id == user_id, so allowFrom covers DMs.
+function assertAllowedChat(chat_id: string): void {
+  const access = loadAccess()
+  if (access.allowFrom.includes(chat_id)) return
+  if (chat_id in access.groups) return
+  throw new Error(`chat ${chat_id} is not allowlisted — add via /telegram:access`)
+}
 
+function saveAccess(a: Access): void {
+  if (STATIC) return
+  mkdirSync(STATE_DIR, { recursive: true, mode: 0o700 })
+  const tmp = ACCESS_FILE + '.tmp'
+  writeFileSync(tmp, JSON.stringify(a, null, 2) + '\n', { mode: 0o600 })
+  renameSync(tmp, ACCESS_FILE)
+}
 
-# State file to track warnings shown (session-scoped using session ID)
-
-# Security patterns configuration
-SECURITY_PATTERNS = [
-    {
-        "ruleName": "github_actions_workflow",
-        "path_check": lambda path: ".github/workflows/" in path
-        and (path.endswith(".yml") or path.endswith(".yaml")),
-        "reminder": """You are editing a GitHub Actions workflow file. Be aware of these security risks:
-
-1. **Command Injection**: Never use untrusted input (like issue titles, PR descriptions, commit messages) directly in run: commands without proper escaping
-2. **Use environment variables**: Instead of ${{ github.event.issue.title }}, use env: with proper quoting
-3. **Review the guide**: https://github.blog/security/vulnerability-research/how-to-catch-github-actions-workflow-injections-before-attackers-do/
-
-Example of UNSAFE pattern to avoid:
-run: echo "${{ github.event.issue.title }}"
-
-Example of SAFE pattern:
-env:
+function pruneExpired(a: Access): boolean {
+  const now = Date.now()
+  let changed = false
+  for (const [code, p] of Object.entries(a.pending)) {
+    if (p.expiresAt < now) {
+      delete a.pending[code]
+      changed = true
+    }
+  }
 ```
 
 This function is important because it defines how Claude Plugins Official Tutorial: Anthropic's Managed Plugin Directory implements the patterns covered in this chapter.
@@ -222,11 +220,11 @@ This function is important because it defines how Claude Plugins Official Tutori
 
 ```mermaid
 flowchart TD
-    A[extract_frontmatter]
-    B[load_rules]
-    C[load_rule_file]
-    D[debug_log]
-    E[get_state_file]
+    A[defaultAccess]
+    B[assertSendable]
+    C[readAccessFile]
+    D[loadAccess]
+    E[assertAllowedChat]
     A --> B
     B --> C
     C --> D

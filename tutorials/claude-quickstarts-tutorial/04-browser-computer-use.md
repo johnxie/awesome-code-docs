@@ -113,88 +113,86 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `autonomous-coding/security.py`
 
-The `extract_commands` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `bash_security_hook` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def extract_commands(command_string: str) -> list[str]:
+async def bash_security_hook(input_data, tool_use_id=None, context=None):
     """
-    Extract command names from a shell command string.
+    Pre-tool-use hook that validates bash commands using an allowlist.
 
-    Handles pipes, command chaining (&&, ||, ;), and subshells.
-    Returns the base command names (without paths).
+    Only commands in ALLOWED_COMMANDS are permitted.
 
     Args:
-        command_string: The full shell command
+        input_data: Dict containing tool_name and tool_input
+        tool_use_id: Optional tool use ID
+        context: Optional context
 
     Returns:
-        List of command names found in the string
+        Empty dict to allow, or {"decision": "block", "reason": "..."} to block
     """
-    commands = []
+    if input_data.get("tool_name") != "Bash":
+        return {}
 
-    # shlex doesn't treat ; as a separator, so we need to pre-process
-    import re
+    command = input_data.get("tool_input", {}).get("command", "")
+    if not command:
+        return {}
 
-    # Split on semicolons that aren't inside quotes (simple heuristic)
-    # This handles common cases like "echo hello; ls"
-    segments = re.split(r'(?<!["\'])\s*;\s*(?!["\'])', command_string)
+    # Extract all commands from the command string
+    commands = extract_commands(command)
 
-    for segment in segments:
-        segment = segment.strip()
-        if not segment:
-            continue
-
-        try:
-            tokens = shlex.split(segment)
-        except ValueError:
+    if not commands:
+        # Could not parse - fail safe by blocking
+        return {
+            "decision": "block",
+            "reason": f"Could not parse command for security validation: {command}",
+        }
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
 
-### `autonomous-coding/security.py`
+### `autonomous-coding/autonomous_agent_demo.py`
 
-The `validate_pkill_command` function in [`autonomous-coding/security.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/security.py) handles a key part of this chapter's functionality:
+The `parse_args` function in [`autonomous-coding/autonomous_agent_demo.py`](https://github.com/anthropics/anthropic-quickstarts/blob/HEAD/autonomous-coding/autonomous_agent_demo.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def validate_pkill_command(command_string: str) -> tuple[bool, str]:
-    """
-    Validate pkill commands - only allow killing dev-related processes.
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Autonomous Coding Agent Demo - Long-running agent harness",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Start fresh project
+  python autonomous_agent_demo.py --project-dir ./claude_clone
 
-    Uses shlex to parse the command, avoiding regex bypass vulnerabilities.
+  # Use a specific model
+  python autonomous_agent_demo.py --project-dir ./claude_clone --model claude-sonnet-4-5-20250929
 
-    Returns:
-        Tuple of (is_allowed, reason_if_blocked)
-    """
-    # Allowed process names for pkill
-    allowed_process_names = {
-        "node",
-        "npm",
-        "npx",
-        "vite",
-        "next",
-    }
+  # Limit iterations for testing
+  python autonomous_agent_demo.py --project-dir ./claude_clone --max-iterations 5
 
-    try:
-        tokens = shlex.split(command_string)
-    except ValueError:
-        return False, "Could not parse pkill command"
+  # Continue existing project
+  python autonomous_agent_demo.py --project-dir ./claude_clone
 
-    if not tokens:
-        return False, "Empty pkill command"
+Environment Variables:
+  ANTHROPIC_API_KEY    Your Anthropic API key (required)
+        """,
+    )
 
-    # Separate flags from arguments
-    args = []
-    for token in tokens[1:]:
-        if not token.startswith("-"):
+    parser.add_argument(
+        "--project-dir",
+        type=Path,
+        default=Path("./autonomous_demo_project"),
+        help="Directory for the project (default: generations/autonomous_demo_project). Relative paths automatically placed in generations/ directory.",
+    )
 ```
 
 This function is important because it defines how Claude Quickstarts Tutorial: Production Integration Patterns implements the patterns covered in this chapter.
@@ -204,7 +202,7 @@ This function is important because it defines how Claude Quickstarts Tutorial: P
 
 ```mermaid
 flowchart TD
-    A[extract_commands]
-    B[validate_pkill_command]
+    A[bash_security_hook]
+    B[parse_args]
     A --> B
 ```

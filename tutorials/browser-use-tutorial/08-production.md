@@ -970,6 +970,27 @@ curl -f http://localhost:8000/health || echo "Health check failed"
 echo "Recovery completed!"
 ```
 
+## Production Architecture
+
+```mermaid
+flowchart TD
+    A[Task request received]
+    B[Browser pool allocates instance]
+    C[Agent runs with headless Chromium]
+    D[Action executed with retry on failure]
+    E[Screenshot and logs emitted]
+    F[Result returned to caller]
+    G[Browser instance returned to pool]
+    H[Circuit breaker opens on repeated failures]
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    D -- failure --> H
+```
+
 ## Summary
 
 In this chapter, we've covered:

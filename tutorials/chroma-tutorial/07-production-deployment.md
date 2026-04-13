@@ -12,6 +12,20 @@ Welcome to **Chapter 7: Production Deployment**. In this part of **ChromaDB Tuto
 
 Scale Chroma for production workloads! This chapter covers deployment strategies, scaling, monitoring, and operational best practices for production Chroma deployments.
 
+## Production Deployment Modes
+
+```mermaid
+graph TD
+    Dev["Development\nEphemeralClient()"] --> PersistLocal["Persistent Local\nPersistentClient(path=)"]
+    PersistLocal --> Server["Server Mode\nchroma run --path /data"]
+    Server --> HTTPClient["HttpClient\n(host, port, auth)"]
+    HTTPClient --> LB["Load Balancer\n(multiple replicas)"]
+    LB --> Auth["Auth Layer\n(chromadb/auth/)"]
+    Auth --> API["FastAPI Server\n(chromadb/api/fastapi.py)"]
+    API --> Seg["SegmentAPI\n(storage backend)"]
+    Seg --> Rust["Rust HNSW\n(chromadb bindings)"]
+```
+
 ## Production Architecture
 
 ### Scalable Deployment
@@ -314,16 +328,20 @@ Under the hood, `Chapter 7: Production Deployment` usually follows a repeatable 
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `chromadb/api/fastapi.py`
 
-- [View Repo](https://github.com/chroma-core/chroma)
-  Why it matters: authoritative reference on `View Repo` (github.com).
+The `FastAPI` class in [`chromadb/api/fastapi.py`](https://github.com/chroma-core/chroma/blob/main/chromadb/api/fastapi.py) implements the HTTP server layer. The `chromadb/auth/` directory provides pluggable authentication (token-based, basic auth) via the `UserIdentity` abstraction:
 
-Suggested trace strategy:
-- search upstream code for `self` and `client` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```python
+from chromadb.auth import UserIdentity
+from chromadb.auth.utils import maybe_set_tenant_and_database
+from chromadb.config import Settings, System
+from chromadb.config import DEFAULT_TENANT, DEFAULT_DATABASE
+```
+
+For production deployments, `Settings` controls persistence path, anonymized telemetry, auth providers, and log level. The `Tiltfile` at the repo root enables local Kubernetes development via Tilt, and the `Dockerfile` provides the official container image used in production deployments.
 
 ## Chapter Connections
 

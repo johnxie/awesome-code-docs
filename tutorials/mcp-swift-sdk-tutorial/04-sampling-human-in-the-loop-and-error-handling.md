@@ -38,170 +38,150 @@ You now have a human-in-the-loop sampling pattern for safer Swift client operati
 
 Next: [Chapter 5: Server Setup, Hooks, and Primitive Authoring](05-server-setup-hooks-and-primitive-authoring.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `Sources/MCP/Server/Tools.swift`
+### `Sources/MCP/Server/Resources.swift`
 
-The `CodingKeys` interface in [`Sources/MCP/Server/Tools.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Tools.swift) handles a key part of this chapter's functionality:
+The `ResourceUpdatedNotification` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
 
 ```swift
+/// When a resource changes, servers that declared the updated capability SHOULD send a notification to subscribed clients.
+/// - SeeAlso: https://modelcontextprotocol.io/specification/2025-11-25/server/resources/#subscriptions
+public struct ResourceUpdatedNotification: Notification {
+    public static let name: String = "notifications/resources/updated"
+
+    public struct Parameters: Hashable, Codable, Sendable {
+        public let uri: String
+
+        public init(uri: String) {
+            self.uri = uri
         }
+    }
+}
 
-        private enum CodingKeys: String, CodingKey {
-            case type
-            case text
-            case image
-            case resource
-            case resource_link
-            case audio
-            case uri
-            case name
-            case title
-            case description
-            case annotations
-            case mimeType
-            case data
-            case _meta
-        }
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let type = try container.decode(String.self, forKey: .type)
-
-            switch type {
-            case "text":
-                let text = try container.decode(String.self, forKey: .text)
-                let annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
-                let _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
-                self = .text(text: text, annotations: annotations, _meta: _meta)
-            case "image":
-                let data = try container.decode(String.self, forKey: .data)
-                let mimeType = try container.decode(String.self, forKey: .mimeType)
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
 
-### `Sources/MCP/Server/Tools.swift`
+### `Sources/MCP/Server/Resources.swift`
 
-The `CodingKeys` interface in [`Sources/MCP/Server/Tools.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Tools.swift) handles a key part of this chapter's functionality:
-
-```swift
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case type
-            case text
-            case image
-            case resource
-            case resource_link
-            case audio
-            case uri
-            case name
-            case title
-            case description
-            case annotations
-            case mimeType
-            case data
-            case _meta
-        }
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            let type = try container.decode(String.self, forKey: .type)
-
-            switch type {
-            case "text":
-                let text = try container.decode(String.self, forKey: .text)
-                let annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
-                let _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
-                self = .text(text: text, annotations: annotations, _meta: _meta)
-            case "image":
-                let data = try container.decode(String.self, forKey: .data)
-                let mimeType = try container.decode(String.self, forKey: .mimeType)
-```
-
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCPConformance/Server/HTTPApp.swift`
-
-The `Configuration` interface in [`Sources/MCPConformance/Server/HTTPApp.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCPConformance/Server/HTTPApp.swift) handles a key part of this chapter's functionality:
+The `Parameters` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
 
 ```swift
+    public static let name: String = "resources/list"
 
-actor HTTPApp {
-    /// Configuration for the HTTP application.
-    struct Configuration: Sendable {
-        /// The host address to bind to.
-        var host: String
+    public struct Parameters: NotRequired, Hashable, Codable, Sendable {
+        public let cursor: String?
 
-        /// The port to bind to.
-        var port: Int
-
-        /// The MCP endpoint path.
-        var endpoint: String
-
-        /// Session timeout in seconds.
-        var sessionTimeout: TimeInterval
-
-        /// SSE retry interval in milliseconds for priming events.
-        var retryInterval: Int?
-
-        init(
-            host: String = "127.0.0.1",
-            port: Int = 3000,
-            endpoint: String = "/mcp",
-            sessionTimeout: TimeInterval = 3600,
-            retryInterval: Int? = nil
-        ) {
-            self.host = host
-            self.port = port
-            self.endpoint = endpoint
-            self.sessionTimeout = sessionTimeout
-            self.retryInterval = retryInterval
+        public init() {
+            self.cursor = nil
         }
-```
 
-This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
-
-### `Sources/MCPConformance/Server/HTTPApp.swift`
-
-The `SessionContext` interface in [`Sources/MCPConformance/Server/HTTPApp.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCPConformance/Server/HTTPApp.swift) handles a key part of this chapter's functionality:
-
-```swift
-    private let validationPipeline: (any HTTPRequestValidationPipeline)?
-    private var channel: Channel?
-    private var sessions: [String: SessionContext] = [:]
-
-    nonisolated let logger: Logger
-
-    struct SessionContext {
-        let server: Server
-        let transport: StatefulHTTPServerTransport
-        let createdAt: Date
-        var lastAccessedAt: Date
+        public init(cursor: String) {
+            self.cursor = cursor
+        }
     }
 
-    // MARK: - Init
+    public struct Result: Hashable, Codable, Sendable {
+        public let resources: [Resource]
+        public let nextCursor: String?
+        public var _meta: Metadata?
 
-    /// Creates a new HTTP application.
-    ///
-    /// - Parameters:
-    ///   - configuration: Application configuration.
-    ///   - validationPipeline: Custom validation pipeline passed to each transport.
-    ///     If `nil`, transports use their sensible defaults.
-    ///   - serverFactory: Factory function to create Server instances for each session.
-    ///   - logger: Optional logger instance.
-    init(
-        configuration: Configuration = Configuration(),
-        validationPipeline: (any HTTPRequestValidationPipeline)? = nil,
-        serverFactory: @escaping ServerFactory,
-        logger: Logger? = nil
-    ) {
-        self.configuration = configuration
-        self.serverFactory = serverFactory
-        self.validationPipeline = validationPipeline
+        public init(
+            resources: [Resource],
+            nextCursor: String? = nil,
+            _meta: Metadata? = nil
+        ) {
+            self.resources = resources
+            self.nextCursor = nextCursor
+            self._meta = _meta
+        }
+
+        private enum CodingKeys: String, CodingKey, CaseIterable {
+            case resources, nextCursor, _meta
+        }
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Server/Resources.swift`
+
+The `CodingKeys` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
+
+```swift
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case uri
+        case title
+        case description
+        case mimeType
+        case size
+        case annotations
+        case icons
+        case _meta
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        uri = try container.decode(String.self, forKey: .uri)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        description = try container.decodeIfPresent(String.self, forKey: .description)
+        mimeType = try container.decodeIfPresent(String.self, forKey: .mimeType)
+        size = try container.decodeIfPresent(Int.self, forKey: .size)
+        annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
+        icons = try container.decodeIfPresent([Icon].self, forKey: .icons)
+        _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(uri, forKey: .uri)
+        try container.encodeIfPresent(title, forKey: .title)
+```
+
+This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
+
+### `Sources/MCP/Server/Resources.swift`
+
+The `CodingKeys` interface in [`Sources/MCP/Server/Resources.swift`](https://github.com/modelcontextprotocol/swift-sdk/blob/HEAD/Sources/MCP/Server/Resources.swift) handles a key part of this chapter's functionality:
+
+```swift
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case uri
+        case title
+        case description
+        case mimeType
+        case size
+        case annotations
+        case icons
+        case _meta
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        uri = try container.decode(String.self, forKey: .uri)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
+        description = try container.decodeIfPresent(String.self, forKey: .description)
+        mimeType = try container.decodeIfPresent(String.self, forKey: .mimeType)
+        size = try container.decodeIfPresent(Int.self, forKey: .size)
+        annotations = try container.decodeIfPresent(Resource.Annotations.self, forKey: .annotations)
+        icons = try container.decodeIfPresent([Icon].self, forKey: .icons)
+        _meta = try container.decodeIfPresent(Metadata.self, forKey: ._meta)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(uri, forKey: .uri)
+        try container.encodeIfPresent(title, forKey: .title)
 ```
 
 This interface is important because it defines how MCP Swift SDK Tutorial: Building MCP Clients and Servers in Swift implements the patterns covered in this chapter.
@@ -211,11 +191,11 @@ This interface is important because it defines how MCP Swift SDK Tutorial: Build
 
 ```mermaid
 flowchart TD
-    A[CodingKeys]
-    B[CodingKeys]
-    C[Configuration]
-    D[SessionContext]
-    E[FixedSessionIDGenerator]
+    A[ResourceUpdatedNotification]
+    B[Parameters]
+    C[CodingKeys]
+    D[CodingKeys]
+    E[Audience]
     A --> B
     B --> C
     C --> D

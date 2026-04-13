@@ -48,50 +48,7 @@ You now have a practical troubleshooting and safety playbook for Refly operation
 
 Next: [Chapter 8: Contribution Workflow and Governance](08-contribution-workflow-and-governance.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
-
-### `apps/web/tailwind.config.ts`
-
-The `defineConfig` function in [`apps/web/tailwind.config.ts`](https://github.com/refly-ai/refly/blob/HEAD/apps/web/tailwind.config.ts) handles a key part of this chapter's functionality:
-
-```ts
-});
-
-export function defineConfig(): Config {
-  return {
-    darkMode: 'class',
-    plugins: [AntdOverwritePlugin],
-    corePlugins: {
-      preflight: false,
-    },
-    content,
-    theme: {
-      extend: {
-        gridTemplateColumns: {
-          // Custom grid columns for avatar wall
-          '13': 'repeat(13, minmax(0, 1fr))',
-          '14': 'repeat(14, minmax(0, 1fr))',
-          '15': 'repeat(15, minmax(0, 1fr))',
-          '16': 'repeat(16, minmax(0, 1fr))',
-        },
-        fontFamily: {
-          inter: ['Inter', 'sans-serif'],
-          'architects-daughter': ['"Architects Daughter"', 'sans-serif'],
-        },
-        fontSize: {
-          xs: ['12px', '20px'],
-          sm: ['14px', '22px'],
-          base: ['16px', '24px'],
-          lg: ['18px', '28px'],
-          xl: ['20px', '30px'],
-          '2xl': ['24px', '36px'],
-        },
-        animation: {
-```
-
-This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
 ### `packages/cli/tsup.config.ts`
 
@@ -134,12 +91,53 @@ export default defineConfig({
 
 This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
 
+### `packages/cli/tsup.config.ts`
+
+The `getDefaultWebUrl` function in [`packages/cli/tsup.config.ts`](https://github.com/refly-ai/refly/blob/HEAD/packages/cli/tsup.config.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+// Determine the default Web URL based on build environment
+function getDefaultWebUrl(): string {
+  if (customWebUrl) return customWebUrl;
+  if (customEndpoint) return customEndpoint; // Assume same domain if only endpoint specified
+  return ENV_CONFIG[buildEnv]?.webUrl ?? ENV_CONFIG.production.webUrl;
+}
+
+// Determine the npm tag based on build environment
+function getNpmTag(): string {
+  return ENV_CONFIG[buildEnv]?.npmTag ?? 'latest';
+}
+
+const defaultEndpoint = getDefaultEndpoint();
+const defaultWebUrl = getDefaultWebUrl();
+const npmTag = getNpmTag();
+
+console.log(`[tsup] Building CLI for environment: ${buildEnv}`);
+console.log(`[tsup] CLI version: ${cliVersion}`);
+console.log(`[tsup] NPM tag: ${npmTag}`);
+console.log(`[tsup] Default API endpoint: ${defaultEndpoint}`);
+console.log(`[tsup] Default Web URL: ${defaultWebUrl}`);
+
+export default defineConfig({
+  entry: {
+    'bin/refly': 'src/bin/refly.ts',
+    index: 'src/index.ts',
+  },
+  format: ['cjs'],
+  target: 'node18',
+  clean: true,
+  dts: true,
+```
+
+This function is important because it defines how Refly Tutorial: Build Deterministic Agent Skills and Ship Them Across APIs and Claude Code implements the patterns covered in this chapter.
+
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[defineConfig]
-    B[getDefaultEndpoint]
+    A[getDefaultEndpoint]
+    B[getDefaultWebUrl]
     A --> B
 ```

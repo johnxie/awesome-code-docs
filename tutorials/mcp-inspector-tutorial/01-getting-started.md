@@ -52,8 +52,6 @@ You now have a working Inspector baseline with validated server connectivity.
 
 Next: [Chapter 2: Architecture, Transports, and Session Model](02-architecture-transports-and-session-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
 ### `cli/src/index.ts`

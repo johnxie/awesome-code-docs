@@ -531,6 +531,20 @@ Under the hood, `Chapter 1: Getting Started with Phidata Agents` usually follows
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Overview
+
+```mermaid
+flowchart TD
+    A[User Input] --> B[Phidata Agent]
+    B --> C[Reasoning Engine]
+    C --> D{Action}
+    D -->|Use Tool| E[Tool Execution]
+    D -->|Respond| F[Response Generation]
+    E --> G[Result]
+    G --> C
+    F --> H[Final Output]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

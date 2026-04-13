@@ -36,182 +36,182 @@ You now have a strategy for turning ad hoc prompt patterns into reusable Vibe sk
 
 Next: [Chapter 5: Subagents and Task Delegation](05-subagents-and-task-delegation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `vibe/acp/utils.py`
+### `vibe/core/types.py`
 
-The `import` interface in [`vibe/acp/utils.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/acp/utils.py) handles a key part of this chapter's functionality:
-
-```py
-from __future__ import annotations
-
-from enum import StrEnum
-from typing import TYPE_CHECKING, Literal, cast
-
-from acp.schema import (
-    AgentMessageChunk,
-    AgentThoughtChunk,
-    ContentToolCallContent,
-    ModelInfo,
-    PermissionOption,
-    SessionConfigOption,
-    SessionConfigOptionSelect,
-    SessionConfigSelectOption,
-    SessionMode,
-    SessionModelState,
-    SessionModeState,
-    TextContentBlock,
-    ToolCallProgress,
-    ToolCallStart,
-    UserMessageChunk,
-)
-
-from vibe.core.agents.models import AgentProfile, AgentType
-from vibe.core.proxy_setup import SUPPORTED_PROXY_VARS, get_current_proxy_settings
-from vibe.core.types import CompactEndEvent, CompactStartEvent, LLMMessage
-from vibe.core.utils import compact_reduction_display
-
-if TYPE_CHECKING:
-    from vibe.core.config import ModelConfig
-```
-
-This interface is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
-
-### `vibe/core/system_prompt.py`
-
-The `ProjectContextProvider` class in [`vibe/core/system_prompt.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/system_prompt.py) handles a key part of this chapter's functionality:
+The `ReasoningEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-class ProjectContextProvider:
-    def __init__(
-        self, config: ProjectContextConfig, root_path: str | Path = "."
-    ) -> None:
-        self.root_path = Path(root_path).resolve()
-        self.config = config
+class ReasoningEvent(BaseEvent):
+    content: str
+    message_id: str | None = None
 
-    def get_git_status(self) -> str:
-        if self.root_path in _git_status_cache:
-            return _git_status_cache[self.root_path]
 
-        result = self._fetch_git_status()
-        _git_status_cache[self.root_path] = result
-        return result
+class ToolCallEvent(BaseEvent):
+    tool_call_id: str
+    tool_name: str
+    tool_class: type[BaseTool]
+    tool_call_index: int | None = None
+    args: BaseModel | None = None
 
-    def _fetch_git_status(self) -> str:
-        try:
-            timeout = min(self.config.timeout_seconds, 10.0)
-            num_commits = self.config.default_commit_count
 
-            current_branch = subprocess.run(
-                ["git", "branch", "--show-current"],
-                capture_output=True,
-                check=True,
-                cwd=self.root_path,
-                stdin=subprocess.DEVNULL if is_windows() else None,
-                text=True,
-                timeout=timeout,
-            ).stdout.strip()
+class ToolResultEvent(BaseEvent):
+    tool_name: str
+    tool_class: type[BaseTool] | None
+    result: BaseModel | None = None
+    error: str | None = None
+    skipped: bool = False
+    skip_reason: str | None = None
+    cancelled: bool = False
+    duration: float | None = None
+    tool_call_id: str
+
+
+class ToolStreamEvent(BaseEvent):
+    tool_name: str
+    message: str
+    tool_call_id: str
 
 ```
 
 This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/system_prompt.py`
+### `vibe/core/types.py`
 
-The `in` class in [`vibe/core/system_prompt.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/system_prompt.py) handles a key part of this chapter's functionality:
+The `ToolCallEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
 
 ```py
-import os
-from pathlib import Path
-from string import Template
-import subprocess
-import sys
-from typing import TYPE_CHECKING
-
-from vibe.core.config.harness_files import get_harness_files_manager
-from vibe.core.paths import VIBE_HOME
-from vibe.core.prompts import UtilityPrompt
-from vibe.core.utils import is_dangerous_directory, is_windows
-
-if TYPE_CHECKING:
-    from vibe.core.agents import AgentManager
-    from vibe.core.config import ProjectContextConfig, VibeConfig
-    from vibe.core.skills.manager import SkillManager
-    from vibe.core.tools.manager import ToolManager
-
-_git_status_cache: dict[Path, str] = {}
 
 
-class ProjectContextProvider:
-    def __init__(
-        self, config: ProjectContextConfig, root_path: str | Path = "."
-    ) -> None:
-        self.root_path = Path(root_path).resolve()
-        self.config = config
+class ToolCallEvent(BaseEvent):
+    tool_call_id: str
+    tool_name: str
+    tool_class: type[BaseTool]
+    tool_call_index: int | None = None
+    args: BaseModel | None = None
 
-    def get_git_status(self) -> str:
-        if self.root_path in _git_status_cache:
-            return _git_status_cache[self.root_path]
 
+class ToolResultEvent(BaseEvent):
+    tool_name: str
+    tool_class: type[BaseTool] | None
+    result: BaseModel | None = None
+    error: str | None = None
+    skipped: bool = False
+    skip_reason: str | None = None
+    cancelled: bool = False
+    duration: float | None = None
+    tool_call_id: str
+
+
+class ToolStreamEvent(BaseEvent):
+    tool_name: str
+    message: str
+    tool_call_id: str
+
+
+class WaitingForInputEvent(BaseEvent):
+    task_id: str
+    label: str | None = None
+    predefined_answers: list[str] | None = None
 ```
 
 This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
-### `vibe/core/system_prompt.py`
+### `vibe/core/types.py`
 
-The `get_universal_system_prompt` function in [`vibe/core/system_prompt.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/system_prompt.py) handles a key part of this chapter's functionality:
+The `ToolResultEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
 
 ```py
 
 
-def get_universal_system_prompt(
-    tool_manager: ToolManager,
-    config: VibeConfig,
-    skill_manager: SkillManager,
-    agent_manager: AgentManager,
-) -> str:
-    sections = [config.system_prompt]
+class ToolResultEvent(BaseEvent):
+    tool_name: str
+    tool_class: type[BaseTool] | None
+    result: BaseModel | None = None
+    error: str | None = None
+    skipped: bool = False
+    skip_reason: str | None = None
+    cancelled: bool = False
+    duration: float | None = None
+    tool_call_id: str
 
-    if config.include_commit_signature:
-        sections.append(_add_commit_signature())
 
-    if config.include_model_info:
-        sections.append(f"Your model name is: `{config.active_model}`")
+class ToolStreamEvent(BaseEvent):
+    tool_name: str
+    message: str
+    tool_call_id: str
 
-    if config.include_prompt_detail:
-        sections.append(_get_os_system_prompt())
-        tool_prompts = []
-        for tool_class in tool_manager.available_tools.values():
-            if prompt := tool_class.get_tool_prompt():
-                tool_prompts.append(prompt)
-        if tool_prompts:
-            sections.append("\n---\n".join(tool_prompts))
 
-        skills_section = _get_available_skills_section(skill_manager)
-        if skills_section:
-            sections.append(skills_section)
+class WaitingForInputEvent(BaseEvent):
+    task_id: str
+    label: str | None = None
+    predefined_answers: list[str] | None = None
 
-        subagents_section = _get_available_subagents_section(agent_manager)
-        if subagents_section:
-            sections.append(subagents_section)
+
+class CompactStartEvent(BaseEvent):
+    current_context_tokens: int
+    threshold: int
+    # WORKAROUND: Using tool_call to communicate compact events to the client.
+    # This should be revisited when the ACP protocol defines how compact events
+    # should be represented.
 ```
 
-This function is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
+
+### `vibe/core/types.py`
+
+The `ToolStreamEvent` class in [`vibe/core/types.py`](https://github.com/mistralai/mistral-vibe/blob/HEAD/vibe/core/types.py) handles a key part of this chapter's functionality:
+
+```py
+
+
+class ToolStreamEvent(BaseEvent):
+    tool_name: str
+    message: str
+    tool_call_id: str
+
+
+class WaitingForInputEvent(BaseEvent):
+    task_id: str
+    label: str | None = None
+    predefined_answers: list[str] | None = None
+
+
+class CompactStartEvent(BaseEvent):
+    current_context_tokens: int
+    threshold: int
+    # WORKAROUND: Using tool_call to communicate compact events to the client.
+    # This should be revisited when the ACP protocol defines how compact events
+    # should be represented.
+    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
+    tool_call_id: str
+
+
+class CompactEndEvent(BaseEvent):
+    old_context_tokens: int
+    new_context_tokens: int
+    summary_length: int
+    # WORKAROUND: Using tool_call to communicate compact events to the client.
+    # This should be revisited when the ACP protocol defines how compact events
+    # should be represented.
+    # [RFD](https://agentclientprotocol.com/rfds/session-usage)
+```
+
+This class is important because it defines how Mistral Vibe Tutorial: Minimal CLI Coding Agent by Mistral implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[import]
-    B[ProjectContextProvider]
-    C[in]
-    D[get_universal_system_prompt]
-    E[TaggedText]
+    A[ReasoningEvent]
+    B[ToolCallEvent]
+    C[ToolResultEvent]
+    D[ToolStreamEvent]
+    E[WaitingForInputEvent]
     A --> B
     B --> C
     C --> D

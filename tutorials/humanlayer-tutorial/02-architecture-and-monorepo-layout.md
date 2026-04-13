@@ -28,170 +28,168 @@ You now know where to inspect and extend key parts of the HumanLayer codebase.
 
 Next: [Chapter 3: Context Engineering Workflows](03-context-engineering-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `hack/visualize.ts`
+### `claudecode-go/client.go`
 
-The `processStream` function in [`hack/visualize.ts`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/visualize.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function processStream() {
-  const rl = createInterface({
-    input: process.stdin,
-    crlfDelay: Infinity,
-  });
-
-  const debugMode = process.argv.includes('--debug');
-  const toolCalls = new Map(); // Store tool calls by their ID
-  const pendingResults = new Map(); // Store results waiting for their tool calls
-  let lastLine = null; // Track the last line to detect final message
-  let isLastAssistantMessage = false;
-
-  rl.on('line', (line) => {
-    if (line.trim()) {
-      const timestamp = debugMode
-        ? `${colors.dim}[${new Date().toISOString()}]${colors.reset} `
-        : '';
-
-      try {
-        const json = JSON.parse(line);
-
-        // Check if this is a tool call
-        if (json.type === 'assistant' && json.message?.content?.[0]?.id) {
-          const toolCall = json.message.content[0];
-          const toolId = toolCall.id;
-
-          // Store the tool call
-          toolCalls.set(toolId, {
-            toolCall: json,
-            timestamp: timestamp,
-```
-
-This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
-
-### `hack/visualize.ts`
-
-The `displayToolCallWithResult` function in [`hack/visualize.ts`](https://github.com/humanlayer/humanlayer/blob/HEAD/hack/visualize.ts) handles a key part of this chapter's functionality:
-
-```ts
-          if (pendingResults.has(toolId)) {
-            const result = pendingResults.get(toolId);
-            displayToolCallWithResult(
-              toolCall,
-              json,
-              result.toolResult,
-              result.timestamp,
-              timestamp
-            );
-            pendingResults.delete(toolId);
-          } else {
-            // Display the tool call and mark it as pending
-            process.stdout.write(`${timestamp + formatConcise(json)}\n`);
-            process.stdout.write(`${colors.dim}  ⎿  Waiting for result...${colors.reset}\n\n`);
-          }
-        }
-        // Check if this is a tool result
-        else if (json.type === 'user' && json.message?.content?.[0]?.type === 'tool_result') {
-          const toolResult = json.message.content[0];
-          const toolId = toolResult.tool_use_id;
-
-          if (toolCalls.has(toolId)) {
-            // We have the matching tool call, display them together
-            const stored = toolCalls.get(toolId);
-            displayToolCallWithResult(
-              stored.toolCall.message.content[0],
-              stored.toolCall,
-              json,
-              stored.timestamp,
-              timestamp
-            );
-            toolCalls.delete(toolId);
-```
-
-This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
-
-### `claudecode-go/types.go`
-
-The `UnmarshalJSON` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
+The `GetPath` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// UnmarshalJSON implements custom unmarshaling to handle both string and array formats
-func (c *ContentField) UnmarshalJSON(data []byte) error {
-	// First try to unmarshal as string
-	var str string
-	if err := json.Unmarshal(data, &str); err == nil {
-		c.Value = str
-		return nil
+// GetPath returns the path to the Claude binary
+func (c *Client) GetPath() string {
+	return c.claudePath
+}
+
+// GetVersion executes claude --version and returns the version string
+func (c *Client) GetVersion() (string, error) {
+	if c.claudePath == "" {
+		return "", fmt.Errorf("claude path not set")
 	}
 
-	// If that fails, try array format
-	var arr []struct {
-		Type string `json:"type"`
-		Text string `json:"text"`
+	// Create command with timeout to prevent hanging
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, c.claudePath, "--version")
+	output, err := cmd.Output()
+	if err != nil {
+		// Check if it was a timeout
+		if ctx.Err() == context.DeadlineExceeded {
+			return "", fmt.Errorf("claude --version timed out after 5 seconds")
+		}
+		// Check for exit error to get more details
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			return "", fmt.Errorf("claude --version failed with exit code %d: %s", exitErr.ExitCode(), string(exitErr.Stderr))
+		}
+		return "", fmt.Errorf("failed to execute claude --version: %w", err)
 	}
-	if err := json.Unmarshal(data, &arr); err == nil {
-		// Concatenate all text elements
-		var texts []string
-		for _, item := range arr {
-			if item.Type == "text" && item.Text != "" {
-				texts = append(texts, item.Text)
+
+	// Trim whitespace and return
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `GetVersion` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// GetVersion executes claude --version and returns the version string
+func (c *Client) GetVersion() (string, error) {
+	if c.claudePath == "" {
+		return "", fmt.Errorf("claude path not set")
+	}
+
+	// Create command with timeout to prevent hanging
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	cmd := exec.CommandContext(ctx, c.claudePath, "--version")
+	output, err := cmd.Output()
+	if err != nil {
+		// Check if it was a timeout
+		if ctx.Err() == context.DeadlineExceeded {
+			return "", fmt.Errorf("claude --version timed out after 5 seconds")
+		}
+		// Check for exit error to get more details
+		if exitErr, ok := err.(*exec.ExitError); ok {
+			return "", fmt.Errorf("claude --version failed with exit code %d: %s", exitErr.ExitCode(), string(exitErr.Stderr))
+		}
+		return "", fmt.Errorf("failed to execute claude --version: %w", err)
+	}
+
+	// Trim whitespace and return
+	version := strings.TrimSpace(string(output))
+	if version == "" {
+		return "", fmt.Errorf("claude --version returned empty output")
+	}
+
+```
+
+This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
+
+### `claudecode-go/client.go`
+
+The `isExecutable` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
+
+```go
+		if _, err := os.Stat(candidatePath); err == nil {
+			// Verify it's executable
+			if err := isExecutable(candidatePath); err == nil {
+				return &Client{claudePath: candidatePath}, nil
 			}
 		}
-		c.Value = strings.Join(texts, "\n")
-		return nil
 	}
 
-	return fmt.Errorf("content field is neither string nor array format")
+	// Try login shell as last resort
+	if shellPath := tryLoginShell(); shellPath != "" {
+		return &Client{claudePath: shellPath}, nil
+	}
+
+	return nil, fmt.Errorf("claude binary not found in PATH or common locations")
 }
 
-// MarshalJSON implements custom marshaling to always output as string
+// NewClientWithPath creates a new client with a specific claude binary path
+func NewClientWithPath(claudePath string) *Client {
+	return &Client{
+		claudePath: claudePath,
+	}
+}
+
+// GetPath returns the path to the Claude binary
+func (c *Client) GetPath() string {
+	return c.claudePath
+}
+
+// GetVersion executes claude --version and returns the version string
+func (c *Client) GetVersion() (string, error) {
+	if c.claudePath == "" {
+		return "", fmt.Errorf("claude path not set")
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
 
-### `claudecode-go/types.go`
+### `claudecode-go/client.go`
 
-The `MarshalJSON` function in [`claudecode-go/types.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/types.go) handles a key part of this chapter's functionality:
+The `IsExecutable` function in [`claudecode-go/client.go`](https://github.com/humanlayer/humanlayer/blob/HEAD/claudecode-go/client.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// MarshalJSON implements custom marshaling to always output as string
-func (c ContentField) MarshalJSON() ([]byte, error) {
-	return json.Marshal(c.Value)
+// IsExecutable checks if file is executable (exported version)
+func IsExecutable(path string) error {
+	return isExecutable(path)
 }
 
-// Content can be text or tool use
-type Content struct {
-	Type      string                 `json:"type"`
-	Text      string                 `json:"text,omitempty"`
-	Thinking  string                 `json:"thinking,omitempty"`
-	ID        string                 `json:"id,omitempty"`
-	Name      string                 `json:"name,omitempty"`
-	Input     map[string]interface{} `json:"input,omitempty"`
-	ToolUseID string                 `json:"tool_use_id,omitempty"`
-	Content   ContentField           `json:"content,omitempty"`
+// tryLoginShell attempts to find claude using a login shell
+func tryLoginShell() string {
+	shells := []string{"zsh", "bash"}
+	for _, shell := range shells {
+		cmd := exec.Command(shell, "-lc", "which claude")
+		out, err := cmd.Output()
+		if err == nil {
+			path := strings.TrimSpace(string(out))
+			if path != "" && path != "claude not found" && !shouldSkipPath(path) {
+				return path
+			}
+		}
+	}
+	return ""
 }
 
-// ServerToolUse tracks server-side tool usage
-type ServerToolUse struct {
-	WebSearchRequests int `json:"web_search_requests,omitempty"`
-}
+// buildArgs converts SessionConfig into command line arguments
+func (c *Client) buildArgs(config SessionConfig) ([]string, error) {
+	args := []string{}
 
-// CacheCreation tracks cache creation metrics
-type CacheCreation struct {
-	Ephemeral1HInputTokens int `json:"ephemeral_1h_input_tokens,omitempty"`
-	Ephemeral5MInputTokens int `json:"ephemeral_5m_input_tokens,omitempty"`
-}
+	// Session management
+	if config.SessionID != "" {
+		args = append(args, "--resume", config.SessionID)
 
-// Usage tracks token usage
-type Usage struct {
+		// Add fork flag if specified
 ```
 
 This function is important because it defines how HumanLayer Tutorial: Context Engineering and Human-Governed Coding Agents implements the patterns covered in this chapter.
@@ -201,11 +199,11 @@ This function is important because it defines how HumanLayer Tutorial: Context E
 
 ```mermaid
 flowchart TD
-    A[processStream]
-    B[displayToolCallWithResult]
-    C[UnmarshalJSON]
-    D[MarshalJSON]
-    E[UnmarshalJSON]
+    A[GetPath]
+    B[GetVersion]
+    C[isExecutable]
+    D[IsExecutable]
+    E[tryLoginShell]
     A --> B
     B --> C
     C --> D

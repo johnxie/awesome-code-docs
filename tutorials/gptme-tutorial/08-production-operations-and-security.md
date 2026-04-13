@@ -29,170 +29,168 @@ Production gptme workflows require clear policy on tool permissions, secret hand
 
 You now have a security and operations baseline for running gptme in production environments.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/convert_convo.py`
+### `gptme/telemetry.py`
 
-The `convert_conversation` function in [`scripts/convert_convo.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/convert_convo.py) handles a key part of this chapter's functionality:
+The `init_telemetry` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
 
 ```py
+    set_conversation_context,
+)
+from .util._telemetry import init_telemetry as _init
+from .util._telemetry import is_telemetry_enabled as _is_enabled
+from .util._telemetry import shutdown_telemetry as _shutdown
+
+# Re-export conversation context functions for use by other modules
+__all__ = [
+    "set_conversation_context",
+    "get_conversation_context",
+    "clear_conversation_context",
+    "is_telemetry_enabled",
+    "init_telemetry",
+    "shutdown_telemetry",
+    "trace_function",
+    "record_tokens",
+    "record_request_duration",
+    "record_tool_call",
+    "record_conversation_change",
+    "record_llm_request",
+    "measure_tokens_per_second",
+]
+
+logger = logging.getLogger(__name__)
+
+# Type variable for generic function decoration
+F = TypeVar("F", bound=Callable[..., Any])
 
 
-def convert_conversation(
-    jsonl_path: str,
-    output_dir: str | None = None,
-    verbose: bool = False,
-    filename_format: str = "{index:04d}-{role}.md",
+def is_telemetry_enabled() -> bool:
+    """Check if telemetry is enabled."""
+    return _is_enabled()
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/telemetry.py`
+
+The `shutdown_telemetry` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
+
+```py
+from .util._telemetry import init_telemetry as _init
+from .util._telemetry import is_telemetry_enabled as _is_enabled
+from .util._telemetry import shutdown_telemetry as _shutdown
+
+# Re-export conversation context functions for use by other modules
+__all__ = [
+    "set_conversation_context",
+    "get_conversation_context",
+    "clear_conversation_context",
+    "is_telemetry_enabled",
+    "init_telemetry",
+    "shutdown_telemetry",
+    "trace_function",
+    "record_tokens",
+    "record_request_duration",
+    "record_tool_call",
+    "record_conversation_change",
+    "record_llm_request",
+    "measure_tokens_per_second",
+]
+
+logger = logging.getLogger(__name__)
+
+# Type variable for generic function decoration
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def is_telemetry_enabled() -> bool:
+    """Check if telemetry is enabled."""
+    return _is_enabled()
+
+
+```
+
+This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
+
+### `gptme/telemetry.py`
+
+The `trace_function` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
+
+```py
+    "init_telemetry",
+    "shutdown_telemetry",
+    "trace_function",
+    "record_tokens",
+    "record_request_duration",
+    "record_tool_call",
+    "record_conversation_change",
+    "record_llm_request",
+    "measure_tokens_per_second",
+]
+
+logger = logging.getLogger(__name__)
+
+# Type variable for generic function decoration
+F = TypeVar("F", bound=Callable[..., Any])
+
+
+def is_telemetry_enabled() -> bool:
+    """Check if telemetry is enabled."""
+    return _is_enabled()
+
+
+def init_telemetry(
+    service_name: str = "gptme",
+    enable_flask_instrumentation: bool = True,
+    enable_requests_instrumentation: bool = True,
+    enable_openai_instrumentation: bool = True,
+    enable_anthropic_instrumentation: bool = True,
+    agent_name: str | None = None,
+    interactive: bool | None = None,
 ) -> None:
-    """Convert a conversation.jsonl file to individual markdown files.
-
-    Args:
-        jsonl_path: Path to the conversation.jsonl file
-        output_dir: Directory to write markdown files to (default: markdown/ next to input)
-        verbose: Whether to print progress messages
-        filename_format: Format string for filenames. Available variables:
-                        {index}: Message number
-                        {role}: Message role
-                        {timestamp}: Message timestamp
-    """
-    input_path = Path(jsonl_path)
-    if not input_path.exists():
-        print(f"Error: Input file not found: {jsonl_path}")
-        sys.exit(1)
-
-    # If no output dir specified, create one next to the input file
-    output_path = Path(output_dir) if output_dir else input_path.parent / "markdown"
-
-    # Create output directory if it doesn't exist
-    output_path.mkdir(parents=True, exist_ok=True)
-
-    if verbose:
-        print(f"Converting {jsonl_path} to markdown files in {output_path}")
+    """Initialize OpenTelemetry tracing and metrics.
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
 
-### `scripts/convert_convo.py`
+### `gptme/telemetry.py`
 
-The `main` function in [`scripts/convert_convo.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/convert_convo.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def main() -> None:
-    if len(sys.argv) < 2:
-        print("""Usage: convert_convo.py <conversation.jsonl> [options]
-
-Options:
-    [output_dir]                 Directory to write markdown files to
-    -v, --verbose               Show progress messages
-    -f, --format FORMAT         Custom filename format. Available variables:
-                               {index}: Message number (e.g. 0001)
-                               {role}: Message role (e.g. user)
-                               {timestamp}: Message timestamp (e.g. 20250506-192832)
-                               Default: {index:04d}-{role}.md""")
-        sys.exit(1)
-
-    # Parse arguments
-    jsonl_path = sys.argv[1]
-    args = sys.argv[2:]
-
-    output_dir: str | None = None
-    verbose = False
-    filename_format = "{index:04d}-{role}.md"
-
-    while args:
-        arg = args.pop(0)
-        if arg in ["-v", "--verbose"]:
-            verbose = True
-        elif arg in ["-f", "--format"]:
-            if not args:
-                print("Error: --format requires a format string")
-                sys.exit(1)
-```
-
-This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `scripts/reduce_context.py`
-
-The `remove_thinking_sections` function in [`scripts/reduce_context.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/reduce_context.py) handles a key part of this chapter's functionality:
+The `record_tokens` function in [`gptme/telemetry.py`](https://github.com/gptme/gptme/blob/HEAD/gptme/telemetry.py) handles a key part of this chapter's functionality:
 
 ```py
+    "shutdown_telemetry",
+    "trace_function",
+    "record_tokens",
+    "record_request_duration",
+    "record_tool_call",
+    "record_conversation_change",
+    "record_llm_request",
+    "measure_tokens_per_second",
+]
+
+logger = logging.getLogger(__name__)
+
+# Type variable for generic function decoration
+F = TypeVar("F", bound=Callable[..., Any])
 
 
-def remove_thinking_sections(content):
-    """Remove <think>...</think> sections from content."""
-    # Fix incomplete thinking sections (no closing tag)
-    if "<think>" in content and "</think>" not in content:
-        content = re.sub(
-            r"<think>.*?$", "[incomplete thinking removed]", content, flags=re.DOTALL
-        )
-
-    # Remove normal thinking sections
-    content = re.sub(
-        r"<think>.*?</think>", "[thinking removed]", content, flags=re.DOTALL
-    )
-
-    return content
+def is_telemetry_enabled() -> bool:
+    """Check if telemetry is enabled."""
+    return _is_enabled()
 
 
-def simplify_workspace_context(content):
-    """Simplify workspace context in system messages."""
-    if "# Workspace Context" in content:
-        return re.sub(
-            r"# Workspace Context.*?$",
-            "[workspace context removed]",
-            content,
-            flags=re.DOTALL,
-        )
-    return content
+def init_telemetry(
+    service_name: str = "gptme",
+    enable_flask_instrumentation: bool = True,
+    enable_requests_instrumentation: bool = True,
+    enable_openai_instrumentation: bool = True,
+    enable_anthropic_instrumentation: bool = True,
+    agent_name: str | None = None,
+    interactive: bool | None = None,
+) -> None:
+    """Initialize OpenTelemetry tracing and metrics.
 
-
-def simplify_file_contents_in_errors(content):
-    """Simplify file content displays in error messages."""
-```
-
-This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
-
-### `scripts/reduce_context.py`
-
-The `simplify_workspace_context` function in [`scripts/reduce_context.py`](https://github.com/gptme/gptme/blob/HEAD/scripts/reduce_context.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def simplify_workspace_context(content):
-    """Simplify workspace context in system messages."""
-    if "# Workspace Context" in content:
-        return re.sub(
-            r"# Workspace Context.*?$",
-            "[workspace context removed]",
-            content,
-            flags=re.DOTALL,
-        )
-    return content
-
-
-def simplify_file_contents_in_errors(content):
-    """Simplify file content displays in error messages."""
-    if "Here are the actual file contents:" in content:
-        return re.sub(
-            r"(Error during execution:.*?\n)Here are the actual file contents:.*?$",
-            r"\1[file contents removed]",
-            content,
-            flags=re.DOTALL,
-        )
-    return content
-
-
-def simplify_failed_patches(content):
-    """Simplify failed patch blocks in messages."""
-    if "Patch failed:" in content:
-        return re.sub(
-            r"(Patch failed:.*?\n)```.*?```",
-            r"\1[failed patch content removed]",
 ```
 
 This function is important because it defines how gptme Tutorial: Open-Source Terminal Agent for Local Tool-Driven Work implements the patterns covered in this chapter.
@@ -202,11 +200,11 @@ This function is important because it defines how gptme Tutorial: Open-Source Te
 
 ```mermaid
 flowchart TD
-    A[convert_conversation]
-    B[main]
-    C[remove_thinking_sections]
-    D[simplify_workspace_context]
-    E[simplify_file_contents_in_errors]
+    A[init_telemetry]
+    B[shutdown_telemetry]
+    C[trace_function]
+    D[record_tokens]
+    E[record_request_duration]
     A --> B
     B --> C
     C --> D

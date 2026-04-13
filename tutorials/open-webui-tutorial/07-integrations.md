@@ -877,6 +877,19 @@ Under the hood, `Chapter 7: API Integrations, Webhooks & External Service Connec
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Integration Architecture
+
+```mermaid
+flowchart TD
+    A[Open WebUI] --> B[OpenAI-Compatible Endpoints]
+    A --> C[Webhook Callbacks]
+    A --> D[External Tool APIs]
+    B --> E[LiteLLM Proxy]
+    B --> F[Azure OpenAI]
+    D --> G[Web Search]
+    D --> H[Custom Functions]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

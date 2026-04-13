@@ -41,9 +41,48 @@ You now have a full production governance model for using Cherry Studio in serio
 
 Continue with the [Context7 Tutorial](../context7-tutorial/).
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `scripts/check-i18n.ts`
+
+The `isSortedI18N` function in [`scripts/check-i18n.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/check-i18n.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function isSortedI18N(obj: I18N): boolean {
+  // fs.writeFileSync('./test_origin.json', JSON.stringify(obj))
+  // fs.writeFileSync('./test_sorted.json', JSON.stringify(sortedObjectByKeys(obj)))
+  return JSON.stringify(obj) === JSON.stringify(sortedObjectByKeys(obj))
+}
+
+/**
+ * 检查 JSON 对象中是否存在重复键，并收集所有重复键
+ * @param obj 要检查的对象
+ * @returns 返回重复键的数组（若无重复则返回空数组）
+ */
+function checkDuplicateKeys(obj: I18N): string[] {
+  const keys = new Set<string>()
+  const duplicateKeys: string[] = []
+
+  const checkObject = (obj: I18N, path: string = '') => {
+    for (const key in obj) {
+      const fullPath = path ? `${path}.${key}` : key
+
+      if (keys.has(fullPath)) {
+        // 发现重复键时，添加到数组中（避免重复添加）
+        if (!duplicateKeys.includes(fullPath)) {
+          duplicateKeys.push(fullPath)
+        }
+      } else {
+        keys.add(fullPath)
+      }
+
+      // 递归检查子对象
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+```
+
+This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
 ### `scripts/check-i18n.ts`
 
@@ -150,57 +189,16 @@ main()
 
 This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
 
-### `scripts/patch-claude-agent-sdk.ts`
-
-The `patchSpawnImport` function in [`scripts/patch-claude-agent-sdk.ts`](https://github.com/CherryHQ/cherry-studio/blob/HEAD/scripts/patch-claude-agent-sdk.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// 1. Replace `import{spawn as X}from"child_process"` with `import{fork as X}from"child_process"`
-export function patchSpawnImport(content: string): PatchResult {
-  let matched = false
-  const result = content.replace(/import\{spawn as ([\w$]+)\}from"child_process"/, (_, alias) => {
-    matched = true
-    return `import{fork as ${alias}}from"child_process"`
-  })
-  return { result, matched }
-}
-
-// 2. Remove `command:X,` from spawnLocalProcess destructuring
-//    Before: spawnLocalProcess(Q){let{command:X,args:Y,cwd:$,env:W,signal:J}=Q
-//    After:  spawnLocalProcess(Q){let{args:Y,cwd:$,env:W,signal:J}=Q
-export function patchRemoveCommand(content: string): PatchResult {
-  let matched = false
-  const result = content.replace(
-    /spawnLocalProcess\(([\w$]+)\)\{let\{command:([\w$]+),args:([\w$]+)/,
-    (_, fnArg, _cmd, args) => {
-      matched = true
-      return `spawnLocalProcess(${fnArg}){let{args:${args}`
-    }
-  )
-  return { result, matched }
-}
-
-// 3. Rewrite the spawn/fork call:
-//    Before: =Sq(X,Y,{cwd:$,stdio:["pipe","pipe",G],signal:J,env:W,windowsHide:!0})
-//    After:  =Sq(Y[0],Y.slice(1),{cwd:$,stdio:G==="pipe"?["pipe","pipe","pipe","ipc"]:["pipe","pipe","ignore","ipc"],signal:J,env:W})
-export function patchSpawnCall(content: string): PatchResult {
-  let matched = false
-  const result = content.replace(
-```
-
-This function is important because it defines how Cherry Studio Tutorial: Multi-Provider AI Desktop Workspace for Teams implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[checkDuplicateKeys]
-    B[checkTranslations]
-    C[main]
-    D[patchSpawnImport]
-    E[patchRemoveCommand]
+    A[isSortedI18N]
+    B[checkDuplicateKeys]
+    C[checkTranslations]
+    D[main]
+    E[extractAllLanguageData]
     A --> B
     B --> C
     C --> D

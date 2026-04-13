@@ -14,10 +14,11 @@ format_version: v2
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-blue)](https://github.com/TransformerOptimus/SuperAGI)
 
+> **Project Status Notice**: SuperAGI is effectively inactive. The last code push was January 2025, the most recent release (`v0.0.14`) was published in January 2024, and no active development has occurred since. The repository is not formally archived but should be treated as unmaintained. This tutorial is preserved as a reference for the architecture and patterns SuperAGI introduced; teams should evaluate actively maintained alternatives (such as CrewAI, AutoGen/AG2, or ADK) for production use.
 
-SuperAGI<sup>[View Repo](https://github.com/TransformerOptimus/SuperAGI)</sup> is a production-ready autonomous AI agent framework that enables developers to build sophisticated AI agents capable of performing complex tasks independently. It provides a comprehensive platform for creating, deploying, and managing autonomous agents with advanced reasoning, tool integration, and self-improvement capabilities.
+SuperAGI<sup>[View Repo](https://github.com/TransformerOptimus/SuperAGI)</sup> was a production-oriented autonomous AI agent framework that enabled developers to build sophisticated AI agents capable of performing complex tasks independently. It provided a comprehensive platform for creating, deploying, and managing autonomous agents with advanced reasoning, tool integration, and self-improvement capabilities.
 
-SuperAGI combines the power of large language models with practical agent architectures, enabling agents to plan, execute, and learn from their experiences in real-world applications.
+SuperAGI combined the power of large language models with practical agent architectures, enabling agents to plan, execute, and learn from their experiences in real-world applications.
 
 
 ## Mental Model

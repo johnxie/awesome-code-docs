@@ -63,9 +63,46 @@ You now have Crush installed and running with a valid provider path.
 
 Next: [Chapter 2: Architecture and Session Model](02-architecture-and-session-model.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `main.go`
+
+The `main` function in [`main.go`](https://github.com/charmbracelet/crush/blob/HEAD/main.go) handles a key part of this chapter's functionality:
+
+```go
+// Package main is the entry point for the Crush CLI.
+//
+//	@title			Crush API
+//	@version		1.0
+//	@description	Crush is a terminal-based AI coding assistant. This API is served over a Unix socket (or Windows named pipe) and provides programmatic access to workspaces, sessions, agents, LSP, MCP, and more.
+//	@contact.name	Charm
+//	@contact.url	https://charm.sh
+//	@license.name	MIT
+//	@license.url	https://github.com/charmbracelet/crush/blob/main/LICENSE
+//	@BasePath		/v1
+package main
+
+import (
+	"log/slog"
+	"net/http"
+	_ "net/http/pprof"
+	"os"
+
+	"github.com/charmbracelet/crush/internal/cmd"
+	_ "github.com/joho/godotenv/autoload"
+)
+
+func main() {
+	if os.Getenv("CRUSH_PROFILE") != "" {
+		go func() {
+			slog.Info("Serving pprof at localhost:6060")
+			if httpErr := http.ListenAndServe("localhost:6060", nil); httpErr != nil {
+				slog.Error("Failed to pprof listen", "error", httpErr)
+			}
+		}()
+```
+
+This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
 ### `schema.json`
 
@@ -107,40 +144,6 @@ The `options` interface in [`schema.json`](https://github.com/charmbracelet/crus
 ```
 
 This interface is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
-
-### `main.go`
-
-The `main` function in [`main.go`](https://github.com/charmbracelet/crush/blob/HEAD/main.go) handles a key part of this chapter's functionality:
-
-```go
-package main
-
-import (
-	"log/slog"
-	"net/http"
-	_ "net/http/pprof"
-	"os"
-
-	"github.com/charmbracelet/crush/internal/cmd"
-	_ "github.com/joho/godotenv/autoload"
-)
-
-func main() {
-	if os.Getenv("CRUSH_PROFILE") != "" {
-		go func() {
-			slog.Info("Serving pprof at localhost:6060")
-			if httpErr := http.ListenAndServe("localhost:6060", nil); httpErr != nil {
-				slog.Error("Failed to pprof listen", "error", httpErr)
-			}
-		}()
-	}
-
-	cmd.Execute()
-}
-
-```
-
-This function is important because it defines how Crush Tutorial: Multi-Model Terminal Coding Agent with Strong Extensibility implements the patterns covered in this chapter.
 
 ### `internal/agent/agent.go`
 
@@ -229,8 +232,8 @@ This function is important because it defines how Crush Tutorial: Multi-Model Te
 
 ```mermaid
 flowchart TD
-    A[options]
-    B[main]
+    A[main]
+    B[options]
     C[NewSessionAgent]
     D[Run]
     E[Summarize]

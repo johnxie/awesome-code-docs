@@ -46,168 +46,168 @@ This chapter turns Mastra apps from development projects into operated productio
 
 You now have a deployment and operations baseline for running Mastra systems at production quality.
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `explorations/ralph-wiggum-loop-prototype.ts`
+### `scripts/generate-package-docs.ts`
 
-The `AutonomousLoopConfig` interface in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+The `generateSkillMd` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export interface AutonomousLoopConfig {
-  /** The task prompt to send to the agent */
-  prompt: string;
+function generateSkillMd(packageName: string, version: string, entries: ManifestEntry[]): string {
+  // Generate compliant name: lowercase, hyphens, max 64 chars
+  // "@mastra/core" -> "mastra-core"
+  const skillName = packageName.replace('@', '').replace('/', '-').toLowerCase();
 
-  /** How to determine if the task is complete */
-  completion: CompletionChecker;
+  // Generate description (max 1024 chars)
+  const description = `Documentation for ${packageName}. Use when working with ${packageName} APIs, configuration, or implementation.`;
 
-  /** Maximum number of iterations before giving up */
-  maxIterations: number;
+  // Group entries by category
+  const grouped = new Map<string, ManifestEntry[]>();
+  for (const entry of entries) {
+    const cat = entry.category;
+    if (!grouped.has(cat)) grouped.set(cat, []);
+    grouped.get(cat)!.push(entry);
+  }
 
-  /** Optional: Maximum tokens to spend */
-  maxTokens?: number;
+  // Generate documentation list
+  let docList = '';
+  for (const [category, catEntries] of grouped) {
+    docList += `\n### ${category.charAt(0).toUpperCase() + category.slice(1)}\n\n`;
+    for (const entry of catEntries) {
+      const fileName = generateFlatFileName(entry);
+      docList += `- [${entry.title}](references/${fileName})${entry.description ? ` - ${entry.description}` : ''}\n`;
+    }
+  }
 
-  /** Optional: Delay between iterations in ms */
-  iterationDelay?: number;
-
-  /** Optional: How many previous iteration results to include in context */
-  contextWindow?: number;
-
-  /** Optional: Called after each iteration */
-  onIteration?: (result: IterationResult) => void | Promise<void>;
-
-  /** Optional: Called when starting an iteration */
-  onIterationStart?: (iteration: number) => void | Promise<void>;
-}
-
-export interface IterationResult {
-  iteration: number;
-  success: boolean;
-  agentOutput: string;
+  return `---
+name: ${skillName}
+description: ${description}
+metadata:
 ```
 
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/ralph-wiggum-loop-prototype.ts`
+### `scripts/generate-package-docs.ts`
 
-The `IterationResult` interface in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+The `copyDocumentation` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
 
 ```ts
-
-  /** Optional: Called after each iteration */
-  onIteration?: (result: IterationResult) => void | Promise<void>;
-
-  /** Optional: Called when starting an iteration */
-  onIterationStart?: (iteration: number) => void | Promise<void>;
 }
 
-export interface IterationResult {
-  iteration: number;
-  success: boolean;
-  agentOutput: string;
-  completionCheck: {
-    success: boolean;
-    message?: string;
+function copyDocumentation(manifest: LlmsManifest, packageName: string, docsOutputDir: string): void {
+  const entries = manifest.packages[packageName] || [];
+  const referencesDir = path.join(docsOutputDir, 'references');
+
+  fs.mkdirSync(referencesDir, { recursive: true });
+
+  for (const entry of entries) {
+    const sourcePath = path.join(MONOREPO_ROOT, 'docs/build', entry.path);
+    const targetFileName = generateFlatFileName(entry);
+    const targetPath = path.join(referencesDir, targetFileName);
+
+    if (cachedExists(sourcePath)) {
+      fs.copyFileSync(sourcePath, targetPath);
+    } else {
+      console.warn(`  Warning: Source not found: ${sourcePath}`);
+    }
+  }
+}
+
+// Cache for package.json contents
+const packageJsonCache = new Map<string, { name: string; version: string }>();
+
+function getPackageJson(packageRoot: string): { name: string; version: string } {
+  const cached = packageJsonCache.get(packageRoot);
+  if (cached) return cached;
+
+  const packageJsonPath = path.join(packageRoot, 'package.json');
+  if (!cachedExists(packageJsonPath)) {
+    throw new Error(`package.json not found in ${packageRoot}`);
+  }
+```
+
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+
+### `scripts/generate-package-docs.ts`
+
+The `getPackageJson` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
+
+```ts
+function generateSourceMap(packageRoot: string): SourceMap {
+  const distDir = path.join(packageRoot, 'dist');
+  const packageJson = getPackageJson(packageRoot);
+
+  const sourceMap: SourceMap = {
+    version: packageJson.version,
+    package: packageJson.name,
+    exports: {},
+    modules: {},
   };
-  tokensUsed?: number;
-  duration: number;
-  error?: Error;
-}
 
-export interface AutonomousLoopResult {
-  success: boolean;
-  iterations: IterationResult[];
-  totalTokens: number;
-  totalDuration: number;
-  finalOutput: string;
-  completionMessage?: string;
-}
+  // Default modules to analyze
+  const modules = [
+    'agent',
+    'tools',
+    'workflows',
+    'memory',
+    'stream',
+    'llm',
+    'mastra',
+    'mcp',
+    'evals',
+    'processors',
+    'storage',
+    'vector',
+    'voice',
+  ];
 
-// ============================================================================
-// Completion Checkers (Helpers)
+  for (const mod of modules) {
+    const indexPath = path.join(distDir, mod, 'index.js');
+
+    if (!cachedExists(indexPath)) {
 ```
 
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
 
-### `explorations/ralph-wiggum-loop-prototype.ts`
+### `scripts/generate-package-docs.ts`
 
-The `AutonomousLoopResult` interface in [`explorations/ralph-wiggum-loop-prototype.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/explorations/ralph-wiggum-loop-prototype.ts) handles a key part of this chapter's functionality:
+The `generateDocsForPackage` function in [`scripts/generate-package-docs.ts`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/generate-package-docs.ts) handles a key part of this chapter's functionality:
 
 ```ts
 }
 
-export interface AutonomousLoopResult {
-  success: boolean;
-  iterations: IterationResult[];
-  totalTokens: number;
-  totalDuration: number;
-  finalOutput: string;
-  completionMessage?: string;
-}
+function generateDocsForPackage(packageName: string, packageRoot: string, manifest: LlmsManifest): void {
+  const packageJson = getPackageJson(packageRoot);
+  const docsOutputDir = path.join(packageRoot, 'dist', 'docs');
+  const entries = manifest.packages[packageName];
 
-// ============================================================================
-// Completion Checkers (Helpers)
-// ============================================================================
+  if (!entries || entries.length === 0) {
+    console.warn(`No documentation found for ${packageName} in manifest`);
+    return;
+  }
 
-/**
- * Check if tests pass
- */
-export function testsPassing(testCommand = 'npm test'): CompletionChecker {
-  return {
-    async check() {
-      try {
-        const { stdout, stderr } = await execAsync(testCommand, { timeout: 300000 });
-        return {
-          success: true,
-          message: 'All tests passed',
-          data: { stdout, stderr },
-        };
-      } catch (error: any) {
-        return {
-          success: false,
-          message: error.message,
-```
+  console.info(`\nGenerating documentation for ${packageName} (${entries.length} files)\n`);
 
-This interface is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
+  // Clean and create directory structure
+  if (cachedExists(docsOutputDir)) {
+    fs.rmSync(docsOutputDir, { recursive: true });
+    // Clear from cache since we deleted it
+    existsCache.delete(docsOutputDir);
+  }
+  fs.mkdirSync(path.join(docsOutputDir, 'references'), { recursive: true });
+  fs.mkdirSync(path.join(docsOutputDir, 'assets'), { recursive: true });
 
-### `scripts/ignore-example.js`
+  // Step 1: Generate SOURCE_MAP.json in assets/
+  const sourcemap = generateSourceMap(packageRoot);
+  fs.writeFileSync(path.join(docsOutputDir, 'assets', 'SOURCE_MAP.json'), JSON.stringify(sourcemap, null, 2), 'utf-8');
 
-The `spawn` function in [`scripts/ignore-example.js`](https://github.com/mastra-ai/mastra/blob/HEAD/scripts/ignore-example.js) handles a key part of this chapter's functionality:
+  // Step 2: Copy documentation files
+  copyDocumentation(manifest, packageName, docsOutputDir);
 
-```js
-import { spawn as nodeSpawn } from 'child_process';
-import { readFileSync } from 'fs';
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
-
-const dir = process.argv[2];
-if (!dir) {
-  console.error('Usage: node scripts/ignore-example.js <directory>');
-  process.exit(1);
-}
-
-/**
- * Promisified version of Node.js spawn function
- *
- * @param {string} command - The command to run
- * @param {string[]} args - List of string arguments
- * @param {import('child_process').SpawnOptions} options - Spawn options
- * @returns {Promise<void>} Promise that resolves with the exit code when the process completes
- */
-function spawn(command, args = [], options = {}) {
-  return new Promise((resolve, reject) => {
-    const childProcess = nodeSpawn(command, args, {
-      // stdio: 'inherit',
-      ...options,
-    });
-
-    childProcess.on('error', error => {
-      reject(error);
-    });
-
+  // Step 3: Generate SKILL.md
+  const skillMd = generateSkillMd(packageName, packageJson.version, entries);
 ```
 
 This function is important because it defines how Mastra Tutorial: TypeScript Framework for AI Agents and Workflows implements the patterns covered in this chapter.
@@ -217,11 +217,11 @@ This function is important because it defines how Mastra Tutorial: TypeScript Fr
 
 ```mermaid
 flowchart TD
-    A[AutonomousLoopConfig]
-    B[IterationResult]
-    C[AutonomousLoopResult]
-    D[spawn]
-    E[findLinkedDependencies]
+    A[generateSkillMd]
+    B[copyDocumentation]
+    C[getPackageJson]
+    D[generateDocsForPackage]
+    E[main]
     A --> B
     B --> C
     C --> D

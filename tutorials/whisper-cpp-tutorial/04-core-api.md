@@ -23,6 +23,18 @@ By the end of this chapter, you'll understand:
 - Advanced API features and callbacks
 
 ## 🏗️ Core API Architecture
+```mermaid
+flowchart TD
+    A[whisper_init_from_file path] --> B[whisper_context]
+    B --> C[whisper_full ctx params pcm n_samples]
+    C --> D{Success?}
+    D -->|yes| E[whisper_full_n_segments ctx]
+    D -->|no| F[Error handling]
+    E --> G[whisper_full_get_segment_text ctx i]
+    G --> H[Text output]
+    B --> I[whisper_free ctx]
+```
+
 
 ### **Main Data Structures**
 

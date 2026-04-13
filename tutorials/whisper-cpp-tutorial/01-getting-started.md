@@ -10,6 +10,16 @@ nav_order: 1
 Welcome to Whisper.cpp! If you've ever wanted to add speech recognition capabilities to your applications, you're in the right place. Whisper.cpp brings the power of OpenAI's Whisper model to C/C++ applications with exceptional performance and minimal dependencies.
 
 ## What Problem Does Whisper.cpp Solve?
+```mermaid
+flowchart LR
+    A[Audio File] --> B[whisper_init_from_file]
+    B --> C[whisper_context]
+    C --> D[whisper_full]
+    D --> E[whisper_full_n_segments]
+    E --> F[Text Output]
+    G[Model File .bin] --> B
+```
+
 
 Traditional speech recognition solutions often require:
 - **Expensive cloud APIs** with usage costs and latency

@@ -15,6 +15,17 @@ Welcome to **Chapter 8: Production Deployment - OLM, Helm Charts, Security, and 
 
 ## Overview
 
+```mermaid
+flowchart TD
+    A[Operator image] --> B[OLM ClusterServiceVersion]
+    B --> C[OperatorHub publish]
+    C --> D[kubectl install via OLM]
+    D --> E[RBAC auto-configured]
+    E --> F[Leader election HA]
+    F --> G[Operator pod running]
+    G --> H[Manages CRs cluster-wide]
+```
+
 Production deployment requires robust packaging, security, lifecycle management, and scaling. This chapter covers Operator Lifecycle Manager (OLM), Helm packaging, security hardening, and production scaling patterns.
 
 ## Operator Lifecycle Manager (OLM)

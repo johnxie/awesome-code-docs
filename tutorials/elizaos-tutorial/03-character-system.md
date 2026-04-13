@@ -470,16 +470,29 @@ Under the hood, `Chapter 3: Character System` usually follows a repeatable contr
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
-## Source Walkthrough
+## Source Code Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+### `packages/elizaos/src/manifest.ts`
 
-- [ElizaOS](https://github.com/elizaOS/eliza)
-  Why it matters: authoritative reference on `ElizaOS` (github.com).
+The `loadManifest` function in [`packages/elizaos/src/manifest.ts`](https://github.com/elizaOS/eliza/blob/develop/packages/elizaos/src/manifest.ts) resolves the `examples-manifest.json` that ships with the CLI — this manifest catalogs the available character/agent templates by language and category:
 
-Suggested trace strategy:
-- search upstream code for `plugin` and `elizaos` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+```ts
+export function loadManifest(): ExamplesManifest {
+  if (cachedManifest) {
+    return cachedManifest;
+  }
+
+  // Try to load from dist directory (when installed as package)
+  const distManifestPath = path.join(__dirname, "examples-manifest.json");
+  if (fs.existsSync(distManifestPath)) {
+    const content = fs.readFileSync(distManifestPath, "utf-8");
+    cachedManifest = JSON.parse(content) as ExamplesManifest;
+    return cachedManifest;
+  }
+}
+```
+
+Character files are JSON/YAML documents consumed by the agent runtime. The `ExamplesManifest` type in `packages/elizaos/src/types.ts` defines the schema with `languages`, `examples`, and per-example `category` fields that map to agent persona templates.
 
 ## Chapter Connections
 

@@ -44,184 +44,182 @@ You now have a working MCP bridge between Figma and your coding assistant.
 
 Next: [Chapter 2: Architecture and Context Translation](02-architecture-and-context-translation.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/server.ts`
+### `scripts/benchmark-simplify.ts`
 
-The `startServer` function in [`src/server.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/server.ts) handles a key part of this chapter's functionality:
+The `timedExtractor` function in [`scripts/benchmark-simplify.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/scripts/benchmark-simplify.ts) handles a key part of this chapter's functionality:
 
 ```ts
- * Start the MCP server in either stdio or HTTP mode.
- */
-export async function startServer(): Promise<void> {
-  const config = getServerConfig();
+}
 
-  const serverOptions = {
-    isHTTP: !config.isStdioMode,
-    outputFormat: config.outputFormat as "yaml" | "json",
-    skipImageDownloads: config.skipImageDownloads,
-    imageDir: config.imageDir,
+function timedExtractor(fn: ExtractorFn, timing: ExtractorTiming): ExtractorFn {
+  return (node, result, context) => {
+    const start = performance.now();
+    fn(node, result, context);
+    timing.totalMs += performance.now() - start;
+    timing.calls++;
   };
-
-  if (config.isStdioMode) {
-    const server = createServer(config.auth, serverOptions);
-    const transport = new StdioServerTransport();
-    await server.connect(transport);
-  } else {
-    const createMcpServer = () => createServer(config.auth, serverOptions);
-    console.log(`Initializing Figma MCP Server in HTTP mode on ${config.host}:${config.port}...`);
-    await startHttpServer(config.host, config.port, createMcpServer);
-
-    process.on("SIGINT", async () => {
-      Logger.log("Shutting down server...");
-      await stopHttpServer();
-      Logger.log("Server shutdown complete");
-      process.exit(0);
-    });
-  }
 }
 
-export async function startHttpServer(
-  host: string,
+function countOutputNodes(nodes: SimplifiedNode[]): number {
+  let count = 0;
+  for (const node of nodes) {
+    count++;
+    if (node.children) {
+      count += countOutputNodes(node.children);
+    }
+  }
+  return count;
+}
+
+/** Count objects with id+type fields recursively — rough estimate of Figma node count. */
+function countRawNodes(obj: unknown): number {
+  if (!obj || typeof obj !== "object") return 0;
+  const record = obj as Record<string, unknown>;
+  let count = 0;
+
+  if ("id" in record && "type" in record) count = 1;
+
+  for (const value of Object.values(record)) {
+    if (Array.isArray(value)) {
 ```
 
 This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
-### `src/server.ts`
+### `scripts/benchmark-simplify.ts`
 
-The `startHttpServer` function in [`src/server.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/server.ts) handles a key part of this chapter's functionality:
+The `countOutputNodes` function in [`scripts/benchmark-simplify.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/scripts/benchmark-simplify.ts) handles a key part of this chapter's functionality:
 
 ```ts
-    const createMcpServer = () => createServer(config.auth, serverOptions);
-    console.log(`Initializing Figma MCP Server in HTTP mode on ${config.host}:${config.port}...`);
-    await startHttpServer(config.host, config.port, createMcpServer);
-
-    process.on("SIGINT", async () => {
-      Logger.log("Shutting down server...");
-      await stopHttpServer();
-      Logger.log("Server shutdown complete");
-      process.exit(0);
-    });
-  }
 }
 
-export async function startHttpServer(
-  host: string,
-  port: number,
-  createMcpServer: () => McpServer,
-): Promise<Server> {
-  if (httpServer) {
-    throw new Error("HTTP server is already running");
+function countOutputNodes(nodes: SimplifiedNode[]): number {
+  let count = 0;
+  for (const node of nodes) {
+    count++;
+    if (node.children) {
+      count += countOutputNodes(node.children);
+    }
   }
-
-  const app = express();
-
-  // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
-  app.use("/mcp", express.json());
-
-  // Modern Streamable HTTP endpoint
-  app.post("/mcp", async (req, res) => {
-    Logger.log("Received StreamableHTTP request");
-    const sessionId = req.headers["mcp-session-id"] as string | undefined;
-    let transport: StreamableHTTPServerTransport;
-```
-
-This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
-
-### `src/server.ts`
-
-The `stopHttpServer` function in [`src/server.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/server.ts) handles a key part of this chapter's functionality:
-
-```ts
-    process.on("SIGINT", async () => {
-      Logger.log("Shutting down server...");
-      await stopHttpServer();
-      Logger.log("Server shutdown complete");
-      process.exit(0);
-    });
-  }
+  return count;
 }
 
-export async function startHttpServer(
-  host: string,
-  port: number,
-  createMcpServer: () => McpServer,
-): Promise<Server> {
-  if (httpServer) {
-    throw new Error("HTTP server is already running");
-  }
+/** Count objects with id+type fields recursively — rough estimate of Figma node count. */
+function countRawNodes(obj: unknown): number {
+  if (!obj || typeof obj !== "object") return 0;
+  const record = obj as Record<string, unknown>;
+  let count = 0;
 
-  const app = express();
+  if ("id" in record && "type" in record) count = 1;
 
-  // Parse JSON requests for the Streamable HTTP endpoint only, will break SSE endpoint
-  app.use("/mcp", express.json());
-
-  // Modern Streamable HTTP endpoint
-  app.post("/mcp", async (req, res) => {
-    Logger.log("Received StreamableHTTP request");
-    const sessionId = req.headers["mcp-session-id"] as string | undefined;
-    let transport: StreamableHTTPServerTransport;
-
-    if (sessionId && sessions[sessionId]) {
-      // Reuse existing transport
-      Logger.log("Reusing existing StreamableHTTP transport for sessionId", sessionId);
-```
-
-This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
-
-### `src/services/figma.ts`
-
-The `FigmaService` class in [`src/services/figma.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/src/services/figma.ts) handles a key part of this chapter's functionality:
-
-```ts
-};
-
-export class FigmaService {
-  private readonly apiKey: string;
-  private readonly oauthToken: string;
-  private readonly useOAuth: boolean;
-  private readonly baseUrl = "https://api.figma.com/v1";
-
-  constructor({ figmaApiKey, figmaOAuthToken, useOAuth }: FigmaAuthOptions) {
-    this.apiKey = figmaApiKey || "";
-    this.oauthToken = figmaOAuthToken || "";
-    this.useOAuth = !!useOAuth && !!this.oauthToken;
-  }
-
-  private getAuthHeaders(): Record<string, string> {
-    if (this.useOAuth) {
-      Logger.log("Using OAuth Bearer token for authentication");
-      return { Authorization: `Bearer ${this.oauthToken}` };
-    } else {
-      Logger.log("Using Personal Access Token for authentication");
-      return { "X-Figma-Token": this.apiKey };
+  for (const value of Object.values(record)) {
+    if (Array.isArray(value)) {
+      for (const item of value) count += countRawNodes(item);
+    } else if (value && typeof value === "object") {
+      count += countRawNodes(value);
     }
   }
 
-  /**
-   * Filters out null values from Figma image responses. This ensures we only work with valid image URLs.
-   */
-  private filterValidImages(
-    images: { [key: string]: string | null } | undefined,
-  ): Record<string, string> {
-    if (!images) return {};
-    return Object.fromEntries(Object.entries(images).filter(([, value]) => !!value)) as Record<
+  return count;
+}
+
 ```
 
-This class is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `scripts/benchmark-simplify.ts`
+
+The `countRawNodes` function in [`scripts/benchmark-simplify.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/scripts/benchmark-simplify.ts) handles a key part of this chapter's functionality:
+
+```ts
+
+/** Count objects with id+type fields recursively — rough estimate of Figma node count. */
+function countRawNodes(obj: unknown): number {
+  if (!obj || typeof obj !== "object") return 0;
+  const record = obj as Record<string, unknown>;
+  let count = 0;
+
+  if ("id" in record && "type" in record) count = 1;
+
+  for (const value of Object.values(record)) {
+    if (Array.isArray(value)) {
+      for (const item of value) count += countRawNodes(item);
+    } else if (value && typeof value === "object") {
+      count += countRawNodes(value);
+    }
+  }
+
+  return count;
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function formatMs(ms: number): string {
+  if (ms < 1000) return `${ms.toFixed(1)} ms`;
+  return `${(ms / 1000).toFixed(2)} s`;
+}
+
+async function main() {
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
+
+### `scripts/benchmark-simplify.ts`
+
+The `formatBytes` function in [`scripts/benchmark-simplify.ts`](https://github.com/GLips/Figma-Context-MCP/blob/HEAD/scripts/benchmark-simplify.ts) handles a key part of this chapter's functionality:
+
+```ts
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function formatMs(ms: number): string {
+  if (ms < 1000) return `${ms.toFixed(1)} ms`;
+  return `${(ms / 1000).toFixed(2)} s`;
+}
+
+async function main() {
+  if (!existsSync(INPUT_PATH)) {
+    console.error(
+      `Input file not found: ${INPUT_PATH}\n\n` +
+        `Run the server in dev mode and fetch a Figma file first.\n` +
+        `The server writes raw API responses to logs/figma-raw.json.`,
+    );
+    process.exit(1);
+  }
+
+  let session: Session | undefined;
+  if (PROFILE_FLAG) {
+    session = new Session();
+    session.connect();
+    await session.post("Profiler.enable");
+    await session.post("Profiler.start");
+    console.log("CPU profiler started\n");
+  }
+
+```
+
+This function is important because it defines how Figma Context MCP Tutorial: Design-to-Code Workflows for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[startServer]
-    B[startHttpServer]
-    C[stopHttpServer]
-    D[FigmaService]
-    E[findOrCreateVar]
+    A[timedExtractor]
+    B[countOutputNodes]
+    C[countRawNodes]
+    D[formatBytes]
+    E[formatMs]
     A --> B
     B --> C
     C --> D

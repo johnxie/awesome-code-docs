@@ -41,184 +41,161 @@ You now have Cipher running with a baseline local session.
 
 Next: [Chapter 2: Core Modes and Session Workflow](02-core-modes-and-session-workflow.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/app/index.ts`
+### `bin/kill-daemon.js`
 
-The `resolveEnvPath` function in [`src/app/index.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/index.ts) handles a key part of this chapter's functionality:
+The `sleep` function in [`bin/kill-daemon.js`](https://github.com/campfirein/cipher/blob/HEAD/bin/kill-daemon.js) handles a key part of this chapter's functionality:
 
-```ts
+```js
+} from '@campfirein/brv-transport-client'
 
-// Helper function to resolve .env file path
-function resolveEnvPath(): string {
-	// Try current working directory first
-	if (existsSync('.env')) {
-		return '.env';
-	}
-
-	// Try relative to project root (where package.json is located)
-	const currentFileUrl = import.meta.url;
-	const currentFilePath = fileURLToPath(currentFileUrl);
-	const projectRoot = path.resolve(path.dirname(currentFilePath), '../..');
-	const envPath = path.resolve(projectRoot, '.env');
-
-	return envPath;
+function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
 }
 
-// ===== EARLY MCP MODE DETECTION AND LOG REDIRECTION =====
-// Following Cipher's best practices to prevent stdio interference
-// This must happen BEFORE any logging operations
-const detectAndRedirectMcpLogs = () => {
-	const args = process.argv;
-	const isMcpMode = args.includes('--mode') && args[args.indexOf('--mode') + 1] === 'mcp';
+async function waitForProcessExit(pid, deadlineMs, pollMs) {
+  const deadline = Date.now() + deadlineMs
+  while (Date.now() < deadline) {
+    if (!isProcessAlive(pid)) {
+      return true
+    }
 
-	if (isMcpMode) {
-		// Redirect logs immediately to prevent stdout contamination
-		const logFile = process.env.CIPHER_MCP_LOG_FILE || path.join(os.tmpdir(), 'cipher-mcp.log');
-		logger.redirectToFile(logFile);
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(pollMs)
+  }
 
-		// Use stderr for critical startup messages only
-		process.stderr.write(`[CIPHER-MCP] Log redirection activated: ${logFile}\n`);
-	}
+  return false
+}
+
+const status = discoverDaemon()
+
+// Extract PID from any discovery result that has one
+const pid = status.running
+  ? status.pid
+  : 'pid' in status
+    ? status.pid
+    : undefined
+
+if (pid === undefined || !isProcessAlive(pid)) {
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/app/index.ts`
+### `bin/kill-daemon.js`
 
-The `startApiMode` function in [`src/app/index.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/index.ts) handles a key part of this chapter's functionality:
+The `waitForProcessExit` function in [`bin/kill-daemon.js`](https://github.com/campfirein/cipher/blob/HEAD/bin/kill-daemon.js) handles a key part of this chapter's functionality:
 
-```ts
-		 * Start the API server mode
-		 */
-		async function startApiMode(agent: MemAgent, options: any): Promise<void> {
-			const port = parseInt(options.port) || 3001;
-			const host = options.host || 'localhost';
-			const mcpTransportType = options.mcpTransportType || undefined; // Pass through from CLI options
-			const mcpPort = options.mcpPort ? parseInt(options.mcpPort, 10) : undefined; // Pass through from CLI options
-			// Handle API prefix from environment variable or CLI option
-			const apiPrefix =
-				process.env.CIPHER_API_PREFIX !== undefined
-					? process.env.CIPHER_API_PREFIX === '""'
-						? ''
-						: process.env.CIPHER_API_PREFIX
-					: options.apiPrefix;
+```js
+}
 
-			logger.info(`Starting API server on ${host}:${port}`, null, 'green');
+async function waitForProcessExit(pid, deadlineMs, pollMs) {
+  const deadline = Date.now() + deadlineMs
+  while (Date.now() < deadline) {
+    if (!isProcessAlive(pid)) {
+      return true
+    }
 
-			const apiServer = new ApiServer(agent, {
-				port,
-				host,
-				corsOrigins: ['http://localhost:3000', 'http://localhost:3001'], // Default CORS origins
-				rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
-				rateLimitMaxRequests: 100, // 100 requests per window
-				// Enable WebSocket by default for API mode
-				enableWebSocket: true,
-				webSocketConfig: {
-					path: '/ws',
-					maxConnections: 1000,
-					connectionTimeout: 300000, // 5 minutes
-					heartbeatInterval: 30000, // 30 seconds
-					enableCompression: true,
-				},
+    // eslint-disable-next-line no-await-in-loop
+    await sleep(pollMs)
+  }
+
+  return false
+}
+
+const status = discoverDaemon()
+
+// Extract PID from any discovery result that has one
+const pid = status.running
+  ? status.pid
+  : 'pid' in status
+    ? status.pid
+    : undefined
+
+if (pid === undefined || !isProcessAlive(pid)) {
+  console.log('[kill-daemon] No running daemon found')
+} else {
+  console.log(`[kill-daemon] Stopping daemon (PID ${pid})...`)
+
+  let stopped = false
+
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
-### `src/app/index.ts`
+### `src/tui/repl-startup.tsx`
 
-The `startUiMode` function in [`src/app/index.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/app/index.ts) handles a key part of this chapter's functionality:
+The `startRepl` function in [`src/tui/repl-startup.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/repl-startup.tsx) handles a key part of this chapter's functionality:
 
-```ts
-		 * Start the UI mode with both API server and Web UI
-		 */
-		async function startUiMode(agent: MemAgent, options: any): Promise<void> {
-			const apiPort = parseInt(options.port) || 3001;
-			const uiPort = parseInt(options.uiPort) || 3000;
-			const host = options.host || 'localhost';
-			const mcpTransportType = options.mcpTransportType || undefined;
-			const mcpPort = options.mcpPort ? parseInt(options.mcpPort, 10) : undefined;
-			// Handle API prefix from environment variable or CLI option
-			const apiPrefix =
-				process.env.CIPHER_API_PREFIX !== undefined
-					? process.env.CIPHER_API_PREFIX === '""'
-						? ''
-						: process.env.CIPHER_API_PREFIX
-					: options.apiPrefix;
-
-			logger.info(
-				`Starting UI mode - API server on ${host}:${apiPort}, UI server on ${host}:${uiPort}`,
-				null,
-				'green'
-			);
-
-			// Start API server first
-			const apiServer = new ApiServer(agent, {
-				port: apiPort,
-				host,
-				corsOrigins: [`http://${host}:${uiPort}`, `http://localhost:${uiPort}`], // Allow UI to connect
-				rateLimitWindowMs: 15 * 60 * 1000, // 15 minutes
-				rateLimitMaxRequests: 100, // 100 requests per window
-				// Enable WebSocket by default for UI mode
-				enableWebSocket: true,
-				webSocketConfig: {
-```
-
-This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
-
-### `src/core/utils/service-initializer.ts`
-
-The `createEmbeddingFromLLMProvider` function in [`src/core/utils/service-initializer.ts`](https://github.com/campfirein/cipher/blob/HEAD/src/core/utils/service-initializer.ts) handles a key part of this chapter's functionality:
-
-```ts
- * Create embedding configuration from LLM provider settings
+```tsx
+ * Start the ByteRover REPL
  */
-async function createEmbeddingFromLLMProvider(
-	embeddingManager: EmbeddingManager,
-	llmConfig: any
-): Promise<{ embedder: any; info: any } | null> {
-	const provider = llmConfig.provider?.toLowerCase();
+export async function startRepl(options: ReplOptions): Promise<void> {
+  const {version} = options
 
-	try {
-		switch (provider) {
-			case 'openai': {
-				const apiKey = llmConfig.apiKey || process.env.OPENAI_API_KEY;
-				if (!apiKey || apiKey.trim() === '') {
-					logger.debug(
-						'No OpenAI API key available for embedding fallback - switching to chat-only mode'
-					);
-					return null;
-				}
-				const embeddingConfig = {
-					type: 'openai' as const,
-					apiKey,
-					model: 'text-embedding-3-small' as const,
-					baseUrl: llmConfig.baseUrl,
-					organization: llmConfig.organization,
-					timeout: 30000,
-					maxRetries: 3,
-				};
-				logger.debug('Using OpenAI embedding fallback: text-embedding-3-small');
-				return await embeddingManager.createEmbedderFromConfig(embeddingConfig, 'default');
-			}
+  // Set version in store before rendering
+  useTransportStore.getState().setVersion(version)
 
-			case 'ollama': {
+  const {waitUntilExit} = render(
+    <AppProviders>
+      <App />
+    </AppProviders>,
+  )
+
+  await waitUntilExit()
+}
+
 ```
 
 This function is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
+
+### `src/tui/repl-startup.tsx`
+
+The `ReplOptions` interface in [`src/tui/repl-startup.tsx`](https://github.com/campfirein/cipher/blob/HEAD/src/tui/repl-startup.tsx) handles a key part of this chapter's functionality:
+
+```tsx
+ * - TransportInitializer connects to daemon via connectToDaemon()
+ */
+export interface ReplOptions {
+  version: string
+}
+
+/**
+ * Start the ByteRover REPL
+ */
+export async function startRepl(options: ReplOptions): Promise<void> {
+  const {version} = options
+
+  // Set version in store before rendering
+  useTransportStore.getState().setVersion(version)
+
+  const {waitUntilExit} = render(
+    <AppProviders>
+      <App />
+    </AppProviders>,
+  )
+
+  await waitUntilExit()
+}
+
+```
+
+This interface is important because it defines how Cipher Tutorial: Shared Memory Layer for Coding Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[resolveEnvPath]
-    B[startApiMode]
-    C[startUiMode]
-    D[createEmbeddingFromLLMProvider]
+    A[sleep]
+    B[waitForProcessExit]
+    C[startRepl]
+    D[ReplOptions]
+    E[fuzzyMatch]
     A --> B
     B --> C
     C --> D
+    D --> E
 ```

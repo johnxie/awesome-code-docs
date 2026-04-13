@@ -26,170 +26,168 @@ You now know how to choose the right autonomy level and debugging posture per ta
 
 Next: [Chapter 7: Git, Branching, and Review Workflows](07-git-branching-and-review-workflows.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/shared/context.go`
+### `app/shared/ai_models_custom.go`
 
-The `TypeAndIcon` function in [`app/shared/context.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/context.go) handles a key part of this chapter's functionality:
+The `Equals` function in [`app/shared/ai_models_custom.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_custom.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (c *Context) TypeAndIcon() (string, string) {
-	var icon string
-	var t string
-	switch c.ContextType {
-	case ContextFileType:
-		icon = "📄"
-		t = "file"
-	case ContextURLType:
-		icon = "🌎"
-		t = "url"
-	case ContextDirectoryTreeType:
-		icon = "🗂 "
-		t = "tree"
-	case ContextNoteType:
-		icon = "✏️ "
-		t = "note"
-	case ContextPipedDataType:
-		icon = "↔️ "
-		t = "piped"
-	case ContextImageType:
-		icon = "🖼️ "
-		t = "image"
-	case ContextMapType:
-		icon = "🗺️ "
-		t = "map"
-	}
+func (input ModelsInput) Equals(other ModelsInput) bool {
+	left := input.FilterUnchanged(&other)
+	right := other.FilterUnchanged(&input)
 
-	return t, icon
+	return left.IsEmpty() && right.IsEmpty()
 }
 
+func (input ModelsInput) CheckNoDuplicates() (bool, string) {
+	sawModelIds := map[ModelId]bool{}
+	sawProviderNames := map[string]bool{}
+	sawPackNames := map[string]bool{}
+
+	builder := strings.Builder{}
+
+	for _, provider := range input.CustomProviders {
+		if _, ok := sawProviderNames[provider.Name]; ok {
+			builder.WriteString(fmt.Sprintf("• Provider %s is duplicated\n", provider.Name))
+		}
+		sawProviderNames[provider.Name] = true
+	}
+
+	for _, model := range input.CustomModels {
+		if _, ok := sawModelIds[model.ModelId]; ok {
+			builder.WriteString(fmt.Sprintf("• Model %s is duplicated\n", model.ModelId))
+		}
+		sawModelIds[model.ModelId] = true
+	}
+
+	for _, pack := range input.CustomModelPacks {
+		if _, ok := sawPackNames[pack.Name]; ok {
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/context.go`
+### `app/shared/ai_models_custom.go`
 
-The `TableForLoadContext` function in [`app/shared/context.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/context.go) handles a key part of this chapter's functionality:
+The `Hash` function in [`app/shared/ai_models_custom.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_custom.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func TableForLoadContext(contexts []*Context, plaintext bool) string {
-	tableString := &strings.Builder{}
-	table := tablewriter.NewWriter(tableString)
-	table.SetHeader([]string{"Name", "Type", "🪙"})
-	table.SetAutoWrapText(false)
-
-	for _, context := range contexts {
-		t, icon := context.TypeAndIcon()
-		row := []string{
-			" " + icon + " " + context.Name,
-			t,
-			"+" + strconv.Itoa(context.NumTokens),
-		}
-
-		if !plaintext {
-			table.Rich(row, []tablewriter.Colors{
-				{tablewriter.FgHiGreenColor, tablewriter.Bold},
-				{tablewriter.FgHiGreenColor},
-				{tablewriter.FgHiGreenColor},
-			})
-		} else {
-			table.Append(row)
-		}
+// Hash returns a deterministic hash of the ModelsInput.
+// WARNING: This relies on json.Marshal being deterministic for our struct types.
+// Do not add map fields to these structs or the hash will become non-deterministic.
+func (input ModelsInput) Hash() (string, error) {
+	data, err := json.Marshal(input)
+	if err != nil {
+		return "", err
 	}
 
-	table.Render()
-
-	return strings.TrimSpace(tableString.String())
+	hash := sha256.Sum256(data)
+	return hex.EncodeToString(hash[:]), nil
 }
 
+type ClientModelPackSchema struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+
+	ClientModelPackSchemaRoles
+}
+
+func (input *ClientModelPackSchema) ToModelPackSchema() *ModelPackSchema {
+	return &ModelPackSchema{
+		Name:                 input.Name,
+		Description:          input.Description,
+		ModelPackSchemaRoles: input.ClientModelPackSchemaRoles.ToModelPackSchemaRoles(),
+	}
+}
+
+func (input *ModelPackSchema) ToClientModelPackSchema() *ClientModelPackSchema {
+	return &ClientModelPackSchema{
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/context.go`
+### `app/shared/ai_models_custom.go`
 
-The `MarkdownTableForLoadContext` function in [`app/shared/context.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/context.go) handles a key part of this chapter's functionality:
+The `ToModelPackSchema` function in [`app/shared/ai_models_custom.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_custom.go) handles a key part of this chapter's functionality:
 
 ```go
+
+func (mp *ModelPack) Equals(other *ModelPack) bool {
+	return mp.ToModelPackSchema().Equals(other.ToModelPackSchema())
 }
 
-func MarkdownTableForLoadContext(contexts []*Context) string {
-	var sb strings.Builder
-	sb.WriteString("| Name | Type | 🪙 |\n")
-	sb.WriteString("|------|------|----|\n")
-
-	for _, context := range contexts {
-		t, icon := context.TypeAndIcon()
-		sb.WriteString(fmt.Sprintf("| %s %s | %s | +%d |\n",
-			icon, context.Name, t, context.NumTokens))
+// Hash returns a deterministic hash of the ModelsInput.
+// WARNING: This relies on json.Marshal being deterministic for our struct types.
+// Do not add map fields to these structs or the hash will become non-deterministic.
+func (input ModelsInput) Hash() (string, error) {
+	data, err := json.Marshal(input)
+	if err != nil {
+		return "", err
 	}
 
-	return sb.String()
+	hash := sha256.Sum256(data)
+	return hex.EncodeToString(hash[:]), nil
 }
 
-func SummaryForLoadContext(contexts []*Context, tokensAdded, totalTokens int) string {
+type ClientModelPackSchema struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
 
-	var hasNote bool
-	var hasPiped bool
+	ClientModelPackSchemaRoles
+}
 
-	var numFiles int
-	var numTrees int
-	var numUrls int
-	var numMaps int
-
-	for _, context := range contexts {
-		switch context.ContextType {
-		case ContextFileType:
-			numFiles++
-		case ContextURLType:
-			numUrls++
+func (input *ClientModelPackSchema) ToModelPackSchema() *ModelPackSchema {
+	return &ModelPackSchema{
+		Name:                 input.Name,
+		Description:          input.Description,
+		ModelPackSchemaRoles: input.ClientModelPackSchemaRoles.ToModelPackSchemaRoles(),
+	}
+}
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
 
-### `app/shared/context.go`
+### `app/shared/ai_models_custom.go`
 
-The `SummaryForLoadContext` function in [`app/shared/context.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/context.go) handles a key part of this chapter's functionality:
+The `ToClientModelPackSchema` function in [`app/shared/ai_models_custom.go`](https://github.com/plandex-ai/plandex/blob/HEAD/app/shared/ai_models_custom.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func SummaryForLoadContext(contexts []*Context, tokensAdded, totalTokens int) string {
+func (input *ModelPackSchema) ToClientModelPackSchema() *ClientModelPackSchema {
+	return &ClientModelPackSchema{
+		Name:                       input.Name,
+		Description:                input.Description,
+		ClientModelPackSchemaRoles: input.ToClientModelPackSchemaRoles(),
+	}
+}
 
-	var hasNote bool
-	var hasPiped bool
+type ClientModelsInput struct {
+	SchemaUrl SchemaUrl `json:"$schema"`
 
-	var numFiles int
-	var numTrees int
-	var numUrls int
-	var numMaps int
+	CustomModels     []*CustomModel           `json:"models,omitempty"`
+	CustomProviders  []*CustomProvider        `json:"providers,omitempty"`
+	CustomModelPacks []*ClientModelPackSchema `json:"modelPacks,omitempty"`
+}
 
-	for _, context := range contexts {
-		switch context.ContextType {
-		case ContextFileType:
-			numFiles++
-		case ContextURLType:
-			numUrls++
-		case ContextDirectoryTreeType:
-			numTrees++
-		case ContextNoteType:
-			hasNote = true
-		case ContextPipedDataType:
-			hasPiped = true
-		case ContextMapType:
-			numMaps++
-		}
+func (input ClientModelsInput) ToModelsInput() ModelsInput {
+	modelPacks := []*ModelPackSchema{}
+	for _, pack := range input.CustomModelPacks {
+		modelPacks = append(modelPacks, pack.ToModelPackSchema())
 	}
 
-	var added []string
+	return ModelsInput{
+		CustomModels:     input.CustomModels,
+		CustomProviders:  input.CustomProviders,
+		CustomModelPacks: modelPacks,
+	}
+}
 
-	if hasNote {
+func (input *ClientModelsInput) PrepareUpdate() {
 ```
 
 This function is important because it defines how Plandex Tutorial: Large-Task AI Coding Agent Workflows implements the patterns covered in this chapter.
@@ -199,11 +197,11 @@ This function is important because it defines how Plandex Tutorial: Large-Task A
 
 ```mermaid
 flowchart TD
-    A[TypeAndIcon]
-    B[TableForLoadContext]
-    C[MarkdownTableForLoadContext]
-    D[SummaryForLoadContext]
-    E[TableForRemoveContext]
+    A[Equals]
+    B[Hash]
+    C[ToModelPackSchema]
+    D[ToClientModelPackSchema]
+    E[ToModelsInput]
     A --> B
     B --> C
     C --> D

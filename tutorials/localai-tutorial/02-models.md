@@ -13,6 +13,17 @@ Welcome to **Chapter 2: Model Gallery and Management**. In this part of **LocalA
 
 > Discover available models, install different architectures, and manage your local model collection.
 
+## Model Gallery and Installation Flow
+
+```mermaid
+flowchart LR
+    GALLERY[LocalAI Model Gallery\ngallery.yaml definitions] --> API[POST /models/apply\nwith model id]
+    API --> DOWNLOAD[Auto-download GGUF / weights]
+    DOWNLOAD --> CONFIG[Generate model config YAML]
+    CONFIG --> READY[Model available at /v1/models]
+    MANUAL[Manual: place .gguf + config.yaml\nin models/ directory] --> READY
+```
+
 ## Overview
 
 LocalAI supports a wide variety of models through its gallery system. This chapter covers model discovery, installation, and management of different model types.
@@ -543,14 +554,22 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 Use the following upstream sources to verify implementation details while reading this chapter:
 
-- [View Repo](https://github.com/mudler/LocalAI)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`core/gallery/gallery.go`](https://github.com/mudler/LocalAI/blob/master/core/gallery/gallery.go)
+  Gallery system for discovering and installing model presets. Implements `InstallModel()` which downloads YAML model configs and model weights from configured gallery URLs (including the official `localai-gallery`).
+
+- [`core/config/backend_config.go`](https://github.com/mudler/LocalAI/blob/master/core/config/backend_config.go)
+  `BackendConfig` struct that maps to per-model YAML configuration files. Fields include `Backend` (llama-cpp, whisper, diffusers), `Parameters` (temperature, top-p, max_tokens), `GPU` layers, `Threads`, and `ContextSize`. This is the schema for every `models/*.yaml` file.
+
+- [`core/services/gallery.go`](https://github.com/mudler/LocalAI/blob/master/core/services/gallery.go)
+  Gallery service layer connecting HTTP endpoints to gallery operations: list available models, install from gallery, get install status. Powers the `/models/available` and `/models/apply` API endpoints.
+
+- [`core/config/config.go`](https://github.com/mudler/LocalAI/blob/master/core/config/config.go)
+  Config loader that scans the models directory, parses YAML backend configs, and builds the model registry. Shows how LocalAI auto-discovers model files without explicit registration.
 
 Suggested trace strategy:
-- search upstream code for `models` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+- Read `core/config/backend_config.go` to understand every field available in a model's YAML config file
+- Trace `core/gallery/gallery.go` `InstallModel()` to understand how gallery install downloads both the YAML config and model weights
+- Check `core/config/config.go` `LoadConfigs()` to see how the models directory is scanned and which YAML fields are required vs optional
 
 ## Chapter Connections
 

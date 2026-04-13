@@ -46,170 +46,168 @@ You can now design metadata that is far less likely to fail publication checks.
 
 Next: [Chapter 4: Authentication Models and Namespace Ownership](04-authentication-models-and-namespace-ownership.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `internal/service/registry_service.go`
+### `internal/validators/validators.go`
 
-The `GetAllVersionsByServerName` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
+The `validateRepository` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
-}
 
-// GetAllVersionsByServerName retrieves all versions of a server by server name
-func (s *registryServiceImpl) GetAllVersionsByServerName(ctx context.Context, serverName string, includeDeleted bool) ([]*apiv0.ServerResponse, error) {
-	serverRecords, err := s.db.GetAllVersionsByServerName(ctx, nil, serverName, includeDeleted)
-	if err != nil {
-		return nil, err
+	// Validate repository
+	repoResult := validateRepository(ctx.Field("repository"), serverJSON.Repository)
+	result.Merge(repoResult)
+
+	// Validate website URL if provided
+	websiteResult := validateWebsiteURL(ctx.Field("websiteUrl"), serverJSON.WebsiteURL)
+	result.Merge(websiteResult)
+
+	// Validate title if provided
+	titleResult := validateTitle(ctx.Field("title"), serverJSON.Title)
+	result.Merge(titleResult)
+
+	// Validate icons if provided
+	iconsResult := validateIcons(ctx.Field("icons"), serverJSON.Icons)
+	result.Merge(iconsResult)
+
+	// Validate all packages (basic field validation)
+	// Detailed package validation (including registry checks) is done during publish
+	for i, pkg := range serverJSON.Packages {
+		pkgResult := validatePackageField(ctx.Field("packages").Index(i), &pkg)
+		result.Merge(pkgResult)
 	}
 
-	return serverRecords, nil
-}
-
-// CreateServer creates a new server version
-func (s *registryServiceImpl) CreateServer(ctx context.Context, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
-	// Wrap the entire operation in a transaction
-	return database.InTransactionT(ctx, s.db, func(ctx context.Context, tx pgx.Tx) (*apiv0.ServerResponse, error) {
-		return s.createServerInTransaction(ctx, tx, req)
-	})
-}
-
-// createServerInTransaction contains the actual CreateServer logic within a transaction
-func (s *registryServiceImpl) createServerInTransaction(ctx context.Context, tx pgx.Tx, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
-	// Validate the request
-	if err := validators.ValidatePublishRequest(ctx, *req, s.cfg); err != nil {
-		return nil, err
+	// Validate all remotes
+	for i, remote := range serverJSON.Remotes {
+		remoteResult := validateRemoteTransport(ctx.Field("remotes").Index(i), &remote)
+		result.Merge(remoteResult)
 	}
 
-	publishTime := time.Now()
-	serverJSON := *req
-
-	// Acquire advisory lock to prevent concurrent publishes of the same server
-	if err := s.db.AcquirePublishLock(ctx, tx, serverJSON.Name); err != nil {
+	return result
+}
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/service/registry_service.go`
+### `internal/validators/validators.go`
 
-The `CreateServer` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
+The `validateWebsiteURL` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
+
+	// Validate website URL if provided
+	websiteResult := validateWebsiteURL(ctx.Field("websiteUrl"), serverJSON.WebsiteURL)
+	result.Merge(websiteResult)
+
+	// Validate title if provided
+	titleResult := validateTitle(ctx.Field("title"), serverJSON.Title)
+	result.Merge(titleResult)
+
+	// Validate icons if provided
+	iconsResult := validateIcons(ctx.Field("icons"), serverJSON.Icons)
+	result.Merge(iconsResult)
+
+	// Validate all packages (basic field validation)
+	// Detailed package validation (including registry checks) is done during publish
+	for i, pkg := range serverJSON.Packages {
+		pkgResult := validatePackageField(ctx.Field("packages").Index(i), &pkg)
+		result.Merge(pkgResult)
+	}
+
+	// Validate all remotes
+	for i, remote := range serverJSON.Remotes {
+		remoteResult := validateRemoteTransport(ctx.Field("remotes").Index(i), &remote)
+		result.Merge(remoteResult)
+	}
+
+	return result
 }
 
-// CreateServer creates a new server version
-func (s *registryServiceImpl) CreateServer(ctx context.Context, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
-	// Wrap the entire operation in a transaction
-	return database.InTransactionT(ctx, s.db, func(ctx context.Context, tx pgx.Tx) (*apiv0.ServerResponse, error) {
-		return s.createServerInTransaction(ctx, tx, req)
-	})
-}
+func validateRepository(ctx *ValidationContext, obj *model.Repository) *ValidationResult {
+	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
 
-// createServerInTransaction contains the actual CreateServer logic within a transaction
-func (s *registryServiceImpl) createServerInTransaction(ctx context.Context, tx pgx.Tx, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
-	// Validate the request
-	if err := validators.ValidatePublishRequest(ctx, *req, s.cfg); err != nil {
-		return nil, err
-	}
-
-	publishTime := time.Now()
-	serverJSON := *req
-
-	// Acquire advisory lock to prevent concurrent publishes of the same server
-	if err := s.db.AcquirePublishLock(ctx, tx, serverJSON.Name); err != nil {
-		return nil, err
-	}
-
-	// Check for duplicate remote URLs
-	if err := s.validateNoDuplicateRemoteURLs(ctx, tx, serverJSON); err != nil {
-		return nil, err
-	}
-
-	// Check we haven't exceeded the maximum versions allowed for a server
-	versionCount, err := s.db.CountServerVersions(ctx, tx, serverJSON.Name)
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/service/registry_service.go`
+### `internal/validators/validators.go`
 
-The `createServerInTransaction` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
+The `validateTitle` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
-	// Wrap the entire operation in a transaction
-	return database.InTransactionT(ctx, s.db, func(ctx context.Context, tx pgx.Tx) (*apiv0.ServerResponse, error) {
-		return s.createServerInTransaction(ctx, tx, req)
-	})
+
+	// Validate title if provided
+	titleResult := validateTitle(ctx.Field("title"), serverJSON.Title)
+	result.Merge(titleResult)
+
+	// Validate icons if provided
+	iconsResult := validateIcons(ctx.Field("icons"), serverJSON.Icons)
+	result.Merge(iconsResult)
+
+	// Validate all packages (basic field validation)
+	// Detailed package validation (including registry checks) is done during publish
+	for i, pkg := range serverJSON.Packages {
+		pkgResult := validatePackageField(ctx.Field("packages").Index(i), &pkg)
+		result.Merge(pkgResult)
+	}
+
+	// Validate all remotes
+	for i, remote := range serverJSON.Remotes {
+		remoteResult := validateRemoteTransport(ctx.Field("remotes").Index(i), &remote)
+		result.Merge(remoteResult)
+	}
+
+	return result
 }
 
-// createServerInTransaction contains the actual CreateServer logic within a transaction
-func (s *registryServiceImpl) createServerInTransaction(ctx context.Context, tx pgx.Tx, req *apiv0.ServerJSON) (*apiv0.ServerResponse, error) {
-	// Validate the request
-	if err := validators.ValidatePublishRequest(ctx, *req, s.cfg); err != nil {
-		return nil, err
-	}
+func validateRepository(ctx *ValidationContext, obj *model.Repository) *ValidationResult {
+	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
 
-	publishTime := time.Now()
-	serverJSON := *req
-
-	// Acquire advisory lock to prevent concurrent publishes of the same server
-	if err := s.db.AcquirePublishLock(ctx, tx, serverJSON.Name); err != nil {
-		return nil, err
+	// Skip validation if repository is nil or empty (optional field)
+	if obj == nil || (obj.URL == "" && obj.Source == "") {
+		return result
 	}
-
-	// Check for duplicate remote URLs
-	if err := s.validateNoDuplicateRemoteURLs(ctx, tx, serverJSON); err != nil {
-		return nil, err
-	}
-
-	// Check we haven't exceeded the maximum versions allowed for a server
-	versionCount, err := s.db.CountServerVersions(ctx, tx, serverJSON.Name)
-	if err != nil && !errors.Is(err, database.ErrNotFound) {
-		return nil, err
-	}
-	if versionCount >= maxServerVersionsPerServer {
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
 
-### `internal/service/registry_service.go`
+### `internal/validators/validators.go`
 
-The `validateNoDuplicateRemoteURLs` function in [`internal/service/registry_service.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/service/registry_service.go) handles a key part of this chapter's functionality:
+The `validateIcons` function in [`internal/validators/validators.go`](https://github.com/modelcontextprotocol/registry/blob/HEAD/internal/validators/validators.go) handles a key part of this chapter's functionality:
 
 ```go
 
-	// Check for duplicate remote URLs
-	if err := s.validateNoDuplicateRemoteURLs(ctx, tx, serverJSON); err != nil {
-		return nil, err
+	// Validate icons if provided
+	iconsResult := validateIcons(ctx.Field("icons"), serverJSON.Icons)
+	result.Merge(iconsResult)
+
+	// Validate all packages (basic field validation)
+	// Detailed package validation (including registry checks) is done during publish
+	for i, pkg := range serverJSON.Packages {
+		pkgResult := validatePackageField(ctx.Field("packages").Index(i), &pkg)
+		result.Merge(pkgResult)
 	}
 
-	// Check we haven't exceeded the maximum versions allowed for a server
-	versionCount, err := s.db.CountServerVersions(ctx, tx, serverJSON.Name)
-	if err != nil && !errors.Is(err, database.ErrNotFound) {
-		return nil, err
-	}
-	if versionCount >= maxServerVersionsPerServer {
-		return nil, database.ErrMaxServersReached
+	// Validate all remotes
+	for i, remote := range serverJSON.Remotes {
+		remoteResult := validateRemoteTransport(ctx.Field("remotes").Index(i), &remote)
+		result.Merge(remoteResult)
 	}
 
-	// Check this isn't a duplicate version
-	versionExists, err := s.db.CheckVersionExists(ctx, tx, serverJSON.Name, serverJSON.Version)
-	if err != nil {
-		return nil, err
-	}
-	if versionExists {
-		return nil, database.ErrInvalidVersion
+	return result
+}
+
+func validateRepository(ctx *ValidationContext, obj *model.Repository) *ValidationResult {
+	result := &ValidationResult{Valid: true, Issues: []ValidationIssue{}}
+
+	// Skip validation if repository is nil or empty (optional field)
+	if obj == nil || (obj.URL == "" && obj.Source == "") {
+		return result
 	}
 
-	// Get current latest version to determine if new version should be latest
-	currentLatest, err := s.db.GetCurrentLatestVersion(ctx, tx, serverJSON.Name)
-	if err != nil && !errors.Is(err, database.ErrNotFound) {
-		return nil, err
-	}
-
-	// Determine if this version should be marked as latest
-	isNewLatest := true
+	// validate the repository source
+	repoSource := RepositorySource(obj.Source)
+	if !IsValidRepositoryURL(repoSource, obj.URL) {
 ```
 
 This function is important because it defines how MCP Registry Tutorial: Publishing, Discovery, and Governance for MCP Servers implements the patterns covered in this chapter.
@@ -219,11 +217,11 @@ This function is important because it defines how MCP Registry Tutorial: Publish
 
 ```mermaid
 flowchart TD
-    A[GetAllVersionsByServerName]
-    B[CreateServer]
-    C[createServerInTransaction]
-    D[validateNoDuplicateRemoteURLs]
-    E[UpdateServer]
+    A[validateRepository]
+    B[validateWebsiteURL]
+    C[validateTitle]
+    D[validateIcons]
+    E[validateIcon]
     A --> B
     B --> C
     C --> D

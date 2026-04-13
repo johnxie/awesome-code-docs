@@ -54,170 +54,168 @@ You now have a stable install/upgrade pattern for Claude-Mem environments.
 
 Next: [Chapter 4: Configuration, Modes, and Context Injection](04-configuration-modes-and-context-injection.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/check-pending-queue.ts`
+### `scripts/smart-install.js`
 
-The `getQueueStatus` function in [`scripts/check-pending-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/check-pending-queue.ts) handles a key part of this chapter's functionality:
+The `isBunInstalled` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
 
-```ts
-}
-
-async function getQueueStatus(): Promise<QueueResponse> {
-  const res = await fetch(`${WORKER_URL}/api/pending-queue`);
-  if (!res.ok) {
-    throw new Error(`Failed to get queue status: ${res.status}`);
-  }
-  return res.json();
-}
-
-async function processQueue(limit: number): Promise<ProcessResponse> {
-  const res = await fetch(`${WORKER_URL}/api/pending-queue/process`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionLimit: limit })
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to process queue: ${res.status}`);
-  }
-  return res.json();
-}
-
-function formatAge(epochMs: number): string {
-  const ageMs = Date.now() - epochMs;
-  const minutes = Math.floor(ageMs / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ${hours % 24}h ago`;
-  if (hours > 0) return `${hours}h ${minutes % 60}m ago`;
-  return `${minutes}m ago`;
-}
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/check-pending-queue.ts`
-
-The `processQueue` function in [`scripts/check-pending-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/check-pending-queue.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-async function processQueue(limit: number): Promise<ProcessResponse> {
-  const res = await fetch(`${WORKER_URL}/api/pending-queue/process`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ sessionLimit: limit })
-  });
-  if (!res.ok) {
-    throw new Error(`Failed to process queue: ${res.status}`);
-  }
-  return res.json();
-}
-
-function formatAge(epochMs: number): string {
-  const ageMs = Date.now() - epochMs;
-  const minutes = Math.floor(ageMs / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ${hours % 24}h ago`;
-  if (hours > 0) return `${hours}h ${minutes % 60}m ago`;
-  return `${minutes}m ago`;
-}
-
-async function prompt(question: string): Promise<string> {
-  // Check if we have a TTY for interactive input
-  if (!process.stdin.isTTY) {
-    console.log(question + '(no TTY, use --process flag for non-interactive mode)');
-    return 'n';
-  }
-
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/check-pending-queue.ts`
-
-The `formatAge` function in [`scripts/check-pending-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/check-pending-queue.ts) handles a key part of this chapter's functionality:
-
-```ts
-}
-
-function formatAge(epochMs: number): string {
-  const ageMs = Date.now() - epochMs;
-  const minutes = Math.floor(ageMs / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ${hours % 24}h ago`;
-  if (hours > 0) return `${hours}h ${minutes % 60}m ago`;
-  return `${minutes}m ago`;
-}
-
-async function prompt(question: string): Promise<string> {
-  // Check if we have a TTY for interactive input
-  if (!process.stdin.isTTY) {
-    console.log(question + '(no TTY, use --process flag for non-interactive mode)');
-    return 'n';
-  }
-
-  return new Promise((resolve) => {
-    process.stdout.write(question);
-    process.stdin.setRawMode(false);
-    process.stdin.resume();
-    process.stdin.once('data', (data) => {
-      process.stdin.pause();
-      resolve(data.toString().trim());
-    });
-  });
-}
-
-async function main() {
-```
-
-This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
-
-### `scripts/check-pending-queue.ts`
-
-The `prompt` function in [`scripts/check-pending-queue.ts`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/check-pending-queue.ts) handles a key part of this chapter's functionality:
-
-```ts
- *
- * Usage:
- *   bun scripts/check-pending-queue.ts           # Check status and prompt to process
- *   bun scripts/check-pending-queue.ts --process # Auto-process without prompting
- *   bun scripts/check-pending-queue.ts --limit 5 # Process up to 5 sessions
+```js
+ * Check if Bun is installed and accessible
  */
-
-const WORKER_URL = 'http://localhost:37777';
-
-interface QueueMessage {
-  id: number;
-  session_db_id: number;
-  message_type: string;
-  tool_name: string | null;
-  status: 'pending' | 'processing' | 'failed';
-  retry_count: number;
-  created_at_epoch: number;
-  project: string | null;
+function isBunInstalled() {
+  return getBunPath() !== null;
 }
 
-interface QueueResponse {
-  queue: {
-    messages: QueueMessage[];
-    totalPending: number;
-    totalProcessing: number;
-    totalFailed: number;
-    stuckCount: number;
-  };
-  recentlyProcessed: QueueMessage[];
-  sessionsWithPendingWork: number[];
+/**
+ * Get Bun version if installed
+ */
+function getBunVersion() {
+  const bunPath = getBunPath();
+  if (!bunPath) return null;
+
+  try {
+    const result = spawnSync(bunPath, ['--version'], {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: IS_WINDOWS
+    });
+    return result.status === 0 ? result.stdout.trim() : null;
+  } catch {
+    return null;
+  }
 }
 
+/**
+ * Get the uv executable path (from PATH or common install locations)
+ */
+function getUvPath() {
+  // Try PATH first
+  try {
+    const result = spawnSync('uv', ['--version'], {
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/smart-install.js`
+
+The `getBunVersion` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+
+```js
+ * Get Bun version if installed
+ */
+function getBunVersion() {
+  const bunPath = getBunPath();
+  if (!bunPath) return null;
+
+  try {
+    const result = spawnSync(bunPath, ['--version'], {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: IS_WINDOWS
+    });
+    return result.status === 0 ? result.stdout.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Get the uv executable path (from PATH or common install locations)
+ */
+function getUvPath() {
+  // Try PATH first
+  try {
+    const result = spawnSync('uv', ['--version'], {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: IS_WINDOWS
+    });
+    if (result.status === 0) return 'uv';
+  } catch {
+    // Not in PATH
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/smart-install.js`
+
+The `getUvPath` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+
+```js
+ * Get the uv executable path (from PATH or common install locations)
+ */
+function getUvPath() {
+  // Try PATH first
+  try {
+    const result = spawnSync('uv', ['--version'], {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: IS_WINDOWS
+    });
+    if (result.status === 0) return 'uv';
+  } catch {
+    // Not in PATH
+  }
+
+  // Check common installation paths
+  return UV_COMMON_PATHS.find(existsSync) || null;
+}
+
+/**
+ * Check if uv is installed and accessible
+ */
+function isUvInstalled() {
+  return getUvPath() !== null;
+}
+
+/**
+ * Get uv version if installed
+ */
+function getUvVersion() {
+  const uvPath = getUvPath();
+  if (!uvPath) return null;
+```
+
+This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
+
+### `scripts/smart-install.js`
+
+The `isUvInstalled` function in [`scripts/smart-install.js`](https://github.com/thedotmack/claude-mem/blob/HEAD/scripts/smart-install.js) handles a key part of this chapter's functionality:
+
+```js
+ * Check if uv is installed and accessible
+ */
+function isUvInstalled() {
+  return getUvPath() !== null;
+}
+
+/**
+ * Get uv version if installed
+ */
+function getUvVersion() {
+  const uvPath = getUvPath();
+  if (!uvPath) return null;
+
+  try {
+    const result = spawnSync(uvPath, ['--version'], {
+      encoding: 'utf-8',
+      stdio: ['pipe', 'pipe', 'pipe'],
+      shell: IS_WINDOWS
+    });
+    return result.status === 0 ? result.stdout.trim() : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Install Bun automatically based on platform
+ */
+function installBun() {
+  console.error('🔧 Bun not found. Installing Bun runtime...');
+
+  try {
 ```
 
 This function is important because it defines how Claude-Mem Tutorial: Persistent Memory Compression for Claude Code implements the patterns covered in this chapter.
@@ -227,11 +225,11 @@ This function is important because it defines how Claude-Mem Tutorial: Persisten
 
 ```mermaid
 flowchart TD
-    A[getQueueStatus]
-    B[processQueue]
-    C[formatAge]
-    D[prompt]
-    E[main]
+    A[isBunInstalled]
+    B[getBunVersion]
+    C[getUvPath]
+    D[isUvInstalled]
+    E[getUvVersion]
     A --> B
     B --> C
     C --> D

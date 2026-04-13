@@ -111,50 +111,35 @@ Suggested trace strategy:
 - [Main Catalog](../../README.md#-tutorial-catalog)
 - [A-Z Tutorial Directory](../../discoverability/tutorial-directory.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `src/lib.rs`
+### `tiktoken/_educational.py`
 
-The `CoreBPE` interface in [`src/lib.rs`](https://github.com/openai/tiktoken/blob/HEAD/src/lib.rs) handles a key part of this chapter's functionality:
+The `train_simple_encoding` function in [`tiktoken/_educational.py`](https://github.com/openai/tiktoken/blob/HEAD/tiktoken/_educational.py) handles a key part of this chapter's functionality:
 
-```rs
-#[cfg_attr(feature = "python", pyclass(frozen))]
-#[derive(Clone)]
-pub struct CoreBPE {
-    encoder: HashMap<Vec<u8>, Rank>,
-    special_tokens_encoder: HashMap<String, Rank>,
-    decoder: HashMap<Rank, Vec<u8>>,
-    special_tokens_decoder: HashMap<Rank, Vec<u8>>,
-    regex_tls: Vec<Regex>,
-    special_regex_tls: Vec<Regex>,
-    sorted_token_bytes: Vec<Vec<u8>>,
-}
+```py
 
-impl CoreBPE {
-    fn _get_tl_regex(&self) -> &Regex {
-        // See performance notes above for what this is about
-        // It's also a little janky, please make a better version of it!
-        // However, it's nice that this doesn't leak memory to short-lived threads
-        &self.regex_tls[hash_current_thread() % MAX_NUM_THREADS]
-    }
 
-    fn _get_tl_special_regex(&self) -> &Regex {
-        &self.special_regex_tls[hash_current_thread() % MAX_NUM_THREADS]
-    }
+def train_simple_encoding():
+    gpt2_pattern = (
+        r"""'s|'t|'re|'ve|'m|'ll|'d| ?[\p{L}]+| ?[\p{N}]+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+"""
+    )
+    with open(__file__) as f:
+        data = f.read()
 
-    /// Decodes tokens into a list of bytes.
-    ///
-    /// The bytes are not gauranteed to be a valid utf-8 string.
-    fn decode_bytes(&self, tokens: &[Rank]) -> Result<Vec<u8>, DecodeKeyError> {
-        let mut ret = Vec::with_capacity(tokens.len() * 2);
-        for &token in tokens {
-            let token_bytes = match self.decoder.get(&token) {
-                Some(bytes) => bytes,
+    enc = SimpleBytePairEncoding.train(data, vocab_size=600, pat_str=gpt2_pattern)
+
+    print("This is the sequence of merges performed in order to encode 'hello world':")
+    tokens = enc.encode("hello world")
+    assert enc.decode(tokens) == "hello world"
+    assert enc.decode_bytes(tokens) == b"hello world"
+    assert enc.decode_tokens_bytes(tokens) == [b"hello", b" world"]
+
+    return enc
+
 ```
 
-This interface is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
+This function is important because it defines how tiktoken Tutorial: OpenAI Token Encoding & Optimization implements the patterns covered in this chapter.
 
 ### `tiktoken/core.py`
 
@@ -282,7 +267,7 @@ This interface is important because it defines how tiktoken Tutorial: OpenAI Tok
 
 ```mermaid
 flowchart TD
-    A[CoreBPE]
+    A[train_simple_encoding]
     B[Encoding]
     C[raise_disallowed_special_token]
     D[an]

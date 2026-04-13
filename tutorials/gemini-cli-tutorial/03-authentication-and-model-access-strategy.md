@@ -67,9 +67,130 @@ You now have a clear and repeatable auth/model-access strategy.
 
 Next: [Chapter 4: Settings, Context, and Custom Commands](04-settings-context-and-custom-commands.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `scripts/telemetry_utils.js`
+
+The `moveBinary` function in [`scripts/telemetry_utils.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/telemetry_utils.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+export function moveBinary(source, destination) {
+  try {
+    fs.renameSync(source, destination);
+  } catch (error) {
+    if (error.code !== 'EXDEV') {
+      throw error;
+    }
+    // Handle a cross-device error: copy-to-temp-then-rename.
+    const destDir = path.dirname(destination);
+    const destFile = path.basename(destination);
+    const tempDest = path.join(destDir, `${destFile}.tmp`);
+
+    try {
+      fs.copyFileSync(source, tempDest);
+      fs.renameSync(tempDest, destination);
+    } catch (moveError) {
+      // If copy or rename fails, clean up the intermediate temp file.
+      if (fs.existsSync(tempDest)) {
+        fs.unlinkSync(tempDest);
+      }
+      throw moveError;
+    }
+    fs.unlinkSync(source);
+  }
+}
+
+export function waitForPort(port, timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+    const tryConnect = () => {
+```
+
+This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
+
+### `scripts/telemetry_utils.js`
+
+The `waitForPort` function in [`scripts/telemetry_utils.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/telemetry_utils.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+export function waitForPort(port, timeout = 10000) {
+  return new Promise((resolve, reject) => {
+    const startTime = Date.now();
+    const tryConnect = () => {
+      const socket = new net.Socket();
+      socket.once('connect', () => {
+        socket.end();
+        resolve();
+      });
+      socket.once('error', (_) => {
+        if (Date.now() - startTime > timeout) {
+          reject(new Error(`Timeout waiting for port ${port} to open.`));
+        } else {
+          setTimeout(tryConnect, 500);
+        }
+      });
+      socket.connect(port, 'localhost');
+    };
+    tryConnect();
+  });
+}
+
+export async function ensureBinary(
+  executableName,
+  repo,
+  assetNameCallback,
+  binaryNameInArchive,
+  isJaeger = false,
+) {
+  const executablePath = path.join(BIN_DIR, executableName);
+```
+
+This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
+
+### `scripts/telemetry_utils.js`
+
+The `ensureBinary` function in [`scripts/telemetry_utils.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/telemetry_utils.js) handles a key part of this chapter's functionality:
+
+```js
+}
+
+export async function ensureBinary(
+  executableName,
+  repo,
+  assetNameCallback,
+  binaryNameInArchive,
+  isJaeger = false,
+) {
+  const executablePath = path.join(BIN_DIR, executableName);
+  if (fileExists(executablePath)) {
+    console.log(`✅ ${executableName} already exists at ${executablePath}`);
+    return executablePath;
+  }
+
+  console.log(`🔍 ${executableName} not found. Downloading from ${repo}...`);
+
+  const platform = process.platform === 'win32' ? 'windows' : process.platform;
+  const arch = process.arch === 'x64' ? 'amd64' : process.arch;
+  const ext = platform === 'windows' ? 'zip' : 'tar.gz';
+
+  if (isJaeger && platform === 'windows' && arch === 'arm64') {
+    console.warn(
+      `⚠️ Jaeger does not have a release for Windows on ARM64. Skipping.`,
+    );
+    return null;
+  }
+
+  let release;
+  let asset;
+
+  if (isJaeger) {
+```
+
+This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
 ### `scripts/telemetry_utils.js`
 
@@ -112,139 +233,16 @@ export function manageTelemetrySettings(
 
 This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
 
-### `scripts/telemetry_utils.js`
-
-The `registerCleanup` function in [`scripts/telemetry_utils.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/scripts/telemetry_utils.js) handles a key part of this chapter's functionality:
-
-```js
-}
-
-export function registerCleanup(
-  getProcesses,
-  getLogFileDescriptors,
-  originalSandboxSetting,
-) {
-  let cleanedUp = false;
-  const cleanup = () => {
-    if (cleanedUp) return;
-    cleanedUp = true;
-
-    console.log('\n👋 Shutting down...');
-
-    manageTelemetrySettings(false, null, null, originalSandboxSetting);
-
-    const processes = getProcesses ? getProcesses() : [];
-    processes.forEach((proc) => {
-      if (proc && proc.pid) {
-        const name = path.basename(proc.spawnfile);
-        try {
-          console.log(`🛑 Stopping ${name} (PID: ${proc.pid})...`);
-          process.kill(proc.pid, 'SIGTERM');
-          console.log(`✅ ${name} stopped.`);
-        } catch (e) {
-          if (e.code !== 'ESRCH') {
-            console.error(`Error stopping ${name}: ${e.message}`);
-          }
-        }
-      }
-    });
-
-```
-
-This function is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
-
-### `eslint.config.js`
-
-The `instantiation` class in [`eslint.config.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/eslint.config.js) handles a key part of this chapter's functionality:
-
-```js
-            'CallExpression[callee.object.name="Object"][callee.property.name="create"]',
-          message:
-            'Avoid using Object.create() in product code. Use object spread {...obj}, explicit class instantiation, structuredClone(), or copy constructors instead.',
-        },
-        {
-          selector: 'Identifier[name="Reflect"]',
-          message:
-            'Avoid using Reflect namespace in product code. Do not use reflection to make copies. Instead, use explicit object copying or cloning (structuredClone() for values, new instance/clone function for classes).',
-        },
-      ],
-    },
-  },
-  {
-    // Allow os.homedir() in tests and paths.ts where it is used to implement the helper
-    files: [
-      '**/*.test.ts',
-      '**/*.test.tsx',
-      'packages/core/src/utils/paths.ts',
-      'packages/test-utils/src/**/*.ts',
-      'scripts/**/*.js',
-    ],
-    rules: {
-      'no-restricted-imports': 'off',
-    },
-  },
-  {
-    // Prevent self-imports in packages
-    files: ['packages/core/src/**/*.{ts,tsx}'],
-    rules: {
-      'no-restricted-imports': [
-        'error',
-        {
-```
-
-This class is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
-
-### `eslint.config.js`
-
-The `and` interface in [`eslint.config.js`](https://github.com/google-gemini/gemini-cli/blob/HEAD/eslint.config.js) handles a key part of this chapter's functionality:
-
-```js
-      'UnaryExpression[operator="typeof"] > MemberExpression[computed=true][property.type="Literal"]',
-    message:
-      'Do not use typeof to check object properties. Define a TypeScript interface and a type guard function instead.',
-  },
-];
-
-export default tseslint.config(
-  {
-    // Global ignores
-    ignores: [
-      '**/node_modules/**',
-      'eslint.config.js',
-      'packages/**/dist/**',
-      'bundle/**',
-      'package/bundle/**',
-      '.integration-tests/**',
-      'dist/**',
-      'evals/**',
-      'packages/test-utils/**',
-      '.gemini/**',
-      '**/*.d.ts',
-    ],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
-  reactHooks.configs['recommended-latest'],
-  reactPlugin.configs.flat.recommended,
-  reactPlugin.configs.flat['jsx-runtime'], // Add this if you are using React 17+
-  {
-    // Settings for eslint-plugin-react
-    settings: {
-      react: {
-```
-
-This interface is important because it defines how Gemini CLI Tutorial: Terminal-First Agent Workflows with Google Gemini implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[manageTelemetrySettings]
-    B[registerCleanup]
-    C[instantiation]
-    D[and]
-    E[readJson]
+    A[moveBinary]
+    B[waitForPort]
+    C[ensureBinary]
+    D[manageTelemetrySettings]
+    E[registerCleanup]
     A --> B
     B --> C
     C --> D

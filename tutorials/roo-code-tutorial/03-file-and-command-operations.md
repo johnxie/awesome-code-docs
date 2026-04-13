@@ -100,98 +100,24 @@ You now have a governance model for Roo edit/command loops:
 
 Next: [Chapter 4: Context and Indexing](04-context-and-indexing.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `scripts/find-missing-i18n-key.js`
+Use the following upstream sources to verify file and command operation implementation details while reading this chapter:
 
-The `walk` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
+- [`src/core/tools/`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/core/tools/) — contains the tool handler implementations for file read/write, command execution, diff application, and search operations that drive Roo Code's file and terminal interaction model.
+- [`src/core/task/index.ts`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/src/core/task/index.ts) — manages the task execution lifecycle including approval checkpoints before file writes and terminal commands are executed.
 
-```js
-	const results = []
-
-	function walk(dir, baseDir, localeDirs, localesDir) {
-		const files = fs.readdirSync(dir)
-
-		for (const file of files) {
-			const filePath = path.join(dir, file)
-			const stat = fs.statSync(filePath)
-
-			// Exclude test files and __mocks__ directory
-			if (filePath.includes(".test.") || filePath.includes("__mocks__")) continue
-
-			if (stat.isDirectory()) {
-				walk(filePath, baseDir, localeDirs, localesDir) // Recursively traverse subdirectories
-			} else if (stat.isFile() && [".ts", ".tsx", ".js", ".jsx"].includes(path.extname(filePath))) {
-				const content = fs.readFileSync(filePath, "utf8")
-
-				// Match all i18n keys
-				for (const pattern of i18nPatterns) {
-					let match
-					while ((match = pattern.exec(content)) !== null) {
-						const key = match[1]
-						const missingLocales = checkKeyInLocales(key, localeDirs, localesDir)
-						if (missingLocales.length > 0) {
-							results.push({
-								key,
-								missingLocales,
-								file: path.relative(baseDir, filePath),
-							})
-						}
-					}
-				}
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
-### `scripts/find-missing-i18n-key.js`
-
-The `main` function in [`scripts/find-missing-i18n-key.js`](https://github.com/RooCodeInc/Roo-Code/blob/HEAD/scripts/find-missing-i18n-key.js) handles a key part of this chapter's functionality:
-
-```js
-
-// Execute and output the results
-function main() {
-	try {
-		if (args.locale) {
-			// Check if the specified locale exists in any of the locales directories
-			const localeExists = Object.values(DIRS).some((config) => {
-				const localeDirs = getLocaleDirs(config.localesDir)
-				return localeDirs.includes(args.locale)
-			})
-
-			if (!localeExists) {
-				console.error(`Error: Language '${args.locale}' not found in any locales directory`)
-				process.exit(1)
-			}
-		}
-
-		const missingKeys = findMissingI18nKeys()
-
-		if (missingKeys.length === 0) {
-			console.log("\n✅ All i18n keys are present!")
-			return
-		}
-
-		console.log("\nMissing i18n keys:\n")
-		missingKeys.forEach(({ key, missingLocales, file }) => {
-			console.log(`File: ${file}`)
-			console.log(`Key: ${key}`)
-			console.log("Missing in:")
-			missingLocales.forEach((file) => console.log(`  - ${file}`))
-			console.log("-------------------")
-		})
-```
-
-This function is important because it defines how Roo Code Tutorial: Run an AI Dev Team in Your Editor implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- browse `src/core/tools/` to find handlers like `write_to_file`, `execute_command`, and `apply_diff`
+- trace approval flow in `src/core/task/index.ts` to see where human confirmation is requested before destructive operations
+- check `src/shared/tool-groups.ts` for tool grouping that controls which tools are available in each mode
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[walk]
-    B[main]
-    A --> B
+flowchart LR
+    A[Agent plan] --> B[Tool call: write or execute]
+    B --> C[Approval checkpoint in task/index.ts]
+    C --> D[Tool handler in core/tools/]
+    D --> E[File system or terminal output]
 ```

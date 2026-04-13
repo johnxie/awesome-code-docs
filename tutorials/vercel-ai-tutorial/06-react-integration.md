@@ -913,6 +913,18 @@ Under the hood, `Chapter 6: React Integration` usually follows a repeatable cont
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Architecture Flow
+
+```mermaid
+flowchart LR
+    A[User input in React] --> B[useChat or useCompletion hook]
+    B --> C[POST to API route]
+    C --> D[streamText on server]
+    D --> E[Stream response to client]
+    E --> B
+    B --> F[messages state updated in UI]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

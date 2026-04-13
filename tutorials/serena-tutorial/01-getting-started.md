@@ -52,9 +52,48 @@ You now have Serena launched and connected as an MCP server.
 
 Next: [Chapter 2: Semantic Toolkit and Agent Loop](02-semantic-toolkit-and-agent-loop.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `docs/_config.yml`
+
+The `interactive` interface in [`docs/_config.yml`](https://github.com/oraios/serena/blob/HEAD/docs/_config.yml) handles a key part of this chapter's functionality:
+
+```yml
+# Launch button settings
+launch_buttons:
+  notebook_interface        : classic  # The interface interactive links will activate ["classic", "jupyterlab"]
+  binderhub_url             : ""  # The URL of the BinderHub (e.g., https://mybinder.org)
+  jupyterhub_url            : ""  # The URL of the JupyterHub (e.g., https://datahub.berkeley.edu)
+  thebe                     : false  # Add a thebe button to pages (requires the repository to run on Binder)
+  colab_url                 : "https://colab.research.google.com"
+
+repository:
+  url                       : https://github.com/oraios/serena  # The URL to your book's repository
+  path_to_book              : docs  # A path to your book's folder, relative to the repository root.
+  branch                    : main  # Which branch of the repository should be used when creating links
+
+#######################################################################################
+# Advanced and power-user settings
+sphinx:
+  extra_extensions          :
+    - sphinx.ext.autodoc
+    - sphinx.ext.viewcode
+    - sphinx_toolbox.more_autodoc.sourcelink
+    #- sphinxcontrib.spelling
+  local_extensions          :   # A list of local extensions to load by sphinx specified by "name: path" items
+  recursive_update          : false # A boolean indicating whether to overwrite the Sphinx config (true) or recursively update (false)
+  config                    :   # key-value pairs to directly over-ride the Sphinx configuration
+    master_doc: "01-about/000_intro.md"
+    html_theme_options:
+      logo:
+        image_light: ../resources/serena-logo.svg
+        image_dark: ../resources/serena-logo-dark-mode.svg
+    autodoc_typehints_format: "short"
+    autodoc_member_order: "bysource"
+    autoclass_content: "both"
+```
+
+This interface is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
 ### `docs/autogen_docs.py`
 
@@ -179,57 +218,16 @@ def make_rst(src_root, rst_root, clean=False, overwrite=False, package_prefix=""
 
 This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
 
-### `docs/autogen_docs.py`
-
-The `make_rst` function in [`docs/autogen_docs.py`](https://github.com/oraios/serena/blob/HEAD/docs/autogen_docs.py) handles a key part of this chapter's functionality:
-
-```py
-
-
-def make_rst(src_root, rst_root, clean=False, overwrite=False, package_prefix=""):
-    """Creates/updates documentation in form of rst files for modules and packages.
-
-    Does not delete any existing rst files. Thus, rst files for packages or modules that have been removed or renamed
-    should be deleted by hand.
-
-    This method should be executed from the project's top-level directory
-
-    :param src_root: path to library base directory, typically "src/<library_name>"
-    :param rst_root: path to the root directory to which .rst files will be written
-    :param clean: whether to completely clean the target directory beforehand, removing any existing .rst files
-    :param overwrite: whether to overwrite existing rst files. This should be used with caution as it will delete
-        all manual changes to documentation files
-    :package_prefix: a prefix to prepend to each module (for the case where the src_root is not the base package),
-        which, if not empty, should end with a "."
-    :return:
-    """
-    rst_root = os.path.abspath(rst_root)
-
-    if clean and os.path.isdir(rst_root):
-        shutil.rmtree(rst_root)
-
-    base_package_name = package_prefix + os.path.basename(src_root)
-
-    # TODO: reduce duplication with same logic for subpackages below
-    files_in_dir = os.listdir(src_root)
-    module_names = [f[:-3] for f in files_in_dir if f.endswith(".py") and not f.startswith("_")]
-    subdir_refs = [
-        f"{f}/index"
-        for f in files_in_dir
-```
-
-This function is important because it defines how Serena Tutorial: Semantic Code Retrieval Toolkit for Coding Agents implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[module_template]
-    B[index_template]
-    C[write_to_file]
-    D[make_rst]
-    E[autogen_tool_list]
+    A[interactive]
+    B[module_template]
+    C[index_template]
+    D[write_to_file]
+    E[make_rst]
     A --> B
     B --> C
     C --> D

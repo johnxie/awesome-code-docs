@@ -50,184 +50,182 @@ You now have a practical event-automation blueprint for production-grade Composi
 
 Next: [Chapter 8: Migration, Troubleshooting, and Production Ops](08-migration-troubleshooting-and-production-ops.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `docs/lib/source.ts`
+### `docs/components/schema-generator.tsx`
 
-The `getOpenapiPages` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
+The `generateInfoTags` function in [`docs/components/schema-generator.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/schema-generator.tsx) handles a key part of this chapter's functionality:
 
-```ts
-let _openapiPagesPromise: Promise<any> | null = null;
+```tsx
+        ? ctx.renderMarkdown(schema.description)
+        : undefined,
+      infoTags: generateInfoTags(schema),
+      typeName: getTypeName(schema),
+      aliasName,
+      deprecated: schema.deprecated,
+      enumValues: schema.enum
+        ? schema.enum.map((v: unknown) => String(v))
+        : undefined,
+    };
 
-async function getOpenapiPages() {
-  if (!_openapiPagesPromise) {
-    _openapiPagesPromise = openapiSource(openapi, {
-      groupBy: 'tag',
-      baseDir: 'api-reference',
-    });
-  }
-  return _openapiPagesPromise;
-}
+    // Handle oneOf/anyOf
+    if (schema.oneOf || schema.anyOf) {
+      const variants = schema.oneOf || schema.anyOf || [];
+      refs[id] = {
+        ...base,
+        type: 'or',
+        items: variants.map((variant: SimpleSchema) => ({
+          name: getTypeName(variant),
+          $type: processSchema(variant),
+        })),
+      };
+      return id;
+    }
 
-export async function getReferenceSource() {
-  if (!_referenceSource) {
-    const openapiPages = await getOpenapiPages();
-    _referenceSource = loader({
-      baseUrl: '/reference',
-      source: multiple({
-        mdx: reference.toFumadocsSource(),
-        openapi: openapiPages,
-      }),
-      plugins: [lucideIconsPlugin(), openapiPlugin()],
-      pageTree: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        transformers: [defaultOpenTransformer as any],
-      },
-    });
-  }
-  return _referenceSource;
-}
-
-// Synchronous reference source for cases where OpenAPI isn't needed
+    // Handle allOf - merge into single object
+    if (schema.allOf) {
+      // Merge all schemas together
+      const merged: SimpleSchema = { type: 'object', properties: {}, required: [] };
+      for (const subSchema of schema.allOf) {
+        if (subSchema.properties) {
+          Object.assign(merged.properties, subSchema.properties);
 ```
 
 This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/lib/source.ts`
+### `docs/components/schema-generator.tsx`
 
-The `getReferenceSource` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
+The `FieldBase` interface in [`docs/components/schema-generator.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/schema-generator.tsx) handles a key part of this chapter's functionality:
 
-```ts
+```tsx
+
+// Types matching fumadocs-openapi internal structure
+interface FieldBase {
+  description?: ReactNode;
+  infoTags?: ReactNode[];
+  typeName: string;
+  aliasName: string;
+  deprecated?: boolean;
+  enumValues?: string[];
 }
 
-export async function getReferenceSource() {
-  if (!_referenceSource) {
-    const openapiPages = await getOpenapiPages();
-    _referenceSource = loader({
-      baseUrl: '/reference',
-      source: multiple({
-        mdx: reference.toFumadocsSource(),
-        openapi: openapiPages,
-      }),
-      plugins: [lucideIconsPlugin(), openapiPlugin()],
-      pageTree: {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        transformers: [defaultOpenTransformer as any],
-      },
-    });
-  }
-  return _referenceSource;
+export type SchemaData = FieldBase &
+  (
+    | { type: 'primitive' }
+    | {
+        type: 'object';
+        props: { name: string; $type: string; required: boolean }[];
+      }
+    | { type: 'array'; item: { $type: string } }
+    | { type: 'or'; items: { name: string; $type: string }[] }
+    | { type: 'and'; items: { name: string; $type: string }[] }
+  );
+
+export interface SchemaUIGeneratedData {
+  $root: string;
+  refs: Record<string, SchemaData>;
 }
 
-// Synchronous reference source for cases where OpenAPI isn't needed
-export const referenceSource = loader({
-  baseUrl: '/reference',
-  source: reference.toFumadocsSource(),
-  plugins: [lucideIconsPlugin()],
-});
+// Simplified schema type (subset of OpenAPI schema)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SimpleSchema = any;
 
-export const cookbooksSource = loader({
-  baseUrl: '/cookbooks',
-  source: cookbooks.toFumadocsSource(),
-  plugins: [lucideIconsPlugin()],
 ```
 
-This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/lib/source.ts`
+### `docs/components/schema-generator.tsx`
 
-The `getOgImageUrl` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
+The `SchemaUIGeneratedData` interface in [`docs/components/schema-generator.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/schema-generator.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * Generate OG image URL for any page section
- */
-export function getOgImageUrl(_section: string, _slugs: string[], title?: string, _description?: string): string {
-  const encodedTitle = encodeURIComponent(title ?? 'Composio Docs');
-  return `https://og.composio.dev/api/og?title=${encodedTitle}`;
+```tsx
+  );
+
+export interface SchemaUIGeneratedData {
+  $root: string;
+  refs: Record<string, SchemaData>;
 }
 
-/**
- * Converts MDX content to clean markdown for AI agents.
- * Strips JSX components and converts them to plain text equivalents.
- */
-export function mdxToCleanMarkdown(content: string): string {
-  let result = content;
+// Simplified schema type (subset of OpenAPI schema)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type SimpleSchema = any;
 
-  // Remove frontmatter
-  result = result.replace(/^---[\s\S]*?---\n*/m, '');
+interface RenderContext {
+  renderMarkdown: (text: string) => ReactNode;
+  schema: {
+    getRawRef: (obj: object) => string | undefined;
+  };
+}
 
-  // Convert YouTube to link
-  result = result.replace(
-    /<YouTube\s+id="([^"]+)"\s+title="([^"]+)"\s*\/>/g,
-    '[Video: $2](https://youtube.com/watch?v=$1)'
-  );
+interface SchemaUIOptions {
+  root: SimpleSchema;
+  readOnly?: boolean;
+  writeOnly?: boolean;
+}
 
-  // Convert Callout to blockquote - trim content to avoid empty lines
-  result = result.replace(
-    /<Callout[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/Callout>/g,
-    (_, title, content) => `> **${title}**: ${content.trim()}`
-  );
-  result = result.replace(
-    /<Callout[^>]*>([\s\S]*?)<\/Callout>/g,
-    (_, content) => `> ${content.trim()}`
-  );
+export function generateSchemaData(
+  options: SchemaUIOptions,
+  ctx: RenderContext
+): SchemaUIGeneratedData {
+  const refs: Record<string, SchemaData> = {};
+  let counter = 0;
+  const autoIds = new WeakMap<object, string>();
+
 ```
 
-This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
-### `docs/lib/source.ts`
+### `docs/components/schema-generator.tsx`
 
-The `mdxToCleanMarkdown` function in [`docs/lib/source.ts`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/lib/source.ts) handles a key part of this chapter's functionality:
+The `RenderContext` interface in [`docs/components/schema-generator.tsx`](https://github.com/ComposioHQ/composio/blob/HEAD/docs/components/schema-generator.tsx) handles a key part of this chapter's functionality:
 
-```ts
- * Strips JSX components and converts them to plain text equivalents.
- */
-export function mdxToCleanMarkdown(content: string): string {
-  let result = content;
+```tsx
+type SimpleSchema = any;
 
-  // Remove frontmatter
-  result = result.replace(/^---[\s\S]*?---\n*/m, '');
+interface RenderContext {
+  renderMarkdown: (text: string) => ReactNode;
+  schema: {
+    getRawRef: (obj: object) => string | undefined;
+  };
+}
 
-  // Convert YouTube to link
-  result = result.replace(
-    /<YouTube\s+id="([^"]+)"\s+title="([^"]+)"\s*\/>/g,
-    '[Video: $2](https://youtube.com/watch?v=$1)'
-  );
+interface SchemaUIOptions {
+  root: SimpleSchema;
+  readOnly?: boolean;
+  writeOnly?: boolean;
+}
 
-  // Convert Callout to blockquote - trim content to avoid empty lines
-  result = result.replace(
-    /<Callout[^>]*title="([^"]*)"[^>]*>([\s\S]*?)<\/Callout>/g,
-    (_, title, content) => `> **${title}**: ${content.trim()}`
-  );
-  result = result.replace(
-    /<Callout[^>]*>([\s\S]*?)<\/Callout>/g,
-    (_, content) => `> ${content.trim()}`
-  );
+export function generateSchemaData(
+  options: SchemaUIOptions,
+  ctx: RenderContext
+): SchemaUIGeneratedData {
+  const refs: Record<string, SchemaData> = {};
+  let counter = 0;
+  const autoIds = new WeakMap<object, string>();
 
-  // Remove Cards wrapper before processing individual Card tags
-  // (prevents <Cards> from being matched by <Card regex since <Cards starts with <Card)
-  result = result.replace(/<\/?Cards\b[^>]*>/g, '');
-
-  // Convert Card - handle multiline and various attribute orders
-  // Self-closing Cards with description attribute
-  result = result.replace(
-    /<Card\b[\s\S]*?title="([^"]*)"[\s\S]*?href="([^"]*)"[\s\S]*?description="([^"]*)"[\s\S]*?\/>/g,
+  function getSchemaId(schema: SimpleSchema): string {
+    if (typeof schema === 'boolean') return String(schema);
+    if (typeof schema !== 'object' || schema === null) return `__${counter++}`;
+    const raw = ctx.schema.getRawRef(schema);
+    if (raw) return raw;
+    const prev = autoIds.get(schema);
+    if (prev) return prev;
+    const generated = `__${counter++}`;
+    autoIds.set(schema, generated);
 ```
 
-This function is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
+This interface is important because it defines how Composio Tutorial: Production Tool and Authentication Infrastructure for AI Agents implements the patterns covered in this chapter.
 
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getOpenapiPages]
-    B[getReferenceSource]
-    C[getOgImageUrl]
-    D[mdxToCleanMarkdown]
-    E[stripTwoslashFromCodeBlocks]
+    A[generateInfoTags]
+    B[FieldBase]
+    C[SchemaUIGeneratedData]
+    D[RenderContext]
+    E[SchemaUIOptions]
     A --> B
     B --> C
     C --> D

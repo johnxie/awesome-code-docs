@@ -734,6 +734,19 @@ Under the hood, `Chapter 3: Structured Outputs & Pydantic Models` usually follow
 
 When debugging, walk this sequence in order and confirm each stage has explicit success/failure conditions.
 
+## Structured Output Pipeline
+
+```mermaid
+flowchart TD
+    A[Pydantic Model Class] --> B[Agent result_type]
+    B --> C[LLM with Tool/JSON Mode]
+    C --> D[Raw JSON]
+    D --> E[model_validate]
+    E --> F{Valid?}
+    F -->|Yes| G[Typed Python Object]
+    F -->|No| H[ValidationError / Retry]
+```
+
 ## Source Walkthrough
 
 Use the following upstream sources to verify implementation details while reading this chapter:

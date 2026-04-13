@@ -124,173 +124,41 @@ You now have a robust governance model for generated edits:
 
 Next: [Chapter 6: Integrations and MCP](06-integrations-and-mcp.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `app/utils/debugLogger.ts`
+### `app/lib/runtime/message-parser.ts`
 
-The `getDebugLogger` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
+The message parser in [`app/lib/runtime/message-parser.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/runtime/message-parser.ts) processes the streamed LLM output and extracts file operations (create, update, delete) from the structured XML-like action tags bolt.diy uses in its system prompt.
 
-```ts
-}
+This file is the core of the diff/files layer: it converts raw model text into typed `FileAction` objects that the runtime then applies. For the locking and diff governance patterns in this chapter, this is where you intercept generated changes before they reach disk — for example, to check whether an action targets a protected file path.
 
-export function getDebugLogger(): DebugLogger {
-  return debugLogger;
-}
+### `app/lib/stores/files.ts`
 
-// Utility function to enable debug mode on demand
-export function enableDebugMode(): void {
-  debugLogger.enableDebugMode();
-}
+The file store in [`app/lib/stores/files.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/stores/files.ts) is the in-memory representation of the virtual filesystem managed by bolt.diy's WebContainer runtime. It maps file paths to content and tracks dirty/modified state.
 
-// Utility function to disable debug mode
-export function disableDebugMode(): void {
-  debugLogger.disableDebugMode();
-}
+For diff and locking controls, this store is where you read the pre-edit content to construct a diff and where file-lock checks would be applied: if a file path is in the protected list, the store update should be blocked and surfaced to the user for review.
 
-// Utility function to get debug logger status
-export function getDebugStatus(): { initialized: boolean; capturing: boolean; enabled: boolean } {
-  return debugLogger.getStatus();
-}
+### `app/lib/runtime/action-runner.ts`
 
-// Utility function to update debug configuration
-export function updateDebugConfig(config: Partial<DebugLoggerConfig>): void {
-  debugLogger.updateConfig(config);
-}
+The action runner in [`app/lib/runtime/action-runner.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/lib/runtime/action-runner.ts) is responsible for executing parsed file and shell actions against the WebContainer. It reads from the message parser output and writes to the file store and terminal.
 
-// Initialize debug logger when this module is imported
-if (typeof window !== 'undefined') {
-  // Defer initialization to avoid blocking
-  setTimeout(() => {
-    debugLogger.initialize();
-  }, 0);
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `enableDebugMode` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-  // Public method to enable debug logging on demand
-  enableDebugMode(): void {
-    this._config.enabled = true;
-
-    if (!this._isInitialized) {
-      this.initialize();
-    } else if (!this._isCapturing) {
-      this.startCapture();
-    }
-  }
-
-  // Public method to disable debug logging
-  disableDebugMode(): void {
-    this.stopCapture();
-  }
-
-  // Get current status
-  getStatus(): { initialized: boolean; capturing: boolean; enabled: boolean } {
-    return {
-      initialized: this._isInitialized,
-      capturing: this._isCapturing,
-      enabled: this._config.enabled,
-    };
-  }
-
-  // Update configuration
-  updateConfig(newConfig: Partial<DebugLoggerConfig>): void {
-    const wasCapturing = this._isCapturing;
-
-    if (wasCapturing) {
-      this.stopCapture();
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `disableDebugMode` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-  // Public method to disable debug logging
-  disableDebugMode(): void {
-    this.stopCapture();
-  }
-
-  // Get current status
-  getStatus(): { initialized: boolean; capturing: boolean; enabled: boolean } {
-    return {
-      initialized: this._isInitialized,
-      capturing: this._isCapturing,
-      enabled: this._config.enabled,
-    };
-  }
-
-  // Update configuration
-  updateConfig(newConfig: Partial<DebugLoggerConfig>): void {
-    const wasCapturing = this._isCapturing;
-
-    if (wasCapturing) {
-      this.stopCapture();
-    }
-
-    this._config = { ...this._config, ...newConfig };
-
-    // Recreate buffers if maxEntries changed
-    if (newConfig.maxEntries && newConfig.maxEntries !== this._config.maxEntries) {
-      const oldLogs = this._logs.toArray();
-      const oldErrors = this._errors.toArray();
-      const oldNetworkRequests = this._networkRequests.toArray();
-      const oldUserActions = this._userActions.toArray();
-      const oldTerminalLogs = this._terminalLogs.toArray();
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
-### `app/utils/debugLogger.ts`
-
-The `getDebugStatus` function in [`app/utils/debugLogger.ts`](https://github.com/stackblitz-labs/bolt.diy/blob/HEAD/app/utils/debugLogger.ts) handles a key part of this chapter's functionality:
-
-```ts
-
-// Utility function to get debug logger status
-export function getDebugStatus(): { initialized: boolean; capturing: boolean; enabled: boolean } {
-  return debugLogger.getStatus();
-}
-
-// Utility function to update debug configuration
-export function updateDebugConfig(config: Partial<DebugLoggerConfig>): void {
-  debugLogger.updateConfig(config);
-}
-
-// Initialize debug logger when this module is imported
-if (typeof window !== 'undefined') {
-  // Defer initialization to avoid blocking
-  setTimeout(() => {
-    debugLogger.initialize();
-  }, 0);
-}
-
-```
-
-This function is important because it defines how bolt.diy Tutorial: Build and Operate an Open Source AI App Builder implements the patterns covered in this chapter.
-
+This is the last enforcement point before a change lands. Adding a pre-execution check here — comparing the target path against a deny list or requiring explicit approval — is the most direct way to implement the high-risk file protection patterns described in this chapter.
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[getDebugLogger]
-    B[enableDebugMode]
-    C[disableDebugMode]
-    D[getDebugStatus]
-    E[updateDebugConfig]
+    A[LLM streams action tags]
+    B[message-parser.ts extracts FileActions]
+    C[action-runner.ts queues actions]
+    D{Protected file check}
+    E[files.ts store updated]
+    F[Diff shown to user]
+    G[Change blocked or flagged]
     A --> B
     B --> C
     C --> D
-    D --> E
+    D -- allowed --> E
+    E --> F
+    D -- protected --> G
 ```

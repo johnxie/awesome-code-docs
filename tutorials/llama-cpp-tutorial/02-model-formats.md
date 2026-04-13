@@ -13,6 +13,28 @@ Welcome to **Chapter 2: Model Formats and GGUF**. In this part of **llama.cpp Tu
 
 > Understand GGUF format, quantization levels, and how to choose the right model for your hardware.
 
+## GGUF Format and Quantization Overview
+
+```mermaid
+flowchart LR
+    A[Original Model\nPyTorch FP32/FP16] --> B[convert_hf_to_gguf.py]
+    B --> C[GGUF Base File\nF16 or F32]
+    C --> D[llama-quantize]
+    D --> E1[Q2_K - 2bit smallest]
+    D --> E2[Q4_K_M - 4bit balanced]
+    D --> E3[Q5_K_M - 5bit quality]
+    D --> E4[Q8_0 - 8bit near-lossless]
+    D --> E5[F16 - full precision]
+
+    classDef source fill:#e1f5fe,stroke:#01579b
+    classDef tool fill:#f3e5f5,stroke:#4a148c
+    classDef output fill:#e8f5e9,stroke:#1b5e20
+
+    class A source
+    class B,D tool
+    class C,E1,E2,E3,E4,E5 output
+```
+
 ## Overview
 
 llama.cpp uses the GGUF format for models. This chapter explains what GGUF is, different quantization options, and how to select models that fit your hardware constraints.
@@ -373,16 +395,13 @@ When debugging, walk this sequence in order and confirm each stage has explicit 
 
 ## Source Walkthrough
 
-Use the following upstream sources to verify implementation details while reading this chapter:
+Key source files in [`ggerganov/llama.cpp`](https://github.com/ggerganov/llama.cpp):
 
-- [View Repo](https://github.com/ggerganov/llama.cpp)
-  Why it matters: authoritative reference on `View Repo` (github.com).
-- [Awesome Code Docs](https://github.com/johnxie/awesome-code-docs)
-  Why it matters: authoritative reference on `Awesome Code Docs` (github.com).
+- [`gguf-py/gguf/gguf_writer.py`](https://github.com/ggerganov/llama.cpp/blob/master/gguf-py/gguf/gguf_writer.py) -- Python `GGUFWriter`: shows all GGUF metadata keys and tensor layout
+- [`convert_hf_to_gguf.py`](https://github.com/ggerganov/llama.cpp/blob/master/convert_hf_to_gguf.py) -- model conversion script from HuggingFace format to GGUF F16/F32
+- [`src/llama.cpp`](https://github.com/ggerganov/llama.cpp/blob/master/src/llama.cpp) -- `llama_model_load()`: reads GGUF header, validates magic bytes, loads tensor metadata
 
-Suggested trace strategy:
-- search upstream code for `gguf` and `model` to map concrete implementation paths
-- compare docs claims against actual runtime/config code before reusing patterns in production
+Suggested trace: read the GGUF spec comments at the top of `gguf_writer.py`, then follow `convert_hf_to_gguf.py` to understand how weights are mapped to GGUF format.
 
 ## Chapter Connections
 

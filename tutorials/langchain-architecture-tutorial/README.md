@@ -69,14 +69,14 @@ flowchart TB
 
 ## Why This Track Matters
 
-LangChain Architecture matters for developers building production systems. This track covers chapter 1: gett, chap, chapter 3: and helps you understand how the components fit together for real-world use.
+LangChain Architecture matters for developers building production systems who want to understand the internals: how the `Runnable` protocol enables composability, how chat models and callbacks are structured, and how agents and retrievers work at the code level.
 
 This track focuses on:
 
-- understanding gett
-- understanding chap
-- understanding 
-- understanding chain
+- understanding the `Runnable` protocol and LCEL composition
+- understanding chat model internals and the message type system
+- understanding the agent execution loop and tool binding
+- understanding production patterns: callbacks, caching, and LangSmith tracing
 
 ## Who This Guide Is For
 

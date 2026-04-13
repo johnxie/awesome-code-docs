@@ -14,6 +14,16 @@ Welcome to **Chapter 5: Integrations**. In this part of **LanceDB Tutorial: Serv
 
 ## Overview
 
+```mermaid
+flowchart LR
+    A[LangChain] --> B[LanceDB VectorStore]
+    C[LlamaIndex] --> B
+    D[OpenAI embeddings] --> B
+    E[HuggingFace embeddings] --> B
+    B --> F[Unified retrieve interface]
+    F --> G[RAG pipeline LLM]
+```
+
 LanceDB integrates seamlessly with popular AI frameworks and tools. This chapter covers integrations with LangChain, LlamaIndex, various embedding providers, and other components of the modern AI stack.
 
 ## LangChain Integration

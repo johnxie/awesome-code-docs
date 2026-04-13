@@ -37,9 +37,48 @@ You now understand what parts of the legacy architecture remain worth carrying f
 
 Next: [Chapter 3: Installation and Configuration Baseline](03-installation-and-configuration-baseline.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
+
+### `internal/lsp/methods.go`
+
+The `References` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
+
+```go
+}
+
+// References sends a textDocument/references request to the LSP server.
+// A request to resolve project-wide references for the symbol denoted by the given text document position. The request's parameter is of type ReferenceParams the response is of type Location Location[] or a Thenable that resolves to such.
+func (c *Client) References(ctx context.Context, params protocol.ReferenceParams) ([]protocol.Location, error) {
+	var result []protocol.Location
+	err := c.Call(ctx, "textDocument/references", params, &result)
+	return result, err
+}
+
+// DocumentHighlight sends a textDocument/documentHighlight request to the LSP server.
+// Request to resolve a DocumentHighlight for a given text document position. The request's parameter is of type TextDocumentPosition the request response is an array of type DocumentHighlight or a Thenable that resolves to such.
+func (c *Client) DocumentHighlight(ctx context.Context, params protocol.DocumentHighlightParams) ([]protocol.DocumentHighlight, error) {
+	var result []protocol.DocumentHighlight
+	err := c.Call(ctx, "textDocument/documentHighlight", params, &result)
+	return result, err
+}
+
+// DocumentSymbol sends a textDocument/documentSymbol request to the LSP server.
+// A request to list all symbols found in a given text document. The request's parameter is of type TextDocumentIdentifier the response is of type SymbolInformation SymbolInformation[] or a Thenable that resolves to such.
+func (c *Client) DocumentSymbol(ctx context.Context, params protocol.DocumentSymbolParams) (protocol.Or_Result_textDocument_documentSymbol, error) {
+	var result protocol.Or_Result_textDocument_documentSymbol
+	err := c.Call(ctx, "textDocument/documentSymbol", params, &result)
+	return result, err
+}
+
+// CodeAction sends a textDocument/codeAction request to the LSP server.
+// A request to provide commands for the given text document and range.
+func (c *Client) CodeAction(ctx context.Context, params protocol.CodeActionParams) ([]protocol.Or_Result_textDocument_codeAction_Item0_Elem, error) {
+	var result []protocol.Or_Result_textDocument_codeAction_Item0_Elem
+	err := c.Call(ctx, "textDocument/codeAction", params, &result)
+	return result, err
+```
+
+This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
 ### `internal/lsp/methods.go`
 
@@ -164,57 +203,16 @@ func (c *Client) ResolveWorkspaceSymbol(ctx context.Context, params protocol.Wor
 
 This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
 
-### `internal/lsp/methods.go`
-
-The `ResolveCodeAction` function in [`internal/lsp/methods.go`](https://github.com/opencode-ai/opencode/blob/HEAD/internal/lsp/methods.go) handles a key part of this chapter's functionality:
-
-```go
-}
-
-// ResolveCodeAction sends a codeAction/resolve request to the LSP server.
-// Request to resolve additional information for a given code action.The request's parameter is of type CodeAction the response is of type CodeAction or a Thenable that resolves to such.
-func (c *Client) ResolveCodeAction(ctx context.Context, params protocol.CodeAction) (protocol.CodeAction, error) {
-	var result protocol.CodeAction
-	err := c.Call(ctx, "codeAction/resolve", params, &result)
-	return result, err
-}
-
-// Symbol sends a workspace/symbol request to the LSP server.
-// A request to list project-wide symbols matching the query string given by the WorkspaceSymbolParams. The response is of type SymbolInformation SymbolInformation[] or a Thenable that resolves to such. Since 3.17.0 - support for WorkspaceSymbol in the returned data. Clients need to advertise support for WorkspaceSymbols via the client capability workspace.symbol.resolveSupport.
-func (c *Client) Symbol(ctx context.Context, params protocol.WorkspaceSymbolParams) (protocol.Or_Result_workspace_symbol, error) {
-	var result protocol.Or_Result_workspace_symbol
-	err := c.Call(ctx, "workspace/symbol", params, &result)
-	return result, err
-}
-
-// ResolveWorkspaceSymbol sends a workspaceSymbol/resolve request to the LSP server.
-// A request to resolve the range inside the workspace symbol's location. Since 3.17.0
-func (c *Client) ResolveWorkspaceSymbol(ctx context.Context, params protocol.WorkspaceSymbol) (protocol.WorkspaceSymbol, error) {
-	var result protocol.WorkspaceSymbol
-	err := c.Call(ctx, "workspaceSymbol/resolve", params, &result)
-	return result, err
-}
-
-// CodeLens sends a textDocument/codeLens request to the LSP server.
-// A request to provide code lens for the given text document.
-func (c *Client) CodeLens(ctx context.Context, params protocol.CodeLensParams) ([]protocol.CodeLens, error) {
-	var result []protocol.CodeLens
-	err := c.Call(ctx, "textDocument/codeLens", params, &result)
-	return result, err
-```
-
-This function is important because it defines how OpenCode AI Legacy Tutorial: Archived Terminal Agent Workflows and Migration to Crush implements the patterns covered in this chapter.
-
 
 ## How These Components Connect
 
 ```mermaid
 flowchart TD
-    A[DocumentHighlight]
-    B[DocumentSymbol]
-    C[CodeAction]
-    D[ResolveCodeAction]
-    E[Symbol]
+    A[References]
+    B[DocumentHighlight]
+    C[DocumentSymbol]
+    D[CodeAction]
+    E[ResolveCodeAction]
     A --> B
     B --> C
     C --> D

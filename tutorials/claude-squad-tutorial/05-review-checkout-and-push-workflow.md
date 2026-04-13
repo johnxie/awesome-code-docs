@@ -36,170 +36,134 @@ You now have a branch-safe path from agent output to PR-ready changes.
 
 Next: [Chapter 6: AutoYes, Daemon Polling, and Safety Controls](06-autoyes-daemon-polling-and-safety-controls.md)
 
-## Depth Expansion Playbook
-
 ## Source Code Walkthrough
 
-### `ui/tabbed_window.go`
+### `ui/terminal.go`
 
-The `ResetPreviewToNormalMode` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
+The `ScrollDown` function in [`ui/terminal.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/terminal.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-// ResetPreviewToNormalMode resets the preview pane to normal mode
-func (w *TabbedWindow) ResetPreviewToNormalMode(instance *session.Instance) error {
-	return w.preview.ResetToNormalMode(instance)
-}
-
-// Add these new methods for handling scroll events
-func (w *TabbedWindow) ScrollUp() {
-	switch w.activeTab {
-	case PreviewTab:
-		err := w.preview.ScrollUp(w.instance)
-		if err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll up: %v", err)
-		}
-	case DiffTab:
-		w.diff.ScrollUp()
-	case TerminalTab:
-		if err := w.terminal.ScrollUp(); err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll terminal up: %v", err)
-		}
+// ScrollDown enters scroll mode (if not already) and scrolls down.
+func (t *TerminalPane) ScrollDown() error {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	if !t.isScrolling {
+		return t.enterScrollMode()
 	}
+	t.viewport.LineDown(1)
+	return nil
 }
 
-func (w *TabbedWindow) ScrollDown() {
-	switch w.activeTab {
-	case PreviewTab:
-		err := w.preview.ScrollDown(w.instance)
-		if err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll down: %v", err)
-		}
-	case DiffTab:
+// ResetToNormalMode exits scroll mode and restores normal content display.
+func (t *TerminalPane) ResetToNormalMode() {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	if !t.isScrolling {
+		return
+	}
+	t.isScrolling = false
+	t.viewport.SetContent("")
+	t.viewport.GotoTop()
+}
+
+// IsScrolling returns whether the terminal pane is in scroll mode.
+func (t *TerminalPane) IsScrolling() bool {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	return t.isScrolling
+}
+
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/tabbed_window.go`
+### `ui/terminal.go`
 
-The `ScrollUp` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
+The `ResetToNormalMode` function in [`ui/terminal.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/terminal.go) handles a key part of this chapter's functionality:
 
 ```go
-
-// Add these new methods for handling scroll events
-func (w *TabbedWindow) ScrollUp() {
-	switch w.activeTab {
-	case PreviewTab:
-		err := w.preview.ScrollUp(w.instance)
-		if err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll up: %v", err)
-		}
-	case DiffTab:
-		w.diff.ScrollUp()
-	case TerminalTab:
-		if err := w.terminal.ScrollUp(); err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll terminal up: %v", err)
-		}
-	}
 }
 
-func (w *TabbedWindow) ScrollDown() {
-	switch w.activeTab {
-	case PreviewTab:
-		err := w.preview.ScrollDown(w.instance)
-		if err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll down: %v", err)
-		}
-	case DiffTab:
-		w.diff.ScrollDown()
-	case TerminalTab:
-		if err := w.terminal.ScrollDown(); err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll terminal down: %v", err)
-		}
+// ResetToNormalMode exits scroll mode and restores normal content display.
+func (t *TerminalPane) ResetToNormalMode() {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	if !t.isScrolling {
+		return
 	}
+	t.isScrolling = false
+	t.viewport.SetContent("")
+	t.viewport.GotoTop()
+}
+
+// IsScrolling returns whether the terminal pane is in scroll mode.
+func (t *TerminalPane) IsScrolling() bool {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	return t.isScrolling
+}
+
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/tabbed_window.go`
+### `ui/terminal.go`
 
-The `ScrollDown` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
+The `IsScrolling` function in [`ui/terminal.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/terminal.go) handles a key part of this chapter's functionality:
 
 ```go
 }
 
-func (w *TabbedWindow) ScrollDown() {
-	switch w.activeTab {
-	case PreviewTab:
-		err := w.preview.ScrollDown(w.instance)
-		if err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll down: %v", err)
-		}
-	case DiffTab:
-		w.diff.ScrollDown()
-	case TerminalTab:
-		if err := w.terminal.ScrollDown(); err != nil {
-			log.InfoLog.Printf("tabbed window failed to scroll terminal down: %v", err)
-		}
-	}
+// IsScrolling returns whether the terminal pane is in scroll mode.
+func (t *TerminalPane) IsScrolling() bool {
+	t.mu.Lock()
+	defer t.mu.Unlock()
+	return t.isScrolling
 }
 
-// IsInPreviewTab returns true if the preview tab is currently active
-func (w *TabbedWindow) IsInPreviewTab() bool {
-	return w.activeTab == PreviewTab
-}
-
-// IsInDiffTab returns true if the diff tab is currently active
-func (w *TabbedWindow) IsInDiffTab() bool {
-	return w.activeTab == DiffTab
-}
-
-// IsInTerminalTab returns true if the terminal tab is currently active
-func (w *TabbedWindow) IsInTerminalTab() bool {
-	return w.activeTab == TerminalTab
-}
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
 
-### `ui/tabbed_window.go`
+### `app/help.go`
 
-The `IsInPreviewTab` function in [`ui/tabbed_window.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/ui/tabbed_window.go) handles a key part of this chapter's functionality:
+The `helpStart` function in [`app/help.go`](https://github.com/smtg-ai/claude-squad/blob/HEAD/app/help.go) handles a key part of this chapter's functionality:
 
 ```go
+type helpTypeInstanceCheckout struct{}
+
+func helpStart(instance *session.Instance) helpText {
+	return helpTypeInstanceStart{instance: instance}
 }
 
-// IsInPreviewTab returns true if the preview tab is currently active
-func (w *TabbedWindow) IsInPreviewTab() bool {
-	return w.activeTab == PreviewTab
+func (h helpTypeGeneral) toContent() string {
+	content := lipgloss.JoinVertical(lipgloss.Left,
+		titleStyle.Render("Claude Squad"),
+		"",
+		"A terminal UI that manages multiple Claude Code (and other local agents) in separate workspaces.",
+		"",
+		headerStyle.Render("Managing:"),
+		keyStyle.Render("n")+descStyle.Render("         - Create a new session"),
+		keyStyle.Render("N")+descStyle.Render("         - Create a new session with a prompt"),
+		keyStyle.Render("D")+descStyle.Render("         - Kill (delete) the selected session"),
+		keyStyle.Render("↑/j, ↓/k")+descStyle.Render("  - Navigate between sessions"),
+		keyStyle.Render("↵/o")+descStyle.Render("       - Attach to the selected session"),
+		keyStyle.Render("ctrl-q")+descStyle.Render("    - Detach from session"),
+		"",
+		headerStyle.Render("Handoff:"),
+		keyStyle.Render("p")+descStyle.Render("         - Commit and push branch to github"),
+		keyStyle.Render("c")+descStyle.Render("         - Checkout: commit changes and pause session"),
+		keyStyle.Render("r")+descStyle.Render("         - Resume a paused session"),
+		"",
+		headerStyle.Render("Other:"),
+		keyStyle.Render("tab")+descStyle.Render("       - Switch between preview, diff, and terminal tabs"),
+		keyStyle.Render("shift-↓/↑")+descStyle.Render(" - Scroll in preview/diff/terminal view"),
+		keyStyle.Render("q")+descStyle.Render("         - Quit the application"),
+	)
+	return content
 }
-
-// IsInDiffTab returns true if the diff tab is currently active
-func (w *TabbedWindow) IsInDiffTab() bool {
-	return w.activeTab == DiffTab
-}
-
-// IsInTerminalTab returns true if the terminal tab is currently active
-func (w *TabbedWindow) IsInTerminalTab() bool {
-	return w.activeTab == TerminalTab
-}
-
-// GetActiveTab returns the currently active tab index
-func (w *TabbedWindow) GetActiveTab() int {
-	return w.activeTab
-}
-
-// AttachTerminal attaches to the terminal tmux session
-func (w *TabbedWindow) AttachTerminal() (chan struct{}, error) {
-	return w.terminal.Attach()
-}
-
-// CleanupTerminal closes the terminal session
-func (w *TabbedWindow) CleanupTerminal() {
-	w.terminal.Close()
-}
-
 ```
 
 This function is important because it defines how Claude Squad Tutorial: Multi-Agent Terminal Session Orchestration implements the patterns covered in this chapter.
@@ -209,11 +173,11 @@ This function is important because it defines how Claude Squad Tutorial: Multi-A
 
 ```mermaid
 flowchart TD
-    A[ResetPreviewToNormalMode]
-    B[ScrollUp]
-    C[ScrollDown]
-    D[IsInPreviewTab]
-    E[IsInDiffTab]
+    A[ScrollDown]
+    B[ResetToNormalMode]
+    C[IsScrolling]
+    D[helpStart]
+    E[toContent]
     A --> B
     B --> C
     C --> D

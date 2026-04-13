@@ -56,54 +56,23 @@ Next: [Chapter 8: Contribution, Roadmap, and Team Adoption](08-contribution-road
 
 ## Source Code Walkthrough
 
-### `Cargo.toml`
+Use the following upstream sources to verify operations, upgrade, and observability details while reading this chapter:
 
-The `Cargo` module in [`Cargo.toml`](https://github.com/TabbyML/tabby/blob/HEAD/Cargo.toml) handles a key part of this chapter's functionality:
+- [`crates/tabby/src/routes/health.rs`](https://github.com/TabbyML/tabby/blob/HEAD/crates/tabby/src/routes/) — the health check endpoint that returns server status, model load state, and runtime version information used by monitoring systems.
+- [`CHANGELOG.md`](https://github.com/TabbyML/tabby/blob/HEAD/CHANGELOG.md) — the official release changelog documenting breaking changes, upgrade notes, and feature additions per version, essential for planning safe upgrades.
 
-```toml
-[workspace]
-resolver = "1"
-members = [
-    "crates/tabby",
-    "crates/tabby-common",
-    "crates/tabby-download",
-    "crates/tabby-git",
-    "crates/tabby-inference",
-    "crates/tabby-index",
-    "crates/tabby-crawler",
-
-    "crates/aim-downloader",
-    "crates/http-api-bindings",
-    "crates/llama-cpp-server",
-    "crates/ollama-api-bindings",
-    "crates/tabby-index-cli",
-    "crates/hash-ids",
-    "crates/sqlx-migrate-validate",
-
-    "ee/tabby-webserver",
-    "ee/tabby-db",
-    "ee/tabby-db-macros",
-    "ee/tabby-schema",
-]
-
-[workspace.package]
-version = "0.33.0-dev.0"
-edition = "2021"
-authors = ["TabbyML Team"]
-homepage = "https://github.com/TabbyML/tabby"
-
-[workspace.dependencies]
-cached = "0.49.3"
-lazy_static = "1.4.0"
-serde = { version = "1.0", features = ["derive"] }
-```
-
-This module is important because it defines how Tabby Tutorial: Self-Hosted AI Coding Assistant Architecture and Operations implements the patterns covered in this chapter.
-
+Suggested trace strategy:
+- review `health.rs` to understand what the `/health` endpoint returns and how to use it for readiness and liveness probes
+- read `CHANGELOG.md` entries for any migration steps required between the current and target version before upgrading
+- check the Docker Compose and Kubernetes deployment examples for volume mount patterns that preserve model cache across upgrades
 
 ## How These Components Connect
 
 ```mermaid
-flowchart TD
-    A[Cargo]
+flowchart LR
+    A[Monitoring system] --> B[GET /health endpoint]
+    B --> C[health.rs returns status and version]
+    C --> D[Alert if unhealthy]
+    E[Upgrade planned] --> F[CHANGELOG.md migration notes]
+    F --> G[Safe upgrade executed]
 ```
