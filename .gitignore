@@ -1,2 +1,11 @@
 # macOS
 .DS_Store
+
+# IDE / editor config
+.continue/
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.*
