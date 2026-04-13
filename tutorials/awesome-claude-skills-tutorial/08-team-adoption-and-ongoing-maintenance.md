@@ -49,15 +49,22 @@ Next steps:
 The `main` function in [`skill-creator/scripts/init_skill.py`](https://github.com/ComposioHQ/awesome-claude-skills/blob/HEAD/skill-creator/scripts/init_skill.py) handles a key part of this chapter's functionality:
 
 ```py
-Delete this entire "Structuring This Skill" section when done - it's just guidance.]
+def init_skill(name: str, template: str = "default"):
+    """Initialize a new skill directory from a template."""
+    skill_dir = Path("skills") / name
+    skill_dir.mkdir(parents=True, exist_ok=True)
+    copy_template(template, skill_dir)
+    print(f"Skill '{name}' initialized at {skill_dir}")
+```
 
-## [TODO: Replace with the first main section based on chosen structure]
+## Adoption Strategy and Rollout Planning
 
-[TODO: Add content here. See examples in existing skills:
-- Code samples for technical skills
-- Decision trees for complex workflows
-- Concrete examples with realistic user requests
-- References to scripts/templates/references as needed]
+Rolling out Claude skills across a team requires a phased approach. Start with a pilot group of 2-3 engineers who will validate the skill library against real workflows, then expand once the core patterns are proven.
+
+Key adoption milestones:
+1. **Individual adoption**: Single developer uses skills for personal productivity
+2. **Team sharing**: Skills shared via Git with team-specific customizations
+3. **Organization standard**: Skills become part of the official developer toolkit with review processes
 
 ## Resources
 

@@ -68,10 +68,10 @@ Use this quick-start map if you searched for a specific outcome.
 | task-driven autonomous agents | [BabyAGI](tutorials/babyagi-tutorial/) | [AutoGen](tutorials/autogen-tutorial/) → [CrewAI](tutorials/crewai-tutorial/) → [LangGraph](tutorials/langgraph-tutorial/) |
 | build RAG systems | [LlamaIndex](tutorials/llamaindex-tutorial/) | [Haystack](tutorials/haystack-tutorial/) → [RAGFlow](tutorials/ragflow-tutorial/) |
 | run LLMs locally or at scale | [Ollama](tutorials/ollama-tutorial/) | [llama.cpp](tutorials/llama-cpp-tutorial/) → [vLLM](tutorials/vllm-tutorial/) → [LiteLLM](tutorials/litellm-tutorial/) |
-| autonomous ML training experiments | [autoresearch](tutorials/autoresearch-tutorial/) | [deer-flow](tutorials/deer-flow-tutorial/) → [agno-tutorial](tutorials/agno-tutorial/) |
+| autonomous ML training experiments | [autoresearch](tutorials/autoresearch-tutorial/) | [deer-flow](tutorials/deer-flow-tutorial/) → [Agno](tutorials/agno-tutorial/) |
 | build AI apps with TypeScript/Next.js | [Vercel AI SDK](tutorials/vercel-ai-tutorial/) | [CopilotKit](tutorials/copilotkit-tutorial/) → [LobeChat](tutorials/lobechat-tutorial/) |
 | taskade ai / genesis / mcp workflows | [Taskade](tutorials/taskade-tutorial/) | [Taskade Docs](tutorials/taskade-docs-tutorial/) → [Taskade MCP](tutorials/taskade-mcp-tutorial/) → [Taskade Awesome Vibe Coding](tutorials/taskade-awesome-vibe-coding-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) |
-| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [Composio](tutorials/composio-tutorial/) → [see all 30+ MCP tutorials →](tutorials/mcp-python-sdk-tutorial/) |
+| build MCP tools and integrations | [MCP Python SDK](tutorials/mcp-python-sdk-tutorial/) | [FastMCP](tutorials/fastmcp-tutorial/) → [MCP Servers](tutorials/mcp-servers-tutorial/) → [Awesome MCP Servers](tutorials/awesome-mcp-servers-tutorial/) → [MCP Inspector](tutorials/mcp-inspector-tutorial/) → [MCP TypeScript SDK](tutorials/mcp-typescript-sdk-tutorial/) → [Composio](tutorials/composio-tutorial/) → [see all MCP tutorials →](#mcp-servers--integrations) |
 
 <div align="right"><a href="#top">⬆ Back to top</a></div>
 
@@ -99,7 +99,7 @@ Quick jump links:
 
 ## ✅ Source Verification Status
 
-All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-03-20**:
+All tutorial indexes were re-verified against referenced upstream GitHub repositories on **2026-04-12**:
 
 - tutorials scanned: **203**
 - tutorials with source repos: **203**
@@ -614,7 +614,7 @@ Dyad ──→ bolt.diy ──→ Stagewise ──→ Cline ──→ Roo Code �
 ╠══════════════════════════════════════════════════════════╣
 ║  📦 Total Tutorials        203                           ║
 ║  📝 Numbered Chapters      1,624+                        ║
-║  📏 Tutorial Markdown      1,048,763 lines               ║
+║  📏 Tutorial Markdown      706,049 lines                 ║
 ║  ⏱️  Estimated Hours        2,000+                        ║
 ║  ✅ Local Broken Links      0                             ║
 ║  🧭 Structure Drift         0 (all root canonical)        ║
